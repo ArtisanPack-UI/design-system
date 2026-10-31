@@ -1,0 +1,90 @@
+{
+  "$comment": "Curated. Maps today's member names to the proposed canonical name (vocabulary.md). `to: null` removes the member. Patterns are full-match regexes with $1 capture references. `stack` omitted means every stack. Per-component rules win over global ones.",
+  "global": [
+    { "from": "uuid", "to": null, "note": "Internal wire:key plumbing; never public API." },
+
+    { "from": "link", "to": "href", "note": "Matches the HTML attribute." },
+    { "stack": "livewire", "from": "noWireNavigate", "to": "navigate", "stackOnly": true, "note": "Inverted: a positive boolean replaces the `no*` form. Livewire-only by design." },
+
+    { "from": "horizontal", "to": "orientation", "note": "`orientation=\"horizontal\"`." },
+    { "from": "vertical", "to": "orientation", "note": "`orientation=\"vertical\"`." },
+
+    { "stack": "livewire", "from": "glass", "to": "surface", "note": "`surface=\"glass\"`. Plan decision." },
+    { "stack": "react", "from": "glass", "to": "surface", "note": "`surface=\"glass\"`. Plan decision." },
+    { "stack": "vue", "from": "glass", "to": "surface", "note": "`surface=\"glass\"`. Plan decision." },
+    { "from": "glassTint", "to": null, "note": "Replaced by glass surface tokens." },
+    { "from": "glassTintOpacity", "to": null, "note": "Replaced by glass surface tokens." },
+    { "from": "glassOpacity", "to": null, "note": "Replaced by glass surface tokens." },
+    { "from": "glassBlur", "to": null, "note": "Replaced by glass surface tokens." },
+    { "from": "headerGlass", "to": "classes.header", "note": "Per-part surface; no bespoke prop." },
+    { "from": "headerGlassTint", "to": null, "note": "Replaced by glass surface tokens." },
+    { "from": "headerGlassTintOpacity", "to": null, "note": "Replaced by glass surface tokens." },
+
+    { "stack": "livewire", "from": "colorAdjustment", "to": null, "note": "Per-instance color math. Theming belongs in tokens." },
+    { "stack": "livewire", "from": "bgColor", "to": null, "note": "Raw color passthrough. Use `color` or `classes`." },
+    { "stack": "livewire", "from": "textColor", "to": null, "note": "Raw color passthrough. Use `color` or `classes`." },
+
+    { "stack": "livewire", "from": "tooltipLeft", "to": "tooltip", "note": "Merges into `tooltip` + `tooltipPosition=\"left\"`." },
+    { "stack": "livewire", "from": "tooltipRight", "to": "tooltip", "note": "Merges into `tooltip` + `tooltipPosition=\"right\"`." },
+    { "stack": "livewire", "from": "tooltipBottom", "to": "tooltip", "note": "Merges into `tooltip` + `tooltipPosition=\"bottom\"`." },
+
+    { "stack": "livewire", "from": "errorField", "to": "errorField", "stackOnly": true, "note": "Livewire-only by design: resolves the message from the error bag." },
+    { "stack": "livewire", "from": "errorClass", "to": "classes.error" },
+    { "stack": "livewire", "from": "omitError", "to": "hideError", "note": "Positive-hide naming, matching `hideErrors`." },
+    { "stack": "livewire", "from": "hideErrors", "to": "hideError" },
+    { "stack": "livewire", "from": "firstErrorOnly", "to": "firstErrorOnly", "stackOnly": true, "note": "Livewire-only by design." },
+
+    { "stack": "livewire", "from": "withoutTrapFocus", "to": null, "note": "Disabling focus trap breaks the WCAG 2.2 AA dialog contract." },
+    { "stack": "livewire", "from": "noXAnchor", "to": null, "note": "Superseded by behavior-engine positioning." },
+
+    { "stack": "vue", "from": "modelValue", "to": "value", "idiom": true, "note": "The same concept as `value`. Vue keeps `v-model`, so this is alignment only and not a rename." },
+
+    { "stack": "livewire", "pattern": "(\\w+)Classes", "to": "classes.$1", "note": "Per-part override." },
+    { "stack": "livewire", "pattern": "(\\w+)Class", "to": "classes.$1", "note": "Per-part override." },
+    { "stack": "react", "pattern": "(\\w+)Classes", "to": "classes.$1", "note": "Per-part override." },
+    { "stack": "react", "pattern": "(\\w+)ClassName", "to": "classes.$1", "note": "Per-part override." },
+    { "stack": "vue", "pattern": "(\\w+)Class(?:es)?", "to": "classes.$1", "note": "Per-part override." }
+  ],
+  "events": [
+    { "stack": "livewire", "from": "completed", "to": "complete" },
+    { "stack": "livewire", "from": "open", "to": "open-change" },
+    { "stack": "livewire", "from": "close", "to": "open-change" },
+    { "stack": "react", "from": "onChange", "to": "value-change" },
+    { "stack": "react", "from": "onClose", "to": "open-change" },
+    { "stack": "react", "pattern": "on([A-Z]\\w*)", "to": "$kebab1" },
+    { "stack": "vue", "from": "close", "to": "open-change" },
+    { "stack": "vue", "pattern": "update:modelValue", "to": "value-change" },
+    { "stack": "vue", "pattern": "update:(\\w+)", "to": "$kebab1-change" },
+    { "stack": "vue", "pattern": "([a-z]+[A-Z]\\w*)", "to": "$kebab1" }
+  ],
+  "components": {
+    "Button": [
+      { "stack": "livewire", "from": "variant", "to": "color", "note": "Today `variant` holds color values. Under the vocabulary it means visual treatment, so this is a meaning change and cannot be a blind rename." }
+    ],
+    "DropdownMenu": [
+      { "stack": "livewire", "from": "right", "to": "end", "note": "Logical name; correct under RTL." }
+    ],
+    "UserMenu": [
+      { "stack": "livewire", "from": "right", "to": "end", "note": "Logical name; correct under RTL." }
+    ],
+    "RadioGroup": [
+      { "from": "inline", "to": "orientation", "note": "`orientation=\"horizontal\"`. Only on option groups: on Input, `inline` means a floating label." },
+      { "stack": "livewire", "from": "card", "to": "variant", "note": "`variant=\"card\"`." }
+    ],
+    "Stat": [
+      { "from": "tooltipPosition", "to": "tooltipPosition" }
+    ],
+    "Tabs": [
+      { "stack": "livewire", "from": "selected", "to": "value", "note": "Common selection prop name." },
+      { "from": "activeTab", "to": "value", "note": "Common selection prop name." },
+      { "from": "defaultTab", "to": "defaultValue" },
+      { "from": "verticalRight", "to": null, "note": "Covered by `orientation` and logical placement." }
+    ],
+    "Steps": [
+      { "stack": "livewire", "from": "stepsColor", "to": "color" }
+    ],
+    "File": [
+      { "from": "multiple", "to": "multiple" }
+    ]
+  }
+}

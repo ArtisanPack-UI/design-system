@@ -1,0 +1,16 @@
+{
+  "name": "@artisanpack-ui/inventory-tools",
+  "private": true,
+  "type": "module",
+  "description": "Phase 0 audit tooling: extracts component APIs and migration scope from the existing packages.",
+  "scripts": {
+    "extract": "node extract.mjs",
+    "scan": "node scan-downstream.mjs",
+    "build": "node build-reports.mjs",
+    "all": "npm run extract && npm run scan && npm run build",
+    "test": "node --test test/*.test.mjs"
+  },
+  "devDependencies": {
+    "typescript": "5.6.3"
+  }
+}
