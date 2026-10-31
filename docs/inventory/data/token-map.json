@@ -1,0 +1,4527 @@
+{
+  "sources": [
+    {
+      "path": "liquid-glass/config/liquid-glass.php",
+      "commit": "09dbb4f03845f9d3d4e6245e19a09bee8b2a7a5e"
+    },
+    {
+      "path": "liquid-glass/resources/css/liquid-glass.css",
+      "commit": "09dbb4f03845f9d3d4e6245e19a09bee8b2a7a5e"
+    },
+    {
+      "path": "livewire-ui-components/config/livewire-ui-components.php",
+      "commit": "84e81725ee8520b675c3ba2a0142f151d77c9276"
+    },
+    {
+      "path": "livewire-ui-components/resources/css/datepicker-base.css",
+      "commit": "84e81725ee8520b675c3ba2a0142f151d77c9276"
+    },
+    {
+      "path": "livewire-ui-components/resources/css/datepicker-dark-mode.css",
+      "commit": "84e81725ee8520b675c3ba2a0142f151d77c9276"
+    },
+    {
+      "path": "livewire-ui-components/resources/css/datepicker-light-mode.css",
+      "commit": "84e81725ee8520b675c3ba2a0142f151d77c9276"
+    },
+    {
+      "path": "livewire-ui-components/resources/css/datepicker-theme.css",
+      "commit": "84e81725ee8520b675c3ba2a0142f151d77c9276"
+    },
+    {
+      "path": "livewire-ui-components/resources/css/design-tokens.css",
+      "commit": "84e81725ee8520b675c3ba2a0142f151d77c9276"
+    },
+    {
+      "path": "livewire-ui-components/resources/css/glass-tokens.css",
+      "commit": "84e81725ee8520b675c3ba2a0142f151d77c9276"
+    },
+    {
+      "path": "livewire-ui-components/src/Console/Commands/GenerateThemeCss.php",
+      "commit": "84e81725ee8520b675c3ba2a0142f151d77c9276"
+    },
+    {
+      "path": "livewire-ui-components/src/Styling/ColorGenerator.php",
+      "commit": "84e81725ee8520b675c3ba2a0142f151d77c9276"
+    },
+    {
+      "path": "livewire-ui-components/src/Styling/GlassPresets.php",
+      "commit": "84e81725ee8520b675c3ba2a0142f151d77c9276"
+    },
+    {
+      "path": "livewire-ui-components/src/Styling/HighContrastTheme.php",
+      "commit": "84e81725ee8520b675c3ba2a0142f151d77c9276"
+    },
+    {
+      "path": "livewire-ui-components/src/Support/ChartThemes.php",
+      "commit": "84e81725ee8520b675c3ba2a0142f151d77c9276"
+    },
+    {
+      "path": "livewire-ui-components/src/Support/GlassHelper.php",
+      "commit": "84e81725ee8520b675c3ba2a0142f151d77c9276"
+    },
+    {
+      "path": "livewire-ui-components/src/View/Components/DatePicker.php",
+      "commit": "84e81725ee8520b675c3ba2a0142f151d77c9276"
+    },
+    {
+      "path": "livewire-ui-components/src/View/Components/ThemePreview.php",
+      "commit": "84e81725ee8520b675c3ba2a0142f151d77c9276"
+    },
+    {
+      "path": "react/packages/tokens/src/animation.ts",
+      "commit": "5b764e8d61b0e676893de15833a819d72d0594c8"
+    },
+    {
+      "path": "react/packages/tokens/src/borders.ts",
+      "commit": "5b764e8d61b0e676893de15833a819d72d0594c8"
+    },
+    {
+      "path": "react/packages/tokens/src/color-resolver.ts",
+      "commit": "5b764e8d61b0e676893de15833a819d72d0594c8"
+    },
+    {
+      "path": "react/packages/tokens/src/colors.ts",
+      "commit": "5b764e8d61b0e676893de15833a819d72d0594c8"
+    },
+    {
+      "path": "react/packages/tokens/src/css/tokens.css",
+      "commit": "5b764e8d61b0e676893de15833a819d72d0594c8"
+    },
+    {
+      "path": "react/packages/tokens/src/glass.ts",
+      "commit": "5b764e8d61b0e676893de15833a819d72d0594c8"
+    },
+    {
+      "path": "react/packages/tokens/src/index.ts",
+      "commit": "5b764e8d61b0e676893de15833a819d72d0594c8"
+    },
+    {
+      "path": "react/packages/tokens/src/shadows.ts",
+      "commit": "5b764e8d61b0e676893de15833a819d72d0594c8"
+    },
+    {
+      "path": "react/packages/tokens/src/spacing.ts",
+      "commit": "5b764e8d61b0e676893de15833a819d72d0594c8"
+    },
+    {
+      "path": "react/packages/tokens/src/tailwind-plugin.ts",
+      "commit": "5b764e8d61b0e676893de15833a819d72d0594c8"
+    },
+    {
+      "path": "react/packages/tokens/src/types.ts",
+      "commit": "5b764e8d61b0e676893de15833a819d72d0594c8"
+    },
+    {
+      "path": "react/packages/tokens/src/typography.ts",
+      "commit": "5b764e8d61b0e676893de15833a819d72d0594c8"
+    }
+  ],
+  "tokens": [
+    {
+      "source": "liquid-glass/config/liquid-glass.php",
+      "name": "tints.*",
+      "group": "glass",
+      "tier": "component",
+      "decision": "drop",
+      "target": null,
+      "reason": "Visual-editor block option. Not a design-system token; stays in the liquid-glass config. warm/cool have no plan equivalent.",
+      "count": 3,
+      "members": [
+        "tints.cool",
+        "tints.neutral",
+        "tints.warm"
+      ]
+    },
+    {
+      "source": "liquid-glass/resources/css/liquid-glass.css",
+      "name": "--liquid-glass-blur",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-blur",
+      "reason": "Stays a per-block inline override, but should default to the shared token. Value 12px matches --glass-blur, not --glass-liquid-blur (24px).",
+      "count": 1
+    },
+    {
+      "source": "liquid-glass/resources/css/liquid-glass.css",
+      "name": "--liquid-glass-opacity",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-opacity",
+      "reason": "Stays a per-block inline override, but should default to the shared token.",
+      "count": 1
+    },
+    {
+      "source": "liquid-glass/resources/css/liquid-glass.css",
+      "name": "--liquid-glass-tint",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-tint",
+      "reason": "Semantics change: bare \"r, g, b\" triple today, must become a full colour value.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/resources/css/datepicker-base.css",
+      "name": "--flatpickr-*",
+      "group": "datepicker",
+      "tier": "component",
+      "decision": "drop",
+      "target": null,
+      "reason": "Restates a semantic token with private hex values. Component reads --ap-surface-*, --ap-text-*, --ap-border-*.",
+      "count": 6,
+      "members": [
+        "--flatpickr-arrow-color",
+        "--flatpickr-arrow-hover",
+        "--flatpickr-bg-color",
+        "--flatpickr-border-color",
+        "--flatpickr-disabled-text",
+        "--flatpickr-text-color"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/resources/css/datepicker-base.css",
+      "name": "--flatpickr-*",
+      "group": "datepicker",
+      "tier": "component",
+      "decision": "drop",
+      "target": null,
+      "reason": "Restates type primitives. Inherit from the root.",
+      "count": 4,
+      "members": [
+        "--flatpickr-font-family",
+        "--flatpickr-font-size",
+        "--flatpickr-font-weight",
+        "--flatpickr-line-height"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/resources/css/datepicker-base.css",
+      "name": "--flatpickr-*",
+      "group": "datepicker",
+      "tier": "component",
+      "decision": "rename",
+      "target": "--ap-datepicker-*",
+      "reason": "Value provisional until Phase 1.",
+      "count": 3,
+      "members": [
+        "--flatpickr-day-font-weight",
+        "--flatpickr-weekday-font-size",
+        "--flatpickr-weekday-font-weight"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/resources/css/datepicker-base.css",
+      "name": "--flatpickr-border-radius",
+      "group": "datepicker",
+      "tier": "component",
+      "decision": "rename",
+      "target": "--ap-datepicker-radius",
+      "reason": "Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/resources/css/datepicker-base.css",
+      "name": "--flatpickr-calendar-padding",
+      "group": "datepicker",
+      "tier": "component",
+      "decision": "rename",
+      "target": "--ap-datepicker-padding",
+      "reason": "Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/resources/css/datepicker-base.css",
+      "name": "--flatpickr-cell-size",
+      "group": "datepicker",
+      "tier": "component",
+      "decision": "rename",
+      "target": "--ap-datepicker-cell-size",
+      "reason": "Responsive overrides at 640/1024px are the only breakpoint values in any token source. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/resources/css/datepicker-base.css",
+      "name": "--flatpickr-hover-bg",
+      "group": "datepicker",
+      "tier": "component",
+      "decision": "rename",
+      "target": "--ap-datepicker-day-hover-bg",
+      "reason": "Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/resources/css/datepicker-base.css",
+      "name": "--flatpickr-hover-text",
+      "group": "datepicker",
+      "tier": "component",
+      "decision": "rename",
+      "target": "--ap-datepicker-day-hover-text",
+      "reason": "Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/resources/css/datepicker-base.css",
+      "name": "--flatpickr-selected-bg",
+      "group": "datepicker",
+      "tier": "component",
+      "decision": "rename",
+      "target": "--ap-datepicker-selected-bg",
+      "reason": "flatpickr prefix goes (engine is Phase 3/5). Should default to --ap-color-primary.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/resources/css/datepicker-base.css",
+      "name": "--flatpickr-selected-text",
+      "group": "datepicker",
+      "tier": "component",
+      "decision": "rename",
+      "target": "--ap-datepicker-selected-text",
+      "reason": "Should default to --ap-color-primary-foreground.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/resources/css/datepicker-base.css",
+      "name": "--flatpickr-today-bg",
+      "group": "datepicker",
+      "tier": "component",
+      "decision": "rename",
+      "target": "--ap-datepicker-today-bg",
+      "reason": "Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/resources/css/datepicker-base.css",
+      "name": "--flatpickr-today-text",
+      "group": "datepicker",
+      "tier": "component",
+      "decision": "rename",
+      "target": "--ap-datepicker-today-text",
+      "reason": "Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/resources/css/datepicker-dark-mode.css",
+      "name": "--flatpickr-*",
+      "group": "datepicker",
+      "tier": "component",
+      "decision": "drop",
+      "target": null,
+      "reason": "Restates a semantic token with private hex values. Component reads --ap-surface-*, --ap-text-*, --ap-border-*.",
+      "count": 6,
+      "members": [
+        "--flatpickr-arrow-color",
+        "--flatpickr-arrow-hover",
+        "--flatpickr-bg-color",
+        "--flatpickr-border-color",
+        "--flatpickr-disabled-text",
+        "--flatpickr-text-color"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/resources/css/datepicker-dark-mode.css",
+      "name": "--flatpickr-hover-bg",
+      "group": "datepicker",
+      "tier": "component",
+      "decision": "rename",
+      "target": "--ap-datepicker-day-hover-bg",
+      "reason": "Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/resources/css/datepicker-dark-mode.css",
+      "name": "--flatpickr-hover-text",
+      "group": "datepicker",
+      "tier": "component",
+      "decision": "rename",
+      "target": "--ap-datepicker-day-hover-text",
+      "reason": "Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/resources/css/datepicker-dark-mode.css",
+      "name": "--flatpickr-selected-bg",
+      "group": "datepicker",
+      "tier": "component",
+      "decision": "rename",
+      "target": "--ap-datepicker-selected-bg",
+      "reason": "flatpickr prefix goes (engine is Phase 3/5). Should default to --ap-color-primary.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/resources/css/datepicker-dark-mode.css",
+      "name": "--flatpickr-selected-text",
+      "group": "datepicker",
+      "tier": "component",
+      "decision": "rename",
+      "target": "--ap-datepicker-selected-text",
+      "reason": "Should default to --ap-color-primary-foreground.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/resources/css/datepicker-dark-mode.css",
+      "name": "--flatpickr-today-bg",
+      "group": "datepicker",
+      "tier": "component",
+      "decision": "rename",
+      "target": "--ap-datepicker-today-bg",
+      "reason": "Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/resources/css/datepicker-dark-mode.css",
+      "name": "--flatpickr-today-text",
+      "group": "datepicker",
+      "tier": "component",
+      "decision": "rename",
+      "target": "--ap-datepicker-today-text",
+      "reason": "Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/resources/css/datepicker-light-mode.css",
+      "name": "--flatpickr-*",
+      "group": "datepicker",
+      "tier": "component",
+      "decision": "drop",
+      "target": null,
+      "reason": "Restates a semantic token with private hex values. Component reads --ap-surface-*, --ap-text-*, --ap-border-*.",
+      "count": 6,
+      "members": [
+        "--flatpickr-arrow-color",
+        "--flatpickr-arrow-hover",
+        "--flatpickr-bg-color",
+        "--flatpickr-border-color",
+        "--flatpickr-disabled-text",
+        "--flatpickr-text-color"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/resources/css/datepicker-light-mode.css",
+      "name": "--flatpickr-hover-bg",
+      "group": "datepicker",
+      "tier": "component",
+      "decision": "rename",
+      "target": "--ap-datepicker-day-hover-bg",
+      "reason": "Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/resources/css/datepicker-light-mode.css",
+      "name": "--flatpickr-hover-text",
+      "group": "datepicker",
+      "tier": "component",
+      "decision": "rename",
+      "target": "--ap-datepicker-day-hover-text",
+      "reason": "Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/resources/css/datepicker-light-mode.css",
+      "name": "--flatpickr-selected-bg",
+      "group": "datepicker",
+      "tier": "component",
+      "decision": "rename",
+      "target": "--ap-datepicker-selected-bg",
+      "reason": "flatpickr prefix goes (engine is Phase 3/5). Should default to --ap-color-primary.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/resources/css/datepicker-light-mode.css",
+      "name": "--flatpickr-selected-text",
+      "group": "datepicker",
+      "tier": "component",
+      "decision": "rename",
+      "target": "--ap-datepicker-selected-text",
+      "reason": "Should default to --ap-color-primary-foreground.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/resources/css/datepicker-light-mode.css",
+      "name": "--flatpickr-today-bg",
+      "group": "datepicker",
+      "tier": "component",
+      "decision": "rename",
+      "target": "--ap-datepicker-today-bg",
+      "reason": "Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/resources/css/datepicker-light-mode.css",
+      "name": "--flatpickr-today-text",
+      "group": "datepicker",
+      "tier": "component",
+      "decision": "rename",
+      "target": "--ap-datepicker-today-text",
+      "reason": "Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/resources/css/datepicker-theme.css",
+      "name": "--artisanpack-*",
+      "group": "color",
+      "tier": "component",
+      "decision": "drop",
+      "target": null,
+      "reason": "Inline runtime colour for arbitrary hex/Tailwind values. Plan color prop takes eight semantic names only.",
+      "count": 3,
+      "members": [
+        "--artisanpack-custom-color",
+        "--artisanpack-tailwind-color",
+        "--artisanpack-text-color"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/resources/css/datepicker-theme.css",
+      "name": "--artisanpack-datepicker-*",
+      "group": "datepicker",
+      "tier": "component",
+      "decision": "drop",
+      "target": null,
+      "reason": "Per-instance inline font props. Per-part overrides use the classes prop in 3.0.",
+      "count": 4,
+      "members": [
+        "--artisanpack-datepicker-font-family",
+        "--artisanpack-datepicker-font-size",
+        "--artisanpack-datepicker-font-weight",
+        "--artisanpack-datepicker-line-height"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/resources/css/datepicker-theme.css",
+      "name": "--flatpickr-*",
+      "group": "datepicker",
+      "tier": "component",
+      "decision": "drop",
+      "target": null,
+      "reason": "Restates a semantic token with private hex values. Component reads --ap-surface-*, --ap-text-*, --ap-border-*.",
+      "count": 3,
+      "members": [
+        "--flatpickr-bg-color",
+        "--flatpickr-border-color",
+        "--flatpickr-text-color"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/resources/css/datepicker-theme.css",
+      "name": "--flatpickr-calendar-padding",
+      "group": "datepicker",
+      "tier": "component",
+      "decision": "rename",
+      "target": "--ap-datepicker-padding",
+      "reason": "Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/resources/css/datepicker-theme.css",
+      "name": "--flatpickr-cell-size",
+      "group": "datepicker",
+      "tier": "component",
+      "decision": "rename",
+      "target": "--ap-datepicker-cell-size",
+      "reason": "Responsive overrides at 640/1024px are the only breakpoint values in any token source. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/resources/css/datepicker-theme.css",
+      "name": "--flatpickr-font-size",
+      "group": "datepicker",
+      "tier": "component",
+      "decision": "drop",
+      "target": null,
+      "reason": "Restates type primitives. Inherit from the root.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/resources/css/datepicker-theme.css",
+      "name": "--flatpickr-selected-bg",
+      "group": "datepicker",
+      "tier": "component",
+      "decision": "rename",
+      "target": "--ap-datepicker-selected-bg",
+      "reason": "flatpickr prefix goes (engine is Phase 3/5). Should default to --ap-color-primary.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/resources/css/datepicker-theme.css",
+      "name": "--flatpickr-selected-text",
+      "group": "datepicker",
+      "tier": "component",
+      "decision": "rename",
+      "target": "--ap-datepicker-selected-text",
+      "reason": "Should default to --ap-color-primary-foreground.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/resources/css/design-tokens.css",
+      "name": "--glass-*",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "drop",
+      "target": null,
+      "reason": "Plan has one surface=\"glass\"; the variant is flattened. Its values can live on as a preset reassigning --ap-surface-glass-*, if Phase 1 keeps it.",
+      "count": 9,
+      "members": [
+        "--glass-frosted-bg-color",
+        "--glass-frosted-blur",
+        "--glass-frosted-opacity",
+        "--glass-liquid-bg-color",
+        "--glass-liquid-blur",
+        "--glass-liquid-opacity",
+        "--glass-transparent-bg-color",
+        "--glass-transparent-blur",
+        "--glass-transparent-opacity"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/resources/css/design-tokens.css",
+      "name": "--glass-bg-color",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass",
+      "reason": "Follows the --ap-surface-raised pattern. Light/dark RGB is hard-coded today; must derive from a surface token. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/resources/css/design-tokens.css",
+      "name": "--glass-blur",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-blur",
+      "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/resources/css/design-tokens.css",
+      "name": "--glass-border-color",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-border",
+      "reason": "Hard-coded white in both modes today. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/resources/css/design-tokens.css",
+      "name": "--glass-border-opacity",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-border-opacity",
+      "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/resources/css/design-tokens.css",
+      "name": "--glass-border-width",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-border-width",
+      "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/resources/css/design-tokens.css",
+      "name": "--glass-frosted-saturation",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-saturation",
+      "reason": "Semantics change: frosted-only today, becomes a property of the single glass surface. liquid-glass hard-codes the same 180%. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/resources/css/design-tokens.css",
+      "name": "--glass-liquid-border-glow",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-highlight-opacity",
+      "reason": "Semantics change: liquid-only today, becomes the glass inset highlight. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/resources/css/design-tokens.css",
+      "name": "--glass-liquid-border-glow-color",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-highlight",
+      "reason": "Semantics change: liquid-only today, becomes the glass inset highlight. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/resources/css/design-tokens.css",
+      "name": "--glass-liquid-refraction",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "drop",
+      "target": null,
+      "reason": "Declared in every source, read by nothing.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/resources/css/design-tokens.css",
+      "name": "--glass-opacity",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-opacity",
+      "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/resources/css/design-tokens.css",
+      "name": "--glass-shadow-color",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-shadow-color",
+      "reason": "Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/resources/css/design-tokens.css",
+      "name": "--glass-shadow-opacity",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-shadow-opacity",
+      "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/resources/css/design-tokens.css",
+      "name": "--glass-tint-color",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-tint",
+      "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/resources/css/design-tokens.css",
+      "name": "--glass-tint-opacity",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-tint-opacity",
+      "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/resources/css/design-tokens.css",
+      "name": ".glass*",
+      "group": "glass",
+      "tier": "component",
+      "decision": "drop",
+      "target": null,
+      "reason": "Utility class. Replaced by data-surface=\"glass\" on .ap-* roots. Bare .glass also collides with the daisyUI 5 .glass utility.",
+      "count": 4,
+      "members": [
+        ".glass",
+        ".glass-frosted",
+        ".glass-liquid",
+        ".glass-transparent"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/resources/css/design-tokens.css",
+      "name": ".glass-tint-*",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "drop",
+      "target": null,
+      "reason": "Utility class. Tint is set by reassigning --ap-surface-glass-tint from --ap-color-*. No neutral tint exists today.",
+      "count": 7,
+      "members": [
+        ".glass-tint-accent",
+        ".glass-tint-error",
+        ".glass-tint-info",
+        ".glass-tint-primary",
+        ".glass-tint-secondary",
+        ".glass-tint-success",
+        ".glass-tint-warning"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/resources/css/design-tokens.css",
+      "name": ".glass-tint-opacity-*",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "drop",
+      "target": null,
+      "reason": "Utility class. Assign --ap-surface-glass-tint-opacity directly.",
+      "count": 10,
+      "members": [
+        ".glass-tint-opacity-10",
+        ".glass-tint-opacity-100",
+        ".glass-tint-opacity-20",
+        ".glass-tint-opacity-30",
+        ".glass-tint-opacity-40",
+        ".glass-tint-opacity-50",
+        ".glass-tint-opacity-60",
+        ".glass-tint-opacity-70",
+        ".glass-tint-opacity-80",
+        ".glass-tint-opacity-90"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/resources/css/design-tokens.css",
+      "name": "--duration-*",
+      "group": "motion",
+      "tier": "primitive",
+      "decision": "keep",
+      "target": "--ap-duration-*",
+      "reason": "Value provisional until Phase 1.",
+      "count": 9,
+      "members": [
+        "--duration-0",
+        "--duration-100",
+        "--duration-1000",
+        "--duration-150",
+        "--duration-200",
+        "--duration-300",
+        "--duration-500",
+        "--duration-700",
+        "--duration-75"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/resources/css/design-tokens.css",
+      "name": "--ease-*",
+      "group": "motion",
+      "tier": "primitive",
+      "decision": "keep",
+      "target": "--ap-ease-*",
+      "reason": "Value provisional until Phase 1.",
+      "count": 4,
+      "members": [
+        "--ease-in",
+        "--ease-in-out",
+        "--ease-linear",
+        "--ease-out"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/resources/css/design-tokens.css",
+      "name": "--ease-*",
+      "group": "motion",
+      "tier": "primitive",
+      "decision": "keep",
+      "target": "--ap-ease-*",
+      "reason": "Expressive curves. Whether they survive depends on the motion direction. Value provisional until Phase 1.",
+      "count": 3,
+      "members": [
+        "--ease-bounce",
+        "--ease-elastic",
+        "--ease-spring"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/resources/css/design-tokens.css",
+      "name": "--transition-*",
+      "group": "motion",
+      "tier": "semantic",
+      "decision": "drop",
+      "target": null,
+      "reason": "Single-value aliases of the CSS keyword. --transition-all is a shorthand in CSS but the string \"all\" in TS, so the family is not one type.",
+      "count": 5,
+      "members": [
+        "--transition-all",
+        "--transition-none",
+        "--transition-opacity",
+        "--transition-shadow",
+        "--transition-transform"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/resources/css/design-tokens.css",
+      "name": "--transition-*",
+      "group": "motion",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-transition-property-*",
+      "reason": "Property list, not a DTCG transition value. Renamed so it cannot be confused with the composite tokens.",
+      "count": 2,
+      "members": [
+        "--transition-colors",
+        "--transition-default"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/resources/css/design-tokens.css",
+      "name": ".transition-*",
+      "group": "motion",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-transition-*",
+      "reason": "Class becomes a DTCG transition composite (duration + easing). This is the only existing semantic motion layer. Value provisional until Phase 1.",
+      "count": 5,
+      "members": [
+        ".transition-bounce",
+        ".transition-fast",
+        ".transition-slow",
+        ".transition-smooth",
+        ".transition-spring"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/resources/css/design-tokens.css",
+      "name": "--radius-*",
+      "group": "radius",
+      "tier": "primitive",
+      "decision": "keep",
+      "target": "--ap-radius-*",
+      "reason": "Note --radius-sm is 0.125rem where Tailwind v4 uses 0.25rem. Tailwind preset must map explicitly. Value provisional until Phase 1.",
+      "count": 9,
+      "members": [
+        "--radius-2xl",
+        "--radius-3xl",
+        "--radius-base",
+        "--radius-full",
+        "--radius-lg",
+        "--radius-md",
+        "--radius-none",
+        "--radius-sm",
+        "--radius-xl"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/resources/css/design-tokens.css",
+      "name": "--shadow-*",
+      "group": "shadow",
+      "tier": "primitive",
+      "decision": "keep",
+      "target": "--ap-shadow-*",
+      "reason": "Today dark mode reassigns these in place, which breaks the plan rule that presets touch only semantic tokens. Dark values move to --ap-elevation-*. Value provisional until Phase 1.",
+      "count": 8,
+      "members": [
+        "--shadow-2xl",
+        "--shadow-base",
+        "--shadow-inner",
+        "--shadow-lg",
+        "--shadow-md",
+        "--shadow-none",
+        "--shadow-sm",
+        "--shadow-xl"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/resources/css/design-tokens.css",
+      "name": "--shadow-*",
+      "group": "shadow",
+      "tier": "semantic",
+      "decision": "drop",
+      "target": null,
+      "reason": "No consumer in Blade views. rgb literal does not follow the theme colour. If Phase 1 wants it, derive from --ap-color-*.",
+      "count": 5,
+      "members": [
+        "--shadow-error",
+        "--shadow-info",
+        "--shadow-primary",
+        "--shadow-success",
+        "--shadow-warning"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/resources/css/design-tokens.css",
+      "name": "--shadow-glow-*",
+      "group": "shadow",
+      "tier": "semantic",
+      "decision": "drop",
+      "target": null,
+      "reason": "Only consumer is the dropped .shadow-glow* classes. Hard-coded blue-500. If Phase 1 wants it, derive from --ap-color-primary.",
+      "count": 3,
+      "members": [
+        "--shadow-glow-lg",
+        "--shadow-glow-md",
+        "--shadow-glow-sm"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/resources/css/design-tokens.css",
+      "name": ".shadow-glow*",
+      "group": "shadow",
+      "tier": "component",
+      "decision": "drop",
+      "target": null,
+      "reason": "Utility class with no consumer in Blade views. Hard-coded blue glow.",
+      "count": 3,
+      "members": [
+        ".shadow-glow",
+        ".shadow-glow-lg",
+        ".shadow-glow-sm"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/resources/css/design-tokens.css",
+      "name": "--spacing-*",
+      "group": "space",
+      "tier": "primitive",
+      "decision": "rename",
+      "target": "--ap-space-*",
+      "reason": "Plan names this --ap-space-*. Half steps stay hyphenated (0-5) because DTCG forbids \".\" in token names. Identical to Tailwind steps. Value provisional until Phase 1.",
+      "count": 35,
+      "members": [
+        "--spacing-0",
+        "--spacing-0-5",
+        "--spacing-1",
+        "--spacing-1-5",
+        "--spacing-10",
+        "--spacing-11",
+        "--spacing-12",
+        "--spacing-14",
+        "--spacing-16",
+        "--spacing-2",
+        "--spacing-2-5",
+        "--spacing-20",
+        "--spacing-24",
+        "--spacing-28",
+        "--spacing-3",
+        "--spacing-3-5",
+        "--spacing-32",
+        "--spacing-36",
+        "--spacing-4",
+        "--spacing-40",
+        "--spacing-44",
+        "--spacing-48",
+        "--spacing-5",
+        "--spacing-52",
+        "--spacing-56",
+        "--spacing-6",
+        "--spacing-60",
+        "--spacing-64",
+        "--spacing-7",
+        "--spacing-72",
+        "--spacing-8",
+        "--spacing-80",
+        "--spacing-9",
+        "--spacing-96",
+        "--spacing-px"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/resources/css/design-tokens.css",
+      "name": "--font-family-*",
+      "group": "type",
+      "tier": "primitive",
+      "decision": "keep",
+      "target": "--ap-font-family-*",
+      "reason": "System stacks. Value provisional until Phase 1.",
+      "count": 3,
+      "members": [
+        "--font-family-mono",
+        "--font-family-sans",
+        "--font-family-serif"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/resources/css/design-tokens.css",
+      "name": "--font-size-*",
+      "group": "type",
+      "tier": "primitive",
+      "decision": "keep",
+      "target": "--ap-font-size-*",
+      "reason": "Value provisional until Phase 1.",
+      "count": 10,
+      "members": [
+        "--font-size-2xl",
+        "--font-size-3xl",
+        "--font-size-4xl",
+        "--font-size-5xl",
+        "--font-size-6xl",
+        "--font-size-base",
+        "--font-size-lg",
+        "--font-size-sm",
+        "--font-size-xl",
+        "--font-size-xs"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/resources/css/design-tokens.css",
+      "name": "--font-weight-*",
+      "group": "type",
+      "tier": "primitive",
+      "decision": "keep",
+      "target": "--ap-font-weight-*",
+      "reason": "Value provisional until Phase 1.",
+      "count": 9,
+      "members": [
+        "--font-weight-black",
+        "--font-weight-bold",
+        "--font-weight-extrabold",
+        "--font-weight-extralight",
+        "--font-weight-light",
+        "--font-weight-medium",
+        "--font-weight-normal",
+        "--font-weight-semibold",
+        "--font-weight-thin"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/resources/css/design-tokens.css",
+      "name": "--letter-spacing-*",
+      "group": "type",
+      "tier": "primitive",
+      "decision": "keep",
+      "target": "--ap-letter-spacing-*",
+      "reason": "Value provisional until Phase 1.",
+      "count": 6,
+      "members": [
+        "--letter-spacing-normal",
+        "--letter-spacing-tight",
+        "--letter-spacing-tighter",
+        "--letter-spacing-wide",
+        "--letter-spacing-wider",
+        "--letter-spacing-widest"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/resources/css/design-tokens.css",
+      "name": "--line-height-*",
+      "group": "type",
+      "tier": "primitive",
+      "decision": "keep",
+      "target": "--ap-line-height-*",
+      "reason": "Value provisional until Phase 1.",
+      "count": 6,
+      "members": [
+        "--line-height-loose",
+        "--line-height-none",
+        "--line-height-normal",
+        "--line-height-relaxed",
+        "--line-height-snug",
+        "--line-height-tight"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/resources/css/design-tokens.css",
+      "name": ".font-*",
+      "group": "type",
+      "tier": "component",
+      "decision": "drop",
+      "target": null,
+      "reason": "Utility class that shadows the Tailwind utility of the same name.",
+      "count": 3,
+      "members": [
+        ".font-mono",
+        ".font-sans",
+        ".font-serif"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/resources/css/glass-tokens.css",
+      "name": "--custom-tint",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "drop",
+      "target": null,
+      "reason": "Indirection for inline tints. Assign --ap-surface-glass-tint directly.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/resources/css/glass-tokens.css",
+      "name": "--glass-*",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "drop",
+      "target": null,
+      "reason": "Plan has one surface=\"glass\"; the variant is flattened. Its values can live on as a preset reassigning --ap-surface-glass-*, if Phase 1 keeps it.",
+      "count": 9,
+      "members": [
+        "--glass-frosted-bg-color",
+        "--glass-frosted-blur",
+        "--glass-frosted-opacity",
+        "--glass-liquid-bg-color",
+        "--glass-liquid-blur",
+        "--glass-liquid-opacity",
+        "--glass-transparent-bg-color",
+        "--glass-transparent-blur",
+        "--glass-transparent-opacity"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/resources/css/glass-tokens.css",
+      "name": "--glass-bg-color",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass",
+      "reason": "Follows the --ap-surface-raised pattern. Light/dark RGB is hard-coded today; must derive from a surface token. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/resources/css/glass-tokens.css",
+      "name": "--glass-blur",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-blur",
+      "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/resources/css/glass-tokens.css",
+      "name": "--glass-border-color",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-border",
+      "reason": "Hard-coded white in both modes today. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/resources/css/glass-tokens.css",
+      "name": "--glass-border-opacity",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-border-opacity",
+      "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/resources/css/glass-tokens.css",
+      "name": "--glass-border-width",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-border-width",
+      "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/resources/css/glass-tokens.css",
+      "name": "--glass-frosted-saturation",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-saturation",
+      "reason": "Semantics change: frosted-only today, becomes a property of the single glass surface. liquid-glass hard-codes the same 180%. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/resources/css/glass-tokens.css",
+      "name": "--glass-liquid-border-glow",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-highlight-opacity",
+      "reason": "Semantics change: liquid-only today, becomes the glass inset highlight. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/resources/css/glass-tokens.css",
+      "name": "--glass-liquid-border-glow-color",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-highlight",
+      "reason": "Semantics change: liquid-only today, becomes the glass inset highlight. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/resources/css/glass-tokens.css",
+      "name": "--glass-liquid-refraction",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "drop",
+      "target": null,
+      "reason": "Declared in every source, read by nothing.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/resources/css/glass-tokens.css",
+      "name": "--glass-opacity",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-opacity",
+      "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/resources/css/glass-tokens.css",
+      "name": "--glass-shadow-color",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-shadow-color",
+      "reason": "Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/resources/css/glass-tokens.css",
+      "name": "--glass-shadow-opacity",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-shadow-opacity",
+      "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/resources/css/glass-tokens.css",
+      "name": "--glass-tint-color",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-tint",
+      "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/resources/css/glass-tokens.css",
+      "name": "--glass-tint-opacity",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-tint-opacity",
+      "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/resources/css/glass-tokens.css",
+      "name": ".glass*",
+      "group": "glass",
+      "tier": "component",
+      "decision": "drop",
+      "target": null,
+      "reason": "Utility class. Replaced by data-surface=\"glass\" on .ap-* roots. Bare .glass also collides with the daisyUI 5 .glass utility.",
+      "count": 4,
+      "members": [
+        ".glass",
+        ".glass-frosted",
+        ".glass-liquid",
+        ".glass-transparent"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/resources/css/glass-tokens.css",
+      "name": ".glass-*",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "drop",
+      "target": null,
+      "reason": "Preset class. Value sets move to theme presets that reassign --ap-surface-glass-* (see GlassPresets in code).",
+      "count": 6,
+      "members": [
+        ".glass-bold",
+        ".glass-frosted-dark",
+        ".glass-frosted-light",
+        ".glass-liquid-dark",
+        ".glass-liquid-light",
+        ".glass-minimal"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/resources/css/glass-tokens.css",
+      "name": ".glass-preset*",
+      "group": "glass",
+      "tier": "component",
+      "decision": "drop",
+      "target": null,
+      "reason": "Utility class. Duplicates .glass* against the same tokens.",
+      "count": 4,
+      "members": [
+        ".glass-preset",
+        ".glass-preset-frosted",
+        ".glass-preset-liquid",
+        ".glass-preset-transparent"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/resources/css/glass-tokens.css",
+      "name": ".glass-tint-*",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "drop",
+      "target": null,
+      "reason": "Utility class. Tint is set by reassigning --ap-surface-glass-tint from --ap-color-*. No neutral tint exists today.",
+      "count": 7,
+      "members": [
+        ".glass-tint-accent",
+        ".glass-tint-error",
+        ".glass-tint-info",
+        ".glass-tint-primary",
+        ".glass-tint-secondary",
+        ".glass-tint-success",
+        ".glass-tint-warning"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/resources/css/glass-tokens.css",
+      "name": ".glass-tint-*",
+      "group": "glass",
+      "tier": "primitive",
+      "decision": "drop",
+      "target": null,
+      "reason": "Utility class. Hue-by-stop tint classes exist only in Livewire. Assign --ap-surface-glass-tint to a primitive instead.",
+      "count": 242
+    },
+    {
+      "source": "livewire-ui-components/resources/css/glass-tokens.css",
+      "name": ".glass-tint-custom",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "drop",
+      "target": null,
+      "reason": "Utility class. Assign --ap-surface-glass-tint directly.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/resources/css/glass-tokens.css",
+      "name": ".glass-tint-opacity-*",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "drop",
+      "target": null,
+      "reason": "Utility class. Assign --ap-surface-glass-tint-opacity directly.",
+      "count": 10,
+      "members": [
+        ".glass-tint-opacity-10",
+        ".glass-tint-opacity-100",
+        ".glass-tint-opacity-20",
+        ".glass-tint-opacity-30",
+        ".glass-tint-opacity-40",
+        ".glass-tint-opacity-50",
+        ".glass-tint-opacity-60",
+        ".glass-tint-opacity-70",
+        ".glass-tint-opacity-80",
+        ".glass-tint-opacity-90"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/src/Console/Commands/GenerateThemeCss.php",
+      "name": "--glass-tint-color",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-tint",
+      "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Console/Commands/GenerateThemeCss.php",
+      "name": "--glass-tint-opacity",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-tint-opacity",
+      "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/ColorGenerator.php",
+      "name": "--border-btn",
+      "group": "border",
+      "tier": "component",
+      "decision": "rename",
+      "target": "--ap-button-border-width",
+      "reason": "daisyUI 4 name, not read by daisyUI 5. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/ColorGenerator.php",
+      "name": "--tab-border",
+      "group": "border",
+      "tier": "component",
+      "decision": "rename",
+      "target": "--ap-tabs-border-width",
+      "reason": "daisyUI variable name. Component-tier concept. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/ColorGenerator.php",
+      "name": "$tailwindColorBases.*",
+      "group": "color",
+      "tier": "primitive",
+      "decision": "drop",
+      "target": null,
+      "reason": "Duplicates the 500 stop of the primitive ramp.",
+      "count": 21,
+      "members": [
+        "$tailwindColorBases.amber",
+        "$tailwindColorBases.blue",
+        "$tailwindColorBases.cyan",
+        "$tailwindColorBases.emerald",
+        "$tailwindColorBases.fuchsia",
+        "$tailwindColorBases.gray",
+        "$tailwindColorBases.green",
+        "$tailwindColorBases.indigo",
+        "$tailwindColorBases.lime",
+        "$tailwindColorBases.neutral",
+        "$tailwindColorBases.orange",
+        "$tailwindColorBases.pink",
+        "$tailwindColorBases.purple",
+        "$tailwindColorBases.red",
+        "$tailwindColorBases.rose",
+        "$tailwindColorBases.sky",
+        "$tailwindColorBases.slate",
+        "$tailwindColorBases.stone",
+        "$tailwindColorBases.teal",
+        "$tailwindColorBases.yellow",
+        "$tailwindColorBases.zinc"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/ColorGenerator.php",
+      "name": "$tailwindColorBases.*",
+      "group": "color",
+      "tier": "primitive",
+      "decision": "rename",
+      "target": "--ap-*",
+      "reason": "Lookup entry becomes a primitive. Not in the 11-stop ramp but needed for foregrounds.",
+      "count": 2,
+      "members": [
+        "$tailwindColorBases.black",
+        "$tailwindColorBases.white"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/ColorGenerator.php",
+      "name": "--*",
+      "group": "color",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-color-*0",
+      "reason": "",
+      "count": 33,
+      "members": [
+        "--a-100",
+        "--a-200",
+        "--a-300",
+        "--a-400",
+        "--a-50",
+        "--a-500",
+        "--a-600",
+        "--a-700",
+        "--a-800",
+        "--a-900",
+        "--a-950",
+        "--p-100",
+        "--p-200",
+        "--p-300",
+        "--p-400",
+        "--p-50",
+        "--p-500",
+        "--p-600",
+        "--p-700",
+        "--p-800",
+        "--p-900",
+        "--p-950",
+        "--s-100",
+        "--s-200",
+        "--s-300",
+        "--s-400",
+        "--s-50",
+        "--s-500",
+        "--s-600",
+        "--s-700",
+        "--s-800",
+        "--s-900",
+        "--s-950"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/ColorGenerator.php",
+      "name": "--artisanpack-*",
+      "group": "color",
+      "tier": "component",
+      "decision": "drop",
+      "target": null,
+      "reason": "Inline runtime colour for arbitrary hex/Tailwind values. Plan color prop takes eight semantic names only.",
+      "count": 3,
+      "members": [
+        "--artisanpack-custom-color",
+        "--artisanpack-tailwind-color",
+        "--artisanpack-text-color"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/ColorGenerator.php",
+      "name": "--color-*",
+      "group": "color",
+      "tier": "semantic",
+      "decision": "keep",
+      "target": "--ap-color-*",
+      "reason": "Matches the plan color vocabulary. Value provisional until Phase 1.",
+      "count": 8,
+      "members": [
+        "--color-accent",
+        "--color-error",
+        "--color-info",
+        "--color-neutral",
+        "--color-primary",
+        "--color-secondary",
+        "--color-success",
+        "--color-warning"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/ColorGenerator.php",
+      "name": "--color-*",
+      "group": "color",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-color-*-foreground",
+      "reason": "\"-content\" is daisyUI vocabulary; \"-foreground\" is the existing hc-* name. Same meaning. Value provisional until Phase 1.",
+      "count": 8,
+      "members": [
+        "--color-accent-content",
+        "--color-error-content",
+        "--color-info-content",
+        "--color-neutral-content",
+        "--color-primary-content",
+        "--color-secondary-content",
+        "--color-success-content",
+        "--color-warning-content"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/ColorGenerator.php",
+      "name": "--color-base-100",
+      "group": "color",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-default",
+      "reason": "daisyUI base step to named surface. Main component background (29 bg-base-100 uses). Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/ColorGenerator.php",
+      "name": "--color-base-200",
+      "group": "color",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-sunken",
+      "reason": "daisyUI base step to named surface; it sits below base-100. Semantics narrow from \"step 2\" to \"sunken\". Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/ColorGenerator.php",
+      "name": "--color-base-300",
+      "group": "color",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-border-default",
+      "reason": "Semantics split: 21 border-base-300 uses map here; 22 bg-base-300 uses must resolve to a surface token per component spec. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/ColorGenerator.php",
+      "name": "--color-base-content",
+      "group": "color",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-text-default",
+      "reason": "daisyUI name to plan text namespace. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/ColorGenerator.php",
+      "name": "tailwindColorToHex.*",
+      "group": "color",
+      "tier": "primitive",
+      "decision": "rename",
+      "target": "--ap-*0",
+      "reason": "PHP-only lookup becomes the primitive tier. Hues are Tailwind v3 hex. Which hues survive and all values are provisional until Phase 1.",
+      "count": 242
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/ColorGenerator.php",
+      "name": ".*",
+      "group": "component",
+      "tier": "component",
+      "decision": "drop",
+      "target": null,
+      "reason": "Only ever emitted inside a CSS comment. Color values use oklch(var(--b2)) etc., daisyUI 4 channels. Component tokens come from Claude Design specs.",
+      "count": 21,
+      "members": [
+        ".alert --alert-color",
+        ".badge --badge-color",
+        ".badge --size",
+        ".btn --btn-color",
+        ".btn --btn-fg",
+        ".btn --size",
+        ".card --card-fs",
+        ".card --card-p",
+        ".card --card-title-fs",
+        ".checkbox --size",
+        ".input --input-color",
+        ".input --size",
+        ".menu --menu-active-bg",
+        ".menu --menu-active-fg",
+        ".modal-box --modal-bl",
+        ".modal-box --modal-br",
+        ".modal-box --modal-tl",
+        ".modal-box --modal-tr",
+        ".toggle --size",
+        ".tooltip --tt-bg",
+        ".tooltip --tt-off"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/ColorGenerator.php",
+      "name": "--glass-*",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "drop",
+      "target": null,
+      "reason": "Plan has one surface=\"glass\"; the variant is flattened. Its values can live on as a preset reassigning --ap-surface-glass-*, if Phase 1 keeps it.",
+      "count": 9,
+      "members": [
+        "--glass-frosted-bg-color",
+        "--glass-frosted-blur",
+        "--glass-frosted-opacity",
+        "--glass-liquid-bg-color",
+        "--glass-liquid-blur",
+        "--glass-liquid-opacity",
+        "--glass-transparent-bg-color",
+        "--glass-transparent-blur",
+        "--glass-transparent-opacity"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/ColorGenerator.php",
+      "name": "--glass-bg-color",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass",
+      "reason": "Follows the --ap-surface-raised pattern. Light/dark RGB is hard-coded today; must derive from a surface token. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/ColorGenerator.php",
+      "name": "--glass-blur",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-blur",
+      "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/ColorGenerator.php",
+      "name": "--glass-border-color",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-border",
+      "reason": "Hard-coded white in both modes today. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/ColorGenerator.php",
+      "name": "--glass-border-opacity",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-border-opacity",
+      "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/ColorGenerator.php",
+      "name": "--glass-border-width",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-border-width",
+      "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/ColorGenerator.php",
+      "name": "--glass-frosted-saturation",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-saturation",
+      "reason": "Semantics change: frosted-only today, becomes a property of the single glass surface. liquid-glass hard-codes the same 180%. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/ColorGenerator.php",
+      "name": "--glass-liquid-border-glow",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-highlight-opacity",
+      "reason": "Semantics change: liquid-only today, becomes the glass inset highlight. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/ColorGenerator.php",
+      "name": "--glass-liquid-border-glow-color",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-highlight",
+      "reason": "Semantics change: liquid-only today, becomes the glass inset highlight. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/ColorGenerator.php",
+      "name": "--glass-liquid-refraction",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "drop",
+      "target": null,
+      "reason": "Declared in every source, read by nothing.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/ColorGenerator.php",
+      "name": "--glass-opacity",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-opacity",
+      "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/ColorGenerator.php",
+      "name": "--glass-shadow-color",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-shadow-color",
+      "reason": "Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/ColorGenerator.php",
+      "name": "--glass-shadow-opacity",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-shadow-opacity",
+      "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/ColorGenerator.php",
+      "name": "--glass-tint-color",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-tint",
+      "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/ColorGenerator.php",
+      "name": "--glass-tint-opacity",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-tint-opacity",
+      "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/ColorGenerator.php",
+      "name": "--animation-*",
+      "group": "motion",
+      "tier": "component",
+      "decision": "drop",
+      "target": null,
+      "reason": "daisyUI 4 variable, not read by daisyUI 5. 0.25s is off the duration scale. Use semantic transitions.",
+      "count": 2,
+      "members": [
+        "--animation-btn",
+        "--animation-input"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/ColorGenerator.php",
+      "name": "--btn-focus-scale",
+      "group": "motion",
+      "tier": "component",
+      "decision": "drop",
+      "target": null,
+      "reason": "daisyUI 4 variable, not read by daisyUI 5. Press feedback comes from the Button spec.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/ColorGenerator.php",
+      "name": "--duration-*",
+      "group": "motion",
+      "tier": "primitive",
+      "decision": "keep",
+      "target": "--ap-duration-*",
+      "reason": "Value provisional until Phase 1.",
+      "count": 9,
+      "members": [
+        "--duration-0",
+        "--duration-100",
+        "--duration-1000",
+        "--duration-150",
+        "--duration-200",
+        "--duration-300",
+        "--duration-500",
+        "--duration-700",
+        "--duration-75"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/ColorGenerator.php",
+      "name": "--ease-*",
+      "group": "motion",
+      "tier": "primitive",
+      "decision": "keep",
+      "target": "--ap-ease-*",
+      "reason": "Value provisional until Phase 1.",
+      "count": 4,
+      "members": [
+        "--ease-in",
+        "--ease-in-out",
+        "--ease-linear",
+        "--ease-out"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/ColorGenerator.php",
+      "name": "--ease-*",
+      "group": "motion",
+      "tier": "primitive",
+      "decision": "keep",
+      "target": "--ap-ease-*",
+      "reason": "Expressive curves. Whether they survive depends on the motion direction. Value provisional until Phase 1.",
+      "count": 3,
+      "members": [
+        "--ease-bounce",
+        "--ease-elastic",
+        "--ease-spring"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/ColorGenerator.php",
+      "name": "--transition-*",
+      "group": "motion",
+      "tier": "semantic",
+      "decision": "drop",
+      "target": null,
+      "reason": "Single-value aliases of the CSS keyword. --transition-all is a shorthand in CSS but the string \"all\" in TS, so the family is not one type.",
+      "count": 5,
+      "members": [
+        "--transition-all",
+        "--transition-none",
+        "--transition-opacity",
+        "--transition-shadow",
+        "--transition-transform"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/ColorGenerator.php",
+      "name": "--transition-*",
+      "group": "motion",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-transition-property-*",
+      "reason": "Property list, not a DTCG transition value. Renamed so it cannot be confused with the composite tokens.",
+      "count": 2,
+      "members": [
+        "--transition-colors",
+        "--transition-default"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/ColorGenerator.php",
+      "name": "--radius-*",
+      "group": "radius",
+      "tier": "primitive",
+      "decision": "keep",
+      "target": "--ap-radius-*",
+      "reason": "Note --radius-sm is 0.125rem where Tailwind v4 uses 0.25rem. Tailwind preset must map explicitly. Value provisional until Phase 1.",
+      "count": 9,
+      "members": [
+        "--radius-2xl",
+        "--radius-3xl",
+        "--radius-base",
+        "--radius-full",
+        "--radius-lg",
+        "--radius-md",
+        "--radius-none",
+        "--radius-sm",
+        "--radius-xl"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/ColorGenerator.php",
+      "name": "--rounded-badge",
+      "group": "radius",
+      "tier": "component",
+      "decision": "rename",
+      "target": "--ap-badge-radius",
+      "reason": "daisyUI 4 name, not read by daisyUI 5. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/ColorGenerator.php",
+      "name": "--rounded-box",
+      "group": "radius",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-radius-surface",
+      "reason": "daisyUI 4 name, not read by daisyUI 5. Concept survives as the surface radius. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/ColorGenerator.php",
+      "name": "--rounded-btn",
+      "group": "radius",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-radius-control",
+      "reason": "daisyUI 4 name, not read by daisyUI 5. Plan's rounded-control utility implies this semantic token. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/ColorGenerator.php",
+      "name": "--tab-radius",
+      "group": "radius",
+      "tier": "component",
+      "decision": "rename",
+      "target": "--ap-tabs-radius",
+      "reason": "daisyUI variable name. Component-tier concept. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/ColorGenerator.php",
+      "name": "--shadow-*",
+      "group": "shadow",
+      "tier": "primitive",
+      "decision": "keep",
+      "target": "--ap-shadow-*",
+      "reason": "Today dark mode reassigns these in place, which breaks the plan rule that presets touch only semantic tokens. Dark values move to --ap-elevation-*. Value provisional until Phase 1.",
+      "count": 8,
+      "members": [
+        "--shadow-2xl",
+        "--shadow-base",
+        "--shadow-inner",
+        "--shadow-lg",
+        "--shadow-md",
+        "--shadow-none",
+        "--shadow-sm",
+        "--shadow-xl"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/ColorGenerator.php",
+      "name": "--shadow-*",
+      "group": "shadow",
+      "tier": "semantic",
+      "decision": "drop",
+      "target": null,
+      "reason": "No consumer in Blade views. rgb literal does not follow the theme colour. If Phase 1 wants it, derive from --ap-color-*.",
+      "count": 5,
+      "members": [
+        "--shadow-error",
+        "--shadow-info",
+        "--shadow-primary",
+        "--shadow-success",
+        "--shadow-warning"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/ColorGenerator.php",
+      "name": "--shadow-glow-*",
+      "group": "shadow",
+      "tier": "semantic",
+      "decision": "drop",
+      "target": null,
+      "reason": "Only consumer is the dropped .shadow-glow* classes. Hard-coded blue-500. If Phase 1 wants it, derive from --ap-color-primary.",
+      "count": 3,
+      "members": [
+        "--shadow-glow-lg",
+        "--shadow-glow-md",
+        "--shadow-glow-sm"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/ColorGenerator.php",
+      "name": "--spacing-*",
+      "group": "space",
+      "tier": "primitive",
+      "decision": "rename",
+      "target": "--ap-space-*",
+      "reason": "Plan names this --ap-space-*. Half steps stay hyphenated (0-5) because DTCG forbids \".\" in token names. Identical to Tailwind steps. Value provisional until Phase 1.",
+      "count": 35,
+      "members": [
+        "--spacing-0",
+        "--spacing-0-5",
+        "--spacing-1",
+        "--spacing-1-5",
+        "--spacing-10",
+        "--spacing-11",
+        "--spacing-12",
+        "--spacing-14",
+        "--spacing-16",
+        "--spacing-2",
+        "--spacing-2-5",
+        "--spacing-20",
+        "--spacing-24",
+        "--spacing-28",
+        "--spacing-3",
+        "--spacing-3-5",
+        "--spacing-32",
+        "--spacing-36",
+        "--spacing-4",
+        "--spacing-40",
+        "--spacing-44",
+        "--spacing-48",
+        "--spacing-5",
+        "--spacing-52",
+        "--spacing-56",
+        "--spacing-6",
+        "--spacing-60",
+        "--spacing-64",
+        "--spacing-7",
+        "--spacing-72",
+        "--spacing-8",
+        "--spacing-80",
+        "--spacing-9",
+        "--spacing-96",
+        "--spacing-px"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/ColorGenerator.php",
+      "name": "--artisanpack-*",
+      "group": "state",
+      "tier": "semantic",
+      "decision": "drop",
+      "target": null,
+      "reason": "Inline hover/focus computed in PHP. The variant case uses hard-coded Tailwind hues, so it ignores the theme. Superseded by --ap-color-*-hover/-active.",
+      "count": 12,
+      "members": [
+        "--artisanpack-custom-focus-color",
+        "--artisanpack-custom-focus-text",
+        "--artisanpack-custom-hover-color",
+        "--artisanpack-custom-hover-text",
+        "--artisanpack-tailwind-focus-color",
+        "--artisanpack-tailwind-focus-text",
+        "--artisanpack-tailwind-hover-color",
+        "--artisanpack-tailwind-hover-text",
+        "--artisanpack-variant-focus-color",
+        "--artisanpack-variant-focus-text",
+        "--artisanpack-variant-hover-color",
+        "--artisanpack-variant-hover-text"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/ColorGenerator.php",
+      "name": "--font-family-*",
+      "group": "type",
+      "tier": "primitive",
+      "decision": "keep",
+      "target": "--ap-font-family-*",
+      "reason": "System stacks. Value provisional until Phase 1.",
+      "count": 3,
+      "members": [
+        "--font-family-mono",
+        "--font-family-sans",
+        "--font-family-serif"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/ColorGenerator.php",
+      "name": "--font-size-*",
+      "group": "type",
+      "tier": "primitive",
+      "decision": "keep",
+      "target": "--ap-font-size-*",
+      "reason": "Value provisional until Phase 1.",
+      "count": 10,
+      "members": [
+        "--font-size-2xl",
+        "--font-size-3xl",
+        "--font-size-4xl",
+        "--font-size-5xl",
+        "--font-size-6xl",
+        "--font-size-base",
+        "--font-size-lg",
+        "--font-size-sm",
+        "--font-size-xl",
+        "--font-size-xs"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/ColorGenerator.php",
+      "name": "--font-weight-*",
+      "group": "type",
+      "tier": "primitive",
+      "decision": "keep",
+      "target": "--ap-font-weight-*",
+      "reason": "Value provisional until Phase 1.",
+      "count": 9,
+      "members": [
+        "--font-weight-black",
+        "--font-weight-bold",
+        "--font-weight-extrabold",
+        "--font-weight-extralight",
+        "--font-weight-light",
+        "--font-weight-medium",
+        "--font-weight-normal",
+        "--font-weight-semibold",
+        "--font-weight-thin"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/ColorGenerator.php",
+      "name": "--letter-spacing-*",
+      "group": "type",
+      "tier": "primitive",
+      "decision": "keep",
+      "target": "--ap-letter-spacing-*",
+      "reason": "Value provisional until Phase 1.",
+      "count": 6,
+      "members": [
+        "--letter-spacing-normal",
+        "--letter-spacing-tight",
+        "--letter-spacing-tighter",
+        "--letter-spacing-wide",
+        "--letter-spacing-wider",
+        "--letter-spacing-widest"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/ColorGenerator.php",
+      "name": "--line-height-*",
+      "group": "type",
+      "tier": "primitive",
+      "decision": "keep",
+      "target": "--ap-line-height-*",
+      "reason": "Value provisional until Phase 1.",
+      "count": 6,
+      "members": [
+        "--line-height-loose",
+        "--line-height-none",
+        "--line-height-normal",
+        "--line-height-relaxed",
+        "--line-height-snug",
+        "--line-height-tight"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/GlassPresets.php",
+      "name": "--glass-*",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "drop",
+      "target": null,
+      "reason": "Plan has one surface=\"glass\"; the variant is flattened. Its values can live on as a preset reassigning --ap-surface-glass-*, if Phase 1 keeps it.",
+      "count": 9,
+      "members": [
+        "--glass-frosted-bg-color",
+        "--glass-frosted-blur",
+        "--glass-frosted-opacity",
+        "--glass-liquid-bg-color",
+        "--glass-liquid-blur",
+        "--glass-liquid-opacity",
+        "--glass-transparent-bg-color",
+        "--glass-transparent-blur",
+        "--glass-transparent-opacity"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/GlassPresets.php",
+      "name": "--glass-bg-color",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass",
+      "reason": "Follows the --ap-surface-raised pattern. Light/dark RGB is hard-coded today; must derive from a surface token. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/GlassPresets.php",
+      "name": "--glass-blur",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-blur",
+      "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/GlassPresets.php",
+      "name": "--glass-border-color",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-border",
+      "reason": "Hard-coded white in both modes today. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/GlassPresets.php",
+      "name": "--glass-border-opacity",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-border-opacity",
+      "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/GlassPresets.php",
+      "name": "--glass-border-width",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-border-width",
+      "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/GlassPresets.php",
+      "name": "--glass-frosted-saturation",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-saturation",
+      "reason": "Semantics change: frosted-only today, becomes a property of the single glass surface. liquid-glass hard-codes the same 180%. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/GlassPresets.php",
+      "name": "--glass-liquid-border-glow",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-highlight-opacity",
+      "reason": "Semantics change: liquid-only today, becomes the glass inset highlight. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/GlassPresets.php",
+      "name": "--glass-liquid-border-glow-color",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-highlight",
+      "reason": "Semantics change: liquid-only today, becomes the glass inset highlight. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/GlassPresets.php",
+      "name": "--glass-liquid-refraction",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "drop",
+      "target": null,
+      "reason": "Declared in every source, read by nothing.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/GlassPresets.php",
+      "name": "--glass-opacity",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-opacity",
+      "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/GlassPresets.php",
+      "name": "--glass-shadow-color",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-shadow-color",
+      "reason": "Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/GlassPresets.php",
+      "name": "--glass-shadow-opacity",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-shadow-opacity",
+      "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/GlassPresets.php",
+      "name": "--glass-tint-color",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-tint",
+      "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/GlassPresets.php",
+      "name": "--glass-tint-opacity",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-tint-opacity",
+      "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/HighContrastTheme.php",
+      "name": "--hc-*",
+      "group": "color",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-color-*",
+      "reason": "Reassigned by the high-contrast preset instead of a parallel namespace. Value provisional until Phase 1.",
+      "count": 7,
+      "members": [
+        "--hc-accent",
+        "--hc-error",
+        "--hc-info",
+        "--hc-primary",
+        "--hc-secondary",
+        "--hc-success",
+        "--hc-warning"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/HighContrastTheme.php",
+      "name": "--hc-*",
+      "group": "color",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-color-*-foreground",
+      "reason": "Reassigned by the high-contrast preset. Value provisional until Phase 1.",
+      "count": 7,
+      "members": [
+        "--hc-accent-foreground",
+        "--hc-error-foreground",
+        "--hc-info-foreground",
+        "--hc-primary-foreground",
+        "--hc-secondary-foreground",
+        "--hc-success-foreground",
+        "--hc-warning-foreground"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/HighContrastTheme.php",
+      "name": "--hc-background",
+      "group": "color",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-page",
+      "reason": "Reassigned by the high-contrast preset. --ap-surface-page is not in the plan surface list: see open questions. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/HighContrastTheme.php",
+      "name": "--hc-border",
+      "group": "color",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-border-default",
+      "reason": "Reassigned by the high-contrast preset. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/HighContrastTheme.php",
+      "name": "--hc-border-muted",
+      "group": "color",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-border-muted",
+      "reason": "Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/HighContrastTheme.php",
+      "name": "--hc-foreground",
+      "group": "color",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-text-default",
+      "reason": "Reassigned by the high-contrast preset. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/HighContrastTheme.php",
+      "name": "--hc-foreground-muted",
+      "group": "color",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-text-muted",
+      "reason": "Only existing source for this plan token. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/HighContrastTheme.php",
+      "name": "--hc-surface",
+      "group": "color",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-default",
+      "reason": "Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/HighContrastTheme.php",
+      "name": "--hc-surface-elevated",
+      "group": "color",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-raised",
+      "reason": "Only existing source for this plan token. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/HighContrastTheme.php",
+      "name": "--hc-surface-sunken",
+      "group": "color",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-sunken",
+      "reason": "Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/HighContrastTheme.php",
+      "name": "--focus-ring-*",
+      "group": "focus",
+      "tier": "semantic",
+      "decision": "keep",
+      "target": "--ap-focus-ring-*",
+      "reason": "Scoped to .high-contrast-focus today. Becomes global. Value provisional until Phase 1.",
+      "count": 3,
+      "members": [
+        "--focus-ring-color",
+        "--focus-ring-offset",
+        "--focus-ring-width"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/HighContrastTheme.php",
+      "name": "--hc-border-focus",
+      "group": "focus",
+      "tier": "semantic",
+      "decision": "drop",
+      "target": null,
+      "reason": "Same value as --hc-focus-ring-color in all four presets.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/HighContrastTheme.php",
+      "name": "--hc-focus-ring-*",
+      "group": "focus",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-focus-ring-*",
+      "reason": "Semantics change: high-contrast-only today, becomes the system-wide focus ring. Value provisional until Phase 1.",
+      "count": 4,
+      "members": [
+        "--hc-focus-ring-color",
+        "--hc-focus-ring-offset",
+        "--hc-focus-ring-style",
+        "--hc-focus-ring-width"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/HighContrastTheme.php",
+      "name": "--hc-*",
+      "group": "motion",
+      "tier": "semantic",
+      "decision": "drop",
+      "target": null,
+      "reason": "Declared but read by nothing. The live effect is a hard-coded !important rule, which also breaks the cascade-layer rule. Reduced motion becomes a preset concern.",
+      "count": 4,
+      "members": [
+        "--hc-animation-duration",
+        "--hc-animation-iteration",
+        "--hc-scroll-behavior",
+        "--hc-transition-duration"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/HighContrastTheme.php",
+      "name": "--hc-min-tap-target",
+      "group": "size",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-target-size-touch",
+      "reason": "Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/HighContrastTheme.php",
+      "name": "--hc-min-target-size",
+      "group": "size",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-target-size-min",
+      "reason": "Only target-size token anywhere. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/HighContrastTheme.php",
+      "name": "--hc-*",
+      "group": "state",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-color-*",
+      "reason": "Only existing named hover/active tokens. Success/warning/error/info/neutral have none. Value provisional until Phase 1.",
+      "count": 6,
+      "members": [
+        "--hc-accent-active",
+        "--hc-accent-hover",
+        "--hc-primary-active",
+        "--hc-primary-hover",
+        "--hc-secondary-active",
+        "--hc-secondary-hover"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/HighContrastTheme.php",
+      "name": "--hc-disabled-background",
+      "group": "state",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-disabled-bg",
+      "reason": "Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/HighContrastTheme.php",
+      "name": "--hc-disabled-foreground",
+      "group": "state",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-disabled-text",
+      "reason": "Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/HighContrastTheme.php",
+      "name": "--hc-disabled-opacity",
+      "group": "state",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-disabled-opacity",
+      "reason": "Only disabled-state tokens anywhere. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/HighContrastTheme.php",
+      "name": "--hc-letter-spacing",
+      "group": "type",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-type-letter-spacing",
+      "reason": "Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/HighContrastTheme.php",
+      "name": "--hc-letter-spacing-wide",
+      "group": "type",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-type-letter-spacing-wide",
+      "reason": "Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/HighContrastTheme.php",
+      "name": "--hc-line-height",
+      "group": "type",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-type-line-height",
+      "reason": "Not --ap-line-height-*: same step names, different values from the primitives. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/HighContrastTheme.php",
+      "name": "--hc-line-height-*",
+      "group": "type",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-type-line-height-*",
+      "reason": "Not --ap-line-height-*: same step names, different values from the primitives. Value provisional until Phase 1.",
+      "count": 2,
+      "members": [
+        "--hc-line-height-loose",
+        "--hc-line-height-tight"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/HighContrastTheme.php",
+      "name": "--hc-text-*",
+      "group": "type",
+      "tier": "semantic",
+      "decision": "drop",
+      "target": null,
+      "reason": "A preset may not reassign the primitive scale. Use --ap-font-scale. Exact per-step values are lost; steps are not a strict multiple.",
+      "count": 6,
+      "members": [
+        "--hc-text-2xl",
+        "--hc-text-3xl",
+        "--hc-text-base",
+        "--hc-text-lg",
+        "--hc-text-sm",
+        "--hc-text-xl"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/src/Styling/HighContrastTheme.php",
+      "name": "--hc-text-scale",
+      "group": "type",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-font-scale",
+      "reason": "Semantics change: declared but read by nothing today; becomes the multiplier the preset reassigns. Not --ap-text-* (colour namespace).",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Support/ChartThemes.php",
+      "name": "*",
+      "group": "chart",
+      "tier": "component",
+      "decision": "rename",
+      "target": "--ap-chart-axis-label",
+      "reason": "Hex literal in PHP. Becomes a component token aliasing a semantic colour. Value provisional until Phase 1.",
+      "count": 2,
+      "members": [
+        "xaxis.labels.style.colors",
+        "yaxis.labels.style.colors"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/src/Support/ChartThemes.php",
+      "name": "*",
+      "group": "chart",
+      "tier": "component",
+      "decision": "rename",
+      "target": "--ap-chart-font-size",
+      "reason": "All 12px. One token. Value provisional until Phase 1.",
+      "count": 4,
+      "members": [
+        "legend.fontSize",
+        "tooltip.style.fontSize",
+        "xaxis.labels.style.fontSize",
+        "yaxis.labels.style.fontSize"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/src/Support/ChartThemes.php",
+      "name": "chart.background",
+      "group": "chart",
+      "tier": "component",
+      "decision": "rename",
+      "target": "--ap-chart-bg",
+      "reason": "Hex literal in PHP. Becomes a component token aliasing a semantic colour. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Support/ChartThemes.php",
+      "name": "chart.dropShadow.*",
+      "group": "chart",
+      "tier": "component",
+      "decision": "drop",
+      "target": null,
+      "reason": "Glow only on dark/glass themes. Revisit in the Chart spec (Data Display wave).",
+      "count": 5,
+      "members": [
+        "chart.dropShadow.blur",
+        "chart.dropShadow.color",
+        "chart.dropShadow.left",
+        "chart.dropShadow.opacity",
+        "chart.dropShadow.top"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/src/Support/ChartThemes.php",
+      "name": "chart.foreColor",
+      "group": "chart",
+      "tier": "component",
+      "decision": "rename",
+      "target": "--ap-chart-text",
+      "reason": "Hex literal in PHP. Becomes a component token aliasing a semantic colour. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Support/ChartThemes.php",
+      "name": "colors.*",
+      "group": "chart",
+      "tier": "component",
+      "decision": "rename",
+      "target": "--ap-chart-series-*",
+      "reason": "Eight-colour series palette. Three lists today (500s; 400s twice). Values are hex literals, unrelated to --color-*. Value provisional until Phase 1.",
+      "count": 8,
+      "members": [
+        "colors.0",
+        "colors.1",
+        "colors.2",
+        "colors.3",
+        "colors.4",
+        "colors.5",
+        "colors.6",
+        "colors.7"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/src/Support/ChartThemes.php",
+      "name": "dataLabels.style.colors.0",
+      "group": "chart",
+      "tier": "component",
+      "decision": "rename",
+      "target": "--ap-chart-data-label",
+      "reason": "Hex literal in PHP. Becomes a component token aliasing a semantic colour. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Support/ChartThemes.php",
+      "name": "fill.*",
+      "group": "chart",
+      "tier": "component",
+      "decision": "drop",
+      "target": null,
+      "reason": "ApexCharts behaviour setting, not a design decision. Stays in chart config.",
+      "count": 4,
+      "members": [
+        "fill.gradient.opacityFrom",
+        "fill.gradient.opacityTo",
+        "fill.gradient.shadeIntensity",
+        "fill.opacity"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/src/Support/ChartThemes.php",
+      "name": "grid.borderColor",
+      "group": "chart",
+      "tier": "component",
+      "decision": "rename",
+      "target": "--ap-chart-grid",
+      "reason": "Hex literal in PHP. Becomes a component token aliasing a semantic colour. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Support/ChartThemes.php",
+      "name": "grid.strokeDashArray",
+      "group": "chart",
+      "tier": "component",
+      "decision": "rename",
+      "target": "--ap-chart-grid-dash",
+      "reason": "ApexCharts number. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Support/ChartThemes.php",
+      "name": "legend.fontWeight",
+      "group": "chart",
+      "tier": "component",
+      "decision": "drop",
+      "target": null,
+      "reason": "Literal 500. Use --ap-font-weight-medium directly.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Support/ChartThemes.php",
+      "name": "legend.labels.colors",
+      "group": "chart",
+      "tier": "component",
+      "decision": "rename",
+      "target": "--ap-chart-legend-text",
+      "reason": "Hex literal in PHP. Becomes a component token aliasing a semantic colour. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Support/ChartThemes.php",
+      "name": "markers.*",
+      "group": "chart",
+      "tier": "component",
+      "decision": "drop",
+      "target": null,
+      "reason": "ApexCharts behaviour setting, not a design decision. Stays in chart config.",
+      "count": 3,
+      "members": [
+        "markers.hover.size",
+        "markers.size",
+        "markers.strokeWidth"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/src/Support/ChartThemes.php",
+      "name": "stroke.width",
+      "group": "chart",
+      "tier": "component",
+      "decision": "rename",
+      "target": "--ap-chart-stroke-width",
+      "reason": "ApexCharts number. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/Support/ChartThemes.php",
+      "name": "xaxis.axis*",
+      "group": "chart",
+      "tier": "component",
+      "decision": "rename",
+      "target": "--ap-chart-axis",
+      "reason": "Hex literal in PHP. Becomes a component token aliasing a semantic colour. Value provisional until Phase 1.",
+      "count": 2,
+      "members": [
+        "xaxis.axisBorder.color",
+        "xaxis.axisTicks.color"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/src/Support/GlassHelper.php",
+      "name": "--glass-tint-color",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-tint",
+      "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/View/Components/DatePicker.php",
+      "name": "--artisanpack-datepicker-*",
+      "group": "datepicker",
+      "tier": "component",
+      "decision": "drop",
+      "target": null,
+      "reason": "Per-instance inline font props. Per-part overrides use the classes prop in 3.0.",
+      "count": 4,
+      "members": [
+        "--artisanpack-datepicker-font-family",
+        "--artisanpack-datepicker-font-size",
+        "--artisanpack-datepicker-font-weight",
+        "--artisanpack-datepicker-line-height"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/src/View/Components/ThemePreview.php",
+      "name": "--*",
+      "group": "color",
+      "tier": "component",
+      "decision": "drop",
+      "target": null,
+      "reason": "Scoped to the ThemePreview page inline style. Not a theme API. Generator work replaces it.",
+      "count": 6,
+      "members": [
+        "--accent",
+        "--accent-content",
+        "--primary",
+        "--primary-content",
+        "--secondary",
+        "--secondary-content"
+      ]
+    },
+    {
+      "source": "livewire-ui-components/src/View/Components/ThemePreview.php",
+      "name": "--glass-tint-color",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-tint",
+      "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "livewire-ui-components/src/View/Components/ThemePreview.php",
+      "name": "--glass-tint-opacity",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-tint-opacity",
+      "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "react/packages/tokens/src/animation.ts",
+      "name": "daisyAnimation.*",
+      "group": "motion",
+      "tier": "component",
+      "decision": "drop",
+      "target": null,
+      "reason": "daisyUI 4 variable, not read by daisyUI 5. 0.25s is off the duration scale. Use semantic transitions.",
+      "count": 2,
+      "members": [
+        "daisyAnimation.btn",
+        "daisyAnimation.input"
+      ]
+    },
+    {
+      "source": "react/packages/tokens/src/animation.ts",
+      "name": "daisyAnimation.btnFocusScale",
+      "group": "motion",
+      "tier": "component",
+      "decision": "drop",
+      "target": null,
+      "reason": "daisyUI 4 variable, not read by daisyUI 5. Press feedback comes from the Button spec.",
+      "count": 1
+    },
+    {
+      "source": "react/packages/tokens/src/animation.ts",
+      "name": "durations.*",
+      "group": "motion",
+      "tier": "primitive",
+      "decision": "keep",
+      "target": "--ap-duration-*",
+      "reason": "Value provisional until Phase 1.",
+      "count": 9,
+      "members": [
+        "durations.0",
+        "durations.100",
+        "durations.1000",
+        "durations.150",
+        "durations.200",
+        "durations.300",
+        "durations.500",
+        "durations.700",
+        "durations.75"
+      ]
+    },
+    {
+      "source": "react/packages/tokens/src/animation.ts",
+      "name": "easings.*",
+      "group": "motion",
+      "tier": "primitive",
+      "decision": "keep",
+      "target": "--ap-ease-*",
+      "reason": "Value provisional until Phase 1.",
+      "count": 4,
+      "members": [
+        "easings.in",
+        "easings.inOut",
+        "easings.linear",
+        "easings.out"
+      ]
+    },
+    {
+      "source": "react/packages/tokens/src/animation.ts",
+      "name": "expressiveEasings.*",
+      "group": "motion",
+      "tier": "primitive",
+      "decision": "keep",
+      "target": "--ap-ease-*",
+      "reason": "Expressive curves. Whether they survive depends on the motion direction. Value provisional until Phase 1.",
+      "count": 3,
+      "members": [
+        "expressiveEasings.bounce",
+        "expressiveEasings.elastic",
+        "expressiveEasings.spring"
+      ]
+    },
+    {
+      "source": "react/packages/tokens/src/animation.ts",
+      "name": "transitionProperties.*",
+      "group": "motion",
+      "tier": "semantic",
+      "decision": "drop",
+      "target": null,
+      "reason": "Single-value aliases of the CSS keyword. --transition-all is a shorthand in CSS but the string \"all\" in TS, so the family is not one type.",
+      "count": 4,
+      "members": [
+        "transitionProperties.all",
+        "transitionProperties.opacity",
+        "transitionProperties.shadow",
+        "transitionProperties.transform"
+      ]
+    },
+    {
+      "source": "react/packages/tokens/src/animation.ts",
+      "name": "transitionProperties.*",
+      "group": "motion",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-transition-property-*",
+      "reason": "Property list, not a DTCG transition value. Renamed so it cannot be confused with the composite tokens.",
+      "count": 2,
+      "members": [
+        "transitionProperties.colors",
+        "transitionProperties.default"
+      ]
+    },
+    {
+      "source": "react/packages/tokens/src/borders.ts",
+      "name": "borderRadius.*",
+      "group": "radius",
+      "tier": "primitive",
+      "decision": "keep",
+      "target": "--ap-radius-*",
+      "reason": "Note --radius-sm is 0.125rem where Tailwind v4 uses 0.25rem. Tailwind preset must map explicitly. Value provisional until Phase 1.",
+      "count": 9,
+      "members": [
+        "borderRadius.2xl",
+        "borderRadius.3xl",
+        "borderRadius.base",
+        "borderRadius.full",
+        "borderRadius.lg",
+        "borderRadius.md",
+        "borderRadius.none",
+        "borderRadius.sm",
+        "borderRadius.xl"
+      ]
+    },
+    {
+      "source": "react/packages/tokens/src/borders.ts",
+      "name": "daisyRadius.badge",
+      "group": "radius",
+      "tier": "component",
+      "decision": "rename",
+      "target": "--ap-badge-radius",
+      "reason": "daisyUI 4 name, not read by daisyUI 5. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "react/packages/tokens/src/borders.ts",
+      "name": "daisyRadius.box",
+      "group": "radius",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-radius-surface",
+      "reason": "daisyUI 4 name, not read by daisyUI 5. Concept survives as the surface radius. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "react/packages/tokens/src/borders.ts",
+      "name": "daisyRadius.btn",
+      "group": "radius",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-radius-control",
+      "reason": "daisyUI 4 name, not read by daisyUI 5. Plan's rounded-control utility implies this semantic token. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "react/packages/tokens/src/borders.ts",
+      "name": "daisyRadius.tab",
+      "group": "radius",
+      "tier": "component",
+      "decision": "rename",
+      "target": "--ap-tabs-radius",
+      "reason": "daisyUI variable name. Component-tier concept. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "react/packages/tokens/src/colors.ts",
+      "name": "colors*",
+      "group": "color",
+      "tier": "semantic",
+      "decision": "keep",
+      "target": "--ap-color-*",
+      "reason": "Matches the plan color vocabulary. Value provisional until Phase 1.",
+      "count": 9,
+      "members": [
+        "colors.accent",
+        "colors.error",
+        "colors.info",
+        "colors.neutral",
+        "colors.primary",
+        "colors.secondary",
+        "colors.success",
+        "colors.warning",
+        "colorsDark.neutral"
+      ]
+    },
+    {
+      "source": "react/packages/tokens/src/colors.ts",
+      "name": "colors*",
+      "group": "color",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-color-*-foreground",
+      "reason": "\"-content\" is daisyUI vocabulary; \"-foreground\" is the existing hc-* name. Same meaning. Value provisional until Phase 1.",
+      "count": 9,
+      "members": [
+        "colors.accentContent",
+        "colors.errorContent",
+        "colors.infoContent",
+        "colors.neutralContent",
+        "colors.primaryContent",
+        "colors.secondaryContent",
+        "colors.successContent",
+        "colors.warningContent",
+        "colorsDark.neutralContent"
+      ]
+    },
+    {
+      "source": "react/packages/tokens/src/colors.ts",
+      "name": "colors*",
+      "group": "color",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-default",
+      "reason": "daisyUI base step to named surface. Main component background (29 bg-base-100 uses). Value provisional until Phase 1.",
+      "count": 2,
+      "members": [
+        "colors.base100",
+        "colorsDark.base100"
+      ]
+    },
+    {
+      "source": "react/packages/tokens/src/colors.ts",
+      "name": "colors*",
+      "group": "color",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-sunken",
+      "reason": "daisyUI base step to named surface; it sits below base-100. Semantics narrow from \"step 2\" to \"sunken\". Value provisional until Phase 1.",
+      "count": 2,
+      "members": [
+        "colors.base200",
+        "colorsDark.base200"
+      ]
+    },
+    {
+      "source": "react/packages/tokens/src/colors.ts",
+      "name": "colors*",
+      "group": "color",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-border-default",
+      "reason": "Semantics split: 21 border-base-300 uses map here; 22 bg-base-300 uses must resolve to a surface token per component spec. Value provisional until Phase 1.",
+      "count": 2,
+      "members": [
+        "colors.base300",
+        "colorsDark.base300"
+      ]
+    },
+    {
+      "source": "react/packages/tokens/src/colors.ts",
+      "name": "colors*",
+      "group": "color",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-text-default",
+      "reason": "daisyUI name to plan text namespace. Value provisional until Phase 1.",
+      "count": 2,
+      "members": [
+        "colors.baseContent",
+        "colorsDark.baseContent"
+      ]
+    },
+    {
+      "source": "react/packages/tokens/src/css/tokens.css",
+      "name": "--border-btn",
+      "group": "border",
+      "tier": "component",
+      "decision": "rename",
+      "target": "--ap-button-border-width",
+      "reason": "daisyUI 4 name, not read by daisyUI 5. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "react/packages/tokens/src/css/tokens.css",
+      "name": "--tab-border",
+      "group": "border",
+      "tier": "component",
+      "decision": "rename",
+      "target": "--ap-tabs-border-width",
+      "reason": "daisyUI variable name. Component-tier concept. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "react/packages/tokens/src/css/tokens.css",
+      "name": "--color-*",
+      "group": "color",
+      "tier": "semantic",
+      "decision": "keep",
+      "target": "--ap-color-*",
+      "reason": "Matches the plan color vocabulary. Value provisional until Phase 1.",
+      "count": 8,
+      "members": [
+        "--color-accent",
+        "--color-error",
+        "--color-info",
+        "--color-neutral",
+        "--color-primary",
+        "--color-secondary",
+        "--color-success",
+        "--color-warning"
+      ]
+    },
+    {
+      "source": "react/packages/tokens/src/css/tokens.css",
+      "name": "--color-*",
+      "group": "color",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-color-*-foreground",
+      "reason": "\"-content\" is daisyUI vocabulary; \"-foreground\" is the existing hc-* name. Same meaning. Value provisional until Phase 1.",
+      "count": 8,
+      "members": [
+        "--color-accent-content",
+        "--color-error-content",
+        "--color-info-content",
+        "--color-neutral-content",
+        "--color-primary-content",
+        "--color-secondary-content",
+        "--color-success-content",
+        "--color-warning-content"
+      ]
+    },
+    {
+      "source": "react/packages/tokens/src/css/tokens.css",
+      "name": "--color-base-100",
+      "group": "color",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-default",
+      "reason": "daisyUI base step to named surface. Main component background (29 bg-base-100 uses). Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "react/packages/tokens/src/css/tokens.css",
+      "name": "--color-base-200",
+      "group": "color",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-sunken",
+      "reason": "daisyUI base step to named surface; it sits below base-100. Semantics narrow from \"step 2\" to \"sunken\". Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "react/packages/tokens/src/css/tokens.css",
+      "name": "--color-base-300",
+      "group": "color",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-border-default",
+      "reason": "Semantics split: 21 border-base-300 uses map here; 22 bg-base-300 uses must resolve to a surface token per component spec. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "react/packages/tokens/src/css/tokens.css",
+      "name": "--color-base-content",
+      "group": "color",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-text-default",
+      "reason": "daisyUI name to plan text namespace. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "react/packages/tokens/src/css/tokens.css",
+      "name": "--glass-*",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "drop",
+      "target": null,
+      "reason": "Plan has one surface=\"glass\"; the variant is flattened. Its values can live on as a preset reassigning --ap-surface-glass-*, if Phase 1 keeps it.",
+      "count": 9,
+      "members": [
+        "--glass-frosted-bg-color",
+        "--glass-frosted-blur",
+        "--glass-frosted-opacity",
+        "--glass-liquid-bg-color",
+        "--glass-liquid-blur",
+        "--glass-liquid-opacity",
+        "--glass-transparent-bg-color",
+        "--glass-transparent-blur",
+        "--glass-transparent-opacity"
+      ]
+    },
+    {
+      "source": "react/packages/tokens/src/css/tokens.css",
+      "name": "--glass-bg-color",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass",
+      "reason": "Follows the --ap-surface-raised pattern. Light/dark RGB is hard-coded today; must derive from a surface token. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "react/packages/tokens/src/css/tokens.css",
+      "name": "--glass-blur",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-blur",
+      "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "react/packages/tokens/src/css/tokens.css",
+      "name": "--glass-border-color",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-border",
+      "reason": "Hard-coded white in both modes today. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "react/packages/tokens/src/css/tokens.css",
+      "name": "--glass-border-opacity",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-border-opacity",
+      "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "react/packages/tokens/src/css/tokens.css",
+      "name": "--glass-border-width",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-border-width",
+      "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "react/packages/tokens/src/css/tokens.css",
+      "name": "--glass-frosted-saturation",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-saturation",
+      "reason": "Semantics change: frosted-only today, becomes a property of the single glass surface. liquid-glass hard-codes the same 180%. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "react/packages/tokens/src/css/tokens.css",
+      "name": "--glass-liquid-border-glow",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-highlight-opacity",
+      "reason": "Semantics change: liquid-only today, becomes the glass inset highlight. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "react/packages/tokens/src/css/tokens.css",
+      "name": "--glass-liquid-border-glow-color",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-highlight",
+      "reason": "Semantics change: liquid-only today, becomes the glass inset highlight. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "react/packages/tokens/src/css/tokens.css",
+      "name": "--glass-liquid-refraction",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "drop",
+      "target": null,
+      "reason": "Declared in every source, read by nothing.",
+      "count": 1
+    },
+    {
+      "source": "react/packages/tokens/src/css/tokens.css",
+      "name": "--glass-opacity",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-opacity",
+      "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "react/packages/tokens/src/css/tokens.css",
+      "name": "--glass-shadow-color",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-shadow-color",
+      "reason": "Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "react/packages/tokens/src/css/tokens.css",
+      "name": "--glass-shadow-opacity",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-shadow-opacity",
+      "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "react/packages/tokens/src/css/tokens.css",
+      "name": "--glass-tint-color",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-tint",
+      "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "react/packages/tokens/src/css/tokens.css",
+      "name": "--glass-tint-opacity",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-tint-opacity",
+      "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "react/packages/tokens/src/css/tokens.css",
+      "name": ".glass*",
+      "group": "glass",
+      "tier": "component",
+      "decision": "drop",
+      "target": null,
+      "reason": "Utility class. Replaced by data-surface=\"glass\" on .ap-* roots. Bare .glass also collides with the daisyUI 5 .glass utility.",
+      "count": 4,
+      "members": [
+        ".glass",
+        ".glass-frosted",
+        ".glass-liquid",
+        ".glass-transparent"
+      ]
+    },
+    {
+      "source": "react/packages/tokens/src/css/tokens.css",
+      "name": ".glass-tint-*",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "drop",
+      "target": null,
+      "reason": "Utility class. Tint is set by reassigning --ap-surface-glass-tint from --ap-color-*. No neutral tint exists today.",
+      "count": 7,
+      "members": [
+        ".glass-tint-accent",
+        ".glass-tint-error",
+        ".glass-tint-info",
+        ".glass-tint-primary",
+        ".glass-tint-secondary",
+        ".glass-tint-success",
+        ".glass-tint-warning"
+      ]
+    },
+    {
+      "source": "react/packages/tokens/src/css/tokens.css",
+      "name": ".glass-tint-opacity-*",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "drop",
+      "target": null,
+      "reason": "Utility class. Assign --ap-surface-glass-tint-opacity directly.",
+      "count": 10,
+      "members": [
+        ".glass-tint-opacity-10",
+        ".glass-tint-opacity-100",
+        ".glass-tint-opacity-20",
+        ".glass-tint-opacity-30",
+        ".glass-tint-opacity-40",
+        ".glass-tint-opacity-50",
+        ".glass-tint-opacity-60",
+        ".glass-tint-opacity-70",
+        ".glass-tint-opacity-80",
+        ".glass-tint-opacity-90"
+      ]
+    },
+    {
+      "source": "react/packages/tokens/src/css/tokens.css",
+      "name": "--animation-*",
+      "group": "motion",
+      "tier": "component",
+      "decision": "drop",
+      "target": null,
+      "reason": "daisyUI 4 variable, not read by daisyUI 5. 0.25s is off the duration scale. Use semantic transitions.",
+      "count": 2,
+      "members": [
+        "--animation-btn",
+        "--animation-input"
+      ]
+    },
+    {
+      "source": "react/packages/tokens/src/css/tokens.css",
+      "name": "--btn-focus-scale",
+      "group": "motion",
+      "tier": "component",
+      "decision": "drop",
+      "target": null,
+      "reason": "daisyUI 4 variable, not read by daisyUI 5. Press feedback comes from the Button spec.",
+      "count": 1
+    },
+    {
+      "source": "react/packages/tokens/src/css/tokens.css",
+      "name": "--duration-*",
+      "group": "motion",
+      "tier": "primitive",
+      "decision": "keep",
+      "target": "--ap-duration-*",
+      "reason": "Value provisional until Phase 1.",
+      "count": 9,
+      "members": [
+        "--duration-0",
+        "--duration-100",
+        "--duration-1000",
+        "--duration-150",
+        "--duration-200",
+        "--duration-300",
+        "--duration-500",
+        "--duration-700",
+        "--duration-75"
+      ]
+    },
+    {
+      "source": "react/packages/tokens/src/css/tokens.css",
+      "name": "--ease-*",
+      "group": "motion",
+      "tier": "primitive",
+      "decision": "keep",
+      "target": "--ap-ease-*",
+      "reason": "Value provisional until Phase 1.",
+      "count": 4,
+      "members": [
+        "--ease-in",
+        "--ease-in-out",
+        "--ease-linear",
+        "--ease-out"
+      ]
+    },
+    {
+      "source": "react/packages/tokens/src/css/tokens.css",
+      "name": "--ease-*",
+      "group": "motion",
+      "tier": "primitive",
+      "decision": "keep",
+      "target": "--ap-ease-*",
+      "reason": "Expressive curves. Whether they survive depends on the motion direction. Value provisional until Phase 1.",
+      "count": 3,
+      "members": [
+        "--ease-bounce",
+        "--ease-elastic",
+        "--ease-spring"
+      ]
+    },
+    {
+      "source": "react/packages/tokens/src/css/tokens.css",
+      "name": "--radius-*",
+      "group": "radius",
+      "tier": "primitive",
+      "decision": "keep",
+      "target": "--ap-radius-*",
+      "reason": "Note --radius-sm is 0.125rem where Tailwind v4 uses 0.25rem. Tailwind preset must map explicitly. Value provisional until Phase 1.",
+      "count": 9,
+      "members": [
+        "--radius-2xl",
+        "--radius-3xl",
+        "--radius-base",
+        "--radius-full",
+        "--radius-lg",
+        "--radius-md",
+        "--radius-none",
+        "--radius-sm",
+        "--radius-xl"
+      ]
+    },
+    {
+      "source": "react/packages/tokens/src/css/tokens.css",
+      "name": "--rounded-badge",
+      "group": "radius",
+      "tier": "component",
+      "decision": "rename",
+      "target": "--ap-badge-radius",
+      "reason": "daisyUI 4 name, not read by daisyUI 5. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "react/packages/tokens/src/css/tokens.css",
+      "name": "--rounded-box",
+      "group": "radius",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-radius-surface",
+      "reason": "daisyUI 4 name, not read by daisyUI 5. Concept survives as the surface radius. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "react/packages/tokens/src/css/tokens.css",
+      "name": "--rounded-btn",
+      "group": "radius",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-radius-control",
+      "reason": "daisyUI 4 name, not read by daisyUI 5. Plan's rounded-control utility implies this semantic token. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "react/packages/tokens/src/css/tokens.css",
+      "name": "--tab-radius",
+      "group": "radius",
+      "tier": "component",
+      "decision": "rename",
+      "target": "--ap-tabs-radius",
+      "reason": "daisyUI variable name. Component-tier concept. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "react/packages/tokens/src/css/tokens.css",
+      "name": "--shadow-*",
+      "group": "shadow",
+      "tier": "primitive",
+      "decision": "keep",
+      "target": "--ap-shadow-*",
+      "reason": "Today dark mode reassigns these in place, which breaks the plan rule that presets touch only semantic tokens. Dark values move to --ap-elevation-*. Value provisional until Phase 1.",
+      "count": 8,
+      "members": [
+        "--shadow-2xl",
+        "--shadow-base",
+        "--shadow-inner",
+        "--shadow-lg",
+        "--shadow-md",
+        "--shadow-none",
+        "--shadow-sm",
+        "--shadow-xl"
+      ]
+    },
+    {
+      "source": "react/packages/tokens/src/css/tokens.css",
+      "name": "--shadow-*",
+      "group": "shadow",
+      "tier": "semantic",
+      "decision": "drop",
+      "target": null,
+      "reason": "No consumer in Blade views. rgb literal does not follow the theme colour. If Phase 1 wants it, derive from --ap-color-*.",
+      "count": 5,
+      "members": [
+        "--shadow-error",
+        "--shadow-info",
+        "--shadow-primary",
+        "--shadow-success",
+        "--shadow-warning"
+      ]
+    },
+    {
+      "source": "react/packages/tokens/src/css/tokens.css",
+      "name": "--shadow-glow-*",
+      "group": "shadow",
+      "tier": "semantic",
+      "decision": "drop",
+      "target": null,
+      "reason": "Only consumer is the dropped .shadow-glow* classes. Hard-coded blue-500. If Phase 1 wants it, derive from --ap-color-primary.",
+      "count": 3,
+      "members": [
+        "--shadow-glow-lg",
+        "--shadow-glow-md",
+        "--shadow-glow-sm"
+      ]
+    },
+    {
+      "source": "react/packages/tokens/src/css/tokens.css",
+      "name": "--spacing-*",
+      "group": "space",
+      "tier": "primitive",
+      "decision": "rename",
+      "target": "--ap-space-*",
+      "reason": "Plan names this --ap-space-*. Half steps stay hyphenated (0-5) because DTCG forbids \".\" in token names. Identical to Tailwind steps. Value provisional until Phase 1.",
+      "count": 35,
+      "members": [
+        "--spacing-0",
+        "--spacing-0-5",
+        "--spacing-1",
+        "--spacing-1-5",
+        "--spacing-10",
+        "--spacing-11",
+        "--spacing-12",
+        "--spacing-14",
+        "--spacing-16",
+        "--spacing-2",
+        "--spacing-2-5",
+        "--spacing-20",
+        "--spacing-24",
+        "--spacing-28",
+        "--spacing-3",
+        "--spacing-3-5",
+        "--spacing-32",
+        "--spacing-36",
+        "--spacing-4",
+        "--spacing-40",
+        "--spacing-44",
+        "--spacing-48",
+        "--spacing-5",
+        "--spacing-52",
+        "--spacing-56",
+        "--spacing-6",
+        "--spacing-60",
+        "--spacing-64",
+        "--spacing-7",
+        "--spacing-72",
+        "--spacing-8",
+        "--spacing-80",
+        "--spacing-9",
+        "--spacing-96",
+        "--spacing-px"
+      ]
+    },
+    {
+      "source": "react/packages/tokens/src/css/tokens.css",
+      "name": "--font-family-*",
+      "group": "type",
+      "tier": "primitive",
+      "decision": "keep",
+      "target": "--ap-font-family-*",
+      "reason": "System stacks. Value provisional until Phase 1.",
+      "count": 3,
+      "members": [
+        "--font-family-mono",
+        "--font-family-sans",
+        "--font-family-serif"
+      ]
+    },
+    {
+      "source": "react/packages/tokens/src/css/tokens.css",
+      "name": "--font-size-*",
+      "group": "type",
+      "tier": "primitive",
+      "decision": "keep",
+      "target": "--ap-font-size-*",
+      "reason": "Value provisional until Phase 1.",
+      "count": 10,
+      "members": [
+        "--font-size-2xl",
+        "--font-size-3xl",
+        "--font-size-4xl",
+        "--font-size-5xl",
+        "--font-size-6xl",
+        "--font-size-base",
+        "--font-size-lg",
+        "--font-size-sm",
+        "--font-size-xl",
+        "--font-size-xs"
+      ]
+    },
+    {
+      "source": "react/packages/tokens/src/css/tokens.css",
+      "name": "--font-weight-*",
+      "group": "type",
+      "tier": "primitive",
+      "decision": "keep",
+      "target": "--ap-font-weight-*",
+      "reason": "Value provisional until Phase 1.",
+      "count": 9,
+      "members": [
+        "--font-weight-black",
+        "--font-weight-bold",
+        "--font-weight-extrabold",
+        "--font-weight-extralight",
+        "--font-weight-light",
+        "--font-weight-medium",
+        "--font-weight-normal",
+        "--font-weight-semibold",
+        "--font-weight-thin"
+      ]
+    },
+    {
+      "source": "react/packages/tokens/src/css/tokens.css",
+      "name": "--letter-spacing-*",
+      "group": "type",
+      "tier": "primitive",
+      "decision": "keep",
+      "target": "--ap-letter-spacing-*",
+      "reason": "Value provisional until Phase 1.",
+      "count": 6,
+      "members": [
+        "--letter-spacing-normal",
+        "--letter-spacing-tight",
+        "--letter-spacing-tighter",
+        "--letter-spacing-wide",
+        "--letter-spacing-wider",
+        "--letter-spacing-widest"
+      ]
+    },
+    {
+      "source": "react/packages/tokens/src/css/tokens.css",
+      "name": "--line-height-*",
+      "group": "type",
+      "tier": "primitive",
+      "decision": "keep",
+      "target": "--ap-line-height-*",
+      "reason": "Value provisional until Phase 1.",
+      "count": 6,
+      "members": [
+        "--line-height-loose",
+        "--line-height-none",
+        "--line-height-normal",
+        "--line-height-relaxed",
+        "--line-height-snug",
+        "--line-height-tight"
+      ]
+    },
+    {
+      "source": "react/packages/tokens/src/glass.ts",
+      "name": "glass*",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "drop",
+      "target": null,
+      "reason": "Plan has one surface=\"glass\"; the variant is flattened. Its values can live on as a preset reassigning --ap-surface-glass-*, if Phase 1 keeps it.",
+      "count": 11,
+      "members": [
+        "glassFrostedTokens.blur",
+        "glassFrostedTokens.opacity",
+        "glassLiquidTokens.blur",
+        "glassLiquidTokens.opacity",
+        "glassTokensDark.frosted.blur",
+        "glassTokensDark.frosted.opacity",
+        "glassTokensDark.liquid.opacity",
+        "glassTokensDark.transparent.blur",
+        "glassTokensDark.transparent.opacity",
+        "glassTransparentTokens.blur",
+        "glassTransparentTokens.opacity"
+      ]
+    },
+    {
+      "source": "react/packages/tokens/src/glass.ts",
+      "name": "glass*",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-saturation",
+      "reason": "Semantics change: frosted-only today, becomes a property of the single glass surface. liquid-glass hard-codes the same 180%. Value provisional until Phase 1.",
+      "count": 2,
+      "members": [
+        "glassFrostedTokens.saturation",
+        "glassTokensDark.frosted.saturation"
+      ]
+    },
+    {
+      "source": "react/packages/tokens/src/glass.ts",
+      "name": "glass*",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-highlight-opacity",
+      "reason": "Semantics change: liquid-only today, becomes the glass inset highlight. Value provisional until Phase 1.",
+      "count": 2,
+      "members": [
+        "glassLiquidTokens.borderGlow",
+        "glassTokensDark.liquid.borderGlow"
+      ]
+    },
+    {
+      "source": "react/packages/tokens/src/glass.ts",
+      "name": "glassLiquidTokens.refraction",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "drop",
+      "target": null,
+      "reason": "Declared in every source, read by nothing.",
+      "count": 1
+    },
+    {
+      "source": "react/packages/tokens/src/glass.ts",
+      "name": "glassTokens*",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-opacity",
+      "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
+      "count": 2,
+      "members": [
+        "glassTokens.opacity",
+        "glassTokensDark.base.opacity"
+      ]
+    },
+    {
+      "source": "react/packages/tokens/src/glass.ts",
+      "name": "glassTokens*",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-border-opacity",
+      "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
+      "count": 2,
+      "members": [
+        "glassTokens.borderOpacity",
+        "glassTokensDark.base.borderOpacity"
+      ]
+    },
+    {
+      "source": "react/packages/tokens/src/glass.ts",
+      "name": "glassTokens*",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-shadow-opacity",
+      "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
+      "count": 2,
+      "members": [
+        "glassTokens.shadowOpacity",
+        "glassTokensDark.base.shadowOpacity"
+      ]
+    },
+    {
+      "source": "react/packages/tokens/src/glass.ts",
+      "name": "glassTokens*",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-tint-opacity",
+      "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
+      "count": 2,
+      "members": [
+        "glassTokens.tintOpacity",
+        "glassTokensDark.base.tintOpacity"
+      ]
+    },
+    {
+      "source": "react/packages/tokens/src/glass.ts",
+      "name": "glassTokens.blur",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-blur",
+      "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "react/packages/tokens/src/glass.ts",
+      "name": "glassTokens.borderWidth",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-border-width",
+      "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "react/packages/tokens/src/glass.ts",
+      "name": "glassTokens.tintColor",
+      "group": "glass",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-surface-glass-tint",
+      "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
+      "count": 1
+    },
+    {
+      "source": "react/packages/tokens/src/shadows.ts",
+      "name": "coloredShadows.*",
+      "group": "shadow",
+      "tier": "semantic",
+      "decision": "drop",
+      "target": null,
+      "reason": "No consumer in Blade views. rgb literal does not follow the theme colour. If Phase 1 wants it, derive from --ap-color-*.",
+      "count": 5,
+      "members": [
+        "coloredShadows.error",
+        "coloredShadows.info",
+        "coloredShadows.primary",
+        "coloredShadows.success",
+        "coloredShadows.warning"
+      ]
+    },
+    {
+      "source": "react/packages/tokens/src/shadows.ts",
+      "name": "glowShadows.*",
+      "group": "shadow",
+      "tier": "semantic",
+      "decision": "drop",
+      "target": null,
+      "reason": "Only consumer is the dropped .shadow-glow* classes. Hard-coded blue-500. If Phase 1 wants it, derive from --ap-color-primary.",
+      "count": 3,
+      "members": [
+        "glowShadows.lg",
+        "glowShadows.md",
+        "glowShadows.sm"
+      ]
+    },
+    {
+      "source": "react/packages/tokens/src/shadows.ts",
+      "name": "shadows.*",
+      "group": "shadow",
+      "tier": "primitive",
+      "decision": "keep",
+      "target": "--ap-shadow-*",
+      "reason": "Today dark mode reassigns these in place, which breaks the plan rule that presets touch only semantic tokens. Dark values move to --ap-elevation-*. Value provisional until Phase 1.",
+      "count": 8,
+      "members": [
+        "shadows.2xl",
+        "shadows.base",
+        "shadows.inner",
+        "shadows.lg",
+        "shadows.md",
+        "shadows.none",
+        "shadows.sm",
+        "shadows.xl"
+      ]
+    },
+    {
+      "source": "react/packages/tokens/src/shadows.ts",
+      "name": "shadowsDark.*",
+      "group": "shadow",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-elevation-*",
+      "reason": "Semantics change: mode-specific primitive scale becomes the semantic layer that light and dark presets assign. Level names follow Phase 1. Value provisional until Phase 1.",
+      "count": 8,
+      "members": [
+        "shadowsDark.2xl",
+        "shadowsDark.base",
+        "shadowsDark.inner",
+        "shadowsDark.lg",
+        "shadowsDark.md",
+        "shadowsDark.none",
+        "shadowsDark.sm",
+        "shadowsDark.xl"
+      ]
+    },
+    {
+      "source": "react/packages/tokens/src/spacing.ts",
+      "name": "spacing.*",
+      "group": "space",
+      "tier": "primitive",
+      "decision": "rename",
+      "target": "--ap-space-*",
+      "reason": "Plan names this --ap-space-*. Half steps stay hyphenated (0-5) because DTCG forbids \".\" in token names. Identical to Tailwind steps. Value provisional until Phase 1.",
+      "count": 35,
+      "members": [
+        "spacing.0",
+        "spacing.0.5",
+        "spacing.1",
+        "spacing.1.5",
+        "spacing.10",
+        "spacing.11",
+        "spacing.12",
+        "spacing.14",
+        "spacing.16",
+        "spacing.2",
+        "spacing.2.5",
+        "spacing.20",
+        "spacing.24",
+        "spacing.28",
+        "spacing.3",
+        "spacing.3.5",
+        "spacing.32",
+        "spacing.36",
+        "spacing.4",
+        "spacing.40",
+        "spacing.44",
+        "spacing.48",
+        "spacing.5",
+        "spacing.52",
+        "spacing.56",
+        "spacing.6",
+        "spacing.60",
+        "spacing.64",
+        "spacing.7",
+        "spacing.72",
+        "spacing.8",
+        "spacing.80",
+        "spacing.9",
+        "spacing.96",
+        "spacing.px"
+      ]
+    },
+    {
+      "source": "react/packages/tokens/src/spacing.ts",
+      "name": "spacingAliases.*",
+      "group": "space",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-gap-*",
+      "reason": "Named sizes are the natural density-scaled layer: semantic, multiplied by --ap-density. No CSS form today, 0 consumers. Value provisional until Phase 1.",
+      "count": 7,
+      "members": [
+        "spacingAliases.2xl",
+        "spacingAliases.3xl",
+        "spacingAliases.lg",
+        "spacingAliases.md",
+        "spacingAliases.sm",
+        "spacingAliases.xl",
+        "spacingAliases.xs"
+      ]
+    },
+    {
+      "source": "react/packages/tokens/src/typography.ts",
+      "name": "fontFamilies.*",
+      "group": "type",
+      "tier": "primitive",
+      "decision": "keep",
+      "target": "--ap-font-family-*",
+      "reason": "System stacks. Value provisional until Phase 1.",
+      "count": 3,
+      "members": [
+        "fontFamilies.mono",
+        "fontFamilies.sans",
+        "fontFamilies.serif"
+      ]
+    },
+    {
+      "source": "react/packages/tokens/src/typography.ts",
+      "name": "fontSizes.*",
+      "group": "type",
+      "tier": "primitive",
+      "decision": "keep",
+      "target": "--ap-font-size-*",
+      "reason": "Value provisional until Phase 1.",
+      "count": 10,
+      "members": [
+        "fontSizes.2xl",
+        "fontSizes.3xl",
+        "fontSizes.4xl",
+        "fontSizes.5xl",
+        "fontSizes.6xl",
+        "fontSizes.base",
+        "fontSizes.lg",
+        "fontSizes.sm",
+        "fontSizes.xl",
+        "fontSizes.xs"
+      ]
+    },
+    {
+      "source": "react/packages/tokens/src/typography.ts",
+      "name": "fontWeights.*",
+      "group": "type",
+      "tier": "primitive",
+      "decision": "keep",
+      "target": "--ap-font-weight-*",
+      "reason": "Value provisional until Phase 1.",
+      "count": 9,
+      "members": [
+        "fontWeights.black",
+        "fontWeights.bold",
+        "fontWeights.extrabold",
+        "fontWeights.extralight",
+        "fontWeights.light",
+        "fontWeights.medium",
+        "fontWeights.normal",
+        "fontWeights.semibold",
+        "fontWeights.thin"
+      ]
+    },
+    {
+      "source": "react/packages/tokens/src/typography.ts",
+      "name": "letterSpacing.*",
+      "group": "type",
+      "tier": "primitive",
+      "decision": "keep",
+      "target": "--ap-letter-spacing-*",
+      "reason": "Value provisional until Phase 1.",
+      "count": 6,
+      "members": [
+        "letterSpacing.normal",
+        "letterSpacing.tight",
+        "letterSpacing.tighter",
+        "letterSpacing.wide",
+        "letterSpacing.wider",
+        "letterSpacing.widest"
+      ]
+    },
+    {
+      "source": "react/packages/tokens/src/typography.ts",
+      "name": "lineHeights.*",
+      "group": "type",
+      "tier": "primitive",
+      "decision": "keep",
+      "target": "--ap-line-height-*",
+      "reason": "Value provisional until Phase 1.",
+      "count": 6,
+      "members": [
+        "lineHeights.loose",
+        "lineHeights.none",
+        "lineHeights.normal",
+        "lineHeights.relaxed",
+        "lineHeights.snug",
+        "lineHeights.tight"
+      ]
+    },
+    {
+      "source": "react/packages/tokens/src/typography.ts",
+      "name": "typographyPresets.*",
+      "group": "type",
+      "tier": "semantic",
+      "decision": "rename",
+      "target": "--ap-type-*",
+      "reason": "React-only composite; becomes a DTCG typography token. Not --ap-text-* because the plan uses that namespace for text colour. Sizes are off the font-size scale. Value provisional until Phase 1.",
+      "count": 7,
+      "members": [
+        "typographyPresets.body",
+        "typographyPresets.h1",
+        "typographyPresets.h2",
+        "typographyPresets.h3",
+        "typographyPresets.h4",
+        "typographyPresets.h5",
+        "typographyPresets.h6"
+      ]
+    }
+  ],
+  "code": [
+    {
+      "symbol": "ColorGenerator::getBaseColor",
+      "decision": "rewrite",
+      "target": "token-based theme generator (replaces artisanpack:generate-theme)",
+      "reason": "Input resolution is still needed, against --ap-* primitives. Today it rejects violet because $tailwindColorBases omits it."
+    },
+    {
+      "symbol": "ColorGenerator::generateTailwindShades",
+      "decision": "rewrite",
+      "target": "token-based theme generator (replaces artisanpack:generate-theme)",
+      "reason": "Calls tailwind.simeongriggs.dev at generate time, and on failure writes the base hex to all 11 stops. Needs a local ramp algorithm."
+    },
+    {
+      "symbol": "ColorGenerator::generateThemeCss",
+      "decision": "rewrite",
+      "target": "token-based theme generator (replaces artisanpack:generate-theme)",
+      "reason": "DaisyUI-coupled output (--color-*, --rounded-*, commented .btn etc. blocks). New output is a preset that reassigns semantic tokens only."
+    },
+    {
+      "symbol": "ColorGenerator::generateGlassTokensCss, ColorGenerator::generateDesignTokensCss",
+      "decision": "drop",
+      "target": "@artisanpack-ui/tokens build (Style Dictionary)",
+      "reason": "Static CSS comes from the DTCG build. Also the second source of hand-maintained token values."
+    },
+    {
+      "symbol": "ColorGenerator::getGlassTokenDefaults, getGlassTokenDarkDefaults, getTypographyTokenDefaults, getSpacingTokenDefaults, getRadiusTokenDefaults, getShadowTokenDefaults, getShadowTokenDarkDefaults, getAnimationTokenDefaults, getAllDesignTokenDefaults",
+      "decision": "drop",
+      "target": "generated PHP array from @artisanpack-ui/tokens build (Style Dictionary)",
+      "reason": "Hand-copied defaults. Plan has the build emit a PHP array."
+    },
+    {
+      "symbol": "ColorGenerator::$daisyUiColorDefaults, $daisyUiDarkColorDefaults, $daisyUiUtilityDefaults, $daisyUiComponentDefaults",
+      "decision": "drop",
+      "target": "semantic tokens in DTCG JSON",
+      "reason": "DaisyUI-coupled. Seven of nine utility variables and the b2/bc/p/pc channels are daisyUI 4 and unread by the installed daisyUI 5.0.48."
+    },
+    {
+      "symbol": "ColorGenerator::resolveComponentColor",
+      "decision": "drop",
+      "target": "data-variant + color data attributes emitted by each .ap-* component",
+      "reason": "Returns DaisyUI/Tailwind class names. Called by 7 components: Alert, Avatar, Badge, Button, DatePicker, Profile, Toast. Plan color prop is eight semantic names."
+    },
+    {
+      "symbol": "ColorGenerator::isVariant, isTailwindColorWithIntensity, isTailwindColorName, isHexColor, getVariantClasses, addVariantHoverFocusStates, getTailwindClasses, getHexClasses, applyVariantAdjustment, applyTailwindAdjustment, applyHexAdjustment, getContrastingTextClass, getContrastingTextForHex, adjustHexBrightness",
+      "decision": "drop",
+      "target": "CSS layer; --ap-color-*-hover/-active",
+      "reason": "Support for the same arbitrary-colour pipeline. addVariantHoverFocusStates hard-codes primary to blue-600, so hover ignores the theme."
+    },
+    {
+      "symbol": "ColorGenerator::tailwindColorToHex",
+      "decision": "drop",
+      "target": "primitive tier of DTCG JSON (--ap-{hue}-{stop})",
+      "reason": "The 242-entry palette moves into tokens. Only copy of the ramp as data; the method goes."
+    },
+    {
+      "symbol": "ColorGenerator::resolveDatePickerColors, getVariantBaseColor, applyDatePickerAdjustment",
+      "decision": "drop",
+      "target": "--ap-datepicker-* component tokens",
+      "reason": "getVariantBaseColor is a fourth, disagreeing map of semantic colours (accent cyan, secondary gray, success emerald, warning amber)."
+    },
+    {
+      "symbol": "GlassPresets::PRESETS, $frostedLightPreset, $frostedDarkPreset, $liquidLightPreset, $liquidDarkPreset, $minimalPreset, $minimalDarkOverrides, $boldPreset, $boldDarkOverrides",
+      "decision": "rewrite",
+      "target": "theme presets reassigning --ap-surface-glass-*",
+      "reason": "Plan: rewrite on top of tokens. PHP and glass-tokens.css values match today, but they are two hand-kept copies. Six named presets becoming how many is a Phase 1 call."
+    },
+    {
+      "symbol": "GlassPresets::getAvailablePresets, isValidPreset, getPresetTokens, getDarkModeOverrides, getPresetDescription, getPresetsMetadata, getPresetMode, getPresetIntensity",
+      "decision": "rewrite",
+      "target": "token-based theme generator (replaces artisanpack:generate-theme)",
+      "reason": "Preset catalogue reads from build output instead of inline arrays."
+    },
+    {
+      "symbol": "GlassPresets::generatePresetCss, generateAllPresetsCss",
+      "decision": "drop",
+      "target": "@artisanpack-ui/tokens build (Style Dictionary)",
+      "reason": "Preset CSS files are build output."
+    },
+    {
+      "symbol": "HighContrastTheme::$highContrastLight, $highContrastDark, $enhancedContrastLight, $enhancedContrastDark",
+      "decision": "rewrite",
+      "target": "high-contrast theme preset (semantic reassignments)",
+      "reason": "Sets a parallel --hc-* namespace that no component reads. Only its own helper rules read it: opt-in focus ring, skip link, .text-larger. Keys map onto --ap-* semantics."
+    },
+    {
+      "symbol": "HighContrastTheme::PRESET_*, getAvailablePresets, isValidPreset, getPresetTokens, getPresetDescription, getComplianceLevel, getPresetMode, getPresetsMetadata",
+      "decision": "rewrite",
+      "target": "token-based theme generator (replaces artisanpack:generate-theme)",
+      "reason": "Catalogue moves with the preset. Plan names one high-contrast preset; enhanced-contrast has no slot yet."
+    },
+    {
+      "symbol": "HighContrastTheme::WCAG_AAA_NORMAL_TEXT, WCAG_AAA_LARGE_TEXT, WCAG_AA_NORMAL_TEXT, calculateContrastRatio, verifyContrast, getRelativeLuminance",
+      "decision": "keep",
+      "target": "token contrast test in the tokens build, or artisanpack-ui/accessibility",
+      "reason": "Useful as a CI gate over preset pairs. Overlaps a11yCheckContrastColor; which home is an open question."
+    },
+    {
+      "symbol": "HighContrastTheme::generatePresetCss, generateAllPresetsCss, generatePrefersContrastCss, generateCompleteCss",
+      "decision": "rewrite",
+      "target": "@artisanpack-ui/tokens build (Style Dictionary)",
+      "reason": "Preset CSS is build output. The prefers-contrast auto-apply behaviour is worth keeping."
+    },
+    {
+      "symbol": "HighContrastTheme::$reducedMotion, getReducedMotionTokens, generateReducedMotionCss",
+      "decision": "rewrite",
+      "target": "@artisanpack-ui/css ap.reset layer",
+      "reason": "Token set is unread. The rule uses !important, which conflicts with \"App CSS always wins without !important\"."
+    },
+    {
+      "symbol": "HighContrastTheme::generateFocusIndicatorsCss",
+      "decision": "rewrite",
+      "target": "@artisanpack-ui/css ap.reset layer + --ap-focus-ring-*",
+      "reason": "Only focus-ring code in the ecosystem, and scoped to high-contrast. .skip-link inside it is a component, not a token."
+    },
+    {
+      "symbol": "HighContrastTheme::$largerText, $extraLargeText, getLargerTextTokens, generateLargerTextCss",
+      "decision": "rewrite",
+      "target": "--ap-font-scale presets",
+      "reason": "Reassigning size primitives breaks the preset rule. Keep the feature as a scale multiplier if Foundations wants it."
+    },
+    {
+      "symbol": "GlassHelper::getClasses, getInlineStyle, getFullInlineStyle, normalizeOpacity, isHexColor, isValidVariant, getValidVariants, $validVariants, $tailwindColors",
+      "decision": "drop",
+      "target": "data-surface=\"glass\" in Blade components",
+      "reason": "Prop trio glass/glassTint/glassTintOpacity collapses into surface. Imported by 17 view components. $validVariants has no \"base\", where React GlassPreset does."
+    },
+    {
+      "symbol": "GlassHelper::getAccessibleTextColor, getAccessibleTextStyle",
+      "decision": "rewrite",
+      "target": "--ap-surface-glass-foreground (name provisional) in presets",
+      "reason": "Text on tinted glass needs an answer. Contrast on a translucent surface cannot be computed statically; open question."
+    },
+    {
+      "symbol": "ChartThemes::getLightTheme, getDarkTheme, getGlassTheme, getGlassLightOverrides, getGlassDarkOverrides, $defaultColors",
+      "decision": "rewrite",
+      "target": "ChartThemes reading --ap-chart-* (generated PHP array or runtime CSS)",
+      "reason": "Hex literals independent of the theme: a re-themed app keeps blue series. ApexCharts options need resolved values, not var()."
+    },
+    {
+      "symbol": "ChartThemes::get, isValidTheme, getValidThemes, getDefaultColors, $validThemes",
+      "decision": "keep",
+      "target": "livewire-ui-components",
+      "reason": "Thin API. Theme names may fold into light/dark/glass presets during the Data Display wave."
+    },
+    {
+      "symbol": "GenerateThemeCss (artisanpack:generate-theme): handle, runInteractiveMode, buildThemeConfiguration, validateHexColor, validateTintIntensity, exportThemeToJson, generatePreviewUrl",
+      "decision": "rewrite",
+      "target": "token-based theme generator (replaces artisanpack:generate-theme)",
+      "reason": "Plan replaces it. Default --primary=sky gives a generated primary equal to the info colour and unequal to the token default blue-500. No stubs: all CSS is built from strings in PHP."
+    },
+    {
+      "symbol": "GenerateThemeCss::applyTintOverrides, generateGlassTokensOnly, generateStandaloneGlassTokens, getGlassTokenOverrides, generateDesignTokensOnly, generateStandaloneDesignTokens, getDesignTokenOverrides, generateGlassPresetsOnly, generateStandaloneGlassPresets, buildPresetsCss, generateHighContrastOnly, generateStandaloneHighContrast, buildDefaultAccessibilityPresetCss",
+      "decision": "drop",
+      "target": "@artisanpack-ui/tokens build (Style Dictionary)",
+      "reason": "The --*-only and --no-* options and per-file modes exist to split output the build now produces. applyTintOverrides patches generated CSS by string replace."
+    },
+    {
+      "symbol": "ThemePreview (Livewire component + theme-preview.blade.php)",
+      "decision": "rewrite",
+      "target": "token playground page (Phase 2) / docs theme builder",
+      "reason": "Uses a private --primary/--secondary/--accent scope and raw btn classes. Replaced by the playground, not migrated."
+    },
+    {
+      "symbol": "config/livewire-ui-components.php: theme_output_path, glass.*, design_tokens.*, high_contrast.*",
+      "decision": "drop",
+      "target": "CSS overrides in app stylesheets",
+      "reason": "Value overrides via PHP config contradict \"override any tier with plain CSS\". theme_output_path may survive for the generator."
+    },
+    {
+      "symbol": "LivewireUiComponentsServiceProvider publish tags artisanpack-glass-tokens, artisanpack-design-tokens",
+      "decision": "rewrite",
+      "target": "prebuilt CSS publish tag",
+      "reason": "Plan ships prebuilt CSS as publishable assets."
+    },
+    {
+      "symbol": "resources/boost/guidelines/design-tokens.blade.php, glass-tokens.blade.php",
+      "decision": "rewrite",
+      "target": "new tokens guideline",
+      "reason": "Documents names that all change."
+    },
+    {
+      "symbol": "tests: DesignTokensTest, GlassTokensTest, GlassPresetsTest, HighContrastThemeTest, ColorGeneratorTest, ChartThemesTest",
+      "decision": "rewrite",
+      "target": "tests in design-system and livewire-ui-components",
+      "reason": "Assert current names and generator output. Plan lands with the code they cover."
+    },
+    {
+      "symbol": "colors, colorsDark, shadows, shadowsDark, coloredShadows, glowShadows, borderRadius, spacing, spacingAliases, fontFamilies, fontSizes, fontWeights, lineHeights, letterSpacing, typographyPresets, durations, easings, expressiveEasings, transitionProperties, glassTokens, glassFrostedTokens, glassLiquidTokens, glassTransparentTokens, glassTokensDark",
+      "decision": "rewrite",
+      "target": "generated TypeScript from @artisanpack-ui/tokens build (Style Dictionary)",
+      "reason": "Hand-written objects become build output. Only cn, DaisyColor, Size, FormFieldProps, GlassProps, ColorProps and resolveColor are imported by React/Vue today, so few consumers break."
+    },
+    {
+      "symbol": "daisyRadius, daisyAnimation",
+      "decision": "drop",
+      "target": "--ap-radius-*, semantic transitions",
+      "reason": "DaisyUI-coupled export; 0 consumers."
+    },
+    {
+      "symbol": "colorCssVars, daisyColorMap, daisyColors",
+      "decision": "rewrite",
+      "target": "generated semantic colour map",
+      "reason": "Lookup is still useful; names lose \"daisy\". 0 consumers outside color-resolver."
+    },
+    {
+      "symbol": "type DaisyColor",
+      "decision": "rewrite",
+      "target": "type Color from the manifest vocabulary",
+      "reason": "55 import sites. Same eight values as the plan, so this is a mechanical rename."
+    },
+    {
+      "symbol": "resolveColor",
+      "decision": "rewrite",
+      "target": "@artisanpack-ui/tokens runtime helper reading --ap-color-*",
+      "reason": "3 consumer files. Needed for canvas/chart cases that cannot use var()."
+    },
+    {
+      "symbol": "resolveContentColor, resolveAllColors",
+      "decision": "drop",
+      "target": "resolveColor",
+      "reason": "0 consumers. resolveContentColor also hard-codes --color-*-content."
+    },
+    {
+      "symbol": "glassStyles, glassClassName, type GlassPreset, GlassTint, GlassClassOptions, GlassInlineStyleOptions, GlassStyleOptions",
+      "decision": "drop",
+      "target": "data-surface=\"glass\"",
+      "reason": "0 consumers: React and Vue hard-code the string \"glass\". glassStyles frosted also omits the border and shadow that .glass-frosted has."
+    },
+    {
+      "symbol": "type Size",
+      "decision": "rewrite",
+      "target": "manifest vocabulary",
+      "reason": "31 import sites. Lacks xl."
+    },
+    {
+      "symbol": "type GlassProps, ColorProps, FormFieldProps, CSSProperties",
+      "decision": "rewrite",
+      "target": "manifest-generated prop types",
+      "reason": "glass boolean + glassPreset becomes surface."
+    },
+    {
+      "symbol": "cn (utils/cn.ts)",
+      "decision": "rewrite",
+      "target": "stack package, not tokens",
+      "reason": "113 imports. tailwind-merge in a tokens package conflicts with Tailwind being optional; with data attributes components may not need merging."
+    },
+    {
+      "symbol": "themeTokens, createArtisanPackPlugin (tailwind-plugin.ts)",
+      "decision": "drop",
+      "target": "@artisanpack-ui/css/tailwind v4 preset",
+      "reason": "Plan moves this to a preset. Uses JS plugin API and exposes shadow-color-primary where @theme exposes shadow-primary."
+    },
+    {
+      "symbol": "css/tokens.css",
+      "decision": "drop",
+      "target": "generated CSS from @artisanpack-ui/tokens build (Style Dictionary)",
+      "reason": "Hand-copied. Keeps a --color-* palette that design-tokens.css lacks and omits --transition-*."
+    },
+    {
+      "symbol": "LiquidGlass::tints, targetBlocks; config liquid-glass.defaults",
+      "decision": "keep",
+      "target": "artisanpack-ui/liquid-glass",
+      "reason": "Block-editor effect, not a component API. Only change: CSS defaults read --ap-surface-glass-*. Whether this package should depend on tokens is an open question."
+    }
+  ]
+}

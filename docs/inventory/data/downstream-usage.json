@@ -1,0 +1,4632 @@
+{
+  "packages": [
+    {
+      "name": "accessibility",
+      "ref": "release/2.x",
+      "commit": "ad7ae4f",
+      "filesScanned": 114,
+      "bladeFiles": 0,
+      "jsFiles": 0,
+      "blade": {},
+      "packageOwnedTags": {},
+      "react": {},
+      "vue": {},
+      "daisyClasses": {},
+      "daisyFiles": 0,
+      "themeVariables": {},
+      "config": {},
+      "dependsOn": []
+    },
+    {
+      "name": "ai",
+      "ref": "main",
+      "commit": "5faa41d",
+      "filesScanned": 66,
+      "bladeFiles": 3,
+      "jsFiles": 0,
+      "blade": {
+        "alert": {
+          "count": 2,
+          "attributes": {
+            "color": 2,
+            "icon": 2,
+            "title": 2,
+            "dismissible": 2
+          }
+        },
+        "card": {
+          "count": 8,
+          "attributes": {
+            "title": 7,
+            "subtitle": 3
+          }
+        },
+        "select": {
+          "count": 1,
+          "attributes": {
+            "label": 1,
+            "options": 1,
+            "optionValue": 1,
+            "optionLabel": 1
+          }
+        },
+        "input": {
+          "count": 7,
+          "attributes": {
+            "label": 7,
+            "type": 3,
+            "placeholder": 5,
+            "hint": 2,
+            "error": 3,
+            "icon": 1
+          }
+        },
+        "button": {
+          "count": 6,
+          "attributes": {
+            "icon": 4,
+            "color": 3,
+            "size": 4,
+            "disabled": 2
+          }
+        },
+        "textarea": {
+          "count": 1,
+          "attributes": {
+            "label": 1,
+            "placeholder": 1,
+            "rows": 1
+          }
+        },
+        "stat": {
+          "count": 4,
+          "attributes": {
+            "title": 4,
+            "value": 4,
+            "icon": 4
+          }
+        },
+        "chart": {
+          "count": 1,
+          "attributes": {
+            "options": 1,
+            "series": 1,
+            "type": 1
+          }
+        },
+        "table": {
+          "count": 2,
+          "attributes": {
+            "headers": 2,
+            "rows": 2
+          }
+        }
+      },
+      "packageOwnedTags": {},
+      "react": {},
+      "vue": {},
+      "daisyClasses": {
+        "themeBase": {
+          "border-base-300": 1,
+          "bg-base-200": 4
+        },
+        "component": {
+          "toggle": 1
+        },
+        "ambiguous": {
+          "link": 10,
+          "link-primary": 3
+        }
+      },
+      "daisyFiles": 6,
+      "themeVariables": {},
+      "config": {
+        "data-theme=": 4
+      },
+      "dependsOn": [
+        "artisanpack-ui/livewire-ui-components"
+      ]
+    },
+    {
+      "name": "analytics",
+      "ref": "main",
+      "commit": "bd1e9a9",
+      "filesScanned": 244,
+      "bladeFiles": 13,
+      "jsFiles": 28,
+      "blade": {
+        "button": {
+          "count": 22,
+          "attributes": {
+            "label": 13,
+            "icon": 15,
+            "iconRight": 1,
+            "tooltip": 10,
+            "spinner": 7
+          }
+        },
+        "dropdown": {
+          "count": 4,
+          "attributes": {
+            "right": 4
+          }
+        },
+        "menu-item": {
+          "count": 6,
+          "attributes": {
+            "title": 6,
+            "active": 2,
+            "icon": 2
+          }
+        },
+        "icon": {
+          "count": 25,
+          "attributes": {
+            "name": 25
+          }
+        },
+        "loading": {
+          "count": 4,
+          "attributes": {}
+        },
+        "card": {
+          "count": 25,
+          "attributes": {
+            "title": 17,
+            "subtitle": 1
+          }
+        },
+        "progress": {
+          "count": 2,
+          "attributes": {
+            "value": 2,
+            "max": 2
+          }
+        },
+        "select": {
+          "count": 3,
+          "attributes": {
+            "options": 3,
+            "optionValue": 3,
+            "optionLabel": 3
+          }
+        },
+        "stat": {
+          "count": 7,
+          "attributes": {
+            "title": 7,
+            "value": 7,
+            "icon": 7,
+            "color": 7,
+            "size": 3,
+            "description": 4
+          }
+        }
+      },
+      "packageOwnedTags": {
+        "analytics": 3
+      },
+      "react": {
+        "Card": {
+          "count": 16,
+          "attributes": {
+            "title": 11,
+            "className": 13,
+            "menu": 2,
+            "compact": 1
+          }
+        },
+        "Loading": {
+          "count": 3,
+          "attributes": {
+            "size": 3
+          }
+        },
+        "Button": {
+          "count": 9,
+          "attributes": {
+            "color": 9,
+            "size": 9,
+            "onClick": 9,
+            "disabled": 6,
+            "label": 1
+          }
+        },
+        "Toggle": {
+          "count": 2,
+          "attributes": {
+            "checked": 2,
+            "onChange": 2,
+            "disabled": 2,
+            "size": 1,
+            "color": 2
+          }
+        },
+        "Badge": {
+          "count": 6,
+          "attributes": {
+            "color": 6,
+            "size": 6,
+            "value": 3
+          }
+        },
+        "Stat": {
+          "count": 9,
+          "attributes": {
+            "title": 9,
+            "value": 9,
+            "color": 9,
+            "change": 6,
+            "changeLabel": 6,
+            "sparklineData": 1,
+            "sparklineType": 1
+          }
+        },
+        "Select": {
+          "count": 2,
+          "attributes": {
+            "label": 1,
+            "placeholder": 1,
+            "options": 2,
+            "value": 2,
+            "onChange": 2
+          }
+        },
+        "StatGroup": {
+          "count": 2,
+          "attributes": {
+            "className": 1
+          }
+        },
+        "Chart": {
+          "count": 1,
+          "attributes": {
+            "type": 1,
+            "series": 1,
+            "labels": 1,
+            "height": 1
+          }
+        },
+        "Tabs": {
+          "count": 1,
+          "attributes": {
+            "tabs": 1,
+            "activeTab": 1,
+            "onChange": 1,
+            "variant": 1
+          }
+        },
+        "Grid": {
+          "count": 1,
+          "attributes": {
+            "cols": 1,
+            "colsLg": 1,
+            "gap": 1
+          }
+        },
+        "Sparkline": {
+          "count": 1,
+          "attributes": {
+            "data": 1,
+            "type": 1,
+            "height": 1,
+            "width": 1,
+            "color": 1
+          }
+        }
+      },
+      "vue": {
+        "Card": {
+          "count": 12,
+          "attributes": {
+            "title": 7,
+            "compact": 1
+          }
+        },
+        "Table": {
+          "count": 5,
+          "attributes": {
+            "columns": 5,
+            "rows": 5,
+            "striped": 5,
+            "emptyMessage": 5
+          }
+        },
+        "Loading": {
+          "count": 3,
+          "attributes": {
+            "size": 3
+          }
+        },
+        "Button": {
+          "count": 9,
+          "attributes": {
+            "color": 9,
+            "size": 9,
+            "ariaExpanded": 1,
+            "disabled": 6,
+            "label": 1
+          }
+        },
+        "Toggle": {
+          "count": 2,
+          "attributes": {
+            "modelValue": 2,
+            "disabled": 2,
+            "size": 1,
+            "color": 2,
+            "ariaLabelledby": 1
+          }
+        },
+        "Badge": {
+          "count": 6,
+          "attributes": {
+            "color": 4,
+            "size": 6,
+            "value": 3,
+            "ghost": 2
+          }
+        },
+        "Stat": {
+          "count": 9,
+          "attributes": {
+            "title": 9,
+            "value": 9,
+            "change": 6,
+            "changeDirection": 6,
+            "description": 6
+          }
+        },
+        "Select": {
+          "count": 2,
+          "attributes": {
+            "label": 1,
+            "placeholder": 1,
+            "options": 2,
+            "modelValue": 2
+          }
+        },
+        "Chart": {
+          "count": 1,
+          "attributes": {
+            "type": 1,
+            "series": 1,
+            "labels": 1,
+            "height": 1
+          }
+        },
+        "Tabs": {
+          "count": 1,
+          "attributes": {
+            "tabs": 1,
+            "v-model:active-tab": 1,
+            "variant": 1
+          }
+        },
+        "Grid": {
+          "count": 1,
+          "attributes": {
+            "cols": 1,
+            "colsLg": 1,
+            "gap": 1
+          }
+        },
+        "Sparkline": {
+          "count": 2,
+          "attributes": {
+            "data": 2,
+            "type": 2,
+            "height": 2,
+            "width": 1,
+            "color": 2
+          }
+        }
+      },
+      "daisyClasses": {
+        "themeSemantic": {
+          "text-error": 9,
+          "bg-secondary/60": 3,
+          "bg-primary/60": 3,
+          "text-primary": 2,
+          "bg-primary": 1,
+          "text-success": 3,
+          "bg-success": 2
+        },
+        "themeBase": {
+          "text-base-content/60": 15,
+          "bg-base-200": 16,
+          "text-base-content/50": 51,
+          "text-base-content/70": 10,
+          "bg-base-200/50": 16,
+          "text-base-content": 3,
+          "bg-base-100/50": 1,
+          "bg-base-300": 25,
+          "bg-base-100": 2
+        },
+        "component": {
+          "toggle": 8,
+          "toggle-sm": 8,
+          "progress": 2,
+          "progress-secondary": 3,
+          "alert": 3,
+          "alert-info": 3,
+          "stats": 2,
+          "stats-vertical": 2,
+          "stats-horizontal": 2,
+          "btn-link": 1,
+          "btn-sm": 10,
+          "btn-ghost": 12,
+          "btn-neutral": 1,
+          "btn-primary": 4,
+          "btn-outline": 6,
+          "tabs": 1,
+          "tabs-boxed": 1,
+          "tab": 1,
+          "tab-active": 1,
+          "loading-lg": 2,
+          "btn-xs": 11,
+          "progress-primary": 1,
+          "card": 1,
+          "card-body": 1
+        },
+        "ambiguous": {
+          "table": 11,
+          "table-sm": 11,
+          "select-sm": 2,
+          "select-xs": 1
+        }
+      },
+      "daisyFiles": 28,
+      "themeVariables": {},
+      "config": {},
+      "dependsOn": []
+    },
+    {
+      "name": "analytics-google",
+      "ref": "feature/15-ga4-measurement-protocol",
+      "commit": "a41ff7d",
+      "filesScanned": 44,
+      "bladeFiles": 0,
+      "jsFiles": 0,
+      "blade": {},
+      "packageOwnedTags": {},
+      "react": {},
+      "vue": {},
+      "daisyClasses": {},
+      "daisyFiles": 0,
+      "themeVariables": {},
+      "config": {},
+      "dependsOn": []
+    },
+    {
+      "name": "apple-oauth",
+      "ref": "main",
+      "commit": "e2cd0fd",
+      "filesScanned": 31,
+      "bladeFiles": 0,
+      "jsFiles": 0,
+      "blade": {},
+      "packageOwnedTags": {},
+      "react": {},
+      "vue": {},
+      "daisyClasses": {},
+      "daisyFiles": 0,
+      "themeVariables": {},
+      "config": {},
+      "dependsOn": []
+    },
+    {
+      "name": "artisanpack-ui-profile",
+      "ref": "main",
+      "commit": "14a58a9",
+      "filesScanned": 1,
+      "bladeFiles": 0,
+      "jsFiles": 0,
+      "blade": {},
+      "packageOwnedTags": {},
+      "react": {},
+      "vue": {},
+      "daisyClasses": {},
+      "daisyFiles": 0,
+      "themeVariables": {},
+      "config": {},
+      "dependsOn": []
+    },
+    {
+      "name": "bing-places",
+      "ref": "main",
+      "commit": "9c29809",
+      "filesScanned": 16,
+      "bladeFiles": 0,
+      "jsFiles": 0,
+      "blade": {},
+      "packageOwnedTags": {},
+      "react": {},
+      "vue": {},
+      "daisyClasses": {},
+      "daisyFiles": 0,
+      "themeVariables": {},
+      "config": {},
+      "dependsOn": []
+    },
+    {
+      "name": "bookings",
+      "ref": "main",
+      "commit": "edba8f3",
+      "filesScanned": 317,
+      "bladeFiles": 0,
+      "jsFiles": 0,
+      "blade": {},
+      "packageOwnedTags": {},
+      "react": {},
+      "vue": {},
+      "daisyClasses": {
+        "themeSemantic": {
+          "text-error": 73,
+          "border-primary": 2,
+          "bg-primary": 1,
+          "border-error/50": 2,
+          "bg-error/10": 2
+        },
+        "themeBase": {
+          "text-base-content/60": 4,
+          "bg-base-200": 7,
+          "border-base-300": 6,
+          "bg-base-100": 1,
+          "border-base-200": 3,
+          "text-base-content/50": 3
+        },
+        "ambiguous": {
+          "select": 26,
+          "select-sm": 2,
+          "select-bordered": 26,
+          "label": 5,
+          "label-text": 4,
+          "label-text-alt": 1,
+          "input": 57,
+          "input-sm": 1,
+          "input-bordered": 57,
+          "table": 9
+        },
+        "themeContent": {
+          "text-primary-content": 1
+        },
+        "component": {
+          "checkbox": 17,
+          "checkbox-sm": 2,
+          "textarea": 8,
+          "textarea-sm": 1,
+          "textarea-bordered": 8,
+          "btn": 58,
+          "btn-sm": 34,
+          "btn-error": 10,
+          "btn-primary": 13,
+          "badge": 29,
+          "badge-neutral": 1,
+          "radio": 5,
+          "btn-warning": 1,
+          "badge-error": 5,
+          "badge-warning": 6,
+          "badge-success": 8,
+          "badge-ghost": 6,
+          "btn-ghost": 1,
+          "btn-outline": 1,
+          "badge-sm": 2
+        }
+      },
+      "daisyFiles": 19,
+      "themeVariables": {},
+      "config": {},
+      "dependsOn": [
+        "artisanpack-ui/livewire-ui-components"
+      ]
+    },
+    {
+      "name": "cms-framework",
+      "ref": "main",
+      "commit": "0be46a3",
+      "filesScanned": 438,
+      "bladeFiles": 0,
+      "jsFiles": 0,
+      "blade": {},
+      "packageOwnedTags": {},
+      "react": {},
+      "vue": {},
+      "daisyClasses": {
+        "ambiguous": {
+          "footer": 1
+        }
+      },
+      "daisyFiles": 0,
+      "themeVariables": {},
+      "config": {},
+      "dependsOn": []
+    },
+    {
+      "name": "code-style",
+      "ref": "main",
+      "commit": "01057ee",
+      "filesScanned": 37,
+      "bladeFiles": 0,
+      "jsFiles": 0,
+      "blade": {},
+      "packageOwnedTags": {},
+      "react": {},
+      "vue": {},
+      "daisyClasses": {},
+      "daisyFiles": 0,
+      "themeVariables": {},
+      "config": {},
+      "dependsOn": []
+    },
+    {
+      "name": "code-style-pint",
+      "ref": "release/1.x",
+      "commit": "5d1f125",
+      "filesScanned": 13,
+      "bladeFiles": 0,
+      "jsFiles": 0,
+      "blade": {},
+      "packageOwnedTags": {},
+      "react": {},
+      "vue": {},
+      "daisyClasses": {},
+      "daisyFiles": 0,
+      "themeVariables": {},
+      "config": {},
+      "dependsOn": []
+    },
+    {
+      "name": "compliance",
+      "ref": "release/1.x",
+      "commit": "f54af71",
+      "filesScanned": 124,
+      "bladeFiles": 0,
+      "jsFiles": 0,
+      "blade": {},
+      "packageOwnedTags": {},
+      "react": {},
+      "vue": {},
+      "daisyClasses": {},
+      "daisyFiles": 0,
+      "themeVariables": {},
+      "config": {},
+      "dependsOn": []
+    },
+    {
+      "name": "convertkit",
+      "ref": "release/1.2",
+      "commit": "e552551",
+      "filesScanned": 58,
+      "bladeFiles": 0,
+      "jsFiles": 0,
+      "blade": {},
+      "packageOwnedTags": {},
+      "react": {},
+      "vue": {},
+      "daisyClasses": {},
+      "daisyFiles": 0,
+      "themeVariables": {},
+      "config": {},
+      "dependsOn": [
+        "artisanpack-ui/livewire-ui-components"
+      ]
+    },
+    {
+      "name": "core",
+      "ref": "main",
+      "commit": "c19cb56",
+      "filesScanned": 62,
+      "bladeFiles": 0,
+      "jsFiles": 0,
+      "blade": {},
+      "packageOwnedTags": {},
+      "react": {},
+      "vue": {},
+      "daisyClasses": {},
+      "daisyFiles": 0,
+      "themeVariables": {},
+      "config": {},
+      "dependsOn": []
+    },
+    {
+      "name": "ecommerce",
+      "ref": "main",
+      "commit": "8a78eb0",
+      "filesScanned": 823,
+      "bladeFiles": 0,
+      "jsFiles": 0,
+      "blade": {},
+      "packageOwnedTags": {},
+      "react": {},
+      "vue": {},
+      "daisyClasses": {},
+      "daisyFiles": 0,
+      "themeVariables": {},
+      "config": {},
+      "dependsOn": [
+        "artisanpack-ui/livewire-ui-components"
+      ]
+    },
+    {
+      "name": "ecommerce-admin-livewire",
+      "ref": "main",
+      "commit": "924f7d6",
+      "filesScanned": 312,
+      "bladeFiles": 100,
+      "jsFiles": 0,
+      "blade": {
+        "input": {
+          "count": 135,
+          "attributes": {
+            "id": 135,
+            "label": 132,
+            "autocomplete": 11,
+            "required": 19,
+            "hint": 52,
+            "type": 57,
+            "step": 28,
+            "inputmode": 6,
+            "min": 26,
+            "max": 5,
+            "suffix": 2,
+            "prefix": 1,
+            "errorField": 1,
+            "placeholder": 4,
+            "maxlength": 19,
+            "value": 4,
+            "readonly": 5,
+            "ariaLabel": 3,
+            "disabled": 18,
+            "icon": 2
+          }
+        },
+        "select": {
+          "count": 55,
+          "attributes": {
+            "id": 55,
+            "label": 54,
+            "options": 55,
+            "placeholder": 40,
+            "placeholderValue": 40,
+            "autocomplete": 2,
+            "required": 5,
+            "hint": 7,
+            "ariaLabel": 1,
+            "disabled": 2
+          }
+        },
+        "button": {
+          "count": 297,
+          "attributes": {
+            "variant": 207,
+            "size": 171,
+            "label": 226,
+            "icon": 175,
+            "ariaLabel": 95,
+            "disabled": 33,
+            "color": 67,
+            "type": 35,
+            "link": 16,
+            "spinner": 8,
+            "form": 3,
+            "tooltipBottom": 1,
+            "*": 3
+          }
+        },
+        "toggle": {
+          "count": 38,
+          "attributes": {
+            "id": 38,
+            "label": 35,
+            "hint": 18,
+            "ariaLabel": 3,
+            "disabled": 7,
+            "checked": 1
+          }
+        },
+        "checkbox-group": {
+          "count": 3,
+          "attributes": {
+            "id": 3,
+            "label": 3,
+            "hint": 3,
+            "options": 3,
+            "horizontal": 1
+          }
+        },
+        "tags": {
+          "count": 2,
+          "attributes": {
+            "id": 2,
+            "label": 2,
+            "hint": 2,
+            "customTagsText": 1
+          }
+        },
+        "textarea": {
+          "count": 15,
+          "attributes": {
+            "id": 15,
+            "label": 15,
+            "hint": 10,
+            "rows": 15,
+            "required": 3,
+            "maxlength": 1
+          }
+        },
+        "code": {
+          "count": 4,
+          "attributes": {
+            "id": 4,
+            "label": 4,
+            "hint": 3,
+            "language": 4,
+            "height": 4
+          }
+        },
+        "alert": {
+          "count": 45,
+          "attributes": {
+            "color": 45,
+            "icon": 45,
+            "title": 20,
+            "description": 13,
+            "role": 43
+          }
+        },
+        "icon": {
+          "count": 16,
+          "attributes": {
+            "name": 16
+          }
+        },
+        "choices": {
+          "count": 2,
+          "attributes": {
+            "id": 2,
+            "label": 2,
+            "hint": 2,
+            "options": 2,
+            "single": 2,
+            "searchable": 2,
+            "searchFunction": 2,
+            "optionValue": 2,
+            "optionLabel": 2,
+            "optionSubLabel": 2,
+            "debounce": 2,
+            "noResultText": 2
+          }
+        },
+        "badge": {
+          "count": 55,
+          "attributes": {
+            "value": 55,
+            "color": 41,
+            "icon": 4,
+            "title": 1
+          }
+        },
+        "nav": {
+          "count": 1,
+          "attributes": {
+            "sticky": 1,
+            "fullWidth": 1
+          }
+        },
+        "theme-toggle": {
+          "count": 1,
+          "attributes": {}
+        },
+        "main": {
+          "count": 1,
+          "attributes": {
+            "withNav": 1,
+            "fullWidth": 1
+          }
+        },
+        "toast": {
+          "count": 3,
+          "attributes": {}
+        },
+        "header": {
+          "count": 27,
+          "attributes": {
+            "title": 27,
+            "level": 27,
+            "separator": 27,
+            "subtitle": 10
+          }
+        },
+        "drawer": {
+          "count": 12,
+          "attributes": {
+            "title": 12,
+            "right": 12,
+            "separator": 12,
+            "withCloseButton": 12,
+            "closeOnEscape": 12
+          }
+        },
+        "modal": {
+          "count": 22,
+          "attributes": {
+            "title": 22,
+            "separator": 22,
+            "boxClass": 5,
+            "persistent": 1
+          }
+        },
+        "radio": {
+          "count": 5,
+          "attributes": {
+            "id": 5,
+            "options": 5,
+            "label": 4,
+            "hint": 1,
+            "inline": 4
+          }
+        },
+        "card": {
+          "count": 20,
+          "attributes": {
+            "title": 16,
+            "shadow": 20
+          }
+        },
+        "tabs": {
+          "count": 3,
+          "attributes": {}
+        },
+        "tab": {
+          "count": 17,
+          "attributes": {
+            "name": 17,
+            "label": 17,
+            "icon": 16
+          }
+        },
+        "pagination": {
+          "count": 4,
+          "attributes": {
+            "rows": 4,
+            "hidePerPage": 4,
+            "pageInfoTemplate": 4
+          }
+        },
+        "stat": {
+          "count": 2,
+          "attributes": {
+            "title": 2,
+            "value": 2,
+            "description": 2,
+            "icon": 1,
+            "animate": 1
+          }
+        },
+        "sparkline": {
+          "count": 1,
+          "attributes": {
+            "id": 1,
+            "data": 1,
+            "type": 1,
+            "height": 1
+          }
+        },
+        "file": {
+          "count": 3,
+          "attributes": {
+            "id": 3,
+            "label": 3,
+            "accept": 3
+          }
+        },
+        "checkbox": {
+          "count": 2,
+          "attributes": {
+            "id": 2,
+            "label": 1,
+            "ariaLabel": 1
+          }
+        },
+        "colorpicker": {
+          "count": 2,
+          "attributes": {
+            "id": 2,
+            "label": 2,
+            "hint": 2
+          }
+        },
+        "choices-offline": {
+          "count": 5,
+          "attributes": {
+            "id": 5,
+            "label": 5,
+            "hint": 2,
+            "options": 5,
+            "single": 2,
+            "searchable": 5,
+            "clearable": 2,
+            "noResultText": 5,
+            "valuesAsString": 2
+          }
+        },
+        "menu": {
+          "count": 3,
+          "attributes": {}
+        },
+        "menu-separator": {
+          "count": 1,
+          "attributes": {
+            "title": 1
+          }
+        },
+        "menu-item": {
+          "count": 3,
+          "attributes": {
+            "title": 3,
+            "icon": 1,
+            "link": 3,
+            "active": 3,
+            "badge": 1,
+            "badgeClasses": 1,
+            "ariaCurrent": 3,
+            "ariaLabel": 1,
+            "role": 2,
+            "noWireNavigate": 2
+          }
+        },
+        "editor": {
+          "count": 1,
+          "attributes": {
+            "id": 1,
+            "label": 1
+          }
+        },
+        "progress": {
+          "count": 1,
+          "attributes": {
+            "value": 1,
+            "max": 1
+          }
+        },
+        "chart": {
+          "count": 1,
+          "attributes": {
+            "id": 1,
+            "type": 1,
+            "series": 1,
+            "options": 1,
+            "height": 1
+          }
+        },
+        "timeline-item": {
+          "count": 1,
+          "attributes": {
+            "title": 1,
+            "icon": 1,
+            "first": 1,
+            "last": 1
+          }
+        },
+        "spotlight": {
+          "count": 1,
+          "attributes": {
+            "url": 1,
+            "shortcut": 1,
+            "searchText": 1,
+            "noResultsText": 1
+          }
+        }
+      },
+      "packageOwnedTags": {
+        "ec-money-input": 8,
+        "ec-variant-picker": 2,
+        "ec-product-picker": 7,
+        "ec-category-picker": 3,
+        "ec-tag-picker": 2,
+        "ec-config-form": 6,
+        "ec-empty-state": 20,
+        "ec-money": 17,
+        "ec-address-form": 4,
+        "ec-address": 4,
+        "ec-status-badge": 29,
+        "ec-rule-builder": 7,
+        "ec-product-type-warning": 2,
+        "ec-percent-input": 3,
+        "ec-bulk-action-bar": 2,
+        "ec-resource-table": 2,
+        "ec-": 2,
+        "ec-customer-picker": 1
+      },
+      "react": {},
+      "vue": {},
+      "daisyClasses": {
+        "component": {
+          "fieldset": 12,
+          "fieldset-legend": 12,
+          "fieldset-label": 3,
+          "checkbox": 2,
+          "checkbox-sm": 2,
+          "badge-sm": 48,
+          "btn": 2,
+          "btn-sm": 3,
+          "btn-ghost": 3,
+          "btn-square": 1,
+          "badge-ghost": 8,
+          "badge-outline": 2,
+          "steps": 1,
+          "progress-primary": 1,
+          "step": 1,
+          "step-primary": 1,
+          "badge-success": 1,
+          "badge-error": 1
+        },
+        "themeSemantic": {
+          "text-error": 29,
+          "border-info/40": 2,
+          "bg-info/5": 1,
+          "border-error": 3,
+          "border-warning": 4,
+          "outline-primary": 1,
+          "border-info": 1,
+          "bg-info/10": 2,
+          "border-warning/50": 1,
+          "bg-warning/10": 1,
+          "text-warning": 1
+        },
+        "themeBase": {
+          "border-base-300": 29,
+          "border-base-200": 1,
+          "bg-base-200/50": 1,
+          "border-base-content/10": 12,
+          "bg-base-200": 10,
+          "bg-base-100": 4,
+          "divide-base-300": 8
+        },
+        "ambiguous": {
+          "table": 22,
+          "table-sm": 22,
+          "link": 21,
+          "link-hover": 18,
+          "input-sm": 14,
+          "select-sm": 6,
+          "menu-horizontal": 2
+        }
+      },
+      "daisyFiles": 54,
+      "themeVariables": {},
+      "config": {},
+      "dependsOn": [
+        "daisyui",
+        "artisanpack-ui/livewire-ui-components"
+      ]
+    },
+    {
+      "name": "ecommerce-storefront-livewire",
+      "ref": "fix/1.0-release-readiness",
+      "commit": "4c114a2",
+      "filesScanned": 219,
+      "bladeFiles": 58,
+      "jsFiles": 0,
+      "blade": {
+        "input": {
+          "count": 4,
+          "attributes": {
+            "id": 4,
+            "label": 3,
+            "disabled": 1,
+            "omitError": 1,
+            "type": 2,
+            "name": 2,
+            "placeholder": 1,
+            "ariaLabel": 1,
+            "icon": 2,
+            "autocomplete": 2,
+            "enterkeyhint": 2,
+            "role": 1,
+            "errorField": 2
+          }
+        },
+        "button": {
+          "count": 93,
+          "attributes": {
+            "label": 80,
+            "color": 37,
+            "disabled": 4,
+            "icon": 30,
+            "ariaLabel": 15,
+            "type": 15,
+            "iconRight": 3,
+            "spinner": 17,
+            "link": 33,
+            "noWireNavigate": 32,
+            "external": 1,
+            "ariaDescribedby": 1,
+            "ariaExpanded": 1,
+            "*": 3
+          }
+        },
+        "alert": {
+          "count": 27,
+          "attributes": {
+            "icon": 27,
+            "title": 26,
+            "description": 12,
+            "role": 2,
+            "tabindex": 1
+          }
+        },
+        "menu": {
+          "count": 1,
+          "attributes": {}
+        },
+        "menu-item": {
+          "count": 1,
+          "attributes": {
+            "title": 1,
+            "link": 1,
+            "icon": 1,
+            "active": 1,
+            "role": 1,
+            "noWireNavigate": 1,
+            "ariaCurrent": 1
+          }
+        },
+        "card": {
+          "count": 2,
+          "attributes": {}
+        },
+        "icon": {
+          "count": 22,
+          "attributes": {
+            "name": 22,
+            "[": 2,
+            "'h-4": 2,
+            "w-4',": 2,
+            "'textWarning'": 2
+          }
+        },
+        "select": {
+          "count": 5,
+          "attributes": {
+            "id": 5,
+            "label": 5,
+            "options": 5,
+            "placeholder": 1,
+            "placeholderValue": 1,
+            "optionValue": 1,
+            "optionLabel": 1,
+            "omitError": 1,
+            "inline": 1
+          }
+        },
+        "textarea": {
+          "count": 1,
+          "attributes": {
+            "id": 1,
+            "label": 1,
+            "omitError": 1
+          }
+        },
+        "password": {
+          "count": 1,
+          "attributes": {
+            "id": 1,
+            "label": 1,
+            "omitError": 1
+          }
+        },
+        "checkbox": {
+          "count": 9,
+          "attributes": {
+            "id": 3,
+            "label": 9,
+            "hint": 3,
+            "omitError": 1,
+            "disabled": 1
+          }
+        },
+        "badge": {
+          "count": 13,
+          "attributes": {
+            "value": 13
+          }
+        },
+        "nav": {
+          "count": 1,
+          "attributes": {
+            "sticky": 1
+          }
+        },
+        "theme-toggle": {
+          "count": 1,
+          "attributes": {}
+        },
+        "modal": {
+          "count": 3,
+          "attributes": {
+            "title": 2,
+            "boxClass": 1,
+            "persistent": 1
+          }
+        },
+        "pagination": {
+          "count": 5,
+          "attributes": {
+            "rows": 5,
+            "hidePerPage": 5,
+            "pageInfoTemplate": 2
+          }
+        },
+        "table": {
+          "count": 1,
+          "attributes": {
+            "headers": 1,
+            "rows": 1
+          }
+        },
+        "toggle": {
+          "count": 3,
+          "attributes": {
+            "id": 3,
+            "label": 3,
+            "hint": 3,
+            "disabled": 2,
+            "checked": 1
+          }
+        },
+        "drawer": {
+          "count": 2,
+          "attributes": {
+            "id": 2,
+            "right": 1,
+            "openOn": 2,
+            "closeOn": 2,
+            "closeOnEscape": 2,
+            "role": 2
+          }
+        },
+        "radio": {
+          "count": 6,
+          "attributes": {
+            "id": 6,
+            "label": 6,
+            "options": 6,
+            "hint": 1,
+            "errorField": 1
+          }
+        },
+        "breadcrumbs": {
+          "count": 2,
+          "attributes": {
+            "items": 2,
+            "noWireNavigate": 2
+          }
+        },
+        "steps": {
+          "count": 1,
+          "attributes": {
+            "stepsColor": 1,
+            "stepperClasses": 1
+          }
+        },
+        "step": {
+          "count": 1,
+          "attributes": {
+            "step": 1,
+            "text": 1
+          }
+        },
+        "accordion": {
+          "count": 1,
+          "attributes": {}
+        },
+        "collapse": {
+          "count": 3,
+          "attributes": {
+            "name": 3
+          }
+        },
+        "toast": {
+          "count": 3,
+          "attributes": {}
+        }
+      },
+      "packageOwnedTags": {
+        "ec-money": 22,
+        "ec-field": 35,
+        "ec-price": 6,
+        "ec-rating-summary": 4,
+        "ec-stock-status": 4,
+        "ec-empty-state": 14,
+        "ec-address": 10,
+        "ec-address-form": 5,
+        "ec-quantity": 6,
+        "ec-sf-product-card": 6,
+        "ec-price-range": 2,
+        "ec-swatches": 3,
+        "ec-skeleton": 2,
+        "ec-rating-input": 2,
+        "ec-gallery": 3,
+        "ec-account-shell": 8,
+        "ec-search-box": 3,
+        "ec-category-grid": 2,
+        "ec-": 1
+      },
+      "react": {},
+      "vue": {},
+      "daisyClasses": {
+        "themeBase": {
+          "border-base-content/30": 5,
+          "divide-base-content/10": 9,
+          "bg-base-200": 13,
+          "text-base-content/70": 60,
+          "border-base-content/10": 30,
+          "text-base-content/60": 2,
+          "text-base-content/20": 2,
+          "border-base-content/20": 2,
+          "bg-base-100": 2,
+          "text-base-content/80": 1,
+          "text-base-content": 1
+        },
+        "component": {
+          "badge": 5,
+          "badge-neutral": 5,
+          "badge-sm": 10,
+          "btn-circle": 6,
+          "btn-sm": 48,
+          "modal": 1,
+          "modal-box": 1,
+          "btn-ghost": 23,
+          "modal-backdrop": 1,
+          "badge-error": 1,
+          "join": 1,
+          "btn": 8,
+          "join-item": 3,
+          "btn-square": 3,
+          "rating": 1,
+          "rating-lg": 1,
+          "mask": 1,
+          "mask-star-2": 1,
+          "skeleton": 5,
+          "card": 1,
+          "alert-warning": 14,
+          "alert-soft": 22,
+          "badge-primary": 3,
+          "badge-soft": 2,
+          "badge-secondary": 1,
+          "modal-action": 1,
+          "btn-error": 1,
+          "alert-error": 3,
+          "alert-info": 4,
+          "btn-xs": 6,
+          "badge-success": 3,
+          "btn-outline": 2,
+          "badge-outline": 1,
+          "radio": 2,
+          "radio-sm": 2,
+          "checkbox-sm": 1,
+          "badge-ghost": 1,
+          "alert-success": 2,
+          "btn-lg": 2,
+          "progress": 1,
+          "progress-warning": 1
+        },
+        "ambiguous": {
+          "link-hover": 7,
+          "range": 2,
+          "range-sm": 2,
+          "input": 1,
+          "input-error": 1,
+          "link": 15,
+          "select-sm": 3,
+          "link-primary": 4,
+          "table": 1,
+          "table-sm": 1,
+          "input-sm": 1
+        },
+        "themeSemantic": {
+          "outline-primary": 2,
+          "border-primary": 4,
+          "text-warning": 2,
+          "ring-primary": 1,
+          "text-success": 3,
+          "border-error": 2,
+          "bg-error/10": 2,
+          "ring-error": 2,
+          "border-success/40": 1,
+          "bg-success/10": 1
+        }
+      },
+      "daisyFiles": 55,
+      "themeVariables": {
+        "--color-error": 18,
+        "--color-base-content": 18,
+        "--color-primary": 2,
+        "--color-base-100": 2,
+        "--radius-field": 3
+      },
+      "config": {},
+      "dependsOn": [
+        "daisyui",
+        "artisanpack-ui/livewire-ui-components"
+      ]
+    },
+    {
+      "name": "forms",
+      "ref": "security/153-154-157-choice-validation-builder-auth-file-privacy",
+      "commit": "2c57354",
+      "filesScanned": 377,
+      "bladeFiles": 37,
+      "jsFiles": 29,
+      "blade": {
+        "icon": {
+          "count": 68,
+          "attributes": {
+            "name": 68
+          }
+        },
+        "input": {
+          "count": 22,
+          "attributes": {
+            "type": 8,
+            "label": 19,
+            "placeholder": 18,
+            "error": 5,
+            "required": 7,
+            "id": 5,
+            "autocomplete": 5,
+            "readonly": 5,
+            "ariaRequired": 5,
+            "ariaLabelledby": 5,
+            "ariaDescribedby": 5,
+            "inputmode": 1,
+            "prefix": 1,
+            "suffix": 1,
+            "step": 1,
+            "min": 1,
+            "max": 1,
+            "xMask": 2,
+            "minlength": 1,
+            "maxlength": 1,
+            "xOn:blur": 1,
+            "name": 6,
+            "value": 14,
+            "autofocus": 1,
+            "hint": 9,
+            "icon": 2
+          }
+        },
+        "select": {
+          "count": 10,
+          "attributes": {
+            "label": 7,
+            "placeholder": 5,
+            "error": 2,
+            "required": 2,
+            "id": 2,
+            "autocomplete": 1,
+            "disabled": 1,
+            "ariaReadonly": 1,
+            "options": 10,
+            "optionValue": 10,
+            "optionLabel": 10,
+            "ariaRequired": 2,
+            "ariaLabelledby": 2,
+            "ariaDescribedby": 2,
+            "multiple": 1,
+            "name": 2,
+            "hint": 2,
+            "value": 3
+          }
+        },
+        "textarea": {
+          "count": 6,
+          "attributes": {
+            "label": 5,
+            "placeholder": 5,
+            "error": 1,
+            "required": 1,
+            "id": 1,
+            "autocomplete": 1,
+            "readonly": 1,
+            "rows": 6,
+            "ariaRequired": 1,
+            "ariaLabelledby": 1,
+            "ariaDescribedby": 1,
+            "minlength": 1,
+            "maxlength": 1,
+            "name": 3
+          }
+        },
+        "button": {
+          "count": 41,
+          "attributes": {
+            "link": 10,
+            "icon": 31,
+            "color": 41,
+            "label": 19,
+            "type": 9,
+            "title": 14,
+            "wire:confirm": 3,
+            "disabled": 2
+          }
+        },
+        "card": {
+          "count": 21,
+          "attributes": {
+            "title": 8,
+            "separator": 7
+          }
+        },
+        "form": {
+          "count": 2,
+          "attributes": {
+            "action": 2,
+            "method": 2
+          }
+        },
+        "badge": {
+          "count": 16,
+          "attributes": {
+            "value": 16,
+            "color": 11
+          }
+        },
+        "tabs": {
+          "count": 1,
+          "attributes": {
+            "selected": 1
+          }
+        },
+        "tab": {
+          "count": 3,
+          "attributes": {
+            "name": 3,
+            "label": 3,
+            "icon": 3
+          }
+        },
+        "checkbox": {
+          "count": 4,
+          "attributes": {
+            "label": 4,
+            "name": 3,
+            "value": 3,
+            "checked": 4,
+            "hint": 1
+          }
+        },
+        "menu": {
+          "count": 3,
+          "attributes": {
+            "horizontal": 1
+          }
+        },
+        "menu-item": {
+          "count": 6,
+          "attributes": {
+            "link": 1,
+            "label": 5,
+            "active": 1,
+            "icon": 1
+          }
+        },
+        "alert": {
+          "count": 4,
+          "attributes": {
+            "type": 4,
+            "message": 4,
+            "dismissible": 4
+          }
+        },
+        "dropdown": {
+          "count": 2,
+          "attributes": {}
+        },
+        "toggle": {
+          "count": 1,
+          "attributes": {
+            "label": 1,
+            "hint": 1,
+            "checked": 1
+          }
+        },
+        "collapse": {
+          "count": 1,
+          "attributes": {
+            "title": 1
+          }
+        },
+        "breadcrumbs": {
+          "count": 3,
+          "attributes": {
+            "items": 3
+          }
+        }
+      },
+      "packageOwnedTags": {},
+      "react": {
+        "Button": {
+          "count": 73,
+          "attributes": {
+            "type": 6,
+            "onClick": 70,
+            "color": 66,
+            "disabled": 30,
+            "className": 16,
+            "size": 66,
+            "title": 20,
+            "draggable": 1,
+            "onDragStart": 1
+          }
+        },
+        "Input": {
+          "count": 38,
+          "attributes": {
+            "type": 16,
+            "value": 38,
+            "onChange": 38,
+            "placeholder": 19,
+            "className": 17,
+            "label": 22,
+            "hint": 5,
+            "min": 4,
+            "max": 4,
+            "step": 4,
+            "id": 14,
+            "size": 8,
+            "name": 8,
+            "error": 8,
+            "required": 8,
+            "readOnly": 8,
+            "autoComplete": 6,
+            "minLength": 1,
+            "maxLength": 1,
+            "pattern": 2,
+            "inputMode": 1,
+            "prefix": 1,
+            "suffix": 1,
+            "onBlur": 1
+          }
+        },
+        "Select": {
+          "count": 15,
+          "attributes": {
+            "value": 15,
+            "onChange": 15,
+            "className": 8,
+            "options": 15,
+            "optionValue": 15,
+            "optionLabel": 15,
+            "label": 7,
+            "hint": 2,
+            "id": 4,
+            "size": 2,
+            "placeholder": 2,
+            "name": 1,
+            "error": 1,
+            "required": 1,
+            "disabled": 1,
+            "autoComplete": 1
+          }
+        },
+        "Checkbox": {
+          "count": 10,
+          "attributes": {
+            "label": 9,
+            "checked": 10,
+            "onChange": 10,
+            "hint": 1,
+            "size": 2,
+            "name": 2,
+            "error": 1,
+            "required": 1,
+            "className": 1,
+            "disabled": 2,
+            "right": 2,
+            "id": 1
+          }
+        },
+        "Tabs": {
+          "count": 1,
+          "attributes": {
+            "variant": 1,
+            "tabs": 1,
+            "activeTab": 1,
+            "onChange": 1
+          }
+        },
+        "Textarea": {
+          "count": 9,
+          "attributes": {
+            "label": 7,
+            "rows": 9,
+            "value": 9,
+            "onChange": 9,
+            "hint": 4,
+            "placeholder": 3,
+            "maxLength": 2,
+            "className": 4,
+            "id": 3,
+            "name": 1,
+            "error": 1,
+            "required": 1,
+            "autoComplete": 1,
+            "readOnly": 1,
+            "minLength": 1
+          }
+        },
+        "Alert": {
+          "count": 9,
+          "attributes": {
+            "color": 9,
+            "className": 2,
+            "dismissible": 4,
+            "onDismiss": 4
+          }
+        },
+        "Badge": {
+          "count": 8,
+          "attributes": {
+            "color": 8,
+            "value": 8,
+            "className": 2,
+            "size": 4
+          }
+        },
+        "Divider": {
+          "count": 1,
+          "attributes": {}
+        },
+        "Loading": {
+          "count": 6,
+          "attributes": {
+            "size": 6
+          }
+        },
+        "Pagination": {
+          "count": 2,
+          "attributes": {
+            "currentPage": 2,
+            "totalPages": 2,
+            "onChange": 2
+          }
+        },
+        "Card": {
+          "count": 5,
+          "attributes": {
+            "title": 5,
+            "bordered": 5
+          }
+        },
+        "DatePicker": {
+          "count": 1,
+          "attributes": {
+            "name": 1,
+            "value": 1,
+            "error": 1,
+            "required": 1,
+            "className": 1,
+            "onChange": 1,
+            "min": 1,
+            "max": 1,
+            "autoComplete": 1
+          }
+        },
+        "File": {
+          "count": 2,
+          "attributes": {
+            "name": 2,
+            "accept": 2,
+            "error": 2,
+            "className": 2,
+            "multiple": 1,
+            "withDragDrop": 2,
+            "onFilesSelected": 2,
+            "required": 1
+          }
+        },
+        "Toggle": {
+          "count": 1,
+          "attributes": {
+            "name": 1,
+            "checked": 1,
+            "error": 1,
+            "required": 1,
+            "color": 1,
+            "className": 1,
+            "onChange": 1,
+            "disabled": 1,
+            "right": 1
+          }
+        }
+      },
+      "vue": {
+        "Button": {
+          "count": 74,
+          "attributes": {
+            "type": 7,
+            "color": 67,
+            "disabled": 33,
+            "size": 66,
+            "title": 20,
+            "ariaLabel": 10,
+            "draggable": 1,
+            "ariaExpanded": 1,
+            "ariaControls": 1
+          }
+        },
+        "Input": {
+          "count": 38,
+          "attributes": {
+            "type": 16,
+            "modelValue": 31,
+            "placeholder": 19,
+            "size": 11,
+            "label": 22,
+            "hint": 5,
+            "min": 4,
+            "max": 4,
+            "step": 4,
+            "id": 14,
+            "value": 7,
+            "ariaLabel": 4,
+            "vDescribedBy": 8,
+            "vBind": 8,
+            "name": 8,
+            "error": 8,
+            "required": 8,
+            "readonly": 8,
+            "vAutocomplete": 6,
+            "vInputAttrs": 2,
+            "pattern": 2
+          }
+        },
+        "Select": {
+          "count": 15,
+          "attributes": {
+            "modelValue": 13,
+            "size": 8,
+            "options": 15,
+            "optionValue": 15,
+            "optionLabel": 15,
+            "label": 7,
+            "hint": 2,
+            "id": 4,
+            "value": 1,
+            "v-model": 1,
+            "placeholder": 2,
+            "vAutocomplete": 1,
+            "vDescribedBy": 1,
+            "vBind": 1,
+            "name": 1,
+            "error": 1,
+            "required": 1,
+            "disabled": 1,
+            "ariaReadonly": 1
+          }
+        },
+        "Checkbox": {
+          "count": 10,
+          "attributes": {
+            "label": 9,
+            "modelValue": 6,
+            "hint": 1,
+            "checked": 4,
+            "size": 2,
+            "vDescribedBy": 1,
+            "vBind": 1,
+            "name": 2,
+            "error": 1,
+            "required": 1,
+            "disabled": 2,
+            "ariaReadonly": 1,
+            "right": 2,
+            "id": 1
+          }
+        },
+        "Tabs": {
+          "count": 1,
+          "attributes": {
+            "variant": 1,
+            "tabs": 1,
+            "activeTab": 1
+          }
+        },
+        "Textarea": {
+          "count": 8,
+          "attributes": {
+            "label": 6,
+            "rows": 8,
+            "hint": 3,
+            "modelValue": 5,
+            "id": 3,
+            "value": 2,
+            "v-model": 1,
+            "placeholder": 2,
+            "vAutocomplete": 1,
+            "vBind": 1,
+            "vDescribedBy": 1,
+            "name": 1,
+            "error": 1,
+            "required": 1,
+            "readonly": 1,
+            "vInputAttrs": 1
+          }
+        },
+        "Alert": {
+          "count": 9,
+          "attributes": {
+            "color": 9,
+            "dismissible": 4
+          }
+        },
+        "Badge": {
+          "count": 9,
+          "attributes": {
+            "color": 9,
+            "value": 9,
+            "size": 5
+          }
+        },
+        "Divider": {
+          "count": 1,
+          "attributes": {}
+        },
+        "Loading": {
+          "count": 6,
+          "attributes": {
+            "size": 6
+          }
+        },
+        "Pagination": {
+          "count": 2,
+          "attributes": {
+            "currentPage": 2,
+            "totalPages": 2
+          }
+        },
+        "Card": {
+          "count": 5,
+          "attributes": {
+            "title": 5,
+            "bordered": 5
+          }
+        },
+        "DatePicker": {
+          "count": 1,
+          "attributes": {
+            "vAutocomplete": 1,
+            "vDescribedBy": 1,
+            "vBind": 1,
+            "name": 1,
+            "modelValue": 1,
+            "error": 1,
+            "required": 1,
+            "min": 1,
+            "max": 1
+          }
+        },
+        "FileUpload": {
+          "count": 2,
+          "attributes": {
+            "vDescribedBy": 2,
+            "vBind": 2,
+            "name": 2,
+            "accept": 2,
+            "error": 2,
+            "multiple": 1,
+            "withDragDrop": 2,
+            "required": 1
+          }
+        },
+        "Toggle": {
+          "count": 1,
+          "attributes": {
+            "vDescribedBy": 1,
+            "vBind": 1,
+            "name": 1,
+            "modelValue": 1,
+            "error": 1,
+            "required": 1,
+            "color": 1,
+            "disabled": 1,
+            "ariaReadonly": 1,
+            "right": 1
+          }
+        }
+      },
+      "daisyClasses": {
+        "themeBase": {
+          "bg-base-300": 25,
+          "text-base-content": 4,
+          "text-base-content/50": 42,
+          "border-base-300": 56,
+          "text-base-content/70": 47,
+          "text-base-content/60": 60,
+          "bg-base-200": 51,
+          "bg-base-100": 29,
+          "border-base-content/30": 1,
+          "text-base-content/40": 12,
+          "text-base-content/30": 4,
+          "bg-base-300/50": 1,
+          "border-base-content/20": 1,
+          "border-base-200": 1,
+          "border-base-content/10": 1,
+          "divide-base-300": 1
+        },
+        "component": {
+          "alert": 11,
+          "alert-error": 6,
+          "alert-success": 3,
+          "progress": 5,
+          "progress-primary": 5,
+          "steps": 3,
+          "steps-horizontal": 3,
+          "step": 3,
+          "step-primary": 4,
+          "btn-circle": 14,
+          "divider": 13,
+          "textarea": 10,
+          "textarea-sm": 8,
+          "textarea-bordered": 10,
+          "fieldset": 47,
+          "fieldset-legend": 47,
+          "textarea-error": 3,
+          "fieldset-label": 123,
+          "tabs": 10,
+          "tabs-bordered": 7,
+          "tab": 25,
+          "tab-active": 25,
+          "badge": 19,
+          "badge-sm": 23,
+          "badge-ghost": 6,
+          "btn": 69,
+          "btn-ghost": 52,
+          "btn-xs": 29,
+          "badge-warning": 3,
+          "checkbox": 31,
+          "toggle": 6,
+          "file-input": 5,
+          "file-input-bordered": 5,
+          "btn-primary": 10,
+          "card": 5,
+          "card-compact": 1,
+          "card-body": 4,
+          "card-bordered": 4,
+          "checkbox-xs": 9,
+          "checkbox-primary": 23,
+          "btn-disabled": 3,
+          "join": 8,
+          "join-item": 19,
+          "card-actions": 4,
+          "checkbox-sm": 11,
+          "btn-sm": 62,
+          "btn-square": 15,
+          "rating": 2,
+          "rating-half": 2,
+          "rating-hidden": 3,
+          "mask": 4,
+          "mask-star-2": 4,
+          "badge-primary": 4,
+          "badge-outline": 3,
+          "btn-outline": 5,
+          "badge-neutral": 6,
+          "radio": 11,
+          "radio-primary": 11,
+          "radio-sm": 2,
+          "file-input-error": 3,
+          "progress-error": 1,
+          "loading": 6,
+          "loading-spinner": 6,
+          "loading-sm": 4,
+          "mask-half-1": 1,
+          "mask-half-2": 1,
+          "navbar": 1,
+          "toggle-sm": 2,
+          "toggle-primary": 3,
+          "alert-warning": 2,
+          "tabs-boxed": 3,
+          "tab-sm": 4,
+          "step-manager": 1,
+          "badge-xs": 3,
+          "btn-active": 1,
+          "loading-xs": 2,
+          "badge-success": 1,
+          "step-content": 1,
+          "kbd": 2,
+          "kbd-xs": 2,
+          "breadcrumbs": 3
+        },
+        "ambiguous": {
+          "select-sm": 17,
+          "input-sm": 17,
+          "select": 36,
+          "select-bordered": 35,
+          "label": 86,
+          "label-text": 71,
+          "input": 65,
+          "input-bordered": 62,
+          "label-text-alt": 18,
+          "table": 13,
+          "table-zebra": 4,
+          "link": 23,
+          "link-hover": 10,
+          "table-xs": 3,
+          "input-xs": 15,
+          "select-xs": 6,
+          "link-primary": 17,
+          "status": 2,
+          "input-error": 28,
+          "select-error": 12,
+          "range": 3,
+          "range-primary": 3,
+          "table-sm": 4
+        },
+        "themeSemantic": {
+          "text-error": 148,
+          "text-warning": 7,
+          "text-info": 3,
+          "text-success": 7,
+          "ring-primary": 7,
+          "border-primary": 7,
+          "bg-primary/10": 3,
+          "outline-primary": 14,
+          "bg-warning": 4,
+          "border-error": 3,
+          "bg-primary": 2,
+          "border-primary/50": 2,
+          "bg-primary/5": 1,
+          "border-error/20": 1,
+          "ring-primary/20": 1,
+          "text-primary": 10,
+          "bg-error/10": 1,
+          "bg-info/10": 2,
+          "bg-primary/20": 1
+        },
+        "themeContent": {
+          "text-primary-content": 2,
+          "text-info-content": 1
+        }
+      },
+      "daisyFiles": 117,
+      "themeVariables": {},
+      "config": {},
+      "dependsOn": [
+        "artisanpack-ui/livewire-ui-components"
+      ]
+    },
+    {
+      "name": "google",
+      "ref": "release/1.x",
+      "commit": "ec2cb94",
+      "filesScanned": 38,
+      "bladeFiles": 0,
+      "jsFiles": 0,
+      "blade": {},
+      "packageOwnedTags": {},
+      "react": {},
+      "vue": {},
+      "daisyClasses": {},
+      "daisyFiles": 0,
+      "themeVariables": {},
+      "config": {},
+      "dependsOn": []
+    },
+    {
+      "name": "google-ads",
+      "ref": "main",
+      "commit": null,
+      "filesScanned": 0,
+      "bladeFiles": 0,
+      "jsFiles": 0,
+      "blade": {},
+      "packageOwnedTags": {},
+      "react": {},
+      "vue": {},
+      "daisyClasses": {},
+      "daisyFiles": 0,
+      "themeVariables": {},
+      "config": {},
+      "dependsOn": []
+    },
+    {
+      "name": "google-business-profile",
+      "ref": "main",
+      "commit": "cd3b2f6",
+      "filesScanned": 37,
+      "bladeFiles": 0,
+      "jsFiles": 0,
+      "blade": {},
+      "packageOwnedTags": {},
+      "react": {},
+      "vue": {},
+      "daisyClasses": {},
+      "daisyFiles": 0,
+      "themeVariables": {},
+      "config": {},
+      "dependsOn": []
+    },
+    {
+      "name": "google-data-studio",
+      "ref": "main",
+      "commit": null,
+      "filesScanned": 0,
+      "bladeFiles": 0,
+      "jsFiles": 0,
+      "blade": {},
+      "packageOwnedTags": {},
+      "react": {},
+      "vue": {},
+      "daisyClasses": {},
+      "daisyFiles": 0,
+      "themeVariables": {},
+      "config": {},
+      "dependsOn": []
+    },
+    {
+      "name": "google-search-console",
+      "ref": "release/1.x",
+      "commit": "00de984",
+      "filesScanned": 46,
+      "bladeFiles": 0,
+      "jsFiles": 0,
+      "blade": {},
+      "packageOwnedTags": {},
+      "react": {},
+      "vue": {},
+      "daisyClasses": {},
+      "daisyFiles": 0,
+      "themeVariables": {},
+      "config": {},
+      "dependsOn": [
+        "artisanpack-ui/livewire-ui-components"
+      ]
+    },
+    {
+      "name": "google-tag-manager",
+      "ref": "feature/2-6-scopes-api-components-snippet",
+      "commit": "2b1f19f",
+      "filesScanned": 42,
+      "bladeFiles": 0,
+      "jsFiles": 0,
+      "blade": {},
+      "packageOwnedTags": {},
+      "react": {},
+      "vue": {},
+      "daisyClasses": {},
+      "daisyFiles": 0,
+      "themeVariables": {},
+      "config": {},
+      "dependsOn": [
+        "artisanpack-ui/livewire-ui-components"
+      ]
+    },
+    {
+      "name": "hooks",
+      "ref": "release/1.x",
+      "commit": "8594288",
+      "filesScanned": 14,
+      "bladeFiles": 0,
+      "jsFiles": 0,
+      "blade": {},
+      "packageOwnedTags": {},
+      "react": {},
+      "vue": {},
+      "daisyClasses": {},
+      "daisyFiles": 0,
+      "themeVariables": {},
+      "config": {},
+      "dependsOn": []
+    },
+    {
+      "name": "hooks-js",
+      "ref": "main",
+      "commit": "f29382d",
+      "filesScanned": 22,
+      "bladeFiles": 0,
+      "jsFiles": 0,
+      "blade": {},
+      "packageOwnedTags": {},
+      "react": {},
+      "vue": {},
+      "daisyClasses": {},
+      "daisyFiles": 0,
+      "themeVariables": {},
+      "config": {},
+      "dependsOn": []
+    },
+    {
+      "name": "icons",
+      "ref": "main",
+      "commit": "b16a62f",
+      "filesScanned": 6,
+      "bladeFiles": 1,
+      "jsFiles": 0,
+      "blade": {
+        "icon": {
+          "count": 1,
+          "attributes": {
+            "name": 1
+          }
+        }
+      },
+      "packageOwnedTags": {},
+      "react": {},
+      "vue": {},
+      "daisyClasses": {},
+      "daisyFiles": 0,
+      "themeVariables": {},
+      "config": {},
+      "dependsOn": []
+    },
+    {
+      "name": "liquid-glass",
+      "ref": "main",
+      "commit": "09dbb4f",
+      "filesScanned": 15,
+      "bladeFiles": 0,
+      "jsFiles": 0,
+      "blade": {},
+      "packageOwnedTags": {},
+      "react": {},
+      "vue": {},
+      "daisyClasses": {},
+      "daisyFiles": 0,
+      "themeVariables": {},
+      "config": {},
+      "dependsOn": []
+    },
+    {
+      "name": "livewire-drag-and-drop",
+      "ref": "main",
+      "commit": "3d0e51f",
+      "filesScanned": 10,
+      "bladeFiles": 0,
+      "jsFiles": 0,
+      "blade": {},
+      "packageOwnedTags": {},
+      "react": {},
+      "vue": {},
+      "daisyClasses": {},
+      "daisyFiles": 0,
+      "themeVariables": {},
+      "config": {},
+      "dependsOn": []
+    },
+    {
+      "name": "livewire-starter-kit",
+      "ref": "main",
+      "commit": "f5a054c",
+      "filesScanned": 57,
+      "bladeFiles": 14,
+      "jsFiles": 0,
+      "blade": {
+        "heading": {
+          "count": 5,
+          "attributes": {
+            "size": 3,
+            "level": 1
+          }
+        },
+        "subheading": {
+          "count": 5,
+          "attributes": {
+            "size": 1
+          }
+        },
+        "nav": {
+          "count": 1,
+          "attributes": {
+            "sticky": 1
+          }
+        },
+        "icon": {
+          "count": 1,
+          "attributes": {
+            "name": 1
+          }
+        },
+        "main": {
+          "count": 1,
+          "attributes": {
+            "fullWidth": 1
+          }
+        },
+        "menu": {
+          "count": 2,
+          "attributes": {
+            "title": 1,
+            "activateByRoute": 1
+          }
+        },
+        "menu-separator": {
+          "count": 4,
+          "attributes": {}
+        },
+        "menu-item": {
+          "count": 5,
+          "attributes": {
+            "title": 5,
+            "icon": 2,
+            "href": 5
+          }
+        },
+        "list-item": {
+          "count": 1,
+          "attributes": {
+            "item": 1,
+            "value": 1,
+            "subValue": 1,
+            "noSeparator": 1,
+            "noHover": 1
+          }
+        },
+        "button": {
+          "count": 12,
+          "attributes": {
+            "icon": 1,
+            "tooltipLeft": 1,
+            "noWireNavigate": 1,
+            "link": 1,
+            "variant": 11,
+            "type": 8
+          }
+        },
+        "toast": {
+          "count": 1,
+          "attributes": {}
+        },
+        "form": {
+          "count": 8,
+          "attributes": {}
+        },
+        "input": {
+          "count": 17,
+          "attributes": {
+            "label": 17,
+            "type": 17,
+            "required": 16,
+            "autocomplete": 15,
+            "placeholder": 10,
+            "viewable": 6,
+            "autofocus": 4
+          }
+        },
+        "link": {
+          "count": 6,
+          "attributes": {
+            "href": 4
+          }
+        },
+        "checkbox": {
+          "count": 1,
+          "attributes": {
+            "label": 1
+          }
+        },
+        "text": {
+          "count": 4,
+          "attributes": {}
+        },
+        "theme-toggle": {
+          "count": 1,
+          "attributes": {}
+        },
+        "modal": {
+          "count": 1,
+          "attributes": {
+            "show": 1,
+            "focusable": 1
+          }
+        }
+      },
+      "packageOwnedTags": {},
+      "react": {},
+      "vue": {},
+      "daisyClasses": {
+        "themeContent": {
+          "bg-accent-content": 1
+        },
+        "themeBase": {
+          "bg-base-200": 2,
+          "bg-base-100": 1
+        },
+        "component": {
+          "btn-circle": 2,
+          "btn-ghost": 1,
+          "btn-xs": 1,
+          "btn-primary": 6,
+          "btn": 1,
+          "btn-danger": 1
+        }
+      },
+      "daisyFiles": 11,
+      "themeVariables": {
+        "--color-primary": 1,
+        "--color-primary-content": 1,
+        "--color-secondary": 1,
+        "--color-secondary-content": 1,
+        "--color-accent": 1,
+        "--color-accent-content": 1,
+        "--color-neutral": 18,
+        "--color-neutral-content": 2,
+        "--color-base-100": 2,
+        "--color-base-200": 2,
+        "--color-base-300": 2,
+        "--color-base-content": 2,
+        "--color-info": 2,
+        "--color-info-content": 2,
+        "--color-success": 2,
+        "--color-success-content": 2,
+        "--color-warning": 2,
+        "--color-warning-content": 2,
+        "--color-error": 2,
+        "--color-error-content": 2,
+        "--rounded-box": 1,
+        "--rounded-btn": 1,
+        "--rounded-badge": 1,
+        "--animation-btn": 1,
+        "--animation-input": 1,
+        "--btn-focus-scale": 1,
+        "--border-btn": 1,
+        "--tab-radius": 1,
+        "var(--b2)": 5,
+        "var(--bc)": 1,
+        "var(--pc)": 1,
+        "var(--p)": 1
+      },
+      "config": {
+        "@plugin \"daisyui\"": 1,
+        "data-theme=": 1
+      },
+      "dependsOn": [
+        "daisyui",
+        "artisanpack-ui/livewire-ui-components"
+      ]
+    },
+    {
+      "name": "media-library",
+      "ref": "main",
+      "commit": "2d41be4",
+      "filesScanned": 110,
+      "bladeFiles": 10,
+      "jsFiles": 20,
+      "blade": {
+        "button": {
+          "count": 54,
+          "attributes": {
+            "type": 31,
+            "variant": 54,
+            "size": 49,
+            "disabled": 1,
+            "href": 6,
+            "title": 2
+          }
+        },
+        "icon": {
+          "count": 94,
+          "attributes": {
+            "name": 94,
+            "h-4": 1,
+            "inlineBlock": 1,
+            "mr-1',": 1,
+            "'w-3": 2,
+            "h-3'": 2,
+            "'w-2": 1,
+            "h-2'": 1,
+            "'w-8": 4,
+            "h-8'": 4,
+            "mb-4": 1,
+            "opacity-50',": 1
+          }
+        },
+        "modal": {
+          "count": 3,
+          "attributes": {
+            "title": 3,
+            "'wFull": 1,
+            "mediaLibraryModal',": 1,
+            "'mediaLibraryModal-Inline": 1,
+            "maxW-2xl'": 1
+          }
+        },
+        "card": {
+          "count": 14,
+          "attributes": {
+            "variant": 2
+          }
+        },
+        "heading": {
+          "count": 17,
+          "attributes": {
+            "level": 17
+          }
+        },
+        "input": {
+          "count": 12,
+          "attributes": {
+            "label": 9,
+            "placeholder": 11,
+            "required": 4,
+            "help": 3,
+            "size": 1,
+            "value": 1,
+            "readonly": 1
+          }
+        },
+        "select": {
+          "count": 12,
+          "attributes": {
+            "label": 7,
+            "options": 12,
+            "optionValue": 12,
+            "optionLabel": 12,
+            "size": 3,
+            "placeholder": 5
+          }
+        },
+        "textarea": {
+          "count": 6,
+          "attributes": {
+            "label": 6,
+            "placeholder": 6,
+            "rows": 6
+          }
+        },
+        "badge": {
+          "count": 5,
+          "attributes": {
+            "variant": 5,
+            "size": 5
+          }
+        },
+        "tabs": {
+          "count": 1,
+          "attributes": {}
+        },
+        "tab": {
+          "count": 2,
+          "attributes": {
+            "name": 2,
+            "label": 2,
+            "icon": 2
+          }
+        },
+        "alert": {
+          "count": 3,
+          "attributes": {
+            "variant": 3,
+            "'mb-3": 1,
+            "py-2'": 1,
+            "role": 1
+          }
+        },
+        "loading": {
+          "count": 6,
+          "attributes": {
+            "size": 2
+          }
+        },
+        "stat": {
+          "count": 4,
+          "attributes": {
+            "title": 4,
+            "value": 4,
+            "icon": 4,
+            "color": 4,
+            "animate": 2,
+            "sparklineData": 1,
+            "sparklineType": 1,
+            "sparklineColor": 1
+          }
+        },
+        "progress": {
+          "count": 4,
+          "attributes": {
+            "value": 4,
+            "color": 2,
+            "size": 2
+          }
+        },
+        "breadcrumbs": {
+          "count": 1,
+          "attributes": {}
+        },
+        "link": {
+          "count": 2,
+          "attributes": {
+            "href": 1
+          }
+        },
+        "dropdown": {
+          "count": 2,
+          "attributes": {}
+        },
+        "menu-item": {
+          "count": 5,
+          "attributes": {}
+        }
+      },
+      "packageOwnedTags": {},
+      "react": {
+        "Button": {
+          "count": 31,
+          "attributes": {
+            "size": 16,
+            "color": 20,
+            "onClick": 31,
+            "loading": 10,
+            "disabled": 5,
+            "title": 1
+          }
+        },
+        "Input": {
+          "count": 9,
+          "attributes": {
+            "label": 7,
+            "value": 9,
+            "onChange": 9,
+            "placeholder": 9,
+            "hint": 3,
+            "icon": 2
+          }
+        },
+        "Textarea": {
+          "count": 3,
+          "attributes": {
+            "label": 3,
+            "value": 3,
+            "onChange": 3,
+            "placeholder": 3
+          }
+        },
+        "Select": {
+          "count": 9,
+          "attributes": {
+            "label": 2,
+            "options": 9,
+            "value": 9,
+            "onChange": 9,
+            "optionValue": 9,
+            "optionLabel": 9,
+            "className": 1
+          }
+        },
+        "Card": {
+          "count": 7,
+          "attributes": {
+            "className": 3,
+            "title": 2
+          }
+        },
+        "Alert": {
+          "count": 5,
+          "attributes": {
+            "type": 5,
+            "className": 3
+          }
+        },
+        "Modal": {
+          "count": 7,
+          "attributes": {
+            "open": 7,
+            "onClose": 7,
+            "title": 7,
+            "actions": 7,
+            "className": 2
+          }
+        },
+        "Badge": {
+          "count": 7,
+          "attributes": {
+            "value": 7,
+            "color": 7
+          }
+        },
+        "Grid": {
+          "count": 1,
+          "attributes": {
+            "cols": 1,
+            "colsSm": 1,
+            "colsMd": 1,
+            "colsLg": 1,
+            "gap": 1,
+            "role": 1
+          }
+        },
+        "Pagination": {
+          "count": 1,
+          "attributes": {
+            "currentPage": 1,
+            "totalPages": 1,
+            "onChange": 1
+          }
+        },
+        "EmptyState": {
+          "count": 1,
+          "attributes": {
+            "heading": 1,
+            "description": 1
+          }
+        },
+        "Loading": {
+          "count": 2,
+          "attributes": {}
+        },
+        "Tooltip": {
+          "count": 1,
+          "attributes": {
+            "content": 1
+          }
+        },
+        "Tabs": {
+          "count": 1,
+          "attributes": {
+            "tabs": 1,
+            "activeTab": 1,
+            "onChange": 1
+          }
+        },
+        "Stat": {
+          "count": 3,
+          "attributes": {
+            "title": 3,
+            "value": 3,
+            "description": 3
+          }
+        },
+        "StatGroup": {
+          "count": 1,
+          "attributes": {}
+        },
+        "Progress": {
+          "count": 2,
+          "attributes": {
+            "value": 2,
+            "color": 2,
+            "className": 1
+          }
+        },
+        "Sparkline": {
+          "count": 1,
+          "attributes": {
+            "data": 1,
+            "color": 1
+          }
+        }
+      },
+      "vue": {
+        "Button": {
+          "count": 31,
+          "attributes": {
+            "size": 16,
+            "color": 20,
+            "loading": 10,
+            "disabled": 5,
+            "title": 1,
+            "ariaLabel": 1
+          }
+        },
+        "Input": {
+          "count": 9,
+          "attributes": {
+            "label": 7,
+            "v-model": 7,
+            "placeholder": 9,
+            "hint": 3,
+            "modelValue": 2
+          }
+        },
+        "Textarea": {
+          "count": 3,
+          "attributes": {
+            "label": 3,
+            "v-model": 3,
+            "placeholder": 3
+          }
+        },
+        "Select": {
+          "count": 9,
+          "attributes": {
+            "label": 2,
+            "options": 9,
+            "modelValue": 9
+          }
+        },
+        "Card": {
+          "count": 7,
+          "attributes": {
+            "title": 2
+          }
+        },
+        "Alert": {
+          "count": 6,
+          "attributes": {
+            "color": 6
+          }
+        },
+        "Modal": {
+          "count": 7,
+          "attributes": {
+            "v-model:open": 7,
+            "title": 7
+          }
+        },
+        "Badge": {
+          "count": 7,
+          "attributes": {
+            "value": 7,
+            "color": 7
+          }
+        },
+        "Grid": {
+          "count": 1,
+          "attributes": {
+            "cols": 1,
+            "colsSm": 1,
+            "colsMd": 1,
+            "colsLg": 1,
+            "gap": 1,
+            "role": 1
+          }
+        },
+        "Pagination": {
+          "count": 1,
+          "attributes": {
+            "v-model:current-page": 1,
+            "totalPages": 1
+          }
+        },
+        "EmptyState": {
+          "count": 1,
+          "attributes": {
+            "heading": 1,
+            "description": 1
+          }
+        },
+        "Loading": {
+          "count": 2,
+          "attributes": {}
+        },
+        "Tooltip": {
+          "count": 1,
+          "attributes": {
+            "text": 1
+          }
+        },
+        "Tabs": {
+          "count": 1,
+          "attributes": {
+            "v-model:active-tab": 1,
+            "tabs": 1
+          }
+        },
+        "Stat": {
+          "count": 3,
+          "attributes": {
+            "title": 3,
+            "value": 3,
+            "description": 3
+          }
+        },
+        "Progress": {
+          "count": 2,
+          "attributes": {
+            "value": 2,
+            "color": 2
+          }
+        },
+        "Sparkline": {
+          "count": 1,
+          "attributes": {
+            "data": 1,
+            "color": 1
+          }
+        }
+      },
+      "daisyClasses": {
+        "themeBase": {
+          "text-base-content/40": 4,
+          "bg-base-200": 24,
+          "text-base-content/30": 6,
+          "text-base-content/50": 12,
+          "text-base-content/60": 16,
+          "bg-base-100": 2,
+          "ring-base-300": 6,
+          "border-base-300": 3,
+          "bg-base-300": 2,
+          "bg-base-content/20": 2
+        },
+        "component": {
+          "btn": 14,
+          "btn-ghost": 4,
+          "btn-xs": 4,
+          "checkbox": 5,
+          "checkbox-primary": 5,
+          "checkbox-sm": 4,
+          "join": 2,
+          "join-item": 6,
+          "btn-sm": 10,
+          "btn-active": 6,
+          "alert": 2,
+          "alert-warning": 2,
+          "stats": 1,
+          "btn-outline": 2,
+          "btn-error": 1
+        },
+        "themeSemantic": {
+          "text-error": 8,
+          "bg-primary/10": 16,
+          "text-primary": 13,
+          "ring-primary": 27,
+          "text-info": 7,
+          "ring-info": 6,
+          "bg-error": 4,
+          "bg-error/80": 4,
+          "text-success": 7,
+          "border-primary": 14,
+          "bg-primary/5": 5,
+          "ring-primary/30": 1,
+          "bg-primary/20": 2,
+          "bg-primary": 5,
+          "border-primary/20": 1,
+          "text-secondary": 1,
+          "text-warning": 3,
+          "text-accent": 2,
+          "border-success": 2,
+          "bg-success/5": 2
+        },
+        "ambiguous": {
+          "label": 8,
+          "label-text": 4,
+          "list": 3,
+          "label-text-alt": 4
+        },
+        "themeContent": {
+          "text-error-content": 4
+        }
+      },
+      "daisyFiles": 21,
+      "themeVariables": {},
+      "config": {},
+      "dependsOn": [
+        "artisanpack-ui/livewire-ui-components"
+      ]
+    },
+    {
+      "name": "microsoft-oauth",
+      "ref": "main",
+      "commit": "31be3f8",
+      "filesScanned": 28,
+      "bladeFiles": 0,
+      "jsFiles": 0,
+      "blade": {},
+      "packageOwnedTags": {},
+      "react": {},
+      "vue": {},
+      "daisyClasses": {},
+      "daisyFiles": 0,
+      "themeVariables": {},
+      "config": {},
+      "dependsOn": []
+    },
+    {
+      "name": "package-blueprint",
+      "ref": "main",
+      "commit": "4943279",
+      "filesScanned": 6,
+      "bladeFiles": 0,
+      "jsFiles": 0,
+      "blade": {},
+      "packageOwnedTags": {},
+      "react": {},
+      "vue": {},
+      "daisyClasses": {},
+      "daisyFiles": 0,
+      "themeVariables": {},
+      "config": {},
+      "dependsOn": []
+    },
+    {
+      "name": "pagespeed-insights",
+      "ref": "origin/main",
+      "commit": "f997c85",
+      "filesScanned": 112,
+      "bladeFiles": 5,
+      "jsFiles": 12,
+      "blade": {
+        "card": {
+          "count": 5,
+          "attributes": {
+            "title": 5,
+            "subtitle": 5,
+            "shadow": 5
+          }
+        },
+        "badge": {
+          "count": 8,
+          "attributes": {
+            "value": 8,
+            "color": 4,
+            "title": 1
+          }
+        },
+        "alert": {
+          "count": 16,
+          "attributes": {
+            "color": 16,
+            "title": 16,
+            "description": 16
+          }
+        },
+        "stat": {
+          "count": 4,
+          "attributes": {
+            "title": 4,
+            "value": 4,
+            "description": 4,
+            "color": 2,
+            "tooltip": 2,
+            "animate": 4
+          }
+        },
+        "table": {
+          "count": 2,
+          "attributes": {
+            "headers": 2,
+            "rows": 2,
+            "keyBy": 2
+          }
+        },
+        "progress": {
+          "count": 1,
+          "attributes": {
+            "value": 1,
+            "max": 1,
+            "ariaLabel": 1
+          }
+        },
+        "loading": {
+          "count": 1,
+          "attributes": {}
+        },
+        "button": {
+          "count": 8,
+          "attributes": {
+            "color": 3,
+            "disabled": 1,
+            "tooltip": 1,
+            "type": 1
+          }
+        },
+        "select": {
+          "count": 3,
+          "attributes": {
+            "label": 2,
+            "options": 3,
+            "optionValue": 3,
+            "optionLabel": 3,
+            "ariaLabel": 1
+          }
+        },
+        "chart": {
+          "count": 1,
+          "attributes": {
+            "series": 1,
+            "options": 1,
+            "type": 1
+          }
+        },
+        "input": {
+          "count": 2,
+          "attributes": {
+            "label": 2,
+            "placeholder": 2
+          }
+        }
+      },
+      "packageOwnedTags": {},
+      "react": {
+        "Card": {
+          "count": 5,
+          "attributes": {
+            "title": 5,
+            "subtitle": 5,
+            "menu": 4,
+            "footer": 1
+          }
+        },
+        "Badge": {
+          "count": 6,
+          "attributes": {
+            "value": 6,
+            "color": 3,
+            "size": 2
+          }
+        },
+        "Stat": {
+          "count": 3,
+          "attributes": {
+            "title": 3,
+            "value": 3,
+            "description": 3,
+            "color": 2,
+            "className": 2
+          }
+        },
+        "Loading": {
+          "count": 6,
+          "attributes": {
+            "size": 6
+          }
+        },
+        "Table": {
+          "count": 2,
+          "attributes": {
+            "headers": 2,
+            "rows": 2,
+            "keyBy": 2,
+            "className": 2
+          }
+        },
+        "Progress": {
+          "count": 1,
+          "attributes": {
+            "value": 1,
+            "max": 1,
+            "className": 1
+          }
+        },
+        "Button": {
+          "count": 6,
+          "attributes": {
+            "color": 6,
+            "size": 4,
+            "onClick": 5,
+            "disabled": 3,
+            "tooltip": 1,
+            "className": 2,
+            "type": 1
+          }
+        },
+        "Alert": {
+          "count": 1,
+          "attributes": {
+            "color": 1,
+            "className": 1
+          }
+        },
+        "Select": {
+          "count": 2,
+          "attributes": {
+            "label": 2,
+            "value": 2,
+            "onChange": 2,
+            "options": 2,
+            "optionValue": 2,
+            "optionLabel": 2,
+            "className": 2
+          }
+        },
+        "Input": {
+          "count": 2,
+          "attributes": {
+            "label": 2,
+            "placeholder": 2,
+            "value": 2,
+            "onChange": 2,
+            "className": 1
+          }
+        }
+      },
+      "vue": {
+        "Badge": {
+          "count": 6,
+          "attributes": {
+            "value": 6,
+            "color": 2,
+            "ghost": 1,
+            "size": 2
+          }
+        },
+        "Card": {
+          "count": 5,
+          "attributes": {
+            "title": 5,
+            "subtitle": 5
+          }
+        },
+        "Loading": {
+          "count": 6,
+          "attributes": {
+            "size": 6
+          }
+        },
+        "Stat": {
+          "count": 3,
+          "attributes": {
+            "title": 3,
+            "value": 3,
+            "description": 3,
+            "className": 3
+          }
+        },
+        "Table": {
+          "count": 2,
+          "attributes": {
+            "columns": 2,
+            "rows": 2,
+            "className": 2
+          }
+        },
+        "Button": {
+          "count": 6,
+          "attributes": {
+            "color": 6,
+            "size": 4,
+            "disabled": 3,
+            "tooltip": 1,
+            "type": 1
+          }
+        },
+        "Progress": {
+          "count": 1,
+          "attributes": {
+            "value": 1,
+            "max": 1,
+            "className": 1,
+            "ariaLabel": 1
+          }
+        },
+        "Alert": {
+          "count": 1,
+          "attributes": {
+            "color": 1,
+            "className": 1
+          }
+        },
+        "Select": {
+          "count": 2,
+          "attributes": {
+            "v-model": 2,
+            "label": 2,
+            "options": 2,
+            "optionValue": 2,
+            "optionLabel": 2
+          }
+        },
+        "Input": {
+          "count": 2,
+          "attributes": {
+            "v-model": 2,
+            "label": 2,
+            "placeholder": 2
+          }
+        }
+      },
+      "daisyClasses": {
+        "ambiguous": {
+          "select-sm": 7
+        },
+        "themeSemantic": {
+          "text-error": 3
+        },
+        "component": {
+          "loading-sm": 1,
+          "btn-ghost": 4,
+          "btn-sm": 6,
+          "badge-sm": 3,
+          "badge-ghost": 1
+        }
+      },
+      "daisyFiles": 2,
+      "themeVariables": {
+        "--color-primary": 2,
+        "--color-secondary": 2
+      },
+      "config": {},
+      "dependsOn": [
+        "artisanpack-ui/livewire-ui-components"
+      ]
+    },
+    {
+      "name": "performance",
+      "ref": "origin/main",
+      "commit": "fcc0211",
+      "filesScanned": 192,
+      "bladeFiles": 0,
+      "jsFiles": 0,
+      "blade": {},
+      "packageOwnedTags": {},
+      "react": {},
+      "vue": {},
+      "daisyClasses": {
+        "ambiguous": {
+          "status": 4
+        }
+      },
+      "daisyFiles": 0,
+      "themeVariables": {},
+      "config": {},
+      "dependsOn": []
+    },
+    {
+      "name": "privacy",
+      "ref": "release/1.x",
+      "commit": "045ac02",
+      "filesScanned": 181,
+      "bladeFiles": 1,
+      "jsFiles": 0,
+      "blade": {
+        "modal": {
+          "count": 1,
+          "attributes": {
+            "title": 1
+          }
+        }
+      },
+      "packageOwnedTags": {},
+      "react": {},
+      "vue": {},
+      "daisyClasses": {
+        "component": {
+          "btn-primary": 13,
+          "card": 14,
+          "alert": 5,
+          "alert-warning": 2,
+          "btn": 27,
+          "btn-sm": 20,
+          "btn-ghost": 3,
+          "badge": 11,
+          "badge-ghost": 7,
+          "textarea": 7,
+          "textarea-bordered": 7,
+          "btn-info": 1,
+          "btn-success": 2,
+          "badge-info": 3,
+          "badge-warning": 3,
+          "badge-error": 2,
+          "badge-success": 4,
+          "alert-success": 3,
+          "checkbox": 2,
+          "btn-error": 1,
+          "badge-sm": 2,
+          "toggle": 2,
+          "toggle-primary": 2,
+          "btn-outline": 3,
+          "btn-link": 1
+        },
+        "themeBase": {
+          "bg-base-100": 16,
+          "bg-base-200": 6,
+          "border-base-300": 17,
+          "text-base-content": 3
+        },
+        "ambiguous": {
+          "link": 8,
+          "link-hover": 6,
+          "label-text": 25,
+          "select": 11,
+          "select-bordered": 10,
+          "table": 4,
+          "input": 8,
+          "input-bordered": 8,
+          "label": 2,
+          "link-primary": 1,
+          "select-sm": 1,
+          "status": 2,
+          "status-success": 1,
+          "status-error": 1
+        },
+        "themeSemantic": {
+          "text-error": 14,
+          "text-success": 1,
+          "bg-error/10": 2,
+          "bg-neutral": 2
+        },
+        "themeContent": {
+          "text-neutral-content": 2
+        }
+      },
+      "daisyFiles": 17,
+      "themeVariables": {},
+      "config": {
+        "data-theme=": 4
+      },
+      "dependsOn": []
+    },
+    {
+      "name": "rbac",
+      "ref": "release/1.x",
+      "commit": "8b2689b",
+      "filesScanned": 22,
+      "bladeFiles": 0,
+      "jsFiles": 0,
+      "blade": {},
+      "packageOwnedTags": {},
+      "react": {},
+      "vue": {},
+      "daisyClasses": {},
+      "daisyFiles": 0,
+      "themeVariables": {},
+      "config": {},
+      "dependsOn": []
+    },
+    {
+      "name": "react-starter-kit",
+      "ref": "main",
+      "commit": "501b1c9",
+      "filesScanned": 64,
+      "bladeFiles": 0,
+      "jsFiles": 10,
+      "blade": {},
+      "packageOwnedTags": {},
+      "react": {
+        "Sidebar": {
+          "count": 1,
+          "attributes": {
+            "open": 1,
+            "onOpenChange": 1,
+            "width": 1,
+            "className": 1,
+            "sidebarContent": 1
+          }
+        },
+        "Navbar": {
+          "count": 1,
+          "attributes": {
+            "className": 1,
+            "start": 1,
+            "end": 1
+          }
+        },
+        "Icon": {
+          "count": 2,
+          "attributes": {
+            "path": 2,
+            "size": 1
+          }
+        },
+        "ToastProvider": {
+          "count": 1,
+          "attributes": {}
+        },
+        "Button": {
+          "count": 11,
+          "attributes": {
+            "type": 10,
+            "color": 11,
+            "loading": 9,
+            "onClick": 2
+          }
+        },
+        "Input": {
+          "count": 17,
+          "attributes": {
+            "name": 17,
+            "label": 17,
+            "type": 15,
+            "value": 17,
+            "error": 17,
+            "onChange": 17,
+            "autoComplete": 16,
+            "autoFocus": 6,
+            "required": 17
+          }
+        },
+        "Checkbox": {
+          "count": 1,
+          "attributes": {
+            "name": 1,
+            "label": 1,
+            "checked": 1,
+            "onChange": 1
+          }
+        }
+      },
+      "vue": {},
+      "daisyClasses": {
+        "ambiguous": {
+          "menu": 2,
+          "menu-md": 1,
+          "link": 6,
+          "link-primary": 5,
+          "link-hover": 1
+        },
+        "themeBase": {
+          "border-base-300": 1,
+          "text-base-content/60": 3,
+          "bg-base-200": 3,
+          "bg-base-100": 14,
+          "text-base-content/70": 13,
+          "text-base-content/40": 2
+        },
+        "component": {
+          "avatar": 1,
+          "avatar-placeholder": 1,
+          "btn": 4,
+          "btn-ghost": 2,
+          "btn-sm": 1,
+          "btn-square": 2,
+          "drawer-open": 1,
+          "card": 13,
+          "card-body": 13,
+          "card-title": 8,
+          "divider": 1,
+          "card-actions": 5,
+          "btn-primary": 2,
+          "alert": 5,
+          "alert-success": 4,
+          "alert-info": 1,
+          "join": 1,
+          "join-item": 1
+        },
+        "themeSemantic": {
+          "bg-neutral": 1,
+          "text-primary": 1,
+          "text-success": 1,
+          "border-error/30": 1,
+          "text-error": 1
+        },
+        "themeContent": {
+          "text-neutral-content": 1
+        }
+      },
+      "daisyFiles": 14,
+      "themeVariables": {
+        "var(--p)": 1
+      },
+      "config": {
+        "@plugin \"daisyui\"": 1
+      },
+      "dependsOn": [
+        "daisyui",
+        "@artisanpack-ui/react",
+        "@artisanpack-ui/tokens"
+      ]
+    },
+    {
+      "name": "secure-uploads",
+      "ref": "main",
+      "commit": "71c90b9",
+      "filesScanned": 34,
+      "bladeFiles": 0,
+      "jsFiles": 0,
+      "blade": {},
+      "packageOwnedTags": {},
+      "react": {},
+      "vue": {},
+      "daisyClasses": {},
+      "daisyFiles": 0,
+      "themeVariables": {},
+      "config": {},
+      "dependsOn": []
+    },
+    {
+      "name": "security",
+      "ref": "release/2.1",
+      "commit": "1de0fa7",
+      "filesScanned": 91,
+      "bladeFiles": 1,
+      "jsFiles": 0,
+      "blade": {
+        "stat": {
+          "count": 4,
+          "attributes": {
+            "title": 4,
+            "value": 4,
+            "icon": 4,
+            "color": 4
+          }
+        },
+        "card": {
+          "count": 5,
+          "attributes": {}
+        },
+        "chart": {
+          "count": 2,
+          "attributes": {}
+        },
+        "icon": {
+          "count": 1,
+          "attributes": {
+            "name": 1
+          }
+        }
+      },
+      "packageOwnedTags": {},
+      "react": {},
+      "vue": {},
+      "daisyClasses": {
+        "ambiguous": {
+          "select": 1,
+          "select-bordered": 1,
+          "label": 1
+        },
+        "component": {
+          "badge": 2,
+          "badge-error": 1,
+          "badge-ghost": 1
+        },
+        "themeSemantic": {
+          "text-error": 2,
+          "text-success": 2,
+          "text-warning": 1
+        }
+      },
+      "daisyFiles": 1,
+      "themeVariables": {},
+      "config": {},
+      "dependsOn": []
+    },
+    {
+      "name": "security-advanced-auth",
+      "ref": "release/1.x",
+      "commit": "b6907b0",
+      "filesScanned": 61,
+      "bladeFiles": 0,
+      "jsFiles": 0,
+      "blade": {},
+      "packageOwnedTags": {},
+      "react": {},
+      "vue": {},
+      "daisyClasses": {},
+      "daisyFiles": 0,
+      "themeVariables": {},
+      "config": {},
+      "dependsOn": []
+    },
+    {
+      "name": "security-analytics",
+      "ref": "main",
+      "commit": "3c54a43",
+      "filesScanned": 149,
+      "bladeFiles": 0,
+      "jsFiles": 0,
+      "blade": {},
+      "packageOwnedTags": {},
+      "react": {},
+      "vue": {},
+      "daisyClasses": {
+        "ambiguous": {
+          "footer": 1
+        },
+        "component": {
+          "stat-cards": 1,
+          "stat-card": 1,
+          "stat-value": 1,
+          "stat-label": 1
+        }
+      },
+      "daisyFiles": 1,
+      "themeVariables": {},
+      "config": {},
+      "dependsOn": []
+    },
+    {
+      "name": "security-auth",
+      "ref": "release/1.x",
+      "commit": "7d9a635",
+      "filesScanned": 48,
+      "bladeFiles": 0,
+      "jsFiles": 0,
+      "blade": {},
+      "packageOwnedTags": {},
+      "react": {},
+      "vue": {},
+      "daisyClasses": {},
+      "daisyFiles": 0,
+      "themeVariables": {},
+      "config": {},
+      "dependsOn": []
+    },
+    {
+      "name": "security-full",
+      "ref": "main",
+      "commit": "82fc2c1",
+      "filesScanned": 1,
+      "bladeFiles": 0,
+      "jsFiles": 0,
+      "blade": {},
+      "packageOwnedTags": {},
+      "react": {},
+      "vue": {},
+      "daisyClasses": {},
+      "daisyFiles": 0,
+      "themeVariables": {},
+      "config": {},
+      "dependsOn": []
+    },
+    {
+      "name": "seo",
+      "ref": "main",
+      "commit": "7f4e37e",
+      "filesScanned": 226,
+      "bladeFiles": 7,
+      "jsFiles": 24,
+      "blade": {
+        "alert": {
+          "count": 9,
+          "attributes": {
+            "type": 9,
+            "dismissible": 3,
+            "icon": 2
+          }
+        },
+        "card": {
+          "count": 16,
+          "attributes": {}
+        },
+        "badge": {
+          "count": 3,
+          "attributes": {
+            "value": 3,
+            "color": 3
+          }
+        },
+        "select": {
+          "count": 10,
+          "attributes": {
+            "label": 8,
+            "options": 10,
+            "placeholder": 1,
+            "error": 7,
+            "required": 2,
+            "optionValue": 5,
+            "optionLabel": 5,
+            "hint": 2
+          }
+        },
+        "input": {
+          "count": 20,
+          "attributes": {
+            "label": 17,
+            "placeholder": 20,
+            "error": 19,
+            "icon": 1,
+            "hint": 8,
+            "required": 2,
+            "type": 5
+          }
+        },
+        "button": {
+          "count": 23,
+          "attributes": {
+            "color": 16,
+            "size": 14,
+            "icon": 7,
+            "outline": 10,
+            "title": 5,
+            "ariaLabel": 1,
+            "disabled": 1,
+            "type": 10
+          }
+        },
+        "icon": {
+          "count": 19,
+          "attributes": {
+            "name": 19
+          }
+        },
+        "stat": {
+          "count": 8,
+          "attributes": {
+            "title": 8,
+            "value": 8,
+            "icon": 8,
+            "color": 7
+          }
+        },
+        "toggle": {
+          "count": 4,
+          "attributes": {
+            "checked": 1,
+            "label": 3,
+            "hint": 3
+          }
+        },
+        "modal": {
+          "count": 2,
+          "attributes": {
+            "title": 2
+          }
+        },
+        "textarea": {
+          "count": 8,
+          "attributes": {
+            "label": 8,
+            "placeholder": 8,
+            "rows": 8,
+            "hint": 3,
+            "error": 7,
+            "\\\"https:": 4,
+            "schema.org\\\",\\n": 1,
+            "\\\"@type\\\":": 1,
+            "\\\"Article\\\",\\n": 1,
+            "...\\n}'": 1,
+            ")\"": 2,
+            "en\\\":": 1,
+            "example.com": 3,
+            "page\\\",\\n": 1,
+            "\\\"es\\\":": 1,
+            "es": 1,
+            "pagina\\\",\\n": 1,
+            "\\\"xDefault\\\":": 1,
+            "page\\\"\\n}'": 1
+          }
+        },
+        "checkbox": {
+          "count": 1,
+          "attributes": {
+            "label": 1,
+            "hint": 1
+          }
+        },
+        "progress": {
+          "count": 2,
+          "attributes": {
+            "type": 1,
+            "value": 2,
+            "color": 2,
+            "size": 2
+          }
+        },
+        "table": {
+          "count": 2,
+          "attributes": {
+            "headers": 2,
+            "rows": 2,
+            "compact": 2
+          }
+        },
+        "tabs": {
+          "count": 1,
+          "attributes": {}
+        },
+        "tab": {
+          "count": 4,
+          "attributes": {
+            "name": 4,
+            "label": 4
+          }
+        },
+        "collapse": {
+          "count": 1,
+          "attributes": {}
+        },
+        "range": {
+          "count": 1,
+          "attributes": {
+            "label": 1,
+            "min": 1,
+            "max": 1,
+            "step": 1,
+            "hint": 1
+          }
+        }
+      },
+      "packageOwnedTags": {},
+      "react": {
+        "Alert": {
+          "count": 10,
+          "attributes": {
+            "color": 10,
+            "className": 2
+          }
+        },
+        "Checkbox": {
+          "count": 6,
+          "attributes": {
+            "label": 4,
+            "checked": 6,
+            "onChange": 6,
+            "hint": 3
+          }
+        },
+        "Input": {
+          "count": 22,
+          "attributes": {
+            "label": 21,
+            "value": 22,
+            "onChange": 22,
+            "hint": 17,
+            "error": 19,
+            "maxLength": 1,
+            "type": 7,
+            "placeholder": 4,
+            "disabled": 1,
+            "className": 3,
+            "required": 2,
+            "min": 1,
+            "max": 1,
+            "step": 1
+          }
+        },
+        "Textarea": {
+          "count": 5,
+          "attributes": {
+            "label": 5,
+            "value": 5,
+            "onChange": 5,
+            "hint": 3,
+            "error": 5,
+            "rows": 5
+          }
+        },
+        "Button": {
+          "count": 14,
+          "attributes": {
+            "color": 9,
+            "size": 9,
+            "onClick": 14,
+            "disabled": 6
+          }
+        },
+        "Card": {
+          "count": 5,
+          "attributes": {
+            "className": 4
+          }
+        },
+        "Select": {
+          "count": 8,
+          "attributes": {
+            "label": 6,
+            "value": 8,
+            "onChange": 8,
+            "options": 8,
+            "optionValue": 8,
+            "optionLabel": 8,
+            "error": 6,
+            "className": 2,
+            "hint": 1
+          }
+        },
+        "Badge": {
+          "count": 5,
+          "attributes": {
+            "color": 5,
+            "size": 5,
+            "className": 1
+          }
+        },
+        "Loading": {
+          "count": 5,
+          "attributes": {}
+        },
+        "Modal": {
+          "count": 2,
+          "attributes": {
+            "open": 2,
+            "onClose": 2,
+            "title": 2
+          }
+        },
+        "Pagination": {
+          "count": 1,
+          "attributes": {
+            "totalPages": 1,
+            "currentPage": 1,
+            "onChange": 1
+          }
+        },
+        "Collapse": {
+          "count": 1,
+          "attributes": {
+            "title": 1
+          }
+        },
+        "Progress": {
+          "count": 1,
+          "attributes": {
+            "value": 1,
+            "max": 1,
+            "color": 1,
+            "className": 1
+          }
+        },
+        "Stat": {
+          "count": 4,
+          "attributes": {
+            "title": 4,
+            "value": 4,
+            "description": 2
+          }
+        },
+        "Tabs": {
+          "count": 2,
+          "attributes": {
+            "tabs": 2,
+            "variant": 1,
+            "activeTab": 1,
+            "onChange": 1,
+            "size": 1
+          }
+        }
+      },
+      "vue": {
+        "Alert": {
+          "count": 10,
+          "attributes": {
+            "color": 10
+          }
+        },
+        "Checkbox": {
+          "count": 7,
+          "attributes": {
+            "label": 5,
+            "modelValue": 5,
+            "hint": 3,
+            "ariaLabel": 1,
+            "v-model": 2
+          }
+        },
+        "Divider": {
+          "count": 1,
+          "attributes": {
+            "label": 1
+          }
+        },
+        "Input": {
+          "count": 23,
+          "attributes": {
+            "label": 22,
+            "modelValue": 17,
+            "hint": 18,
+            "error": 20,
+            "maxlength": 1,
+            "type": 6,
+            "placeholder": 4,
+            "disabled": 1,
+            "v-model": 6,
+            "required": 4,
+            "min": 1,
+            "max": 1,
+            "step": 1
+          }
+        },
+        "Textarea": {
+          "count": 6,
+          "attributes": {
+            "label": 6,
+            "modelValue": 4,
+            "hint": 3,
+            "error": 6,
+            "rows": 6,
+            "v-model": 2
+          }
+        },
+        "Button": {
+          "count": 14,
+          "attributes": {
+            "color": 9,
+            "size": 9,
+            "ariaLabel": 1,
+            "disabled": 6
+          }
+        },
+        "Card": {
+          "count": 5,
+          "attributes": {}
+        },
+        "Select": {
+          "count": 10,
+          "attributes": {
+            "label": 8,
+            "modelValue": 6,
+            "options": 10,
+            "optionValue": 10,
+            "optionLabel": 10,
+            "error": 8,
+            "v-model": 4,
+            "hint": 1
+          }
+        },
+        "Badge": {
+          "count": 5,
+          "attributes": {
+            "color": 5,
+            "size": 5
+          }
+        },
+        "Modal": {
+          "count": 2,
+          "attributes": {
+            "open": 2,
+            "title": 2
+          }
+        },
+        "Pagination": {
+          "count": 1,
+          "attributes": {
+            "currentPage": 1,
+            "totalPages": 1
+          }
+        },
+        "Loading": {
+          "count": 4,
+          "attributes": {}
+        },
+        "Collapse": {
+          "count": 1,
+          "attributes": {
+            "title": 1
+          }
+        },
+        "Progress": {
+          "count": 4,
+          "attributes": {
+            "value": 4,
+            "max": 4,
+            "color": 4
+          }
+        },
+        "Stat": {
+          "count": 4,
+          "attributes": {
+            "title": 4,
+            "value": 4,
+            "description": 2
+          }
+        },
+        "Tabs": {
+          "count": 2,
+          "attributes": {
+            "tabs": 2,
+            "variant": 1,
+            "v-model:active-tab": 1,
+            "size": 1
+          }
+        }
+      },
+      "daisyClasses": {
+        "component": {
+          "divider": 1,
+          "radial-progress": 2
+        },
+        "themeBase": {
+          "text-base-content/60": 26,
+          "text-base-content/50": 13,
+          "text-base-content/70": 6,
+          "bg-base-200": 15,
+          "border-base-300": 7,
+          "text-base-content/30": 6,
+          "bg-base-100": 6,
+          "text-base-content": 6,
+          "text-base-content/40": 6,
+          "text-base-content/80": 4
+        },
+        "themeSemantic": {
+          "text-primary": 3,
+          "text-success": 8,
+          "text-error": 4,
+          "text-warning": 26,
+          "text-info": 1
+        },
+        "ambiguous": {
+          "table": 5,
+          "table-zebra": 3,
+          "label": 4,
+          "label-text": 4,
+          "table-sm": 2
+        }
+      },
+      "daisyFiles": 20,
+      "themeVariables": {},
+      "config": {},
+      "dependsOn": [
+        "artisanpack-ui/livewire-ui-components"
+      ]
+    },
+    {
+      "name": "shipping-labels",
+      "ref": "main",
+      "commit": "04b8287",
+      "filesScanned": 15,
+      "bladeFiles": 0,
+      "jsFiles": 0,
+      "blade": {},
+      "packageOwnedTags": {},
+      "react": {},
+      "vue": {},
+      "daisyClasses": {},
+      "daisyFiles": 0,
+      "themeVariables": {},
+      "config": {},
+      "dependsOn": []
+    },
+    {
+      "name": "visual-editor",
+      "ref": "main",
+      "commit": "7b6e35e4",
+      "filesScanned": 2070,
+      "bladeFiles": 0,
+      "jsFiles": 3,
+      "blade": {},
+      "packageOwnedTags": {},
+      "react": {
+        "Alert": {
+          "count": 2,
+          "attributes": {
+            "color": 2,
+            "role": 1
+          }
+        },
+        "ToastProvider": {
+          "count": 2,
+          "attributes": {}
+        },
+        "Button": {
+          "count": 1,
+          "attributes": {
+            "color": 1,
+            "onClick": 1
+          }
+        },
+        "Modal": {
+          "count": 1,
+          "attributes": {
+            "open": 1,
+            "onClose": 1,
+            "title": 1,
+            "subtitle": 1,
+            "actions": 1
+          }
+        }
+      },
+      "vue": {},
+      "daisyClasses": {
+        "component": {
+          "card": 2
+        }
+      },
+      "daisyFiles": 1,
+      "themeVariables": {
+        "--depth": 4,
+        "--color-primary": 29,
+        "--color-base-100": 17,
+        "--color-base-content": 41,
+        "--color-base-300": 17,
+        "--color-base-200": 12,
+        "--color-primary-content": 4,
+        "--color-secondary": 2,
+        "--color-error": 2,
+        "--rounded-btn": 7,
+        "--rounded-box": 1,
+        "--color-neutral": 1
+      },
+      "config": {
+        "data-theme=": 3
+      },
+      "dependsOn": [
+        "daisyui",
+        "@artisanpack-ui/react"
+      ]
+    },
+    {
+      "name": "vue-starter-kit",
+      "ref": "main",
+      "commit": "96c246f",
+      "filesScanned": 64,
+      "bladeFiles": 0,
+      "jsFiles": 10,
+      "blade": {},
+      "packageOwnedTags": {},
+      "react": {},
+      "vue": {
+        "Navbar": {
+          "count": 1,
+          "attributes": {}
+        },
+        "Sidebar": {
+          "count": 1,
+          "attributes": {
+            "v-model:open": 1
+          }
+        },
+        "Icon": {
+          "count": 2,
+          "attributes": {
+            "path": 2,
+            "size": 1
+          }
+        },
+        "ToastProvider": {
+          "count": 2,
+          "attributes": {}
+        },
+        "Button": {
+          "count": 11,
+          "attributes": {
+            "type": 10,
+            "color": 11,
+            "loading": 9
+          }
+        },
+        "Input": {
+          "count": 17,
+          "attributes": {
+            "v-model": 17,
+            "error": 17,
+            "label": 17,
+            "type": 15,
+            "autocomplete": 16,
+            "autofocus": 6,
+            "required": 17
+          }
+        },
+        "Checkbox": {
+          "count": 1,
+          "attributes": {
+            "v-model": 1,
+            "label": 1
+          }
+        }
+      },
+      "daisyClasses": {
+        "themeSemantic": {
+          "bg-primary": 1,
+          "bg-neutral": 1,
+          "text-primary": 1,
+          "text-success": 1,
+          "border-error/30": 1,
+          "text-error": 1
+        },
+        "themeContent": {
+          "text-primary-content": 1,
+          "text-neutral-content": 1
+        },
+        "themeBase": {
+          "bg-base-200": 3,
+          "border-base-300": 1,
+          "text-base-content/60": 3,
+          "bg-base-100": 14,
+          "text-base-content/70": 13,
+          "text-base-content/40": 2
+        },
+        "component": {
+          "btn": 4,
+          "btn-ghost": 2,
+          "btn-square": 2,
+          "avatar": 1,
+          "avatar-placeholder": 1,
+          "btn-sm": 1,
+          "card": 13,
+          "card-body": 13,
+          "card-title": 8,
+          "divider": 1,
+          "card-actions": 5,
+          "btn-primary": 2,
+          "alert": 5,
+          "alert-success": 4,
+          "alert-info": 1,
+          "join": 1,
+          "join-item": 1
+        },
+        "ambiguous": {
+          "menu": 2,
+          "menu-md": 1,
+          "menu-active": 2,
+          "link": 6,
+          "link-primary": 5,
+          "link-hover": 1
+        }
+      },
+      "daisyFiles": 15,
+      "themeVariables": {
+        "var(--p)": 1
+      },
+      "config": {
+        "@plugin \"daisyui\"": 1
+      },
+      "dependsOn": [
+        "daisyui",
+        "@artisanpack-ui/vue",
+        "@artisanpack-ui/tokens"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,4704 @@
+{
+  "stack": "vue",
+  "commit": "229b7b7",
+  "components": [
+    {
+      "name": "Button",
+      "category": "form",
+      "file": "packages/vue/src/components/form/Button/Button.vue",
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "doc": "Text label displayed inside the button. Hidden on small screens when `responsive` is true.",
+          "values": null
+        },
+        {
+          "name": "color",
+          "type": "DaisyColor | 'ghost' | 'outline'",
+          "required": false,
+          "doc": "DaisyUI color variant applied to the button. Accepts standard theme colors plus `'ghost'` and `'outline'`.",
+          "values": [
+            "primary",
+            "secondary",
+            "accent",
+            "neutral",
+            "info",
+            "success",
+            "warning",
+            "error",
+            "ghost",
+            "outline"
+          ]
+        },
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "doc": "Controls the button size using DaisyUI size modifiers.",
+          "values": [
+            "xs",
+            "sm",
+            "md",
+            "lg"
+          ]
+        },
+        {
+          "name": "loading",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, shows a loading spinner in place of the left icon.",
+          "default": "false",
+          "values": null
+        },
+        {
+          "name": "link",
+          "type": "string",
+          "required": false,
+          "doc": "When provided, renders the button as an `<a>` element pointing to this URL.",
+          "values": null
+        },
+        {
+          "name": "external",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true and `link` is set, opens the link in a new tab with `rel=\"noopener noreferrer\"`.",
+          "values": null
+        },
+        {
+          "name": "badge",
+          "type": "string",
+          "required": false,
+          "doc": "Text content for an inline badge rendered after the button label.",
+          "values": null
+        },
+        {
+          "name": "badgeColor",
+          "type": "DaisyColor | 'ghost' | 'outline'",
+          "required": false,
+          "doc": "DaisyUI color variant applied to the badge element.",
+          "values": [
+            "primary",
+            "secondary",
+            "accent",
+            "neutral",
+            "info",
+            "success",
+            "warning",
+            "error",
+            "ghost",
+            "outline"
+          ]
+        },
+        {
+          "name": "badgeClasses",
+          "type": "string",
+          "required": false,
+          "doc": "Additional CSS classes applied to the badge element.",
+          "values": null
+        },
+        {
+          "name": "responsive",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, hides the label on small screens and only shows it on `sm` breakpoint and above.",
+          "default": "false",
+          "values": null
+        },
+        {
+          "name": "tooltip",
+          "type": "string",
+          "required": false,
+          "doc": "Tooltip text displayed on hover. Wraps the button in a DaisyUI tooltip container.",
+          "values": null
+        },
+        {
+          "name": "tooltipPosition",
+          "type": "'top' | 'bottom' | 'left' | 'right'",
+          "required": false,
+          "doc": "Position of the tooltip relative to the button.",
+          "default": "'top'",
+          "values": [
+            "top",
+            "bottom",
+            "left",
+            "right"
+          ]
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether the button is disabled.",
+          "values": null
+        },
+        {
+          "name": "type",
+          "type": "'button' | 'submit' | 'reset'",
+          "required": false,
+          "doc": "HTML button type attribute.",
+          "default": "'button'",
+          "values": [
+            "button",
+            "submit",
+            "reset"
+          ]
+        }
+      ],
+      "slots": {
+        "default": true,
+        "named": [
+          "icon",
+          "iconRight"
+        ]
+      },
+      "events": [],
+      "models": [],
+      "daisy": {
+        "component": {
+          "loading": 2,
+          "loading-spinner": 2,
+          "loading-sm": 2,
+          "btn": 1,
+          "btn-disabled": 1,
+          "tooltip": 1,
+          "badge": 2
+        }
+      }
+    },
+    {
+      "name": "Checkbox",
+      "category": "form",
+      "file": "packages/vue/src/components/form/Checkbox/Checkbox.vue",
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "doc": "Text label displayed next to the checkbox.",
+          "values": null
+        },
+        {
+          "name": "right",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, positions the label to the right of the checkbox (reverses flex order).",
+          "default": "false",
+          "values": null
+        },
+        {
+          "name": "hint",
+          "type": "string",
+          "required": false,
+          "doc": "Helper text displayed below the checkbox. Hidden when `error` is present.",
+          "values": null
+        },
+        {
+          "name": "error",
+          "type": "string",
+          "required": false,
+          "doc": "Error message displayed below the checkbox. Replaces `hint` when present.",
+          "values": null
+        },
+        {
+          "name": "color",
+          "type": "DaisyColor",
+          "required": false,
+          "doc": "DaisyUI color variant for the checkbox indicator.",
+          "values": [
+            "primary",
+            "secondary",
+            "accent",
+            "neutral",
+            "info",
+            "success",
+            "warning",
+            "error"
+          ]
+        },
+        {
+          "name": "card",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, renders the checkbox inside a bordered card layout.",
+          "default": "false",
+          "values": null
+        },
+        {
+          "name": "cardClass",
+          "type": "string",
+          "required": false,
+          "doc": "Additional CSS classes applied to the card container when `card` is true.",
+          "values": null
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "required": false,
+          "doc": "Custom id for the input element.",
+          "values": null
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether the checkbox is required.",
+          "values": null
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether the checkbox is disabled.",
+          "values": null
+        }
+      ],
+      "slots": {
+        "default": false,
+        "named": []
+      },
+      "events": [],
+      "models": [
+        "modelValue"
+      ],
+      "daisy": {
+        "component": {
+          "fieldset": 1,
+          "fieldset-label": 2,
+          "checkbox": 2
+        },
+        "themeBase": {
+          "bg-base-200": 2
+        },
+        "themeSemantic": {
+          "text-error": 3
+        }
+      }
+    },
+    {
+      "name": "ColorPicker",
+      "category": "form",
+      "file": "packages/vue/src/components/form/ColorPicker/ColorPicker.vue",
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "doc": "Text label displayed above the color picker.",
+          "values": null
+        },
+        {
+          "name": "hint",
+          "type": "string",
+          "required": false,
+          "doc": "Helper text displayed below the color picker. Hidden when `error` is present.",
+          "values": null
+        },
+        {
+          "name": "error",
+          "type": "string",
+          "required": false,
+          "doc": "Error message displayed below the picker. Replaces `hint` when present.",
+          "values": null
+        },
+        {
+          "name": "clearable",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, shows a clear button that resets the color.",
+          "default": "false",
+          "values": null
+        },
+        {
+          "name": "random",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, shows a button to generate a random hex color.",
+          "default": "false",
+          "values": null
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "required": false,
+          "doc": "Custom id for the input element.",
+          "values": null
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether the field is required.",
+          "values": null
+        },
+        {
+          "name": "defaultValue",
+          "type": "string",
+          "required": false,
+          "doc": "Default color value used when clearing.",
+          "default": "'#000000'",
+          "values": null
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether the field is disabled.",
+          "values": null
+        }
+      ],
+      "slots": {
+        "default": false,
+        "named": [
+          "icon",
+          "iconRight",
+          "randomIcon"
+        ]
+      },
+      "events": [
+        {
+          "name": "clear",
+          "payload": "[]"
+        },
+        {
+          "name": "randomColor",
+          "payload": "[color: string]"
+        }
+      ],
+      "models": [
+        "modelValue"
+      ],
+      "daisy": {
+        "component": {
+          "fieldset": 1,
+          "fieldset-legend": 1,
+          "fieldset-label": 2
+        },
+        "themeSemantic": {
+          "text-error": 2
+        },
+        "ambiguous": {
+          "input-error": 2,
+          "input": 1
+        }
+      }
+    },
+    {
+      "name": "DatePicker",
+      "category": "form",
+      "file": "packages/vue/src/components/form/DatePicker/DatePicker.vue",
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "doc": "Text label displayed above the date picker. Hidden when `inline` is true.",
+          "values": null
+        },
+        {
+          "name": "hint",
+          "type": "string",
+          "required": false,
+          "doc": "Helper text displayed below the date picker. Hidden when `error` is present.",
+          "values": null
+        },
+        {
+          "name": "error",
+          "type": "string",
+          "required": false,
+          "doc": "Error message displayed below the picker. Replaces `hint` when present.",
+          "values": null
+        },
+        {
+          "name": "inline",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, renders the label as a floating/inline label inside the input wrapper.",
+          "default": "false",
+          "values": null
+        },
+        {
+          "name": "dateType",
+          "type": "'date' | 'datetime-local' | 'time' | 'month' | 'week'",
+          "required": false,
+          "doc": "The native HTML input type for date/time selection.",
+          "default": "'date'",
+          "values": [
+            "date",
+            "datetime-local",
+            "time",
+            "month",
+            "week"
+          ]
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "required": false,
+          "doc": "Custom id for the input element.",
+          "values": null
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether the field is required.",
+          "values": null
+        },
+        {
+          "name": "min",
+          "type": "string",
+          "required": false,
+          "doc": "Minimum date/time value.",
+          "values": null
+        },
+        {
+          "name": "max",
+          "type": "string",
+          "required": false,
+          "doc": "Maximum date/time value.",
+          "values": null
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether the field is disabled.",
+          "values": null
+        },
+        {
+          "name": "modelValue",
+          "type": "string",
+          "required": false,
+          "doc": "Current value of the date picker (for v-model).",
+          "values": null
+        }
+      ],
+      "slots": {
+        "default": false,
+        "named": [
+          "icon",
+          "iconRight"
+        ]
+      },
+      "events": [],
+      "models": [
+        "modelValue"
+      ],
+      "daisy": {
+        "component": {
+          "fieldset": 1,
+          "fieldset-legend": 1,
+          "fieldset-label": 2
+        },
+        "themeSemantic": {
+          "text-error": 2
+        },
+        "ambiguous": {
+          "input-error": 4,
+          "label": 1,
+          "input": 2
+        }
+      }
+    },
+    {
+      "name": "Editor",
+      "category": "form",
+      "file": "packages/vue/src/components/form/Editor/Editor.vue",
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "doc": "Text label displayed above the editor.",
+          "values": null
+        },
+        {
+          "name": "hint",
+          "type": "string",
+          "required": false,
+          "doc": "Helper text displayed below the editor. Hidden when `error` is present.",
+          "values": null
+        },
+        {
+          "name": "error",
+          "type": "string",
+          "required": false,
+          "doc": "Error message displayed below the editor. Replaces `hint` when present.",
+          "values": null
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "required": false,
+          "doc": "Custom id for the textarea element.",
+          "values": null
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether the field is required.",
+          "values": null
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "required": false,
+          "doc": "Placeholder text.",
+          "values": null
+        },
+        {
+          "name": "rows",
+          "type": "number",
+          "required": false,
+          "doc": "Number of visible text rows.",
+          "default": "12",
+          "values": null
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether the field is disabled.",
+          "values": null
+        },
+        {
+          "name": "readonly",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether the field is read-only.",
+          "values": null
+        }
+      ],
+      "slots": {
+        "default": false,
+        "named": []
+      },
+      "events": [],
+      "models": [
+        "modelValue"
+      ],
+      "daisy": {
+        "component": {
+          "fieldset": 1,
+          "fieldset-legend": 1,
+          "textarea-error": 2,
+          "fieldset-label": 2,
+          "textarea": 1
+        },
+        "themeSemantic": {
+          "text-error": 2
+        }
+      }
+    },
+    {
+      "name": "FileUpload",
+      "category": "form",
+      "file": "packages/vue/src/components/form/File/File.vue",
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "doc": "Text label displayed above the file input.",
+          "values": null
+        },
+        {
+          "name": "hint",
+          "type": "string",
+          "required": false,
+          "doc": "Helper text displayed below the file input. Hidden when `error` is present.",
+          "values": null
+        },
+        {
+          "name": "error",
+          "type": "string",
+          "required": false,
+          "doc": "Error message displayed below the input. Replaces `hint` when present.",
+          "values": null
+        },
+        {
+          "name": "withDragDrop",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, renders a drag-and-drop zone instead of the standard file input.",
+          "default": "false",
+          "values": null
+        },
+        {
+          "name": "dragDropText",
+          "type": "string",
+          "required": false,
+          "doc": "Custom text displayed inside the drag-and-drop zone.",
+          "default": "'Drop files here or click to browse'",
+          "values": null
+        },
+        {
+          "name": "dragDropClass",
+          "type": "string",
+          "required": false,
+          "doc": "Additional CSS classes applied to the drag-and-drop zone container.",
+          "values": null
+        },
+        {
+          "name": "progress",
+          "type": "number",
+          "required": false,
+          "doc": "Upload progress percentage (0-100). When greater than 0, a progress bar is displayed.",
+          "values": null
+        },
+        {
+          "name": "hideProgress",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, hides the upload progress bar even when `progress` is set.",
+          "default": "false",
+          "values": null
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "required": false,
+          "doc": "Custom id for the input element.",
+          "values": null
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether the field is required.",
+          "values": null
+        },
+        {
+          "name": "accept",
+          "type": "string",
+          "required": false,
+          "doc": "Accepted file types.",
+          "values": null
+        },
+        {
+          "name": "multiple",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether multiple files can be selected.",
+          "values": null
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether the field is disabled.",
+          "values": null
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": false,
+          "doc": "Name attribute for native form submissions.",
+          "values": null
+        }
+      ],
+      "slots": {
+        "default": false,
+        "named": []
+      },
+      "events": [
+        {
+          "name": "filesSelected",
+          "payload": "[files: FileList | null]"
+        }
+      ],
+      "models": [],
+      "daisy": {
+        "component": {
+          "fieldset": 1,
+          "fieldset-legend": 1,
+          "file-input-error": 2,
+          "progress": 1,
+          "progress-primary": 1,
+          "fieldset-label": 2,
+          "file-input": 1
+        },
+        "themeSemantic": {
+          "text-error": 2,
+          "border-primary": 4,
+          "bg-primary/5": 2,
+          "border-error": 2
+        },
+        "themeBase": {
+          "border-base-300": 2
+        }
+      }
+    },
+    {
+      "name": "Input",
+      "category": "form",
+      "file": "packages/vue/src/components/form/Input/Input.vue",
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "doc": "Text label displayed above the input. Hidden when `inline` is true (shown as floating label instead).",
+          "values": null
+        },
+        {
+          "name": "hint",
+          "type": "string",
+          "required": false,
+          "doc": "Helper text displayed below the input. Hidden when `error` is present.",
+          "values": null
+        },
+        {
+          "name": "error",
+          "type": "string",
+          "required": false,
+          "doc": "Error message displayed below the input. Replaces `hint` when present and adds `aria-invalid`.",
+          "values": null
+        },
+        {
+          "name": "clearable",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, shows a clear (X) button inside the input.",
+          "default": "false",
+          "values": null
+        },
+        {
+          "name": "inline",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, renders the label as a floating/inline label inside the input wrapper.",
+          "default": "false",
+          "values": null
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "required": false,
+          "doc": "Custom id for the input element. Auto-generated if not provided.",
+          "values": null
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether the input is required.",
+          "values": null
+        },
+        {
+          "name": "type",
+          "type": "'text' | 'email' | 'number' | 'password' | 'search' | 'tel' | 'url' | 'hidden'",
+          "required": false,
+          "doc": "Input type.",
+          "default": "'text'",
+          "values": [
+            "text",
+            "email",
+            "number",
+            "password",
+            "search",
+            "tel",
+            "url",
+            "hidden"
+          ]
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "required": false,
+          "doc": "Placeholder text.",
+          "values": null
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether the input is disabled.",
+          "values": null
+        },
+        {
+          "name": "readonly",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether the input is read-only.",
+          "values": null
+        }
+      ],
+      "slots": {
+        "default": false,
+        "named": [
+          "icon",
+          "iconRight",
+          "prefix",
+          "suffix"
+        ]
+      },
+      "events": [
+        {
+          "name": "clear",
+          "payload": "[]"
+        }
+      ],
+      "models": [
+        "modelValue"
+      ],
+      "daisy": {
+        "component": {
+          "fieldset": 1,
+          "fieldset-legend": 1,
+          "fieldset-label": 2
+        },
+        "themeSemantic": {
+          "text-error": 2
+        },
+        "ambiguous": {
+          "input": 2,
+          "input-bordered": 1,
+          "input-error": 1,
+          "label": 1
+        }
+      }
+    },
+    {
+      "name": "Password",
+      "category": "form",
+      "file": "packages/vue/src/components/form/Password/Password.vue",
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "doc": "Text label displayed above the password input. Hidden when `inline` is true.",
+          "values": null
+        },
+        {
+          "name": "hint",
+          "type": "string",
+          "required": false,
+          "doc": "Helper text displayed below the input. Hidden when `error` is present.",
+          "values": null
+        },
+        {
+          "name": "error",
+          "type": "string",
+          "required": false,
+          "doc": "Error message displayed below the input. Replaces `hint` when present.",
+          "values": null
+        },
+        {
+          "name": "inline",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, renders the label as a floating/inline label inside the input wrapper.",
+          "default": "false",
+          "values": null
+        },
+        {
+          "name": "clearable",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, shows a clear (X) button inside the input.",
+          "default": "false",
+          "values": null
+        },
+        {
+          "name": "hideToggle",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, hides the password visibility toggle button.",
+          "default": "false",
+          "values": null
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "required": false,
+          "doc": "Custom id for the input element.",
+          "values": null
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether the input is required.",
+          "values": null
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "required": false,
+          "doc": "Placeholder text.",
+          "values": null
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether the input is disabled.",
+          "values": null
+        }
+      ],
+      "slots": {
+        "default": false,
+        "named": [
+          "hiddenIcon",
+          "icon",
+          "visibleIcon"
+        ]
+      },
+      "events": [
+        {
+          "name": "clear",
+          "payload": "[]"
+        }
+      ],
+      "models": [
+        "modelValue"
+      ],
+      "daisy": {
+        "component": {
+          "fieldset": 1,
+          "fieldset-legend": 1,
+          "fieldset-label": 2
+        },
+        "themeSemantic": {
+          "text-error": 2
+        },
+        "ambiguous": {
+          "input-error": 2,
+          "label": 1,
+          "input": 1
+        }
+      }
+    },
+    {
+      "name": "Pin",
+      "category": "form",
+      "file": "packages/vue/src/components/form/Pin/Pin.vue",
+      "props": [
+        {
+          "name": "length",
+          "type": "number",
+          "required": true,
+          "doc": "Number of individual PIN input fields to render.",
+          "values": null
+        },
+        {
+          "name": "numeric",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, restricts input to digits only (0-9).",
+          "default": "false",
+          "values": null
+        },
+        {
+          "name": "hide",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, masks the input characters using password type.",
+          "default": "false",
+          "values": null
+        },
+        {
+          "name": "error",
+          "type": "string",
+          "required": false,
+          "doc": "Error message displayed below the PIN inputs.",
+          "values": null
+        },
+        {
+          "name": "color",
+          "type": "DaisyColor",
+          "required": false,
+          "doc": "DaisyUI color variant applied to each individual PIN input field.",
+          "values": [
+            "primary",
+            "secondary",
+            "accent",
+            "neutral",
+            "info",
+            "success",
+            "warning",
+            "error"
+          ]
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "required": false,
+          "doc": "Custom id prefix for the input elements.",
+          "values": null
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether the fields are disabled.",
+          "values": null
+        }
+      ],
+      "slots": {
+        "default": false,
+        "named": []
+      },
+      "events": [
+        {
+          "name": "complete",
+          "payload": "[value: string]"
+        },
+        {
+          "name": "incomplete",
+          "payload": "[value: string]"
+        },
+        {
+          "name": "valueChange",
+          "payload": "[value: string]"
+        }
+      ],
+      "models": [
+        "modelValue"
+      ],
+      "daisy": {
+        "component": {
+          "fieldset": 1,
+          "fieldset-label": 1
+        },
+        "ambiguous": {
+          "input": 2,
+          "input-error": 2
+        },
+        "themeSemantic": {
+          "text-error": 1
+        }
+      }
+    },
+    {
+      "name": "Radio",
+      "category": "form",
+      "file": "packages/vue/src/components/form/Radio/Radio.vue",
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "doc": "Group label rendered as a `<legend>` element.",
+          "values": null
+        },
+        {
+          "name": "hint",
+          "type": "string",
+          "required": false,
+          "doc": "Helper text displayed below the radio group. Hidden when `error` is present.",
+          "values": null
+        },
+        {
+          "name": "error",
+          "type": "string",
+          "required": false,
+          "doc": "Error message displayed below the group. Replaces `hint` when present.",
+          "values": null
+        },
+        {
+          "name": "color",
+          "type": "DaisyColor",
+          "required": false,
+          "doc": "DaisyUI color variant applied to each radio input.",
+          "values": [
+            "primary",
+            "secondary",
+            "accent",
+            "neutral",
+            "info",
+            "success",
+            "warning",
+            "error"
+          ]
+        },
+        {
+          "name": "optionValue",
+          "type": "string",
+          "required": false,
+          "doc": "Property key on each option object to use as the radio input value.",
+          "default": "'id'",
+          "values": null
+        },
+        {
+          "name": "optionLabel",
+          "type": "string",
+          "required": false,
+          "doc": "Property key on each option object to use as the displayed label text.",
+          "default": "'name'",
+          "values": null
+        },
+        {
+          "name": "optionHint",
+          "type": "string",
+          "required": false,
+          "doc": "Property key on each option object to use as optional hint text.",
+          "default": "'hint'",
+          "values": null
+        },
+        {
+          "name": "options",
+          "type": "RadioOption[]",
+          "required": false,
+          "doc": "Array of option objects to render as radio buttons.",
+          "default": "() => []",
+          "values": null
+        },
+        {
+          "name": "inline",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, displays options horizontally. Only applies when `card` is false.",
+          "default": "false",
+          "values": null
+        },
+        {
+          "name": "card",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, renders each option inside a bordered card.",
+          "default": "false",
+          "values": null
+        },
+        {
+          "name": "cardClass",
+          "type": "string",
+          "required": false,
+          "doc": "Additional CSS classes applied to each card container.",
+          "values": null
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "required": false,
+          "doc": "Custom id for the fieldset.",
+          "values": null
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": false,
+          "doc": "Name attribute for the radio group.",
+          "values": null
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether the field is required.",
+          "values": null
+        }
+      ],
+      "slots": {
+        "default": false,
+        "named": []
+      },
+      "events": [],
+      "models": [
+        "modelValue"
+      ],
+      "daisy": {
+        "component": {
+          "fieldset": 1,
+          "fieldset-legend": 1,
+          "card": 2,
+          "fieldset-label": 2,
+          "radio": 1
+        },
+        "themeSemantic": {
+          "text-error": 2
+        },
+        "themeBase": {
+          "bg-base-200": 2
+        }
+      }
+    },
+    {
+      "name": "Range",
+      "category": "form",
+      "file": "packages/vue/src/components/form/Range/Range.vue",
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "doc": "Text label displayed above the range slider.",
+          "values": null
+        },
+        {
+          "name": "hint",
+          "type": "string",
+          "required": false,
+          "doc": "Helper text displayed below the slider. Hidden when `error` is present.",
+          "values": null
+        },
+        {
+          "name": "error",
+          "type": "string",
+          "required": false,
+          "doc": "Error message displayed below the slider. Replaces `hint` when present.",
+          "values": null
+        },
+        {
+          "name": "color",
+          "type": "DaisyColor",
+          "required": false,
+          "doc": "DaisyUI color variant for the range track and thumb.",
+          "values": [
+            "primary",
+            "secondary",
+            "accent",
+            "neutral",
+            "info",
+            "success",
+            "warning",
+            "error"
+          ]
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "required": false,
+          "doc": "Custom id for the input element.",
+          "values": null
+        },
+        {
+          "name": "min",
+          "type": "number",
+          "required": false,
+          "doc": "Minimum value.",
+          "default": "0",
+          "values": null
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "required": false,
+          "doc": "Maximum value.",
+          "default": "100",
+          "values": null
+        },
+        {
+          "name": "step",
+          "type": "number",
+          "required": false,
+          "doc": "Step increment.",
+          "values": null
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether the field is required.",
+          "values": null
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether the field is disabled.",
+          "values": null
+        },
+        {
+          "name": "modelValue",
+          "type": "number",
+          "required": false,
+          "doc": "Current value of the range slider (for v-model).",
+          "values": null
+        }
+      ],
+      "slots": {
+        "default": false,
+        "named": []
+      },
+      "events": [],
+      "models": [
+        "modelValue"
+      ],
+      "daisy": {
+        "component": {
+          "fieldset": 1,
+          "fieldset-legend": 1,
+          "fieldset-label": 2
+        },
+        "themeSemantic": {
+          "text-error": 2
+        },
+        "ambiguous": {
+          "range": 1
+        }
+      }
+    },
+    {
+      "name": "RichTextEditor",
+      "category": "form",
+      "file": "packages/vue/src/components/form/RichTextEditor/RichTextEditor.vue",
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "doc": "Text label displayed above the editor.",
+          "values": null
+        },
+        {
+          "name": "hint",
+          "type": "string",
+          "required": false,
+          "doc": "Helper text displayed below the editor. Hidden when `error` is present.",
+          "values": null
+        },
+        {
+          "name": "error",
+          "type": "string",
+          "required": false,
+          "doc": "Error message displayed below the editor. Replaces `hint` when present.",
+          "values": null
+        },
+        {
+          "name": "minHeight",
+          "type": "string",
+          "required": false,
+          "doc": "CSS min-height for the editable content area.",
+          "default": "'200px'",
+          "values": null
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "required": false,
+          "doc": "Custom id for the editable element.",
+          "values": null
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether the field is required.",
+          "values": null
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether the editor is disabled.",
+          "values": null
+        }
+      ],
+      "slots": {
+        "default": false,
+        "named": [
+          "toolbar"
+        ]
+      },
+      "events": [],
+      "models": [
+        "modelValue"
+      ],
+      "daisy": {
+        "component": {
+          "fieldset": 1,
+          "fieldset-legend": 1,
+          "fieldset-label": 2
+        },
+        "themeSemantic": {
+          "text-error": 2,
+          "border-error": 2
+        },
+        "themeBase": {
+          "bg-base-200": 1
+        }
+      }
+    },
+    {
+      "name": "Select",
+      "category": "form",
+      "file": "packages/vue/src/components/form/Select/Select.vue",
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "doc": "Text label displayed above the select. Hidden when `inline` is true.",
+          "values": null
+        },
+        {
+          "name": "hint",
+          "type": "string",
+          "required": false,
+          "doc": "Helper text displayed below the select. Hidden when `error` is present.",
+          "values": null
+        },
+        {
+          "name": "error",
+          "type": "string",
+          "required": false,
+          "doc": "Error message displayed below the select. Replaces `hint` when present.",
+          "values": null
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "required": false,
+          "doc": "Text for a disabled placeholder option rendered as the first option.",
+          "values": null
+        },
+        {
+          "name": "placeholderValue",
+          "type": "string",
+          "required": false,
+          "doc": "Value attribute for the placeholder option.",
+          "default": "''",
+          "values": null
+        },
+        {
+          "name": "inline",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, renders the label as an inline fieldset label below the select.",
+          "default": "false",
+          "values": null
+        },
+        {
+          "name": "optionValue",
+          "type": "string",
+          "required": false,
+          "doc": "Property key on each option object to use as the option value.",
+          "default": "'id'",
+          "values": null
+        },
+        {
+          "name": "optionLabel",
+          "type": "string",
+          "required": false,
+          "doc": "Property key on each option object to use as the displayed option text.",
+          "default": "'name'",
+          "values": null
+        },
+        {
+          "name": "options",
+          "type": "SelectOption[]",
+          "required": false,
+          "doc": "Array of option objects to render as options.",
+          "default": "() => []",
+          "values": null
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "required": false,
+          "doc": "Custom id for the select element.",
+          "values": null
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether the field is required.",
+          "values": null
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether the field is disabled.",
+          "values": null
+        },
+        {
+          "name": "modelValue",
+          "type": "string | number",
+          "required": false,
+          "doc": "Current value of the select (for v-model).",
+          "values": null
+        }
+      ],
+      "slots": {
+        "default": true,
+        "named": [
+          "icon",
+          "iconRight"
+        ]
+      },
+      "events": [],
+      "models": [
+        "modelValue"
+      ],
+      "daisy": {
+        "component": {
+          "fieldset": 1,
+          "fieldset-legend": 1,
+          "fieldset-label": 3
+        },
+        "themeSemantic": {
+          "text-error": 3
+        },
+        "ambiguous": {
+          "select-error": 2,
+          "select": 1
+        }
+      }
+    },
+    {
+      "name": "Textarea",
+      "category": "form",
+      "file": "packages/vue/src/components/form/Textarea/Textarea.vue",
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "doc": "Text label displayed above the textarea. Hidden when `inline` is true.",
+          "values": null
+        },
+        {
+          "name": "hint",
+          "type": "string",
+          "required": false,
+          "doc": "Helper text displayed below the textarea. Hidden when `error` is present.",
+          "values": null
+        },
+        {
+          "name": "error",
+          "type": "string",
+          "required": false,
+          "doc": "Error message displayed below the textarea. Replaces `hint` when present.",
+          "values": null
+        },
+        {
+          "name": "inline",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, moves the label below the textarea as a smaller fieldset label instead of displaying it as a legend above.",
+          "default": "false",
+          "values": null
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "required": false,
+          "doc": "Custom id for the textarea element.",
+          "values": null
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether the textarea is required.",
+          "values": null
+        },
+        {
+          "name": "readonly",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether the textarea is read-only.",
+          "values": null
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "required": false,
+          "doc": "Placeholder text.",
+          "values": null
+        },
+        {
+          "name": "rows",
+          "type": "number",
+          "required": false,
+          "doc": "Number of visible text rows.",
+          "values": null
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether the textarea is disabled.",
+          "values": null
+        }
+      ],
+      "slots": {
+        "default": false,
+        "named": []
+      },
+      "events": [],
+      "models": [
+        "modelValue"
+      ],
+      "daisy": {
+        "component": {
+          "fieldset": 1,
+          "fieldset-legend": 1,
+          "textarea-error": 2,
+          "fieldset-label": 3,
+          "textarea": 1
+        },
+        "themeSemantic": {
+          "text-error": 2
+        }
+      }
+    },
+    {
+      "name": "Toggle",
+      "category": "form",
+      "file": "packages/vue/src/components/form/Toggle/Toggle.vue",
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "doc": "Text label displayed next to the toggle switch.",
+          "values": null
+        },
+        {
+          "name": "right",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, positions the label to the right of the toggle.",
+          "default": "false",
+          "values": null
+        },
+        {
+          "name": "hint",
+          "type": "string",
+          "required": false,
+          "doc": "Helper text displayed below the toggle. Hidden when `error` is present.",
+          "values": null
+        },
+        {
+          "name": "error",
+          "type": "string",
+          "required": false,
+          "doc": "Error message displayed below the toggle. Replaces `hint` when present.",
+          "values": null
+        },
+        {
+          "name": "color",
+          "type": "DaisyColor",
+          "required": false,
+          "doc": "DaisyUI color variant for the toggle track and thumb.",
+          "values": [
+            "primary",
+            "secondary",
+            "accent",
+            "neutral",
+            "info",
+            "success",
+            "warning",
+            "error"
+          ]
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "required": false,
+          "doc": "Custom id for the input element.",
+          "values": null
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether the toggle is required.",
+          "values": null
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether the toggle is disabled.",
+          "values": null
+        }
+      ],
+      "slots": {
+        "default": false,
+        "named": []
+      },
+      "events": [],
+      "models": [
+        "modelValue"
+      ],
+      "daisy": {
+        "component": {
+          "fieldset": 1,
+          "fieldset-label": 2,
+          "toggle": 1
+        },
+        "themeSemantic": {
+          "text-error": 2
+        }
+      }
+    },
+    {
+      "name": "Accordion",
+      "category": "layout",
+      "file": "packages/vue/src/components/layout/Accordion/Accordion.vue",
+      "props": [
+        {
+          "name": "multiple",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, allows multiple panels to be open simultaneously.",
+          "default": "false",
+          "values": null
+        },
+        {
+          "name": "openIndices",
+          "type": "number[]",
+          "required": false,
+          "doc": "Controlled mode: indices of currently open panels.",
+          "values": null
+        },
+        {
+          "name": "defaultOpenIndices",
+          "type": "number[]",
+          "required": false,
+          "doc": "Uncontrolled mode: indices of initially open panels.",
+          "values": null
+        },
+        {
+          "name": "join",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, applies DaisyUI join styling to visually group panels.",
+          "default": "true",
+          "values": null
+        }
+      ],
+      "slots": {
+        "default": true,
+        "named": []
+      },
+      "events": [
+        {
+          "name": "update:openIndices",
+          "payload": "[value: number[]]"
+        }
+      ],
+      "models": [],
+      "daisy": {
+        "component": {
+          "join": 1,
+          "join-vertical": 1
+        }
+      }
+    },
+    {
+      "name": "Card",
+      "category": "layout",
+      "file": "packages/vue/src/components/layout/Card/Card.vue",
+      "props": [
+        {
+          "name": "title",
+          "type": "string",
+          "required": false,
+          "doc": "Card title rendered as an `<h2>` in the card body.",
+          "values": null
+        },
+        {
+          "name": "subtitle",
+          "type": "string",
+          "required": false,
+          "doc": "Subtitle text rendered below the title.",
+          "values": null
+        },
+        {
+          "name": "figurePosition",
+          "type": "'top' | 'bottom' | 'left' | 'right'",
+          "required": false,
+          "doc": "Position of the figure element relative to the card body.",
+          "default": "'top'",
+          "values": [
+            "top",
+            "bottom",
+            "left",
+            "right"
+          ]
+        },
+        {
+          "name": "noShadow",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, removes the card shadow.",
+          "default": "false",
+          "values": null
+        },
+        {
+          "name": "bordered",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, adds a border to the card.",
+          "default": "false",
+          "values": null
+        },
+        {
+          "name": "compact",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, reduces padding in the card body.",
+          "default": "false",
+          "values": null
+        },
+        {
+          "name": "glass",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, applies glass morphism styling.",
+          "default": "false",
+          "values": null
+        },
+        {
+          "name": "link",
+          "type": "string",
+          "required": false,
+          "doc": "When provided, renders the card as an `<a>` element with this URL.",
+          "values": null
+        },
+        {
+          "name": "external",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true and `link` is set, opens the link in a new tab.",
+          "default": "false",
+          "values": null
+        }
+      ],
+      "slots": {
+        "default": true,
+        "named": [
+          "figure",
+          "footer",
+          "header",
+          "menu"
+        ]
+      },
+      "events": [],
+      "models": [],
+      "daisy": {
+        "component": {
+          "card-body": 1,
+          "card-header": 1,
+          "card-title": 1,
+          "card-actions": 1,
+          "card": 1,
+          "card-border": 1,
+          "card-compact": 1
+        },
+        "themeBase": {
+          "text-base-content/70": 1,
+          "bg-base-100": 1
+        }
+      }
+    },
+    {
+      "name": "Collapse",
+      "category": "layout",
+      "file": "packages/vue/src/components/layout/Collapse/Collapse.vue",
+      "props": [],
+      "slots": {
+        "default": true,
+        "named": []
+      },
+      "events": [],
+      "models": [
+        "open"
+      ],
+      "daisy": {
+        "ambiguous": {
+          "collapse-title": 1,
+          "collapse-content": 1,
+          "collapse": 1,
+          "collapse-border": 1
+        }
+      }
+    },
+    {
+      "name": "Divider",
+      "category": "layout",
+      "file": "packages/vue/src/components/layout/Divider/Divider.vue",
+      "props": [
+        {
+          "name": "vertical",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, renders the divider vertically instead of horizontally.",
+          "default": "false",
+          "values": null
+        },
+        {
+          "name": "color",
+          "type": "DaisyColor",
+          "required": false,
+          "doc": "DaisyUI color variant applied to the divider.",
+          "values": [
+            "primary",
+            "secondary",
+            "accent",
+            "neutral",
+            "info",
+            "success",
+            "warning",
+            "error"
+          ]
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "doc": "Optional inline label text displayed within the divider.",
+          "values": null
+        },
+        {
+          "name": "labelPosition",
+          "type": "'start' | 'center' | 'end'",
+          "required": false,
+          "doc": "Position of the label along the divider.",
+          "default": "'center'",
+          "values": [
+            "start",
+            "center",
+            "end"
+          ]
+        }
+      ],
+      "slots": {
+        "default": false,
+        "named": []
+      },
+      "events": [],
+      "models": [],
+      "daisy": {
+        "component": {
+          "divider": 1,
+          "divider-horizontal": 1
+        }
+      }
+    },
+    {
+      "name": "Drawer",
+      "category": "layout",
+      "file": "packages/vue/src/components/layout/Drawer/Drawer.vue",
+      "props": [
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": true,
+          "doc": "Whether the drawer is visible. Use with `v-model:open`.",
+          "values": null
+        },
+        {
+          "name": "end",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, renders the drawer on the right side.",
+          "default": "false",
+          "values": null
+        },
+        {
+          "name": "persistent",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, prevents closing via Escape key or overlay click.",
+          "default": "false",
+          "values": null
+        },
+        {
+          "name": "ariaLabel",
+          "type": "string",
+          "required": false,
+          "doc": "Accessible label for the drawer dialog.",
+          "values": null
+        },
+        {
+          "name": "ariaLabelledby",
+          "type": "string",
+          "required": false,
+          "doc": "ID of an element that labels the drawer dialog. Takes precedence over ariaLabel.",
+          "values": null
+        }
+      ],
+      "slots": {
+        "default": true,
+        "named": [
+          "side"
+        ]
+      },
+      "events": [
+        {
+          "name": "update:open",
+          "payload": "[value: boolean]"
+        }
+      ],
+      "models": [],
+      "daisy": {
+        "component": {
+          "drawer-end": 2,
+          "drawer-toggle": 1,
+          "drawer-content": 1,
+          "drawer-side": 1,
+          "drawer-overlay": 1,
+          "drawer": 1
+        },
+        "ambiguous": {
+          "menu": 1
+        },
+        "themeBase": {
+          "bg-base-200": 1,
+          "text-base-content": 1
+        }
+      }
+    },
+    {
+      "name": "Dropdown",
+      "category": "layout",
+      "file": "packages/vue/src/components/layout/Dropdown/Dropdown.vue",
+      "props": [],
+      "slots": {
+        "default": true,
+        "named": [
+          "trigger"
+        ]
+      },
+      "events": [],
+      "models": [
+        "open"
+      ],
+      "daisy": {
+        "component": {
+          "btn": 1,
+          "btn-ghost": 1,
+          "dropdown-content": 1,
+          "dropdown": 1,
+          "dropdown-end": 1,
+          "dropdown-top": 1,
+          "dropdown-open": 1
+        },
+        "ambiguous": {
+          "menu": 1
+        },
+        "themeBase": {
+          "bg-base-100": 1
+        }
+      }
+    },
+    {
+      "name": "DropdownItem",
+      "category": "layout",
+      "file": "packages/vue/src/components/layout/Dropdown/DropdownItem.vue",
+      "props": [
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, disables the item.",
+          "default": "false",
+          "values": null
+        }
+      ],
+      "slots": {
+        "default": true,
+        "named": []
+      },
+      "events": [
+        {
+          "name": "click",
+          "payload": "[e: MouseEvent]"
+        }
+      ],
+      "models": [],
+      "daisy": {}
+    },
+    {
+      "name": "Grid",
+      "category": "layout",
+      "file": "packages/vue/src/components/layout/Grid/Grid.vue",
+      "props": [
+        {
+          "name": "cols",
+          "type": "ColCount",
+          "required": false,
+          "doc": "Base number of columns.",
+          "values": null
+        },
+        {
+          "name": "colsSm",
+          "type": "ColCount",
+          "required": false,
+          "doc": "Number of columns at the `sm` breakpoint.",
+          "values": null
+        },
+        {
+          "name": "colsMd",
+          "type": "ColCount",
+          "required": false,
+          "doc": "Number of columns at the `md` breakpoint.",
+          "values": null
+        },
+        {
+          "name": "colsLg",
+          "type": "ColCount",
+          "required": false,
+          "doc": "Number of columns at the `lg` breakpoint.",
+          "values": null
+        },
+        {
+          "name": "colsXl",
+          "type": "ColCount",
+          "required": false,
+          "doc": "Number of columns at the `xl` breakpoint.",
+          "values": null
+        },
+        {
+          "name": "gap",
+          "type": "GapSize",
+          "required": false,
+          "doc": "Uniform gap between grid items.",
+          "default": "4",
+          "values": null
+        },
+        {
+          "name": "gapX",
+          "type": "GapSize",
+          "required": false,
+          "doc": "Horizontal gap between grid items. Overrides `gap` for the x-axis.",
+          "values": null
+        },
+        {
+          "name": "gapY",
+          "type": "GapSize",
+          "required": false,
+          "doc": "Vertical gap between grid items. Overrides `gap` for the y-axis.",
+          "values": null
+        }
+      ],
+      "slots": {
+        "default": true,
+        "named": []
+      },
+      "events": [],
+      "models": [],
+      "daisy": {}
+    },
+    {
+      "name": "Modal",
+      "category": "layout",
+      "file": "packages/vue/src/components/layout/Modal/Modal.vue",
+      "props": [
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": true,
+          "doc": "Whether the modal is visible. Use with `v-model:open`.",
+          "values": null
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "required": false,
+          "doc": "Title text rendered as an `<h3>` in the modal header.",
+          "values": null
+        },
+        {
+          "name": "subtitle",
+          "type": "string",
+          "required": false,
+          "doc": "Subtitle text rendered below the title.",
+          "values": null
+        },
+        {
+          "name": "persistent",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, prevents closing via Escape key or backdrop click.",
+          "default": "false",
+          "values": null
+        },
+        {
+          "name": "glass",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, applies glass morphism styling.",
+          "default": "false",
+          "values": null
+        },
+        {
+          "name": "bottom",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, renders as a bottom sheet on mobile.",
+          "default": "false",
+          "values": null
+        },
+        {
+          "name": "ariaLabel",
+          "type": "string",
+          "required": false,
+          "doc": "Accessible label for the dialog when no title is provided.",
+          "values": null
+        }
+      ],
+      "slots": {
+        "default": true,
+        "named": [
+          "actions"
+        ]
+      },
+      "events": [
+        {
+          "name": "update:open",
+          "payload": "[value: boolean]"
+        }
+      ],
+      "models": [],
+      "daisy": {
+        "component": {
+          "modal-bottom": 2,
+          "btn": 1,
+          "btn-sm": 1,
+          "btn-circle": 1,
+          "btn-ghost": 1,
+          "modal-action": 1,
+          "modal-box": 1,
+          "modal": 1
+        },
+        "themeBase": {
+          "text-base-content/70": 1
+        }
+      }
+    },
+    {
+      "name": "Popover",
+      "category": "layout",
+      "file": "packages/vue/src/components/layout/Popover/Popover.vue",
+      "props": [],
+      "slots": {
+        "default": true,
+        "named": [
+          "trigger"
+        ]
+      },
+      "events": [],
+      "models": [
+        "open"
+      ],
+      "daisy": {
+        "component": {
+          "dropdown-content": 1,
+          "dropdown": 1,
+          "dropdown-open": 1
+        },
+        "themeBase": {
+          "bg-base-100": 1
+        }
+      }
+    },
+    {
+      "name": "Stack",
+      "category": "layout",
+      "file": "packages/vue/src/components/layout/Stack/Stack.vue",
+      "props": [
+        {
+          "name": "direction",
+          "type": "'vertical' | 'horizontal'",
+          "required": false,
+          "doc": "Flex direction.",
+          "default": "'vertical'",
+          "values": [
+            "vertical",
+            "horizontal"
+          ]
+        },
+        {
+          "name": "gap",
+          "type": "0 | 1 | 2 | 3 | 4 | 5 | 6 | 8 | 10 | 12 | 16",
+          "required": false,
+          "doc": "Gap between items using Tailwind spacing scale.",
+          "default": "2",
+          "values": null
+        },
+        {
+          "name": "align",
+          "type": "'start' | 'center' | 'end' | 'stretch' | 'baseline'",
+          "required": false,
+          "doc": "Cross-axis alignment.",
+          "values": [
+            "start",
+            "center",
+            "end",
+            "stretch",
+            "baseline"
+          ]
+        },
+        {
+          "name": "justify",
+          "type": "'start' | 'center' | 'end' | 'between' | 'around' | 'evenly'",
+          "required": false,
+          "doc": "Main-axis justification.",
+          "values": [
+            "start",
+            "center",
+            "end",
+            "between",
+            "around",
+            "evenly"
+          ]
+        },
+        {
+          "name": "wrap",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, allows items to wrap to the next line.",
+          "default": "false",
+          "values": null
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false,
+          "doc": "Additional CSS classes.",
+          "values": null
+        }
+      ],
+      "slots": {
+        "default": true,
+        "named": []
+      },
+      "events": [],
+      "models": [],
+      "daisy": {}
+    },
+    {
+      "name": "Tabs",
+      "category": "layout",
+      "file": "packages/vue/src/components/layout/Tabs/Tabs.vue",
+      "props": [
+        {
+          "name": "tabs",
+          "type": "TabItem[]",
+          "required": true,
+          "doc": "Array of tab definitions.",
+          "values": null
+        },
+        {
+          "name": "activeTab",
+          "type": "string",
+          "required": false,
+          "doc": "Active tab name for controlled mode. Use with `v-model:activeTab`.",
+          "values": null
+        },
+        {
+          "name": "defaultTab",
+          "type": "string",
+          "required": false,
+          "doc": "Initial active tab name for uncontrolled mode.",
+          "values": null
+        },
+        {
+          "name": "variant",
+          "type": "'bordered' | 'lifted' | 'boxed'",
+          "required": false,
+          "doc": "DaisyUI tab styling variant.",
+          "default": "'bordered'",
+          "values": [
+            "bordered",
+            "lifted",
+            "boxed"
+          ]
+        },
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "doc": "Tab size using DaisyUI size modifiers.",
+          "values": [
+            "xs",
+            "sm",
+            "md",
+            "lg"
+          ]
+        },
+        {
+          "name": "vertical",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, renders tabs vertically on the left.",
+          "default": "false",
+          "values": null
+        },
+        {
+          "name": "verticalRight",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, renders tabs vertically on the right.",
+          "default": "false",
+          "values": null
+        },
+        {
+          "name": "color",
+          "type": "DaisyColor",
+          "required": false,
+          "doc": "DaisyUI color applied to the active tab.",
+          "values": [
+            "primary",
+            "secondary",
+            "accent",
+            "neutral",
+            "info",
+            "success",
+            "warning",
+            "error"
+          ]
+        },
+        {
+          "name": "tabListClassName",
+          "type": "string",
+          "required": false,
+          "doc": "Additional CSS classes for the tab list.",
+          "values": null
+        },
+        {
+          "name": "panelClassName",
+          "type": "string",
+          "required": false,
+          "doc": "Additional CSS classes for the tab panel.",
+          "values": null
+        },
+        {
+          "name": "activeTabClassName",
+          "type": "string",
+          "required": false,
+          "doc": "Additional CSS classes for the active tab button.",
+          "values": null
+        }
+      ],
+      "slots": {
+        "default": false,
+        "named": []
+      },
+      "events": [
+        {
+          "name": "update:activeTab",
+          "payload": "[value: string]"
+        }
+      ],
+      "models": [],
+      "daisy": {
+        "component": {
+          "tabs": 1,
+          "tabs-vertical": 1,
+          "tab": 1,
+          "tab-active": 1,
+          "tab-disabled": 1
+        }
+      }
+    },
+    {
+      "name": "Menu",
+      "category": "navigation",
+      "file": "packages/vue/src/components/navigation/Menu/Menu.vue",
+      "props": [
+        {
+          "name": "items",
+          "type": "MenuItem[]",
+          "required": true,
+          "doc": "Array of menu item definitions.",
+          "values": null
+        },
+        {
+          "name": "horizontal",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, renders items horizontally.",
+          "default": "false",
+          "values": null
+        },
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "doc": "DaisyUI size modifier for the menu.",
+          "values": [
+            "xs",
+            "sm",
+            "md",
+            "lg"
+          ]
+        },
+        {
+          "name": "color",
+          "type": "DaisyColor",
+          "required": false,
+          "doc": "DaisyUI color applied to active items.",
+          "values": [
+            "primary",
+            "secondary",
+            "accent",
+            "neutral",
+            "info",
+            "success",
+            "warning",
+            "error"
+          ]
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false,
+          "doc": "Additional CSS classes for the menu container.",
+          "values": null
+        }
+      ],
+      "slots": {
+        "default": false,
+        "named": [
+          "item"
+        ]
+      },
+      "events": [
+        {
+          "name": "select",
+          "payload": "[name: string]"
+        }
+      ],
+      "models": [],
+      "daisy": {
+        "ambiguous": {
+          "menu": 1,
+          "menu-horizontal": 1
+        }
+      }
+    },
+    {
+      "name": "Breadcrumbs",
+      "category": "navigation",
+      "file": "packages/vue/src/components/navigation/Breadcrumbs/Breadcrumbs.vue",
+      "props": [
+        {
+          "name": "items",
+          "type": "BreadcrumbItem[]",
+          "required": true,
+          "doc": "Array of breadcrumb items in order from root to current page.",
+          "values": null
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false,
+          "doc": "Additional CSS classes for the breadcrumb container.",
+          "values": null
+        }
+      ],
+      "slots": {
+        "default": false,
+        "named": [
+          "item"
+        ]
+      },
+      "events": [],
+      "models": [],
+      "daisy": {
+        "component": {
+          "breadcrumbs": 1
+        }
+      }
+    },
+    {
+      "name": "Pagination",
+      "category": "navigation",
+      "file": "packages/vue/src/components/navigation/Pagination/Pagination.vue",
+      "props": [
+        {
+          "name": "currentPage",
+          "type": "number",
+          "required": true,
+          "doc": "Current active page number (1-based).",
+          "values": null
+        },
+        {
+          "name": "totalPages",
+          "type": "number",
+          "required": true,
+          "doc": "Total number of pages.",
+          "values": null
+        },
+        {
+          "name": "siblingCount",
+          "type": "number",
+          "required": false,
+          "doc": "Number of sibling pages to show on each side of the current page.",
+          "default": "1",
+          "values": null
+        },
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "doc": "DaisyUI size modifier for the pagination buttons.",
+          "values": [
+            "xs",
+            "sm",
+            "md",
+            "lg"
+          ]
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false,
+          "doc": "Additional CSS classes for the pagination container.",
+          "values": null
+        }
+      ],
+      "slots": {
+        "default": false,
+        "named": []
+      },
+      "events": [
+        {
+          "name": "update:currentPage",
+          "payload": "[page: number]"
+        }
+      ],
+      "models": [],
+      "daisy": {
+        "component": {
+          "join": 1,
+          "btn-active": 2,
+          "btn-disabled": 2,
+          "join-item": 1,
+          "btn": 1
+        }
+      }
+    },
+    {
+      "name": "Steps",
+      "category": "navigation",
+      "file": "packages/vue/src/components/navigation/Steps/Steps.vue",
+      "props": [
+        {
+          "name": "steps",
+          "type": "StepItem[]",
+          "required": true,
+          "doc": "Array of step definitions.",
+          "values": null
+        },
+        {
+          "name": "currentStep",
+          "type": "number",
+          "required": false,
+          "doc": "Index of the current active step (0-based). Steps at or before this index are marked complete.",
+          "default": "0",
+          "values": null
+        },
+        {
+          "name": "vertical",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, renders steps vertically.",
+          "default": "false",
+          "values": null
+        },
+        {
+          "name": "color",
+          "type": "DaisyColor",
+          "required": false,
+          "doc": "Default DaisyUI color applied to completed steps.",
+          "default": "'primary'",
+          "values": [
+            "primary",
+            "secondary",
+            "accent",
+            "neutral",
+            "info",
+            "success",
+            "warning",
+            "error"
+          ]
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false,
+          "doc": "Additional CSS classes for the steps container.",
+          "values": null
+        }
+      ],
+      "slots": {
+        "default": false,
+        "named": [
+          "step"
+        ]
+      },
+      "events": [],
+      "models": [],
+      "daisy": {
+        "component": {
+          "step": 2,
+          "steps": 1,
+          "steps-vertical": 1
+        }
+      }
+    },
+    {
+      "name": "Navbar",
+      "category": "navigation",
+      "file": "packages/vue/src/components/navigation/Navbar/Navbar.vue",
+      "props": [
+        {
+          "name": "color",
+          "type": "DaisyColor",
+          "required": false,
+          "doc": "DaisyUI background color for the navbar.",
+          "values": [
+            "primary",
+            "secondary",
+            "accent",
+            "neutral",
+            "info",
+            "success",
+            "warning",
+            "error"
+          ]
+        },
+        {
+          "name": "glass",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, applies glass morphism styling.",
+          "default": "false",
+          "values": null
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false,
+          "doc": "Additional CSS classes for the navbar container.",
+          "values": null
+        }
+      ],
+      "slots": {
+        "default": true,
+        "named": [
+          "center",
+          "end",
+          "start"
+        ]
+      },
+      "events": [],
+      "models": [],
+      "daisy": {
+        "component": {
+          "navbar-start": 1,
+          "navbar-center": 1,
+          "navbar-end": 1,
+          "navbar": 1
+        }
+      }
+    },
+    {
+      "name": "Sidebar",
+      "category": "navigation",
+      "file": "packages/vue/src/components/navigation/Sidebar/Sidebar.vue",
+      "props": [
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether the sidebar is open. Use with `v-model:open`.",
+          "default": "false",
+          "values": null
+        },
+        {
+          "name": "side",
+          "type": "'left' | 'right'",
+          "required": false,
+          "doc": "Side the sidebar appears on.",
+          "default": "'left'",
+          "values": [
+            "left",
+            "right"
+          ]
+        },
+        {
+          "name": "responsive",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, sidebar is always visible on `lg` breakpoint and above.",
+          "default": "true",
+          "values": null
+        },
+        {
+          "name": "ariaLabel",
+          "type": "string",
+          "required": false,
+          "doc": "Accessible label for the sidebar navigation.",
+          "default": "'Sidebar navigation'",
+          "values": null
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false,
+          "doc": "Additional CSS classes for the sidebar container.",
+          "values": null
+        }
+      ],
+      "slots": {
+        "default": true,
+        "named": [
+          "sidebar"
+        ]
+      },
+      "events": [],
+      "models": [
+        "open"
+      ],
+      "daisy": {
+        "component": {
+          "drawer-toggle": 1,
+          "drawer-content": 1,
+          "drawer-side": 1,
+          "drawer-overlay": 1,
+          "drawer": 1,
+          "drawer-end": 1,
+          "drawer-open": 1
+        },
+        "themeBase": {
+          "bg-base-200": 2
+        },
+        "ambiguous": {
+          "menu": 1
+        }
+      }
+    },
+    {
+      "name": "SpotlightSearch",
+      "category": "navigation",
+      "file": "packages/vue/src/components/navigation/SpotlightSearch/SpotlightSearch.vue",
+      "props": [],
+      "slots": {
+        "default": false,
+        "named": [
+          "empty",
+          "item"
+        ]
+      },
+      "events": [
+        {
+          "name": "select",
+          "payload": "[item: SpotlightItem]"
+        }
+      ],
+      "models": [
+        "open"
+      ],
+      "daisy": {
+        "component": {
+          "modal": 1,
+          "kbd": 1,
+          "kbd-sm": 1,
+          "modal-box": 1
+        },
+        "themeBase": {
+          "border-base-300": 1,
+          "text-base-content/50": 3,
+          "bg-base-200": 1,
+          "text-base-content/60": 1
+        },
+        "ambiguous": {
+          "input": 1,
+          "input-ghost": 1
+        }
+      }
+    },
+    {
+      "name": "Avatar",
+      "category": "display",
+      "file": "packages/vue/src/components/display/Avatar/Avatar.vue",
+      "props": [
+        {
+          "name": "src",
+          "type": "string",
+          "required": false,
+          "doc": "Image URL for the avatar.",
+          "values": null
+        },
+        {
+          "name": "alt",
+          "type": "string",
+          "required": false,
+          "doc": "Alt text for the avatar image.",
+          "values": null
+        },
+        {
+          "name": "initials",
+          "type": "string",
+          "required": false,
+          "doc": "Initials to display when no image is provided.",
+          "values": null
+        },
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "doc": "Size of the avatar.",
+          "default": "'md'",
+          "values": [
+            "xs",
+            "sm",
+            "md",
+            "lg"
+          ]
+        },
+        {
+          "name": "shape",
+          "type": "'circle' | 'squircle' | 'hexagon' | 'triangle'",
+          "required": false,
+          "doc": "Shape of the avatar.",
+          "default": "'circle'",
+          "values": [
+            "circle",
+            "squircle",
+            "hexagon",
+            "triangle"
+          ]
+        },
+        {
+          "name": "online",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether the avatar has an online indicator.",
+          "default": "false",
+          "values": null
+        },
+        {
+          "name": "offline",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether the avatar has an offline indicator.",
+          "default": "false",
+          "values": null
+        },
+        {
+          "name": "ring",
+          "type": "DaisyColor",
+          "required": false,
+          "doc": "Ring color around the avatar.",
+          "values": [
+            "primary",
+            "secondary",
+            "accent",
+            "neutral",
+            "info",
+            "success",
+            "warning",
+            "error"
+          ]
+        },
+        {
+          "name": "color",
+          "type": "DaisyColor",
+          "required": false,
+          "doc": "Placeholder background color when no image is provided.",
+          "values": [
+            "primary",
+            "secondary",
+            "accent",
+            "neutral",
+            "info",
+            "success",
+            "warning",
+            "error"
+          ]
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false,
+          "doc": "Additional CSS classes.",
+          "values": null
+        }
+      ],
+      "slots": {
+        "default": true,
+        "named": []
+      },
+      "events": [],
+      "models": [],
+      "daisy": {
+        "component": {
+          "avatar": 1,
+          "avatar-offline": 1,
+          "avatar-online": 1,
+          "avatar-placeholder": 1
+        },
+        "themeSemantic": {
+          "bg-neutral": 1
+        },
+        "themeContent": {
+          "text-neutral-content": 1
+        }
+      }
+    },
+    {
+      "name": "Badge",
+      "category": "display",
+      "file": "packages/vue/src/components/display/Badge/Badge.vue",
+      "props": [
+        {
+          "name": "value",
+          "type": "string | number",
+          "required": false,
+          "doc": "Text content of the badge.",
+          "values": null
+        },
+        {
+          "name": "color",
+          "type": "DaisyColor",
+          "required": false,
+          "doc": "Color variant of the badge.",
+          "values": [
+            "primary",
+            "secondary",
+            "accent",
+            "neutral",
+            "info",
+            "success",
+            "warning",
+            "error"
+          ]
+        },
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "doc": "Size of the badge.",
+          "default": "'md'",
+          "values": [
+            "xs",
+            "sm",
+            "md",
+            "lg"
+          ]
+        },
+        {
+          "name": "outline",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, renders as an outline badge.",
+          "default": "false",
+          "values": null
+        },
+        {
+          "name": "ghost",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, renders as a ghost badge.",
+          "default": "false",
+          "values": null
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false,
+          "doc": "Additional CSS classes.",
+          "values": null
+        }
+      ],
+      "slots": {
+        "default": true,
+        "named": []
+      },
+      "events": [],
+      "models": [],
+      "daisy": {
+        "component": {
+          "badge": 1,
+          "badge-outline": 1,
+          "badge-ghost": 1
+        }
+      }
+    },
+    {
+      "name": "Progress",
+      "category": "display",
+      "file": "packages/vue/src/components/display/Progress/Progress.vue",
+      "props": [
+        {
+          "name": "value",
+          "type": "number",
+          "required": false,
+          "doc": "Current value of the progress bar (0 to max).",
+          "values": null
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "required": false,
+          "doc": "Maximum value.",
+          "default": "100",
+          "values": null
+        },
+        {
+          "name": "color",
+          "type": "DaisyColor",
+          "required": false,
+          "doc": "Color variant of the progress bar.",
+          "values": [
+            "primary",
+            "secondary",
+            "accent",
+            "neutral",
+            "info",
+            "success",
+            "warning",
+            "error"
+          ]
+        },
+        {
+          "name": "showValue",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, shows the percentage text.",
+          "default": "false",
+          "values": null
+        },
+        {
+          "name": "ariaLabel",
+          "type": "string",
+          "required": false,
+          "doc": "Accessible label for the progress bar.",
+          "default": "'Progress'",
+          "values": null
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false,
+          "doc": "Additional CSS classes.",
+          "values": null
+        }
+      ],
+      "slots": {
+        "default": false,
+        "named": []
+      },
+      "events": [],
+      "models": [],
+      "daisy": {
+        "themeBase": {
+          "text-base-content/70": 1
+        },
+        "component": {
+          "progress": 1
+        }
+      }
+    },
+    {
+      "name": "Stat",
+      "category": "display",
+      "file": "packages/vue/src/components/display/Stat/Stat.vue",
+      "props": [
+        {
+          "name": "title",
+          "type": "string",
+          "required": true,
+          "doc": "Label text above the value.",
+          "values": null
+        },
+        {
+          "name": "value",
+          "type": "string | number",
+          "required": true,
+          "doc": "The main statistic value.",
+          "values": null
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "required": false,
+          "doc": "Description text below the value.",
+          "values": null
+        },
+        {
+          "name": "change",
+          "type": "string",
+          "required": false,
+          "doc": "Change indicator text (e.g., \"+12%\").",
+          "values": null
+        },
+        {
+          "name": "changeDirection",
+          "type": "'up' | 'down' | 'neutral'",
+          "required": false,
+          "doc": "Direction of change for color coding.",
+          "default": "neutral",
+          "values": [
+            "up",
+            "down",
+            "neutral"
+          ]
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false,
+          "doc": "Additional CSS classes.",
+          "values": null
+        }
+      ],
+      "slots": {
+        "default": false,
+        "named": [
+          "actions",
+          "figure"
+        ]
+      },
+      "events": [],
+      "models": [],
+      "daisy": {
+        "component": {
+          "stat-figure": 1,
+          "stat-title": 1,
+          "stat-value": 1,
+          "stat-desc": 2,
+          "stat-actions": 1,
+          "stat": 1
+        },
+        "themeSemantic": {
+          "text-success": 1,
+          "text-error": 1
+        }
+      }
+    },
+    {
+      "name": "Timeline",
+      "category": "display",
+      "file": "packages/vue/src/components/display/Timeline/Timeline.vue",
+      "props": [
+        {
+          "name": "items",
+          "type": "TimelineItem[]",
+          "required": true,
+          "doc": "Array of timeline items.",
+          "values": null
+        },
+        {
+          "name": "vertical",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, renders a vertical timeline.",
+          "default": "true",
+          "values": null
+        },
+        {
+          "name": "snap",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, alternates items left and right.",
+          "default": "false",
+          "values": null
+        },
+        {
+          "name": "compact",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, renders a compact timeline.",
+          "default": "false",
+          "values": null
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false,
+          "doc": "Additional CSS classes.",
+          "values": null
+        }
+      ],
+      "slots": {
+        "default": false,
+        "named": [
+          "item",
+          "marker"
+        ]
+      },
+      "events": [],
+      "models": [],
+      "daisy": {
+        "component": {
+          "timeline-start": 1,
+          "timeline-middle": 1,
+          "timeline-end": 1,
+          "timeline-box": 1,
+          "timeline": 1,
+          "timeline-vertical": 1,
+          "timeline-horizontal": 1,
+          "timeline-snap-icon": 1,
+          "timeline-compact": 1
+        },
+        "themeBase": {
+          "bg-base-content": 1,
+          "text-base-content/70": 1
+        }
+      }
+    },
+    {
+      "name": "Code",
+      "category": "display",
+      "file": "packages/vue/src/components/display/Code/Code.vue",
+      "props": [
+        {
+          "name": "code",
+          "type": "string",
+          "required": true,
+          "doc": "The code content to display.",
+          "values": null
+        },
+        {
+          "name": "language",
+          "type": "string",
+          "required": false,
+          "doc": "Programming language label (e.g., \"javascript\", \"html\").",
+          "values": null
+        },
+        {
+          "name": "copyable",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, shows a copy button.",
+          "default": "false",
+          "values": null
+        },
+        {
+          "name": "inline",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, renders inline instead of as a block.",
+          "default": "false",
+          "values": null
+        },
+        {
+          "name": "lineNumbers",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, shows line numbers.",
+          "default": "false",
+          "values": null
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false,
+          "doc": "Additional CSS classes.",
+          "values": null
+        }
+      ],
+      "slots": {
+        "default": false,
+        "named": []
+      },
+      "events": [
+        {
+          "name": "copy-failed",
+          "payload": "[error: unknown]"
+        }
+      ],
+      "models": [],
+      "daisy": {
+        "component": {
+          "badge": 1,
+          "badge-ghost": 1,
+          "btn": 1,
+          "btn-ghost": 1,
+          "btn-xs": 1,
+          "mockup-code": 1
+        }
+      }
+    },
+    {
+      "name": "Carousel",
+      "category": "display",
+      "file": "packages/vue/src/components/display/Carousel/Carousel.vue",
+      "props": [
+        {
+          "name": "slides",
+          "type": "CarouselSlide[]",
+          "required": true,
+          "doc": "Array of slides to display.",
+          "values": null
+        },
+        {
+          "name": "showArrows",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, shows navigation arrows.",
+          "default": "true",
+          "values": null
+        },
+        {
+          "name": "showIndicators",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, shows dot indicators.",
+          "default": "true",
+          "values": null
+        },
+        {
+          "name": "modelValue",
+          "type": "number",
+          "required": false,
+          "doc": "Starting slide index.",
+          "default": "0",
+          "values": null
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false,
+          "doc": "Additional CSS classes.",
+          "values": null
+        }
+      ],
+      "slots": {
+        "default": false,
+        "named": [
+          "slide"
+        ]
+      },
+      "events": [
+        {
+          "name": "update:modelValue",
+          "payload": "[index: number]"
+        }
+      ],
+      "models": [],
+      "daisy": {
+        "themeBase": {
+          "text-base-content/70": 1,
+          "bg-base-100/80": 2,
+          "bg-base-100": 2,
+          "text-base-content": 2,
+          "bg-base-300": 2
+        },
+        "themeSemantic": {
+          "bg-primary": 2
+        }
+      }
+    },
+    {
+      "name": "Diff",
+      "category": "display",
+      "file": "packages/vue/src/components/display/Diff/Diff.vue",
+      "props": [
+        {
+          "name": "before",
+          "type": "string",
+          "required": true,
+          "doc": "The original (before) content.",
+          "values": null
+        },
+        {
+          "name": "after",
+          "type": "string",
+          "required": true,
+          "doc": "The modified (after) content.",
+          "values": null
+        },
+        {
+          "name": "beforeLabel",
+          "type": "string",
+          "required": false,
+          "doc": "Label for the before content.",
+          "default": "'Before'",
+          "values": null
+        },
+        {
+          "name": "afterLabel",
+          "type": "string",
+          "required": false,
+          "doc": "Label for the after content.",
+          "default": "'After'",
+          "values": null
+        },
+        {
+          "name": "mode",
+          "type": "'side-by-side' | 'inline'",
+          "required": false,
+          "doc": "Display mode.",
+          "default": "'side-by-side'",
+          "values": [
+            "side-by-side",
+            "inline"
+          ]
+        },
+        {
+          "name": "lineNumbers",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, shows line numbers.",
+          "default": "true",
+          "values": null
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false,
+          "doc": "Additional CSS classes.",
+          "values": null
+        }
+      ],
+      "slots": {
+        "default": false,
+        "named": []
+      },
+      "events": [],
+      "models": [],
+      "daisy": {
+        "themeBase": {
+          "text-base-content/50": 3,
+          "border-base-300": 3,
+          "border-base-200": 4,
+          "text-base-content/30": 5
+        },
+        "themeSemantic": {
+          "bg-error/20": 1,
+          "bg-success/20": 1
+        }
+      }
+    },
+    {
+      "name": "Sparkline",
+      "category": "display",
+      "file": "packages/vue/src/components/display/Sparkline/Sparkline.vue",
+      "props": [
+        {
+          "name": "data",
+          "type": "number[]",
+          "required": true,
+          "doc": "Array of numeric data points.",
+          "values": null
+        },
+        {
+          "name": "type",
+          "type": "'line' | 'area' | 'bar'",
+          "required": false,
+          "doc": "Sparkline type.",
+          "default": "'line'",
+          "values": [
+            "line",
+            "area",
+            "bar"
+          ]
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "required": false,
+          "doc": "Height in pixels.",
+          "default": "40",
+          "values": null
+        },
+        {
+          "name": "width",
+          "type": "number",
+          "required": false,
+          "doc": "Width in pixels. Defaults to `data.length * 8`.",
+          "values": null
+        },
+        {
+          "name": "color",
+          "type": "DaisyColor | string",
+          "required": false,
+          "doc": "Color (DaisyUI name or CSS color).",
+          "default": "'primary'",
+          "values": null
+        },
+        {
+          "name": "strokeWidth",
+          "type": "number",
+          "required": false,
+          "doc": "Stroke width for line/area types.",
+          "default": "2",
+          "values": null
+        },
+        {
+          "name": "curve",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, uses Catmull-Rom curves for smooth paths.",
+          "default": "true",
+          "values": null
+        },
+        {
+          "name": "fillOpacity",
+          "type": "number",
+          "required": false,
+          "doc": "Fill opacity for area type (0-1).",
+          "default": "0.3",
+          "values": null
+        },
+        {
+          "name": "showTooltip",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, shows a tooltip on hover.",
+          "default": "true",
+          "values": null
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false,
+          "doc": "Additional CSS classes.",
+          "values": null
+        }
+      ],
+      "slots": {
+        "default": false,
+        "named": []
+      },
+      "events": [],
+      "models": [],
+      "daisy": {
+        "themeBase": {
+          "bg-base-300": 1,
+          "text-base-content": 1
+        }
+      }
+    },
+    {
+      "name": "Table",
+      "category": "data",
+      "file": "packages/vue/src/components/data/Table/Table.vue",
+      "props": [
+        {
+          "name": "columns",
+          "type": "TableColumn[]",
+          "required": true,
+          "doc": "Column definitions.",
+          "values": null
+        },
+        {
+          "name": "rows",
+          "type": "Record<string, unknown>[]",
+          "required": true,
+          "doc": "Array of row data objects.",
+          "values": null
+        },
+        {
+          "name": "striped",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, adds zebra striping to rows.",
+          "default": "false",
+          "values": null
+        },
+        {
+          "name": "compact",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, makes the table compact.",
+          "default": "false",
+          "values": null
+        },
+        {
+          "name": "hoverable",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, adds hover highlighting to rows.",
+          "default": "false",
+          "values": null
+        },
+        {
+          "name": "pinRows",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, pins the header row.",
+          "default": "false",
+          "values": null
+        },
+        {
+          "name": "pinCols",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, pins the first column.",
+          "default": "false",
+          "values": null
+        },
+        {
+          "name": "sort",
+          "type": "SortState",
+          "required": false,
+          "doc": "Current sort state.",
+          "values": null
+        },
+        {
+          "name": "loading",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, shows a loading state.",
+          "default": "false",
+          "values": null
+        },
+        {
+          "name": "emptyMessage",
+          "type": "string",
+          "required": false,
+          "doc": "Message to display when there are no rows.",
+          "default": "'No data available'",
+          "values": null
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false,
+          "doc": "Additional CSS classes.",
+          "values": null
+        }
+      ],
+      "slots": {
+        "default": false,
+        "named": [
+          "empty"
+        ]
+      },
+      "events": [
+        {
+          "name": "sort",
+          "payload": "[state: SortState]"
+        }
+      ],
+      "models": [],
+      "daisy": {
+        "themeBase": {
+          "bg-base-200": 2,
+          "text-base-content/50": 1
+        },
+        "component": {
+          "loading": 1,
+          "loading-spinner": 1,
+          "loading-md": 1
+        },
+        "ambiguous": {
+          "table": 1,
+          "table-zebra": 1,
+          "table-xs": 1,
+          "table-pin-rows": 1,
+          "table-pin-cols": 1
+        }
+      }
+    },
+    {
+      "name": "Chart",
+      "category": "data",
+      "file": "packages/vue/src/components/data/Chart/Chart.vue",
+      "props": [
+        {
+          "name": "type",
+          "type": "ChartType",
+          "required": false,
+          "doc": "Chart type.",
+          "default": "'bar'",
+          "values": [
+            "bar",
+            "line",
+            "area",
+            "donut",
+            "pie",
+            "radialBar",
+            "radar",
+            "polarArea"
+          ]
+        },
+        {
+          "name": "labels",
+          "type": "string[]",
+          "required": false,
+          "doc": "Labels for x-axis categories or pie/donut slice labels.",
+          "values": null
+        },
+        {
+          "name": "series",
+          "type": "ChartSeries[]",
+          "required": false,
+          "doc": "Multi-series data for bar, line, and area charts.",
+          "values": null
+        },
+        {
+          "name": "data",
+          "type": "ChartDataPoint[]",
+          "required": false,
+          "doc": "Simple data points for pie, donut, and similar chart types.",
+          "values": null
+        },
+        {
+          "name": "height",
+          "type": "number | string",
+          "required": false,
+          "doc": "Chart height in pixels or CSS value.",
+          "default": "350",
+          "values": null
+        },
+        {
+          "name": "width",
+          "type": "number | string",
+          "required": false,
+          "doc": "Chart width in pixels or CSS value.",
+          "values": null
+        },
+        {
+          "name": "color",
+          "type": "DaisyColor",
+          "required": false,
+          "doc": "Default DaisyUI color.",
+          "values": [
+            "primary",
+            "secondary",
+            "accent",
+            "neutral",
+            "info",
+            "success",
+            "warning",
+            "error"
+          ]
+        },
+        {
+          "name": "options",
+          "type": "Record<string, unknown>",
+          "required": false,
+          "doc": "ApexCharts options for advanced customization (deep-merged with defaults).",
+          "values": null
+        },
+        {
+          "name": "showLegend",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, shows a legend.",
+          "default": "true",
+          "values": null
+        },
+        {
+          "name": "animated",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, enables animations.",
+          "default": "true",
+          "values": null
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "required": false,
+          "doc": "Chart title.",
+          "values": null
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false,
+          "doc": "Additional CSS classes.",
+          "values": null
+        }
+      ],
+      "slots": {
+        "default": false,
+        "named": []
+      },
+      "events": [],
+      "models": [],
+      "daisy": {}
+    },
+    {
+      "name": "Calendar",
+      "category": "data",
+      "file": "packages/vue/src/components/data/Calendar/Calendar.vue",
+      "props": [
+        {
+          "name": "month",
+          "type": "number",
+          "required": false,
+          "doc": "Currently displayed month (1-12).",
+          "values": null
+        },
+        {
+          "name": "year",
+          "type": "number",
+          "required": false,
+          "doc": "Currently displayed year.",
+          "values": null
+        },
+        {
+          "name": "modelValue",
+          "type": "string",
+          "required": false,
+          "doc": "Selected date in YYYY-MM-DD format.",
+          "values": null
+        },
+        {
+          "name": "events",
+          "type": "CalendarEvent[]",
+          "required": false,
+          "doc": "Array of events to display.",
+          "default": "() => []",
+          "values": null
+        },
+        {
+          "name": "weekStart",
+          "type": "0 | 1",
+          "required": false,
+          "doc": "First day of the week (0 = Sunday, 1 = Monday).",
+          "default": "0",
+          "values": null
+        },
+        {
+          "name": "minDate",
+          "type": "string",
+          "required": false,
+          "doc": "Minimum selectable date in YYYY-MM-DD format.",
+          "values": null
+        },
+        {
+          "name": "maxDate",
+          "type": "string",
+          "required": false,
+          "doc": "Maximum selectable date in YYYY-MM-DD format.",
+          "values": null
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false,
+          "doc": "Additional CSS classes.",
+          "values": null
+        }
+      ],
+      "slots": {
+        "default": false,
+        "named": []
+      },
+      "events": [
+        {
+          "name": "update:modelValue",
+          "payload": "[date: string]"
+        },
+        {
+          "name": "date-click",
+          "payload": "[date: string]"
+        },
+        {
+          "name": "month-change",
+          "payload": "[payload: { month: number; year: number }]"
+        }
+      ],
+      "models": [],
+      "daisy": {
+        "themeBase": {
+          "bg-base-100": 2,
+          "text-base-content/60": 1,
+          "bg-base-200": 1
+        },
+        "component": {
+          "btn": 2,
+          "btn-ghost": 2,
+          "btn-sm": 2,
+          "card": 1
+        },
+        "themeSemantic": {
+          "ring-primary": 2,
+          "bg-primary": 4
+        },
+        "themeContent": {
+          "text-primary-content": 2
+        }
+      }
+    },
+    {
+      "name": "Alert",
+      "category": "feedback",
+      "file": "packages/vue/src/components/feedback/Alert/Alert.vue",
+      "props": [
+        {
+          "name": "color",
+          "type": "AlertColor",
+          "required": false,
+          "doc": "The color variant of the alert. Determines background and text styling.",
+          "values": null
+        },
+        {
+          "name": "dismissible",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether the alert can be dismissed by the user via a close button.",
+          "default": "false",
+          "values": null
+        },
+        {
+          "name": "visible",
+          "type": "boolean",
+          "required": false,
+          "doc": "Controlled visibility -- when provided, the parent manages show/hide.\nWhen omitted the component manages its own internal visibility state.",
+          "default": "undefined",
+          "values": null
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false,
+          "doc": "Additional CSS classes.",
+          "values": null
+        }
+      ],
+      "slots": {
+        "default": true,
+        "named": [
+          "icon"
+        ]
+      },
+      "events": [
+        {
+          "name": "dismiss",
+          "payload": "[]"
+        }
+      ],
+      "models": [],
+      "daisy": {
+        "component": {
+          "alert-icon": 1,
+          "btn": 1,
+          "btn-sm": 1,
+          "btn-ghost": 1,
+          "alert": 1
+        }
+      }
+    },
+    {
+      "name": "Loading",
+      "category": "feedback",
+      "file": "packages/vue/src/components/feedback/Loading/Loading.vue",
+      "props": [
+        {
+          "name": "color",
+          "type": "DaisyColor",
+          "required": false,
+          "doc": "The DaisyUI color variant applied to the loading indicator.",
+          "values": [
+            "primary",
+            "secondary",
+            "accent",
+            "neutral",
+            "info",
+            "success",
+            "warning",
+            "error"
+          ]
+        },
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "doc": "The size of the loading indicator.",
+          "values": [
+            "xs",
+            "sm",
+            "md",
+            "lg"
+          ]
+        },
+        {
+          "name": "variant",
+          "type": "LoadingVariant",
+          "required": false,
+          "doc": "The visual animation style of the loading indicator.",
+          "default": "'spinner'",
+          "values": [
+            "spinner",
+            "dots",
+            "ring",
+            "ball",
+            "bars",
+            "infinity"
+          ]
+        },
+        {
+          "name": "ariaLabel",
+          "type": "string",
+          "required": false,
+          "doc": "Accessible label for the loading indicator.",
+          "default": "'Loading'",
+          "values": null
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false,
+          "doc": "Additional CSS classes.",
+          "values": null
+        }
+      ],
+      "slots": {
+        "default": false,
+        "named": []
+      },
+      "events": [],
+      "models": [],
+      "daisy": {
+        "component": {
+          "loading": 1
+        }
+      }
+    },
+    {
+      "name": "Skeleton",
+      "category": "feedback",
+      "file": "packages/vue/src/components/feedback/Skeleton/Skeleton.vue",
+      "props": [
+        {
+          "name": "width",
+          "type": "string",
+          "required": false,
+          "doc": "Width of the skeleton as a CSS value (e.g. `\"200px\"`, `\"100%\"`).",
+          "values": null
+        },
+        {
+          "name": "height",
+          "type": "string",
+          "required": false,
+          "doc": "Height of the skeleton as a CSS value (e.g. `\"1rem\"`, `\"40px\"`).",
+          "values": null
+        },
+        {
+          "name": "circle",
+          "type": "boolean",
+          "required": false,
+          "doc": "When `true`, renders the skeleton as a circle.",
+          "default": "false",
+          "values": null
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false,
+          "doc": "Additional CSS classes.",
+          "values": null
+        }
+      ],
+      "slots": {
+        "default": false,
+        "named": []
+      },
+      "events": [],
+      "models": [],
+      "daisy": {
+        "component": {
+          "skeleton": 1
+        }
+      }
+    },
+    {
+      "name": "EmptyState",
+      "category": "feedback",
+      "file": "packages/vue/src/components/feedback/EmptyState/EmptyState.vue",
+      "props": [
+        {
+          "name": "heading",
+          "type": "string",
+          "required": false,
+          "doc": "Heading text rendered inside the heading element.",
+          "values": null
+        },
+        {
+          "name": "headingAs",
+          "type": "'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'",
+          "required": false,
+          "doc": "HTML element to render the heading as.",
+          "default": "'h3'",
+          "values": [
+            "h1",
+            "h2",
+            "h3",
+            "h4",
+            "h5",
+            "h6"
+          ]
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "required": false,
+          "doc": "Descriptive message displayed below the heading.",
+          "values": null
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false,
+          "doc": "Additional CSS classes.",
+          "values": null
+        }
+      ],
+      "slots": {
+        "default": true,
+        "named": [
+          "action",
+          "icon"
+        ]
+      },
+      "events": [],
+      "models": [],
+      "daisy": {
+        "themeBase": {
+          "text-base-content/40": 1,
+          "text-base-content/60": 1
+        }
+      }
+    },
+    {
+      "name": "ErrorDisplay",
+      "category": "feedback",
+      "file": "packages/vue/src/components/feedback/Error/Error.vue",
+      "props": [
+        {
+          "name": "title",
+          "type": "string",
+          "required": false,
+          "doc": "Error title displayed as a heading.",
+          "default": "'Something went wrong'",
+          "values": null
+        },
+        {
+          "name": "message",
+          "type": "string",
+          "required": false,
+          "doc": "Descriptive error message displayed below the title.",
+          "values": null
+        },
+        {
+          "name": "retryable",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, renders a retry button.",
+          "default": "false",
+          "values": null
+        },
+        {
+          "name": "retryLabel",
+          "type": "string",
+          "required": false,
+          "doc": "Custom label for the retry button.",
+          "default": "'Try again'",
+          "values": null
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false,
+          "doc": "Additional CSS classes.",
+          "values": null
+        }
+      ],
+      "slots": {
+        "default": true,
+        "named": [
+          "icon"
+        ]
+      },
+      "events": [
+        {
+          "name": "retry",
+          "payload": "[]"
+        }
+      ],
+      "models": [],
+      "daisy": {
+        "themeSemantic": {
+          "text-error": 2
+        },
+        "themeBase": {
+          "text-base-content/60": 1
+        },
+        "component": {
+          "btn": 1,
+          "btn-error": 1,
+          "btn-sm": 1
+        }
+      }
+    },
+    {
+      "name": "ToastProvider",
+      "category": "feedback",
+      "file": "packages/vue/src/components/feedback/Toast/ToastProvider.vue",
+      "props": [
+        {
+          "name": "defaultDuration",
+          "type": "number",
+          "required": false,
+          "doc": "Default auto-dismiss duration in milliseconds.",
+          "default": "5000",
+          "values": null
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "required": false,
+          "doc": "Maximum number of simultaneously visible toasts.",
+          "default": "5",
+          "values": null
+        },
+        {
+          "name": "position",
+          "type": "ToastPosition[]",
+          "required": false,
+          "doc": "DaisyUI position classes applied to the toast container.",
+          "default": "['toast-end', 'toast-bottom']",
+          "values": null
+        }
+      ],
+      "slots": {
+        "default": true,
+        "named": []
+      },
+      "events": [],
+      "models": [],
+      "daisy": {
+        "component": {
+          "toast": 1
+        }
+      }
+    },
+    {
+      "name": "ToastMessage",
+      "category": "feedback",
+      "file": "packages/vue/src/components/feedback/Toast/ToastMessage.vue",
+      "props": [],
+      "slots": {
+        "default": false,
+        "named": []
+      },
+      "events": [
+        {
+          "name": "dismiss",
+          "payload": "[id: string]"
+        }
+      ],
+      "models": [],
+      "daisy": {
+        "component": {
+          "btn": 1,
+          "btn-sm": 1,
+          "btn-ghost": 1,
+          "alert": 1
+        }
+      }
+    },
+    {
+      "name": "Icon",
+      "category": "utility",
+      "file": "packages/vue/src/components/utility/Icon/Icon.vue",
+      "props": [
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "doc": "The size of the icon. Maps to DaisyUI size classes.",
+          "default": "'md'",
+          "values": [
+            "xs",
+            "sm",
+            "md",
+            "lg"
+          ]
+        },
+        {
+          "name": "color",
+          "type": "DaisyColor",
+          "required": false,
+          "doc": "The DaisyUI color variant applied to the icon.",
+          "values": [
+            "primary",
+            "secondary",
+            "accent",
+            "neutral",
+            "info",
+            "success",
+            "warning",
+            "error"
+          ]
+        },
+        {
+          "name": "ariaLabel",
+          "type": "string",
+          "required": false,
+          "doc": "Accessible label for the icon. When omitted, the icon is treated as decorative (aria-hidden).",
+          "values": null
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false,
+          "doc": "Additional CSS classes.",
+          "values": null
+        }
+      ],
+      "slots": {
+        "default": true,
+        "named": []
+      },
+      "events": [],
+      "models": [],
+      "daisy": {}
+    },
+    {
+      "name": "ThemeToggle",
+      "category": "utility",
+      "file": "packages/vue/src/components/utility/ThemeToggle/ThemeToggle.vue",
+      "props": [
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "doc": "The size of the toggle.",
+          "default": "'md'",
+          "values": [
+            "xs",
+            "sm",
+            "md",
+            "lg"
+          ]
+        },
+        {
+          "name": "persist",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether to persist the color scheme preference to localStorage.",
+          "default": "true",
+          "values": null
+        },
+        {
+          "name": "storageKey",
+          "type": "string",
+          "required": false,
+          "doc": "The localStorage key used for persistence.",
+          "default": "'artisanpack-color-scheme'",
+          "values": null
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false,
+          "doc": "Additional CSS classes.",
+          "values": null
+        }
+      ],
+      "slots": {
+        "default": false,
+        "named": []
+      },
+      "events": [],
+      "models": [],
+      "daisy": {
+        "component": {
+          "btn": 1,
+          "btn-ghost": 1
+        }
+      }
+    },
+    {
+      "name": "Tooltip",
+      "category": "utility",
+      "file": "packages/vue/src/components/utility/Tooltip/Tooltip.vue",
+      "props": [
+        {
+          "name": "text",
+          "type": "string",
+          "required": true,
+          "doc": "The tooltip text content.",
+          "values": null
+        },
+        {
+          "name": "position",
+          "type": "TooltipPosition",
+          "required": false,
+          "doc": "Position of the tooltip relative to the trigger.",
+          "default": "'top'",
+          "values": [
+            "top",
+            "bottom",
+            "left",
+            "right"
+          ]
+        },
+        {
+          "name": "color",
+          "type": "DaisyColor",
+          "required": false,
+          "doc": "The DaisyUI color variant applied to the tooltip.",
+          "values": [
+            "primary",
+            "secondary",
+            "accent",
+            "neutral",
+            "info",
+            "success",
+            "warning",
+            "error"
+          ]
+        },
+        {
+          "name": "forceOpen",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, forces the tooltip to remain open.",
+          "default": "false",
+          "values": null
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false,
+          "doc": "Additional CSS classes.",
+          "values": null
+        }
+      ],
+      "slots": {
+        "default": true,
+        "named": []
+      },
+      "events": [],
+      "models": [],
+      "daisy": {
+        "component": {
+          "tooltip": 1,
+          "tooltip-open": 1
+        }
+      }
+    },
+    {
+      "name": "Clipboard",
+      "category": "utility",
+      "file": "packages/vue/src/components/utility/Clipboard/Clipboard.vue",
+      "props": [
+        {
+          "name": "text",
+          "type": "string",
+          "required": true,
+          "doc": "The text to copy to the clipboard.",
+          "values": null
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "doc": "Label text for the button.",
+          "default": "'Copy'",
+          "values": null
+        },
+        {
+          "name": "successLabel",
+          "type": "string",
+          "required": false,
+          "doc": "Label text shown after a successful copy.",
+          "default": "'Copied!'",
+          "values": null
+        },
+        {
+          "name": "successDuration",
+          "type": "number",
+          "required": false,
+          "doc": "Duration in milliseconds to show the success state.",
+          "default": "2000",
+          "values": null
+        },
+        {
+          "name": "color",
+          "type": "DaisyColor",
+          "required": false,
+          "doc": "The DaisyUI color variant applied to the button.",
+          "values": [
+            "primary",
+            "secondary",
+            "accent",
+            "neutral",
+            "info",
+            "success",
+            "warning",
+            "error"
+          ]
+        },
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "doc": "The size of the button.",
+          "default": "'md'",
+          "values": [
+            "xs",
+            "sm",
+            "md",
+            "lg"
+          ]
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false,
+          "doc": "Additional CSS classes.",
+          "values": null
+        }
+      ],
+      "slots": {
+        "default": false,
+        "named": [
+          "default",
+          "success"
+        ]
+      },
+      "events": [
+        {
+          "name": "copy",
+          "payload": "[]"
+        },
+        {
+          "name": "error",
+          "payload": "[error: unknown]"
+        }
+      ],
+      "models": [],
+      "daisy": {
+        "component": {
+          "btn": 1
+        }
+      }
+    },
+    {
+      "name": "Markdown",
+      "category": "utility",
+      "file": "packages/vue/src/components/utility/Markdown/Markdown.vue",
+      "props": [
+        {
+          "name": "content",
+          "type": "string",
+          "required": true,
+          "doc": "The raw markdown string to render.",
+          "values": null
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false,
+          "doc": "Additional CSS classes applied to the prose container.",
+          "values": null
+        }
+      ],
+      "slots": {
+        "default": false,
+        "named": []
+      },
+      "events": [],
+      "models": [],
+      "daisy": {}
+    }
+  ]
+}

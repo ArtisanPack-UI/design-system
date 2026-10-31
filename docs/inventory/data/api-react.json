@@ -1,0 +1,5047 @@
+{
+  "stack": "react",
+  "commit": "5b764e8",
+  "components": [
+    {
+      "name": "Button",
+      "category": "form",
+      "file": "packages/react/src/components/form/Button/Button.tsx",
+      "nativeBase": [
+        "ButtonHTMLAttributes<HTMLButtonElement>"
+      ],
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "doc": "Text label displayed inside the button. Hidden on small screens when `responsive` is true.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "color",
+          "type": "DaisyColor | 'ghost' | 'outline'",
+          "required": false,
+          "doc": "DaisyUI color variant applied to the button. Accepts standard theme colors plus `'ghost'` and `'outline'`.",
+          "values": [
+            "primary",
+            "secondary",
+            "accent",
+            "neutral",
+            "info",
+            "success",
+            "warning",
+            "error",
+            "ghost",
+            "outline"
+          ],
+          "kind": "prop"
+        },
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "doc": "Controls the button size using DaisyUI size modifiers.",
+          "values": [
+            "xs",
+            "sm",
+            "md",
+            "lg"
+          ],
+          "kind": "prop"
+        },
+        {
+          "name": "loading",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, shows a loading spinner in place of the left icon. Disables a native `<button>`, but only sets `aria-disabled` on link variants.",
+          "default": "false",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "link",
+          "type": "string",
+          "required": false,
+          "doc": "When provided, renders the button as an `<a>` element pointing to this URL.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "external",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true and `link` is set, opens the link in a new tab with `rel=\"noopener noreferrer\"`.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "badge",
+          "type": "string",
+          "required": false,
+          "doc": "Text content for an inline badge rendered after the button label.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "badgeClasses",
+          "type": "string",
+          "required": false,
+          "doc": "Additional CSS classes applied to the badge element.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "responsive",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, hides the label on small screens and only shows it on `sm` breakpoint and above.",
+          "default": "false",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "tooltip",
+          "type": "string",
+          "required": false,
+          "doc": "Tooltip text displayed on hover. Wraps the button in a DaisyUI tooltip container.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "tooltipPosition",
+          "type": "'top' | 'bottom' | 'left' | 'right'",
+          "required": false,
+          "doc": "Position of the tooltip relative to the button.",
+          "default": "'top'",
+          "values": [
+            "top",
+            "bottom",
+            "left",
+            "right"
+          ],
+          "kind": "prop"
+        }
+      ],
+      "slots": [
+        {
+          "name": "icon",
+          "type": "ReactNode",
+          "required": false,
+          "doc": "Icon element rendered before the label text. Wrapped with `aria-hidden=\"true\"`.",
+          "values": null,
+          "kind": "slot"
+        },
+        {
+          "name": "iconRight",
+          "type": "ReactNode",
+          "required": false,
+          "doc": "Icon element rendered after the label text and children. Wrapped with `aria-hidden=\"true\"`.",
+          "values": null,
+          "kind": "slot"
+        }
+      ],
+      "events": [],
+      "children": true,
+      "daisy": {
+        "component": {
+          "loading": 1,
+          "loading-spinner": 1,
+          "loading-sm": 1,
+          "btn": 1,
+          "btn-disabled": 1,
+          "badge": 1,
+          "tooltip": 1
+        }
+      }
+    },
+    {
+      "name": "Checkbox",
+      "category": "form",
+      "file": "packages/react/src/components/form/Checkbox/Checkbox.tsx",
+      "nativeBase": [
+        "InputHTMLAttributes<HTMLInputElement>"
+      ],
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "doc": "Text label displayed next to the checkbox. Includes a required indicator when `required` is true.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "right",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, positions the label to the right of the checkbox (reverses flex order).",
+          "default": "false",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "hint",
+          "type": "string",
+          "required": false,
+          "doc": "Helper text displayed below the checkbox. Hidden when `error` is present.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "error",
+          "type": "string",
+          "required": false,
+          "doc": "Error message displayed below the checkbox. Replaces `hint` when present and adds `aria-invalid`.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "color",
+          "type": "DaisyColor",
+          "required": false,
+          "doc": "DaisyUI color variant for the checkbox indicator.",
+          "values": [
+            "primary",
+            "secondary",
+            "accent",
+            "neutral",
+            "info",
+            "success",
+            "warning",
+            "error"
+          ],
+          "kind": "prop"
+        },
+        {
+          "name": "card",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, renders the checkbox inside a bordered card layout with checked-state highlighting.",
+          "default": "false",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "cardClass",
+          "type": "string",
+          "required": false,
+          "doc": "Additional CSS classes applied to the card container when `card` is true.",
+          "values": null,
+          "kind": "prop"
+        }
+      ],
+      "slots": [],
+      "events": [],
+      "children": false,
+      "daisy": {
+        "component": {
+          "fieldset": 2,
+          "fieldset-label": 4,
+          "checkbox": 1
+        },
+        "themeSemantic": {
+          "text-error": 4
+        },
+        "themeBase": {
+          "bg-base-200": 1
+        }
+      }
+    },
+    {
+      "name": "ColorPicker",
+      "category": "form",
+      "file": "packages/react/src/components/form/ColorPicker/ColorPicker.tsx",
+      "nativeBase": [
+        "InputHTMLAttributes<HTMLInputElement>"
+      ],
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "doc": "Text label displayed above the color picker.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "hint",
+          "type": "string",
+          "required": false,
+          "doc": "Helper text displayed below the color picker. Hidden when `error` is present.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "error",
+          "type": "string",
+          "required": false,
+          "doc": "Error message displayed below the picker. Replaces `hint` when present and adds `aria-invalid`.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "clearable",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, shows a clear button that resets the color to `defaultValue` or `#000000`.",
+          "default": "false",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "random",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, shows a button to generate a random hex color.",
+          "default": "false",
+          "values": null,
+          "kind": "prop"
+        }
+      ],
+      "slots": [
+        {
+          "name": "icon",
+          "type": "ReactNode",
+          "required": false,
+          "doc": "Icon element rendered to the left of the hex value display.",
+          "values": null,
+          "kind": "slot"
+        },
+        {
+          "name": "iconRight",
+          "type": "ReactNode",
+          "required": false,
+          "doc": "Icon element rendered to the right of the action buttons.",
+          "values": null,
+          "kind": "slot"
+        },
+        {
+          "name": "randomIcon",
+          "type": "ReactNode",
+          "required": false,
+          "doc": "Custom icon element for the random color button. Defaults to a refresh/shuffle SVG.",
+          "values": null,
+          "kind": "slot"
+        }
+      ],
+      "events": [
+        {
+          "name": "onClear",
+          "type": "() => void",
+          "required": false,
+          "doc": "Callback fired when the clear button is clicked.",
+          "values": null,
+          "kind": "event"
+        },
+        {
+          "name": "onRandomColor",
+          "type": "(color: string) => void",
+          "required": false,
+          "doc": "Callback fired when a random color is generated, receiving the new hex string.",
+          "values": null,
+          "kind": "event"
+        }
+      ],
+      "children": false,
+      "daisy": {
+        "component": {
+          "fieldset": 1,
+          "fieldset-legend": 1,
+          "fieldset-label": 2
+        },
+        "themeSemantic": {
+          "text-error": 2
+        },
+        "ambiguous": {
+          "input": 1,
+          "input-error": 1
+        }
+      }
+    },
+    {
+      "name": "DatePicker",
+      "category": "form",
+      "file": "packages/react/src/components/form/DatePicker/DatePicker.tsx",
+      "nativeBase": [
+        "InputHTMLAttributes<HTMLInputElement>"
+      ],
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "doc": "Text label displayed above the date picker. Hidden when `inline` is true (shown as floating label instead).",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "hint",
+          "type": "string",
+          "required": false,
+          "doc": "Helper text displayed below the date picker. Hidden when `error` is present.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "error",
+          "type": "string",
+          "required": false,
+          "doc": "Error message displayed below the picker. Replaces `hint` when present and adds `aria-invalid`.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "inline",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, renders the label as a floating/inline label inside the input wrapper.",
+          "default": "false",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "dateType",
+          "type": "'date' | 'datetime-local' | 'time' | 'month' | 'week'",
+          "required": false,
+          "doc": "The native HTML input type for date/time selection.",
+          "default": "'date'",
+          "values": [
+            "date",
+            "datetime-local",
+            "time",
+            "month",
+            "week"
+          ],
+          "kind": "prop"
+        }
+      ],
+      "slots": [
+        {
+          "name": "icon",
+          "type": "ReactNode",
+          "required": false,
+          "doc": "Icon element rendered to the left of the input.",
+          "values": null,
+          "kind": "slot"
+        },
+        {
+          "name": "iconRight",
+          "type": "ReactNode",
+          "required": false,
+          "doc": "Icon element rendered to the right of the input.",
+          "values": null,
+          "kind": "slot"
+        }
+      ],
+      "events": [],
+      "children": false,
+      "daisy": {
+        "component": {
+          "fieldset": 2,
+          "fieldset-label": 4,
+          "fieldset-legend": 1
+        },
+        "themeSemantic": {
+          "text-error": 4
+        },
+        "ambiguous": {
+          "input": 2,
+          "input-error": 2
+        }
+      }
+    },
+    {
+      "name": "Editor",
+      "category": "form",
+      "file": "packages/react/src/components/form/Editor/Editor.tsx",
+      "nativeBase": [
+        "TextareaHTMLAttributes<HTMLTextAreaElement>"
+      ],
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "doc": "Text label displayed above the editor.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "hint",
+          "type": "string",
+          "required": false,
+          "doc": "Helper text displayed below the editor. Hidden when `error` is present.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "error",
+          "type": "string",
+          "required": false,
+          "doc": "Error message displayed below the editor. Replaces `hint` when present and adds `aria-invalid`.",
+          "values": null,
+          "kind": "prop"
+        }
+      ],
+      "slots": [],
+      "events": [],
+      "children": false,
+      "daisy": {
+        "component": {
+          "fieldset": 1,
+          "fieldset-legend": 1,
+          "fieldset-label": 2,
+          "textarea": 1,
+          "textarea-error": 1
+        },
+        "themeSemantic": {
+          "text-error": 2
+        }
+      }
+    },
+    {
+      "name": "File",
+      "category": "form",
+      "file": "packages/react/src/components/form/File/File.tsx",
+      "nativeBase": [
+        "InputHTMLAttributes<HTMLInputElement>"
+      ],
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "doc": "Text label displayed above the file input.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "hint",
+          "type": "string",
+          "required": false,
+          "doc": "Helper text displayed below the file input. Hidden when `error` is present.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "error",
+          "type": "string",
+          "required": false,
+          "doc": "Error message displayed below the input. Replaces `hint` when present and adds `aria-invalid`.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "withDragDrop",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, renders a drag-and-drop zone instead of the standard file input.",
+          "default": "false",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "dragDropText",
+          "type": "string",
+          "required": false,
+          "doc": "Custom text displayed inside the drag-and-drop zone.",
+          "default": "'Drop files here or click to browse'",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "dragDropClass",
+          "type": "string",
+          "required": false,
+          "doc": "Additional CSS classes applied to the drag-and-drop zone container.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "progress",
+          "type": "number",
+          "required": false,
+          "doc": "Upload progress percentage (0-100). When greater than 0, a progress bar is displayed.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "hideProgress",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, hides the upload progress bar even when `progress` is set.",
+          "default": "false",
+          "values": null,
+          "kind": "prop"
+        }
+      ],
+      "slots": [],
+      "events": [
+        {
+          "name": "onFilesSelected",
+          "type": "(files: FileList | null) => void",
+          "required": false,
+          "doc": "Callback fired when files are selected, either via input change or drag-and-drop. Receives the `FileList` or `null`.",
+          "values": null,
+          "kind": "event"
+        }
+      ],
+      "children": false,
+      "daisy": {
+        "component": {
+          "fieldset": 2,
+          "fieldset-legend": 2,
+          "progress": 2,
+          "progress-primary": 2,
+          "fieldset-label": 4,
+          "file-input": 1,
+          "file-input-error": 1
+        },
+        "themeSemantic": {
+          "text-error": 4,
+          "border-primary": 2,
+          "bg-primary/5": 1,
+          "border-error": 1
+        },
+        "themeBase": {
+          "border-base-300": 1
+        }
+      }
+    },
+    {
+      "name": "Input",
+      "category": "form",
+      "file": "packages/react/src/components/form/Input/Input.tsx",
+      "nativeBase": [
+        "InputHTMLAttributes<HTMLInputElement>"
+      ],
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "doc": "Text label displayed above the input. Hidden when `inline` is true (shown as floating label instead).",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "hint",
+          "type": "string",
+          "required": false,
+          "doc": "Helper text displayed below the input. Hidden when `error` is present.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "error",
+          "type": "string",
+          "required": false,
+          "doc": "Error message displayed below the input. Replaces `hint` when present and adds `aria-invalid`.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "clearable",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, shows a clear (X) button inside the input.",
+          "default": "false",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "inline",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, renders the label as a floating label using daisyUI's `floating-label` pattern.",
+          "default": "false",
+          "values": null,
+          "kind": "prop"
+        }
+      ],
+      "slots": [
+        {
+          "name": "icon",
+          "type": "ReactNode",
+          "required": false,
+          "doc": "Icon element rendered to the left of the input text. Wrapped with `aria-hidden=\"true\"`.",
+          "values": null,
+          "kind": "slot"
+        },
+        {
+          "name": "iconRight",
+          "type": "ReactNode",
+          "required": false,
+          "doc": "Icon element rendered to the right of the input text. Wrapped with `aria-hidden=\"true\"`.",
+          "values": null,
+          "kind": "slot"
+        },
+        {
+          "name": "prefix",
+          "type": "ReactNode",
+          "required": false,
+          "doc": "Text or element rendered as a prefix inside the input, before the text area.",
+          "values": null,
+          "kind": "slot"
+        },
+        {
+          "name": "suffix",
+          "type": "ReactNode",
+          "required": false,
+          "doc": "Text or element rendered as a suffix inside the input, after the text area.",
+          "values": null,
+          "kind": "slot"
+        }
+      ],
+      "events": [
+        {
+          "name": "onClear",
+          "type": "() => void",
+          "required": false,
+          "doc": "Callback fired when the clear button is clicked. Use this to reset the input value.",
+          "values": null,
+          "kind": "event"
+        }
+      ],
+      "children": false,
+      "daisy": {
+        "component": {
+          "fieldset": 2,
+          "fieldset-label": 4,
+          "fieldset-legend": 1
+        },
+        "themeSemantic": {
+          "text-error": 4
+        },
+        "ambiguous": {
+          "input": 1,
+          "input-error": 1
+        }
+      }
+    },
+    {
+      "name": "Password",
+      "category": "form",
+      "file": "packages/react/src/components/form/Password/Password.tsx",
+      "nativeBase": [
+        "InputHTMLAttributes<HTMLInputElement>"
+      ],
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "doc": "Text label displayed above the password input. Hidden when `inline` is true.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "hint",
+          "type": "string",
+          "required": false,
+          "doc": "Helper text displayed below the input. Hidden when `error` is present.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "error",
+          "type": "string",
+          "required": false,
+          "doc": "Error message displayed below the input. Replaces `hint` when present and adds `aria-invalid`.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "inline",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, renders the label as a floating/inline label inside the input wrapper.",
+          "default": "false",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "clearable",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, shows a clear (X) button inside the input.",
+          "default": "false",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "hideToggle",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, hides the password visibility toggle button.",
+          "default": "false",
+          "values": null,
+          "kind": "prop"
+        }
+      ],
+      "slots": [
+        {
+          "name": "icon",
+          "type": "ReactNode",
+          "required": false,
+          "doc": "Icon element rendered to the left of the input text.",
+          "values": null,
+          "kind": "slot"
+        },
+        {
+          "name": "hiddenIcon",
+          "type": "ReactNode",
+          "required": false,
+          "doc": "Custom icon shown when the password is hidden (masked). Defaults to an eye-slash SVG.",
+          "values": null,
+          "kind": "slot"
+        },
+        {
+          "name": "visibleIcon",
+          "type": "ReactNode",
+          "required": false,
+          "doc": "Custom icon shown when the password is visible (unmasked). Defaults to an eye SVG.",
+          "values": null,
+          "kind": "slot"
+        }
+      ],
+      "events": [
+        {
+          "name": "onClear",
+          "type": "() => void",
+          "required": false,
+          "doc": "Callback fired when the clear button is clicked.",
+          "values": null,
+          "kind": "event"
+        }
+      ],
+      "children": false,
+      "daisy": {
+        "component": {
+          "fieldset": 2,
+          "fieldset-label": 4,
+          "fieldset-legend": 1
+        },
+        "themeSemantic": {
+          "text-error": 4
+        },
+        "ambiguous": {
+          "input": 1,
+          "input-error": 1
+        }
+      }
+    },
+    {
+      "name": "Pin",
+      "category": "form",
+      "file": "packages/react/src/components/form/Pin/Pin.tsx",
+      "nativeBase": [
+        "InputHTMLAttributes<HTMLInputElement>"
+      ],
+      "props": [
+        {
+          "name": "length",
+          "type": "number",
+          "required": true,
+          "doc": "Number of individual PIN input fields to render. This is required.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "numeric",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, restricts input to digits only (0-9) and sets `inputMode=\"numeric\"`.",
+          "default": "false",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "hide",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, masks the input characters using `type=\"password\"`.",
+          "default": "false",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "error",
+          "type": "string",
+          "required": false,
+          "doc": "Error message displayed below the PIN inputs. Adds `aria-invalid` to each field.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "color",
+          "type": "DaisyColor",
+          "required": false,
+          "doc": "DaisyUI color variant applied to each individual PIN input field.",
+          "values": [
+            "primary",
+            "secondary",
+            "accent",
+            "neutral",
+            "info",
+            "success",
+            "warning",
+            "error"
+          ],
+          "kind": "prop"
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": false,
+          "doc": "The current PIN value for controlled usage. Each character maps to one input field.",
+          "values": null,
+          "kind": "prop"
+        }
+      ],
+      "slots": [],
+      "events": [
+        {
+          "name": "onComplete",
+          "type": "(value: string) => void",
+          "required": false,
+          "doc": "Callback fired when all PIN fields are filled. Receives the complete PIN string.",
+          "values": null,
+          "kind": "event"
+        },
+        {
+          "name": "onIncomplete",
+          "type": "(value: string) => void",
+          "required": false,
+          "doc": "Callback fired when the PIN becomes incomplete (e.g., a character is deleted). Receives the current partial value.",
+          "values": null,
+          "kind": "event"
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string) => void",
+          "required": false,
+          "doc": "Callback fired on every input change with the current concatenated PIN value.",
+          "values": null,
+          "kind": "event"
+        }
+      ],
+      "children": false,
+      "daisy": {
+        "component": {
+          "fieldset": 1,
+          "fieldset-label": 1
+        },
+        "themeSemantic": {
+          "text-error": 1
+        },
+        "ambiguous": {
+          "input": 1,
+          "input-error": 1
+        }
+      }
+    },
+    {
+      "name": "Radio",
+      "category": "form",
+      "file": "packages/react/src/components/form/Radio/Radio.tsx",
+      "nativeBase": [
+        "InputHTMLAttributes<HTMLInputElement>"
+      ],
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "doc": "Group label rendered as a `<legend>` element for the radio group fieldset.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "hint",
+          "type": "string",
+          "required": false,
+          "doc": "Helper text displayed below the radio group. Hidden when `error` is present.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "error",
+          "type": "string",
+          "required": false,
+          "doc": "Error message displayed below the group. Replaces `hint` when present and adds `aria-invalid` to the fieldset.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "color",
+          "type": "DaisyColor",
+          "required": false,
+          "doc": "DaisyUI color variant applied to each radio input and card highlight.",
+          "values": [
+            "primary",
+            "secondary",
+            "accent",
+            "neutral",
+            "info",
+            "success",
+            "warning",
+            "error"
+          ],
+          "kind": "prop"
+        },
+        {
+          "name": "optionValue",
+          "type": "string",
+          "required": false,
+          "doc": "Property key on each option object to use as the radio input `value`.",
+          "default": "'id'",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "optionLabel",
+          "type": "string",
+          "required": false,
+          "doc": "Property key on each option object to use as the displayed label text.",
+          "default": "'name'",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "optionHint",
+          "type": "string",
+          "required": false,
+          "doc": "Property key on each option object to use as optional hint text below the label.",
+          "default": "'hint'",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "options",
+          "type": "RadioOption[]",
+          "required": false,
+          "doc": "Array of option objects to render as radio buttons.",
+          "default": "[]",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "inline",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, displays the options horizontally in a row. Only applies when `card` is false.",
+          "default": "false",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "card",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, renders each option inside a bordered card with checked-state highlighting.",
+          "default": "false",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "cardClass",
+          "type": "string",
+          "required": false,
+          "doc": "Additional CSS classes applied to each card container when `card` is true.",
+          "values": null,
+          "kind": "prop"
+        }
+      ],
+      "slots": [],
+      "events": [],
+      "children": false,
+      "daisy": {
+        "component": {
+          "fieldset": 1,
+          "fieldset-legend": 1,
+          "fieldset-label": 2,
+          "radio": 2
+        },
+        "themeSemantic": {
+          "text-error": 2
+        },
+        "themeBase": {
+          "bg-base-200": 1
+        }
+      }
+    },
+    {
+      "name": "Range",
+      "category": "form",
+      "file": "packages/react/src/components/form/Range/Range.tsx",
+      "nativeBase": [
+        "InputHTMLAttributes<HTMLInputElement>"
+      ],
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "doc": "Text label displayed above the range slider.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "hint",
+          "type": "string",
+          "required": false,
+          "doc": "Helper text displayed below the slider. Hidden when `error` is present.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "error",
+          "type": "string",
+          "required": false,
+          "doc": "Error message displayed below the slider. Replaces `hint` when present and adds `aria-invalid`.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "color",
+          "type": "DaisyColor",
+          "required": false,
+          "doc": "DaisyUI color variant for the range track and thumb.",
+          "values": [
+            "primary",
+            "secondary",
+            "accent",
+            "neutral",
+            "info",
+            "success",
+            "warning",
+            "error"
+          ],
+          "kind": "prop"
+        }
+      ],
+      "slots": [],
+      "events": [],
+      "children": false,
+      "daisy": {
+        "component": {
+          "fieldset": 1,
+          "fieldset-legend": 1,
+          "fieldset-label": 2
+        },
+        "themeSemantic": {
+          "text-error": 2
+        },
+        "ambiguous": {
+          "range": 1
+        }
+      }
+    },
+    {
+      "name": "RichTextEditor",
+      "category": "form",
+      "file": "packages/react/src/components/form/RichTextEditor/RichTextEditor.tsx",
+      "nativeBase": [
+        "HTMLAttributes<HTMLDivElement>"
+      ],
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "doc": "Text label displayed above the editor.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "hint",
+          "type": "string",
+          "required": false,
+          "doc": "Helper text displayed below the editor. Hidden when `error` is present.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "error",
+          "type": "string",
+          "required": false,
+          "doc": "Error message displayed below the editor. Replaces `hint` when present and adds `aria-invalid`.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": false,
+          "doc": "The current HTML content for the editable area. Rendered via `dangerouslySetInnerHTML`.\n\n**Security warning:** Always sanitize this value (e.g., with DOMPurify) before passing\nuser-generated content to prevent XSS attacks.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "minHeight",
+          "type": "string",
+          "required": false,
+          "doc": "CSS min-height for the editable content area.",
+          "default": "'200px'",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether the field is required. Shows a required indicator on the label.",
+          "values": null,
+          "kind": "prop"
+        }
+      ],
+      "slots": [
+        {
+          "name": "toolbar",
+          "type": "ReactNode",
+          "required": false,
+          "doc": "Custom toolbar content rendered above the editable area inside a styled toolbar bar.",
+          "values": null,
+          "kind": "slot"
+        }
+      ],
+      "events": [
+        {
+          "name": "onValueChange",
+          "type": "(value: string) => void",
+          "required": false,
+          "doc": "Callback fired on every input event with the current `innerHTML` of the editable area.",
+          "values": null,
+          "kind": "event"
+        }
+      ],
+      "children": false,
+      "daisy": {
+        "component": {
+          "fieldset": 1,
+          "fieldset-legend": 1,
+          "fieldset-label": 2
+        },
+        "themeSemantic": {
+          "text-error": 2,
+          "border-error": 1
+        },
+        "themeBase": {
+          "bg-base-200": 1
+        }
+      }
+    },
+    {
+      "name": "Select",
+      "category": "form",
+      "file": "packages/react/src/components/form/Select/Select.tsx",
+      "nativeBase": [
+        "SelectHTMLAttributes<HTMLSelectElement>"
+      ],
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "doc": "Text label displayed above the select. Hidden when `inline` is true (shown below as a fieldset label).",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "hint",
+          "type": "string",
+          "required": false,
+          "doc": "Helper text displayed below the select. Hidden when `error` is present.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "error",
+          "type": "string",
+          "required": false,
+          "doc": "Error message displayed below the select. Replaces `hint` when present and adds `aria-invalid`.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "required": false,
+          "doc": "Text for a disabled placeholder `<option>` rendered as the first option.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "placeholderValue",
+          "type": "string",
+          "required": false,
+          "doc": "Value attribute for the placeholder option.",
+          "default": "''",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "inline",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, renders the label as an inline fieldset label below the select.",
+          "default": "false",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "optionValue",
+          "type": "string",
+          "required": false,
+          "doc": "Property key on each option object to use as the `<option>` value attribute.",
+          "default": "'id'",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "optionLabel",
+          "type": "string",
+          "required": false,
+          "doc": "Property key on each option object to use as the displayed option text.",
+          "default": "'name'",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "options",
+          "type": "SelectOption[] | Record<string, string>[]",
+          "required": false,
+          "doc": "Array of option objects to render as `<option>` elements. Can also pass `<option>` elements as children.",
+          "default": "[]",
+          "values": null,
+          "kind": "prop"
+        }
+      ],
+      "slots": [
+        {
+          "name": "icon",
+          "type": "ReactNode",
+          "required": false,
+          "doc": "Icon element rendered to the left of the select.",
+          "values": null,
+          "kind": "slot"
+        },
+        {
+          "name": "iconRight",
+          "type": "ReactNode",
+          "required": false,
+          "doc": "Icon element rendered to the right of the select.",
+          "values": null,
+          "kind": "slot"
+        }
+      ],
+      "events": [],
+      "children": true,
+      "daisy": {
+        "component": {
+          "fieldset": 1,
+          "fieldset-legend": 1,
+          "fieldset-label": 3
+        },
+        "themeSemantic": {
+          "text-error": 2
+        },
+        "ambiguous": {
+          "select": 1,
+          "select-error": 1
+        }
+      }
+    },
+    {
+      "name": "Textarea",
+      "category": "form",
+      "file": "packages/react/src/components/form/Textarea/Textarea.tsx",
+      "nativeBase": [
+        "TextareaHTMLAttributes<HTMLTextAreaElement>"
+      ],
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "doc": "Text label displayed above the textarea. Hidden when `inline` is true (shown as a fieldset label below).",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "hint",
+          "type": "string",
+          "required": false,
+          "doc": "Helper text displayed below the textarea. Hidden when `error` is present.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "error",
+          "type": "string",
+          "required": false,
+          "doc": "Error message displayed below the textarea. Replaces `hint` when present and adds `aria-invalid`.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "inline",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, renders the label as an inline fieldset label below the textarea.",
+          "default": "false",
+          "values": null,
+          "kind": "prop"
+        }
+      ],
+      "slots": [],
+      "events": [],
+      "children": false,
+      "daisy": {
+        "component": {
+          "fieldset": 1,
+          "fieldset-legend": 1,
+          "fieldset-label": 3,
+          "textarea": 1,
+          "textarea-error": 1
+        },
+        "themeSemantic": {
+          "text-error": 2
+        }
+      }
+    },
+    {
+      "name": "Toggle",
+      "category": "form",
+      "file": "packages/react/src/components/form/Toggle/Toggle.tsx",
+      "nativeBase": [
+        "InputHTMLAttributes<HTMLInputElement>"
+      ],
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "doc": "Text label displayed next to the toggle switch. Includes a required indicator when `required` is true.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "right",
+          "type": "boolean",
+          "required": false,
+          "doc": "When true, positions the label to the right of the toggle (reverses flex order).",
+          "default": "false",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "hint",
+          "type": "string",
+          "required": false,
+          "doc": "Helper text displayed below the toggle. Hidden when `error` is present.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "error",
+          "type": "string",
+          "required": false,
+          "doc": "Error message displayed below the toggle. Replaces `hint` when present and adds `aria-invalid`.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "color",
+          "type": "DaisyColor",
+          "required": false,
+          "doc": "DaisyUI color variant for the toggle track and thumb.",
+          "values": [
+            "primary",
+            "secondary",
+            "accent",
+            "neutral",
+            "info",
+            "success",
+            "warning",
+            "error"
+          ],
+          "kind": "prop"
+        }
+      ],
+      "slots": [],
+      "events": [],
+      "children": false,
+      "daisy": {
+        "component": {
+          "fieldset": 1,
+          "fieldset-label": 2,
+          "toggle": 1
+        },
+        "themeSemantic": {
+          "text-error": 2
+        }
+      }
+    },
+    {
+      "name": "Accordion",
+      "category": "layout",
+      "file": "packages/react/src/components/layout/Accordion/Accordion.tsx",
+      "nativeBase": [
+        "HTMLAttributes<HTMLDivElement>"
+      ],
+      "props": [
+        {
+          "name": "multiple",
+          "type": "boolean",
+          "required": false,
+          "doc": "Allow multiple panels to be open simultaneously. When `false` (default), opening a panel closes any other open panel.",
+          "default": "false",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "openIndices",
+          "type": "number[]",
+          "required": false,
+          "doc": "Controlled: indices of the currently open Collapse panels (relative to Collapse children only).",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "defaultOpenIndices",
+          "type": "number[]",
+          "required": false,
+          "doc": "Indices of panels that should be open on first render (uncontrolled mode, relative to Collapse children only).",
+          "default": "[]",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "join",
+          "type": "boolean",
+          "required": false,
+          "doc": "Apply DaisyUI `join` styling to visually connect the child panels.",
+          "default": "true",
+          "values": null,
+          "kind": "prop"
+        }
+      ],
+      "slots": [],
+      "events": [
+        {
+          "name": "onOpenChange",
+          "type": "(indices: number[]) => void",
+          "required": false,
+          "doc": "Callback fired when the set of open panels changes. Receives an array of open Collapse indices.",
+          "values": null,
+          "kind": "event"
+        }
+      ],
+      "children": true,
+      "daisy": {
+        "component": {
+          "join": 1,
+          "join-vertical": 1,
+          "join-item": 1
+        }
+      }
+    },
+    {
+      "name": "Card",
+      "category": "layout",
+      "file": "packages/react/src/components/layout/Card/Card.tsx",
+      "nativeBase": [],
+      "props": [],
+      "slots": [],
+      "events": [],
+      "children": true,
+      "daisy": {
+        "component": {
+          "card-title": 1,
+          "card-body": 1,
+          "card-actions": 1
+        },
+        "themeBase": {
+          "text-base-content/60": 1
+        }
+      }
+    },
+    {
+      "name": "Collapse",
+      "category": "layout",
+      "file": "packages/react/src/components/layout/Collapse/Collapse.tsx",
+      "nativeBase": [
+        "HTMLAttributes<HTMLDivElement>"
+      ],
+      "props": [
+        {
+          "name": "icon",
+          "type": "'arrow' | 'plus' | 'none'",
+          "required": false,
+          "doc": "Style of the open/close indicator icon.",
+          "default": "'arrow'",
+          "values": [
+            "arrow",
+            "plus",
+            "none"
+          ],
+          "kind": "prop"
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether the panel is open (controlled mode).",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "required": false,
+          "doc": "Initial open state when used in uncontrolled mode.",
+          "default": "false",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": false,
+          "doc": "HTML `name` attribute — switches to a radio input for semantic grouping. Does not auto-coordinate siblings; use {@link Accordion} or controlled `open` + `onOpenChange` for exclusive open behaviour.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "bordered",
+          "type": "boolean",
+          "required": false,
+          "doc": "Add a border around the collapse section.",
+          "default": "false",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "doc": "Disable interaction, preventing the user from toggling the panel.",
+          "default": "false",
+          "values": null,
+          "kind": "prop"
+        }
+      ],
+      "slots": [
+        {
+          "name": "title",
+          "type": "ReactNode",
+          "required": true,
+          "doc": "Heading content displayed as the clickable trigger.",
+          "values": null,
+          "kind": "slot"
+        }
+      ],
+      "events": [
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "required": false,
+          "doc": "Callback fired when the open state changes.",
+          "values": null,
+          "kind": "event"
+        }
+      ],
+      "children": true,
+      "daisy": {
+        "ambiguous": {
+          "collapse-title": 1,
+          "collapse-content": 1,
+          "collapse": 1,
+          "collapse-open": 1,
+          "collapse-close": 1
+        },
+        "themeBase": {
+          "border-base-300": 1
+        }
+      }
+    },
+    {
+      "name": "Divider",
+      "category": "layout",
+      "file": "packages/react/src/components/layout/Divider/Divider.tsx",
+      "nativeBase": [
+        "HTMLAttributes<HTMLDivElement>"
+      ],
+      "props": [
+        {
+          "name": "vertical",
+          "type": "boolean",
+          "required": false,
+          "doc": "Render as a vertical divider instead of horizontal.",
+          "default": "false",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "color",
+          "type": "DaisyColor",
+          "required": false,
+          "doc": "DaisyUI color variant applied to the divider line.",
+          "values": [
+            "primary",
+            "secondary",
+            "accent",
+            "neutral",
+            "info",
+            "success",
+            "warning",
+            "error"
+          ],
+          "kind": "prop"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "doc": "Text to display inline within the divider.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "labelPosition",
+          "type": "LabelPosition",
+          "required": false,
+          "doc": "Position of the label along the divider.",
+          "default": "'center'",
+          "values": [
+            "start",
+            "center",
+            "end"
+          ],
+          "kind": "prop"
+        }
+      ],
+      "slots": [],
+      "events": [],
+      "children": true,
+      "daisy": {
+        "component": {
+          "divider": 1,
+          "divider-vertical": 1
+        }
+      }
+    },
+    {
+      "name": "Drawer",
+      "category": "layout",
+      "file": "packages/react/src/components/layout/Drawer/Drawer.tsx",
+      "nativeBase": [
+        "HTMLAttributes<HTMLDivElement>"
+      ],
+      "props": [
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": true,
+          "doc": "Whether the drawer panel is visible.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "end",
+          "type": "boolean",
+          "required": false,
+          "doc": "Open the panel from the right (end) side instead of the left.",
+          "default": "false",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "persistent",
+          "type": "boolean",
+          "required": false,
+          "doc": "Prevent closing via overlay click or Escape key.",
+          "default": "false",
+          "values": null,
+          "kind": "prop"
+        }
+      ],
+      "slots": [
+        {
+          "name": "side",
+          "type": "ReactNode",
+          "required": true,
+          "doc": "Content rendered inside the sliding side panel.",
+          "values": null,
+          "kind": "slot"
+        }
+      ],
+      "events": [
+        {
+          "name": "onClose",
+          "type": "() => void",
+          "required": true,
+          "doc": "Callback fired when the drawer should close (overlay click, Escape key, etc.).",
+          "values": null,
+          "kind": "event"
+        }
+      ],
+      "children": true,
+      "daisy": {
+        "component": {
+          "drawer-toggle": 1,
+          "drawer-content": 1,
+          "drawer-side": 1,
+          "drawer-overlay": 1,
+          "drawer": 1,
+          "drawer-end": 1
+        },
+        "themeBase": {
+          "bg-base-100": 1,
+          "text-base-content": 1
+        }
+      }
+    },
+    {
+      "name": "Dropdown",
+      "category": "layout",
+      "file": "packages/react/src/components/layout/Dropdown/Dropdown.tsx",
+      "nativeBase": [
+        "HTMLAttributes<HTMLDivElement>"
+      ],
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "doc": "Text for the default trigger button when no custom `trigger` is provided.",
+          "default": "'Options'",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "end",
+          "type": "boolean",
+          "required": false,
+          "doc": "Align the dropdown menu to the right (end) side of the trigger.",
+          "default": "false",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "top",
+          "type": "boolean",
+          "required": false,
+          "doc": "Open the dropdown menu above the trigger instead of below.",
+          "default": "false",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "hover",
+          "type": "boolean",
+          "required": false,
+          "doc": "Open the menu on hover instead of click.",
+          "default": "false",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether the dropdown is open (controlled mode).",
+          "values": null,
+          "kind": "prop"
+        }
+      ],
+      "slots": [
+        {
+          "name": "trigger",
+          "type": "ReactElement | null",
+          "required": false,
+          "doc": "Custom trigger element. When omitted, a default ghost button with `label` text is rendered.",
+          "values": null,
+          "kind": "slot"
+        }
+      ],
+      "events": [
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "required": false,
+          "doc": "Callback fired when the open state changes.",
+          "values": null,
+          "kind": "event"
+        }
+      ],
+      "children": true,
+      "daisy": {
+        "component": {
+          "btn": 1,
+          "btn-ghost": 1,
+          "btn-sm": 1,
+          "dropdown-content": 1,
+          "dropdown": 1,
+          "dropdown-end": 1,
+          "dropdown-top": 1,
+          "dropdown-hover": 1,
+          "dropdown-open": 1
+        },
+        "ambiguous": {
+          "menu": 1
+        },
+        "themeBase": {
+          "bg-base-100": 1
+        }
+      }
+    },
+    {
+      "name": "DropdownItem",
+      "category": "layout",
+      "file": "packages/react/src/components/layout/Dropdown/Dropdown.tsx",
+      "nativeBase": [
+        "HTMLAttributes<HTMLLIElement>"
+      ],
+      "props": [
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "doc": "Disable this menu item, preventing interaction and keyboard focus.",
+          "default": "false",
+          "values": null,
+          "kind": "prop"
+        }
+      ],
+      "slots": [],
+      "events": [
+        {
+          "name": "onClick",
+          "type": "MouseEventHandler<HTMLButtonElement>",
+          "required": false,
+          "doc": "Click handler fired when the menu item is activated.",
+          "values": null,
+          "kind": "event"
+        }
+      ],
+      "children": true,
+      "daisy": {
+        "component": {
+          "btn": 1,
+          "btn-ghost": 1,
+          "btn-sm": 1,
+          "dropdown-content": 1,
+          "dropdown": 1,
+          "dropdown-end": 1,
+          "dropdown-top": 1,
+          "dropdown-hover": 1,
+          "dropdown-open": 1
+        },
+        "ambiguous": {
+          "menu": 1
+        },
+        "themeBase": {
+          "bg-base-100": 1
+        }
+      }
+    },
+    {
+      "name": "Grid",
+      "category": "layout",
+      "file": "packages/react/src/components/layout/Grid/Grid.tsx",
+      "nativeBase": [
+        "HTMLAttributes<HTMLDivElement>"
+      ],
+      "props": [
+        {
+          "name": "cols",
+          "type": "ColCount",
+          "required": false,
+          "doc": "Base number of columns (applies at all screen sizes).",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "colsSm",
+          "type": "ColCount",
+          "required": false,
+          "doc": "Number of columns at the `sm` breakpoint.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "colsMd",
+          "type": "ColCount",
+          "required": false,
+          "doc": "Number of columns at the `md` breakpoint.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "colsLg",
+          "type": "ColCount",
+          "required": false,
+          "doc": "Number of columns at the `lg` breakpoint.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "colsXl",
+          "type": "ColCount",
+          "required": false,
+          "doc": "Number of columns at the `xl` breakpoint.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "gap",
+          "type": "GapSize",
+          "required": false,
+          "doc": "Uniform gap between grid items. Overridden by `gapX`/`gapY` when specified.",
+          "default": "4",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "gapX",
+          "type": "GapSize",
+          "required": false,
+          "doc": "Column (horizontal) gap. Overrides `gap` for the x-axis.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "gapY",
+          "type": "GapSize",
+          "required": false,
+          "doc": "Row (vertical) gap. Overrides `gap` for the y-axis.",
+          "values": null,
+          "kind": "prop"
+        }
+      ],
+      "slots": [],
+      "events": [],
+      "children": true,
+      "daisy": {}
+    },
+    {
+      "name": "Modal",
+      "category": "layout",
+      "file": "packages/react/src/components/layout/Modal/Modal.tsx",
+      "nativeBase": [
+        "HTMLAttributes<HTMLDialogElement>"
+      ],
+      "props": [
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": true,
+          "doc": "Whether the modal dialog is visible.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "subtitle",
+          "type": "string",
+          "required": false,
+          "doc": "Subtitle text displayed below the title.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "persistent",
+          "type": "boolean",
+          "required": false,
+          "doc": "Prevent closing via Escape key, backdrop click, and hide the close button.",
+          "default": "false",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "glass",
+          "type": "boolean",
+          "required": false,
+          "doc": "Apply a glass morphism (frosted-glass) effect to the modal box.",
+          "default": "false",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "bottom",
+          "type": "boolean",
+          "required": false,
+          "doc": "Position the modal at the bottom of the viewport (mobile sheet style).",
+          "default": "false",
+          "values": null,
+          "kind": "prop"
+        }
+      ],
+      "slots": [
+        {
+          "name": "title",
+          "type": "ReactNode",
+          "required": false,
+          "doc": "Title content displayed at the top of the modal. Renders as `<h3>` for strings.",
+          "values": null,
+          "kind": "slot"
+        },
+        {
+          "name": "actions",
+          "type": "ReactNode",
+          "required": false,
+          "doc": "Actions slot rendered in the modal footer (typically buttons).",
+          "values": null,
+          "kind": "slot"
+        }
+      ],
+      "events": [
+        {
+          "name": "onClose",
+          "type": "() => void",
+          "required": true,
+          "doc": "Callback fired when the modal should close (Escape, backdrop click, close button).",
+          "values": null,
+          "kind": "event"
+        }
+      ],
+      "children": true,
+      "daisy": {
+        "themeBase": {
+          "text-base-content/60": 1
+        },
+        "component": {
+          "btn": 1,
+          "btn-sm": 1,
+          "btn-circle": 1,
+          "btn-ghost": 1,
+          "modal-action": 1,
+          "modal": 1,
+          "modal-bottom": 1,
+          "modal-box": 1
+        }
+      }
+    },
+    {
+      "name": "Popover",
+      "category": "layout",
+      "file": "packages/react/src/components/layout/Popover/Popover.tsx",
+      "nativeBase": [
+        "HTMLAttributes<HTMLDivElement>"
+      ],
+      "props": [
+        {
+          "name": "triggerMode",
+          "type": "'hover' | 'click'",
+          "required": false,
+          "doc": "How the popover is activated.",
+          "default": "'hover'",
+          "values": [
+            "hover",
+            "click"
+          ],
+          "kind": "prop"
+        },
+        {
+          "name": "position",
+          "type": "'top' | 'bottom' | 'left' | 'right'",
+          "required": false,
+          "doc": "Placement of the floating content relative to the trigger.",
+          "default": "'bottom'",
+          "values": [
+            "top",
+            "bottom",
+            "left",
+            "right"
+          ],
+          "kind": "prop"
+        },
+        {
+          "name": "showDelay",
+          "type": "number",
+          "required": false,
+          "doc": "Delay in milliseconds before showing the popover (hover mode only).",
+          "default": "0",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "hideDelay",
+          "type": "number",
+          "required": false,
+          "doc": "Delay in milliseconds before hiding the popover (hover mode only).",
+          "default": "300",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether the popover is open (controlled mode).",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "persistent",
+          "type": "boolean",
+          "required": false,
+          "doc": "Prevent closing via outside click or Escape key.",
+          "default": "false",
+          "values": null,
+          "kind": "prop"
+        }
+      ],
+      "slots": [
+        {
+          "name": "trigger",
+          "type": "ReactNode",
+          "required": true,
+          "doc": "The element that activates the popover. Can be any ReactNode; non-focusable elements are automatically wrapped.",
+          "values": null,
+          "kind": "slot"
+        }
+      ],
+      "events": [
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "required": false,
+          "doc": "Callback fired when the open state changes.",
+          "values": null,
+          "kind": "event"
+        },
+        {
+          "name": "onMouseEnter",
+          "type": "(e: ReactMouseEvent<HTMLDivElement>) => void",
+          "required": false,
+          "doc": "External mouse-enter handler forwarded to the container.",
+          "values": null,
+          "kind": "event"
+        },
+        {
+          "name": "onMouseLeave",
+          "type": "(e: ReactMouseEvent<HTMLDivElement>) => void",
+          "required": false,
+          "doc": "External mouse-leave handler forwarded to the container.",
+          "values": null,
+          "kind": "event"
+        },
+        {
+          "name": "onFocus",
+          "type": "(e: FocusEvent<HTMLDivElement>) => void",
+          "required": false,
+          "doc": "External focus handler forwarded to the container.",
+          "values": null,
+          "kind": "event"
+        },
+        {
+          "name": "onBlur",
+          "type": "(e: FocusEvent<HTMLDivElement>) => void",
+          "required": false,
+          "doc": "External blur handler forwarded to the container.",
+          "values": null,
+          "kind": "event"
+        }
+      ],
+      "children": true,
+      "daisy": {
+        "component": {
+          "dropdown-content": 1,
+          "dropdown": 1,
+          "dropdown-open": 1
+        },
+        "themeBase": {
+          "border-base-300": 1,
+          "bg-base-100": 1
+        }
+      }
+    },
+    {
+      "name": "Stack",
+      "category": "layout",
+      "file": "packages/react/src/components/layout/Stack/Stack.tsx",
+      "nativeBase": [
+        "HTMLAttributes<HTMLDivElement>"
+      ],
+      "props": [
+        {
+          "name": "direction",
+          "type": "'vertical' | 'horizontal'",
+          "required": false,
+          "doc": "Stack direction.",
+          "default": "'vertical'",
+          "values": [
+            "vertical",
+            "horizontal"
+          ],
+          "kind": "prop"
+        },
+        {
+          "name": "gap",
+          "type": "GapSize",
+          "required": false,
+          "doc": "Gap between items using Tailwind's spacing scale.",
+          "default": "2",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "align",
+          "type": "Align",
+          "required": false,
+          "doc": "Cross-axis alignment of child items (`items-*`).",
+          "values": [
+            "start",
+            "center",
+            "end",
+            "stretch",
+            "baseline"
+          ],
+          "kind": "prop"
+        },
+        {
+          "name": "justify",
+          "type": "Justify",
+          "required": false,
+          "doc": "Main-axis justification of child items (`justify-*`).",
+          "values": [
+            "start",
+            "center",
+            "end",
+            "between",
+            "around",
+            "evenly"
+          ],
+          "kind": "prop"
+        },
+        {
+          "name": "wrap",
+          "type": "boolean",
+          "required": false,
+          "doc": "Allow child items to wrap to the next line.",
+          "default": "false",
+          "values": null,
+          "kind": "prop"
+        }
+      ],
+      "slots": [],
+      "events": [],
+      "children": true,
+      "daisy": {}
+    },
+    {
+      "name": "Tabs",
+      "category": "layout",
+      "file": "packages/react/src/components/layout/Tabs/Tabs.tsx",
+      "nativeBase": [
+        "HTMLAttributes<HTMLDivElement>"
+      ],
+      "props": [
+        {
+          "name": "tabs",
+          "type": "TabItem[]",
+          "required": true,
+          "doc": "Array of tab definitions to render. Should be memoized (e.g. `useMemo`) to avoid unnecessary re-syncs of internal state.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "activeTab",
+          "type": "string",
+          "required": false,
+          "doc": "Currently active tab name (controlled mode).",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "defaultTab",
+          "type": "string",
+          "required": false,
+          "doc": "Tab name that is active on first render (uncontrolled mode).",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "variant",
+          "type": "'bordered' | 'lifted' | 'boxed'",
+          "required": false,
+          "doc": "DaisyUI visual variant for the tab list.",
+          "default": "'bordered'",
+          "values": [
+            "bordered",
+            "lifted",
+            "boxed"
+          ],
+          "kind": "prop"
+        },
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "doc": "Size of the tab buttons.",
+          "values": [
+            "xs",
+            "sm",
+            "md",
+            "lg"
+          ],
+          "kind": "prop"
+        },
+        {
+          "name": "vertical",
+          "type": "boolean",
+          "required": false,
+          "doc": "Render tabs vertically with the tab list on the left and content on the right.",
+          "default": "false",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "verticalRight",
+          "type": "boolean",
+          "required": false,
+          "doc": "Render tabs vertically with the tab list on the right and content on the left.",
+          "default": "false",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "color",
+          "type": "DaisyColor",
+          "required": false,
+          "doc": "DaisyUI color applied to the active tab indicator.",
+          "values": [
+            "primary",
+            "secondary",
+            "accent",
+            "neutral",
+            "info",
+            "success",
+            "warning",
+            "error"
+          ],
+          "kind": "prop"
+        },
+        {
+          "name": "tabListClassName",
+          "type": "string",
+          "required": false,
+          "doc": "Additional CSS class for the tab list container (`role=\"tablist\"`).",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "panelClassName",
+          "type": "string",
+          "required": false,
+          "doc": "Additional CSS class for the active tab panel.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "activeTabClassName",
+          "type": "string",
+          "required": false,
+          "doc": "Additional CSS class applied to the active tab button.",
+          "values": null,
+          "kind": "prop"
+        }
+      ],
+      "slots": [],
+      "events": [
+        {
+          "name": "onChange",
+          "type": "(tabName: string) => void",
+          "required": false,
+          "doc": "Callback fired when the active tab changes, receiving the new tab's `name`.",
+          "values": null,
+          "kind": "event"
+        }
+      ],
+      "children": false,
+      "daisy": {
+        "component": {
+          "tabs": 1,
+          "tabs-vertical": 1,
+          "tab": 1,
+          "tab-active": 1,
+          "tab-disabled": 1
+        }
+      }
+    },
+    {
+      "name": "Menu",
+      "category": "navigation",
+      "file": "packages/react/src/components/navigation/Menu/Menu.tsx",
+      "nativeBase": [
+        "HTMLAttributes<HTMLUListElement>"
+      ],
+      "props": [
+        {
+          "name": "items",
+          "type": "MenuItemType[]",
+          "required": true,
+          "doc": "Array of menu items to render.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "activeKey",
+          "type": "string",
+          "required": false,
+          "doc": "Key of the currently active item. Highlights the matching item and auto-opens parent sub-menus.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "horizontal",
+          "type": "boolean",
+          "required": false,
+          "doc": "Render the menu horizontally instead of vertically.",
+          "default": "false",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "color",
+          "type": "DaisyColor",
+          "required": false,
+          "doc": "DaisyUI color variant applied to the active item.",
+          "values": [
+            "primary",
+            "secondary",
+            "accent",
+            "neutral",
+            "info",
+            "success",
+            "warning",
+            "error"
+          ],
+          "kind": "prop"
+        },
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "doc": "Size variant for the menu (xs, sm, md, lg).",
+          "values": [
+            "xs",
+            "sm",
+            "md",
+            "lg"
+          ],
+          "kind": "prop"
+        },
+        {
+          "name": "compact",
+          "type": "boolean",
+          "required": false,
+          "doc": "Use compact spacing between items.",
+          "default": "false",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "required": false,
+          "doc": "Optional title displayed at the top of the menu.",
+          "values": null,
+          "kind": "prop"
+        }
+      ],
+      "slots": [],
+      "events": [
+        {
+          "name": "onChange",
+          "type": "(key: string) => void",
+          "required": false,
+          "doc": "Callback fired when a menu item is selected, receiving the item's key.",
+          "values": null,
+          "kind": "event"
+        }
+      ],
+      "children": false,
+      "daisy": {
+        "ambiguous": {
+          "menu-title": 1,
+          "menu": 1,
+          "menu-horizontal": 1,
+          "menu-sm": 1
+        }
+      }
+    },
+    {
+      "name": "Breadcrumbs",
+      "category": "navigation",
+      "file": "packages/react/src/components/navigation/Breadcrumbs/Breadcrumbs.tsx",
+      "nativeBase": [
+        "HTMLAttributes<HTMLElement>"
+      ],
+      "props": [
+        {
+          "name": "items",
+          "type": "BreadcrumbItem[]",
+          "required": true,
+          "doc": "Array of breadcrumb items to display. The last item is treated as the current page.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "maxItems",
+          "type": "number",
+          "required": false,
+          "doc": "Maximum number of items to display before collapsing intermediate items with an ellipsis.\nWhen set, the first item and the last `maxItems - 1` items are shown.",
+          "values": null,
+          "kind": "prop"
+        }
+      ],
+      "slots": [],
+      "events": [],
+      "children": false,
+      "daisy": {
+        "component": {
+          "breadcrumbs": 1
+        }
+      }
+    },
+    {
+      "name": "Pagination",
+      "category": "navigation",
+      "file": "packages/react/src/components/navigation/Pagination/Pagination.tsx",
+      "nativeBase": [
+        "HTMLAttributes<HTMLElement>"
+      ],
+      "props": [
+        {
+          "name": "currentPage",
+          "type": "number",
+          "required": true,
+          "doc": "Current active page number (1-indexed).",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "totalPages",
+          "type": "number",
+          "required": true,
+          "doc": "Total number of pages available.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "siblings",
+          "type": "number",
+          "required": false,
+          "doc": "Number of sibling page buttons to show on each side of the current page.",
+          "default": "1",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "doc": "Size variant for the page buttons (xs, sm, md, lg).",
+          "values": [
+            "xs",
+            "sm",
+            "md",
+            "lg"
+          ],
+          "kind": "prop"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether to disable all page buttons and prevent interaction.",
+          "default": "false",
+          "values": null,
+          "kind": "prop"
+        }
+      ],
+      "slots": [
+        {
+          "name": "previousLabel",
+          "type": "ReactNode",
+          "required": false,
+          "doc": "Custom label for the previous page button.",
+          "default": "'«'",
+          "values": null,
+          "kind": "slot"
+        },
+        {
+          "name": "nextLabel",
+          "type": "ReactNode",
+          "required": false,
+          "doc": "Custom label for the next page button.",
+          "default": "'»'",
+          "values": null,
+          "kind": "slot"
+        }
+      ],
+      "events": [
+        {
+          "name": "onChange",
+          "type": "(page: number) => void",
+          "required": false,
+          "doc": "Callback fired when the user navigates to a different page. Receives the new page number.",
+          "values": null,
+          "kind": "event"
+        }
+      ],
+      "children": false,
+      "daisy": {
+        "component": {
+          "join": 1,
+          "join-item": 4,
+          "btn": 4,
+          "btn-disabled": 1,
+          "btn-active": 1
+        }
+      }
+    },
+    {
+      "name": "Steps",
+      "category": "navigation",
+      "file": "packages/react/src/components/navigation/Steps/Steps.tsx",
+      "nativeBase": [
+        "HTMLAttributes<HTMLUListElement>"
+      ],
+      "props": [
+        {
+          "name": "steps",
+          "type": "StepItem[]",
+          "required": true,
+          "doc": "Array of step items to display.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "currentStep",
+          "type": "number",
+          "required": false,
+          "doc": "Index of the current step (0-based). All steps up to and including this index\nare visually marked as complete.",
+          "default": "-1 (no steps complete)",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "vertical",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether to render the steps vertically instead of horizontally.",
+          "default": "false",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "color",
+          "type": "DaisyColor",
+          "required": false,
+          "doc": "DaisyUI color applied to all completed steps (can be overridden per step).",
+          "values": [
+            "primary",
+            "secondary",
+            "accent",
+            "neutral",
+            "info",
+            "success",
+            "warning",
+            "error"
+          ],
+          "kind": "prop"
+        },
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "doc": "Size variant for the step indicators (xs, sm, md, lg).",
+          "values": [
+            "xs",
+            "sm",
+            "md",
+            "lg"
+          ],
+          "kind": "prop"
+        }
+      ],
+      "slots": [],
+      "events": [],
+      "children": false,
+      "daisy": {
+        "component": {
+          "steps": 1,
+          "steps-vertical": 1,
+          "step": 1
+        }
+      }
+    },
+    {
+      "name": "Navbar",
+      "category": "navigation",
+      "file": "packages/react/src/components/navigation/Navbar/Navbar.tsx",
+      "nativeBase": [
+        "HTMLAttributes<HTMLElement>"
+      ],
+      "props": [
+        {
+          "name": "glass",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether to apply the DaisyUI glass morphism visual effect.",
+          "default": "false",
+          "values": null,
+          "kind": "prop"
+        }
+      ],
+      "slots": [
+        {
+          "name": "start",
+          "type": "ReactNode",
+          "required": false,
+          "doc": "Content rendered in the left (start) section of the navbar.",
+          "values": null,
+          "kind": "slot"
+        },
+        {
+          "name": "center",
+          "type": "ReactNode",
+          "required": false,
+          "doc": "Content rendered in the center section of the navbar.",
+          "values": null,
+          "kind": "slot"
+        },
+        {
+          "name": "end",
+          "type": "ReactNode",
+          "required": false,
+          "doc": "Content rendered in the right (end) section of the navbar.",
+          "values": null,
+          "kind": "slot"
+        }
+      ],
+      "events": [],
+      "children": true,
+      "daisy": {
+        "ambiguous": {
+          "input": 1
+        },
+        "component": {
+          "btn": 1,
+          "btn-primary": 1,
+          "navbar-start": 1,
+          "navbar-center": 1,
+          "navbar-end": 1,
+          "navbar": 1
+        },
+        "themeBase": {
+          "bg-base-100": 1
+        }
+      }
+    },
+    {
+      "name": "Sidebar",
+      "category": "navigation",
+      "file": "packages/react/src/components/navigation/Sidebar/Sidebar.tsx",
+      "nativeBase": [
+        "HTMLAttributes<HTMLDivElement>"
+      ],
+      "props": [
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": true,
+          "doc": "Whether the sidebar is currently open (controlled).",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "side",
+          "type": "'left' | 'right'",
+          "required": false,
+          "doc": "Which side of the viewport the sidebar appears on.",
+          "default": "'left'",
+          "values": [
+            "left",
+            "right"
+          ],
+          "kind": "prop"
+        },
+        {
+          "name": "width",
+          "type": "string",
+          "required": false,
+          "doc": "Tailwind CSS width class for the sidebar panel.",
+          "default": "'w-80'",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "overlay",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether to overlay the main content (fixed position) instead of pushing it aside.",
+          "default": "false",
+          "values": null,
+          "kind": "prop"
+        }
+      ],
+      "slots": [
+        {
+          "name": "sidebarContent",
+          "type": "ReactNode",
+          "required": true,
+          "doc": "The navigation content rendered inside the sidebar panel.",
+          "values": null,
+          "kind": "slot"
+        }
+      ],
+      "events": [
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "required": true,
+          "doc": "Callback fired when the sidebar open state should change.",
+          "values": null,
+          "kind": "event"
+        }
+      ],
+      "children": true,
+      "daisy": {
+        "component": {
+          "drawer-toggle": 1,
+          "drawer-content": 1,
+          "drawer-side": 1,
+          "drawer-overlay": 1,
+          "drawer": 1,
+          "drawer-end": 1,
+          "drawer-open": 1
+        },
+        "ambiguous": {
+          "menu": 1
+        },
+        "themeBase": {
+          "bg-base-200": 1
+        }
+      }
+    },
+    {
+      "name": "SpotlightSearch",
+      "category": "navigation",
+      "file": "packages/react/src/components/navigation/SpotlightSearch/SpotlightSearch.tsx",
+      "nativeBase": [
+        "HTMLAttributes<HTMLDivElement>"
+      ],
+      "props": [
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": true,
+          "doc": "Whether the spotlight overlay is open (controlled).",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "items",
+          "type": "SpotlightItem[]",
+          "required": true,
+          "doc": "Array of items available for searching and selection.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "required": false,
+          "doc": "Placeholder text for the search input field.",
+          "default": "'Search…'",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "filterFn",
+          "type": "(item: SpotlightItem, query: string) => boolean",
+          "required": false,
+          "doc": "Custom filter function to override the default word-based substring matching.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "shortcut",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether to register the Cmd+K / Ctrl+K global keyboard shortcut.",
+          "default": "true",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "maxResults",
+          "type": "number",
+          "required": false,
+          "doc": "Maximum number of filtered items to display.",
+          "default": "20",
+          "values": null,
+          "kind": "prop"
+        }
+      ],
+      "slots": [
+        {
+          "name": "emptyMessage",
+          "type": "ReactNode",
+          "required": false,
+          "doc": "Message or element displayed when no results match the query.",
+          "default": "'No results found.'",
+          "values": null,
+          "kind": "slot"
+        }
+      ],
+      "events": [
+        {
+          "name": "onClose",
+          "type": "() => void",
+          "required": true,
+          "doc": "Callback fired to close the spotlight (e.g., on Escape or backdrop click).",
+          "values": null,
+          "kind": "event"
+        },
+        {
+          "name": "onSelect",
+          "type": "(item: SpotlightItem) => void",
+          "required": false,
+          "doc": "Callback fired when the user selects an item from the results.",
+          "values": null,
+          "kind": "event"
+        }
+      ],
+      "children": false,
+      "daisy": {
+        "themeBase": {
+          "bg-base-100": 1,
+          "border-base-300": 1,
+          "text-base-content/40": 2,
+          "text-base-content": 1,
+          "text-base-content/60": 1,
+          "text-base-content/50": 2
+        },
+        "component": {
+          "kbd": 1,
+          "kbd-sm": 1
+        },
+        "themeSemantic": {
+          "bg-primary": 1
+        },
+        "themeContent": {
+          "text-primary-content": 1
+        }
+      }
+    },
+    {
+      "name": "Avatar",
+      "category": "data",
+      "file": "packages/react/src/components/data/Avatar/Avatar.tsx",
+      "nativeBase": [
+        "HTMLAttributes<HTMLDivElement>"
+      ],
+      "props": [
+        {
+          "name": "image",
+          "type": "string",
+          "required": false,
+          "doc": "URL of the avatar image. When omitted, falls back to placeholder initials or icon.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "alt",
+          "type": "string",
+          "required": false,
+          "doc": "Alt text for the avatar image.",
+          "default": "",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "required": false,
+          "doc": "Text used to generate initials (first letter of each word, up to 2 characters).",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "color",
+          "type": "DaisyColor",
+          "required": false,
+          "doc": "DaisyUI color for the placeholder background and ring.",
+          "default": "'neutral'",
+          "values": [
+            "primary",
+            "secondary",
+            "accent",
+            "neutral",
+            "info",
+            "success",
+            "warning",
+            "error"
+          ],
+          "kind": "prop"
+        },
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "doc": "Size of the avatar circle.",
+          "default": "'md'",
+          "values": [
+            "xs",
+            "sm",
+            "md",
+            "lg"
+          ],
+          "kind": "prop"
+        },
+        {
+          "name": "ring",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether to show a colored ring border around the avatar.",
+          "default": "false",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "online",
+          "type": "boolean",
+          "required": false,
+          "doc": "Show an online status indicator dot.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "offline",
+          "type": "boolean",
+          "required": false,
+          "doc": "Show an offline status indicator dot.",
+          "values": null,
+          "kind": "prop"
+        }
+      ],
+      "slots": [
+        {
+          "name": "icon",
+          "type": "ReactNode",
+          "required": false,
+          "doc": "Custom icon element displayed when no image is set. Takes precedence over placeholder initials.",
+          "values": null,
+          "kind": "slot"
+        },
+        {
+          "name": "title",
+          "type": "ReactNode",
+          "required": false,
+          "doc": "Title text displayed beside the avatar (enables the info layout).",
+          "values": null,
+          "kind": "slot"
+        },
+        {
+          "name": "subtitle",
+          "type": "ReactNode",
+          "required": false,
+          "doc": "Subtitle text displayed below the title in the info layout.",
+          "values": null,
+          "kind": "slot"
+        }
+      ],
+      "events": [],
+      "children": true,
+      "daisy": {
+        "component": {
+          "avatar": 2,
+          "avatar-placeholder": 1
+        }
+      }
+    },
+    {
+      "name": "Badge",
+      "category": "data",
+      "file": "packages/react/src/components/data/Badge/Badge.tsx",
+      "nativeBase": [
+        "HTMLAttributes<HTMLSpanElement>"
+      ],
+      "props": [
+        {
+          "name": "color",
+          "type": "DaisyColor | 'ghost'",
+          "required": false,
+          "doc": "DaisyUI color variant, or 'ghost' for a subtle appearance.",
+          "values": [
+            "primary",
+            "secondary",
+            "accent",
+            "neutral",
+            "info",
+            "success",
+            "warning",
+            "error",
+            "ghost"
+          ],
+          "kind": "prop"
+        },
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "doc": "Size of the badge (xs, sm, md, lg).",
+          "values": [
+            "xs",
+            "sm",
+            "md",
+            "lg"
+          ],
+          "kind": "prop"
+        },
+        {
+          "name": "outline",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether to render with an outline style instead of a solid fill.",
+          "default": "false",
+          "values": null,
+          "kind": "prop"
+        }
+      ],
+      "slots": [
+        {
+          "name": "value",
+          "type": "ReactNode",
+          "required": false,
+          "doc": "Content to display inside the badge. Falls back to `children` if not provided.",
+          "values": null,
+          "kind": "slot"
+        }
+      ],
+      "events": [],
+      "children": true,
+      "daisy": {
+        "component": {
+          "badge": 1,
+          "badge-outline": 1
+        }
+      }
+    },
+    {
+      "name": "Progress",
+      "category": "data",
+      "file": "packages/react/src/components/data/Progress/Progress.tsx",
+      "nativeBase": [
+        "ProgressHTMLAttributes<HTMLProgressElement>"
+      ],
+      "props": [
+        {
+          "name": "value",
+          "type": "number",
+          "required": false,
+          "doc": "Current progress value.",
+          "default": "0",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "required": false,
+          "doc": "Maximum progress value (used to calculate percentage).",
+          "default": "100",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "color",
+          "type": "DaisyColor",
+          "required": false,
+          "doc": "DaisyUI color variant for the progress bar fill.",
+          "values": [
+            "primary",
+            "secondary",
+            "accent",
+            "neutral",
+            "info",
+            "success",
+            "warning",
+            "error"
+          ],
+          "kind": "prop"
+        },
+        {
+          "name": "indeterminate",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether to show an indeterminate (loading) animation instead of a fixed value.",
+          "default": "false",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "doc": "Label text displayed above the progress bar. Also used as the accessible aria-label.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "showValue",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether to display the percentage value above the progress bar.",
+          "default": "false",
+          "values": null,
+          "kind": "prop"
+        }
+      ],
+      "slots": [],
+      "events": [],
+      "children": false,
+      "daisy": {
+        "component": {
+          "progress": 1
+        }
+      }
+    },
+    {
+      "name": "Stat",
+      "category": "data",
+      "file": "packages/react/src/components/data/Stat/Stat.tsx",
+      "nativeBase": [
+        "HTMLAttributes<HTMLDivElement>"
+      ],
+      "props": [
+        {
+          "name": "color",
+          "type": "DaisyColor",
+          "required": false,
+          "doc": "DaisyUI color for the value text.",
+          "values": [
+            "primary",
+            "secondary",
+            "accent",
+            "neutral",
+            "info",
+            "success",
+            "warning",
+            "error"
+          ],
+          "kind": "prop"
+        },
+        {
+          "name": "change",
+          "type": "number",
+          "required": false,
+          "doc": "Percentage change value. Positive values show green with an up arrow, negative show red with a down arrow.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "changeLabel",
+          "type": "string",
+          "required": false,
+          "doc": "Additional label appended after the change indicator and description (e.g., \"since last month\").",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "sparklineData",
+          "type": "number[]",
+          "required": false,
+          "doc": "Data points for an inline sparkline chart in the stat figure area.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "sparklineType",
+          "type": "SparklineProps['type']",
+          "required": false,
+          "doc": "Chart type for the sparkline.",
+          "default": "'line'",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "sparklineColor",
+          "type": "SparklineProps['color']",
+          "required": false,
+          "doc": "Color for the sparkline. Falls back to `color` then 'primary'.",
+          "values": null,
+          "kind": "prop"
+        }
+      ],
+      "slots": [
+        {
+          "name": "title",
+          "type": "ReactNode",
+          "required": false,
+          "doc": "Title label displayed above the value (e.g., \"Total Revenue\").",
+          "values": null,
+          "kind": "slot"
+        },
+        {
+          "name": "value",
+          "type": "ReactNode",
+          "required": true,
+          "doc": "The primary metric value to display (e.g., \"1,200\" or \"$4.5M\").",
+          "values": null,
+          "kind": "slot"
+        },
+        {
+          "name": "description",
+          "type": "ReactNode",
+          "required": false,
+          "doc": "Description text displayed below the value.",
+          "values": null,
+          "kind": "slot"
+        },
+        {
+          "name": "icon",
+          "type": "ReactNode",
+          "required": false,
+          "doc": "Icon element displayed in the stat figure area. Hidden when sparkline data is provided.",
+          "values": null,
+          "kind": "slot"
+        },
+        {
+          "name": "actions",
+          "type": "ReactNode",
+          "required": false,
+          "doc": "Custom action elements displayed in the stat figure area.",
+          "values": null,
+          "kind": "slot"
+        }
+      ],
+      "events": [],
+      "children": false,
+      "daisy": {
+        "component": {
+          "stat-figure": 3,
+          "stat-title": 1,
+          "stat": 1,
+          "stat-value": 1,
+          "stat-desc": 1,
+          "stats": 1,
+          "stats-horizontal": 1
+        }
+      }
+    },
+    {
+      "name": "StatGroup",
+      "category": "data",
+      "file": "packages/react/src/components/data/Stat/Stat.tsx",
+      "nativeBase": [
+        "HTMLAttributes<HTMLDivElement>"
+      ],
+      "props": [
+        {
+          "name": "horizontal",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether to lay out stats horizontally (side by side).",
+          "default": "false",
+          "values": null,
+          "kind": "prop"
+        }
+      ],
+      "slots": [],
+      "events": [],
+      "children": true,
+      "daisy": {
+        "component": {
+          "stat-figure": 3,
+          "stat-title": 1,
+          "stat": 1,
+          "stat-value": 1,
+          "stat-desc": 1,
+          "stats": 1,
+          "stats-horizontal": 1
+        }
+      }
+    },
+    {
+      "name": "Timeline",
+      "category": "data",
+      "file": "packages/react/src/components/data/Timeline/Timeline.tsx",
+      "nativeBase": [
+        "HTMLAttributes<HTMLUListElement>"
+      ],
+      "props": [
+        {
+          "name": "items",
+          "type": "TimelineItemData[]",
+          "required": true,
+          "doc": "Array of timeline items to display in order.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "vertical",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether to render the timeline vertically.",
+          "default": "true",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "compact",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether to use compact mode (DaisyUI timeline-compact).",
+          "default": "false",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "snap",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether to snap icons to the timeline line (DaisyUI timeline-snap-icon).",
+          "default": "false",
+          "values": null,
+          "kind": "prop"
+        }
+      ],
+      "slots": [],
+      "events": [],
+      "children": false,
+      "daisy": {
+        "component": {
+          "timeline-middle": 1,
+          "timeline": 1,
+          "timeline-vertical": 1,
+          "timeline-horizontal": 1,
+          "timeline-compact": 1,
+          "timeline-snap-icon": 1,
+          "timeline-end": 1
+        },
+        "themeBase": {
+          "bg-base-300": 1
+        }
+      }
+    },
+    {
+      "name": "Code",
+      "category": "data",
+      "file": "packages/react/src/components/data/Code/Code.tsx",
+      "nativeBase": [
+        "HTMLAttributes<HTMLDivElement>"
+      ],
+      "props": [
+        {
+          "name": "code",
+          "type": "string",
+          "required": true,
+          "doc": "The code string to display.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "language",
+          "type": "string",
+          "required": false,
+          "doc": "Programming language name displayed in the header bar.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "doc": "Custom label displayed in the header bar (takes precedence over `language`).",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "hint",
+          "type": "string",
+          "required": false,
+          "doc": "Hint or description text displayed below the code block.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "showLineNumbers",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether to show line numbers.",
+          "default": "false",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "copyable",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether to show the copy-to-clipboard button.",
+          "default": "true",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "maxHeight",
+          "type": "string",
+          "required": false,
+          "doc": "Maximum height CSS value for the code block (enables scrolling).",
+          "values": null,
+          "kind": "prop"
+        }
+      ],
+      "slots": [],
+      "events": [],
+      "children": false,
+      "daisy": {
+        "themeBase": {
+          "bg-base-300": 1
+        },
+        "component": {
+          "btn": 1,
+          "btn-ghost": 1,
+          "btn-xs": 1,
+          "mockup-code": 1
+        },
+        "themeSemantic": {
+          "text-success": 1
+        }
+      }
+    },
+    {
+      "name": "Diff",
+      "category": "data",
+      "file": "packages/react/src/components/data/Diff/Diff.tsx",
+      "nativeBase": [
+        "HTMLAttributes<HTMLDivElement>"
+      ],
+      "props": [
+        {
+          "name": "oldContent",
+          "type": "string",
+          "required": true,
+          "doc": "The original text content to compare.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "newContent",
+          "type": "string",
+          "required": true,
+          "doc": "The modified text content to compare against the original.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "oldLabel",
+          "type": "string",
+          "required": false,
+          "doc": "Label for the original content column.",
+          "default": "'Original'",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "newLabel",
+          "type": "string",
+          "required": false,
+          "doc": "Label for the modified content column.",
+          "default": "'Modified'",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "mode",
+          "type": "'side-by-side' | 'inline'",
+          "required": false,
+          "doc": "Display mode: 'inline' shows a single unified view, 'side-by-side' shows two columns.",
+          "default": "'inline'",
+          "values": [
+            "side-by-side",
+            "inline"
+          ],
+          "kind": "prop"
+        }
+      ],
+      "slots": [],
+      "events": [],
+      "children": false,
+      "daisy": {
+        "themeBase": {
+          "divide-base-300": 2,
+          "bg-base-300": 3
+        },
+        "themeSemantic": {
+          "bg-error/20": 1,
+          "bg-success/20": 1
+        }
+      }
+    },
+    {
+      "name": "Carousel",
+      "category": "data",
+      "file": "packages/react/src/components/data/Carousel/Carousel.tsx",
+      "nativeBase": [
+        "HTMLAttributes<HTMLDivElement>"
+      ],
+      "props": [
+        {
+          "name": "slides",
+          "type": "CarouselSlide[]",
+          "required": true,
+          "doc": "Array of slides to display.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "autoplay",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether to automatically advance slides at the given interval.",
+          "default": "false",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "interval",
+          "type": "number",
+          "required": false,
+          "doc": "Autoplay interval in milliseconds.",
+          "default": "3000",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "showIndicators",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether to show dot indicators at the bottom.",
+          "default": "true",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "showArrows",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether to show left/right arrow buttons.",
+          "default": "true",
+          "values": null,
+          "kind": "prop"
+        }
+      ],
+      "slots": [
+        {
+          "name": "renderSlide",
+          "type": "(slide: CarouselSlide, index: number) => ReactNode",
+          "required": false,
+          "doc": "Custom render function for slides, receiving the slide data and its index.",
+          "values": null,
+          "kind": "slot"
+        }
+      ],
+      "events": [],
+      "children": false,
+      "daisy": {
+        "themeBase": {
+          "bg-base-100/80": 2,
+          "bg-base-100": 4
+        }
+      }
+    },
+    {
+      "name": "Table",
+      "category": "data",
+      "file": "packages/react/src/components/data/Table/Table.tsx",
+      "nativeBase": [
+        "HTMLAttributes<HTMLDivElement>"
+      ],
+      "props": [
+        {
+          "name": "headers",
+          "type": "TableHeader<T>[]",
+          "required": true,
+          "doc": "Column header definitions.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "rows",
+          "type": "T[]",
+          "required": true,
+          "doc": "Array of row data objects.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "keyBy",
+          "type": "string",
+          "required": false,
+          "doc": "Dot-notation key path used to derive unique keys for each row.",
+          "default": "'id'",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "striped",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether to apply zebra striping to alternating rows.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "hoverable",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether rows highlight on hover.",
+          "default": "true",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "compact",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether to use compact row padding.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "doc": "DaisyUI size variant for the table (xs, sm, md, lg).",
+          "values": [
+            "xs",
+            "sm",
+            "md",
+            "lg"
+          ],
+          "kind": "prop"
+        },
+        {
+          "name": "noHeaders",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether to hide the table header row.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "sortBy",
+          "type": "TableSortConfig",
+          "required": false,
+          "doc": "Current sort configuration (controlled).",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "selectable",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether to show row selection checkboxes.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "selectedKeys",
+          "type": "Set<string | number>",
+          "required": false,
+          "doc": "Set of currently selected row keys (controlled).",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "selectableKey",
+          "type": "string",
+          "required": false,
+          "doc": "Dot-notation key path used to derive the selectable key for each row.",
+          "default": "'id'",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "expandable",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether rows can be expanded to show additional detail.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "expandableKey",
+          "type": "string",
+          "required": false,
+          "doc": "Dot-notation key path used to derive the expandable key for each row.",
+          "default": "'id'",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "containerClassName",
+          "type": "string",
+          "required": false,
+          "doc": "Additional CSS class for the outer scroll container.",
+          "values": null,
+          "kind": "prop"
+        }
+      ],
+      "slots": [
+        {
+          "name": "renderExpansion",
+          "type": "(row: T, index: number) => ReactNode",
+          "required": false,
+          "doc": "Render function for expanded row content.",
+          "values": null,
+          "kind": "slot"
+        },
+        {
+          "name": "renderActions",
+          "type": "(row: T, index: number) => ReactNode",
+          "required": false,
+          "doc": "Render function for the actions column on each row.",
+          "values": null,
+          "kind": "slot"
+        },
+        {
+          "name": "emptyText",
+          "type": "ReactNode",
+          "required": false,
+          "doc": "Content displayed when the rows array is empty.",
+          "default": "'No data available.'",
+          "values": null,
+          "kind": "slot"
+        },
+        {
+          "name": "footer",
+          "type": "ReactNode",
+          "required": false,
+          "doc": "Content rendered in the table footer.",
+          "values": null,
+          "kind": "slot"
+        }
+      ],
+      "events": [
+        {
+          "name": "onSort",
+          "type": "(sort: TableSortConfig) => void",
+          "required": false,
+          "doc": "Callback fired when a sortable column header is clicked.",
+          "values": null,
+          "kind": "event"
+        },
+        {
+          "name": "onSelectionChange",
+          "type": "(keys: Set<string | number>) => void",
+          "required": false,
+          "doc": "Callback fired when the selection changes.",
+          "values": null,
+          "kind": "event"
+        }
+      ],
+      "children": false,
+      "daisy": {
+        "component": {
+          "checkbox": 2,
+          "checkbox-sm": 2,
+          "btn": 1,
+          "btn-ghost": 1,
+          "btn-xs": 1
+        },
+        "themeBase": {
+          "bg-base-200": 2
+        },
+        "ambiguous": {
+          "table": 1,
+          "table-zebra": 1,
+          "table-compact": 1
+        }
+      }
+    },
+    {
+      "name": "Calendar",
+      "category": "data",
+      "file": "packages/react/src/components/data/Calendar/Calendar.tsx",
+      "nativeBase": [
+        "HTMLAttributes<HTMLDivElement>"
+      ],
+      "props": [
+        {
+          "name": "value",
+          "type": "Date",
+          "required": false,
+          "doc": "Currently selected date (controlled). Syncs the view month when changed.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "events",
+          "type": "CalendarEvent[]",
+          "required": false,
+          "doc": "Array of events to display as colored dots on their respective days.",
+          "default": "[]",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "weekStartsOnSunday",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether weeks start on Sunday instead of Monday.",
+          "default": "false",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "highlightWeekends",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether to visually highlight weekend days.",
+          "default": "false",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "highlightToday",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether to highlight today's date with a ring indicator.",
+          "default": "true",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "minDate",
+          "type": "Date",
+          "required": false,
+          "doc": "Minimum selectable date. Days before this are disabled.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "maxDate",
+          "type": "Date",
+          "required": false,
+          "doc": "Maximum selectable date. Days after this are disabled.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "color",
+          "type": "DaisyColor",
+          "required": false,
+          "doc": "DaisyUI color for the selected day highlight.",
+          "default": "'primary'",
+          "values": [
+            "primary",
+            "secondary",
+            "accent",
+            "neutral",
+            "info",
+            "success",
+            "warning",
+            "error"
+          ],
+          "kind": "prop"
+        }
+      ],
+      "slots": [
+        {
+          "name": "renderDay",
+          "type": "(date: Date, events: CalendarEvent[]) => ReactNode",
+          "required": false,
+          "doc": "Custom render function for day cells, receiving the date and its events.",
+          "values": null,
+          "kind": "slot"
+        }
+      ],
+      "events": [
+        {
+          "name": "onChange",
+          "type": "(date: Date) => void",
+          "required": false,
+          "doc": "Callback fired when a day is clicked. Receives the selected Date object.",
+          "values": null,
+          "kind": "event"
+        },
+        {
+          "name": "onEventClick",
+          "type": "(event: CalendarEvent) => void",
+          "required": false,
+          "doc": "Callback fired when an event dot is clicked.",
+          "values": null,
+          "kind": "event"
+        }
+      ],
+      "children": false,
+      "daisy": {
+        "component": {
+          "btn": 3,
+          "btn-ghost": 3,
+          "btn-sm": 2,
+          "btn-xs": 1
+        },
+        "themeBase": {
+          "bg-base-100": 1,
+          "bg-base-200/50": 1,
+          "bg-base-200": 1
+        }
+      }
+    },
+    {
+      "name": "Sparkline",
+      "category": "data",
+      "file": "packages/react/src/components/data/Sparkline/Sparkline.tsx",
+      "nativeBase": [
+        "HTMLAttributes<HTMLDivElement>"
+      ],
+      "props": [
+        {
+          "name": "data",
+          "type": "number[]",
+          "required": true,
+          "doc": "Array of numeric data points to plot.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "type",
+          "type": "'line' | 'area' | 'bar'",
+          "required": false,
+          "doc": "Chart type: line draws a stroke path, area fills below it, bar renders vertical bars.",
+          "default": "'line'",
+          "values": [
+            "line",
+            "area",
+            "bar"
+          ],
+          "kind": "prop"
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "required": false,
+          "doc": "Height of the SVG in pixels.",
+          "default": "40",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "width",
+          "type": "number",
+          "required": false,
+          "doc": "Width of the SVG in pixels. Defaults to `data.length * 8` if not provided.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "color",
+          "type": "DaisyColor | string",
+          "required": false,
+          "doc": "DaisyUI color name or CSS color string for the chart.",
+          "default": "'primary'",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "strokeWidth",
+          "type": "number",
+          "required": false,
+          "doc": "Stroke width for line/area charts in pixels.",
+          "default": "2",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "curve",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether to use smooth Catmull-Rom curves instead of straight line segments.",
+          "default": "true",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "fillOpacity",
+          "type": "number",
+          "required": false,
+          "doc": "Fill opacity for area charts (0 to 1).",
+          "default": "0.3",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "showTooltip",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether to show a tooltip on hover displaying the data point value.",
+          "default": "true",
+          "values": null,
+          "kind": "prop"
+        }
+      ],
+      "slots": [],
+      "events": [],
+      "children": false,
+      "daisy": {
+        "themeBase": {
+          "bg-base-300": 1,
+          "text-base-content": 1
+        }
+      }
+    },
+    {
+      "name": "Chart",
+      "category": "data",
+      "file": "packages/react/src/components/data/Chart/Chart.tsx",
+      "nativeBase": [
+        "HTMLAttributes<HTMLDivElement>"
+      ],
+      "props": [
+        {
+          "name": "type",
+          "type": "ChartType",
+          "required": true,
+          "doc": "The type of chart to render.",
+          "values": [
+            "bar",
+            "line",
+            "area",
+            "donut",
+            "pie",
+            "radialBar",
+            "radar",
+            "polarArea"
+          ],
+          "kind": "prop"
+        },
+        {
+          "name": "labels",
+          "type": "string[]",
+          "required": false,
+          "doc": "Category labels for the x-axis or pie/donut slices. Falls back to `data[].label` if not provided.",
+          "default": "[]",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "series",
+          "type": "ChartSeries[]",
+          "required": false,
+          "doc": "Multi-series data for bar, line, and area charts.",
+          "default": "[]",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "data",
+          "type": "ChartDataPoint[]",
+          "required": false,
+          "doc": "Simple data points for single-series or pie/donut charts.",
+          "default": "[]",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "height",
+          "type": "number | string",
+          "required": false,
+          "doc": "Chart height in pixels or CSS string.",
+          "default": "350",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "width",
+          "type": "number | string",
+          "required": false,
+          "doc": "Chart width in pixels or CSS string.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "color",
+          "type": "DaisyColor",
+          "required": false,
+          "doc": "Default DaisyUI color applied to all series/data points without an explicit color.",
+          "values": [
+            "primary",
+            "secondary",
+            "accent",
+            "neutral",
+            "info",
+            "success",
+            "warning",
+            "error"
+          ],
+          "kind": "prop"
+        },
+        {
+          "name": "options",
+          "type": "ApexOptions",
+          "required": false,
+          "doc": "ApexCharts options object, deep-merged with the component's defaults.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "showLegend",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether to show the chart legend.",
+          "default": "true",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "animated",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether to enable chart animations.",
+          "default": "true",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "required": false,
+          "doc": "Optional title displayed above the chart.",
+          "values": null,
+          "kind": "prop"
+        }
+      ],
+      "slots": [],
+      "events": [],
+      "children": false,
+      "daisy": {
+        "themeBase": {
+          "bg-base-100": 1
+        }
+      }
+    },
+    {
+      "name": "Alert",
+      "category": "feedback",
+      "file": "packages/react/src/components/feedback/Alert/Alert.tsx",
+      "nativeBase": [
+        "HTMLAttributes<HTMLDivElement>"
+      ],
+      "props": [
+        {
+          "name": "color",
+          "type": "AlertColor",
+          "required": false,
+          "doc": "The color variant of the alert. Determines background and text styling.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "dismissible",
+          "type": "boolean",
+          "required": false,
+          "doc": "Whether the alert can be dismissed by the user via a close button.",
+          "default": "false",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "visible",
+          "type": "boolean",
+          "required": false,
+          "doc": "Controlled visibility -- when provided, the parent manages show/hide.\nWhen omitted the component manages its own internal visibility state.",
+          "values": null,
+          "kind": "prop"
+        }
+      ],
+      "slots": [
+        {
+          "name": "icon",
+          "type": "ReactNode",
+          "required": false,
+          "doc": "Optional icon to display before the alert content.",
+          "values": null,
+          "kind": "slot"
+        }
+      ],
+      "events": [
+        {
+          "name": "onDismiss",
+          "type": "() => void",
+          "required": false,
+          "doc": "Callback fired when the alert is dismissed (via the close button).",
+          "values": null,
+          "kind": "event"
+        }
+      ],
+      "children": true,
+      "daisy": {
+        "component": {
+          "alert-icon": 1,
+          "btn": 1,
+          "btn-sm": 1,
+          "btn-ghost": 1,
+          "alert": 1
+        }
+      }
+    },
+    {
+      "name": "Loading",
+      "category": "feedback",
+      "file": "packages/react/src/components/feedback/Loading/Loading.tsx",
+      "nativeBase": [
+        "HTMLAttributes<HTMLSpanElement>"
+      ],
+      "props": [
+        {
+          "name": "color",
+          "type": "DaisyColor",
+          "required": false,
+          "doc": "The DaisyUI color variant applied to the loading indicator.",
+          "values": [
+            "primary",
+            "secondary",
+            "accent",
+            "neutral",
+            "info",
+            "success",
+            "warning",
+            "error"
+          ],
+          "kind": "prop"
+        },
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "doc": "The size of the loading indicator.",
+          "values": [
+            "xs",
+            "sm",
+            "md",
+            "lg"
+          ],
+          "kind": "prop"
+        },
+        {
+          "name": "variant",
+          "type": "LoadingVariant",
+          "required": false,
+          "doc": "The visual animation style of the loading indicator. Defaults to `\"spinner\"`.",
+          "default": "spinner",
+          "values": [
+            "spinner",
+            "dots",
+            "ring",
+            "ball",
+            "bars",
+            "infinity"
+          ],
+          "kind": "prop"
+        }
+      ],
+      "slots": [],
+      "events": [],
+      "children": false,
+      "daisy": {
+        "component": {
+          "loading": 1
+        }
+      }
+    },
+    {
+      "name": "Skeleton",
+      "category": "feedback",
+      "file": "packages/react/src/components/feedback/Skeleton/Skeleton.tsx",
+      "nativeBase": [
+        "HTMLAttributes<HTMLDivElement>"
+      ],
+      "props": [
+        {
+          "name": "width",
+          "type": "string",
+          "required": false,
+          "doc": "Width of the skeleton as a CSS value (e.g. `\"200px\"`, `\"100%\"`).",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "height",
+          "type": "string",
+          "required": false,
+          "doc": "Height of the skeleton as a CSS value (e.g. `\"1rem\"`, `\"40px\"`).",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "circle",
+          "type": "boolean",
+          "required": false,
+          "doc": "When `true`, renders the skeleton as a circle. If only one of `width`/`height` is set, it is used for both dimensions. When both are set, each is applied independently.",
+          "default": "false",
+          "values": null,
+          "kind": "prop"
+        }
+      ],
+      "slots": [],
+      "events": [],
+      "children": false,
+      "daisy": {
+        "component": {
+          "skeleton": 1
+        }
+      }
+    },
+    {
+      "name": "EmptyState",
+      "category": "feedback",
+      "file": "packages/react/src/components/feedback/EmptyState/EmptyState.tsx",
+      "nativeBase": [
+        "HTMLAttributes<HTMLDivElement>"
+      ],
+      "props": [
+        {
+          "name": "heading",
+          "type": "string",
+          "required": false,
+          "doc": "Heading text rendered inside the heading element.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "headingAs",
+          "type": "ElementType",
+          "required": false,
+          "doc": "HTML element to render the heading as. Defaults to `\"h3\"`.",
+          "default": "h3",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "required": false,
+          "doc": "Descriptive message displayed below the heading.",
+          "values": null,
+          "kind": "prop"
+        }
+      ],
+      "slots": [
+        {
+          "name": "icon",
+          "type": "ReactNode",
+          "required": false,
+          "doc": "Illustration or icon to display above the heading.",
+          "values": null,
+          "kind": "slot"
+        },
+        {
+          "name": "action",
+          "type": "ReactNode",
+          "required": false,
+          "doc": "Action element (e.g. a button) rendered below the description.",
+          "values": null,
+          "kind": "slot"
+        }
+      ],
+      "events": [],
+      "children": true,
+      "daisy": {
+        "themeBase": {
+          "text-base-content/40": 1,
+          "text-base-content/60": 1
+        }
+      }
+    },
+    {
+      "name": "ErrorDisplay",
+      "category": "feedback",
+      "file": "packages/react/src/components/feedback/Error/Error.tsx",
+      "nativeBase": [
+        "HTMLAttributes<HTMLDivElement>"
+      ],
+      "props": [
+        {
+          "name": "title",
+          "type": "string",
+          "required": false,
+          "doc": "Error title displayed as a heading. Defaults to `\"Something went wrong\"`.",
+          "default": "Something went wrong",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "message",
+          "type": "string",
+          "required": false,
+          "doc": "Descriptive error message displayed below the title.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "retryLabel",
+          "type": "string",
+          "required": false,
+          "doc": "Custom label for the retry button. Defaults to `\"Try again\"`.",
+          "default": "Try again",
+          "values": null,
+          "kind": "prop"
+        }
+      ],
+      "slots": [
+        {
+          "name": "icon",
+          "type": "ReactNode",
+          "required": false,
+          "doc": "Optional icon or illustration rendered above the title.",
+          "values": null,
+          "kind": "slot"
+        }
+      ],
+      "events": [
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "required": false,
+          "doc": "Callback fired when the retry button is clicked. When provided, a retry button is rendered.",
+          "values": null,
+          "kind": "event"
+        }
+      ],
+      "children": true,
+      "daisy": {
+        "themeSemantic": {
+          "text-error": 2
+        },
+        "themeBase": {
+          "text-base-content/60": 1
+        },
+        "component": {
+          "btn": 1,
+          "btn-error": 1,
+          "btn-sm": 1
+        }
+      }
+    },
+    {
+      "name": "ToastProvider",
+      "category": "feedback",
+      "file": "packages/react/src/components/feedback/Toast/Toast.tsx",
+      "nativeBase": [],
+      "props": [
+        {
+          "name": "defaultDuration",
+          "type": "number",
+          "required": false,
+          "doc": "Default auto-dismiss duration in milliseconds. Defaults to `5000`. Set to `0` to disable auto-dismiss.",
+          "default": "5000",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "required": false,
+          "doc": "Maximum number of simultaneously visible toasts. Oldest toasts are evicted when exceeded. Defaults to `5`.",
+          "default": "5",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "position",
+          "type": "ToastPosition[]",
+          "required": false,
+          "doc": "DaisyUI position classes applied to the toast container. Defaults to `['toast-end', 'toast-bottom']`.",
+          "default": "['toast-end', 'toast-bottom']",
+          "values": null,
+          "kind": "prop"
+        }
+      ],
+      "slots": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": true,
+          "doc": "Child elements that will have access to the toast context.",
+          "values": null,
+          "kind": "slot"
+        }
+      ],
+      "events": [],
+      "children": true,
+      "daisy": {
+        "component": {
+          "btn": 1,
+          "btn-sm": 1,
+          "btn-ghost": 1,
+          "toast": 1,
+          "alert": 1
+        }
+      }
+    },
+    {
+      "name": "ToastMessage",
+      "category": "feedback",
+      "file": "packages/react/src/components/feedback/Toast/Toast.tsx",
+      "nativeBase": [
+        "HTMLAttributes<HTMLDivElement>"
+      ],
+      "props": [
+        {
+          "name": "toast",
+          "type": "ToastItem",
+          "required": true,
+          "doc": "The toast data object to render.",
+          "values": null,
+          "kind": "prop"
+        }
+      ],
+      "slots": [],
+      "events": [
+        {
+          "name": "onDismiss",
+          "type": "(id: string) => void",
+          "required": true,
+          "doc": "Callback to dismiss this toast by its ID.",
+          "values": null,
+          "kind": "event"
+        }
+      ],
+      "children": false,
+      "daisy": {
+        "component": {
+          "btn": 1,
+          "btn-sm": 1,
+          "btn-ghost": 1,
+          "toast": 1,
+          "alert": 1
+        }
+      }
+    },
+    {
+      "name": "Icon",
+      "category": "utility",
+      "file": "packages/react/src/components/utility/Icon/Icon.tsx",
+      "nativeBase": [],
+      "props": [
+        {
+          "name": "path",
+          "type": "string",
+          "required": false,
+          "doc": "SVG path `d` attribute for single-path icons. Mutually exclusive with `children`.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "color",
+          "type": "DaisyColor",
+          "required": false,
+          "doc": "DaisyUI color variant applied as a text color class.",
+          "values": [
+            "primary",
+            "secondary",
+            "accent",
+            "neutral",
+            "info",
+            "success",
+            "warning",
+            "error"
+          ],
+          "kind": "prop"
+        },
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "doc": "Predefined size preset. Defaults to `\"md\"`.",
+          "default": "md",
+          "values": [
+            "xs",
+            "sm",
+            "md",
+            "lg"
+          ],
+          "kind": "prop"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "doc": "Accessible label for the icon. When provided, the SVG is given\n`role=\"img\"` and `aria-label`. When omitted, the icon is treated\nas decorative and hidden from assistive technologies.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "viewBox",
+          "type": "string",
+          "required": false,
+          "doc": "SVG `viewBox` attribute. Defaults to `\"0 0 24 24\"`.",
+          "default": "0 0 24 24",
+          "values": null,
+          "kind": "prop"
+        }
+      ],
+      "slots": [],
+      "events": [],
+      "children": true,
+      "daisy": {}
+    },
+    {
+      "name": "ThemeToggle",
+      "category": "utility",
+      "file": "packages/react/src/components/utility/ThemeToggle/ThemeToggle.tsx",
+      "nativeBase": [
+        "ButtonHTMLAttributes<HTMLButtonElement>"
+      ],
+      "props": [
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "doc": "Button size preset. Defaults to `\"md\"`.",
+          "default": "md",
+          "values": [
+            "xs",
+            "sm",
+            "md",
+            "lg"
+          ],
+          "kind": "prop"
+        },
+        {
+          "name": "modes",
+          "type": "ColorScheme[]",
+          "required": false,
+          "doc": "Ordered list of color scheme modes to cycle through. Defaults to `['light', 'dark', 'system']`.",
+          "default": "['light', 'dark', 'system']",
+          "values": null,
+          "kind": "prop"
+        }
+      ],
+      "slots": [],
+      "events": [],
+      "children": false,
+      "daisy": {
+        "component": {
+          "btn": 1,
+          "btn-ghost": 1,
+          "btn-square": 1
+        }
+      }
+    },
+    {
+      "name": "Tooltip",
+      "category": "utility",
+      "file": "packages/react/src/components/utility/Tooltip/Tooltip.tsx",
+      "nativeBase": [
+        "HTMLAttributes<HTMLDivElement>"
+      ],
+      "props": [
+        {
+          "name": "tip",
+          "type": "string",
+          "required": true,
+          "doc": "The text content displayed in the tooltip.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "position",
+          "type": "TooltipPosition",
+          "required": false,
+          "doc": "Position of the tooltip relative to the trigger. Defaults to `\"top\"`.",
+          "default": "top",
+          "values": [
+            "top",
+            "bottom",
+            "left",
+            "right"
+          ],
+          "kind": "prop"
+        },
+        {
+          "name": "color",
+          "type": "DaisyColor",
+          "required": false,
+          "doc": "DaisyUI color variant for the tooltip background.",
+          "values": [
+            "primary",
+            "secondary",
+            "accent",
+            "neutral",
+            "info",
+            "success",
+            "warning",
+            "error"
+          ],
+          "kind": "prop"
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false,
+          "doc": "When `true`, the tooltip is always visible regardless of hover/focus state.",
+          "values": null,
+          "kind": "prop"
+        }
+      ],
+      "slots": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": true,
+          "doc": "The trigger element. Accepts a single child, a Fragment, or plain text.",
+          "values": null,
+          "kind": "slot"
+        }
+      ],
+      "events": [],
+      "children": true,
+      "daisy": {
+        "component": {
+          "tooltip": 1,
+          "tooltip-open": 1
+        }
+      }
+    },
+    {
+      "name": "Clipboard",
+      "category": "utility",
+      "file": "packages/react/src/components/utility/Clipboard/Clipboard.tsx",
+      "nativeBase": [
+        "ButtonHTMLAttributes<HTMLButtonElement>"
+      ],
+      "props": [
+        {
+          "name": "text",
+          "type": "string",
+          "required": true,
+          "doc": "The text string to copy to the clipboard when clicked.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "doc": "Button label displayed in the idle state. Defaults to `\"Copy\"`.",
+          "default": "Copy",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "successLabel",
+          "type": "string",
+          "required": false,
+          "doc": "Button label displayed after a successful copy. Defaults to `\"Copied!\"`.",
+          "default": "Copied!",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "successDuration",
+          "type": "number",
+          "required": false,
+          "doc": "Duration in milliseconds to show the success state before reverting. Defaults to `2000`.",
+          "default": "2000",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "color",
+          "type": "DaisyColor | 'ghost'",
+          "required": false,
+          "doc": "DaisyUI color variant or `\"ghost\"` for the button. Defaults to `\"ghost\"`.",
+          "default": "ghost",
+          "values": [
+            "primary",
+            "secondary",
+            "accent",
+            "neutral",
+            "info",
+            "success",
+            "warning",
+            "error",
+            "ghost"
+          ],
+          "kind": "prop"
+        },
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "doc": "Button size. Defaults to `\"sm\"`.",
+          "default": "sm",
+          "values": [
+            "xs",
+            "sm",
+            "md",
+            "lg"
+          ],
+          "kind": "prop"
+        }
+      ],
+      "slots": [],
+      "events": [
+        {
+          "name": "onCopy",
+          "type": "() => void",
+          "required": false,
+          "doc": "Callback fired after a successful clipboard write.",
+          "values": null,
+          "kind": "event"
+        }
+      ],
+      "children": false,
+      "daisy": {
+        "component": {
+          "btn": 1
+        },
+        "themeSemantic": {
+          "text-success": 1
+        }
+      }
+    },
+    {
+      "name": "Markdown",
+      "category": "utility",
+      "file": "packages/react/src/components/utility/Markdown/Markdown.tsx",
+      "nativeBase": [
+        "HTMLAttributes<HTMLDivElement>"
+      ],
+      "props": [
+        {
+          "name": "source",
+          "type": "string",
+          "required": true,
+          "doc": "Raw markdown source text to render.",
+          "values": null,
+          "kind": "prop"
+        },
+        {
+          "name": "renderMarkdown",
+          "type": "(source: string) => string",
+          "required": false,
+          "doc": "Custom render function that receives the raw markdown source and\nreturns an HTML string. When omitted a minimal built-in parser is used.\n\n**Security:** The returned string is injected via `dangerouslySetInnerHTML`.\nIt must be produced by a trusted source or explicitly sanitized to prevent XSS.",
+          "values": null,
+          "kind": "prop"
+        }
+      ],
+      "slots": [],
+      "events": [],
+      "children": false,
+      "daisy": {}
+    }
+  ]
+}
