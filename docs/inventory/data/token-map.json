@@ -139,7 +139,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-blur",
+      "target": "--apui-surface-glass-blur",
       "reason": "Stays a per-block inline override, but should default to the shared token. Value 12px matches --glass-blur, not --glass-liquid-blur (24px).",
       "count": 1
     },
@@ -149,7 +149,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-opacity",
+      "target": "--apui-surface-glass-opacity",
       "reason": "Stays a per-block inline override, but should default to the shared token.",
       "count": 1
     },
@@ -159,7 +159,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-tint",
+      "target": "--apui-surface-glass-tint",
       "reason": "Semantics change: bare \"r, g, b\" triple today, must become a full colour value.",
       "count": 1
     },
@@ -170,7 +170,7 @@
       "tier": "component",
       "decision": "drop",
       "target": null,
-      "reason": "Restates a semantic token with private hex values. Component reads --ap-surface-*, --ap-text-*, --ap-border-*.",
+      "reason": "Restates a semantic token with private hex values. Component reads --apui-surface-*, --apui-text-*, --apui-border-*.",
       "count": 6,
       "members": [
         "--flatpickr-arrow-color",
@@ -203,7 +203,7 @@
       "group": "datepicker",
       "tier": "component",
       "decision": "rename",
-      "target": "--ap-datepicker-*",
+      "target": "--apui-datepicker-*",
       "reason": "Value provisional until Phase 1.",
       "count": 3,
       "members": [
@@ -218,7 +218,7 @@
       "group": "datepicker",
       "tier": "component",
       "decision": "rename",
-      "target": "--ap-datepicker-radius",
+      "target": "--apui-datepicker-radius",
       "reason": "Value provisional until Phase 1.",
       "count": 1
     },
@@ -228,7 +228,7 @@
       "group": "datepicker",
       "tier": "component",
       "decision": "rename",
-      "target": "--ap-datepicker-padding",
+      "target": "--apui-datepicker-padding",
       "reason": "Value provisional until Phase 1.",
       "count": 1
     },
@@ -238,7 +238,7 @@
       "group": "datepicker",
       "tier": "component",
       "decision": "rename",
-      "target": "--ap-datepicker-cell-size",
+      "target": "--apui-datepicker-cell-size",
       "reason": "Responsive overrides at 640/1024px are the only breakpoint values in any token source. Value provisional until Phase 1.",
       "count": 1
     },
@@ -248,7 +248,7 @@
       "group": "datepicker",
       "tier": "component",
       "decision": "rename",
-      "target": "--ap-datepicker-day-hover-bg",
+      "target": "--apui-datepicker-day-hover-bg",
       "reason": "Value provisional until Phase 1.",
       "count": 1
     },
@@ -258,7 +258,7 @@
       "group": "datepicker",
       "tier": "component",
       "decision": "rename",
-      "target": "--ap-datepicker-day-hover-text",
+      "target": "--apui-datepicker-day-hover-text",
       "reason": "Value provisional until Phase 1.",
       "count": 1
     },
@@ -268,8 +268,8 @@
       "group": "datepicker",
       "tier": "component",
       "decision": "rename",
-      "target": "--ap-datepicker-selected-bg",
-      "reason": "flatpickr prefix goes (engine is Phase 3/5). Should default to --ap-color-primary.",
+      "target": "--apui-datepicker-selected-bg",
+      "reason": "flatpickr prefix goes (engine is Phase 3/5). Should default to --apui-color-primary.",
       "count": 1
     },
     {
@@ -278,8 +278,8 @@
       "group": "datepicker",
       "tier": "component",
       "decision": "rename",
-      "target": "--ap-datepicker-selected-text",
-      "reason": "Should default to --ap-color-primary-foreground.",
+      "target": "--apui-datepicker-selected-text",
+      "reason": "Should default to --apui-color-primary-foreground.",
       "count": 1
     },
     {
@@ -288,7 +288,7 @@
       "group": "datepicker",
       "tier": "component",
       "decision": "rename",
-      "target": "--ap-datepicker-today-bg",
+      "target": "--apui-datepicker-today-bg",
       "reason": "Value provisional until Phase 1.",
       "count": 1
     },
@@ -298,7 +298,7 @@
       "group": "datepicker",
       "tier": "component",
       "decision": "rename",
-      "target": "--ap-datepicker-today-text",
+      "target": "--apui-datepicker-today-text",
       "reason": "Value provisional until Phase 1.",
       "count": 1
     },
@@ -309,7 +309,7 @@
       "tier": "component",
       "decision": "drop",
       "target": null,
-      "reason": "Restates a semantic token with private hex values. Component reads --ap-surface-*, --ap-text-*, --ap-border-*.",
+      "reason": "Restates a semantic token with private hex values. Component reads --apui-surface-*, --apui-text-*, --apui-border-*.",
       "count": 6,
       "members": [
         "--flatpickr-arrow-color",
@@ -326,7 +326,7 @@
       "group": "datepicker",
       "tier": "component",
       "decision": "rename",
-      "target": "--ap-datepicker-day-hover-bg",
+      "target": "--apui-datepicker-day-hover-bg",
       "reason": "Value provisional until Phase 1.",
       "count": 1
     },
@@ -336,7 +336,7 @@
       "group": "datepicker",
       "tier": "component",
       "decision": "rename",
-      "target": "--ap-datepicker-day-hover-text",
+      "target": "--apui-datepicker-day-hover-text",
       "reason": "Value provisional until Phase 1.",
       "count": 1
     },
@@ -346,8 +346,8 @@
       "group": "datepicker",
       "tier": "component",
       "decision": "rename",
-      "target": "--ap-datepicker-selected-bg",
-      "reason": "flatpickr prefix goes (engine is Phase 3/5). Should default to --ap-color-primary.",
+      "target": "--apui-datepicker-selected-bg",
+      "reason": "flatpickr prefix goes (engine is Phase 3/5). Should default to --apui-color-primary.",
       "count": 1
     },
     {
@@ -356,8 +356,8 @@
       "group": "datepicker",
       "tier": "component",
       "decision": "rename",
-      "target": "--ap-datepicker-selected-text",
-      "reason": "Should default to --ap-color-primary-foreground.",
+      "target": "--apui-datepicker-selected-text",
+      "reason": "Should default to --apui-color-primary-foreground.",
       "count": 1
     },
     {
@@ -366,7 +366,7 @@
       "group": "datepicker",
       "tier": "component",
       "decision": "rename",
-      "target": "--ap-datepicker-today-bg",
+      "target": "--apui-datepicker-today-bg",
       "reason": "Value provisional until Phase 1.",
       "count": 1
     },
@@ -376,7 +376,7 @@
       "group": "datepicker",
       "tier": "component",
       "decision": "rename",
-      "target": "--ap-datepicker-today-text",
+      "target": "--apui-datepicker-today-text",
       "reason": "Value provisional until Phase 1.",
       "count": 1
     },
@@ -387,7 +387,7 @@
       "tier": "component",
       "decision": "drop",
       "target": null,
-      "reason": "Restates a semantic token with private hex values. Component reads --ap-surface-*, --ap-text-*, --ap-border-*.",
+      "reason": "Restates a semantic token with private hex values. Component reads --apui-surface-*, --apui-text-*, --apui-border-*.",
       "count": 6,
       "members": [
         "--flatpickr-arrow-color",
@@ -404,7 +404,7 @@
       "group": "datepicker",
       "tier": "component",
       "decision": "rename",
-      "target": "--ap-datepicker-day-hover-bg",
+      "target": "--apui-datepicker-day-hover-bg",
       "reason": "Value provisional until Phase 1.",
       "count": 1
     },
@@ -414,7 +414,7 @@
       "group": "datepicker",
       "tier": "component",
       "decision": "rename",
-      "target": "--ap-datepicker-day-hover-text",
+      "target": "--apui-datepicker-day-hover-text",
       "reason": "Value provisional until Phase 1.",
       "count": 1
     },
@@ -424,8 +424,8 @@
       "group": "datepicker",
       "tier": "component",
       "decision": "rename",
-      "target": "--ap-datepicker-selected-bg",
-      "reason": "flatpickr prefix goes (engine is Phase 3/5). Should default to --ap-color-primary.",
+      "target": "--apui-datepicker-selected-bg",
+      "reason": "flatpickr prefix goes (engine is Phase 3/5). Should default to --apui-color-primary.",
       "count": 1
     },
     {
@@ -434,8 +434,8 @@
       "group": "datepicker",
       "tier": "component",
       "decision": "rename",
-      "target": "--ap-datepicker-selected-text",
-      "reason": "Should default to --ap-color-primary-foreground.",
+      "target": "--apui-datepicker-selected-text",
+      "reason": "Should default to --apui-color-primary-foreground.",
       "count": 1
     },
     {
@@ -444,7 +444,7 @@
       "group": "datepicker",
       "tier": "component",
       "decision": "rename",
-      "target": "--ap-datepicker-today-bg",
+      "target": "--apui-datepicker-today-bg",
       "reason": "Value provisional until Phase 1.",
       "count": 1
     },
@@ -454,7 +454,7 @@
       "group": "datepicker",
       "tier": "component",
       "decision": "rename",
-      "target": "--ap-datepicker-today-text",
+      "target": "--apui-datepicker-today-text",
       "reason": "Value provisional until Phase 1.",
       "count": 1
     },
@@ -496,7 +496,7 @@
       "tier": "component",
       "decision": "drop",
       "target": null,
-      "reason": "Restates a semantic token with private hex values. Component reads --ap-surface-*, --ap-text-*, --ap-border-*.",
+      "reason": "Restates a semantic token with private hex values. Component reads --apui-surface-*, --apui-text-*, --apui-border-*.",
       "count": 3,
       "members": [
         "--flatpickr-bg-color",
@@ -510,7 +510,7 @@
       "group": "datepicker",
       "tier": "component",
       "decision": "rename",
-      "target": "--ap-datepicker-padding",
+      "target": "--apui-datepicker-padding",
       "reason": "Value provisional until Phase 1.",
       "count": 1
     },
@@ -520,7 +520,7 @@
       "group": "datepicker",
       "tier": "component",
       "decision": "rename",
-      "target": "--ap-datepicker-cell-size",
+      "target": "--apui-datepicker-cell-size",
       "reason": "Responsive overrides at 640/1024px are the only breakpoint values in any token source. Value provisional until Phase 1.",
       "count": 1
     },
@@ -540,8 +540,8 @@
       "group": "datepicker",
       "tier": "component",
       "decision": "rename",
-      "target": "--ap-datepicker-selected-bg",
-      "reason": "flatpickr prefix goes (engine is Phase 3/5). Should default to --ap-color-primary.",
+      "target": "--apui-datepicker-selected-bg",
+      "reason": "flatpickr prefix goes (engine is Phase 3/5). Should default to --apui-color-primary.",
       "count": 1
     },
     {
@@ -550,8 +550,8 @@
       "group": "datepicker",
       "tier": "component",
       "decision": "rename",
-      "target": "--ap-datepicker-selected-text",
-      "reason": "Should default to --ap-color-primary-foreground.",
+      "target": "--apui-datepicker-selected-text",
+      "reason": "Should default to --apui-color-primary-foreground.",
       "count": 1
     },
     {
@@ -561,7 +561,7 @@
       "tier": "semantic",
       "decision": "drop",
       "target": null,
-      "reason": "Plan has one surface=\"glass\"; the variant is flattened. Its values can live on as a preset reassigning --ap-surface-glass-*, if Phase 1 keeps it.",
+      "reason": "Plan has one surface=\"glass\"; the variant is flattened. Its values can live on as a preset reassigning --apui-surface-glass-*, if Phase 1 keeps it.",
       "count": 9,
       "members": [
         "--glass-frosted-bg-color",
@@ -581,8 +581,8 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass",
-      "reason": "Follows the --ap-surface-raised pattern. Light/dark RGB is hard-coded today; must derive from a surface token. Value provisional until Phase 1.",
+      "target": "--apui-surface-glass",
+      "reason": "Follows the --apui-surface-raised pattern. Light/dark RGB is hard-coded today; must derive from a surface token. Value provisional until Phase 1.",
       "count": 1
     },
     {
@@ -591,7 +591,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-blur",
+      "target": "--apui-surface-glass-blur",
       "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
       "count": 1
     },
@@ -601,7 +601,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-border",
+      "target": "--apui-surface-glass-border",
       "reason": "Hard-coded white in both modes today. Value provisional until Phase 1.",
       "count": 1
     },
@@ -611,7 +611,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-border-opacity",
+      "target": "--apui-surface-glass-border-opacity",
       "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
       "count": 1
     },
@@ -621,7 +621,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-border-width",
+      "target": "--apui-surface-glass-border-width",
       "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
       "count": 1
     },
@@ -631,7 +631,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-saturation",
+      "target": "--apui-surface-glass-saturation",
       "reason": "Semantics change: frosted-only today, becomes a property of the single glass surface. liquid-glass hard-codes the same 180%. Value provisional until Phase 1.",
       "count": 1
     },
@@ -641,7 +641,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-highlight-opacity",
+      "target": "--apui-surface-glass-highlight-opacity",
       "reason": "Semantics change: liquid-only today, becomes the glass inset highlight. Value provisional until Phase 1.",
       "count": 1
     },
@@ -651,7 +651,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-highlight",
+      "target": "--apui-surface-glass-highlight",
       "reason": "Semantics change: liquid-only today, becomes the glass inset highlight. Value provisional until Phase 1.",
       "count": 1
     },
@@ -671,7 +671,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-opacity",
+      "target": "--apui-surface-glass-opacity",
       "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
       "count": 1
     },
@@ -681,7 +681,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-shadow-color",
+      "target": "--apui-surface-glass-shadow-color",
       "reason": "Value provisional until Phase 1.",
       "count": 1
     },
@@ -691,7 +691,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-shadow-opacity",
+      "target": "--apui-surface-glass-shadow-opacity",
       "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
       "count": 1
     },
@@ -701,7 +701,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-tint",
+      "target": "--apui-surface-glass-tint",
       "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
       "count": 1
     },
@@ -711,7 +711,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-tint-opacity",
+      "target": "--apui-surface-glass-tint-opacity",
       "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
       "count": 1
     },
@@ -738,7 +738,7 @@
       "tier": "semantic",
       "decision": "drop",
       "target": null,
-      "reason": "Utility class. Tint is set by reassigning --ap-surface-glass-tint from --ap-color-*. No neutral tint exists today.",
+      "reason": "Utility class. Tint is set by reassigning --apui-surface-glass-tint from --apui-color-*. No neutral tint exists today.",
       "count": 7,
       "members": [
         ".glass-tint-accent",
@@ -757,7 +757,7 @@
       "tier": "semantic",
       "decision": "drop",
       "target": null,
-      "reason": "Utility class. Assign --ap-surface-glass-tint-opacity directly.",
+      "reason": "Utility class. Assign --apui-surface-glass-tint-opacity directly.",
       "count": 10,
       "members": [
         ".glass-tint-opacity-10",
@@ -778,7 +778,7 @@
       "group": "motion",
       "tier": "primitive",
       "decision": "keep",
-      "target": "--ap-duration-*",
+      "target": "--apui-duration-*",
       "reason": "Value provisional until Phase 1.",
       "count": 9,
       "members": [
@@ -799,7 +799,7 @@
       "group": "motion",
       "tier": "primitive",
       "decision": "keep",
-      "target": "--ap-ease-*",
+      "target": "--apui-ease-*",
       "reason": "Value provisional until Phase 1.",
       "count": 4,
       "members": [
@@ -815,7 +815,7 @@
       "group": "motion",
       "tier": "primitive",
       "decision": "keep",
-      "target": "--ap-ease-*",
+      "target": "--apui-ease-*",
       "reason": "Expressive curves. Whether they survive depends on the motion direction. Value provisional until Phase 1.",
       "count": 3,
       "members": [
@@ -847,7 +847,7 @@
       "group": "motion",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-transition-property-*",
+      "target": "--apui-transition-property-*",
       "reason": "Property list, not a DTCG transition value. Renamed so it cannot be confused with the composite tokens.",
       "count": 2,
       "members": [
@@ -861,7 +861,7 @@
       "group": "motion",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-transition-*",
+      "target": "--apui-transition-*",
       "reason": "Class becomes a DTCG transition composite (duration + easing). This is the only existing semantic motion layer. Value provisional until Phase 1.",
       "count": 5,
       "members": [
@@ -878,7 +878,7 @@
       "group": "radius",
       "tier": "primitive",
       "decision": "keep",
-      "target": "--ap-radius-*",
+      "target": "--apui-radius-*",
       "reason": "Note --radius-sm is 0.125rem where Tailwind v4 uses 0.25rem. Tailwind preset must map explicitly. Value provisional until Phase 1.",
       "count": 9,
       "members": [
@@ -899,8 +899,8 @@
       "group": "shadow",
       "tier": "primitive",
       "decision": "keep",
-      "target": "--ap-shadow-*",
-      "reason": "Today dark mode reassigns these in place, which breaks the plan rule that presets touch only semantic tokens. Dark values move to --ap-elevation-*. Value provisional until Phase 1.",
+      "target": "--apui-shadow-*",
+      "reason": "Today dark mode reassigns these in place, which breaks the plan rule that presets touch only semantic tokens. Dark values move to --apui-elevation-*. Value provisional until Phase 1.",
       "count": 8,
       "members": [
         "--shadow-2xl",
@@ -920,7 +920,7 @@
       "tier": "semantic",
       "decision": "drop",
       "target": null,
-      "reason": "No consumer in Blade views. rgb literal does not follow the theme colour. If Phase 1 wants it, derive from --ap-color-*.",
+      "reason": "No consumer in Blade views. rgb literal does not follow the theme colour. If Phase 1 wants it, derive from --apui-color-*.",
       "count": 5,
       "members": [
         "--shadow-error",
@@ -937,7 +937,7 @@
       "tier": "semantic",
       "decision": "drop",
       "target": null,
-      "reason": "Only consumer is the dropped .shadow-glow* classes. Hard-coded blue-500. If Phase 1 wants it, derive from --ap-color-primary.",
+      "reason": "Only consumer is the dropped .shadow-glow* classes. Hard-coded blue-500. If Phase 1 wants it, derive from --apui-color-primary.",
       "count": 3,
       "members": [
         "--shadow-glow-lg",
@@ -966,8 +966,8 @@
       "group": "space",
       "tier": "primitive",
       "decision": "rename",
-      "target": "--ap-space-*",
-      "reason": "Plan names this --ap-space-*. Half steps stay hyphenated (0-5) because DTCG forbids \".\" in token names. Identical to Tailwind steps. Value provisional until Phase 1.",
+      "target": "--apui-space-*",
+      "reason": "Plan names this --apui-space-*. Half steps stay hyphenated (0-5) because DTCG forbids \".\" in token names. Identical to Tailwind steps. Value provisional until Phase 1.",
       "count": 35,
       "members": [
         "--spacing-0",
@@ -1013,7 +1013,7 @@
       "group": "type",
       "tier": "primitive",
       "decision": "keep",
-      "target": "--ap-font-family-*",
+      "target": "--apui-font-family-*",
       "reason": "System stacks. Value provisional until Phase 1.",
       "count": 3,
       "members": [
@@ -1028,7 +1028,7 @@
       "group": "type",
       "tier": "primitive",
       "decision": "keep",
-      "target": "--ap-font-size-*",
+      "target": "--apui-font-size-*",
       "reason": "Value provisional until Phase 1.",
       "count": 10,
       "members": [
@@ -1050,7 +1050,7 @@
       "group": "type",
       "tier": "primitive",
       "decision": "keep",
-      "target": "--ap-font-weight-*",
+      "target": "--apui-font-weight-*",
       "reason": "Value provisional until Phase 1.",
       "count": 9,
       "members": [
@@ -1071,7 +1071,7 @@
       "group": "type",
       "tier": "primitive",
       "decision": "keep",
-      "target": "--ap-letter-spacing-*",
+      "target": "--apui-letter-spacing-*",
       "reason": "Value provisional until Phase 1.",
       "count": 6,
       "members": [
@@ -1089,7 +1089,7 @@
       "group": "type",
       "tier": "primitive",
       "decision": "keep",
-      "target": "--ap-line-height-*",
+      "target": "--apui-line-height-*",
       "reason": "Value provisional until Phase 1.",
       "count": 6,
       "members": [
@@ -1123,7 +1123,7 @@
       "tier": "semantic",
       "decision": "drop",
       "target": null,
-      "reason": "Indirection for inline tints. Assign --ap-surface-glass-tint directly.",
+      "reason": "Indirection for inline tints. Assign --apui-surface-glass-tint directly.",
       "count": 1
     },
     {
@@ -1133,7 +1133,7 @@
       "tier": "semantic",
       "decision": "drop",
       "target": null,
-      "reason": "Plan has one surface=\"glass\"; the variant is flattened. Its values can live on as a preset reassigning --ap-surface-glass-*, if Phase 1 keeps it.",
+      "reason": "Plan has one surface=\"glass\"; the variant is flattened. Its values can live on as a preset reassigning --apui-surface-glass-*, if Phase 1 keeps it.",
       "count": 9,
       "members": [
         "--glass-frosted-bg-color",
@@ -1153,8 +1153,8 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass",
-      "reason": "Follows the --ap-surface-raised pattern. Light/dark RGB is hard-coded today; must derive from a surface token. Value provisional until Phase 1.",
+      "target": "--apui-surface-glass",
+      "reason": "Follows the --apui-surface-raised pattern. Light/dark RGB is hard-coded today; must derive from a surface token. Value provisional until Phase 1.",
       "count": 1
     },
     {
@@ -1163,7 +1163,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-blur",
+      "target": "--apui-surface-glass-blur",
       "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
       "count": 1
     },
@@ -1173,7 +1173,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-border",
+      "target": "--apui-surface-glass-border",
       "reason": "Hard-coded white in both modes today. Value provisional until Phase 1.",
       "count": 1
     },
@@ -1183,7 +1183,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-border-opacity",
+      "target": "--apui-surface-glass-border-opacity",
       "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
       "count": 1
     },
@@ -1193,7 +1193,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-border-width",
+      "target": "--apui-surface-glass-border-width",
       "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
       "count": 1
     },
@@ -1203,7 +1203,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-saturation",
+      "target": "--apui-surface-glass-saturation",
       "reason": "Semantics change: frosted-only today, becomes a property of the single glass surface. liquid-glass hard-codes the same 180%. Value provisional until Phase 1.",
       "count": 1
     },
@@ -1213,7 +1213,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-highlight-opacity",
+      "target": "--apui-surface-glass-highlight-opacity",
       "reason": "Semantics change: liquid-only today, becomes the glass inset highlight. Value provisional until Phase 1.",
       "count": 1
     },
@@ -1223,7 +1223,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-highlight",
+      "target": "--apui-surface-glass-highlight",
       "reason": "Semantics change: liquid-only today, becomes the glass inset highlight. Value provisional until Phase 1.",
       "count": 1
     },
@@ -1243,7 +1243,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-opacity",
+      "target": "--apui-surface-glass-opacity",
       "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
       "count": 1
     },
@@ -1253,7 +1253,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-shadow-color",
+      "target": "--apui-surface-glass-shadow-color",
       "reason": "Value provisional until Phase 1.",
       "count": 1
     },
@@ -1263,7 +1263,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-shadow-opacity",
+      "target": "--apui-surface-glass-shadow-opacity",
       "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
       "count": 1
     },
@@ -1273,7 +1273,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-tint",
+      "target": "--apui-surface-glass-tint",
       "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
       "count": 1
     },
@@ -1283,7 +1283,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-tint-opacity",
+      "target": "--apui-surface-glass-tint-opacity",
       "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
       "count": 1
     },
@@ -1310,7 +1310,7 @@
       "tier": "semantic",
       "decision": "drop",
       "target": null,
-      "reason": "Preset class. Value sets move to theme presets that reassign --ap-surface-glass-* (see GlassPresets in code).",
+      "reason": "Preset class. Value sets move to theme presets that reassign --apui-surface-glass-* (see GlassPresets in code).",
       "count": 6,
       "members": [
         ".glass-bold",
@@ -1344,7 +1344,7 @@
       "tier": "semantic",
       "decision": "drop",
       "target": null,
-      "reason": "Utility class. Tint is set by reassigning --ap-surface-glass-tint from --ap-color-*. No neutral tint exists today.",
+      "reason": "Utility class. Tint is set by reassigning --apui-surface-glass-tint from --apui-color-*. No neutral tint exists today.",
       "count": 7,
       "members": [
         ".glass-tint-accent",
@@ -1363,7 +1363,7 @@
       "tier": "primitive",
       "decision": "drop",
       "target": null,
-      "reason": "Utility class. Hue-by-stop tint classes exist only in Livewire. Assign --ap-surface-glass-tint to a primitive instead.",
+      "reason": "Utility class. Hue-by-stop tint classes exist only in Livewire. Assign --apui-surface-glass-tint to a primitive instead.",
       "count": 242
     },
     {
@@ -1373,7 +1373,7 @@
       "tier": "semantic",
       "decision": "drop",
       "target": null,
-      "reason": "Utility class. Assign --ap-surface-glass-tint directly.",
+      "reason": "Utility class. Assign --apui-surface-glass-tint directly.",
       "count": 1
     },
     {
@@ -1383,7 +1383,7 @@
       "tier": "semantic",
       "decision": "drop",
       "target": null,
-      "reason": "Utility class. Assign --ap-surface-glass-tint-opacity directly.",
+      "reason": "Utility class. Assign --apui-surface-glass-tint-opacity directly.",
       "count": 10,
       "members": [
         ".glass-tint-opacity-10",
@@ -1404,7 +1404,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-tint",
+      "target": "--apui-surface-glass-tint",
       "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
       "count": 1
     },
@@ -1414,7 +1414,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-tint-opacity",
+      "target": "--apui-surface-glass-tint-opacity",
       "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
       "count": 1
     },
@@ -1424,7 +1424,7 @@
       "group": "border",
       "tier": "component",
       "decision": "rename",
-      "target": "--ap-button-border-width",
+      "target": "--apui-button-border-width",
       "reason": "daisyUI 4 name, not read by daisyUI 5. Value provisional until Phase 1.",
       "count": 1
     },
@@ -1434,7 +1434,7 @@
       "group": "border",
       "tier": "component",
       "decision": "rename",
-      "target": "--ap-tabs-border-width",
+      "target": "--apui-tabs-border-width",
       "reason": "daisyUI variable name. Component-tier concept. Value provisional until Phase 1.",
       "count": 1
     },
@@ -1477,7 +1477,7 @@
       "group": "color",
       "tier": "primitive",
       "decision": "rename",
-      "target": "--ap-*",
+      "target": "--apui-*",
       "reason": "Lookup entry becomes a primitive. Not in the 11-stop ramp but needed for foregrounds.",
       "count": 2,
       "members": [
@@ -1491,7 +1491,7 @@
       "group": "color",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-color-*0",
+      "target": "--apui-color-*0",
       "reason": "",
       "count": 33,
       "members": [
@@ -1551,7 +1551,7 @@
       "group": "color",
       "tier": "semantic",
       "decision": "keep",
-      "target": "--ap-color-*",
+      "target": "--apui-color-*",
       "reason": "Matches the plan color vocabulary. Value provisional until Phase 1.",
       "count": 8,
       "members": [
@@ -1571,7 +1571,7 @@
       "group": "color",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-color-*-foreground",
+      "target": "--apui-color-*-foreground",
       "reason": "\"-content\" is daisyUI vocabulary; \"-foreground\" is the existing hc-* name. Same meaning. Value provisional until Phase 1.",
       "count": 8,
       "members": [
@@ -1591,7 +1591,7 @@
       "group": "color",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-default",
+      "target": "--apui-surface-default",
       "reason": "daisyUI base step to named surface. Main component background (29 bg-base-100 uses). Value provisional until Phase 1.",
       "count": 1
     },
@@ -1601,7 +1601,7 @@
       "group": "color",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-sunken",
+      "target": "--apui-surface-sunken",
       "reason": "daisyUI base step to named surface; it sits below base-100. Semantics narrow from \"step 2\" to \"sunken\". Value provisional until Phase 1.",
       "count": 1
     },
@@ -1611,7 +1611,7 @@
       "group": "color",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-border-default",
+      "target": "--apui-border-default",
       "reason": "Semantics split: 21 border-base-300 uses map here; 22 bg-base-300 uses must resolve to a surface token per component spec. Value provisional until Phase 1.",
       "count": 1
     },
@@ -1621,7 +1621,7 @@
       "group": "color",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-text-default",
+      "target": "--apui-text-default",
       "reason": "daisyUI name to plan text namespace. Value provisional until Phase 1.",
       "count": 1
     },
@@ -1631,7 +1631,7 @@
       "group": "color",
       "tier": "primitive",
       "decision": "rename",
-      "target": "--ap-*0",
+      "target": "--apui-*0",
       "reason": "PHP-only lookup becomes the primitive tier. Hues are Tailwind v3 hex. Which hues survive and all values are provisional until Phase 1.",
       "count": 242
     },
@@ -1675,7 +1675,7 @@
       "tier": "semantic",
       "decision": "drop",
       "target": null,
-      "reason": "Plan has one surface=\"glass\"; the variant is flattened. Its values can live on as a preset reassigning --ap-surface-glass-*, if Phase 1 keeps it.",
+      "reason": "Plan has one surface=\"glass\"; the variant is flattened. Its values can live on as a preset reassigning --apui-surface-glass-*, if Phase 1 keeps it.",
       "count": 9,
       "members": [
         "--glass-frosted-bg-color",
@@ -1695,8 +1695,8 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass",
-      "reason": "Follows the --ap-surface-raised pattern. Light/dark RGB is hard-coded today; must derive from a surface token. Value provisional until Phase 1.",
+      "target": "--apui-surface-glass",
+      "reason": "Follows the --apui-surface-raised pattern. Light/dark RGB is hard-coded today; must derive from a surface token. Value provisional until Phase 1.",
       "count": 1
     },
     {
@@ -1705,7 +1705,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-blur",
+      "target": "--apui-surface-glass-blur",
       "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
       "count": 1
     },
@@ -1715,7 +1715,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-border",
+      "target": "--apui-surface-glass-border",
       "reason": "Hard-coded white in both modes today. Value provisional until Phase 1.",
       "count": 1
     },
@@ -1725,7 +1725,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-border-opacity",
+      "target": "--apui-surface-glass-border-opacity",
       "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
       "count": 1
     },
@@ -1735,7 +1735,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-border-width",
+      "target": "--apui-surface-glass-border-width",
       "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
       "count": 1
     },
@@ -1745,7 +1745,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-saturation",
+      "target": "--apui-surface-glass-saturation",
       "reason": "Semantics change: frosted-only today, becomes a property of the single glass surface. liquid-glass hard-codes the same 180%. Value provisional until Phase 1.",
       "count": 1
     },
@@ -1755,7 +1755,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-highlight-opacity",
+      "target": "--apui-surface-glass-highlight-opacity",
       "reason": "Semantics change: liquid-only today, becomes the glass inset highlight. Value provisional until Phase 1.",
       "count": 1
     },
@@ -1765,7 +1765,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-highlight",
+      "target": "--apui-surface-glass-highlight",
       "reason": "Semantics change: liquid-only today, becomes the glass inset highlight. Value provisional until Phase 1.",
       "count": 1
     },
@@ -1785,7 +1785,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-opacity",
+      "target": "--apui-surface-glass-opacity",
       "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
       "count": 1
     },
@@ -1795,7 +1795,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-shadow-color",
+      "target": "--apui-surface-glass-shadow-color",
       "reason": "Value provisional until Phase 1.",
       "count": 1
     },
@@ -1805,7 +1805,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-shadow-opacity",
+      "target": "--apui-surface-glass-shadow-opacity",
       "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
       "count": 1
     },
@@ -1815,7 +1815,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-tint",
+      "target": "--apui-surface-glass-tint",
       "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
       "count": 1
     },
@@ -1825,7 +1825,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-tint-opacity",
+      "target": "--apui-surface-glass-tint-opacity",
       "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
       "count": 1
     },
@@ -1859,7 +1859,7 @@
       "group": "motion",
       "tier": "primitive",
       "decision": "keep",
-      "target": "--ap-duration-*",
+      "target": "--apui-duration-*",
       "reason": "Value provisional until Phase 1.",
       "count": 9,
       "members": [
@@ -1880,7 +1880,7 @@
       "group": "motion",
       "tier": "primitive",
       "decision": "keep",
-      "target": "--ap-ease-*",
+      "target": "--apui-ease-*",
       "reason": "Value provisional until Phase 1.",
       "count": 4,
       "members": [
@@ -1896,7 +1896,7 @@
       "group": "motion",
       "tier": "primitive",
       "decision": "keep",
-      "target": "--ap-ease-*",
+      "target": "--apui-ease-*",
       "reason": "Expressive curves. Whether they survive depends on the motion direction. Value provisional until Phase 1.",
       "count": 3,
       "members": [
@@ -1928,7 +1928,7 @@
       "group": "motion",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-transition-property-*",
+      "target": "--apui-transition-property-*",
       "reason": "Property list, not a DTCG transition value. Renamed so it cannot be confused with the composite tokens.",
       "count": 2,
       "members": [
@@ -1942,7 +1942,7 @@
       "group": "radius",
       "tier": "primitive",
       "decision": "keep",
-      "target": "--ap-radius-*",
+      "target": "--apui-radius-*",
       "reason": "Note --radius-sm is 0.125rem where Tailwind v4 uses 0.25rem. Tailwind preset must map explicitly. Value provisional until Phase 1.",
       "count": 9,
       "members": [
@@ -1963,7 +1963,7 @@
       "group": "radius",
       "tier": "component",
       "decision": "rename",
-      "target": "--ap-badge-radius",
+      "target": "--apui-badge-radius",
       "reason": "daisyUI 4 name, not read by daisyUI 5. Value provisional until Phase 1.",
       "count": 1
     },
@@ -1973,7 +1973,7 @@
       "group": "radius",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-radius-surface",
+      "target": "--apui-radius-surface",
       "reason": "daisyUI 4 name, not read by daisyUI 5. Concept survives as the surface radius. Value provisional until Phase 1.",
       "count": 1
     },
@@ -1983,7 +1983,7 @@
       "group": "radius",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-radius-control",
+      "target": "--apui-radius-control",
       "reason": "daisyUI 4 name, not read by daisyUI 5. Plan's rounded-control utility implies this semantic token. Value provisional until Phase 1.",
       "count": 1
     },
@@ -1993,7 +1993,7 @@
       "group": "radius",
       "tier": "component",
       "decision": "rename",
-      "target": "--ap-tabs-radius",
+      "target": "--apui-tabs-radius",
       "reason": "daisyUI variable name. Component-tier concept. Value provisional until Phase 1.",
       "count": 1
     },
@@ -2003,8 +2003,8 @@
       "group": "shadow",
       "tier": "primitive",
       "decision": "keep",
-      "target": "--ap-shadow-*",
-      "reason": "Today dark mode reassigns these in place, which breaks the plan rule that presets touch only semantic tokens. Dark values move to --ap-elevation-*. Value provisional until Phase 1.",
+      "target": "--apui-shadow-*",
+      "reason": "Today dark mode reassigns these in place, which breaks the plan rule that presets touch only semantic tokens. Dark values move to --apui-elevation-*. Value provisional until Phase 1.",
       "count": 8,
       "members": [
         "--shadow-2xl",
@@ -2024,7 +2024,7 @@
       "tier": "semantic",
       "decision": "drop",
       "target": null,
-      "reason": "No consumer in Blade views. rgb literal does not follow the theme colour. If Phase 1 wants it, derive from --ap-color-*.",
+      "reason": "No consumer in Blade views. rgb literal does not follow the theme colour. If Phase 1 wants it, derive from --apui-color-*.",
       "count": 5,
       "members": [
         "--shadow-error",
@@ -2041,7 +2041,7 @@
       "tier": "semantic",
       "decision": "drop",
       "target": null,
-      "reason": "Only consumer is the dropped .shadow-glow* classes. Hard-coded blue-500. If Phase 1 wants it, derive from --ap-color-primary.",
+      "reason": "Only consumer is the dropped .shadow-glow* classes. Hard-coded blue-500. If Phase 1 wants it, derive from --apui-color-primary.",
       "count": 3,
       "members": [
         "--shadow-glow-lg",
@@ -2055,8 +2055,8 @@
       "group": "space",
       "tier": "primitive",
       "decision": "rename",
-      "target": "--ap-space-*",
-      "reason": "Plan names this --ap-space-*. Half steps stay hyphenated (0-5) because DTCG forbids \".\" in token names. Identical to Tailwind steps. Value provisional until Phase 1.",
+      "target": "--apui-space-*",
+      "reason": "Plan names this --apui-space-*. Half steps stay hyphenated (0-5) because DTCG forbids \".\" in token names. Identical to Tailwind steps. Value provisional until Phase 1.",
       "count": 35,
       "members": [
         "--spacing-0",
@@ -2103,7 +2103,7 @@
       "tier": "semantic",
       "decision": "drop",
       "target": null,
-      "reason": "Inline hover/focus computed in PHP. The variant case uses hard-coded Tailwind hues, so it ignores the theme. Superseded by --ap-color-*-hover/-active.",
+      "reason": "Inline hover/focus computed in PHP. The variant case uses hard-coded Tailwind hues, so it ignores the theme. Superseded by --apui-color-*-hover/-active.",
       "count": 12,
       "members": [
         "--artisanpack-custom-focus-color",
@@ -2126,7 +2126,7 @@
       "group": "type",
       "tier": "primitive",
       "decision": "keep",
-      "target": "--ap-font-family-*",
+      "target": "--apui-font-family-*",
       "reason": "System stacks. Value provisional until Phase 1.",
       "count": 3,
       "members": [
@@ -2141,7 +2141,7 @@
       "group": "type",
       "tier": "primitive",
       "decision": "keep",
-      "target": "--ap-font-size-*",
+      "target": "--apui-font-size-*",
       "reason": "Value provisional until Phase 1.",
       "count": 10,
       "members": [
@@ -2163,7 +2163,7 @@
       "group": "type",
       "tier": "primitive",
       "decision": "keep",
-      "target": "--ap-font-weight-*",
+      "target": "--apui-font-weight-*",
       "reason": "Value provisional until Phase 1.",
       "count": 9,
       "members": [
@@ -2184,7 +2184,7 @@
       "group": "type",
       "tier": "primitive",
       "decision": "keep",
-      "target": "--ap-letter-spacing-*",
+      "target": "--apui-letter-spacing-*",
       "reason": "Value provisional until Phase 1.",
       "count": 6,
       "members": [
@@ -2202,7 +2202,7 @@
       "group": "type",
       "tier": "primitive",
       "decision": "keep",
-      "target": "--ap-line-height-*",
+      "target": "--apui-line-height-*",
       "reason": "Value provisional until Phase 1.",
       "count": 6,
       "members": [
@@ -2221,7 +2221,7 @@
       "tier": "semantic",
       "decision": "drop",
       "target": null,
-      "reason": "Plan has one surface=\"glass\"; the variant is flattened. Its values can live on as a preset reassigning --ap-surface-glass-*, if Phase 1 keeps it.",
+      "reason": "Plan has one surface=\"glass\"; the variant is flattened. Its values can live on as a preset reassigning --apui-surface-glass-*, if Phase 1 keeps it.",
       "count": 9,
       "members": [
         "--glass-frosted-bg-color",
@@ -2241,8 +2241,8 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass",
-      "reason": "Follows the --ap-surface-raised pattern. Light/dark RGB is hard-coded today; must derive from a surface token. Value provisional until Phase 1.",
+      "target": "--apui-surface-glass",
+      "reason": "Follows the --apui-surface-raised pattern. Light/dark RGB is hard-coded today; must derive from a surface token. Value provisional until Phase 1.",
       "count": 1
     },
     {
@@ -2251,7 +2251,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-blur",
+      "target": "--apui-surface-glass-blur",
       "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
       "count": 1
     },
@@ -2261,7 +2261,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-border",
+      "target": "--apui-surface-glass-border",
       "reason": "Hard-coded white in both modes today. Value provisional until Phase 1.",
       "count": 1
     },
@@ -2271,7 +2271,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-border-opacity",
+      "target": "--apui-surface-glass-border-opacity",
       "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
       "count": 1
     },
@@ -2281,7 +2281,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-border-width",
+      "target": "--apui-surface-glass-border-width",
       "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
       "count": 1
     },
@@ -2291,7 +2291,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-saturation",
+      "target": "--apui-surface-glass-saturation",
       "reason": "Semantics change: frosted-only today, becomes a property of the single glass surface. liquid-glass hard-codes the same 180%. Value provisional until Phase 1.",
       "count": 1
     },
@@ -2301,7 +2301,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-highlight-opacity",
+      "target": "--apui-surface-glass-highlight-opacity",
       "reason": "Semantics change: liquid-only today, becomes the glass inset highlight. Value provisional until Phase 1.",
       "count": 1
     },
@@ -2311,7 +2311,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-highlight",
+      "target": "--apui-surface-glass-highlight",
       "reason": "Semantics change: liquid-only today, becomes the glass inset highlight. Value provisional until Phase 1.",
       "count": 1
     },
@@ -2331,7 +2331,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-opacity",
+      "target": "--apui-surface-glass-opacity",
       "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
       "count": 1
     },
@@ -2341,7 +2341,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-shadow-color",
+      "target": "--apui-surface-glass-shadow-color",
       "reason": "Value provisional until Phase 1.",
       "count": 1
     },
@@ -2351,7 +2351,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-shadow-opacity",
+      "target": "--apui-surface-glass-shadow-opacity",
       "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
       "count": 1
     },
@@ -2361,7 +2361,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-tint",
+      "target": "--apui-surface-glass-tint",
       "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
       "count": 1
     },
@@ -2371,7 +2371,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-tint-opacity",
+      "target": "--apui-surface-glass-tint-opacity",
       "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
       "count": 1
     },
@@ -2381,7 +2381,7 @@
       "group": "color",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-color-*",
+      "target": "--apui-color-*",
       "reason": "Reassigned by the high-contrast preset instead of a parallel namespace. Value provisional until Phase 1.",
       "count": 7,
       "members": [
@@ -2400,7 +2400,7 @@
       "group": "color",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-color-*-foreground",
+      "target": "--apui-color-*-foreground",
       "reason": "Reassigned by the high-contrast preset. Value provisional until Phase 1.",
       "count": 7,
       "members": [
@@ -2419,8 +2419,8 @@
       "group": "color",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-page",
-      "reason": "Reassigned by the high-contrast preset. --ap-surface-page is not in the plan surface list: see open questions. Value provisional until Phase 1.",
+      "target": "--apui-surface-page",
+      "reason": "Reassigned by the high-contrast preset. --apui-surface-page is not in the plan surface list: see open questions. Value provisional until Phase 1.",
       "count": 1
     },
     {
@@ -2429,7 +2429,7 @@
       "group": "color",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-border-default",
+      "target": "--apui-border-default",
       "reason": "Reassigned by the high-contrast preset. Value provisional until Phase 1.",
       "count": 1
     },
@@ -2439,7 +2439,7 @@
       "group": "color",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-border-muted",
+      "target": "--apui-border-muted",
       "reason": "Value provisional until Phase 1.",
       "count": 1
     },
@@ -2449,7 +2449,7 @@
       "group": "color",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-text-default",
+      "target": "--apui-text-default",
       "reason": "Reassigned by the high-contrast preset. Value provisional until Phase 1.",
       "count": 1
     },
@@ -2459,7 +2459,7 @@
       "group": "color",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-text-muted",
+      "target": "--apui-text-muted",
       "reason": "Only existing source for this plan token. Value provisional until Phase 1.",
       "count": 1
     },
@@ -2469,7 +2469,7 @@
       "group": "color",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-default",
+      "target": "--apui-surface-default",
       "reason": "Value provisional until Phase 1.",
       "count": 1
     },
@@ -2479,7 +2479,7 @@
       "group": "color",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-raised",
+      "target": "--apui-surface-raised",
       "reason": "Only existing source for this plan token. Value provisional until Phase 1.",
       "count": 1
     },
@@ -2489,7 +2489,7 @@
       "group": "color",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-sunken",
+      "target": "--apui-surface-sunken",
       "reason": "Value provisional until Phase 1.",
       "count": 1
     },
@@ -2499,7 +2499,7 @@
       "group": "focus",
       "tier": "semantic",
       "decision": "keep",
-      "target": "--ap-focus-ring-*",
+      "target": "--apui-focus-ring-*",
       "reason": "Scoped to .high-contrast-focus today. Becomes global. Value provisional until Phase 1.",
       "count": 3,
       "members": [
@@ -2524,7 +2524,7 @@
       "group": "focus",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-focus-ring-*",
+      "target": "--apui-focus-ring-*",
       "reason": "Semantics change: high-contrast-only today, becomes the system-wide focus ring. Value provisional until Phase 1.",
       "count": 4,
       "members": [
@@ -2556,7 +2556,7 @@
       "group": "size",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-target-size-touch",
+      "target": "--apui-target-size-touch",
       "reason": "Value provisional until Phase 1.",
       "count": 1
     },
@@ -2566,7 +2566,7 @@
       "group": "size",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-target-size-min",
+      "target": "--apui-target-size-min",
       "reason": "Only target-size token anywhere. Value provisional until Phase 1.",
       "count": 1
     },
@@ -2576,7 +2576,7 @@
       "group": "state",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-color-*",
+      "target": "--apui-color-*",
       "reason": "Only existing named hover/active tokens. Success/warning/error/info/neutral have none. Value provisional until Phase 1.",
       "count": 6,
       "members": [
@@ -2594,7 +2594,7 @@
       "group": "state",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-disabled-bg",
+      "target": "--apui-disabled-bg",
       "reason": "Value provisional until Phase 1.",
       "count": 1
     },
@@ -2604,7 +2604,7 @@
       "group": "state",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-disabled-text",
+      "target": "--apui-disabled-text",
       "reason": "Value provisional until Phase 1.",
       "count": 1
     },
@@ -2614,7 +2614,7 @@
       "group": "state",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-disabled-opacity",
+      "target": "--apui-disabled-opacity",
       "reason": "Only disabled-state tokens anywhere. Value provisional until Phase 1.",
       "count": 1
     },
@@ -2624,7 +2624,7 @@
       "group": "type",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-type-letter-spacing",
+      "target": "--apui-type-letter-spacing",
       "reason": "Value provisional until Phase 1.",
       "count": 1
     },
@@ -2634,7 +2634,7 @@
       "group": "type",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-type-letter-spacing-wide",
+      "target": "--apui-type-letter-spacing-wide",
       "reason": "Value provisional until Phase 1.",
       "count": 1
     },
@@ -2644,8 +2644,8 @@
       "group": "type",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-type-line-height",
-      "reason": "Not --ap-line-height-*: same step names, different values from the primitives. Value provisional until Phase 1.",
+      "target": "--apui-type-line-height",
+      "reason": "Not --apui-line-height-*: same step names, different values from the primitives. Value provisional until Phase 1.",
       "count": 1
     },
     {
@@ -2654,8 +2654,8 @@
       "group": "type",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-type-line-height-*",
-      "reason": "Not --ap-line-height-*: same step names, different values from the primitives. Value provisional until Phase 1.",
+      "target": "--apui-type-line-height-*",
+      "reason": "Not --apui-line-height-*: same step names, different values from the primitives. Value provisional until Phase 1.",
       "count": 2,
       "members": [
         "--hc-line-height-loose",
@@ -2669,7 +2669,7 @@
       "tier": "semantic",
       "decision": "drop",
       "target": null,
-      "reason": "A preset may not reassign the primitive scale. Use --ap-font-scale. Exact per-step values are lost; steps are not a strict multiple.",
+      "reason": "A preset may not reassign the primitive scale. Use --apui-font-scale. Exact per-step values are lost; steps are not a strict multiple.",
       "count": 6,
       "members": [
         "--hc-text-2xl",
@@ -2686,8 +2686,8 @@
       "group": "type",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-font-scale",
-      "reason": "Semantics change: declared but read by nothing today; becomes the multiplier the preset reassigns. Not --ap-text-* (colour namespace).",
+      "target": "--apui-font-scale",
+      "reason": "Semantics change: declared but read by nothing today; becomes the multiplier the preset reassigns. Not --apui-text-* (colour namespace).",
       "count": 1
     },
     {
@@ -2696,7 +2696,7 @@
       "group": "chart",
       "tier": "component",
       "decision": "rename",
-      "target": "--ap-chart-axis-label",
+      "target": "--apui-chart-axis-label",
       "reason": "Hex literal in PHP. Becomes a component token aliasing a semantic colour. Value provisional until Phase 1.",
       "count": 2,
       "members": [
@@ -2710,7 +2710,7 @@
       "group": "chart",
       "tier": "component",
       "decision": "rename",
-      "target": "--ap-chart-font-size",
+      "target": "--apui-chart-font-size",
       "reason": "All 12px. One token. Value provisional until Phase 1.",
       "count": 4,
       "members": [
@@ -2726,7 +2726,7 @@
       "group": "chart",
       "tier": "component",
       "decision": "rename",
-      "target": "--ap-chart-bg",
+      "target": "--apui-chart-bg",
       "reason": "Hex literal in PHP. Becomes a component token aliasing a semantic colour. Value provisional until Phase 1.",
       "count": 1
     },
@@ -2753,7 +2753,7 @@
       "group": "chart",
       "tier": "component",
       "decision": "rename",
-      "target": "--ap-chart-text",
+      "target": "--apui-chart-text",
       "reason": "Hex literal in PHP. Becomes a component token aliasing a semantic colour. Value provisional until Phase 1.",
       "count": 1
     },
@@ -2763,7 +2763,7 @@
       "group": "chart",
       "tier": "component",
       "decision": "rename",
-      "target": "--ap-chart-series-*",
+      "target": "--apui-chart-series-*",
       "reason": "Eight-colour series palette. Three lists today (500s; 400s twice). Values are hex literals, unrelated to --color-*. Value provisional until Phase 1.",
       "count": 8,
       "members": [
@@ -2783,7 +2783,7 @@
       "group": "chart",
       "tier": "component",
       "decision": "rename",
-      "target": "--ap-chart-data-label",
+      "target": "--apui-chart-data-label",
       "reason": "Hex literal in PHP. Becomes a component token aliasing a semantic colour. Value provisional until Phase 1.",
       "count": 1
     },
@@ -2809,7 +2809,7 @@
       "group": "chart",
       "tier": "component",
       "decision": "rename",
-      "target": "--ap-chart-grid",
+      "target": "--apui-chart-grid",
       "reason": "Hex literal in PHP. Becomes a component token aliasing a semantic colour. Value provisional until Phase 1.",
       "count": 1
     },
@@ -2819,7 +2819,7 @@
       "group": "chart",
       "tier": "component",
       "decision": "rename",
-      "target": "--ap-chart-grid-dash",
+      "target": "--apui-chart-grid-dash",
       "reason": "ApexCharts number. Value provisional until Phase 1.",
       "count": 1
     },
@@ -2830,7 +2830,7 @@
       "tier": "component",
       "decision": "drop",
       "target": null,
-      "reason": "Literal 500. Use --ap-font-weight-medium directly.",
+      "reason": "Literal 500. Use --apui-font-weight-medium directly.",
       "count": 1
     },
     {
@@ -2839,7 +2839,7 @@
       "group": "chart",
       "tier": "component",
       "decision": "rename",
-      "target": "--ap-chart-legend-text",
+      "target": "--apui-chart-legend-text",
       "reason": "Hex literal in PHP. Becomes a component token aliasing a semantic colour. Value provisional until Phase 1.",
       "count": 1
     },
@@ -2864,7 +2864,7 @@
       "group": "chart",
       "tier": "component",
       "decision": "rename",
-      "target": "--ap-chart-stroke-width",
+      "target": "--apui-chart-stroke-width",
       "reason": "ApexCharts number. Value provisional until Phase 1.",
       "count": 1
     },
@@ -2874,7 +2874,7 @@
       "group": "chart",
       "tier": "component",
       "decision": "rename",
-      "target": "--ap-chart-axis",
+      "target": "--apui-chart-axis",
       "reason": "Hex literal in PHP. Becomes a component token aliasing a semantic colour. Value provisional until Phase 1.",
       "count": 2,
       "members": [
@@ -2888,7 +2888,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-tint",
+      "target": "--apui-surface-glass-tint",
       "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
       "count": 1
     },
@@ -2932,7 +2932,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-tint",
+      "target": "--apui-surface-glass-tint",
       "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
       "count": 1
     },
@@ -2942,7 +2942,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-tint-opacity",
+      "target": "--apui-surface-glass-tint-opacity",
       "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
       "count": 1
     },
@@ -2976,7 +2976,7 @@
       "group": "motion",
       "tier": "primitive",
       "decision": "keep",
-      "target": "--ap-duration-*",
+      "target": "--apui-duration-*",
       "reason": "Value provisional until Phase 1.",
       "count": 9,
       "members": [
@@ -2997,7 +2997,7 @@
       "group": "motion",
       "tier": "primitive",
       "decision": "keep",
-      "target": "--ap-ease-*",
+      "target": "--apui-ease-*",
       "reason": "Value provisional until Phase 1.",
       "count": 4,
       "members": [
@@ -3013,7 +3013,7 @@
       "group": "motion",
       "tier": "primitive",
       "decision": "keep",
-      "target": "--ap-ease-*",
+      "target": "--apui-ease-*",
       "reason": "Expressive curves. Whether they survive depends on the motion direction. Value provisional until Phase 1.",
       "count": 3,
       "members": [
@@ -3044,7 +3044,7 @@
       "group": "motion",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-transition-property-*",
+      "target": "--apui-transition-property-*",
       "reason": "Property list, not a DTCG transition value. Renamed so it cannot be confused with the composite tokens.",
       "count": 2,
       "members": [
@@ -3058,7 +3058,7 @@
       "group": "radius",
       "tier": "primitive",
       "decision": "keep",
-      "target": "--ap-radius-*",
+      "target": "--apui-radius-*",
       "reason": "Note --radius-sm is 0.125rem where Tailwind v4 uses 0.25rem. Tailwind preset must map explicitly. Value provisional until Phase 1.",
       "count": 9,
       "members": [
@@ -3079,7 +3079,7 @@
       "group": "radius",
       "tier": "component",
       "decision": "rename",
-      "target": "--ap-badge-radius",
+      "target": "--apui-badge-radius",
       "reason": "daisyUI 4 name, not read by daisyUI 5. Value provisional until Phase 1.",
       "count": 1
     },
@@ -3089,7 +3089,7 @@
       "group": "radius",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-radius-surface",
+      "target": "--apui-radius-surface",
       "reason": "daisyUI 4 name, not read by daisyUI 5. Concept survives as the surface radius. Value provisional until Phase 1.",
       "count": 1
     },
@@ -3099,7 +3099,7 @@
       "group": "radius",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-radius-control",
+      "target": "--apui-radius-control",
       "reason": "daisyUI 4 name, not read by daisyUI 5. Plan's rounded-control utility implies this semantic token. Value provisional until Phase 1.",
       "count": 1
     },
@@ -3109,7 +3109,7 @@
       "group": "radius",
       "tier": "component",
       "decision": "rename",
-      "target": "--ap-tabs-radius",
+      "target": "--apui-tabs-radius",
       "reason": "daisyUI variable name. Component-tier concept. Value provisional until Phase 1.",
       "count": 1
     },
@@ -3119,7 +3119,7 @@
       "group": "color",
       "tier": "semantic",
       "decision": "keep",
-      "target": "--ap-color-*",
+      "target": "--apui-color-*",
       "reason": "Matches the plan color vocabulary. Value provisional until Phase 1.",
       "count": 9,
       "members": [
@@ -3140,7 +3140,7 @@
       "group": "color",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-color-*-foreground",
+      "target": "--apui-color-*-foreground",
       "reason": "\"-content\" is daisyUI vocabulary; \"-foreground\" is the existing hc-* name. Same meaning. Value provisional until Phase 1.",
       "count": 9,
       "members": [
@@ -3161,7 +3161,7 @@
       "group": "color",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-default",
+      "target": "--apui-surface-default",
       "reason": "daisyUI base step to named surface. Main component background (29 bg-base-100 uses). Value provisional until Phase 1.",
       "count": 2,
       "members": [
@@ -3175,7 +3175,7 @@
       "group": "color",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-sunken",
+      "target": "--apui-surface-sunken",
       "reason": "daisyUI base step to named surface; it sits below base-100. Semantics narrow from \"step 2\" to \"sunken\". Value provisional until Phase 1.",
       "count": 2,
       "members": [
@@ -3189,7 +3189,7 @@
       "group": "color",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-border-default",
+      "target": "--apui-border-default",
       "reason": "Semantics split: 21 border-base-300 uses map here; 22 bg-base-300 uses must resolve to a surface token per component spec. Value provisional until Phase 1.",
       "count": 2,
       "members": [
@@ -3203,7 +3203,7 @@
       "group": "color",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-text-default",
+      "target": "--apui-text-default",
       "reason": "daisyUI name to plan text namespace. Value provisional until Phase 1.",
       "count": 2,
       "members": [
@@ -3217,7 +3217,7 @@
       "group": "border",
       "tier": "component",
       "decision": "rename",
-      "target": "--ap-button-border-width",
+      "target": "--apui-button-border-width",
       "reason": "daisyUI 4 name, not read by daisyUI 5. Value provisional until Phase 1.",
       "count": 1
     },
@@ -3227,7 +3227,7 @@
       "group": "border",
       "tier": "component",
       "decision": "rename",
-      "target": "--ap-tabs-border-width",
+      "target": "--apui-tabs-border-width",
       "reason": "daisyUI variable name. Component-tier concept. Value provisional until Phase 1.",
       "count": 1
     },
@@ -3237,7 +3237,7 @@
       "group": "color",
       "tier": "semantic",
       "decision": "keep",
-      "target": "--ap-color-*",
+      "target": "--apui-color-*",
       "reason": "Matches the plan color vocabulary. Value provisional until Phase 1.",
       "count": 8,
       "members": [
@@ -3257,7 +3257,7 @@
       "group": "color",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-color-*-foreground",
+      "target": "--apui-color-*-foreground",
       "reason": "\"-content\" is daisyUI vocabulary; \"-foreground\" is the existing hc-* name. Same meaning. Value provisional until Phase 1.",
       "count": 8,
       "members": [
@@ -3277,7 +3277,7 @@
       "group": "color",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-default",
+      "target": "--apui-surface-default",
       "reason": "daisyUI base step to named surface. Main component background (29 bg-base-100 uses). Value provisional until Phase 1.",
       "count": 1
     },
@@ -3287,7 +3287,7 @@
       "group": "color",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-sunken",
+      "target": "--apui-surface-sunken",
       "reason": "daisyUI base step to named surface; it sits below base-100. Semantics narrow from \"step 2\" to \"sunken\". Value provisional until Phase 1.",
       "count": 1
     },
@@ -3297,7 +3297,7 @@
       "group": "color",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-border-default",
+      "target": "--apui-border-default",
       "reason": "Semantics split: 21 border-base-300 uses map here; 22 bg-base-300 uses must resolve to a surface token per component spec. Value provisional until Phase 1.",
       "count": 1
     },
@@ -3307,7 +3307,7 @@
       "group": "color",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-text-default",
+      "target": "--apui-text-default",
       "reason": "daisyUI name to plan text namespace. Value provisional until Phase 1.",
       "count": 1
     },
@@ -3318,7 +3318,7 @@
       "tier": "semantic",
       "decision": "drop",
       "target": null,
-      "reason": "Plan has one surface=\"glass\"; the variant is flattened. Its values can live on as a preset reassigning --ap-surface-glass-*, if Phase 1 keeps it.",
+      "reason": "Plan has one surface=\"glass\"; the variant is flattened. Its values can live on as a preset reassigning --apui-surface-glass-*, if Phase 1 keeps it.",
       "count": 9,
       "members": [
         "--glass-frosted-bg-color",
@@ -3338,8 +3338,8 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass",
-      "reason": "Follows the --ap-surface-raised pattern. Light/dark RGB is hard-coded today; must derive from a surface token. Value provisional until Phase 1.",
+      "target": "--apui-surface-glass",
+      "reason": "Follows the --apui-surface-raised pattern. Light/dark RGB is hard-coded today; must derive from a surface token. Value provisional until Phase 1.",
       "count": 1
     },
     {
@@ -3348,7 +3348,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-blur",
+      "target": "--apui-surface-glass-blur",
       "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
       "count": 1
     },
@@ -3358,7 +3358,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-border",
+      "target": "--apui-surface-glass-border",
       "reason": "Hard-coded white in both modes today. Value provisional until Phase 1.",
       "count": 1
     },
@@ -3368,7 +3368,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-border-opacity",
+      "target": "--apui-surface-glass-border-opacity",
       "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
       "count": 1
     },
@@ -3378,7 +3378,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-border-width",
+      "target": "--apui-surface-glass-border-width",
       "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
       "count": 1
     },
@@ -3388,7 +3388,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-saturation",
+      "target": "--apui-surface-glass-saturation",
       "reason": "Semantics change: frosted-only today, becomes a property of the single glass surface. liquid-glass hard-codes the same 180%. Value provisional until Phase 1.",
       "count": 1
     },
@@ -3398,7 +3398,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-highlight-opacity",
+      "target": "--apui-surface-glass-highlight-opacity",
       "reason": "Semantics change: liquid-only today, becomes the glass inset highlight. Value provisional until Phase 1.",
       "count": 1
     },
@@ -3408,7 +3408,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-highlight",
+      "target": "--apui-surface-glass-highlight",
       "reason": "Semantics change: liquid-only today, becomes the glass inset highlight. Value provisional until Phase 1.",
       "count": 1
     },
@@ -3428,7 +3428,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-opacity",
+      "target": "--apui-surface-glass-opacity",
       "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
       "count": 1
     },
@@ -3438,7 +3438,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-shadow-color",
+      "target": "--apui-surface-glass-shadow-color",
       "reason": "Value provisional until Phase 1.",
       "count": 1
     },
@@ -3448,7 +3448,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-shadow-opacity",
+      "target": "--apui-surface-glass-shadow-opacity",
       "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
       "count": 1
     },
@@ -3458,7 +3458,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-tint",
+      "target": "--apui-surface-glass-tint",
       "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
       "count": 1
     },
@@ -3468,7 +3468,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-tint-opacity",
+      "target": "--apui-surface-glass-tint-opacity",
       "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
       "count": 1
     },
@@ -3495,7 +3495,7 @@
       "tier": "semantic",
       "decision": "drop",
       "target": null,
-      "reason": "Utility class. Tint is set by reassigning --ap-surface-glass-tint from --ap-color-*. No neutral tint exists today.",
+      "reason": "Utility class. Tint is set by reassigning --apui-surface-glass-tint from --apui-color-*. No neutral tint exists today.",
       "count": 7,
       "members": [
         ".glass-tint-accent",
@@ -3514,7 +3514,7 @@
       "tier": "semantic",
       "decision": "drop",
       "target": null,
-      "reason": "Utility class. Assign --ap-surface-glass-tint-opacity directly.",
+      "reason": "Utility class. Assign --apui-surface-glass-tint-opacity directly.",
       "count": 10,
       "members": [
         ".glass-tint-opacity-10",
@@ -3559,7 +3559,7 @@
       "group": "motion",
       "tier": "primitive",
       "decision": "keep",
-      "target": "--ap-duration-*",
+      "target": "--apui-duration-*",
       "reason": "Value provisional until Phase 1.",
       "count": 9,
       "members": [
@@ -3580,7 +3580,7 @@
       "group": "motion",
       "tier": "primitive",
       "decision": "keep",
-      "target": "--ap-ease-*",
+      "target": "--apui-ease-*",
       "reason": "Value provisional until Phase 1.",
       "count": 4,
       "members": [
@@ -3596,7 +3596,7 @@
       "group": "motion",
       "tier": "primitive",
       "decision": "keep",
-      "target": "--ap-ease-*",
+      "target": "--apui-ease-*",
       "reason": "Expressive curves. Whether they survive depends on the motion direction. Value provisional until Phase 1.",
       "count": 3,
       "members": [
@@ -3611,7 +3611,7 @@
       "group": "radius",
       "tier": "primitive",
       "decision": "keep",
-      "target": "--ap-radius-*",
+      "target": "--apui-radius-*",
       "reason": "Note --radius-sm is 0.125rem where Tailwind v4 uses 0.25rem. Tailwind preset must map explicitly. Value provisional until Phase 1.",
       "count": 9,
       "members": [
@@ -3632,7 +3632,7 @@
       "group": "radius",
       "tier": "component",
       "decision": "rename",
-      "target": "--ap-badge-radius",
+      "target": "--apui-badge-radius",
       "reason": "daisyUI 4 name, not read by daisyUI 5. Value provisional until Phase 1.",
       "count": 1
     },
@@ -3642,7 +3642,7 @@
       "group": "radius",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-radius-surface",
+      "target": "--apui-radius-surface",
       "reason": "daisyUI 4 name, not read by daisyUI 5. Concept survives as the surface radius. Value provisional until Phase 1.",
       "count": 1
     },
@@ -3652,7 +3652,7 @@
       "group": "radius",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-radius-control",
+      "target": "--apui-radius-control",
       "reason": "daisyUI 4 name, not read by daisyUI 5. Plan's rounded-control utility implies this semantic token. Value provisional until Phase 1.",
       "count": 1
     },
@@ -3662,7 +3662,7 @@
       "group": "radius",
       "tier": "component",
       "decision": "rename",
-      "target": "--ap-tabs-radius",
+      "target": "--apui-tabs-radius",
       "reason": "daisyUI variable name. Component-tier concept. Value provisional until Phase 1.",
       "count": 1
     },
@@ -3672,8 +3672,8 @@
       "group": "shadow",
       "tier": "primitive",
       "decision": "keep",
-      "target": "--ap-shadow-*",
-      "reason": "Today dark mode reassigns these in place, which breaks the plan rule that presets touch only semantic tokens. Dark values move to --ap-elevation-*. Value provisional until Phase 1.",
+      "target": "--apui-shadow-*",
+      "reason": "Today dark mode reassigns these in place, which breaks the plan rule that presets touch only semantic tokens. Dark values move to --apui-elevation-*. Value provisional until Phase 1.",
       "count": 8,
       "members": [
         "--shadow-2xl",
@@ -3693,7 +3693,7 @@
       "tier": "semantic",
       "decision": "drop",
       "target": null,
-      "reason": "No consumer in Blade views. rgb literal does not follow the theme colour. If Phase 1 wants it, derive from --ap-color-*.",
+      "reason": "No consumer in Blade views. rgb literal does not follow the theme colour. If Phase 1 wants it, derive from --apui-color-*.",
       "count": 5,
       "members": [
         "--shadow-error",
@@ -3710,7 +3710,7 @@
       "tier": "semantic",
       "decision": "drop",
       "target": null,
-      "reason": "Only consumer is the dropped .shadow-glow* classes. Hard-coded blue-500. If Phase 1 wants it, derive from --ap-color-primary.",
+      "reason": "Only consumer is the dropped .shadow-glow* classes. Hard-coded blue-500. If Phase 1 wants it, derive from --apui-color-primary.",
       "count": 3,
       "members": [
         "--shadow-glow-lg",
@@ -3724,8 +3724,8 @@
       "group": "space",
       "tier": "primitive",
       "decision": "rename",
-      "target": "--ap-space-*",
-      "reason": "Plan names this --ap-space-*. Half steps stay hyphenated (0-5) because DTCG forbids \".\" in token names. Identical to Tailwind steps. Value provisional until Phase 1.",
+      "target": "--apui-space-*",
+      "reason": "Plan names this --apui-space-*. Half steps stay hyphenated (0-5) because DTCG forbids \".\" in token names. Identical to Tailwind steps. Value provisional until Phase 1.",
       "count": 35,
       "members": [
         "--spacing-0",
@@ -3771,7 +3771,7 @@
       "group": "type",
       "tier": "primitive",
       "decision": "keep",
-      "target": "--ap-font-family-*",
+      "target": "--apui-font-family-*",
       "reason": "System stacks. Value provisional until Phase 1.",
       "count": 3,
       "members": [
@@ -3786,7 +3786,7 @@
       "group": "type",
       "tier": "primitive",
       "decision": "keep",
-      "target": "--ap-font-size-*",
+      "target": "--apui-font-size-*",
       "reason": "Value provisional until Phase 1.",
       "count": 10,
       "members": [
@@ -3808,7 +3808,7 @@
       "group": "type",
       "tier": "primitive",
       "decision": "keep",
-      "target": "--ap-font-weight-*",
+      "target": "--apui-font-weight-*",
       "reason": "Value provisional until Phase 1.",
       "count": 9,
       "members": [
@@ -3829,7 +3829,7 @@
       "group": "type",
       "tier": "primitive",
       "decision": "keep",
-      "target": "--ap-letter-spacing-*",
+      "target": "--apui-letter-spacing-*",
       "reason": "Value provisional until Phase 1.",
       "count": 6,
       "members": [
@@ -3847,7 +3847,7 @@
       "group": "type",
       "tier": "primitive",
       "decision": "keep",
-      "target": "--ap-line-height-*",
+      "target": "--apui-line-height-*",
       "reason": "Value provisional until Phase 1.",
       "count": 6,
       "members": [
@@ -3866,7 +3866,7 @@
       "tier": "semantic",
       "decision": "drop",
       "target": null,
-      "reason": "Plan has one surface=\"glass\"; the variant is flattened. Its values can live on as a preset reassigning --ap-surface-glass-*, if Phase 1 keeps it.",
+      "reason": "Plan has one surface=\"glass\"; the variant is flattened. Its values can live on as a preset reassigning --apui-surface-glass-*, if Phase 1 keeps it.",
       "count": 11,
       "members": [
         "glassFrostedTokens.blur",
@@ -3888,7 +3888,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-saturation",
+      "target": "--apui-surface-glass-saturation",
       "reason": "Semantics change: frosted-only today, becomes a property of the single glass surface. liquid-glass hard-codes the same 180%. Value provisional until Phase 1.",
       "count": 2,
       "members": [
@@ -3902,7 +3902,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-highlight-opacity",
+      "target": "--apui-surface-glass-highlight-opacity",
       "reason": "Semantics change: liquid-only today, becomes the glass inset highlight. Value provisional until Phase 1.",
       "count": 2,
       "members": [
@@ -3926,7 +3926,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-opacity",
+      "target": "--apui-surface-glass-opacity",
       "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
       "count": 2,
       "members": [
@@ -3940,7 +3940,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-border-opacity",
+      "target": "--apui-surface-glass-border-opacity",
       "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
       "count": 2,
       "members": [
@@ -3954,7 +3954,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-shadow-opacity",
+      "target": "--apui-surface-glass-shadow-opacity",
       "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
       "count": 2,
       "members": [
@@ -3968,7 +3968,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-tint-opacity",
+      "target": "--apui-surface-glass-tint-opacity",
       "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
       "count": 2,
       "members": [
@@ -3982,7 +3982,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-blur",
+      "target": "--apui-surface-glass-blur",
       "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
       "count": 1
     },
@@ -3992,7 +3992,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-border-width",
+      "target": "--apui-surface-glass-border-width",
       "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
       "count": 1
     },
@@ -4002,7 +4002,7 @@
       "group": "glass",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-surface-glass-tint",
+      "target": "--apui-surface-glass-tint",
       "reason": "Base recipe becomes the glass surface. Value provisional until Phase 1.",
       "count": 1
     },
@@ -4013,7 +4013,7 @@
       "tier": "semantic",
       "decision": "drop",
       "target": null,
-      "reason": "No consumer in Blade views. rgb literal does not follow the theme colour. If Phase 1 wants it, derive from --ap-color-*.",
+      "reason": "No consumer in Blade views. rgb literal does not follow the theme colour. If Phase 1 wants it, derive from --apui-color-*.",
       "count": 5,
       "members": [
         "coloredShadows.error",
@@ -4030,7 +4030,7 @@
       "tier": "semantic",
       "decision": "drop",
       "target": null,
-      "reason": "Only consumer is the dropped .shadow-glow* classes. Hard-coded blue-500. If Phase 1 wants it, derive from --ap-color-primary.",
+      "reason": "Only consumer is the dropped .shadow-glow* classes. Hard-coded blue-500. If Phase 1 wants it, derive from --apui-color-primary.",
       "count": 3,
       "members": [
         "glowShadows.lg",
@@ -4044,8 +4044,8 @@
       "group": "shadow",
       "tier": "primitive",
       "decision": "keep",
-      "target": "--ap-shadow-*",
-      "reason": "Today dark mode reassigns these in place, which breaks the plan rule that presets touch only semantic tokens. Dark values move to --ap-elevation-*. Value provisional until Phase 1.",
+      "target": "--apui-shadow-*",
+      "reason": "Today dark mode reassigns these in place, which breaks the plan rule that presets touch only semantic tokens. Dark values move to --apui-elevation-*. Value provisional until Phase 1.",
       "count": 8,
       "members": [
         "shadows.2xl",
@@ -4064,7 +4064,7 @@
       "group": "shadow",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-elevation-*",
+      "target": "--apui-elevation-*",
       "reason": "Semantics change: mode-specific primitive scale becomes the semantic layer that light and dark presets assign. Level names follow Phase 1. Value provisional until Phase 1.",
       "count": 8,
       "members": [
@@ -4084,8 +4084,8 @@
       "group": "space",
       "tier": "primitive",
       "decision": "rename",
-      "target": "--ap-space-*",
-      "reason": "Plan names this --ap-space-*. Half steps stay hyphenated (0-5) because DTCG forbids \".\" in token names. Identical to Tailwind steps. Value provisional until Phase 1.",
+      "target": "--apui-space-*",
+      "reason": "Plan names this --apui-space-*. Half steps stay hyphenated (0-5) because DTCG forbids \".\" in token names. Identical to Tailwind steps. Value provisional until Phase 1.",
       "count": 35,
       "members": [
         "spacing.0",
@@ -4131,8 +4131,8 @@
       "group": "space",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-gap-*",
-      "reason": "Named sizes are the natural density-scaled layer: semantic, multiplied by --ap-density. No CSS form today, 0 consumers. Value provisional until Phase 1.",
+      "target": "--apui-gap-*",
+      "reason": "Named sizes are the natural density-scaled layer: semantic, multiplied by --apui-density. No CSS form today, 0 consumers. Value provisional until Phase 1.",
       "count": 7,
       "members": [
         "spacingAliases.2xl",
@@ -4150,7 +4150,7 @@
       "group": "type",
       "tier": "primitive",
       "decision": "keep",
-      "target": "--ap-font-family-*",
+      "target": "--apui-font-family-*",
       "reason": "System stacks. Value provisional until Phase 1.",
       "count": 3,
       "members": [
@@ -4165,7 +4165,7 @@
       "group": "type",
       "tier": "primitive",
       "decision": "keep",
-      "target": "--ap-font-size-*",
+      "target": "--apui-font-size-*",
       "reason": "Value provisional until Phase 1.",
       "count": 10,
       "members": [
@@ -4187,7 +4187,7 @@
       "group": "type",
       "tier": "primitive",
       "decision": "keep",
-      "target": "--ap-font-weight-*",
+      "target": "--apui-font-weight-*",
       "reason": "Value provisional until Phase 1.",
       "count": 9,
       "members": [
@@ -4208,7 +4208,7 @@
       "group": "type",
       "tier": "primitive",
       "decision": "keep",
-      "target": "--ap-letter-spacing-*",
+      "target": "--apui-letter-spacing-*",
       "reason": "Value provisional until Phase 1.",
       "count": 6,
       "members": [
@@ -4226,7 +4226,7 @@
       "group": "type",
       "tier": "primitive",
       "decision": "keep",
-      "target": "--ap-line-height-*",
+      "target": "--apui-line-height-*",
       "reason": "Value provisional until Phase 1.",
       "count": 6,
       "members": [
@@ -4244,8 +4244,8 @@
       "group": "type",
       "tier": "semantic",
       "decision": "rename",
-      "target": "--ap-type-*",
-      "reason": "React-only composite; becomes a DTCG typography token. Not --ap-text-* because the plan uses that namespace for text colour. Sizes are off the font-size scale. Value provisional until Phase 1.",
+      "target": "--apui-type-*",
+      "reason": "React-only composite; becomes a DTCG typography token. Not --apui-text-* because the plan uses that namespace for text colour. Sizes are off the font-size scale. Value provisional until Phase 1.",
       "count": 7,
       "members": [
         "typographyPresets.body",
@@ -4263,7 +4263,7 @@
       "symbol": "ColorGenerator::getBaseColor",
       "decision": "rewrite",
       "target": "token-based theme generator (replaces artisanpack:generate-theme)",
-      "reason": "Input resolution is still needed, against --ap-* primitives. Today it rejects violet because $tailwindColorBases omits it."
+      "reason": "Input resolution is still needed, against --apui-* primitives. Today it rejects violet because $tailwindColorBases omits it."
     },
     {
       "symbol": "ColorGenerator::generateTailwindShades",
@@ -4304,25 +4304,25 @@
     {
       "symbol": "ColorGenerator::isVariant, isTailwindColorWithIntensity, isTailwindColorName, isHexColor, getVariantClasses, addVariantHoverFocusStates, getTailwindClasses, getHexClasses, applyVariantAdjustment, applyTailwindAdjustment, applyHexAdjustment, getContrastingTextClass, getContrastingTextForHex, adjustHexBrightness",
       "decision": "drop",
-      "target": "CSS layer; --ap-color-*-hover/-active",
+      "target": "CSS layer; --apui-color-*-hover/-active",
       "reason": "Support for the same arbitrary-colour pipeline. addVariantHoverFocusStates hard-codes primary to blue-600, so hover ignores the theme."
     },
     {
       "symbol": "ColorGenerator::tailwindColorToHex",
       "decision": "drop",
-      "target": "primitive tier of DTCG JSON (--ap-{hue}-{stop})",
+      "target": "primitive tier of DTCG JSON (--apui-{hue}-{stop})",
       "reason": "The 242-entry palette moves into tokens. Only copy of the ramp as data; the method goes."
     },
     {
       "symbol": "ColorGenerator::resolveDatePickerColors, getVariantBaseColor, applyDatePickerAdjustment",
       "decision": "drop",
-      "target": "--ap-datepicker-* component tokens",
+      "target": "--apui-datepicker-* component tokens",
       "reason": "getVariantBaseColor is a fourth, disagreeing map of semantic colours (accent cyan, secondary gray, success emerald, warning amber)."
     },
     {
       "symbol": "GlassPresets::PRESETS, $frostedLightPreset, $frostedDarkPreset, $liquidLightPreset, $liquidDarkPreset, $minimalPreset, $minimalDarkOverrides, $boldPreset, $boldDarkOverrides",
       "decision": "rewrite",
-      "target": "theme presets reassigning --ap-surface-glass-*",
+      "target": "theme presets reassigning --apui-surface-glass-*",
       "reason": "Plan: rewrite on top of tokens. PHP and glass-tokens.css values match today, but they are two hand-kept copies. Six named presets becoming how many is a Phase 1 call."
     },
     {
@@ -4341,7 +4341,7 @@
       "symbol": "HighContrastTheme::$highContrastLight, $highContrastDark, $enhancedContrastLight, $enhancedContrastDark",
       "decision": "rewrite",
       "target": "high-contrast theme preset (semantic reassignments)",
-      "reason": "Sets a parallel --hc-* namespace that no component reads. Only its own helper rules read it: opt-in focus ring, skip link, .text-larger. Keys map onto --ap-* semantics."
+      "reason": "Sets a parallel --hc-* namespace that no component reads. Only its own helper rules read it: opt-in focus ring, skip link, .text-larger. Keys map onto --apui-* semantics."
     },
     {
       "symbol": "HighContrastTheme::PRESET_*, getAvailablePresets, isValidPreset, getPresetTokens, getPresetDescription, getComplianceLevel, getPresetMode, getPresetsMetadata",
@@ -4364,19 +4364,19 @@
     {
       "symbol": "HighContrastTheme::$reducedMotion, getReducedMotionTokens, generateReducedMotionCss",
       "decision": "rewrite",
-      "target": "@artisanpack-ui/css ap.reset layer",
+      "target": "@artisanpack-ui/css apui.reset layer",
       "reason": "Token set is unread. The rule uses !important, which conflicts with \"App CSS always wins without !important\"."
     },
     {
       "symbol": "HighContrastTheme::generateFocusIndicatorsCss",
       "decision": "rewrite",
-      "target": "@artisanpack-ui/css ap.reset layer + --ap-focus-ring-*",
+      "target": "@artisanpack-ui/css apui.reset layer + --apui-focus-ring-*",
       "reason": "Only focus-ring code in the ecosystem, and scoped to high-contrast. .skip-link inside it is a component, not a token."
     },
     {
       "symbol": "HighContrastTheme::$largerText, $extraLargeText, getLargerTextTokens, generateLargerTextCss",
       "decision": "rewrite",
-      "target": "--ap-font-scale presets",
+      "target": "--apui-font-scale presets",
       "reason": "Reassigning size primitives breaks the preset rule. Keep the feature as a scale multiplier if Foundations wants it."
     },
     {
@@ -4388,13 +4388,13 @@
     {
       "symbol": "GlassHelper::getAccessibleTextColor, getAccessibleTextStyle",
       "decision": "rewrite",
-      "target": "--ap-surface-glass-foreground (name provisional) in presets",
+      "target": "--apui-surface-glass-foreground (name provisional) in presets",
       "reason": "Text on tinted glass needs an answer. Contrast on a translucent surface cannot be computed statically; open question."
     },
     {
       "symbol": "ChartThemes::getLightTheme, getDarkTheme, getGlassTheme, getGlassLightOverrides, getGlassDarkOverrides, $defaultColors",
       "decision": "rewrite",
-      "target": "ChartThemes reading --ap-chart-* (generated PHP array or runtime CSS)",
+      "target": "ChartThemes reading --apui-chart-* (generated PHP array or runtime CSS)",
       "reason": "Hex literals independent of the theme: a re-themed app keeps blue series. ApexCharts options need resolved values, not var()."
     },
     {
@@ -4454,7 +4454,7 @@
     {
       "symbol": "daisyRadius, daisyAnimation",
       "decision": "drop",
-      "target": "--ap-radius-*, semantic transitions",
+      "target": "--apui-radius-*, semantic transitions",
       "reason": "DaisyUI-coupled export; 0 consumers."
     },
     {
@@ -4472,7 +4472,7 @@
     {
       "symbol": "resolveColor",
       "decision": "rewrite",
-      "target": "@artisanpack-ui/tokens runtime helper reading --ap-color-*",
+      "target": "@artisanpack-ui/tokens runtime helper reading --apui-color-*",
       "reason": "3 consumer files. Needed for canvas/chart cases that cannot use var()."
     },
     {
@@ -4521,7 +4521,7 @@
       "symbol": "LiquidGlass::tints, targetBlocks; config liquid-glass.defaults",
       "decision": "keep",
       "target": "artisanpack-ui/liquid-glass",
-      "reason": "Block-editor effect, not a component API. Only change: CSS defaults read --ap-surface-glass-*. Whether this package should depend on tokens is an open question."
+      "reason": "Block-editor effect, not a component API. Only change: CSS defaults read --apui-surface-glass-*. Whether this package should depend on tokens is an open question."
     }
   ]
 }

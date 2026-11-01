@@ -79,13 +79,13 @@ function parityMatrix() {
 	}
 
 	lines.push(
-		'## Livewire-only candidates',
+		'## Launch exceptions',
 		'',
-		'Input to the parity-target decision (#8).',
+		'Every component ships in all three stacks at launch except these ([D-003](../decisions.md#d-003-full-parity-at-launch-with-four-exceptions)).',
 		'',
-		table( [ 'Component', 'Why' ], map.filter( ( entry ) => entry.livewireOnlyCandidate ).map( ( entry ) => [ `**${ entry.canonical }**`, entry.livewireOnlyCandidate ] ) ),
+		table( [ 'Component', 'At launch' ], map.filter( ( entry ) => entry.launchException ).map( ( entry ) => [ `**${ entry.canonical }**`, entry.launchException ] ) ),
 		'',
-		`The other Livewire-only components have no platform reason to stay that way, so they need React and Vue ports unless #8 says otherwise: ${ livewireOnly.filter( ( entry ) => ! entry.livewireOnlyCandidate ).map( ( entry ) => entry.canonical ).join( ', ' ) }.`,
+		`The other Livewire-only components need React and Vue ports, unless a consolidation below absorbs them: ${ livewireOnly.filter( ( entry ) => ! entry.launchException ).map( ( entry ) => entry.canonical ).join( ', ' ) }.`,
 		'',
 		'## Consolidation candidates',
 		'',

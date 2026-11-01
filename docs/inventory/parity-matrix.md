@@ -51,7 +51,7 @@ React and Vue match each other almost everywhere; the only exports that differ a
 | **Fieldset** | #53 | `fieldset` | — | — |  |
 | **Form** | #53 | `form` | — | — |  |
 | **ValidationSummary** | #53 | `errors` | — | — | errors → validation-summary, so it is not confused with ErrorState. Reads Laravel's error bag. Not the same thing as React/Vue ErrorDisplay. |
-| **Signature** | #53 | `signature` | — | — |  |
+| **Signature** | #53 | `signature` | — | — | React and Vue ports start from the signature pads already in forms. |
 | **RichTextEditor** | #53 | `editor` | `RichTextEditor` | `RichTextEditor` | editor → rich-text-editor (Blade tag only). Same purpose, different engines: Livewire embeds TinyMCE with uploads; React and Vue use a bare contentEditable. These are not at feature parity even though all stacks 'have' it. |
 | **CodeEditor** | **none** | — | `Editor` | `Editor` | Editor → CodeEditor. The same word means TinyMCE in Livewire and a monospace textarea here. Not in any wave issue. Could also become a Textarea `monospace` option and be dropped as a component. |
 
@@ -132,19 +132,18 @@ React and Vue match each other almost everywhere; the only exports that differ a
 | **Carousel** | #65 | `carousel` | `Carousel` | `Carousel` |  |
 | **Clipboard** | **none** | — | `Clipboard` | `Clipboard` | Not in any wave issue. Add to Utility. |
 
-## Livewire-only candidates
+## Launch exceptions
 
-Input to the parity-target decision (#8).
+Every component ships in all three stacks at launch except these ([D-003](../decisions.md#d-003-full-parity-at-launch-with-four-exceptions)).
 
-| Component | Why |
+| Component | At launch |
 |---|---|
-| **Signature** | Named in #8. Canvas-based, so porting is small; the question is demand. |
-| **RichTextEditor** | Named in #8. Only the TinyMCE engine is Livewire-only; React and Vue already ship a lighter editor, so this is an engine decision rather than a parity gap. |
-| **StreamableContent** | Built on wire:stream. React and Vue would need a different transport. |
-| **ImageLibrary** | Named in #8. Tied to Livewire file uploads and the WithMediaSync trait. |
-| **ThemePreview** | A theming dev tool rather than a UI component; may move to the docs-site theme builder (open question 5). |
+| **RichTextEditor** | All three stacks, different engines. TinyMCE stays Livewire-only; React and Vue keep their lighter editor. |
+| **StreamableContent** | Livewire only. Built on wire:stream; React and Vue would need a different transport. |
+| **ImageLibrary** | Livewire only. Tied to Livewire file uploads and the WithMediaSync trait; React and Vue have media-library's MediaModal and MediaGrid. |
+| **ThemePreview** | Livewire only. A theming dev tool rather than a UI component; may move to the docs-site theme builder (#30). |
 
-The other Livewire-only components have no platform reason to stay that way, so they need React and Vue ports unless #8 says otherwise: Combobox, Tags, SelectGroup, DateTime, CheckboxGroup, Rating, Fieldset, Form, ValidationSummary, Link, PageHeader, Heading, Text, ListItem, UserMenu, ProgressRadial, KpiCard, ImageGallery, ImageSlider, Kbd, Swap.
+The other Livewire-only components need React and Vue ports, unless a consolidation below absorbs them: Combobox, Tags, SelectGroup, DateTime, CheckboxGroup, Rating, Fieldset, Form, ValidationSummary, Signature, Link, PageHeader, Heading, Text, ListItem, UserMenu, ProgressRadial, KpiCard, ImageGallery, ImageSlider, Kbd, Swap.
 
 ## Consolidation candidates
 

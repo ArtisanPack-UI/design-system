@@ -11,7 +11,7 @@ What exists across Livewire, React and Vue before anything is redesigned (#1).
 | [codemod-scope.md](codemod-scope.md) | #5 | How much downstream code the migration touches |
 | [token-audit.md](token-audit.md) | #6 | Where existing tokens land in the new tiers |
 
-The decisions in #7, #8 and #9 are still open. The parity matrix is the input to #8.
+The decisions in #7, #8 and #9 are in the [decision log](../decisions.md).
 
 ## Key findings
 

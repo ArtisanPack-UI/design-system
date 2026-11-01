@@ -37,7 +37,7 @@ test( 'finds classes assembled in PHP strings but skips ambiguous names', () => 
 } );
 
 test( 'detects DaisyUI theme variables', () => {
-	assert.deepEqual( themeVariables( 'color: var(--color-base-200); background: oklch(var(--p)); --ap-x: 1' ), [ '--color-base-200', 'var(--p)' ] );
+	assert.deepEqual( themeVariables( 'color: var(--color-base-200); background: oklch(var(--p)); --apui-x: 1' ), [ '--color-base-200', 'var(--p)' ] );
 } );
 
 test( 'parses constructor parameters including array and nested defaults', () => {
@@ -179,6 +179,13 @@ test( 'token map rows carry a valid tier, decision and target', () => {
 		assert.equal( 'drop' === token.decision, null === token.target, token.name );
 		assert.ok( 'drop' !== token.decision || token.reason, token.name );
 	}
+} );
+
+test( 'launch exceptions match decision D-003', () => {
+	const { components } = readJson( 'component-map.json' );
+	const exceptions = components.filter( ( component ) => component.launchException ).map( ( component ) => component.canonical ).sort();
+
+	assert.deepEqual( exceptions, [ 'ImageLibrary', 'RichTextEditor', 'StreamableContent', 'ThemePreview' ] );
 } );
 
 test( 'component map uses known waves and unique canonical names', () => {
