@@ -16,7 +16,7 @@ Sources audited at `livewire-ui-components` 84e8172, `react` 5b764e8, and `liqui
 
 - **Token:** one distinct name in one source file. Light, dark, and preset values of the same name count once. A TS export with its own identifier, such as `shadowsDark.sm`, counts separately.
 - **Class:** a utility class defined in a token stylesheet, such as `.glass-tint-blue-500`. Classes are counted apart from tokens, but they appear in `tokens[]`.
-- **keep:** only the `--ap-` prefix is added.
+- **keep:** only the `--apui-` prefix is added.
 - **rename:** any other name change. Where the meaning changes too, the row's `reason` says so.
 - **drop:** `target` is `null`, and the concept goes or is replaced by something else.
 
@@ -44,7 +44,7 @@ Most of those are copies of the same token, so the deduplicated figures are the 
 | Component | 0 | 32 | 63 | 95 |
 | **Distinct existing tokens** | **78** | **441** | **131** | **650** |
 
-Those 650 tokens land on **502 distinct `--ap-*` targets**: 346 primitive, 122 semantic, and 34 component. Of the primitives, 242 are the colour ramp.
+Those 650 tokens land on **502 distinct `--apui-*` targets**: 346 primitive, 122 semantic, and 34 component. Of the primitives, 242 are the colour ramp.
 
 ## Per-source summary
 
@@ -155,9 +155,9 @@ Tokens use `[data-theme="dark"]`. The datepicker uses `.dark` plus `prefers-colo
 
 ### 6. Dark mode reassigns primitives
 
-`--shadow-*` values change in place under `[data-theme="dark"]`. The plan says presets reassign semantic tokens only, so this structure cannot carry over. The map introduces `--ap-elevation-*` as the assigned layer and keeps `--ap-shadow-*` fixed.
+`--shadow-*` values change in place under `[data-theme="dark"]`. The plan says presets reassign semantic tokens only, so this structure cannot carry over. The map introduces `--apui-elevation-*` as the assigned layer and keeps `--apui-shadow-*` fixed.
 
-`--hc-text-*` and `--hc-line-height-*` have the same problem. The map replaces them with `--ap-font-scale` and `--ap-type-line-height*`.
+`--hc-text-*` and `--hc-line-height-*` have the same problem. The map replaces them with `--apui-font-scale` and `--apui-type-line-height*`.
 
 ### 7. Tailwind namespace collisions
 
@@ -169,7 +169,7 @@ Compared with `theme.css` in Tailwind 4.1.11:
 - `--font-size-*`, `--line-height-*`, `--letter-spacing-*`, `--font-family-*`, and `--duration-*` have no counterpart in that file, which uses `--text-*`, `--leading-*`, `--tracking-*`, and `--font-*`. Their `@theme` entries are likely inert as Tailwind configuration, despite the file's comment. I did not test this by compiling.
 - `tailwind-plugin.ts` exposes `shadow-color-primary`, while `@theme` would expose `shadow-primary`.
 
-The `--ap-*` prefix removes the collision. The optional Tailwind preset must map tokens explicitly and not assume step names line up.
+The `--apui-*` prefix removes the collision. The optional Tailwind preset must map tokens explicitly and not assume step names line up.
 
 ### 8. Smaller conflicts
 
@@ -189,16 +189,16 @@ These are things the plan needs that nothing provides. Names are from the plan w
 
 | Need | What exists today | Foundations work |
 |---|---|---|
-| `--ap-density` and three modes | Nothing | New. The map routes `spacingAliases` to `--ap-gap-*` as the layer density would scale, name provisional |
-| Control size scale, xs to xl | Nothing. `--size` exists only in commented output | New. `--ap-input-height`, `--ap-button-padding-x`, and the like come from specs |
-| Colour primitives as tokens | PHP lookup and `.glass-tint-*` classes only | Move into DTCG as `--ap-{hue}-{stop}` |
-| Focus ring | `--hc-focus-ring-*` and `--focus-ring-*`, high-contrast scope only | Global `--ap-focus-ring-*`. Datepicker hard-codes 2px |
-| `--ap-surface-raised`, `--ap-text-muted`, `--ap-border-muted` | `--hc-*` only | New for the default theme |
+| `--apui-density` and three modes | Nothing | New. The map routes `spacingAliases` to `--apui-gap-*` as the layer density would scale, name provisional |
+| Control size scale, xs to xl | Nothing. `--size` exists only in commented output | New. `--apui-input-height`, `--apui-button-padding-x`, and the like come from specs |
+| Colour primitives as tokens | PHP lookup and `.glass-tint-*` classes only | Move into DTCG as `--apui-{hue}-{stop}` |
+| Focus ring | `--hc-focus-ring-*` and `--focus-ring-*`, high-contrast scope only | Global `--apui-focus-ring-*`. Datepicker hard-codes 2px |
+| `--apui-surface-raised`, `--apui-text-muted`, `--apui-border-muted` | `--hc-*` only | New for the default theme |
 | Hover and active colours | `--hc-*` for primary, secondary, accent only. Elsewhere computed in PHP | New for all eight colours |
 | Dark primary, secondary, accent | None. Both stacks use the light value | New |
 | Dark neutral and base values | Yes, but inherited from daisyUI | Replace in Phase 1 |
 | Semantic motion | `.transition-fast/smooth/slow/spring/bounce` classes | Map to DTCG transition composites |
-| Border width | `--glass-border-width`, plus daisyUI `--border` used 44 times in Blade | New `--ap-border-width`. Those 44 sites break when daisyUI goes |
+| Border width | `--glass-border-width`, plus daisyUI `--border` used 44 times in Blade | New `--apui-border-width`. Those 44 sites break when daisyUI goes |
 | z-index | None. Views use `z-10`, `z-20`, `z-50`, `z-[1]`, `z-[2]`, `z-[999]` | New scale |
 | Disabled state | `--hc-disabled-*` only | Globalise |
 | Target size | `--hc-min-*` only | Globalise |
@@ -220,7 +220,7 @@ These are things the plan needs that nothing provides. Names are from the plan w
 - `GlassPresets` and `HighContrastTheme` become semantic-only presets.
 - `ChartThemes` reads tokens. ApexCharts needs resolved values, so it cannot use `var()`.
 - `GlassHelper` falls away apart from accessible text on glass. It is imported by 17 view components.
-- `resolveColor` remains for canvas cases, reading `--ap-color-*`.
+- `resolveColor` remains for canvas cases, reading `--apui-color-*`.
 
 **Kept:** contrast utilities (`calculateContrastRatio`, `verifyContrast`) as a token CI gate, the `ChartThemes` theme API, and the `liquid-glass` block API.
 
@@ -228,19 +228,19 @@ These are things the plan needs that nothing provides. Names are from the plan w
 
 ## Open questions for Foundations
 
-1. **Surface mapping.** The map sends `base-100` to `--ap-surface-default`, `base-200` to `--ap-surface-sunken`, and `base-300` to `--ap-border-default`. `base-300` has two real roles: 21 border uses and 22 background uses. The `--hc-*` model instead has background, surface, elevated, and sunken, and `--ap-surface-page` is not in the plan's surface list. Do we add it?
-2. **Glass count.** The plan has one `surface="glass"`, so the map flattens frosted, liquid, and transparent into one `--ap-surface-glass-*` set using the base recipe. Which recipe is the default, and do the others survive as presets? This depends on Phase 1.
-3. **Glass as surface and as preset.** The plan lists glass under both. Does the `glass` preset assign `--ap-surface-glass-*`, or restyle the whole theme?
+1. **Surface mapping.** The map sends `base-100` to `--apui-surface-default`, `base-200` to `--apui-surface-sunken`, and `base-300` to `--apui-border-default`. `base-300` has two real roles: 21 border uses and 22 background uses. The `--hc-*` model instead has background, surface, elevated, and sunken, and `--apui-surface-page` is not in the plan's surface list. Do we add it?
+2. **Glass count.** The plan has one `surface="glass"`, so the map flattens frosted, liquid, and transparent into one `--apui-surface-glass-*` set using the base recipe. Which recipe is the default, and do the others survive as presets? This depends on Phase 1.
+3. **Glass as surface and as preset.** The plan lists glass under both. Does the `glass` preset assign `--apui-surface-glass-*`, or restyle the whole theme?
 4. **Glass tint and text.** How does `surface="glass"` combine with `color`? Contrast on a translucent surface can't be proved statically, since it depends on the backdrop.
 5. **Arbitrary colours.** The plan's `color` takes eight names, but `color="red-500"` and hex work today in seven components. Dropping them needs a codemod entry or a report line. The downstream count is not in this audit.
 6. **Ramp contents.** The map keeps all 22 hues. Five are grays. Phase 1 will probably need far fewer, and the same goes for the top of the spacing scale, which only mirrors Tailwind.
 7. **Accessibility presets.** The plan names one high-contrast preset. Today there are four contrast presets, plus reduced-motion and two larger-text sets. Which survive? Reduced motion needs a form without `!important`.
-8. **Namespace reservations.** `--ap-text-*` is colour in the plan, so type tokens need another name. The map uses `--ap-type-*` and `--ap-font-scale`. `--ap-gap-*` is also new. Please confirm these.
-9. **Elevation levels.** Do `--ap-elevation-*` keep all eight primitive steps, or a smaller named set?
+8. **Namespace reservations.** `--apui-text-*` is colour in the plan, so type tokens need another name. The map uses `--apui-type-*` and `--apui-font-scale`. `--apui-gap-*` is also new. Please confirm these.
+9. **Elevation levels.** Do `--apui-elevation-*` keep all eight primitive steps, or a smaller named set?
 10. **Theme selector.** One attribute, and does `prefers-color-scheme` apply automatically?
 11. **Contrast helper home.** Tokens build or `artisanpack-ui/accessibility`?
-12. **Datepicker tokens.** `--ap-datepicker-*` names assume the DatePicker keeps today's parts. flatpickr's future depends on Phase 3.
-13. **`liquid-glass`.** Should it read `--ap-surface-glass-*`? It has no dependency on the UI packages today.
+12. **Datepicker tokens.** `--apui-datepicker-*` names assume the DatePicker keeps today's parts. flatpickr's future depends on Phase 3.
+13. **`liquid-glass`.** Should it read `--apui-surface-glass-*`? It has no dependency on the UI packages today.
 
 ## Not determined
 

@@ -21,7 +21,7 @@ Components only declare the props that apply to them. Component-specific values 
 Livewire's `color` accepts Tailwind names and hex values, resolved by `ColorGenerator`. Keeping that would mean runtime color math in every component in all three stacks, so it is dropped. `color` is the eight semantic names only, and anything else is set through tokens or `classes`. One-off colors stay possible:
 
 ```blade
-<x-artisanpack-button style="--ap-button-bg: #7c3aed">Launch</x-artisanpack-button>
+<x-artisanpack-button style="--apui-button-bg: #7c3aed">Launch</x-artisanpack-button>
 ```
 
 ## Naming rules
