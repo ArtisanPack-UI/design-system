@@ -1,0 +1,34 @@
+<!-- @dsCard group="Content" height=300 subtitle="Underlined inline links; standalone links with an icon" -->
+<!doctype html>
+<html>
+<head>
+<link rel="stylesheet" href="../../tokens/tokens.css">
+<link rel="stylesheet" href="../../css/components.css">
+<script>document.documentElement.dataset.theme=new URLSearchParams(location.search).get("theme")||document.documentElement.dataset.theme||"light"</script>
+
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;background:var(--apui-surface-page)}
+.demo{padding:24px;display:grid;gap:28px}
+.demo-sec{display:grid;gap:12px}
+.demo-h{margin:0;font-size:11px;line-height:16px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--apui-text-muted)}
+.demo-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.demo-row.top{align-items:flex-start}
+.demo-matrix{display:grid;gap:10px 12px;align-items:center;justify-items:start}
+.demo-k{font-size:12px;line-height:16px;color:var(--apui-text-muted);font-family:var(--apui-font-family-mono)}
+.demo-surfaces{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.demo-tile{border-radius:var(--apui-radius-lg);padding:16px;display:grid;gap:10px;align-content:start;border:1px solid var(--apui-border-muted);min-width:0}
+.demo-tile[data-s=canvas]{background:var(--apui-surface-page)}
+.demo-tile[data-s=default]{background:var(--apui-surface-default)}
+.demo-tile[data-s=sunken]{background:var(--apui-surface-sunken)}
+.demo-backdrop{position:relative;overflow:hidden;border-radius:var(--apui-radius-lg);background:var(--apui-surface-page);border:1px solid var(--apui-border-muted)}
+.demo-backdrop>.blob{position:absolute;pointer-events:none}
+.demo-backdrop>.content{position:relative;padding:16px;display:grid;gap:10px}
+.demo-cols{display:grid;gap:16px}
+</style>
+</head>
+<body class="ap">
+<div class="demo"><section class="demo-sec"><h3 class="demo-h">Inline</h3><p class="apui-text">Read the <a class="apui-link" href="#">listing terms</a> or <a class="apui-link is-hover" href="#">contact the agent</a> (hover). Muted: <a class="apui-link" data-tone="muted" href="#">privacy policy</a>. Focus: <a class="apui-link is-focus" href="#">open floor plan</a>.</p></section><section class="demo-sec"><h3 class="demo-h">Standalone</h3><div class="demo-row" style="gap:24px"><a class="apui-link" data-standalone href="#">View all properties <svg class="apui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-mirror><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></svg></a><a class="apui-link" data-standalone href="#">Documentation <svg class="apui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg><span class="apui-sr-only">(opens in a new tab)</span></a><a class="apui-link" data-standalone href="#"><svg class="apui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /> <polyline points="7 10 12 15 17 10" /> <line x1="12" x2="12" y1="15" y2="3" /></svg>Download PDF</a></div></section></div>
+</body>
+</html>

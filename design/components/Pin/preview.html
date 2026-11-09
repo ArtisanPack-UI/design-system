@@ -1,0 +1,34 @@
+<!-- @dsCard group="Forms" height=440 subtitle="One-time codes; paste fills all cells" -->
+<!doctype html>
+<html>
+<head>
+<link rel="stylesheet" href="../../tokens/tokens.css">
+<link rel="stylesheet" href="../../css/components.css">
+<script>document.documentElement.dataset.theme=new URLSearchParams(location.search).get("theme")||document.documentElement.dataset.theme||"light"</script>
+
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;background:var(--apui-surface-page)}
+.demo{padding:24px;display:grid;gap:28px}
+.demo-sec{display:grid;gap:12px}
+.demo-h{margin:0;font-size:11px;line-height:16px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--apui-text-muted)}
+.demo-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.demo-row.top{align-items:flex-start}
+.demo-matrix{display:grid;gap:10px 12px;align-items:center;justify-items:start}
+.demo-k{font-size:12px;line-height:16px;color:var(--apui-text-muted);font-family:var(--apui-font-family-mono)}
+.demo-surfaces{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.demo-tile{border-radius:var(--apui-radius-lg);padding:16px;display:grid;gap:10px;align-content:start;border:1px solid var(--apui-border-muted);min-width:0}
+.demo-tile[data-s=canvas]{background:var(--apui-surface-page)}
+.demo-tile[data-s=default]{background:var(--apui-surface-default)}
+.demo-tile[data-s=sunken]{background:var(--apui-surface-sunken)}
+.demo-backdrop{position:relative;overflow:hidden;border-radius:var(--apui-radius-lg);background:var(--apui-surface-page);border:1px solid var(--apui-border-muted)}
+.demo-backdrop>.blob{position:absolute;pointer-events:none}
+.demo-backdrop>.content{position:relative;padding:16px;display:grid;gap:10px}
+.demo-cols{display:grid;gap:16px}
+</style>
+</head>
+<body class="ap">
+<div class="demo"><section class="demo-sec"><h3 class="demo-h">Entering</h3><div style="display:grid;gap:8px"><span  data-scope="field" data-part="label">Enter the 6-digit code we sent to •••• 4821</span><div class="apui-pin" role="group" aria-label="Verification code"><span  data-scope="pin" data-part="cell" data-filled>4</span><span  data-scope="pin" data-part="cell" data-filled>8</span><span  data-scope="pin" data-part="cell" data-filled>2</span><span  data-scope="pin" data-part="sep" aria-hidden="true"></span><span class="is-focus" data-scope="pin" data-part="cell"></span><span  data-scope="pin" data-part="cell"></span><span  data-scope="pin" data-part="cell"></span></div><span  data-scope="field" data-part="hint">Didn’t get it? <button class="apui-button" data-variant="link" data-size="sm" disabled><span  data-scope="button" data-part="label">Resend in 0:24</span></button></span></div></section><section class="demo-sec"><h3 class="demo-h">Masked · invalid · verified · small</h3><div class="demo-cols" style="grid-template-columns:repeat(2,minmax(0,1fr));align-items:start"><div class="apui-pin" role="group" aria-label="Verification code"><span  data-scope="pin" data-part="cell" data-filled>•</span><span  data-scope="pin" data-part="cell" data-filled>•</span><span  data-scope="pin" data-part="cell" data-filled>•</span><span  data-scope="pin" data-part="sep" aria-hidden="true"></span><span  data-scope="pin" data-part="cell" data-filled>•</span><span class="is-focus" data-scope="pin" data-part="cell"></span><span  data-scope="pin" data-part="cell"></span></div><div style="display:grid;gap:6px"><div class="apui-pin" role="group" aria-label="Verification code" data-invalid><span  data-scope="pin" data-part="cell" data-filled>9</span><span  data-scope="pin" data-part="cell" data-filled>9</span><span  data-scope="pin" data-part="cell" data-filled>1</span><span  data-scope="pin" data-part="sep" aria-hidden="true"></span><span  data-scope="pin" data-part="cell" data-filled>0</span><span  data-scope="pin" data-part="cell" data-filled>2</span><span  data-scope="pin" data-part="cell" data-filled>7</span></div><span  data-scope="field" data-part="error"><svg class="apui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <line x1="12" x2="12" y1="8" y2="12" /> <line x1="12" x2="12.01" y1="16" y2="16" /></svg>That code has expired. We sent a new one.</span></div><div style="display:grid;gap:6px"><div class="apui-pin" role="group" aria-label="Verification code" data-state="success"><span  data-scope="pin" data-part="cell" data-filled>5</span><span  data-scope="pin" data-part="cell" data-filled>0</span><span  data-scope="pin" data-part="cell" data-filled>3</span><span  data-scope="pin" data-part="sep" aria-hidden="true"></span><span  data-scope="pin" data-part="cell" data-filled>1</span><span  data-scope="pin" data-part="cell" data-filled>8</span><span  data-scope="pin" data-part="cell" data-filled>6</span></div><span  data-scope="field" data-part="hint" style="color:var(--apui-color-success-text)">Verified</span></div><div class="apui-pin" role="group" aria-label="Verification code" data-size="sm"><span  data-scope="pin" data-part="cell" data-filled>2</span><span  data-scope="pin" data-part="cell" data-filled>7</span><span class="is-focus" data-scope="pin" data-part="cell"></span><span  data-scope="pin" data-part="sep" aria-hidden="true"></span><span  data-scope="pin" data-part="cell"></span><span  data-scope="pin" data-part="cell"></span><span  data-scope="pin" data-part="cell"></span></div></div></section></div>
+</body>
+</html>

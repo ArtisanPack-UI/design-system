@@ -1,0 +1,34 @@
+<!-- @dsCard group="Feedback" height=560 subtitle="Icon tile, title, one-line description and the next action" -->
+<!doctype html>
+<html>
+<head>
+<link rel="stylesheet" href="../../tokens/tokens.css">
+<link rel="stylesheet" href="../../css/components.css">
+<script>document.documentElement.dataset.theme=new URLSearchParams(location.search).get("theme")||document.documentElement.dataset.theme||"light"</script>
+
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;background:var(--apui-surface-page)}
+.demo{padding:24px;display:grid;gap:28px}
+.demo-sec{display:grid;gap:12px}
+.demo-h{margin:0;font-size:11px;line-height:16px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--apui-text-muted)}
+.demo-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.demo-row.top{align-items:flex-start}
+.demo-matrix{display:grid;gap:10px 12px;align-items:center;justify-items:start}
+.demo-k{font-size:12px;line-height:16px;color:var(--apui-text-muted);font-family:var(--apui-font-family-mono)}
+.demo-surfaces{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.demo-tile{border-radius:var(--apui-radius-lg);padding:16px;display:grid;gap:10px;align-content:start;border:1px solid var(--apui-border-muted);min-width:0}
+.demo-tile[data-s=canvas]{background:var(--apui-surface-page)}
+.demo-tile[data-s=default]{background:var(--apui-surface-default)}
+.demo-tile[data-s=sunken]{background:var(--apui-surface-sunken)}
+.demo-backdrop{position:relative;overflow:hidden;border-radius:var(--apui-radius-lg);background:var(--apui-surface-page);border:1px solid var(--apui-border-muted)}
+.demo-backdrop>.blob{position:absolute;pointer-events:none}
+.demo-backdrop>.content{position:relative;padding:16px;display:grid;gap:10px}
+.demo-cols{display:grid;gap:16px}
+</style>
+</head>
+<body class="ap">
+<div class="demo"><div class="demo-cols" style="grid-template-columns:repeat(2,minmax(0,1fr));align-items:start"><section class="demo-sec"><h3 class="demo-h">First use</h3><div class="apui-card"><div class="apui-empty-state"><span class="apui-icon-tile" data-color="primary" data-size="lg"><svg class="apui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z" /> <path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2" /> <path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2" /> <path d="M10 6h4" /> <path d="M10 10h4" /> <path d="M10 14h4" /> <path d="M10 18h4" /></svg></span><h3  data-scope="empty-state" data-part="title">No properties yet</h3><p  data-scope="empty-state" data-part="description">Add your first property to start tracking visits, offers and revenue.</p><div  data-scope="empty-state" data-part="actions"><button class="apui-button" data-variant="solid"><svg class="apui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14" /> <path d="M12 5v14" /></svg><span  data-scope="button" data-part="label">Add property</span></button><button class="apui-button" data-variant="outline" data-color="neutral"><svg class="apui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /> <polyline points="17 8 12 3 7 8" /> <line x1="12" x2="12" y1="3" y2="15" /></svg><span  data-scope="button" data-part="label">Import CSV</span></button></div></div></div></section><section class="demo-sec"><h3 class="demo-h">No results</h3><div class="apui-card"><div class="apui-empty-state"><span class="apui-icon-tile" data-color="neutral" data-size="lg"><svg class="apui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m13.5 8.5-5 5" /> <path d="m8.5 8.5 5 5" /> <circle cx="11" cy="11" r="8" /> <path d="m21 21-4.3-4.3" /></svg></span><h3  data-scope="empty-state" data-part="title">No results for “Lakw”</h3><p  data-scope="empty-state" data-part="description">Check the spelling, or clear filters to see all 318 properties.</p><div  data-scope="empty-state" data-part="actions"><button class="apui-button" data-variant="outline" data-color="neutral"><span  data-scope="button" data-part="label">Clear filters</span></button></div></div></div></section></div><section class="demo-sec"><h3 class="demo-h">Small, inside a panel</h3><div style="max-width:360px"><div class="apui-card"><div class="apui-empty-state" data-size="sm"><span class="apui-icon-tile" data-color="success"><svg class="apui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12" /> <path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z" /></svg></span><h3  data-scope="empty-state" data-part="title" style="font-size:14px;margin-top:4px">You’re all caught up</h3><p  data-scope="empty-state" data-part="description" style="font-size:13px">New offers will appear here.</p></div></div></div></section></div>
+</body>
+</html>

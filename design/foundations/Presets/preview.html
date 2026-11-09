@@ -1,0 +1,94 @@
+<!-- @dsCard group="Foundations" height=760 width=1200 page subtitle="The same markup under Strata, Ledger and Harbor: token values only" -->
+<!doctype html>
+<html>
+<head>
+<link rel="stylesheet" href="../../tokens/tokens.css">
+<link rel="stylesheet" href="../../css/components.css">
+<script>document.documentElement.dataset.theme=new URLSearchParams(location.search).get("theme")||document.documentElement.dataset.theme||"light"</script>
+
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Hanken+Grotesk:wght@400;500;600&family=Bricolage+Grotesque:opsz,wght@12..96,600&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: var(--apui-font-family-sans); background: var(--apui-surface-page); color: var(--apui-text-default); }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; padding: 24px; }
+  .preset { --apui-font-family-display: var(--apui-font-family-sans); --apui-_stat-weight: 500; --apui-_head-case: none; --apui-_head-size: 13px; --apui-_head-track: 0; font-family: var(--apui-font-family-sans); background: var(--apui-surface-page); color: var(--apui-text-default); padding: var(--apui-panel-gap); border-radius: 14px; border: 1px solid var(--apui-border-muted); display: grid; gap: var(--apui-panel-gap); align-content: start; }
+  /* Ledger: token values only */
+  .p-ledger { --apui-font-family-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+    --apui-surface-page: #f3f3f3; --apui-surface-default: #fcfcfc; --apui-surface-raised: #ffffff; --apui-surface-sunken: #ededed;
+    --apui-text-default: #262626; --apui-text-muted: #666666; --apui-border-muted: #d9d9d9; --apui-border-default: #808080;
+    --apui-color-primary: #366bd3; --apui-color-primary-foreground: #ffffff; --apui-color-primary-soft: #dfeafe; --apui-color-primary-soft-foreground: #1f53b8; --apui-color-primary-text: #1f53b8; --apui-focus-ring-color: #366bd3;
+    --apui-button-radius: 4px; --apui-badge-radius: 2px; --apui-input-radius: 4px; --apui-card-radius: 6px; --apui-tabs-radius: 0px; --apui-table-radius: 6px;
+    --apui-control-height-md: 32px; --apui-control-height-sm: 26px; --apui-panel-padding: 16px; --apui-row-height: 36px; --apui-panel-gap: 16px;
+    --apui-_stat-weight: 400; --apui-_head-case: uppercase; --apui-_head-size: 11px; --apui-_head-track: .06em; }
+  /* Harbor: token values only */
+  .p-harbor { --apui-font-family-sans: "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif; --apui-font-family-display: "Bricolage Grotesque", "Hanken Grotesk", sans-serif;
+    --apui-surface-page: #ebf1f7; --apui-surface-default: #ffffff; --apui-surface-raised: #ffffff;
+    --apui-border-muted: #00000000; --apui-elevation-raised: 0 1px 2px rgba(16,20,24,.04), 0 2px 8px rgba(16,20,24,.04);
+    --apui-color-primary: var(--apui-color-neutral); --apui-color-primary-foreground: var(--apui-color-neutral-foreground); --apui-color-primary-soft: var(--apui-color-neutral-soft); --apui-color-primary-soft-foreground: var(--apui-color-neutral-soft-foreground); --apui-color-primary-text: var(--apui-color-neutral-text);
+    --apui-input-radius: 12px; --apui-card-radius: 20px; --apui-table-radius: 20px;
+    --apui-control-height-md: 40px; --apui-control-height-sm: 32px; --apui-panel-padding: 24px; --apui-row-height: 48px; --apui-panel-gap: 16px; --apui-_stat-weight: 600; }
+  .label { font-size: 11px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--apui-text-muted); }
+  .card { background: var(--apui-surface-default); border: var(--apui-border-width) solid var(--apui-border-muted); border-radius: var(--apui-card-radius); padding: var(--apui-panel-padding); box-shadow: var(--apui-elevation-raised); }
+  .hdr { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  .title { font-family: var(--apui-font-family-display); font-size: 19px; line-height: 26px; font-weight: 600; margin: 0; }
+  .muted { color: var(--apui-text-muted); font-size: 13px; line-height: 18px; margin: 0; }
+  .stat { font-family: var(--apui-font-family-display); font-size: 28px; line-height: 34px; font-weight: var(--apui-_stat-weight); letter-spacing: -.02em; font-variant-numeric: tabular-nums; margin-block-start: 4px; }
+  .delta { color: var(--apui-color-success-text); font-size: 12px; font-weight: 500; }
+  .badge { font-size: 12px; line-height: 16px; font-weight: 500; padding: 2px 8px; border-radius: var(--apui-badge-radius); }
+  .btn { font: inherit; font-size: 14px; font-weight: var(--apui-button-weight); height: var(--apui-control-height-md); padding-inline: 16px; border-radius: var(--apui-button-radius); border: var(--apui-border-width) solid transparent; display: inline-flex; align-items: center; cursor: pointer; }
+  .solid { background: var(--apui-color-primary); color: var(--apui-color-primary-foreground); }
+  .outline { background: transparent; color: var(--apui-text-default); border-color: var(--apui-border-default); }
+  .ghost { background: transparent; color: var(--apui-color-primary-text); }
+  .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .field { display: grid; gap: 4px; }
+  .field label { font-size: 13px; font-weight: 500; }
+  .input { height: var(--apui-control-height-md); border-radius: var(--apui-input-radius); border: var(--apui-border-width) solid var(--apui-border-default); background: var(--apui-surface-default); padding-inline: 12px; display: flex; align-items: center; font-size: 14px; color: var(--apui-text-muted); justify-content: space-between; }
+  .tabs { display: inline-flex; background: var(--apui-surface-sunken); border-radius: var(--apui-tabs-radius); padding: 3px; gap: 2px; }
+  .tab { font-size: 13px; font-weight: 500; padding: 4px 12px; border-radius: var(--apui-tabs-radius); color: var(--apui-text-muted); }
+  .tab.on { background: var(--apui-surface-raised); color: var(--apui-text-default); box-shadow: inset 0 0 0 1px var(--apui-border-muted); }
+  .p-ledger .tabs { background: transparent; padding: 0; border-block-end: 1px solid var(--apui-border-muted); gap: 16px; }
+  .p-ledger .tab { padding: 6px 0; }
+  .p-ledger .tab.on { background: transparent; box-shadow: inset 0 -2px 0 var(--apui-color-primary); }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { text-align: start; font-weight: 500; color: var(--apui-text-muted); font-size: var(--apui-_head-size); text-transform: var(--apui-_head-case); letter-spacing: var(--apui-_head-track); padding: 0 8px; height: 32px; background: var(--apui-surface-sunken); }
+  td { height: var(--apui-row-height); padding: 0 8px; border-block-start: 1px solid var(--apui-border-muted); }
+  .p-harbor td { border-block-start-color: var(--apui-gray-100); }
+  .tbl { background: var(--apui-surface-default); border: var(--apui-border-width) solid var(--apui-border-muted); border-radius: var(--apui-table-radius); overflow: hidden; box-shadow: var(--apui-elevation-raised); }
+  .num { text-align: end; font-variant-numeric: tabular-nums; }
+</style>
+</head>
+<body>
+<div class="grid">
+  <script>
+    const block = (cls, name, note) => `
+    <div class="preset ${cls}">
+      <div><div class="label">${name}</div><p class="muted">${note}</p></div>
+      <div class="card">
+        <div class="hdr"><p class="muted">Total income</p><span class="badge" style="background:var(--apui-color-success-soft);color:var(--apui-color-success-soft-foreground)">Paid</span></div>
+        <div class="stat">$348,261</div>
+        <span class="delta">+10.9% vs last month</span>
+      </div>
+      <div class="card" style="display:grid;gap:12px">
+        <div class="hdr"><h3 class="title">Shipping details</h3><div class="tabs"><span class="tab on">Standard</span><span class="tab">Express</span></div></div>
+        <div class="field"><label>Email</label><div class="input">you@company.com</div></div>
+        <div class="field"><label>Country</label><div class="input">United States <span>▾</span></div></div>
+        <div class="row"><button class="btn solid">Continue</button><button class="btn outline">Back</button><button class="btn ghost">Save draft</button></div>
+      </div>
+      <div class="tbl"><table>
+        <thead><tr><th>Order</th><th>Status</th><th class="num">Amount</th></tr></thead>
+        <tbody>
+          <tr><td>#1042</td><td><span class="badge" style="background:var(--apui-color-success-soft);color:var(--apui-color-success-soft-foreground)">Paid</span></td><td class="num">$1,284.00</td></tr>
+          <tr><td>#1041</td><td><span class="badge" style="background:var(--apui-color-warning-soft);color:var(--apui-color-warning-soft-foreground)">Pending</span></td><td class="num">$310.50</td></tr>
+          <tr><td>#1040</td><td><span class="badge" style="background:var(--apui-color-error-soft);color:var(--apui-color-error-soft-foreground)">Overdue</span></td><td class="num">$92.00</td></tr>
+        </tbody></table></div>
+    </div>`;
+    document.currentScript.insertAdjacentHTML('beforebegin',
+      block('p-strata','Strata · default','Tone + hairline edges, pill controls, Geist') +
+      block('p-ledger','Ledger · preset','Lines, near-square, tight, IBM Plex Sans') +
+      block('p-harbor','Harbor · preset','Space + soft shadow, ink primary, Hanken + Bricolage'));
+  </script>
+</div>
+</body>
+</html>

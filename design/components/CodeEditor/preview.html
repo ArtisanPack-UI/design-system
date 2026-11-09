@@ -1,0 +1,34 @@
+<!-- @dsCard group="Content" height=560 width=1000 subtitle="Editor chrome around Code; syntax colors are tokens" -->
+<!doctype html>
+<html>
+<head>
+<link rel="stylesheet" href="../../tokens/tokens.css">
+<link rel="stylesheet" href="../../css/components.css">
+<script>document.documentElement.dataset.theme=new URLSearchParams(location.search).get("theme")||document.documentElement.dataset.theme||"light"</script>
+
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;background:var(--apui-surface-page)}
+.demo{padding:24px;display:grid;gap:28px}
+.demo-sec{display:grid;gap:12px}
+.demo-h{margin:0;font-size:11px;line-height:16px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--apui-text-muted)}
+.demo-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.demo-row.top{align-items:flex-start}
+.demo-matrix{display:grid;gap:10px 12px;align-items:center;justify-items:start}
+.demo-k{font-size:12px;line-height:16px;color:var(--apui-text-muted);font-family:var(--apui-font-family-mono)}
+.demo-surfaces{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.demo-tile{border-radius:var(--apui-radius-lg);padding:16px;display:grid;gap:10px;align-content:start;border:1px solid var(--apui-border-muted);min-width:0}
+.demo-tile[data-s=canvas]{background:var(--apui-surface-page)}
+.demo-tile[data-s=default]{background:var(--apui-surface-default)}
+.demo-tile[data-s=sunken]{background:var(--apui-surface-sunken)}
+.demo-backdrop{position:relative;overflow:hidden;border-radius:var(--apui-radius-lg);background:var(--apui-surface-page);border:1px solid var(--apui-border-muted)}
+.demo-backdrop>.blob{position:absolute;pointer-events:none}
+.demo-backdrop>.content{position:relative;padding:16px;display:grid;gap:10px}
+.demo-cols{display:grid;gap:16px}
+</style>
+</head>
+<body class="ap">
+<div class="demo"><section class="demo-sec"><h3 class="demo-h">Editor with tabs, active line, error and status bar</h3><div class="apui-code-editor"><div  data-scope="code-editor" data-part="tabs" role="tablist"><span  data-scope="code-editor" data-part="tab" role="tab" aria-selected="true"><svg width=14 height=14 class="apui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 22h14a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v4" /> <path d="M14 2v4a2 2 0 0 0 2 2h4" /> <path d="m5 12-3 3 3 3" /> <path d="m9 18 3-3-3-3" /></svg>format-price.ts</span><span  data-scope="code-editor" data-part="tab" role="tab" aria-selected="false">listing.blade.php</span><span  data-scope="toolbar" data-part="spacer"></span><div style="display:flex;align-items:center;gap:4px;padding-inline:6px"><div style="width:130px"><div class="apui-select"><div class="apui-input" data-size="sm" role="combobox" aria-expanded="false"><span  data-scope="input" data-part="value">TypeScript</span><span  data-scope="select" data-part="chevron"><svg class="apui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg></span></div></div></div><button class="apui-button" data-variant="ghost" data-color="neutral" data-size="sm" data-icon-only aria-label="Copy"><svg class="apui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /> <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg></button></div></div><div class="apui-code" data-numbered style="border:0;border-radius:0"><pre  data-scope="code" data-part="pre"><code><span  data-scope="code" data-part="line" data-n="1"><span class="apui-tk-k">export</span> <span class="apui-tk-k">function</span> <span class="apui-tk-f">formatPrice</span>(amount<span class="apui-tk-p">:</span> <span class="apui-tk-k">number</span>, currency <span class="apui-tk-p">=</span> <span class="apui-tk-s">'USD'</span>) {</span><span  data-scope="code" data-part="line" data-n="2">  <span class="apui-tk-c">// Tabular figures line up in tables</span></span><span  data-scope="code" data-part="line" data-n="3">  <span class="apui-tk-k">return</span> <span class="apui-tk-k">new</span> Intl.<span class="apui-tk-f">NumberFormat</span>(<span class="apui-tk-s">'en-US'</span>, {</span><span  data-scope="code" data-part="line" data-n="4">    <span class="apui-tk-p">style</span>: <span class="apui-tk-s">'currency'</span>,</span><span  data-scope="code" data-part="line" data-n="5">    <span class="apui-tk-p">currency</span>,</span><span class="is-active" data-scope="code" data-part="line" data-n="6">    <span class="apui-tk-p">maximumFractionDigits</span>: <span class="apui-tk-n" data-scope="code-editor" data-part="err">"0"</span>,<span  data-scope="code-editor" data-part="caret"></span></span><span  data-scope="code" data-part="line" data-n="7">  }).<span class="apui-tk-f">format</span>(amount);</span><span  data-scope="code" data-part="line" data-n="8">}</span></code></pre></div><div  data-scope="code-editor" data-part="status"><span style="color:var(--apui-color-error-text)">1 error</span><span>Ln 6, Col 31</span><span>Spaces: 2</span><span>UTF-8</span></div></div></section><section class="demo-sec"><h3 class="demo-h">Error detail</h3><div class="apui-alert" data-color="error" data-variant="outline"><span  data-scope="alert" data-part="icon"><svg class="apui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <line x1="12" x2="12" y1="8" y2="12" /> <line x1="12" x2="12.01" y1="16" y2="16" /></svg></span><p  data-scope="alert" data-part="title">Type ‘string’ is not assignable to type ‘number’.</p><p  data-scope="alert" data-part="description" style="font-family:var(--apui-font-family-mono);font-size:12px">format-price.ts · line 6 · ts(2322)</p></div></section></div>
+</body>
+</html>

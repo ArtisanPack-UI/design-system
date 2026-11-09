@@ -1,0 +1,34 @@
+<!-- @dsCard group="Navigation" height=560 subtitle="Progress through a sequence; complete, current, upcoming, error" -->
+<!doctype html>
+<html>
+<head>
+<link rel="stylesheet" href="../../tokens/tokens.css">
+<link rel="stylesheet" href="../../css/components.css">
+<script>document.documentElement.dataset.theme=new URLSearchParams(location.search).get("theme")||document.documentElement.dataset.theme||"light"</script>
+
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;background:var(--apui-surface-page)}
+.demo{padding:24px;display:grid;gap:28px}
+.demo-sec{display:grid;gap:12px}
+.demo-h{margin:0;font-size:11px;line-height:16px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--apui-text-muted)}
+.demo-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.demo-row.top{align-items:flex-start}
+.demo-matrix{display:grid;gap:10px 12px;align-items:center;justify-items:start}
+.demo-k{font-size:12px;line-height:16px;color:var(--apui-text-muted);font-family:var(--apui-font-family-mono)}
+.demo-surfaces{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.demo-tile{border-radius:var(--apui-radius-lg);padding:16px;display:grid;gap:10px;align-content:start;border:1px solid var(--apui-border-muted);min-width:0}
+.demo-tile[data-s=canvas]{background:var(--apui-surface-page)}
+.demo-tile[data-s=default]{background:var(--apui-surface-default)}
+.demo-tile[data-s=sunken]{background:var(--apui-surface-sunken)}
+.demo-backdrop{position:relative;overflow:hidden;border-radius:var(--apui-radius-lg);background:var(--apui-surface-page);border:1px solid var(--apui-border-muted)}
+.demo-backdrop>.blob{position:absolute;pointer-events:none}
+.demo-backdrop>.content{position:relative;padding:16px;display:grid;gap:10px}
+.demo-cols{display:grid;gap:16px}
+</style>
+</head>
+<body class="ap">
+<div class="demo"><section class="demo-sec"><h3 class="demo-h">Horizontal</h3><ol class="apui-steps"><li class="apui-step" data-state="complete"><span  data-scope="step" data-part="marker"><svg class="apui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" /></svg></span><span  data-scope="step" data-part="title">Basics</span><span  data-scope="step" data-part="desc">Title and type</span></li><li class="apui-step" data-state="complete"><span  data-scope="step" data-part="marker"><svg class="apui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" /></svg></span><span  data-scope="step" data-part="title">Location</span><span  data-scope="step" data-part="desc">Address and map</span></li><li class="apui-step" data-state="current" aria-current="step"><span  data-scope="step" data-part="marker">3</span><span  data-scope="step" data-part="title">Pricing</span><span  data-scope="step" data-part="desc">Price and rent</span></li><li class="apui-step" data-state="upcoming"><span  data-scope="step" data-part="marker">4</span><span  data-scope="step" data-part="title">Photos</span><span  data-scope="step" data-part="desc">At least 6</span></li><li class="apui-step" data-state="upcoming"><span  data-scope="step" data-part="marker">5</span><span  data-scope="step" data-part="title">Review</span><span  data-scope="step" data-part="desc">Publish</span></li></ol></section><section class="demo-sec"><h3 class="demo-h">Vertical with error</h3><div style="max-width:420px"><ol class="apui-steps" data-orientation="vertical"><li class="apui-step" data-state="complete"><span  data-scope="step" data-part="marker"><svg class="apui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" /></svg></span><span  data-scope="step" data-part="title">Account created</span><span  data-scope="step" data-part="desc">Nov 2 · Olivia Rhye</span></li><li class="apui-step" data-state="complete"><span  data-scope="step" data-part="marker"><svg class="apui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" /></svg></span><span  data-scope="step" data-part="title">Identity verified</span><span  data-scope="step" data-part="desc">Nov 3</span></li><li class="apui-step" data-state="error"><span  data-scope="step" data-part="marker"><svg class="apui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18" /> <path d="m6 6 12 12" /></svg></span><span  data-scope="step" data-part="title">Payout account</span><span  data-scope="step" data-part="desc">IBAN rejected by the bank. Update it to continue.</span></li><li class="apui-step" data-state="upcoming"><span  data-scope="step" data-part="marker">4</span><span  data-scope="step" data-part="title">Go live</span><span  data-scope="step" data-part="desc">Listings become public</span></li></ol></div></section><section class="demo-sec"><h3 class="demo-h">Compact (no descriptions)</h3><ol class="apui-steps"><li class="apui-step" data-state="complete"><span  data-scope="step" data-part="marker"><svg class="apui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" /></svg></span><span  data-scope="step" data-part="title">Cart</span></li><li class="apui-step" data-state="current" aria-current="step"><span  data-scope="step" data-part="marker">2</span><span  data-scope="step" data-part="title">Shipping</span></li><li class="apui-step" data-state="upcoming"><span  data-scope="step" data-part="marker">3</span><span  data-scope="step" data-part="title">Payment</span></li><li class="apui-step" data-state="upcoming"><span  data-scope="step" data-part="marker">4</span><span  data-scope="step" data-part="title">Confirm</span></li></ol></section></div>
+</body>
+</html>

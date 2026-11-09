@@ -1,0 +1,34 @@
+<!-- @dsCard group="Data display" height=480 subtitle="Status and category labels" -->
+<!doctype html>
+<html>
+<head>
+<link rel="stylesheet" href="../../tokens/tokens.css">
+<link rel="stylesheet" href="../../css/components.css">
+<script>document.documentElement.dataset.theme=new URLSearchParams(location.search).get("theme")||document.documentElement.dataset.theme||"light"</script>
+
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;background:var(--apui-surface-page)}
+.demo{padding:24px;display:grid;gap:28px}
+.demo-sec{display:grid;gap:12px}
+.demo-h{margin:0;font-size:11px;line-height:16px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--apui-text-muted)}
+.demo-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.demo-row.top{align-items:flex-start}
+.demo-matrix{display:grid;gap:10px 12px;align-items:center;justify-items:start}
+.demo-k{font-size:12px;line-height:16px;color:var(--apui-text-muted);font-family:var(--apui-font-family-mono)}
+.demo-surfaces{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.demo-tile{border-radius:var(--apui-radius-lg);padding:16px;display:grid;gap:10px;align-content:start;border:1px solid var(--apui-border-muted);min-width:0}
+.demo-tile[data-s=canvas]{background:var(--apui-surface-page)}
+.demo-tile[data-s=default]{background:var(--apui-surface-default)}
+.demo-tile[data-s=sunken]{background:var(--apui-surface-sunken)}
+.demo-backdrop{position:relative;overflow:hidden;border-radius:var(--apui-radius-lg);background:var(--apui-surface-page);border:1px solid var(--apui-border-muted)}
+.demo-backdrop>.blob{position:absolute;pointer-events:none}
+.demo-backdrop>.content{position:relative;padding:16px;display:grid;gap:10px}
+.demo-cols{display:grid;gap:16px}
+</style>
+</head>
+<body class="ap">
+<div class="demo"><section class="demo-sec"><h3 class="demo-h">Variants × colors</h3><div class="demo-matrix" style="grid-template-columns:90px repeat(4,auto)"><span></span><span class="demo-k">solid</span><span class="demo-k">soft</span><span class="demo-k">outline</span><span class="demo-k">ghost + dot</span><span class="demo-k">primary</span><span class="apui-badge" data-color="primary" data-variant="solid">Primary</span><span class="apui-badge" data-color="primary" data-variant="soft">Primary</span><span class="apui-badge" data-color="primary" data-variant="outline">Primary</span><span class="apui-badge" data-color="primary" data-variant="ghost"><span  data-scope="badge" data-part="dot"></span>Primary</span><span class="demo-k">secondary</span><span class="apui-badge" data-color="secondary" data-variant="solid">Secondary</span><span class="apui-badge" data-color="secondary" data-variant="soft">Secondary</span><span class="apui-badge" data-color="secondary" data-variant="outline">Secondary</span><span class="apui-badge" data-color="secondary" data-variant="ghost"><span  data-scope="badge" data-part="dot"></span>Secondary</span><span class="demo-k">accent</span><span class="apui-badge" data-color="accent" data-variant="solid">Accent</span><span class="apui-badge" data-color="accent" data-variant="soft">Accent</span><span class="apui-badge" data-color="accent" data-variant="outline">Accent</span><span class="apui-badge" data-color="accent" data-variant="ghost"><span  data-scope="badge" data-part="dot"></span>Accent</span><span class="demo-k">neutral</span><span class="apui-badge" data-color="neutral" data-variant="solid">Neutral</span><span class="apui-badge" data-color="neutral" data-variant="soft">Neutral</span><span class="apui-badge" data-color="neutral" data-variant="outline">Neutral</span><span class="apui-badge" data-color="neutral" data-variant="ghost"><span  data-scope="badge" data-part="dot"></span>Neutral</span><span class="demo-k">success</span><span class="apui-badge" data-color="success" data-variant="solid">Success</span><span class="apui-badge" data-color="success" data-variant="soft">Success</span><span class="apui-badge" data-color="success" data-variant="outline">Success</span><span class="apui-badge" data-color="success" data-variant="ghost"><span  data-scope="badge" data-part="dot"></span>Success</span><span class="demo-k">warning</span><span class="apui-badge" data-color="warning" data-variant="solid">Warning</span><span class="apui-badge" data-color="warning" data-variant="soft">Warning</span><span class="apui-badge" data-color="warning" data-variant="outline">Warning</span><span class="apui-badge" data-color="warning" data-variant="ghost"><span  data-scope="badge" data-part="dot"></span>Warning</span><span class="demo-k">error</span><span class="apui-badge" data-color="error" data-variant="solid">Error</span><span class="apui-badge" data-color="error" data-variant="soft">Error</span><span class="apui-badge" data-color="error" data-variant="outline">Error</span><span class="apui-badge" data-color="error" data-variant="ghost"><span  data-scope="badge" data-part="dot"></span>Error</span><span class="demo-k">info</span><span class="apui-badge" data-color="info" data-variant="solid">Info</span><span class="apui-badge" data-color="info" data-variant="soft">Info</span><span class="apui-badge" data-color="info" data-variant="outline">Info</span><span class="apui-badge" data-color="info" data-variant="ghost"><span  data-scope="badge" data-part="dot"></span>Info</span></div></section><section class="demo-sec"><h3 class="demo-h">Sizes, dot, icon</h3><div class="demo-row"><span class="apui-badge" data-color="primary" data-size="sm">Small</span><span class="apui-badge" data-color="primary">Medium</span><span class="apui-badge" data-color="primary" data-size="lg">Large</span><span class="apui-badge" data-color="success"><span  data-scope="badge" data-part="dot"></span>Active</span><span class="apui-badge" data-color="error"><span  data-scope="badge" data-part="dot"></span>Overdue</span><span class="apui-badge" data-color="success"><svg class="apui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-mirror><path d="M7 7h10v10" /> <path d="M7 17 17 7" /></svg>+11.01%</span><span class="apui-badge" data-color="info" data-variant="solid">New</span><span class="apui-badge" data-color="neutral" data-variant="solid">Pro</span></div></section></div>
+</body>
+</html>
