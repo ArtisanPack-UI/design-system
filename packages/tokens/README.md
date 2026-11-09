@@ -1,10 +1,12 @@
 # @artisanpack-ui/tokens
 
-[![CI](https://github.com/ArtisanPack-UI/react/actions/workflows/ci.yml/badge.svg)](https://github.com/ArtisanPack-UI/react/actions/workflows/ci.yml)
+[![CI](https://github.com/ArtisanPack-UI/design-system/actions/workflows/ci.yml/badge.svg)](https://github.com/ArtisanPack-UI/design-system/actions/workflows/ci.yml)
 [![npm](https://img.shields.io/npm/v/@artisanpack-ui/tokens)](https://www.npmjs.com/package/@artisanpack-ui/tokens)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/ArtisanPack-UI/react/blob/main/LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/ArtisanPack-UI/design-system/blob/main/LICENSE)
 
-Shared design tokens, color resolver, and glass helpers for [ArtisanPack UI](https://github.com/ArtisanPack-UI/react). Provides colors, spacing, typography, shadows, animations, and glass morphism presets as CSS custom properties and a Tailwind CSS plugin.
+Shared design tokens, color resolver, and glass helpers for [ArtisanPack UI](https://github.com/ArtisanPack-UI/design-system). Provides colors, spacing, typography, shadows, animations, and glass morphism presets as CSS custom properties and a Tailwind CSS plugin.
+
+> **1.x is frozen.** This package moved here from the React monorepo at 1.0.1 ([#17](https://github.com/ArtisanPack-UI/design-system/issues/17)). The next release is 2.0.0, which switches to W3C DTCG tokens under the `--apui-*` namespace ([D-007](https://github.com/ArtisanPack-UI/design-system/blob/main/docs/decisions.md#d-007-tokens-moves-here-1x-is-frozen-next-release-is-200)). `@artisanpack-ui/react` and `@artisanpack-ui/vue` stay on `^1.0.1` until they migrate.
 
 ## Installation
 
@@ -67,14 +69,15 @@ const glassClasses = glass('md'); // => glass effect classes
 
 ## Part of ArtisanPack UI
 
-This package is part of the [ArtisanPack UI React](https://github.com/ArtisanPack-UI/react) ecosystem:
+This package is part of the [ArtisanPack UI Design System](https://github.com/ArtisanPack-UI/design-system), and is used by:
 
 | Package | Description |
 |---------|-------------|
-| [`@artisanpack-ui/tokens`](https://www.npmjs.com/package/@artisanpack-ui/tokens) | Design tokens, color resolver, glass helpers |
 | [`@artisanpack-ui/react`](https://www.npmjs.com/package/@artisanpack-ui/react) | 56+ React UI components |
-| [`@artisanpack-ui/react-laravel`](https://www.npmjs.com/package/@artisanpack-ui/react-laravel) | Inertia.js adapter wrappers |
+| [`@artisanpack-ui/react-laravel`](https://www.npmjs.com/package/@artisanpack-ui/react-laravel) | Inertia.js adapter wrappers for React |
+| [`@artisanpack-ui/vue`](https://www.npmjs.com/package/@artisanpack-ui/vue) | Vue UI components |
+| [`@artisanpack-ui/vue-laravel`](https://www.npmjs.com/package/@artisanpack-ui/vue-laravel) | Inertia.js adapter wrappers for Vue |
 
 ## License
 
-[MIT](https://github.com/ArtisanPack-UI/react/blob/main/LICENSE) - Jacob Martella
+[MIT](https://github.com/ArtisanPack-UI/design-system/blob/main/LICENSE) - Jacob Martella

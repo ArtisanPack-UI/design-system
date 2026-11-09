@@ -11,9 +11,9 @@ describe('borderRadius', () => {
   it('increases from sm to 3xl', () => {
     const ordered = ['sm', 'base', 'md', 'lg', 'xl', '2xl', '3xl'] as const;
     const values = ordered.map((k) => parseFloat(borderRadius[k]));
-    for (let i = 1; i < values.length; i++) {
-      expect(values[i]).toBeGreaterThan(values[i - 1]);
-    }
+    values.slice(1).forEach((value, i) => {
+      expect(value).toBeGreaterThan(values[i]!);
+    });
   });
 });
 

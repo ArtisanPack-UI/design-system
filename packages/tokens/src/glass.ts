@@ -70,13 +70,7 @@ export type GlassPreset = 'base' | 'frosted' | 'liquid' | 'transparent';
 
 /** Glass tint color names (matching DaisyUI semantic colors) */
 export type GlassTint =
-  | 'primary'
-  | 'secondary'
-  | 'accent'
-  | 'success'
-  | 'warning'
-  | 'error'
-  | 'info';
+  'primary' | 'secondary' | 'accent' | 'success' | 'warning' | 'error' | 'info';
 
 /** Options for generating CSS class names for a glass effect */
 export interface GlassClassOptions {

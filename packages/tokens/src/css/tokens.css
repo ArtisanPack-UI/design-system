@@ -18,7 +18,7 @@
   --color-primary: #3b82f6;
   --color-primary-content: #000000;
   --color-secondary: #64748b;
-  --color-secondary-content: #FFFFFF;
+  --color-secondary-content: #ffffff;
   --color-accent: #f59e0b;
   --color-accent-content: #000000;
   --color-neutral: #737373;
@@ -48,9 +48,13 @@
   --tab-radius: 0.5rem;
 
   /* --- Typography --- */
-  --font-family-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  --font-family-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
-  --font-family-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --font-family-sans:
+    ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+    'Noto Color Emoji';
+  --font-family-serif: ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
+  --font-family-mono:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
+    monospace;
 
   --font-size-xs: 0.75rem;
   --font-size-sm: 0.875rem;
@@ -209,14 +213,14 @@
  * Dark Mode Overrides
  * ========================================================================= */
 
-[data-theme="dark"] {
+[data-theme='dark'] {
   /* --- Colors --- */
-  --color-neutral: #191D24;
-  --color-neutral-content: #A6ADBB;
-  --color-base-100: #2A303C;
+  --color-neutral: #191d24;
+  --color-neutral-content: #a6adbb;
+  --color-base-100: #2a303c;
   --color-base-200: #242933;
-  --color-base-300: #20252E;
-  --color-base-content: #A6ADBB;
+  --color-base-300: #20252e;
+  --color-base-content: #a6adbb;
 
   /* --- Shadows --- */
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.2);
@@ -291,20 +295,34 @@
 }
 
 /* Glass Tint Modifiers */
-.glass-tint-primary { --glass-tint-color: var(--color-primary, #3b82f6); }
-.glass-tint-secondary { --glass-tint-color: var(--color-secondary, #64748b); }
-.glass-tint-accent { --glass-tint-color: var(--color-accent, #f59e0b); }
-.glass-tint-success { --glass-tint-color: var(--color-success, #22c55e); }
-.glass-tint-warning { --glass-tint-color: var(--color-warning, #f97316); }
-.glass-tint-error { --glass-tint-color: var(--color-error, #ef4444); }
-.glass-tint-info { --glass-tint-color: var(--color-info, #0ea5e9); }
+.glass-tint-primary {
+  --glass-tint-color: var(--color-primary, #3b82f6);
+}
+.glass-tint-secondary {
+  --glass-tint-color: var(--color-secondary, #64748b);
+}
+.glass-tint-accent {
+  --glass-tint-color: var(--color-accent, #f59e0b);
+}
+.glass-tint-success {
+  --glass-tint-color: var(--color-success, #22c55e);
+}
+.glass-tint-warning {
+  --glass-tint-color: var(--color-warning, #f97316);
+}
+.glass-tint-error {
+  --glass-tint-color: var(--color-error, #ef4444);
+}
+.glass-tint-info {
+  --glass-tint-color: var(--color-info, #0ea5e9);
+}
 
 /* Tint overlay pseudo-element */
-.glass[class*="glass-tint-"]::before,
-.glass-frosted[class*="glass-tint-"]::before,
-.glass-liquid[class*="glass-tint-"]::before,
-.glass-transparent[class*="glass-tint-"]::before {
-  content: "";
+.glass[class*='glass-tint-']::before,
+.glass-frosted[class*='glass-tint-']::before,
+.glass-liquid[class*='glass-tint-']::before,
+.glass-transparent[class*='glass-tint-']::before {
+  content: '';
   position: absolute;
   inset: 0;
   background: var(--glass-tint-color);
@@ -313,22 +331,42 @@
   border-radius: inherit;
 }
 
-.glass[class*="glass-tint-"],
-.glass-frosted[class*="glass-tint-"],
-.glass-liquid[class*="glass-tint-"],
-.glass-transparent[class*="glass-tint-"] {
+.glass[class*='glass-tint-'],
+.glass-frosted[class*='glass-tint-'],
+.glass-liquid[class*='glass-tint-'],
+.glass-transparent[class*='glass-tint-'] {
   position: relative;
   overflow: hidden;
 }
 
 /* Tint opacity modifiers */
-.glass-tint-opacity-10 { --glass-tint-opacity: 0.1; }
-.glass-tint-opacity-20 { --glass-tint-opacity: 0.2; }
-.glass-tint-opacity-30 { --glass-tint-opacity: 0.3; }
-.glass-tint-opacity-40 { --glass-tint-opacity: 0.4; }
-.glass-tint-opacity-50 { --glass-tint-opacity: 0.5; }
-.glass-tint-opacity-60 { --glass-tint-opacity: 0.6; }
-.glass-tint-opacity-70 { --glass-tint-opacity: 0.7; }
-.glass-tint-opacity-80 { --glass-tint-opacity: 0.8; }
-.glass-tint-opacity-90 { --glass-tint-opacity: 0.9; }
-.glass-tint-opacity-100 { --glass-tint-opacity: 1; }
+.glass-tint-opacity-10 {
+  --glass-tint-opacity: 0.1;
+}
+.glass-tint-opacity-20 {
+  --glass-tint-opacity: 0.2;
+}
+.glass-tint-opacity-30 {
+  --glass-tint-opacity: 0.3;
+}
+.glass-tint-opacity-40 {
+  --glass-tint-opacity: 0.4;
+}
+.glass-tint-opacity-50 {
+  --glass-tint-opacity: 0.5;
+}
+.glass-tint-opacity-60 {
+  --glass-tint-opacity: 0.6;
+}
+.glass-tint-opacity-70 {
+  --glass-tint-opacity: 0.7;
+}
+.glass-tint-opacity-80 {
+  --glass-tint-opacity: 0.8;
+}
+.glass-tint-opacity-90 {
+  --glass-tint-opacity: 0.9;
+}
+.glass-tint-opacity-100 {
+  --glass-tint-opacity: 1;
+}

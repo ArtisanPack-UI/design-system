@@ -1,36 +1,48 @@
 {
   "name": "@artisanpack-ui/tokens",
   "version": "1.0.1",
+  "private": true,
   "description": "Shared design tokens, color resolver, and glass helpers for ArtisanPack UI",
+  "license": "MIT",
+  "author": "Jacob Martella <me@jacobmartella.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ArtisanPack-UI/design-system.git",
+    "directory": "packages/tokens"
+  },
+  "bugs": {
+    "url": "https://github.com/ArtisanPack-UI/design-system/issues"
+  },
+  "homepage": "https://github.com/ArtisanPack-UI/design-system/tree/main/packages/tokens#readme",
   "type": "module",
   "main": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs"
     },
     "./css": "./dist/tokens.css",
     "./tailwind": {
-      "import": "./dist/tailwind-plugin.mjs",
-      "types": "./dist/tailwind-plugin.d.ts"
+      "types": "./dist/tailwind-plugin.d.ts",
+      "import": "./dist/tailwind-plugin.mjs"
     }
   },
   "files": [
     "dist",
-    "README.md"
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
   ],
   "scripts": {
     "build": "tsup",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "type-check": "tsc --noEmit"
   },
   "devDependencies": {
     "clsx": "^2.1.1",
-    "tailwind-merge": "^3.5.0",
-    "tsup": "^8.5.1",
-    "typescript": "^5.9.3",
-    "vitest": "^4.1.2"
+    "tailwind-merge": "^3.5.0"
   },
   "peerDependencies": {
     "clsx": "^2.1.0",
@@ -44,6 +56,5 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "license": "MIT"
+  }
 }

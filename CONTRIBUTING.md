@@ -59,4 +59,4 @@ npm run changeset
 
 Pick the packages, the bump type and a one-line summary. On merge to `main`, CI opens a "version packages" PR; merging that publishes to npm.
 
-The packages are `private` until their first release (#81), so changesets doesn't publish them yet. `@artisanpack-ui/tokens` still publishes from the React monorepo until #17 moves it here, and its first release from this repo is a major version.
+The packages are `private` until their first release (#81), so changesets doesn't publish them yet. `@artisanpack-ui/tokens` now lives here at 1.0.1; 1.x is frozen and its next release is 2.0.0 (D-007).
