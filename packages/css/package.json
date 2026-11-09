@@ -1,0 +1,40 @@
+{
+  "name": "@artisanpack-ui/css",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Plain-CSS component layer for ArtisanPack UI. Tailwind is not required.",
+  "license": "MIT",
+  "author": "Jacob Martella <me@jacobmartella.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ArtisanPack-UI/design-system.git",
+    "directory": "packages/css"
+  },
+  "bugs": {
+    "url": "https://github.com/ArtisanPack-UI/design-system/issues"
+  },
+  "homepage": "https://github.com/ArtisanPack-UI/design-system/tree/main/packages/css#readme",
+  "type": "module",
+  "sideEffects": [
+    "*.css"
+  ],
+  "main": "./dist/index.css",
+  "style": "./dist/index.css",
+  "exports": {
+    ".": "./dist/index.css",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "node build.mjs",
+    "test": "vitest run",
+    "type-check": "tsc --noEmit"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
