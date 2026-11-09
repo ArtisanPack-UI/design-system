@@ -1,0 +1,9 @@
+node_modules
+dist
+package-lock.json
+CHANGELOG.md
+# The Phase 0 reports and the Phase 1 design handoff are generated or handed off as-is.
+docs
+design
+tools
+*.md

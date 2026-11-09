@@ -1,0 +1,47 @@
+{
+  "name": "@artisanpack-ui/manifest",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Per-component JSON manifest for ArtisanPack UI: the API contract the parity tests check.",
+  "license": "MIT",
+  "author": "Jacob Martella <me@jacobmartella.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ArtisanPack-UI/design-system.git",
+    "directory": "packages/manifest"
+  },
+  "bugs": {
+    "url": "https://github.com/ArtisanPack-UI/design-system/issues"
+  },
+  "homepage": "https://github.com/ArtisanPack-UI/design-system/tree/main/packages/manifest#readme",
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "type-check": "tsc --noEmit"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
