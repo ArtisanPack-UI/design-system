@@ -10,6 +10,7 @@ Decisions that shape the design system. To change one, add a new entry that supe
 | [D-004](#d-004-rtl-is-a-launch-requirement) | RTL is a launch requirement | #9 | 2026-11-01 |
 | [D-005](#d-005-visual-direction-strata--edges) | Visual direction: Strata + edges | #14 | 2026-11-08 |
 | [D-006](#d-006-glass-is-a-surface-not-a-theme-preset) | Glass is a surface, not a theme preset | #23 | 2026-11-08 |
+| [D-007](#d-007-tokens-moves-here-1x-is-frozen-next-release-is-200) | `tokens` moves here; 1.x is frozen, next release is 2.0.0 | #17 | 2026-11-08 |
 
 ## D-001: No separate brand
 
@@ -98,3 +99,13 @@ Ledger (lines, near-square, tight) and Harbor (space and soft shadow, ink primar
 **Decision.** Glass is `surface="glass"` (`data-surface="glass"`) on container components: Card, Dialog, DropdownMenu, Toast, Navbar, Alert and Table. There is no `glass` theme preset. #23 ships light, dark and high-contrast, plus the Ledger and Harbor style presets.
 
 **Why.** A glass theme would put glass on every surface, which the brief rules out, and it can't guarantee text contrast without knowing the backdrop. As a surface it is opt-in where a backdrop is worth showing, with a contrast floor, and it falls back to `--apui-surface-raised` under `prefers-reduced-transparency`, without `backdrop-filter` support, and in high contrast.
+
+## D-007: `tokens` moves here; 1.x is frozen, next release is 2.0.0
+
+**Decision.** `@artisanpack-ui/tokens` lives in this repo from 1.0.1, with its history. The React monorepo no longer contains it.
+
+- **1.x is frozen at 1.0.1.** No more 1.x releases. React and Vue depend on `^1.0.1` from npm until they migrate to the new tokens.
+- **The next release is 2.0.0**, cut with the other design-system packages in #81. It switches the format to W3C DTCG (#18 to #20) and the custom properties to `--apui-*` (D-002), so it is a breaking change.
+- The package stays `private` here until then, so changesets can't publish a 1.x by accident.
+
+**Why.** The issue already expected a major, because the format changes. Freezing 1.x keeps one source of truth without publishing anything in between: React and Vue keep working against the 1.0.1 already on npm, and pinning `^1.0.1` instead of `*` stops them from picking up 2.0.0 before they're ready for it. A fix that can't wait for 2.0.0 can still go out as a 1.0.x from this repo by lifting `private` for that release.
