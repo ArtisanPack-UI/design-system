@@ -1,0 +1,13 @@
+{
+  "card": {
+    "radius": {
+      "$type": "dimension",
+      "$value": "{radius.surface}"
+    },
+    "padding": {
+      "$type": "dimension",
+      "$value": "{panel.padding}",
+      "$description": "Follows density through --apui-panel-padding."
+    }
+  }
+}

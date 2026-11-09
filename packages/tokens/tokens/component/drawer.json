@@ -1,0 +1,17 @@
+{
+  "drawer": {
+    "width": {
+      "$type": "dimension",
+      "$value": {
+        "value": 400,
+        "unit": "px"
+      },
+      "$description": "Drawer width; sm 320px, lg 560px."
+    },
+    "radius": {
+      "$type": "dimension",
+      "$value": "{radius.overlay}",
+      "$description": "= --apui-radius-xl, on the inner edge only."
+    }
+  }
+}

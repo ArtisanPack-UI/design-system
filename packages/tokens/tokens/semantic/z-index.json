@@ -1,0 +1,29 @@
+{
+  "z": {
+    "$type": "number",
+    "dropdown": {
+      "$value": 1000,
+      "$description": "DropdownMenu, Select, DatePicker."
+    },
+    "sticky": {
+      "$value": 1100,
+      "$description": "Sticky headers."
+    },
+    "overlay": {
+      "$value": 1200,
+      "$description": "Scrim."
+    },
+    "modal": {
+      "$value": 1300,
+      "$description": "Dialog."
+    },
+    "toast": {
+      "$value": 1400,
+      "$description": "Toast."
+    },
+    "tooltip": {
+      "$value": 1500,
+      "$description": "Tooltip."
+    }
+  }
+}

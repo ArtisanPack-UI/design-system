@@ -1,0 +1,19 @@
+{
+  "menu": {
+    "radius": {
+      "$type": "dimension",
+      "$value": "{radius.overlay}",
+      "$description": "DropdownMenu, Select listbox."
+    },
+    "item-radius": {
+      "$type": "dimension",
+      "$value": "{radius.md}",
+      "$description": "Inset items inside menus."
+    },
+    "item-height": {
+      "$type": "dimension",
+      "$value": "{row.height}",
+      "$description": "Menu item height. Follows density through --apui-row-height."
+    }
+  }
+}

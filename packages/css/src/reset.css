@@ -1,0 +1,41 @@
+/*
+ * Reset, scoped to design-system markup so it never touches the rest of the
+ * page. :where() keeps every selector at zero specificity.
+ */
+@layer apui.reset {
+  :where([class^='apui-'], [class*=' apui-']),
+  :where([class^='apui-'], [class*=' apui-']) *,
+  :where([class^='apui-'], [class*=' apui-'])::before,
+  :where([class^='apui-'], [class*=' apui-'])::after,
+  :where([class^='apui-'], [class*=' apui-']) *::before,
+  :where([class^='apui-'], [class*=' apui-']) *::after {
+    box-sizing: border-box;
+  }
+
+  :where([class^='apui-'], [class*=' apui-']) :where(button, input, select, textarea) {
+    margin: 0;
+    font: inherit;
+    letter-spacing: inherit;
+    color: inherit;
+  }
+
+  /*
+   * An element that sets a theme also resets the inherited text color and the
+   * native color scheme. Without this, a [data-theme='dark'] region on a light
+   * page inherits the page's computed (dark) text color.
+   */
+  :where([data-theme]) {
+    color: var(--apui-text-default);
+    color-scheme: light;
+  }
+
+  :where([data-theme='dark']) {
+    color-scheme: dark;
+  }
+
+  :where(button[class^='apui-'], button[class*=' apui-']) {
+    margin: 0;
+    font: inherit;
+    letter-spacing: inherit;
+  }
+}

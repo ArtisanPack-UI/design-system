@@ -1,0 +1,12 @@
+{
+  "sidebar": {
+    "width": {
+      "$type": "dimension",
+      "$value": {
+        "value": 248,
+        "unit": "px"
+      },
+      "$description": "AppShell sidebar width; collapsed 64px."
+    }
+  }
+}

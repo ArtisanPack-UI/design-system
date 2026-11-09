@@ -20,7 +20,7 @@ npm run build
 
 ```text
 packages/
-├── tokens/     # @artisanpack-ui/tokens: DTCG source tokens and generated outputs
+├── tokens/     # @artisanpack-ui/tokens: DTCG source tokens and generated outputs (docs/tokens)
 ├── css/        # @artisanpack-ui/css: plain-CSS component layer (/tailwind preset planned in #24)
 ├── behavior/   # @artisanpack-ui/behavior: interaction engine with Alpine, React and Vue adapters
 └── manifest/   # @artisanpack-ui/manifest: per-component API manifest
@@ -33,9 +33,11 @@ tools/          # Inventory and design tooling (not workspaces)
 
 | Command | What it does |
 |---|---|
-| `npm run build` | Builds every package |
-| `npm test` | Runs every package's tests |
+| `npm run build` | Builds every package. Fails if the committed token outputs are stale |
+| `npm test` | Runs every package's tests. The CSS cascade tests need Chromium: `npx playwright install chromium` once |
 | `npm run lint` | ESLint |
+| `npm run lint:css` | Stylelint: layers, `apui` prefix, logical properties ([conventions](docs/css-conventions.md)) |
+| `npm run tokens` | Validates the DTCG tokens and regenerates their CSS, TS and PHP outputs |
 | `npm run format` / `format:check` | Prettier |
 | `npm run type-check` | `tsc --noEmit` in every package |
 | `npm test --prefix tools/inventory` | Checks the inventory data, including the D-003 exceptions |

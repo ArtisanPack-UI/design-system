@@ -1,0 +1,8 @@
+{
+  "alert": {
+    "radius": {
+      "$type": "dimension",
+      "$value": "{radius.surface}"
+    }
+  }
+}

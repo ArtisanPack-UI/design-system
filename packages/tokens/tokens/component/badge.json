@@ -1,0 +1,8 @@
+{
+  "badge": {
+    "radius": {
+      "$type": "dimension",
+      "$value": "{radius.control}"
+    }
+  }
+}

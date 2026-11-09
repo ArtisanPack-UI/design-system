@@ -28,7 +28,7 @@ Open any `preview.html` in a browser. Add `?theme=dark` or `?theme=high-contrast
 
 ## How to use this spec
 
-- **Tokens:** #20 turns `tokens/tokens.json` into DTCG JSON under the #18 schema. From then on the DTCG JSON is the source of truth, and design changes are proposed as diffs against it. Keep the token names; they follow the token audit.
+- **Tokens:** #20 turned `tokens/tokens.json` into DTCG JSON in `packages/tokens/tokens/` ([schema](../docs/tokens/README.md)). That JSON is now the source of truth, and design changes are proposed as diffs against it. Keep the token names; they follow the token audit.
 - **CSS:** `css/components.css` shows the intended selectors, data attributes, parts and token use. Rebuild it properly in `@artisanpack-ui/css`, one file per component, with component-tier tokens in place of the private `--apui-_x` variables.
 - **Components:** each component's `README.md` and `preview.html` are its "Claude Design spec" step. Design sign-off means the built component matches its preview in every variant, size, state and theme.
 - **Preview-only:** `.is-hover`, `.is-focus`, `.is-active` and `.is-selected` force states in the previews. Don't ship them. The placeholder photos are drawn SVG landscapes.

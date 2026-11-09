@@ -1,0 +1,24 @@
+{
+  "table": {
+    "radius": {
+      "$type": "dimension",
+      "$value": "{radius.surface}",
+      "$description": "Table wrapper."
+    },
+    "head-weight": {
+      "$type": "fontWeight",
+      "$value": "{font-weight.medium}",
+      "$description": "Header cell weight."
+    },
+    "row-height": {
+      "$type": "dimension",
+      "$value": "{row.height}",
+      "$description": "Body row height. Follows density through --apui-row-height."
+    },
+    "cell-padding-x": {
+      "$type": "dimension",
+      "$value": "{cell.padding-x}",
+      "$description": "Cell inline padding. Follows density through --apui-cell-padding-x."
+    }
+  }
+}

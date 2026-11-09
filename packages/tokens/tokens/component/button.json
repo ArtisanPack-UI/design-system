@@ -1,0 +1,13 @@
+{
+  "button": {
+    "radius": {
+      "$type": "dimension",
+      "$value": "{radius.control}"
+    },
+    "weight": {
+      "$type": "fontWeight",
+      "$value": "{font-weight.medium}",
+      "$description": "Button label weight."
+    }
+  }
+}

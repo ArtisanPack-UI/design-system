@@ -1,7 +1,15 @@
 /*
  * @artisanpack-ui/css
  *
- * Declares the cascade layer order (D-002). Tokens and components fill these
- * layers from #20 and #21 on.
+ * Entry point. The build inlines each @import in order, so the published
+ * dist/index.css is one file. The first statement fixes the cascade layer
+ * order (D-002): app CSS outside these layers always wins, without !important.
+ *
+ * Component stylesheets go in src/components/<name>.css and are imported
+ * between the tokens and the utilities. See docs/css-conventions.md.
  */
 @layer apui.reset, apui.tokens, apui.components, apui.utilities;
+
+@import './reset.css';
+@import '@artisanpack-ui/tokens/css';
+@import './utilities.css';

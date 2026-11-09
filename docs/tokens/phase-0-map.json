@@ -1,0 +1,232 @@
+{
+  "$comment": "How each target in docs/inventory/data/token-map.json landed in the DTCG tokens (#18). Targets that exist as built tokens need no entry. Every other target is listed here: superseded (with the tokens that replace it), dropped, or deferred to a later issue. packages/tokens/test/phase-0-map.test.ts keeps this file complete and checks every replacement exists.",
+  "resolutions": {
+    "--apui-surface-glass-opacity": {
+      "status": "superseded",
+      "by": ["surface.glass"],
+      "reason": "One glass recipe (D-005): the 80% opacity floor is the alpha of --apui-surface-glass."
+    },
+    "--apui-surface-glass-tint": {
+      "status": "dropped",
+      "reason": "Glass is a neutral surface (D-006). Tinted glass would break the contrast floor checked against black, white, red and blue backdrops."
+    },
+    "--apui-surface-glass-tint-opacity": {
+      "status": "dropped",
+      "reason": "No tinted glass (D-006)."
+    },
+    "--apui-surface-glass-border-opacity": {
+      "status": "superseded",
+      "by": ["surface.glass-border"],
+      "reason": "The rim is one color token with its alpha built in."
+    },
+    "--apui-surface-glass-border-width": {
+      "status": "superseded",
+      "by": ["border.width"],
+      "reason": "Glass uses the same 1px edge as every container."
+    },
+    "--apui-surface-glass-highlight": {
+      "status": "dropped",
+      "reason": "The brand book rules out rim lighting and glows."
+    },
+    "--apui-surface-glass-highlight-opacity": {
+      "status": "dropped",
+      "reason": "The brand book rules out rim lighting and glows."
+    },
+    "--apui-surface-glass-shadow-color": {
+      "status": "superseded",
+      "by": ["elevation.glass"],
+      "reason": "The glass shadow is one shadow token per theme."
+    },
+    "--apui-surface-glass-shadow-opacity": {
+      "status": "superseded",
+      "by": ["elevation.glass"],
+      "reason": "The glass shadow is one shadow token per theme."
+    },
+    "--apui-datepicker-*": {
+      "status": "deferred",
+      "issue": 55,
+      "reason": "DatePicker component tokens arrive with the DatePicker rebuild; flatpickr's future was open in the audit (question 12)."
+    },
+    "--apui-datepicker-radius": {
+      "status": "superseded",
+      "by": ["radius.field", "popover.radius"],
+      "reason": "The field uses the field radius and the calendar the popover radius."
+    },
+    "--apui-datepicker-padding": {
+      "status": "deferred",
+      "issue": 55,
+      "reason": "Component token, added with the DatePicker rebuild."
+    },
+    "--apui-datepicker-cell-size": {
+      "status": "deferred",
+      "issue": 55,
+      "reason": "Component token, added with the DatePicker rebuild."
+    },
+    "--apui-datepicker-day-hover-bg": {
+      "status": "superseded",
+      "by": ["state.hover"],
+      "reason": "Hover is the shared hover wash."
+    },
+    "--apui-datepicker-day-hover-text": {
+      "status": "superseded",
+      "by": ["text.default"],
+      "reason": "Hover keeps the default text color."
+    },
+    "--apui-datepicker-selected-bg": {
+      "status": "superseded",
+      "by": ["selected.bg"],
+      "reason": "The chosen date uses the shared selected fill."
+    },
+    "--apui-datepicker-selected-text": {
+      "status": "superseded",
+      "by": ["color.primary-soft-foreground"],
+      "reason": "Text on the selected fill."
+    },
+    "--apui-datepicker-today-bg": {
+      "status": "deferred",
+      "issue": 55,
+      "reason": "Component token, added with the DatePicker rebuild."
+    },
+    "--apui-datepicker-today-text": {
+      "status": "deferred",
+      "issue": 55,
+      "reason": "Component token, added with the DatePicker rebuild."
+    },
+    "--apui-transition-property-*": {
+      "status": "dropped",
+      "reason": "Which properties animate is a component decision, written in each component's CSS. Timing comes from the motion tokens."
+    },
+    "--apui-transition-*": {
+      "status": "superseded",
+      "by": ["motion.duration-fast", "motion.duration-moderate", "motion.duration-slow", "motion.ease-standard", "motion.ease-enter", "motion.ease-exit"],
+      "reason": "Semantic durations and easings replace the transition shorthands."
+    },
+    "--apui-shadow-*": {
+      "status": "superseded",
+      "by": ["elevation.raised", "elevation.overlay", "elevation.glass"],
+      "reason": "A named elevation set replaces the shadow scale (D-005, audit question 9). Shadows mark only what floats."
+    },
+    "--apui-font-size-*": {
+      "status": "superseded",
+      "by": ["type.body-md.font-size"],
+      "reason": "Sizes live in the type styles (type.<style>.font-size), not in a free scale."
+    },
+    "--apui-letter-spacing-*": {
+      "status": "superseded",
+      "by": ["type.display-xl.letter-spacing", "type.eyebrow.letter-spacing"],
+      "reason": "Tracking lives in the type styles (type.<style>.letter-spacing)."
+    },
+    "--apui-line-height-*": {
+      "status": "superseded",
+      "by": ["type.body-md.line-height"],
+      "reason": "Line heights live in the type styles (type.<style>.line-height)."
+    },
+    "--apui-type-letter-spacing": {
+      "status": "superseded",
+      "by": ["type.body-md.letter-spacing"],
+      "reason": "Tracking lives in the type styles."
+    },
+    "--apui-type-letter-spacing-wide": {
+      "status": "superseded",
+      "by": ["type.eyebrow.letter-spacing"],
+      "reason": "The one wide tracking is the eyebrow style."
+    },
+    "--apui-type-line-height": {
+      "status": "superseded",
+      "by": ["type.body-md.line-height"],
+      "reason": "Line heights live in the type styles."
+    },
+    "--apui-type-line-height-*": {
+      "status": "superseded",
+      "by": ["type.body-sm.line-height", "type.body-lg.line-height"],
+      "reason": "Line heights live in the type styles."
+    },
+    "--apui-font-scale": {
+      "status": "deferred",
+      "issue": 23,
+      "reason": "Larger-text accessibility presets are decided with the theme presets (audit question 7)."
+    },
+    "--apui-button-border-width": {
+      "status": "superseded",
+      "by": ["border.width"],
+      "reason": "Every control outline uses the shared border width."
+    },
+    "--apui-tabs-border-width": {
+      "status": "superseded",
+      "by": ["border.width", "selected.indicator-width"],
+      "reason": "The tab list edge uses the border width and the active underline the selected indicator width."
+    },
+    "--apui-color-*0": {
+      "status": "superseded",
+      "by": ["steel.500", "slate.500", "marigold.500", "color.primary", "color.primary-hover", "color.primary-soft"],
+      "reason": "Generated primary, secondary and accent shades become the steel, slate and marigold ramps plus the seven color roles."
+    },
+    "--apui-target-size-touch": {
+      "status": "superseded",
+      "by": ["target-size-min", "control-height.lg"],
+      "reason": "One minimum target (WCAG 2.5.8). Touch-first screens pick the lg control size."
+    },
+    "--apui-disabled-bg": {
+      "status": "dropped",
+      "reason": "Disabled controls keep their surface and switch to the disabled text color, paired with aria-disabled."
+    },
+    "--apui-disabled-text": {
+      "status": "superseded",
+      "by": ["text.disabled"],
+      "reason": "Renamed into the text roles."
+    },
+    "--apui-disabled-opacity": {
+      "status": "dropped",
+      "reason": "Opacity fades text below contrast on some surfaces; disabled uses --apui-text-disabled instead."
+    },
+    "--apui-chart-axis-label": {
+      "status": "superseded",
+      "by": ["chart.axis"],
+      "reason": "Axis labels and ticks share one token."
+    },
+    "--apui-chart-font-size": {
+      "status": "superseded",
+      "by": ["type.caption.font-size"],
+      "reason": "Chart text uses the caption style."
+    },
+    "--apui-chart-bg": {
+      "status": "superseded",
+      "by": ["surface.default"],
+      "reason": "A chart sits on its container's surface."
+    },
+    "--apui-chart-text": {
+      "status": "superseded",
+      "by": ["text.default"],
+      "reason": "Chart text uses the text roles."
+    },
+    "--apui-chart-series-*": {
+      "status": "superseded",
+      "by": ["chart.1", "chart.2", "chart.3", "chart.4", "chart.5", "chart.6"],
+      "reason": "The categorical palette."
+    },
+    "--apui-chart-data-label": {
+      "status": "superseded",
+      "by": ["text.default"],
+      "reason": "Direct labels use the default text color."
+    },
+    "--apui-chart-grid-dash": {
+      "status": "dropped",
+      "reason": "Gridlines are solid and recessive (--apui-chart-grid)."
+    },
+    "--apui-chart-legend-text": {
+      "status": "superseded",
+      "by": ["text.muted"],
+      "reason": "Legends are secondary text."
+    },
+    "--apui-chart-stroke-width": {
+      "status": "deferred",
+      "issue": 63,
+      "reason": "Component token, added with the Chart rebuild."
+    },
+    "--apui-gap-*": {
+      "status": "superseded",
+      "by": ["panel.gap", "field.gap", "density"],
+      "reason": "Density resolves gaps per mode (#22). For custom spacing, multiply a space token by --apui-density."
+    }
+  }
+}

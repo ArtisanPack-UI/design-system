@@ -11,6 +11,8 @@ Decisions that shape the design system. To change one, add a new entry that supe
 | [D-005](#d-005-visual-direction-strata--edges) | Visual direction: Strata + edges | #14 | 2026-11-08 |
 | [D-006](#d-006-glass-is-a-surface-not-a-theme-preset) | Glass is a surface, not a theme preset | #23 | 2026-11-08 |
 | [D-007](#d-007-tokens-moves-here-1x-is-frozen-next-release-is-200) | `tokens` moves here; 1.x is frozen, next release is 2.0.0 | #17 | 2026-11-08 |
+| [D-008](#d-008-token-source-format-and-build) | Token source format and build | #18, #19 | 2026-11-09 |
+| [D-009](#d-009-css-lint-scope-and-a-scoped-reset) | CSS lint scope and a scoped reset | #21 | 2026-11-09 |
 
 ## D-001: No separate brand
 
@@ -109,3 +111,39 @@ Ledger (lines, near-square, tight) and Harbor (space and soft shadow, ink primar
 - The package stays `private` here until then, so changesets can't publish a 1.x by accident.
 
 **Why.** The issue already expected a major, because the format changes. Freezing 1.x keeps one source of truth without publishing anything in between: React and Vue keep working against the 1.0.1 already on npm, and pinning `^1.0.1` instead of `*` stops them from picking up 2.0.0 before they're ready for it. A fix that can't wait for 2.0.0 can still go out as a 1.0.x from this repo by lifting `private` for that release.
+
+## D-008: Token source format and build
+
+**Decision.**
+
+- The source is DTCG 2025.10 JSON with object values (`{ "value": 16, "unit": "px" }`, `{ "colorSpace": …, "components": … }`), in `packages/tokens/tokens/`. The directory sets the tier: `primitive/`, `semantic/`, `component/`.
+- Two extensions are documented: `dimension` also takes `em` and `ch`, and `color` takes only `srgb` (with a matching hex) and `oklch`.
+- Modes are one file per mode under `modes/<axis>/`, for `theme` and `density`, switched by `data-theme` and `data-density` on any element.
+- A small dependency-free Node build writes CSS (in `@layer apui.tokens`), a typed TypeScript map and a PHP array. The outputs are committed, and `npm run build` fails when they are stale.
+- The 1.x modules (`cn`, `resolveColor`, glass helpers, DaisyUI color maps, the Tailwind plugin) are removed in 2.0.0. The Tailwind preset returns in #24, generated from the tokens.
+- Motion, which the spec doesn't define, takes the 1.x duration scale and standard easings, plus semantic `motion.*` tokens.
+
+**Why.**
+
+- Object values are the stable DTCG form, and the string forms are deprecated. The extensions cover the three spec values DTCG can't express (letter spacing in `em`, `measure` in `ch`, and exact hex output) without bending the rest.
+- One file per mode keeps every file valid DTCG on its own.
+- Re-declaring the tokens that alias a mode token in every mode block is what makes subtree theming and density work in CSS. Style Dictionary would need custom formats for that, and for PHP, so a ~500-line builder is simpler and fully deterministic.
+- Committing outputs lets PHP consumers read the array without Node, and makes every token change reviewable as a diff.
+
+## D-009: CSS lint scope and a scoped reset
+
+**Decision.**
+
+- Stylelint bans every physical side property (`*-left`, `*-right`, `*-top`, `*-bottom`, `left`, `right`, `top`, `bottom`, the physical corner radii, and `left`/`right` values of `float`, `clear`, `text-align` and `caption-side`), plus box shorthands whose left and right values differ.
+- `width` and `height` stay allowed.
+- An exception takes `stylelint-disable-next-line … -- reason`, and an exception without a reason fails.
+- The reset applies only inside elements with an `apui-` class, at zero specificity through `:where()`.
+- An element with `data-theme` also gets `color: var(--apui-text-default)` and the matching `color-scheme`. It gets no background.
+
+**Why.**
+
+- Banning the block-axis sides as well keeps one simple rule ("logical only") and leaves room for vertical writing modes.
+- Sizes don't flip in RTL, and the spec uses them throughout, so banning them would add exceptions without catching a bug.
+- A page-wide reset would restyle the host app's markup, which a component library loaded into existing Laravel, React and Vue apps must not do.
+- Text inherits as a computed color, so without the `data-theme` rule a dark region on a light page keeps the page's dark text. The element opts in through the attribute, so this stays scoped. Backgrounds are left to the surfaces the components paint.
+
