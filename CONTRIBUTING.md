@@ -21,7 +21,7 @@ npm run build
 ```text
 packages/
 ├── tokens/     # @artisanpack-ui/tokens: DTCG source tokens and generated outputs
-├── css/        # @artisanpack-ui/css: plain-CSS component layer (+ /tailwind preset)
+├── css/        # @artisanpack-ui/css: plain-CSS component layer (/tailwind preset planned in #24)
 ├── behavior/   # @artisanpack-ui/behavior: interaction engine with Alpine, React and Vue adapters
 └── manifest/   # @artisanpack-ui/manifest: per-component API manifest
 design/         # Phase 1 design spec (the visual target)

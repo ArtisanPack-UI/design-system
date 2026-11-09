@@ -9,7 +9,7 @@ Phase 0 and Phase 1 are complete. The [inventory](docs/inventory/README.md) reco
 | Package | Purpose | Status |
 |---|---|---|
 | [`@artisanpack-ui/tokens`](packages/tokens) | Source tokens in W3C DTCG JSON plus generated outputs | Scaffold; moves here in #17 |
-| [`@artisanpack-ui/css`](packages/css) | Plain-CSS component layer (Tailwind not required), with an optional Tailwind v4 preset at `/tailwind` | Scaffold |
+| [`@artisanpack-ui/css`](packages/css) | Plain-CSS component layer (Tailwind not required), plus an optional Tailwind v4 preset at `/tailwind` (planned in #24) | Scaffold |
 | [`@artisanpack-ui/behavior`](packages/behavior) | Shared interaction engine with Alpine, React and Vue adapters | Scaffold |
 | [`@artisanpack-ui/manifest`](packages/manifest) | Per-component JSON manifest | Scaffold |
 
