@@ -1,0 +1,34 @@
+<!-- @dsCard group="Overlays" height=300 subtitle="Short labels on hover and focus; never the only source of information" -->
+<!doctype html>
+<html>
+<head>
+<link rel="stylesheet" href="../../tokens/tokens.css">
+<link rel="stylesheet" href="../../css/components.css">
+<script>document.documentElement.dataset.theme=new URLSearchParams(location.search).get("theme")||document.documentElement.dataset.theme||"light"</script>
+
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;background:var(--apui-surface-page)}
+.demo{padding:24px;display:grid;gap:28px}
+.demo-sec{display:grid;gap:12px}
+.demo-h{margin:0;font-size:11px;line-height:16px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--apui-text-muted)}
+.demo-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.demo-row.top{align-items:flex-start}
+.demo-matrix{display:grid;gap:10px 12px;align-items:center;justify-items:start}
+.demo-k{font-size:12px;line-height:16px;color:var(--apui-text-muted);font-family:var(--apui-font-family-mono)}
+.demo-surfaces{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.demo-tile{border-radius:var(--apui-radius-lg);padding:16px;display:grid;gap:10px;align-content:start;border:1px solid var(--apui-border-muted);min-width:0}
+.demo-tile[data-s=canvas]{background:var(--apui-surface-page)}
+.demo-tile[data-s=default]{background:var(--apui-surface-default)}
+.demo-tile[data-s=sunken]{background:var(--apui-surface-sunken)}
+.demo-backdrop{position:relative;overflow:hidden;border-radius:var(--apui-radius-lg);background:var(--apui-surface-page);border:1px solid var(--apui-border-muted)}
+.demo-backdrop>.blob{position:absolute;pointer-events:none}
+.demo-backdrop>.content{position:relative;padding:16px;display:grid;gap:10px}
+.demo-cols{display:grid;gap:16px}
+</style>
+</head>
+<body class="ap">
+<div class="demo"><section class="demo-sec"><h3 class="demo-h">Placements</h3><div class="demo-row" style="gap:28px"><span class="apui-tooltip" data-placement="top" role="tooltip"><span  data-scope="tooltip" data-part="arrow"></span>Top</span><span class="apui-tooltip" data-placement="bottom" role="tooltip"><span  data-scope="tooltip" data-part="arrow"></span>Bottom</span><span class="apui-tooltip" data-placement="end" role="tooltip"><span  data-scope="tooltip" data-part="arrow"></span>End</span><span class="apui-tooltip" data-placement="start" role="tooltip"><span  data-scope="tooltip" data-part="arrow"></span>Start</span></div></section><section class="demo-sec"><h3 class="demo-h">On a trigger · with shortcut · long text</h3><div class="demo-row top" style="gap:40px"><div style="display:grid;justify-items:center;gap:8px"><span class="apui-tooltip" data-placement="top" role="tooltip"><span  data-scope="tooltip" data-part="arrow"></span>Archive<kbd class="apui-kbd">E</kbd></span><button class="apui-button is-focus" data-variant="outline" data-color="neutral" data-size="sm" data-icon-only aria-label="Archive"><svg class="apui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="5" x="2" y="3" rx="1" /> <path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8" /> <path d="M10 12h4" /></svg></button></div><div style="display:grid;justify-items:center;gap:8px"><span class="apui-tooltip" data-placement="top" role="tooltip"><span  data-scope="tooltip" data-part="arrow"></span>Search<kbd class="apui-kbd">⌘</kbd><kbd class="apui-kbd">K</kbd></span><button class="apui-button" data-variant="ghost" data-color="neutral" data-icon-only aria-label="Search"><svg class="apui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8" /> <path d="m21 21-4.3-4.3" /></svg></button></div><span class="apui-tooltip" data-placement="top" role="tooltip" data-size="lg"><span  data-scope="tooltip" data-part="arrow"></span>Conversion is completed deals divided by unique visits in the period.</span></div></section></div>
+</body>
+</html>

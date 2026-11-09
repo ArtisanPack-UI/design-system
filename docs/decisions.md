@@ -8,6 +8,8 @@ Decisions that shape the design system. To change one, add a new entry that supe
 | [D-002](#d-002-the-css-namespace-is-apui) | The CSS namespace is `apui` | #7 | 2026-11-01 |
 | [D-003](#d-003-full-parity-at-launch-with-four-exceptions) | Full parity at launch, with four exceptions | #8 | 2026-11-01 |
 | [D-004](#d-004-rtl-is-a-launch-requirement) | RTL is a launch requirement | #9 | 2026-11-01 |
+| [D-005](#d-005-visual-direction-strata--edges) | Visual direction: Strata + edges | #14 | 2026-11-08 |
+| [D-006](#d-006-glass-is-a-surface-not-a-theme-preset) | Glass is a surface, not a theme preset | #23 | 2026-11-08 |
 
 ## D-001: No separate brand
 
@@ -64,3 +66,35 @@ Signature is **not** an exception, though #8 named it as a candidate. `forms` al
 - **Stays LTR:** Chart plot content, and the content of Code and Diff. The controls around them still mirror.
 
 **Why.** All the CSS is being rewritten, so logical properties cost almost nothing now, whereas a retrofit would touch every component in three stacks. Today's libraries have no RTL support: about 2,450 physical Tailwind utilities against 42 logical ones (a rough count), and only `en`, `de`, `es` and `fr` locales ship. Fixtures are part of the decision because logical CSS alone would not catch arrow-key or positioning bugs, and that breakage would build up unseen.
+
+## D-005: Visual direction: Strata + edges
+
+**Decision.** The default visual language is **Strata + edges**:
+
+- Surfaces separate by tone: each layer is one lightness step from the one below.
+- Every container carries a hairline edge (`--apui-border-muted`), so a component reads correctly whatever it is placed on.
+- Shadows mark only things that float.
+- Controls are round (`--apui-radius-control`), text fields gently rounded and containers rectangular.
+- Geist and Geist Mono (OFL), Lucide icons (ISC).
+- A neutral, steel-blue primary with grays tinted toward it.
+
+Ledger (lines, near-square, tight) and Harbor (space and soft shadow, ink primary) ship as alternate presets that change token values only. The full spec is in [`design/`](../design/README.md).
+
+**Why.** Three directions were explored (#13): Strata (tone), Ledger (lines) and Harbor (space). Judged as a component library rather than as screens, tone alone fails when a component lands on a same-toned background, shadow-led depth only works in light mode, and lines alone read as generic enterprise UI. Strata with an edge token on every surface keeps the calm tonal look of the references while working on any background and in both themes. Shipping the other two as presets proves the token structure lets developers change the whole personality without touching components.
+
+**Answers to the token audit's open questions** (#6), for #20:
+
+| # | Question | Answer |
+|---|---|---|
+| 1 | Surface mapping | Add `--apui-surface-page`. Order: sunken, page, default, raised, overlay, plus glass and inverse |
+| 2 | Glass count | One recipe: 80% surface tone, blur, saturation, rim and `--apui-elevation-glass` |
+| 3 | Glass as surface or preset | A surface only (D-006) |
+| 4 | Glass and text | 80% opacity floor plus `--apui-text-muted-glass`, checked against black, white, red and blue backdrops |
+| 9 | Elevation levels | A named set: `raised` (none in Strata), `overlay`, `glass` |
+| 10 | Theme selector | One attribute, `data-theme`, on any element |
+
+## D-006: Glass is a surface, not a theme preset
+
+**Decision.** Glass is `surface="glass"` (`data-surface="glass"`) on container components: Card, Dialog, DropdownMenu, Toast, Navbar, Alert and Table. There is no `glass` theme preset. #23 ships light, dark and high-contrast, plus the Ledger and Harbor style presets.
+
+**Why.** A glass theme would put glass on every surface, which the brief rules out, and it can't guarantee text contrast without knowing the backdrop. As a surface it is opt-in where a backdrop is worth showing, with a contrast floor, and it falls back to `--apui-surface-raised` under `prefers-reduced-transparency`, without `backdrop-filter` support, and in high contrast.

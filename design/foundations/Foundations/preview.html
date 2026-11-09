@@ -1,0 +1,218 @@
+<!-- @dsCard group="Foundations" height=1180 width=1120 page subtitle="Surfaces, edges, focus and glass in light, dark and high-contrast" -->
+<!doctype html>
+<html>
+<head>
+<link rel="stylesheet" href="../../tokens/tokens.css">
+<link rel="stylesheet" href="../../css/components.css">
+<script>document.documentElement.dataset.theme=new URLSearchParams(location.search).get("theme")||document.documentElement.dataset.theme||"light"</script>
+
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: var(--apui-font-family-sans); color: var(--apui-text-default); background: var(--apui-surface-page); }
+  .sheet { padding: var(--apui-space-6); display: grid; gap: var(--apui-space-8); }
+  h2 { margin: 0 0 var(--apui-space-3); font-size: 16px; line-height: 24px; font-weight: 600; }
+  .note { margin: 0 0 var(--apui-space-4); font-size: 13px; line-height: 18px; color: var(--apui-text-muted); max-width: 72ch; }
+  .themes { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--apui-space-3); }
+  .theme { background: var(--apui-surface-page); color: var(--apui-text-default); border-radius: var(--apui-radius-lg); padding: var(--apui-space-4); border: var(--apui-border-width) solid var(--apui-border-muted); }
+  .tag { font-size: 11px; line-height: 16px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--apui-text-muted); margin-block-end: var(--apui-space-3); display: block; }
+  .panel { background: var(--apui-surface-default); border: var(--apui-border-width) solid var(--apui-border-muted); border-radius: var(--apui-card-radius); padding: var(--apui-panel-padding); }
+  .panel h3 { margin: 0 0 var(--apui-space-1); font-size: 16px; line-height: 24px; font-weight: 600; }
+  .muted { color: var(--apui-text-muted); font-size: 13px; line-height: 18px; margin: 0; }
+  .raised { margin-block-start: var(--apui-space-3); background: var(--apui-surface-raised); border: var(--apui-border-width) solid var(--apui-border-muted); border-radius: calc(var(--apui-card-radius) - 6px); padding: var(--apui-space-3); display: flex; justify-content: space-between; align-items: center; }
+  .stat { font-size: 28px; line-height: 34px; font-weight: 500; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+  .delta { font-size: 12px; line-height: 16px; font-weight: 500; color: var(--apui-color-success-text); }
+  .well { margin-block-start: var(--apui-space-3); background: var(--apui-surface-sunken); border-radius: var(--apui-radius-sm); padding: var(--apui-space-2) var(--apui-space-3); font-family: var(--apui-font-family-mono); font-size: 12px; color: var(--apui-text-muted); }
+  .row { display: flex; gap: var(--apui-space-2); align-items: center; flex-wrap: wrap; margin-block-start: var(--apui-space-3); }
+  .btn { font: inherit; font-size: 14px; line-height: 20px; font-weight: var(--apui-button-weight); height: var(--apui-control-height-md); padding-inline: var(--apui-space-4); border-radius: var(--apui-button-radius); border: var(--apui-border-width) solid transparent; display: inline-flex; align-items: center; gap: var(--apui-space-2); cursor: pointer; }
+  .solid { background: var(--apui-color-primary); color: var(--apui-color-primary-foreground); }
+  .soft { background: var(--apui-color-primary-soft); color: var(--apui-color-primary-soft-foreground); }
+  .outline { background: transparent; color: var(--apui-text-default); border-color: var(--apui-border-default); }
+  .focus { outline: none; box-shadow: 0 0 0 var(--apui-focus-ring-offset) var(--apui-focus-ring-offset-color), 0 0 0 calc(var(--apui-focus-ring-offset) + var(--apui-focus-ring-width)) var(--apui-focus-ring-color); }
+  .input { height: var(--apui-control-height-md); border-radius: var(--apui-input-radius); border: var(--apui-border-width) solid var(--apui-border-default); background: var(--apui-surface-default); color: var(--apui-text-default); padding-inline: var(--apui-space-3); font: inherit; font-size: 14px; width: 100%; display: flex; align-items: center; }
+  .input.ph { color: var(--apui-text-muted); }
+  .menu { margin-block-start: var(--apui-space-3); background: var(--apui-surface-overlay); border: var(--apui-border-width) solid var(--apui-border-muted); border-radius: var(--apui-menu-radius); box-shadow: var(--apui-elevation-overlay); padding: var(--apui-space-1); font-size: 14px; }
+  .menu div { height: var(--apui-control-height-md); display: flex; align-items: center; padding-inline: var(--apui-space-3); border-radius: var(--apui-menu-item-radius); }
+  .menu .hover { background: var(--apui-state-hover); }
+  .menu .sel { background: var(--apui-selected-bg); color: var(--apui-color-primary-soft-foreground); }
+  .badges { display: flex; gap: var(--apui-space-1-5); flex-wrap: wrap; margin-block-start: var(--apui-space-3); }
+  .badge { font-size: 12px; line-height: 16px; font-weight: 500; padding: 2px var(--apui-space-2); border-radius: var(--apui-badge-radius); }
+  /* glass */
+  .backdrop { color: var(--apui-text-default); position: relative; border-radius: var(--apui-radius-lg); overflow: hidden; height: 300px; background: var(--apui-surface-page); }
+  .blk { position: absolute; }
+  .glass { position: absolute; inset-block-start: 56px; inset-inline-start: 48px; width: 300px; padding: var(--apui-panel-padding); border-radius: var(--apui-card-radius); background: var(--apui-surface-glass); border: var(--apui-border-width) solid var(--apui-surface-glass-border); box-shadow: var(--apui-elevation-glass); -webkit-backdrop-filter: blur(var(--apui-surface-glass-blur)) saturate(var(--apui-surface-glass-saturation)); backdrop-filter: blur(var(--apui-surface-glass-blur)) saturate(var(--apui-surface-glass-saturation)); }
+  .glass .muted { color: var(--apui-text-muted-glass); }
+  .glass-toast { position: absolute; inset-block-end: 24px; inset-inline-end: 24px; padding: var(--apui-space-3) var(--apui-space-4); border-radius: var(--apui-toast-radius); background: var(--apui-surface-glass); border: var(--apui-border-width) solid var(--apui-surface-glass-border); box-shadow: var(--apui-elevation-glass); -webkit-backdrop-filter: blur(var(--apui-surface-glass-blur-sm)) saturate(var(--apui-surface-glass-saturation)); backdrop-filter: blur(var(--apui-surface-glass-blur-sm)) saturate(var(--apui-surface-glass-saturation)); font-size: 14px; display: flex; gap: var(--apui-space-2); align-items: center; }
+  .dot { width: 8px; height: 8px; border-radius: 9999px; background: var(--apui-color-success); }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: var(--apui-space-3); }
+  /* scales */
+  .scale { display: flex; align-items: flex-end; gap: var(--apui-space-3); flex-wrap: wrap; }
+  .sp { background: var(--apui-color-primary-soft); border: var(--apui-border-width) solid var(--apui-color-primary-border); height: 24px; }
+  .sp-l { font-size: 11px; color: var(--apui-text-muted); margin-block-start: 4px; font-family: var(--apui-font-family-mono); }
+  .rad { width: 72px; height: 48px; background: var(--apui-surface-default); border: var(--apui-border-width) solid var(--apui-border-default); }
+  .nest { background: var(--apui-surface-default); border: var(--apui-border-width) solid var(--apui-border-muted); border-radius: var(--apui-radius-lg); padding: var(--apui-space-2); display: inline-flex; gap: var(--apui-space-2); align-items: center; }
+  .nest .inner { background: var(--apui-surface-sunken); border-radius: var(--apui-radius-sm); padding: var(--apui-space-2) var(--apui-space-3); font-size: 13px; color: var(--apui-text-muted); }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <section>
+    <h2>Surfaces and edges</h2>
+    <p class="note">Each layer is one tone step from the layer below, and every container carries <code>border-muted</code>, so a component reads correctly whatever it's placed on. Shadows appear only on things that float (<code>elevation-overlay</code>). High-contrast keeps the same structure and turns every edge into a visible line.</p>
+    <div class="themes">
+      <div class="theme" data-theme="light">
+        <span class="tag">Light</span>
+        <div class="panel">
+          <h3>Revenue</h3>
+          <p class="muted">surface-default · border-muted</p>
+          <div class="raised"><span class="stat">$348,261</span><span class="delta">+10.9%</span></div>
+          <div class="well">surface-sunken · ord_8f2c91</div>
+        </div>
+        <div class="menu"><div>Edit</div><div class="hover">Duplicate</div><div class="sel">Archive</div></div>
+      </div>
+      <div class="theme" data-theme="dark">
+        <span class="tag">Dark</span>
+        <div class="panel">
+          <h3>Revenue</h3>
+          <p class="muted">surface-default · border-muted</p>
+          <div class="raised"><span class="stat">$348,261</span><span class="delta">+10.9%</span></div>
+          <div class="well">surface-sunken · ord_8f2c91</div>
+        </div>
+        <div class="menu"><div>Edit</div><div class="hover">Duplicate</div><div class="sel">Archive</div></div>
+      </div>
+      <div class="theme" data-theme="high-contrast">
+        <span class="tag">High contrast</span>
+        <div class="panel">
+          <h3>Revenue</h3>
+          <p class="muted">surface-default · border-muted</p>
+          <div class="raised"><span class="stat">$348,261</span><span class="delta">+10.9%</span></div>
+          <div class="well">surface-sunken · ord_8f2c91</div>
+        </div>
+        <div class="menu"><div>Edit</div><div class="hover">Duplicate</div><div class="sel">Archive</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Focus treatment</h2>
+    <p class="note">A 2px <code>focus</code> ring outside a 2px gap filled with <code>focus-ring-offset-color</code>. The gap separates the ring from solid fills and tinted surfaces. The ring follows each control's own radius, and <code>focus</code> holds 3:1 or better against every surface in every theme. Shown here as permanently focused.</p>
+    <div class="themes">
+      <div class="theme" data-theme="light"><span class="tag">Light</span>
+        <div class="row"><button class="btn solid focus">Save changes</button><button class="btn outline focus">Cancel</button></div>
+        <div class="row"><div class="input ph focus">you@company.com</div></div>
+      </div>
+      <div class="theme" data-theme="dark"><span class="tag">Dark</span>
+        <div class="row"><button class="btn solid focus">Save changes</button><button class="btn outline focus">Cancel</button></div>
+        <div class="row"><div class="input ph focus">you@company.com</div></div>
+      </div>
+      <div class="theme" data-theme="high-contrast"><span class="tag">High contrast</span>
+        <div class="row"><button class="btn solid focus">Save changes</button><button class="btn outline focus">Cancel</button></div>
+        <div class="row"><div class="input ph focus">you@company.com</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Color roles</h2>
+    <p class="note">Every color has the same seven roles: color, hover, foreground, soft, soft-foreground, border and text. Chrome stays neutral. Color goes to status, categories and one action per view.</p>
+    <div class="two">
+      <div class="theme" data-theme="light"><span class="tag">Light · soft badges</span>
+        <div class="badges">
+          <span class="badge" style="background:var(--apui-color-primary-soft);color:var(--apui-color-primary-soft-foreground)">Primary</span>
+          <span class="badge" style="background:var(--apui-color-secondary-soft);color:var(--apui-color-secondary-soft-foreground)">Secondary</span>
+          <span class="badge" style="background:var(--apui-color-accent-soft);color:var(--apui-color-accent-soft-foreground)">Accent</span>
+          <span class="badge" style="background:var(--apui-color-neutral-soft);color:var(--apui-color-neutral-soft-foreground)">Neutral</span>
+          <span class="badge" style="background:var(--apui-color-success-soft);color:var(--apui-color-success-soft-foreground)">Paid</span>
+          <span class="badge" style="background:var(--apui-color-warning-soft);color:var(--apui-color-warning-soft-foreground)">Pending</span>
+          <span class="badge" style="background:var(--apui-color-error-soft);color:var(--apui-color-error-soft-foreground)">Overdue</span>
+          <span class="badge" style="background:var(--apui-color-info-soft);color:var(--apui-color-info-soft-foreground)">New</span>
+        </div>
+        <div class="badges">
+          <span class="badge" style="background:var(--apui-color-primary);color:var(--apui-color-primary-foreground)">Primary</span>
+          <span class="badge" style="background:var(--apui-color-secondary);color:var(--apui-color-secondary-foreground)">Secondary</span>
+          <span class="badge" style="background:var(--apui-color-accent);color:var(--apui-color-accent-foreground);box-shadow:inset 0 0 0 1px var(--apui-color-accent-border)">Accent</span>
+          <span class="badge" style="background:var(--apui-color-neutral);color:var(--apui-color-neutral-foreground)">Neutral</span>
+          <span class="badge" style="background:var(--apui-color-success);color:var(--apui-color-success-foreground)">Paid</span>
+          <span class="badge" style="background:var(--apui-color-warning);color:var(--apui-color-warning-foreground);box-shadow:inset 0 0 0 1px var(--apui-color-warning-border)">Pending</span>
+          <span class="badge" style="background:var(--apui-color-error);color:var(--apui-color-error-foreground)">Overdue</span>
+          <span class="badge" style="background:var(--apui-color-info);color:var(--apui-color-info-foreground)">New</span>
+        </div>
+      </div>
+      <div class="theme" data-theme="dark"><span class="tag">Dark · soft and solid badges</span>
+        <div class="badges">
+          <span class="badge" style="background:var(--apui-color-primary-soft);color:var(--apui-color-primary-soft-foreground)">Primary</span>
+          <span class="badge" style="background:var(--apui-color-secondary-soft);color:var(--apui-color-secondary-soft-foreground)">Secondary</span>
+          <span class="badge" style="background:var(--apui-color-accent-soft);color:var(--apui-color-accent-soft-foreground)">Accent</span>
+          <span class="badge" style="background:var(--apui-color-neutral-soft);color:var(--apui-color-neutral-soft-foreground)">Neutral</span>
+          <span class="badge" style="background:var(--apui-color-success-soft);color:var(--apui-color-success-soft-foreground)">Paid</span>
+          <span class="badge" style="background:var(--apui-color-warning-soft);color:var(--apui-color-warning-soft-foreground)">Pending</span>
+          <span class="badge" style="background:var(--apui-color-error-soft);color:var(--apui-color-error-soft-foreground)">Overdue</span>
+          <span class="badge" style="background:var(--apui-color-info-soft);color:var(--apui-color-info-soft-foreground)">New</span>
+        </div>
+        <div class="badges">
+          <span class="badge" style="background:var(--apui-color-primary);color:var(--apui-color-primary-foreground)">Primary</span>
+          <span class="badge" style="background:var(--apui-color-secondary);color:var(--apui-color-secondary-foreground)">Secondary</span>
+          <span class="badge" style="background:var(--apui-color-accent);color:var(--apui-color-accent-foreground)">Accent</span>
+          <span class="badge" style="background:var(--apui-color-neutral);color:var(--apui-color-neutral-foreground)">Neutral</span>
+          <span class="badge" style="background:var(--apui-color-success);color:var(--apui-color-success-foreground)">Paid</span>
+          <span class="badge" style="background:var(--apui-color-warning);color:var(--apui-color-warning-foreground)">Pending</span>
+          <span class="badge" style="background:var(--apui-color-error);color:var(--apui-color-error-foreground)">Overdue</span>
+          <span class="badge" style="background:var(--apui-color-info);color:var(--apui-color-info-foreground)">New</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Glass surface</h2>
+    <p class="note">Opt-in for Card, Dialog, DropdownMenu, Toast, Navbar and Alert. It's the same surface plus 80% opacity, a backdrop blur and a light rim (<code>surface-glass-border</code>). The 80% floor keeps body text above 9:1 and <code>text-muted-glass</code> above 4.5:1 over any backdrop. Under <code>prefers-reduced-transparency</code> it becomes <code>surface-raised</code>, and it's opaque in high-contrast.</p>
+    <div class="two">
+      <div data-theme="light" class="backdrop">
+        <div class="blk" style="inset-inline-start:24px;inset-block-start:24px;width:220px;height:160px;border-radius:var(--apui-radius-lg);background:var(--apui-steel-400)"></div>
+        <div class="blk" style="inset-inline-start:200px;inset-block-start:120px;width:200px;height:140px;border-radius:9999px;background:var(--apui-marigold-300)"></div>
+        <div class="blk" style="inset-inline-end:24px;inset-block-start:32px;width:120px;height:220px;border-radius:var(--apui-radius-lg);background:var(--apui-gray-900)"></div>
+        <div class="glass"><h3 style="margin:0 0 4px;font-size:16px;line-height:24px;font-weight:600">Weekly summary</h3><p class="muted">surface-glass · surface-glass-border · blur 20px</p><div class="row"><button class="btn solid">View report</button><button class="btn outline">Dismiss</button></div></div>
+        <div class="glass-toast"><span class="dot"></span>Order #1042 shipped</div>
+      </div>
+      <div data-theme="dark" class="backdrop">
+        <div class="blk" style="inset-inline-start:24px;inset-block-start:24px;width:220px;height:160px;border-radius:var(--apui-radius-lg);background:var(--apui-steel-700)"></div>
+        <div class="blk" style="inset-inline-start:200px;inset-block-start:120px;width:200px;height:140px;border-radius:9999px;background:var(--apui-marigold-600)"></div>
+        <div class="blk" style="inset-inline-end:24px;inset-block-start:32px;width:120px;height:220px;border-radius:var(--apui-radius-lg);background:var(--apui-gray-200)"></div>
+        <div class="glass"><h3 style="margin:0 0 4px;font-size:16px;line-height:24px;font-weight:600">Weekly summary</h3><p class="muted">surface-glass · surface-glass-border · blur 20px</p><div class="row"><button class="btn solid">View report</button><button class="btn outline">Dismiss</button></div></div>
+        <div class="glass-toast"><span class="dot"></span>Order #1042 shipped</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Spacing, radius and proportion</h2>
+    <p class="note">4px base. Round controls, rectangular text fields, 14px containers, 16px overlays. Inner radius equals outer radius minus padding.</p>
+    <div class="scale" style="margin-block-end:var(--apui-space-6)">
+      <div><div class="sp" style="width:4px"></div><div class="sp-l">4</div></div>
+      <div><div class="sp" style="width:8px"></div><div class="sp-l">8</div></div>
+      <div><div class="sp" style="width:12px"></div><div class="sp-l">12</div></div>
+      <div><div class="sp" style="width:16px"></div><div class="sp-l">16</div></div>
+      <div><div class="sp" style="width:20px"></div><div class="sp-l">20</div></div>
+      <div><div class="sp" style="width:24px"></div><div class="sp-l">24</div></div>
+      <div><div class="sp" style="width:32px"></div><div class="sp-l">32</div></div>
+      <div><div class="sp" style="width:40px"></div><div class="sp-l">40</div></div>
+      <div><div class="sp" style="width:48px"></div><div class="sp-l">48</div></div>
+      <div><div class="sp" style="width:64px"></div><div class="sp-l">64</div></div>
+    </div>
+    <div class="scale">
+      <div><div class="rad" style="border-radius:var(--apui-radius-xs)"></div><div class="sp-l">xs 4 · checkbox</div></div>
+      <div><div class="rad" style="border-radius:var(--apui-radius-sm)"></div><div class="sp-l">sm 6 · inner</div></div>
+      <div><div class="rad" style="border-radius:var(--apui-radius-md)"></div><div class="sp-l">md 10 · input</div></div>
+      <div><div class="rad" style="border-radius:var(--apui-radius-lg)"></div><div class="sp-l">lg 14 · card</div></div>
+      <div><div class="rad" style="border-radius:var(--apui-radius-xl)"></div><div class="sp-l">xl 16 · overlay</div></div>
+      <div><div class="rad" style="border-radius:var(--apui-radius-full)"></div><div class="sp-l">full · control</div></div>
+      <div><div class="nest"><span class="inner">14 − 8 = 6</span><button class="btn soft">Pill</button></div><div class="sp-l">nesting rule</div></div>
+    </div>
+  </section>
+
+</div>
+</body>
+</html>

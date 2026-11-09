@@ -1,0 +1,34 @@
+<!-- @dsCard group="Feedback" height=520 subtitle="Spinner, dots, inline status and region overlay; slower under reduced motion" -->
+<!doctype html>
+<html>
+<head>
+<link rel="stylesheet" href="../../tokens/tokens.css">
+<link rel="stylesheet" href="../../css/components.css">
+<script>document.documentElement.dataset.theme=new URLSearchParams(location.search).get("theme")||document.documentElement.dataset.theme||"light"</script>
+
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;background:var(--apui-surface-page)}
+.demo{padding:24px;display:grid;gap:28px}
+.demo-sec{display:grid;gap:12px}
+.demo-h{margin:0;font-size:11px;line-height:16px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--apui-text-muted)}
+.demo-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.demo-row.top{align-items:flex-start}
+.demo-matrix{display:grid;gap:10px 12px;align-items:center;justify-items:start}
+.demo-k{font-size:12px;line-height:16px;color:var(--apui-text-muted);font-family:var(--apui-font-family-mono)}
+.demo-surfaces{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.demo-tile{border-radius:var(--apui-radius-lg);padding:16px;display:grid;gap:10px;align-content:start;border:1px solid var(--apui-border-muted);min-width:0}
+.demo-tile[data-s=canvas]{background:var(--apui-surface-page)}
+.demo-tile[data-s=default]{background:var(--apui-surface-default)}
+.demo-tile[data-s=sunken]{background:var(--apui-surface-sunken)}
+.demo-backdrop{position:relative;overflow:hidden;border-radius:var(--apui-radius-lg);background:var(--apui-surface-page);border:1px solid var(--apui-border-muted)}
+.demo-backdrop>.blob{position:absolute;pointer-events:none}
+.demo-backdrop>.content{position:relative;padding:16px;display:grid;gap:10px}
+.demo-cols{display:grid;gap:16px}
+</style>
+</head>
+<body class="ap">
+<div class="demo"><section class="demo-sec"><h3 class="demo-h">Spinner sizes · colors</h3><div class="demo-row" style="gap:20px"><span class="apui-spinner" role="status" aria-label="Loading" data-size="xs"></span><span class="apui-spinner" role="status" aria-label="Loading" data-size="sm"></span><span class="apui-spinner" role="status" aria-label="Loading"></span><span class="apui-spinner" role="status" aria-label="Loading" data-size="lg"></span><span class="apui-spinner" role="status" aria-label="Loading" data-size="xl"></span><span class="apui-spinner" role="status" aria-label="Loading" data-color="success"></span><span class="apui-spinner" role="status" aria-label="Loading" data-color="neutral"></span></div></section><section class="demo-sec"><h3 class="demo-h">Dots · inline · in a button</h3><div class="demo-row" style="gap:24px"><span class="apui-dots" role="status" aria-label="Loading"><span></span><span></span><span></span></span><span class="apui-loading" role="status"><span class="apui-spinner" role="status" aria-label="Loading" data-size="sm"></span>Saving changes…</span><button class="apui-button" data-variant="solid" aria-busy="true"><span  data-scope="button" data-part="spinner" aria-hidden="true"></span><span  data-scope="button" data-part="label">Publishing</span></button><button class="apui-button" data-variant="outline" data-color="neutral" aria-busy="true"><span  data-scope="button" data-part="spinner" aria-hidden="true"></span><span  data-scope="button" data-part="label">Refreshing</span></button></div></section><section class="demo-sec"><h3 class="demo-h">Region overlay</h3><div class="apui-card" style="position:relative;max-width:520px"><div  data-scope="card" data-part="body"><h3  data-scope="card" data-part="title">Weekly revenue</h3><p  data-scope="card" data-part="description">Recalculating for the new date range</p><div style="height:120px"></div></div><div class="apui-loading-overlay" role="status"><span class="apui-spinner" role="status" aria-label="Loading" data-size="lg"></span><span>Loading revenue…</span></div></div></section></div>
+</body>
+</html>

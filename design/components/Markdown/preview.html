@@ -1,0 +1,47 @@
+<!-- @dsCard group="Content" height=520 width=1000 subtitle="Markdown rendered with the shared .ap-prose styles" -->
+<!doctype html>
+<html>
+<head>
+<link rel="stylesheet" href="../../tokens/tokens.css">
+<link rel="stylesheet" href="../../css/components.css">
+<script>document.documentElement.dataset.theme=new URLSearchParams(location.search).get("theme")||document.documentElement.dataset.theme||"light"</script>
+
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;background:var(--apui-surface-page)}
+.demo{padding:24px;display:grid;gap:28px}
+.demo-sec{display:grid;gap:12px}
+.demo-h{margin:0;font-size:11px;line-height:16px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--apui-text-muted)}
+.demo-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.demo-row.top{align-items:flex-start}
+.demo-matrix{display:grid;gap:10px 12px;align-items:center;justify-items:start}
+.demo-k{font-size:12px;line-height:16px;color:var(--apui-text-muted);font-family:var(--apui-font-family-mono)}
+.demo-surfaces{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.demo-tile{border-radius:var(--apui-radius-lg);padding:16px;display:grid;gap:10px;align-content:start;border:1px solid var(--apui-border-muted);min-width:0}
+.demo-tile[data-s=canvas]{background:var(--apui-surface-page)}
+.demo-tile[data-s=default]{background:var(--apui-surface-default)}
+.demo-tile[data-s=sunken]{background:var(--apui-surface-sunken)}
+.demo-backdrop{position:relative;overflow:hidden;border-radius:var(--apui-radius-lg);background:var(--apui-surface-page);border:1px solid var(--apui-border-muted)}
+.demo-backdrop>.blob{position:absolute;pointer-events:none}
+.demo-backdrop>.content{position:relative;padding:16px;display:grid;gap:10px}
+.demo-cols{display:grid;gap:16px}
+</style>
+</head>
+<body class="ap">
+<div class="demo"><section class="demo-sec"><h3 class="demo-h">Write and preview</h3><div style="display:grid;gap:10px"><div class="apui-tabs" data-size="sm"><div  data-scope="tabs" data-part="list" role="tablist"><button  data-scope="tabs" data-part="trigger" role="tab" aria-selected="false">Write</button><button  data-scope="tabs" data-part="trigger" role="tab" aria-selected="false">Preview</button><button  data-scope="tabs" data-part="trigger" role="tab" aria-selected="true">Split</button></div></div><div class="demo-cols" style="grid-template-columns:repeat(2,minmax(0,1fr));align-items:start"><div class="apui-input" data-multiline style="min-height:300px;font-family:var(--apui-font-family-mono);font-size:13px;line-height:20px"><span  data-scope="input" data-part="control">## Viewing checklist
+
+Bring **photo ID** and proof of income.
+
+- [x] Confirm time with agent
+- [ ] Measure the living room
+- [ ] Ask about `heating costs`
+
+&gt; Viewings run 30 minutes.
+
+| Unit | Rent |
+|---|---|
+| 2B | $1,400 |
+| 4A | $1,650 |</span></div><div class="apui-card"><div  data-scope="card" data-part="body"><div class="apui-prose"><h2>Viewing checklist</h2><p>Bring <strong>photo ID</strong> and proof of income.</p><ul><li class="apui-task"><label class="apui-choice" data-type="checkbox" data-state="checked"><span  data-scope="choice" data-part="box"><input type="checkbox" checked><svg class="apui-icon" data-scope="choice" data-part="on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" /></svg><svg class="apui-icon" data-scope="choice" data-part="mixed" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14" /></svg></span><span  data-scope="choice" data-part="label">Confirm time with agent</span></label></li><li class="apui-task"><label class="apui-choice" data-type="checkbox" data-state="unchecked"><span  data-scope="choice" data-part="box"><input type="checkbox"><svg class="apui-icon" data-scope="choice" data-part="on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" /></svg><svg class="apui-icon" data-scope="choice" data-part="mixed" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14" /></svg></span><span  data-scope="choice" data-part="label">Measure the living room</span></label></li><li class="apui-task"><label class="apui-choice" data-type="checkbox" data-state="unchecked"><span  data-scope="choice" data-part="box"><input type="checkbox"><svg class="apui-icon" data-scope="choice" data-part="on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" /></svg><svg class="apui-icon" data-scope="choice" data-part="mixed" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14" /></svg></span><span  data-scope="choice" data-part="label">Ask about <code>heating costs</code></span></label></li></ul><blockquote>Viewings run 30 minutes.</blockquote><table><thead><tr><th>Unit</th><th style="text-align:end">Rent</th></tr></thead><tbody><tr><td>2B</td><td style="text-align:end">$1,400</td></tr><tr><td>4A</td><td style="text-align:end">$1,650</td></tr></tbody></table></div></div></div></div></div></section></div>
+</body>
+</html>

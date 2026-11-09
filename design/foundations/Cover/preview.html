@@ -1,0 +1,48 @@
+<!-- @dsCard height=288 -->
+<!doctype html>
+<html>
+<head>
+<link rel="stylesheet" href="../../tokens/tokens.css">
+<link rel="stylesheet" href="../../css/components.css">
+<script>document.documentElement.dataset.theme=new URLSearchParams(location.search).get("theme")||document.documentElement.dataset.theme||"light"</script>
+
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; }
+  body { width: 960px; height: 288px; position: relative; background: var(--apui-surface-page); font-family: var(--apui-font-family-sans); overflow: hidden; }
+  svg { position: absolute; inset: 0; }
+  .ink { fill: var(--apui-color-neutral); }
+  .brand { fill: var(--apui-color-primary); }
+  .tint { fill: var(--apui-color-primary-soft); }
+  .accent { fill: var(--apui-color-accent); }
+  .step1 { fill: var(--apui-surface-sunken); stroke: var(--apui-border-muted); stroke-width: 1; }
+  .ctl { fill: var(--apui-color-primary); }
+  .ctl2 { fill: var(--apui-color-accent); }
+  .ctl3 { fill: none; stroke: var(--apui-color-neutral-foreground); stroke-width: 1.5; }
+  .txt { position: absolute; left: 40px; bottom: 36px; max-width: 440px; }
+  .name { margin: 0; font-size: 64px; line-height: .95; font-weight: 600; letter-spacing: -.02em; color: var(--apui-text-default); }
+  .tag { margin: 12px 0 0; font-size: 14px; line-height: 20px; color: var(--apui-text-muted); }
+</style>
+</head>
+<body>
+<svg width="960" height="288" viewBox="0 0 960 288" aria-hidden="true">
+  <!-- blocks: neutral-solid 376x112, primary-solid 248x112, primary-soft 168x52, accent-solid pill 168x52, surface-sunken strata 432x40
+       arrangement: staggered strata, each slab one tone step and one space-16 inset from the last, stepping down from top-right
+       pattern: control pills (radius-full, control-md 36px) cut into the ink slab; "round controls, rectangular containers" is this system's own rule
+       steps: space-16 gaps, space-24 inset; radius-lg 14 on slabs, radius-full on pills -->
+  <rect class="step1" x="488" y="-14" width="456" height="40" rx="14"/>
+  <rect class="ink" x="560" y="40" width="376" height="112" rx="14"/>
+  <rect class="ctl" x="584" y="78" width="104" height="36" rx="18"/>
+  <rect class="ctl3" x="700" y="78.75" width="80" height="34.5" rx="17.25"/>
+  <rect class="ctl2" x="792" y="78" width="36" height="36" rx="18"/>
+  <rect class="brand" x="504" y="168" width="248" height="112" rx="14"/>
+  <rect class="tint" x="768" y="168" width="168" height="52" rx="14"/>
+  <rect class="accent" x="768" y="228" width="168" height="52" rx="26"/>
+</svg>
+<div class="txt">
+  <h1 class="name">ArtisanPack<br>UI</h1>
+  <p class="tag">Considered by default, yours by design.</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!-- @dsCard group="Forms" height=620 subtitle="Draw, type or upload; keyboard-accessible Type mode" -->
+<!doctype html>
+<html>
+<head>
+<link rel="stylesheet" href="../../tokens/tokens.css">
+<link rel="stylesheet" href="../../css/components.css">
+<script>document.documentElement.dataset.theme=new URLSearchParams(location.search).get("theme")||document.documentElement.dataset.theme||"light"</script>
+
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;background:var(--apui-surface-page)}
+.demo{padding:24px;display:grid;gap:28px}
+.demo-sec{display:grid;gap:12px}
+.demo-h{margin:0;font-size:11px;line-height:16px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--apui-text-muted)}
+.demo-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.demo-row.top{align-items:flex-start}
+.demo-matrix{display:grid;gap:10px 12px;align-items:center;justify-items:start}
+.demo-k{font-size:12px;line-height:16px;color:var(--apui-text-muted);font-family:var(--apui-font-family-mono)}
+.demo-surfaces{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.demo-tile{border-radius:var(--apui-radius-lg);padding:16px;display:grid;gap:10px;align-content:start;border:1px solid var(--apui-border-muted);min-width:0}
+.demo-tile[data-s=canvas]{background:var(--apui-surface-page)}
+.demo-tile[data-s=default]{background:var(--apui-surface-default)}
+.demo-tile[data-s=sunken]{background:var(--apui-surface-sunken)}
+.demo-backdrop{position:relative;overflow:hidden;border-radius:var(--apui-radius-lg);background:var(--apui-surface-page);border:1px solid var(--apui-border-muted)}
+.demo-backdrop>.blob{position:absolute;pointer-events:none}
+.demo-backdrop>.content{position:relative;padding:16px;display:grid;gap:10px}
+.demo-cols{display:grid;gap:16px}
+</style>
+</head>
+<body class="ap">
+<div class="demo"><div class="demo-cols" style="grid-template-columns:repeat(2,minmax(0,1fr));align-items:start"><section class="demo-sec"><h3 class="demo-h">Draw</h3><div style="display:grid;gap:8px"><div class="apui-tabs" data-size="sm"><div  data-scope="tabs" data-part="list" role="tablist"><button  data-scope="tabs" data-part="trigger" role="tab" aria-selected="true">Draw</button><button  data-scope="tabs" data-part="trigger" role="tab" aria-selected="false">Type</button><button  data-scope="tabs" data-part="trigger" role="tab" aria-selected="false">Upload</button></div></div><div class="apui-signature" role="img" aria-label="Signature pad"><span  data-scope="signature" data-part="line"></span><span  data-scope="signature" data-part="x">×</span><svg  data-scope="signature" data-part="ink" viewBox="0 0 600 160" preserveAspectRatio="none" aria-hidden="true"><path d="M60 112 C70 70 90 52 100 70 C108 86 92 120 84 118 C76 116 96 82 118 80 C134 78 126 110 140 108 C156 106 158 84 170 86 C180 88 172 112 186 110 C204 108 210 70 226 72 C238 74 226 108 244 106 C262 104 268 88 282 90 C296 92 290 110 306 108 C330 104 352 76 372 86"/><path d="M200 60 L216 58"/></svg><div  data-scope="signature" data-part="tools"><button class="apui-button" data-variant="ghost" data-color="neutral" data-size="xs" data-icon-only aria-label="Undo stroke"><svg class="apui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 14 4 9l5-5" /> <path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5a5.5 5.5 0 0 1-5.5 5.5H11" /></svg></button><button class="apui-button" data-variant="ghost" data-color="neutral" data-size="xs"><svg class="apui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21" /> <path d="M22 21H7" /> <path d="m5 11 9 9" /></svg><span  data-scope="button" data-part="label">Clear</span></button></div><span  data-scope="signature" data-part="placeholder">Sign above the line</span></div><span  data-scope="field" data-part="hint">Olivia Rhye · Nov 7, 2026</span></div></section><section class="demo-sec"><h3 class="demo-h">Type · empty and required</h3><div style="display:grid;gap:8px"><div class="apui-tabs" data-size="sm"><div  data-scope="tabs" data-part="list" role="tablist"><button  data-scope="tabs" data-part="trigger" role="tab" aria-selected="false">Draw</button><button  data-scope="tabs" data-part="trigger" role="tab" aria-selected="true">Type</button><button  data-scope="tabs" data-part="trigger" role="tab" aria-selected="false">Upload</button></div></div><div class="apui-signature" role="img" aria-label="Signature pad"><span  data-scope="signature" data-part="line"></span><span  data-scope="signature" data-part="x">×</span><span  data-scope="signature" data-part="typed">Olivia Rhye</span><span  data-scope="signature" data-part="placeholder">Sign above the line</span></div><div class="apui-field" data-invalid><label  data-scope="field" data-part="label">Signature</label><div class="apui-signature" data-invalid role="img" aria-label="Signature pad"><span  data-scope="signature" data-part="line"></span><span  data-scope="signature" data-part="x">×</span><span  data-scope="signature" data-part="placeholder">Sign above the line</span></div><span  data-scope="field" data-part="error"><svg class="apui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <line x1="12" x2="12" y1="8" y2="12" /> <line x1="12" x2="12.01" y1="16" y2="16" /></svg>Sign to accept the lease.</span></div></div></section></div></div>
+</body>
+</html>
