@@ -33,28 +33,40 @@ Import the tokens CSS in your Tailwind entry file:
 
 ### Tailwind Plugin (Optional)
 
-```ts
-// tailwind.config.ts
-import artisanpackPlugin from '@artisanpack-ui/tokens/tailwind';
+The plugin is a factory: pass it Tailwind's `plugin` function.
+
+```js
+// tailwind.config.js
+import plugin from 'tailwindcss/plugin';
+import { createArtisanPackPlugin } from '@artisanpack-ui/tokens/tailwind';
 
 export default {
-  plugins: [artisanpackPlugin],
+  plugins: [createArtisanPackPlugin(plugin)],
 };
 ```
+
+With Tailwind v4, load that config from your CSS entry:
+
+```css
+@import "tailwindcss";
+@config "./tailwind.config.js";
+```
+
+`@plugin "@artisanpack-ui/tokens/tailwind"` doesn't work in 1.x, because the module has no default export. In a TypeScript config, `createArtisanPackPlugin(plugin)` also fails strict type-checking against Tailwind v4. Both are tracked in [#94](https://github.com/ArtisanPack-UI/design-system/issues/94).
 
 ## Usage
 
 ```tsx
-import { resolveColor, cn, glass } from '@artisanpack-ui/tokens';
+import { resolveColor, cn, glassClassName } from '@artisanpack-ui/tokens';
 
-// Resolve DaisyUI/theme-aware colors
+// Resolve DaisyUI/theme-aware colors (pass an element to read scoped values)
 const color = resolveColor('primary');
 
-// Merge Tailwind classes without conflicts
+// Merge Tailwind classes, resolving conflicts (last wins)
 const classes = cn('px-4 py-2', 'px-6'); // => 'py-2 px-6'
 
 // Glass morphism presets
-const glassClasses = glass('md'); // => glass effect classes
+const glassClasses = glassClassName({ preset: 'frosted', tint: 'primary' });
 ```
 
 ## What's Included

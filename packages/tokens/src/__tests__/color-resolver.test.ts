@@ -117,3 +117,34 @@ describe('resolveAllColors', () => {
     }
   });
 });
+
+describe('scoped element', () => {
+  it('reads from the supplied element, not the document root', () => {
+    const root = { style: {} } as HTMLElement;
+    const scoped = { style: {} } as HTMLElement;
+    const values = new Map<HTMLElement, Record<string, string>>([
+      [root, { '--color-primary': '#root-primary', '--color-primary-content': '#root-content' }],
+      [
+        scoped,
+        { '--color-primary': '#scoped-primary', '--color-primary-content': '#scoped-content' },
+      ],
+    ]);
+    const mockGetComputedStyle = vi.fn((el: HTMLElement) => ({
+      getPropertyValue: (prop: string) => values.get(el)?.[prop] ?? '',
+    }));
+
+    vi.stubGlobal('window', {});
+    vi.stubGlobal('document', { documentElement: root });
+    vi.stubGlobal('getComputedStyle', mockGetComputedStyle);
+
+    try {
+      expect(resolveColor('primary', scoped)).toBe('#scoped-primary');
+      expect(resolveContentColor('primary', scoped)).toBe('#scoped-content');
+      expect(resolveAllColors(scoped).primary).toBe('#scoped-primary');
+      // Without an element, the root is still used.
+      expect(resolveColor('primary')).toBe('#root-primary');
+    } finally {
+      vi.unstubAllGlobals();
+    }
+  });
+});

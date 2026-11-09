@@ -63,7 +63,7 @@ describe('createArtisanPackPlugin', () => {
     expect(result).toBe('mock-plugin');
     expect(capturedHandler).toBeTypeOf('function');
     expect(capturedConfig).toBeDefined();
-    expect(capturedConfig).toHaveProperty('theme.extend');
+    expect(capturedConfig).toEqual({ theme: { extend: themeTokens } });
 
     // Handler should be callable without errors
     capturedHandler!({});

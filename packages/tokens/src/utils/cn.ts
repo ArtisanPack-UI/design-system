@@ -12,14 +12,15 @@ import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
 /**
- * Merge and deduplicate CSS class names with Tailwind-aware conflict resolution.
+ * Merge CSS class names with Tailwind-aware conflict resolution.
  *
  * Accepts any combination of strings, arrays, objects, and falsy values.
  * Tailwind CSS utility conflicts (e.g. `p-4` vs `p-8`) are resolved in
- * last-wins order.
+ * last-wins order. Classes that Tailwind doesn't recognize are kept as given,
+ * so this is not general deduplication: `cn('btn', 'btn')` returns `'btn btn'`.
  *
  * @param inputs - Class values to merge (strings, arrays, objects, or conditionals)
- * @returns A single deduplicated, conflict-free class string
+ * @returns A single class string with Tailwind conflicts resolved
  *
  * @example
  * ```ts

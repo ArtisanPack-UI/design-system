@@ -5,15 +5,13 @@
  * as theme extensions. Use this when you want Tailwind utilities to reference
  * the same design tokens.
  *
- * **Tailwind v4 (CSS-first):**
- * ```css
- * @import "tailwindcss";
- * @plugin "@artisanpack-ui/tokens/tailwind";
- * ```
+ * Pass it Tailwind's `plugin` function from a JS config. With Tailwind v4, load
+ * that config from CSS with `@config "./tailwind.config.js";`. A bare
+ * `@plugin "@artisanpack-ui/tokens/tailwind"` doesn't work, because this module
+ * has no default export (see design-system#94).
  *
- * **Tailwind v3 (JS config):**
- * ```ts
- * // tailwind.config.ts
+ * ```js
+ * // tailwind.config.js
  * import plugin from 'tailwindcss/plugin';
  * import { createArtisanPackPlugin } from '@artisanpack-ui/tokens/tailwind';
  *
