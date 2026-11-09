@@ -1,0 +1,13 @@
+{
+  "font-family": {
+    "$type": "fontFamily",
+    "sans": {
+      "$value": ["Geist", "ui-sans-serif", "system-ui", "sans-serif"],
+      "$description": "UI and body text. Add a script font for Arabic or Hebrew (the RTL example uses Noto Sans Arabic)."
+    },
+    "mono": {
+      "$value": ["Geist Mono", "ui-monospace", "SFMono-Regular", "monospace"],
+      "$description": "Code, IDs, SKUs, keyboard keys."
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "input": {
+    "radius": {
+      "$type": "dimension",
+      "$value": "{radius.field}",
+      "$description": "Input, Select, Textarea, DatePicker field."
+    }
+  }
+}

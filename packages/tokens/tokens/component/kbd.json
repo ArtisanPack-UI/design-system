@@ -1,0 +1,8 @@
+{
+  "kbd": {
+    "radius": {
+      "$type": "dimension",
+      "$value": "{radius.xs}"
+    }
+  }
+}

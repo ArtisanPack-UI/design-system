@@ -1,0 +1,60 @@
+{
+  "panel": {
+    "$type": "dimension",
+    "padding-compact": {
+      "$value": "{space.4}",
+      "$description": "Card and panel padding, compact."
+    },
+    "padding-comfortable": {
+      "$value": "{space.6}",
+      "$description": "Card and panel padding, comfortable."
+    },
+    "gap-compact": {
+      "$value": "{space.2}",
+      "$description": "Gap between panels, compact."
+    },
+    "gap-comfortable": {
+      "$value": "{space.4}",
+      "$description": "Gap between panels, comfortable."
+    }
+  },
+  "row": {
+    "$type": "dimension",
+    "height-compact": {
+      "$value": {
+        "value": 32,
+        "unit": "px"
+      },
+      "$description": "Table row and menu item height, compact."
+    },
+    "height-comfortable": {
+      "$value": {
+        "value": 48,
+        "unit": "px"
+      },
+      "$description": "Table row and menu item height, comfortable."
+    }
+  },
+  "cell": {
+    "$type": "dimension",
+    "padding-x-compact": {
+      "$value": "{space.2}",
+      "$description": "Table cell inline padding, compact."
+    },
+    "padding-x-comfortable": {
+      "$value": "{space.4}",
+      "$description": "Table cell inline padding, comfortable."
+    }
+  },
+  "field": {
+    "$type": "dimension",
+    "gap-compact": {
+      "$value": "{space.3}",
+      "$description": "Vertical gap between form fields, compact."
+    },
+    "gap-comfortable": {
+      "$value": "{space.6}",
+      "$description": "Vertical gap between form fields, comfortable."
+    }
+  }
+}

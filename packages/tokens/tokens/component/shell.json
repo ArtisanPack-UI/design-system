@@ -1,0 +1,9 @@
+{
+  "shell": {
+    "gutter": {
+      "$type": "dimension",
+      "$value": "{space.3}",
+      "$description": "Gap between AppShell islands (sidebar, top bar, content)."
+    }
+  }
+}

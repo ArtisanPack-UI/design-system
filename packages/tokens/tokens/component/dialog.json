@@ -1,0 +1,16 @@
+{
+  "dialog": {
+    "radius": {
+      "$type": "dimension",
+      "$value": "{radius.overlay}"
+    },
+    "width": {
+      "$type": "dimension",
+      "$value": {
+        "value": 480,
+        "unit": "px"
+      },
+      "$description": "Default Dialog width; sm 360px, lg 640px."
+    }
+  }
+}

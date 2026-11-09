@@ -1,0 +1,25 @@
+{
+  "surface": {
+    "glass-blur": {
+      "$type": "dimension",
+      "$value": {
+        "value": 20,
+        "unit": "px"
+      },
+      "$description": "Backdrop blur for --apui-surface-glass."
+    },
+    "glass-blur-sm": {
+      "$type": "dimension",
+      "$value": {
+        "value": 12,
+        "unit": "px"
+      },
+      "$description": "Backdrop blur for small glass elements: Toast, sticky table header."
+    },
+    "glass-saturation": {
+      "$type": "number",
+      "$value": 1.4,
+      "$description": "Backdrop saturation for --apui-surface-glass."
+    }
+  }
+}

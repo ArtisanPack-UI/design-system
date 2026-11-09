@@ -1,0 +1,96 @@
+{
+  "space": {
+    "0": {
+      "$value": {
+        "value": 0,
+        "unit": "px"
+      },
+      "$description": "No gap."
+    },
+    "1": {
+      "$value": {
+        "value": 4,
+        "unit": "px"
+      },
+      "$description": "Base unit. Gap inside a Badge, between stacked label and hint."
+    },
+    "2": {
+      "$value": {
+        "value": 8,
+        "unit": "px"
+      },
+      "$description": "Icon to text in md controls, gap in button groups, cell padding in compact tables."
+    },
+    "3": {
+      "$value": {
+        "value": 12,
+        "unit": "px"
+      },
+      "$description": "Panel gap, shell gutter, field gap in compact forms, horizontal cell padding."
+    },
+    "4": {
+      "$value": {
+        "value": 16,
+        "unit": "px"
+      },
+      "$description": "Panel padding in compact density, field gap in default forms."
+    },
+    "5": {
+      "$value": {
+        "value": 20,
+        "unit": "px"
+      },
+      "$description": "Panel padding in default density, field gap in comfortable forms."
+    },
+    "6": {
+      "$value": {
+        "value": 24,
+        "unit": "px"
+      },
+      "$description": "Panel padding in comfortable density, Dialog padding, section gap in forms."
+    },
+    "8": {
+      "$value": {
+        "value": 32,
+        "unit": "px"
+      },
+      "$description": "Gap between page sections."
+    },
+    "10": {
+      "$value": {
+        "value": 40,
+        "unit": "px"
+      },
+      "$description": "PageHeader block spacing."
+    },
+    "12": {
+      "$value": {
+        "value": 48,
+        "unit": "px"
+      },
+      "$description": "Auth and marketing sections."
+    },
+    "16": {
+      "$value": {
+        "value": 64,
+        "unit": "px"
+      },
+      "$description": "Marketing hero spacing."
+    },
+    "$type": "dimension",
+    "0-5": {
+      "$value": {
+        "value": 2,
+        "unit": "px"
+      },
+      "$description": "Icon-to-badge nudge, focus offset."
+    },
+    "1-5": {
+      "$value": {
+        "value": 6,
+        "unit": "px"
+      },
+      "$description": "Icon to text in xs and sm controls."
+    }
+  }
+}

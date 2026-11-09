@@ -1,0 +1,9 @@
+{
+  "chip": {
+    "radius": {
+      "$type": "dimension",
+      "$value": "{radius.control}",
+      "$description": "Tags and filter chips."
+    }
+  }
+}

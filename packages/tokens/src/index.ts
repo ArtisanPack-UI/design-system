@@ -1,89 +1,32 @@
 /**
  * @artisanpack-ui/tokens
  *
- * Shared design tokens, color resolver, and glass helpers for ArtisanPack UI.
- * Framework-agnostic -- works with React, Vue, or any JavaScript project.
- *
- * This package provides:
- * - **Color tokens** -- DaisyUI semantic color palette with CSS variable mapping
- * - **Color resolver** -- Runtime resolution of theme colors from CSS custom properties
- * - **Spacing tokens** -- Consistent spacing scale based on 0.25rem increments
- * - **Typography tokens** -- Font families, sizes, weights, and heading presets
- * - **Border tokens** -- Border radius scale and DaisyUI component radii
- * - **Shadow tokens** -- Elevation shadows, colored shadows, and glow effects
- * - **Animation tokens** -- Duration, easing, and transition property values
- * - **Glass helpers** -- Glassmorphism styles via CSS classes or inline styles
- * - **Tailwind plugin** -- Optional Tailwind CSS plugin for theme integration
- * - **Utility functions** -- `cn()` for merging Tailwind class names
+ * Design tokens for the ArtisanPack UI Design System. The source is W3C DTCG
+ * JSON in `tokens/`; this module is the typed map generated from it. The same
+ * build writes the CSS custom properties (`@artisanpack-ui/tokens/css`) and a
+ * PHP array (`@artisanpack-ui/tokens/php`).
  *
  * @packageDocumentation
  */
+import { axes, layer, prefix, tokens } from './generated/tokens';
 
-// Utilities
-export { cn } from './utils/cn';
+export { axes, layer, prefix, tokens };
+export type { TokenAxisDefinition, TokenDefinition, TokenTier, TokenType } from './types';
 
-// Colors
-export {
-  colors,
-  colorsDark,
-  colorCssVars,
-  daisyColorMap,
-  daisyColors,
-  type DaisyColor,
-} from './colors';
+/** A token path, such as `color.primary` or `space.4`. */
+export type TokenPath = keyof typeof tokens;
 
-// Color resolver
-export { resolveColor, resolveContentColor, resolveAllColors } from './color-resolver';
+/** A mode axis, such as `theme` or `density`. */
+export type TokenAxis = keyof typeof axes;
 
-// Spacing
-export { spacing, spacingAliases } from './spacing';
+/** The modes of an axis, such as `'light' | 'dark' | 'high-contrast'` for `theme`. */
+export type TokenMode<A extends TokenAxis> = (typeof axes)[A]['modes'][number];
 
-// Typography
-export {
-  fontFamilies,
-  fontSizes,
-  fontWeights,
-  lineHeights,
-  letterSpacing,
-  typographyPresets,
-} from './typography';
-
-// Borders
-export { borderRadius, daisyRadius } from './borders';
-
-// Shadows
-export { shadows, shadowsDark, coloredShadows, glowShadows } from './shadows';
-
-// Animation
-export {
-  durations,
-  easings,
-  expressiveEasings,
-  daisyAnimation,
-  transitionProperties,
-} from './animation';
-
-// Glass
-export {
-  glassTokens,
-  glassFrostedTokens,
-  glassLiquidTokens,
-  glassTransparentTokens,
-  glassTokensDark,
-  glassStyles,
-  glassClassName,
-  type GlassPreset,
-  type GlassTint,
-  type GlassClassOptions,
-  type GlassInlineStyleOptions,
-  type GlassStyleOptions,
-} from './glass';
-
-// Shared types
-export {
-  type Size,
-  type GlassProps,
-  type ColorProps,
-  type FormFieldProps,
-  type CSSProperties,
-} from './types';
+/**
+ * Returns a `var()` reference to a token, for inline styles.
+ *
+ * @example cssVar('color.primary') // 'var(--apui-color-primary)'
+ */
+export function cssVar(path: TokenPath): string {
+  return `var(${tokens[path].cssVar})`;
+}
