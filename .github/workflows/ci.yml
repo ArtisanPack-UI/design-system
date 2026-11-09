@@ -24,6 +24,8 @@ jobs:
       - run: npm ci
       - name: ESLint
         run: npm run lint
+      - name: Stylelint
+        run: npm run lint:css
       - name: Prettier
         run: npm run format:check
 
@@ -51,6 +53,9 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      # The CSS cascade tests run in Chromium.
+      - run: npx playwright install --with-deps chromium
+      # Fails when the committed token outputs are stale (#19).
       - run: npm run build
       - run: npm test
 

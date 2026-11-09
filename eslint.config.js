@@ -15,6 +15,13 @@ export default tseslint.config(
     },
   },
   {
+    // Build scripts run in Node.
+    files: ['**/*.mjs'],
+    languageOptions: {
+      globals: { process: 'readonly', console: 'readonly' },
+    },
+  },
+  {
     ignores: ['**/dist/**', '**/node_modules/**', 'design/**', 'tools/**'],
   },
 );
