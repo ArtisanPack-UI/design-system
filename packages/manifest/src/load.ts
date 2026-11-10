@@ -81,6 +81,7 @@ const camel = (kebab: string) => kebab.replace(/-([a-z0-9])/g, (_, c: string) =>
 const SPECIAL_EVENTS: Record<string, Record<Stack, string>> = {
   'value-change': { livewire: 'wire:model', react: 'onValueChange', vue: 'update:modelValue' },
   'open-change': { livewire: 'open-change', react: 'onOpenChange', vue: 'update:open' },
+  'checked-change': { livewire: 'wire:model', react: 'onCheckedChange', vue: 'update:checked' },
 };
 
 /**

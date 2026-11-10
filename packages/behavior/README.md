@@ -14,9 +14,11 @@ Part of the [ArtisanPack UI Design System](../../README.md).
 | `@artisanpack-ui/behavior/alpine` | The Alpine plugin: `apuiDialog`, `apuiCombobox` and the `x-apui:<part>` directive |
 | `@artisanpack-ui/behavior/react` | React hooks: `useDialog`, `useCombobox` |
 | `@artisanpack-ui/behavior/vue` | Vue composables: `useDialog`, `useCombobox` |
+| `@artisanpack-ui/behavior/icons` | The icon registry every stack resolves string icon names against: `resolveIcon`, `iconSvg`, `registerIcons` (trusted static SVG only; unsafe bodies throw `UnsafeIconError`), with a default Lucide set ([D-017](../../docs/decisions.md#d-017-icon-names-resolve-against-one-lucide-set-shipped-by-behavior)) |
+| `@artisanpack-ui/behavior/icons.json` | The default set as JSON (`icons/lucide.json`), which Livewire UI Components copies into PHP |
 | `@artisanpack-ui/behavior/alpine.global.js` | The same plugin as one classic script that registers itself on `alpine:init`, for pages without a bundler ([D-014](../../docs/decisions.md#d-014-without-a-bundler-use-the-prebuilt-composer-asset-no-official-cdn-build-at-10)). About 44 KB gzipped with Dialog and Combobox |
 
-Engine widgets only: Menu and DropdownMenu, Combobox, Select and Choices, Popover, Tooltip, Dialog, Modal and Drawer, Tabs, DatePicker, the Toast stack and Spotlight. Simple components stay native in each stack.
+Engine widgets only: Menu and DropdownMenu, Combobox and Choices, Popover, Tooltip, Dialog, Modal and Drawer, Tabs, DatePicker, the Toast stack and Spotlight. Simple components stay native in each stack, Select included ([D-018](../../docs/decisions.md#d-018-form-fields-share-one-anatomy-and-route-attributes-to-the-native-control)).
 
 ## Alpine and Livewire
 

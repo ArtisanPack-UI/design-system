@@ -32,3 +32,14 @@ export {
   type ComboboxItem,
   type ComboboxProps,
 } from './widgets/combobox';
+export {
+  defaultIcons,
+  ICON_SVG_ATTRIBUTES,
+  iconNames,
+  iconSvg,
+  registerIcons,
+  resetIcons,
+  resolveIcon,
+  type IconSet,
+  UnsafeIconError,
+} from './icons';

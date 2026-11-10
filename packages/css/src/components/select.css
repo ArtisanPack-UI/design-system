@@ -1,0 +1,64 @@
+/*
+ * Select (#46). Root `.apui-select` is the field, sharing Input's anatomy
+ * (field.css). The native select fills the box; the icon and the chevron
+ * (indicator) sit over it without taking clicks, so the whole box opens it.
+ */
+@layer apui.components {
+  [data-scope='select'][data-part='box'] {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: center;
+  }
+
+  [data-scope='select'][data-part='box'] > * {
+    grid-area: 1 / 1;
+  }
+
+  [data-scope='select'][data-part='control'] {
+    block-size: 100%;
+    inline-size: 100%;
+    padding-inline: var(--apui-_pad) calc(var(--apui-_pad) + var(--apui-icon-size-md) + 8px);
+    appearance: none;
+    cursor: pointer;
+    text-overflow: ellipsis;
+  }
+
+  [data-scope='select'][data-part='box']:has([data-part='icon']) > [data-part='control'] {
+    padding-inline-start: calc(var(--apui-_pad) + var(--apui-icon-size-md) + 8px);
+  }
+
+  /* The placeholder option reads as a prompt, not a value. */
+  .apui-select:not([data-disabled])
+    [data-scope='select'][data-part='control']:has(> option[value='']:checked) {
+    color: var(--apui-text-muted);
+  }
+
+  [data-scope='select'][data-part='control'] option {
+    color: var(--apui-text-default);
+  }
+
+  [data-scope='select'][data-part='icon'] {
+    justify-self: start;
+    margin-inline-start: var(--apui-_pad);
+  }
+
+  [data-scope='select'][data-part='indicator'] {
+    display: inline-flex;
+    justify-self: end;
+    inline-size: var(--apui-icon-size-md);
+    block-size: var(--apui-icon-size-md);
+    margin-inline-end: var(--apui-_pad);
+    color: var(--apui-text-muted);
+    pointer-events: none;
+  }
+
+  [data-scope='select'][data-part='indicator'] > svg {
+    inline-size: 100%;
+    block-size: 100%;
+  }
+
+  .apui-select[data-disabled]
+    [data-scope='select']:is([data-part='control'], [data-part='indicator']) {
+    color: var(--apui-text-disabled);
+  }
+}

@@ -1,0 +1,140 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "Checkbox",
+  "description": "Turns one option on or off, or selects items in a list or table. Supports the indeterminate (mixed) state.",
+  "status": "draft",
+  "issue": 47,
+  "rootClass": "apui-checkbox",
+  "stacks": {
+    "livewire": { "name": "checkbox" },
+    "react": { "name": "Checkbox" },
+    "vue": { "name": "Checkbox" }
+  },
+  "props": [
+    {
+      "name": "checked",
+      "type": "boolean",
+      "default": false,
+      "description": "Whether it's checked. Livewire binds it with wire:model, Vue with v-model:checked. Emitted as data-state."
+    },
+    {
+      "name": "defaultChecked",
+      "type": "boolean",
+      "default": false,
+      "description": "The initial state of an uncontrolled checkbox.",
+      "stacks": ["react"]
+    },
+    {
+      "name": "indeterminate",
+      "type": "boolean",
+      "default": false,
+      "description": "Shows the mixed state, such as a select-all box with some rows selected. Emitted as data-state=\"indeterminate\".",
+      "a11y": "Sets the native indeterminate property, so it is announced as mixed."
+    },
+    { "name": "label", "type": "node", "description": "The visible label, linked to the control." },
+    {
+      "name": "description",
+      "type": "node",
+      "description": "Supporting text under the label, linked with aria-describedby."
+    },
+    {
+      "name": "error",
+      "type": "string",
+      "description": "Validation message. Marks it invalid and is linked with aria-describedby."
+    },
+    {
+      "name": "invalid",
+      "type": "boolean",
+      "default": false,
+      "description": "Marks it invalid without a message. Emitted as data-invalid.",
+      "a11y": "Sets aria-invalid on the control."
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": false,
+      "description": "Disables the control."
+    },
+    {
+      "name": "required",
+      "type": "boolean",
+      "default": false,
+      "description": "Marks it required, such as consent to terms.",
+      "a11y": "Sets required on the control."
+    },
+    {
+      "name": "errorField",
+      "type": "string",
+      "description": "The validation key to read from $errors. Defaults to the wire:model name.",
+      "stacks": ["livewire"]
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part, such as { box: '…', label: '…' }."
+    }
+  ],
+  "parts": [
+    { "name": "root", "element": "div", "description": "The box, label, description and error." },
+    {
+      "name": "box",
+      "element": "span",
+      "description": "The visible square. The native control covers it."
+    },
+    {
+      "name": "control",
+      "element": "input",
+      "description": "The native checkbox, visually hidden over the box. Attributes other than class land here."
+    },
+    {
+      "name": "indicator",
+      "element": "span",
+      "description": "The check, or the dash when indeterminate."
+    },
+    { "name": "label", "element": "label", "description": "The visible label, for the control." },
+    { "name": "description", "element": "p", "description": "Supporting text." },
+    { "name": "error", "element": "p", "description": "Validation message, with an icon." }
+  ],
+  "events": [
+    {
+      "name": "checked-change",
+      "description": "The checked state changed. Clearing indeterminate is up to the owner.",
+      "payload": "boolean"
+    }
+  ],
+  "a11y": {
+    "keyboard": [{ "keys": "Space", "action": "Toggles the checkbox." }],
+    "requirements": [
+      "The native input type=checkbox stays in the DOM, visually hidden over the box, so the platform handles keyboard and screen readers.",
+      "Indeterminate sets the native indeterminate property, announced as mixed.",
+      "The label is linked with for/id; description and error with aria-describedby.",
+      "The hit area covers the box plus 4px, and the label toggles it too.",
+      "Disabled uses --apui-surface-sunken and --apui-text-disabled, never opacity alone.",
+      "Visible focus ring on the box while the control has :focus-visible.",
+      "Use Toggle, not Checkbox, for settings that apply instantly."
+    ],
+    "wcag": ["1.3.1", "1.4.3", "1.4.11", "2.1.1", "2.4.7", "2.5.8", "3.3.2", "4.1.2"]
+  },
+  "tokens": [
+    "--apui-checkbox-radius",
+    "--apui-color-primary",
+    "--apui-color-primary-hover",
+    "--apui-color-primary-foreground",
+    "--apui-border-default",
+    "--apui-border-strong",
+    "--apui-border-muted",
+    "--apui-color-error-border",
+    "--apui-color-error-text",
+    "--apui-surface-default",
+    "--apui-surface-sunken",
+    "--apui-text-default",
+    "--apui-text-muted",
+    "--apui-text-disabled",
+    "--apui-focus-ring-color"
+  ],
+  "fixture": {
+    "props": { "label": "Email me about new offers" },
+    "parts": { "description": "At most once a day.", "error": "Required to continue." },
+    "states": ["hover", "focus-visible", "checked", "indeterminate", "disabled", "invalid"]
+  }
+}

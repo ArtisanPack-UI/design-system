@@ -2,13 +2,19 @@
   "$schema": "../schema/component.schema.json",
   "name": "Button",
   "description": "Triggers an action. The one solid primary Button marks the main action of a view.",
-  "status": "planned",
+  "status": "draft",
   "issue": 44,
   "rootClass": "apui-button",
   "stacks": {
-    "livewire": { "name": "button" },
-    "react": { "name": "Button" },
-    "vue": { "name": "Button" }
+    "livewire": {
+      "name": "button"
+    },
+    "react": {
+      "name": "Button"
+    },
+    "vue": {
+      "name": "Button"
+    }
   },
   "props": [
     {
@@ -52,14 +58,14 @@
       "name": "loading",
       "type": "boolean",
       "default": false,
-      "description": "Shows the spinner and keeps the button's width.",
+      "description": "Shows the spinner over the label and keeps the button's width. Pointer clicks are ignored while loading.",
       "a11y": "Sets aria-busy and keeps the label for screen readers."
     },
     {
       "name": "disabled",
       "type": "boolean",
       "default": false,
-      "description": "Disables the button."
+      "description": "Disables the button. With href, renders an anchor without href and with aria-disabled."
     },
     {
       "name": "href",
@@ -77,6 +83,13 @@
       "description": "Icon name after the label, resolved through the icon registry. A slot or node overrides it."
     },
     {
+      "name": "type",
+      "type": "enum",
+      "values": ["button", "submit", "reset"],
+      "default": "button",
+      "description": "The native button type. Ignored when href renders an anchor."
+    },
+    {
       "name": "classes",
       "type": "object",
       "description": "Extra classes per part, such as { root: '…', label: '…' }."
@@ -91,25 +104,49 @@
       "element": "button | a",
       "description": "The native button, or an anchor when href is set."
     },
-    { "name": "icon", "element": "span", "description": "Leading icon." },
-    { "name": "iconEnd", "element": "span", "description": "Trailing icon." },
-    { "name": "label", "element": "span", "description": "The button text." },
+    {
+      "name": "icon",
+      "element": "span",
+      "description": "Leading icon."
+    },
+    {
+      "name": "iconEnd",
+      "element": "span",
+      "description": "Trailing icon."
+    },
+    {
+      "name": "label",
+      "element": "span",
+      "description": "The button text. Stays in the accessibility tree while loading."
+    },
     {
       "name": "spinner",
       "element": "span",
-      "description": "Loading indicator, shown while loading."
+      "description": "Loading indicator, centered over the label while loading."
     }
   ],
   "slots": [
-    { "name": "icon", "description": "Overrides the leading icon." },
-    { "name": "iconEnd", "description": "Overrides the trailing icon." }
+    {
+      "name": "icon",
+      "description": "Overrides the leading icon."
+    },
+    {
+      "name": "iconEnd",
+      "description": "Overrides the trailing icon."
+    }
   ],
   "events": [],
   "a11y": {
     "element": "button",
     "keyboard": [
-      { "keys": "Enter", "action": "Activates the button." },
-      { "keys": "Space", "action": "Activates the button (native button only)." }
+      {
+        "keys": "Enter",
+        "action": "Activates the button."
+      },
+      {
+        "keys": "Space",
+        "action": "Activates the button (native button only)."
+      }
     ],
     "requirements": [
       "Uses a native button element, or an anchor when href is set.",
@@ -129,13 +166,22 @@
     "--apui-control-height-md",
     "--apui-control-height-lg",
     "--apui-control-height-xl",
+    "--apui-icon-size-sm",
+    "--apui-icon-size-md",
+    "--apui-icon-size-lg",
     "--apui-state-hover",
     "--apui-state-pressed",
+    "--apui-surface-sunken",
+    "--apui-text-disabled",
     "--apui-focus-ring-color",
     "--apui-target-size-min"
   ],
   "fixture": {
     "content": "Button",
-    "parts": { "loading": true, "leadingIcon": "plus", "trailingIcon": "arrow-right" }
+    "parts": {
+      "loading": true,
+      "leadingIcon": "plus",
+      "trailingIcon": "arrow-right"
+    }
   }
 }

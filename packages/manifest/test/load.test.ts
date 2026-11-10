@@ -71,6 +71,7 @@ describe('eventName', () => {
   it.each([
     ['value-change', 'wire:model', 'onValueChange', 'update:modelValue'],
     ['open-change', 'open-change', 'onOpenChange', 'update:open'],
+    ['checked-change', 'wire:model', 'onCheckedChange', 'update:checked'],
     ['row-click', 'row-click', 'onRowClick', 'row-click'],
     ['complete', 'complete', 'onComplete', 'complete'],
   ])('maps %s', (concept, livewire, react, vue) => {

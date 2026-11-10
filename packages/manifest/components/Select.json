@@ -1,0 +1,231 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "Select",
+  "description": "Chooses one value from a short list with the native select element. It shares the Input field anatomy; searchable and rich options are the Combobox family (#54).",
+  "status": "draft",
+  "issue": 46,
+  "rootClass": "apui-select",
+  "stacks": {
+    "livewire": {
+      "name": "select"
+    },
+    "react": {
+      "name": "Select"
+    },
+    "vue": {
+      "name": "Select"
+    }
+  },
+  "props": [
+    {
+      "name": "size",
+      "type": "enum",
+      "values": ["sm", "md", "lg"],
+      "default": "md",
+      "description": "Control height. Emitted as data-size."
+    },
+    {
+      "name": "options",
+      "type": "array",
+      "description": "The options: strings, or { value, label, disabled } objects. Option children (a slot in Blade and Vue) render as well, after them."
+    },
+    {
+      "name": "label",
+      "type": "node",
+      "description": "The visible label, linked to the control."
+    },
+    {
+      "name": "hint",
+      "type": "node",
+      "description": "Help text under the control, linked with aria-describedby."
+    },
+    {
+      "name": "error",
+      "type": "string",
+      "description": "Validation message. Marks the field invalid and is linked with aria-describedby."
+    },
+    {
+      "name": "invalid",
+      "type": "boolean",
+      "default": false,
+      "description": "Marks the field invalid without a message. Emitted as data-invalid.",
+      "a11y": "Sets aria-invalid on the control."
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": false,
+      "description": "Disables the control."
+    },
+    {
+      "name": "required",
+      "type": "boolean",
+      "default": false,
+      "description": "Marks the field required, shows the required mark and makes the placeholder option unselectable.",
+      "a11y": "Sets required on the control."
+    },
+    {
+      "name": "placeholder",
+      "type": "string",
+      "default": "Select…",
+      "description": "The empty first option, shown in the muted color while it's selected. Translated by default."
+    },
+    {
+      "name": "value",
+      "type": "string",
+      "description": "The selected value. Livewire binds it with wire:model, Vue with v-model."
+    },
+    {
+      "name": "defaultValue",
+      "type": "string",
+      "description": "The initial value of an uncontrolled select.",
+      "stacks": ["react"]
+    },
+    {
+      "name": "leadingIcon",
+      "type": "string",
+      "description": "Icon name before the value, resolved through the icon registry. A slot or node overrides it."
+    },
+    {
+      "name": "errorField",
+      "type": "string",
+      "description": "The validation key to read from $errors. Defaults to the wire:model name.",
+      "stacks": ["livewire"]
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part, such as { label: '…', control: '…' }."
+    }
+  ],
+  "sizes": ["sm", "md", "lg"],
+  "parts": [
+    {
+      "name": "root",
+      "element": "div",
+      "description": "The field: label, box, hint and error."
+    },
+    {
+      "name": "label",
+      "element": "label",
+      "description": "The visible label, for the control."
+    },
+    {
+      "name": "required",
+      "element": "span",
+      "description": "The required mark inside the label. Hidden from screen readers; the control is required."
+    },
+    {
+      "name": "box",
+      "element": "div",
+      "description": "The bordered box around the control, its icon and the chevron."
+    },
+    {
+      "name": "icon",
+      "element": "span",
+      "description": "Leading icon."
+    },
+    {
+      "name": "control",
+      "element": "select",
+      "description": "The native select. Attributes other than class land here."
+    },
+    {
+      "name": "indicator",
+      "element": "span",
+      "description": "The chevron. It points down in every direction."
+    },
+    {
+      "name": "hint",
+      "element": "p",
+      "description": "Help text."
+    },
+    {
+      "name": "error",
+      "element": "p",
+      "description": "Validation message, with an icon."
+    }
+  ],
+  "slots": [
+    {
+      "name": "icon",
+      "description": "Overrides the leading icon."
+    }
+  ],
+  "events": [
+    {
+      "name": "value-change",
+      "description": "The selected value changed. React and Vue pass the matching option's value as given (a number stays a number); option children and Livewire give the string.",
+      "payload": "string | number"
+    }
+  ],
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Tab",
+        "action": "Moves focus to the select."
+      },
+      {
+        "keys": "Space, Enter, Alt+ArrowDown",
+        "action": "Opens the native list (platform behavior)."
+      },
+      {
+        "keys": "ArrowUp, ArrowDown",
+        "action": "Moves through the options."
+      },
+      {
+        "keys": "Escape",
+        "action": "Closes the list and keeps the value."
+      }
+    ],
+    "requirements": [
+      "Uses the native select element, so the platform supplies the listbox, keyboard and screen-reader support.",
+      "The label is always visible and linked with for/id.",
+      "Hint and error are linked to the control with aria-describedby; invalid sets aria-invalid.",
+      "The placeholder is an empty option in the muted color, so it never looks like a value; it can't be chosen when required.",
+      "Class goes to the root; every other attribute (wire:model, name) goes to the control.",
+      "Visible focus ring on the box while the control has :focus-visible.",
+      "The chevron doesn't mirror under RTL; the icon and chevron swap sides with the text direction."
+    ],
+    "wcag": ["1.3.1", "1.4.3", "1.4.11", "2.1.1", "2.4.7", "2.5.8", "3.3.1", "3.3.2", "4.1.2"]
+  },
+  "tokens": [
+    "--apui-input-radius",
+    "--apui-control-height-sm",
+    "--apui-control-height-md",
+    "--apui-control-height-lg",
+    "--apui-border-default",
+    "--apui-border-strong",
+    "--apui-border-muted",
+    "--apui-color-error-border",
+    "--apui-color-error-text",
+    "--apui-surface-default",
+    "--apui-surface-sunken",
+    "--apui-text-default",
+    "--apui-text-muted",
+    "--apui-text-disabled",
+    "--apui-focus-ring-color"
+  ],
+  "fixture": {
+    "props": {
+      "label": "Country",
+      "options": [
+        {
+          "value": "us",
+          "label": "United States"
+        },
+        {
+          "value": "ca",
+          "label": "Canada"
+        }
+      ]
+    },
+    "parts": {
+      "required": true,
+      "hint": "Where the account is registered.",
+      "error": "Choose a country.",
+      "leadingIcon": "user"
+    },
+    "states": ["hover", "focus-visible", "disabled", "invalid"]
+  }
+}

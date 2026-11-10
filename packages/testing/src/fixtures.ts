@@ -1,6 +1,6 @@
 /**
  * Fixtures derived from a manifest (#39): every variant × size × state, plus
- * every color × variant, in each theme at the default density, and one RTL
+ * every color × variant and every other surface, in each theme at the default density, and one RTL
  * pass in the default theme and density (D-004). Stacks the component doesn't
  * ship in are left out (D-003).
  */
@@ -32,7 +32,13 @@ export function fixtureCases(manifest: ComponentManifest): FixtureCase[] {
   const states = ['default', ...fixtureStates(manifest)];
   const cases: FixtureCase[] = [];
 
-  const add = (variant?: string, size?: string, color?: string, state = 'default') => {
+  const add = (
+    variant?: string,
+    size?: string,
+    color?: string,
+    state = 'default',
+    surface?: string,
+  ) => {
     const props: Record<string, unknown> = { ...base };
     const id: string[] = [];
     if (variant !== undefined) {
@@ -46,6 +52,10 @@ export function fixtureCases(manifest: ComponentManifest): FixtureCase[] {
     if (color !== undefined) {
       props.color = color;
       id.push(`color=${color}`);
+    }
+    if (surface !== undefined) {
+      props.surface = surface;
+      id.push(`surface=${surface}`);
     }
     if (!(PSEUDO_STATES as readonly string[]).includes(state) && state !== 'default') {
       props[state] = true;
@@ -66,6 +76,18 @@ export function fixtureCases(manifest: ComponentManifest): FixtureCase[] {
     for (const variant of variants) {
       add(variant, manifest.sizes?.length ? (defaultSize ?? manifest.sizes[0]) : undefined, color);
     }
+  }
+  // Every other surface once, at the default variant and size (D-006: glass is a surface).
+  const surface = manifest.props.find((prop) => prop.name === 'surface');
+  for (const value of surface?.values ?? []) {
+    if (value === surface?.default) continue;
+    add(
+      variants[0],
+      manifest.sizes?.length ? (defaultSize ?? manifest.sizes[0]) : undefined,
+      undefined,
+      'default',
+      value,
+    );
   }
   return cases;
 }

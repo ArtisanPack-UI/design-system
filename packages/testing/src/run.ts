@@ -12,7 +12,7 @@ import {
   shipsIn,
   type Stack,
 } from '@artisanpack-ui/manifest';
-import { build } from 'esbuild';
+import { build, type Plugin } from 'esbuild';
 import { type Browser, chromium, type Page } from 'playwright';
 
 import { checkManifestA11y } from './a11y';
@@ -123,10 +123,37 @@ export function resolveConfig(config: GatesConfig, base: string): GatesConfig {
   };
 }
 
+/** Framework packages a host and its components must share one copy of. */
+const FRAMEWORK = /^(react|react-dom|vue)(\/.*)?$/;
+
+/**
+ * Resolves React, ReactDOM and Vue from the host entry's directory, wherever
+ * they're imported from. Without it, a linked `@artisanpack-ui/testing`
+ * (`file:` or a workspace symlink) bundles its own copy next to the
+ * component repo's, and hooks fail with "Cannot read properties of null".
+ */
+function frameworkFromEntry(entry: string): Plugin {
+  return {
+    name: 'apui-framework-from-entry',
+    setup(pluginBuild) {
+      pluginBuild.onResolve({ filter: FRAMEWORK }, async (args) => {
+        if (args.pluginData === 'apui-framework') return undefined;
+        const resolved = await pluginBuild.resolve(args.path, {
+          kind: args.kind,
+          resolveDir: dirname(resolve(entry)),
+          pluginData: 'apui-framework',
+        });
+        return resolved.errors.length ? undefined : { path: resolved.path };
+      });
+    },
+  };
+}
+
 /** Bundles a React or Vue fixture entry into one classic script. */
 export async function bundleHost(entry: string): Promise<string> {
   const result = await build({
     entryPoints: [entry],
+    plugins: [frameworkFromEntry(entry)],
     bundle: true,
     format: 'iife',
     platform: 'browser',

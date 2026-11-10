@@ -1,0 +1,22 @@
+[
+  {
+    "id": "basic",
+    "title": "Basic",
+    "description": "Options as strings or { value, label } objects. The empty placeholder option shows in the muted color."
+  },
+  {
+    "id": "options",
+    "title": "Option children and disabled options",
+    "description": "Pass native option elements as children, alone or after options."
+  },
+  {
+    "id": "states",
+    "title": "Validation and disabled",
+    "description": "Required makes the placeholder unselectable. The error is linked to the control."
+  },
+  {
+    "id": "sizes",
+    "title": "Sizes",
+    "description": "Small, medium and large control heights, matching Input."
+  }
+]

@@ -20,6 +20,8 @@ Decisions that shape the design system. To change one, add a new entry that supe
 | [D-014](#d-014-without-a-bundler-use-the-prebuilt-composer-asset-no-official-cdn-build-at-10) | Without a bundler, use the prebuilt Composer asset; no official CDN build at 1.0 | #31 | 2026-11-09 |
 | [D-015](#d-015-the-behavior-engine-is-zag-with-floating-ui) | The behavior engine is Zag, with Floating UI | #32, #37 | 2026-11-09 |
 | [D-016](#d-016-the-quality-gates-ship-as-artisanpack-uitesting-plus-a-composer-kit) | The quality gates ship as `@artisanpack-ui/testing`, plus a Composer kit | #39, #40, #41, #43 | 2026-11-10 |
+| [D-017](#d-017-icon-names-resolve-against-one-lucide-set-shipped-by-behavior) | Icon names resolve against one Lucide set, shipped by `behavior` | #44 | 2026-11-10 |
+| [D-018](#d-018-form-fields-share-one-anatomy-and-route-attributes-to-the-native-control) | Form fields share one anatomy and route attributes to the native control | #45, #46, #47 | 2026-11-10 |
 
 ## D-001: No separate brand
 
@@ -277,3 +279,26 @@ The package tests repeat these in Chromium with Alpine's morph plugin, plus RTL 
 
 **Why.** Three copies of the gates, one per component repo, would drift exactly the way the components did. Reading markup, instead of each framework's type system, gives one rule set for Blade, React and Vue, and a broken reference component in each stack holds the TypeScript and PHP checks to the same messages. Composer is how PHP consumers already get ArtisanPack packages; a root `composer.json` avoids a second repo for a few classes that must match the manifests they read.
 
+## D-017: Icon names resolve against one Lucide set, shipped by `behavior`
+
+**Decision.**
+
+- A string icon name (`leadingIcon="plus"`) resolves through a registry, in every stack. The default set is a Lucide subset (ISC) in `packages/behavior/icons/lucide.json`: the icons the components draw and the fixtures and docs use. Names are Lucide's, in kebab-case.
+- React and Vue read it through `@artisanpack-ui/behavior/icons` (`resolveIcon`, `iconSvg`, `registerIcons`). Livewire UI Components copies the same JSON into PHP when it builds its assets (#42), so a name renders the same SVG, and the same pixels, in all three stacks. Apps register more names, or replace one, in each stack's registry.
+- Every icon is the same `<svg>`: 24×24 viewBox, `stroke="currentColor"`, stroke 1.5, `aria-hidden="true"`. Its part sizes it. A slot or node overrides the name (vocabulary, Icons).
+- Livewire falls back to blade-icons for names outside the registry, so `o-*` and `fa-*` names keep rendering during the migration.
+- **Registered bodies are trusted markup.** Every stack injects them as HTML, so `registerIcons` (and Livewire's registry) accept static SVG shapes only and reject script, event handlers, `style`, `foreignObject`, `use`, `image`, links and `javascript:`/`vbscript:`/`data:` URLs. Never register user or CMS input. The registry is one store per page (`Symbol.for`), so the CJS and ESM builds share it.
+
+**Why.** The vocabulary made string names portable across stacks, and the visual-regression gate compares pixels across them, so all three need one source for the SVGs. `behavior` is the runtime package every stack already loads, and Livewire already copies its build. Shipping all of Lucide would cost every bundle hundreds of icons; a small default set plus registration keeps the brand book's Lucide look and lets any open-licensed 24px set be swapped in.
+
+## D-018: Form fields share one anatomy and route attributes to the native control
+
+**Decision.**
+
+- **One anatomy.** Input, Select and Checkbox render a field root (`.apui-input`, `.apui-select`, `.apui-checkbox`) holding `label`, `control` (the native element), `hint` or `description`, and `error`. Input and Select draw the border on a `box` part around the control, its icons and its addons. `field.css` holds the shared rules; later form components (Textarea, DatePicker, Combobox) reuse it.
+- **Attributes go to the control.** `class` goes to the root, and every other attribute (`wire:model`, `name`, `autocomplete`, `aria-*`) goes to the native control, so `wire:model` binds natively with no Alpine. The Blade parity kit counts a native `<input>`, `<select>` or `<textarea>` that receives `$attributes` as `wire:model` binding.
+- **Select is the native element.** It is the first control with options, and the platform supplies the listbox, keyboard and screen-reader support. A searchable or rich listbox is the Combobox family (#54), on Zag (D-015). This takes Select off D-015's list of engine widgets.
+- **Checkbox reports `checked-change`**, spelled `wire:model`, `onCheckedChange` and `update:checked` (`v-model:checked`). `value` stays the native submitted value, not the state. Its CSS reads the native `:checked`, so the box follows a click before a deferred `wire:model` round trip re-renders `data-state`.
+- **The gates force pseudo-states on the control.** A field's root is a wrapper, so `:hover`, `:focus-visible` and `:active` are forced on its `[data-part="control"]` instead, where the browser puts them. The fixtures also render every non-default `surface` once (D-006).
+
+**Why.** Five copies of label, hint and error markup is where form components drifted before (#3). Sending attributes to the native control is what Livewire, React and Vue users expect from a text field, and it keeps `wire:model` modifiers (`.live`, `.blur`) working. A native Select is accessible and small, and leaves the custom listbox to the component built for it instead of growing two.
