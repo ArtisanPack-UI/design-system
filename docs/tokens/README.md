@@ -188,6 +188,7 @@ From code, `scripts/lib/generator.mjs` exports `generatePreset(tokensRoot, optio
 | Presets, TypeScript | `@artisanpack-ui/tokens` | `presets[name]` = `{ name, description, attribute, tokens }`, where `tokens[path]` = `{ changed, value, resolved }` for every token the preset affects |
 | Presets, PHP | `@artisanpack-ui/tokens/presets/php` | `return [ 'attribute', 'presets' ]`, with the same fields |
 | Preset sources | `@artisanpack-ui/tokens/dtcg-presets/*` | The preset directories |
+| Figma variables | `@artisanpack-ui/tokens/figma` | The payload for the Figma sync, plus a development plugin in `generated/figma/` ([Figma variables](../figma.md), #28) |
 
 In the TS and PHP maps, `value` is the CSS with aliases as `var()`, one per mode for mode tokens. `resolved` is the final CSS value, one per mode when the token varies by an axis.
 

@@ -3,3 +3,6 @@ dist/
 coverage/
 *.tsbuildinfo
 .DS_Store
+
+# Figma connector scripts from `npm run figma:chunks`.
+packages/tokens/.figma-chunks

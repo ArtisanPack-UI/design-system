@@ -17,6 +17,7 @@ import {
 import { dirname, join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import { formatFigmaJson, formatFigmaManifest, formatFigmaPlugin } from './lib/figma.mjs';
 import { formatCss, formatPhp, formatTs } from './lib/formats.mjs';
 import { loadTokens, TokenError } from './lib/model.mjs';
 import { formatPresetCss, formatPresetsPhp, formatPresetsTs, loadPresets } from './lib/presets.mjs';
@@ -44,6 +45,9 @@ export function buildOutputs(root = packageRoot) {
   }
   outputs['generated/presets.php'] = formatPresetsPhp(model, presets);
   outputs['src/generated/presets.ts'] = formatPresetsTs(model, presets);
+  outputs['generated/figma/variables.json'] = formatFigmaJson(model, presets);
+  outputs['generated/figma/plugin.js'] = formatFigmaPlugin(model, presets);
+  outputs['generated/figma/manifest.json'] = formatFigmaManifest();
   return outputs;
 }
 
