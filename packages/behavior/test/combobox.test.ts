@@ -120,10 +120,13 @@ describe('combobox', () => {
 
   it('takes a value from outside, as $wire.entangle() sets it', async () => {
     const { page } = await open(markup("{ value: 'fr' }"));
+    // The label shows on load, before anything is picked.
+    expect(await page.inputValue('#cb-input')).toBe('France');
     expect(await page.$eval('[data-value="fr"]', (el) => el.getAttribute('aria-selected'))).toBe(
       'true',
     );
     await setData(page, '#cb', 'value', 'is');
+    expect(await page.inputValue('#cb-input')).toBe('Iceland');
     expect(await page.$eval('[data-value="is"]', (el) => el.getAttribute('aria-selected'))).toBe(
       'true',
     );

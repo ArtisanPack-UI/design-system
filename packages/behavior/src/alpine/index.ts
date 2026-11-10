@@ -223,6 +223,7 @@ function comboboxComponent(options: ComboboxOptions = {}) {
   let visible: ComboboxItem[] = [];
   let query = '';
   let scheduled = false;
+  let root: HTMLElement | undefined;
 
   return {
     value: options.value ?? (multiple ? [] : null),
@@ -239,6 +240,7 @@ function comboboxComponent(options: ComboboxOptions = {}) {
       },
     ) {
       const el = this.$el;
+      root = el;
       const toArray = (value: unknown): string[] =>
         Array.isArray(value)
           ? value.map(String)
@@ -289,7 +291,10 @@ function comboboxComponent(options: ComboboxOptions = {}) {
         },
       });
       widget.start();
-      this.$watch('value', (value: unknown) => widget?.setProps({ value: toArray(value) }));
+      this.$watch('value', (value: unknown) => {
+        widget?.setProps({ value: toArray(value) });
+        queueMicrotask(showLabel);
+      });
     },
 
     destroy() {
@@ -344,6 +349,7 @@ function comboboxComponent(options: ComboboxOptions = {}) {
     queueMicrotask(() => {
       scheduled = false;
       refresh();
+      showLabel();
     });
   }
 
@@ -359,6 +365,25 @@ function comboboxComponent(options: ComboboxOptions = {}) {
       .map(([, item]) => item);
     visible = options.remote ? ordered : filterItems(ordered, query);
     widget.setProps({ collection: createCollection(visible) });
+  }
+
+  /**
+   * Puts the selected item's label in the input while the list is closed.
+   * The machine only does that when an item is picked, so a value from the
+   * server (the initial render, or $wire setting it) would leave the input
+   * empty.
+   */
+  function showLabel() {
+    if (!widget || multiple) return;
+    const api = widget.api();
+    // Never while someone is typing in it.
+    if (api.open || root?.querySelector('[data-part="input"]') === document.activeElement) return;
+    const selected = api.value[0];
+    const item =
+      selected === undefined ? undefined : [...items.values()].find((i) => i.value === selected);
+    if (selected !== undefined && !item) return;
+    const label = item?.label ?? '';
+    if (api.inputValue !== label) api.setInputValue(label, 'script');
   }
 }
 
