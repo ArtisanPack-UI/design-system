@@ -47,6 +47,23 @@ export interface Widget<Props, Api> {
   bind(node: Element, attrs: (api: Api) => Attrs): () => void;
 }
 
+/** Re-adds declarations from `previous` (a style attribute) that the node lost. */
+function restoreStyle(node: HTMLElement, previous: string | null): void {
+  if (!previous || !node.style) return;
+  const probe = document.createElement('div').style;
+  probe.cssText = previous;
+  for (let i = 0; i < probe.length; i++) {
+    const property = probe.item(i);
+    if (!node.style.getPropertyValue(property)) {
+      node.style.setProperty(
+        property,
+        probe.getPropertyValue(property),
+        probe.getPropertyPriority(property),
+      );
+    }
+  }
+}
+
 interface Binding {
   apply(): void;
   dispose(): void;
@@ -65,9 +82,12 @@ export function createWidget<Schema extends MachineSchema, Api>(
   const listeners = new Set<(api: Api) => void>();
   let current: Api | undefined;
   let running = false;
+  /** Counts renders, so bindings can tell machine effects from outside changes. */
+  let generation = 0;
 
   const connect = () => definition.connect(machine.service, normalizeProps);
   const render = () => {
+    generation++;
     current = connect();
     for (const binding of bindings) binding.apply();
     for (const listener of listeners) listener(current);
@@ -102,10 +122,22 @@ export function createWidget<Schema extends MachineSchema, Api>(
     },
     bind(node, attrs) {
       let last: Attrs = {};
-      const observer = new MutationObserver(() => {
+      let seen = generation;
+      const observer = new MutationObserver((records) => {
         // Our own writes are taken off the queue in apply(), so anything left
-        // came from outside. Re-apply only if it touched what we manage.
+        // came from the machine's effects or from outside.
+        if (seen !== generation) {
+          // The machine re-rendered since: these are its effects (a layer's
+          // pointer-events on open, their removal on close). Accept them.
+          seen = generation;
+        } else {
+          // Nothing changed state, so something outside rewrote the node: a
+          // morph. Put back inline styles the machine's effects had set.
+          const before = records.find((record) => record.attributeName === 'style');
+          if (before) restoreStyle(node as HTMLElement, before.oldValue);
+        }
         if (!hasProps(node, last)) binding.apply();
+        else observer.takeRecords();
       });
       const binding: Binding = {
         apply() {
@@ -121,7 +153,7 @@ export function createWidget<Schema extends MachineSchema, Api>(
       };
       bindings.add(binding);
       binding.apply();
-      observer.observe(node, { attributes: true });
+      observer.observe(node, { attributes: true, attributeOldValue: true });
       return () => binding.dispose();
     },
   };

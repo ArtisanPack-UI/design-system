@@ -28,6 +28,7 @@
  */
 import type AlpineGlobal from 'alpinejs';
 
+import { keepClientStateInLivewire } from '../core/morph';
 import type { Attrs } from '../core/props';
 import { createWidget, type Widget } from '../core/widget';
 import {
@@ -88,6 +89,29 @@ function authoredIds(root: Element): Record<string, string> {
   };
   visit(root, (el) => el.closest('[x-data]') !== root);
   return ids;
+}
+
+const warned = new WeakSet<Element>();
+
+/**
+ * Livewire keys morphed elements by `wire:key`, then by `id`. A part the server
+ * renders without an id gets one from the machine, so its key no longer
+ * matches the server's and the morph replaces the element, leaving the
+ * machine's focus trap and listeners on a detached node. Parts inside a
+ * Livewire component need a stable, server-rendered id; the Blade components
+ * render one for every part.
+ */
+function warnMissingId(el: Element, part: string): void {
+  if (el.id || part === 'item' || part.startsWith('item-') || warned.has(el)) return;
+  // Teleported parts live outside the component; follow them back to it.
+  const teleported = el.closest('[data-teleport-target]') as { _x_teleportBack?: Element } | null;
+  const origin = teleported?._x_teleportBack ?? el;
+  if (!origin.closest('[wire\\:id]')) return;
+  warned.add(el);
+  console.warn(
+    `[apui] x-apui:${part} has no id. Inside a Livewire component every part needs a stable id, or the morph replaces it.`,
+    el,
+  );
 }
 
 function dispatch(el: Element, name: string, detail: unknown) {
@@ -325,6 +349,9 @@ function comboboxComponent(options: ComboboxOptions = {}) {
 
   function refresh() {
     if (!widget) return;
+    // A morph removes items before Alpine runs their cleanup, so drop
+    // detached ones here rather than wait for it.
+    for (const el of [...items.keys()]) if (!el.isConnected) items.delete(el);
     const ordered = [...items]
       .sort(([a], [b]) =>
         a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1,
@@ -357,6 +384,15 @@ interface AlpineMagics {
 
 /** Registers `apuiDialog`, `apuiCombobox` and the `x-apui:<part>` directive. */
 export default function apuiBehavior(Alpine: Alpine): void {
+  // Keep machine state that lives outside part props (aria-hidden on the page
+  // behind a modal, layer styles) through Livewire's morph.
+  const page = window as unknown as { Livewire?: unknown };
+  if (!keepClientStateInLivewire(page.Livewire)) {
+    document.addEventListener('livewire:init', () => keepClientStateInLivewire(page.Livewire), {
+      once: true,
+    });
+  }
+
   Alpine.data('apuiDialog', dialogComponent as never);
   Alpine.data('apuiCombobox', comboboxComponent as never);
 
@@ -368,6 +404,7 @@ export default function apuiBehavior(Alpine: Alpine): void {
       if (typeof host.apuiPart !== 'function') {
         throw new Error(`[apui] x-apui:${part} must be inside an apuiDialog or apuiCombobox`);
       }
+      warnMissingId(el, part);
       let args: PartArgs;
       let unbind: (() => void) | undefined;
       if (expression) {

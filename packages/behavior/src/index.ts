@@ -9,6 +9,7 @@
 /** The npm package name. */
 export const packageName = '@artisanpack-ui/behavior';
 
+export { keepClientState, keepClientStateInLivewire } from './core/morph';
 export { applyProps, hasProps, removeProps, type Attrs } from './core/props';
 export { createWidget, type Normalize, type Widget, type WidgetDefinition } from './core/widget';
 export {

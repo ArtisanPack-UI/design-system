@@ -3,14 +3,19 @@
  * prebuilt asset Livewire UI Components publishes (#42, D-014). It registers
  * itself when Alpine starts, so load it before Livewire's script.
  */
+import { keepClientState } from '../core/morph';
 import apuiBehavior from './index';
 
 type AlpineWindow = Window & {
   Alpine?: Parameters<typeof apuiBehavior>[0];
+  ApuiBehavior?: { keepClientState: typeof keepClientState };
   __apuiBehavior?: boolean;
 };
 
 const host = window as AlpineWindow;
+
+// For morph libraries other than Livewire's: call it before each element is patched.
+host.ApuiBehavior = { keepClientState };
 
 function register() {
   if (host.__apuiBehavior || !host.Alpine) return;

@@ -84,14 +84,21 @@ export async function settle(page: Page): Promise<void> {
 
 /**
  * Morphs `selector` into `html` with Alpine's morph plugin, the way a Livewire
- * re-render does: attributes the server didn't render are removed.
+ * re-render does: attributes the server didn't render are removed, except the
+ * client state keepClientState carries over.
  */
 export async function morph(page: Page, selector: string, html: string): Promise<void> {
   await page.evaluate(
     ([sel, markup]) => {
-      const alpine = (window as unknown as { Alpine: { morph(el: Element, to: string): void } })
-        .Alpine;
-      alpine.morph(document.querySelector(sel!)!, markup!);
+      const w = window as unknown as {
+        Alpine: { morph(el: Element, to: string, options: object): void };
+        ApuiBehavior: { keepClientState(from: Element, to: Element): void };
+      };
+      // Livewire runs keepClientState from its morph.updating hook; a bare
+      // Alpine.morph takes it as the updating option.
+      w.Alpine.morph(document.querySelector(sel!)!, markup!, {
+        updating: (el: Element, toEl: Element) => w.ApuiBehavior.keepClientState(el, toEl),
+      });
     },
     [selector, html],
   );

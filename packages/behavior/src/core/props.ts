@@ -37,14 +37,14 @@ function applyStyle(node: Element, previous: unknown, next: unknown): void {
     unknown
   >;
   const after = (next && typeof next === 'object' ? next : {}) as Record<string, unknown>;
-  for (const key of Object.keys(before)) {
-    if (after[key] == null) style.removeProperty(cssName(key));
+  // Only remove what these props set before. A null value means "not ours",
+  // and machine effects write some of the same properties directly (a modal
+  // layer's pointer-events), which must survive a re-render.
+  for (const [key, value] of Object.entries(before)) {
+    if (value != null && after[key] == null) style.removeProperty(cssName(key));
   }
   for (const [key, value] of Object.entries(after)) {
-    if (value == null) {
-      style.removeProperty(cssName(key));
-      continue;
-    }
+    if (value == null) continue;
     const css = cssName(key);
     if (style.getPropertyValue(css) !== String(value)) style.setProperty(css, String(value));
   }

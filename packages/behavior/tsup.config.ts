@@ -15,6 +15,9 @@ export default defineConfig([
     // script with the engine bundled in, registering on alpine:init.
     entry: { 'alpine.global': 'src/alpine/global.ts' },
     format: ['iife'],
+    platform: 'browser',
+    // Zag reads process.env.NODE_ENV for dev warnings; a classic script has no process.
+    define: { 'process.env.NODE_ENV': '"production"' },
     minify: true,
     sourcemap: true,
     target: 'es2020',

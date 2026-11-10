@@ -183,6 +183,67 @@ describe('dialog', () => {
       await page.close();
     });
 
+    it('keeps the page behind a teleported modal hidden, and the dialog clickable', async () => {
+      const page_ = (note: string) => `<main id="app">
+  <div id="tp" x-data="apuiDialog()">
+    <button id="tp-trigger" x-apui:trigger>Open</button>
+    <template x-teleport="body">
+      <div>
+        <div x-apui:backdrop></div>
+        <div x-apui:positioner>
+          <div id="tp-content" x-apui:content>
+            <h2 x-apui:title>Teleported</h2>
+            <button id="tp-close" x-apui:close-trigger>Close</button>
+          </div>
+        </div>
+      </div>
+    </template>
+  </div>
+  <p id="note">${note}</p>
+</main>`;
+      const { page, errors } = await open(page_('Before'));
+      await page.click('#tp-trigger');
+      await settle(page);
+      expect(await page.$eval('#app', (el) => el.getAttribute('aria-hidden'))).toBe('true');
+
+      // The whole page component re-renders, as Livewire does after any action.
+      await morph(page, '#app', page_('After'));
+
+      expect(await page.textContent('#note')).toBe('After');
+      expect(await page.$eval('#app', (el) => el.getAttribute('aria-hidden'))).toBe('true');
+      expect(await page.$eval('#tp-content', (el) => (el as HTMLElement).style.pointerEvents)).toBe(
+        'auto',
+      );
+      await page.click('#tp-close', { timeout: 2000 });
+      await settle(page);
+      expect(await page.$eval('#tp-content', (el) => el.hasAttribute('hidden'))).toBe(true);
+      expect(await page.$eval('#app', (el) => el.hasAttribute('aria-hidden'))).toBe(false);
+      expect(errors).toEqual([]);
+      await page.close();
+    });
+
+    it('keeps the inline styles its effects set when something outside strips them', async () => {
+      // Livewire patches teleported nodes in a way the morph hook doesn't see.
+      const { page } = await open(markup());
+      await page.click('#trigger');
+      await settle(page);
+      expect(await page.$eval('#content', (el) => (el as HTMLElement).style.pointerEvents)).toBe(
+        'auto',
+      );
+      await page.evaluate(() => document.querySelector('#content')!.removeAttribute('style'));
+      await settle(page);
+      expect(await page.$eval('#content', (el) => (el as HTMLElement).style.pointerEvents)).toBe(
+        'auto',
+      );
+      // Closing still clears what the machine owns.
+      await page.keyboard.press('Escape');
+      await settle(page);
+      expect(await page.$eval('#content', (el) => (el as HTMLElement).style.pointerEvents)).toBe(
+        '',
+      );
+      await page.close();
+    });
+
     it('stays closed when re-rendered closed', async () => {
       const { page } = await open(markup());
       await morph(page, '#dialog', markup(2).replace(/<button id="outside">.*<\/button>/, ''));

@@ -195,6 +195,12 @@ describe('combobox', () => {
       // The server re-renders with its results.
       await morph(page, '#cb', markup("{ remote: true, search: '' }", [['zw', 'Zimbabwe']]));
       expect(await visibleItems(page)).toEqual(['zw']);
+
+      // Keyboard selection runs over the server's items, not the replaced ones.
+      await page.keyboard.press('ArrowDown');
+      await page.keyboard.press('Enter');
+      await settle(page);
+      expect(await data(page, '#cb', 'value')).toBe('zw');
       await page.close();
     });
   });
