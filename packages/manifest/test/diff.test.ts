@@ -62,6 +62,39 @@ describe('diffManifests', () => {
   });
 });
 
+describe('deprecation changes', () => {
+  const prop = (manifest: ReturnType<typeof button>) =>
+    manifest.props.find((p) => p.name === 'loading')!;
+
+  it('reports a prop that is no longer deprecated', () => {
+    const before = button();
+    prop(before).deprecated = 'Use busy.';
+    const changes = diffManifests(before, button());
+    expect(changes).toEqual([
+      expect.objectContaining({
+        kind: 'removed',
+        path: 'props.loading.deprecated',
+        breaking: false,
+        message: 'Prop `loading` is no longer deprecated.',
+      }),
+    ]);
+  });
+
+  it('reports a changed deprecation note', () => {
+    const before = button();
+    const after = button();
+    prop(before).deprecated = 'Use busy.';
+    prop(after).deprecated = 'Use pending.';
+    expect(diffManifests(before, after)).toEqual([
+      expect.objectContaining({
+        kind: 'changed',
+        path: 'props.loading.deprecated',
+        message: 'Changed the deprecation note of prop `loading`: Use pending.',
+      }),
+    ]);
+  });
+});
+
 describe('formatChanges', () => {
   it('groups breaking and other changes as Markdown', () => {
     const after = button();

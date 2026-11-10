@@ -144,11 +144,12 @@ final class ComponentManifest
 	 */
 	public function bladeTag(): ?string
 	{
-		if ( ! $this->shipsIn( 'livewire' ) ) {
+		$livewire = $this->stacks['livewire'] ?? false;
+		if ( ! is_array( $livewire ) ) {
 			return null;
 		}
 
-		return 'x-artisanpack-' . $this->stacks['livewire']['name'];
+		return 'x-artisanpack-' . $livewire['name'];
 	}
 
 	/**

@@ -142,6 +142,22 @@ describe('generated presets', () => {
     ).toBe(0);
   });
 
+  it.each(['#111111', '#808080', '#fafafa', '#111112'])(
+    'uses pure grays for a gray primary like %s, not grays tinted toward hue 0',
+    (primary) => {
+      const { model } = generatePreset(tokensRoot, { name: 'brand', primary });
+      for (const step of ['25', '600', '900']) {
+        const gray = hexOf(model, `gray.${step}`);
+        expect(gray.slice(1, 3), step).toBe(gray.slice(3, 5));
+        expect(gray.slice(3, 5), step).toBe(gray.slice(5, 7));
+      }
+      const glass = resolveValue(model, 'surface.glass', { theme: 'light' }) as {
+        components: number[];
+      };
+      expect(glass.components[1]).toBe(0);
+    },
+  );
+
   it('keeps the default grays with neutral: keep', () => {
     const { preset } = buildPreset(base, { name: 'brand', primary: '#1f6f3d', neutral: 'keep' });
     expect(preset.sources).toHaveLength(1);

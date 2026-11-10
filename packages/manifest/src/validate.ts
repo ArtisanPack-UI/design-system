@@ -136,6 +136,21 @@ function semanticErrors(manifest: ComponentManifest): ManifestError[] {
     }
   }
 
+  // The top-level lists restate an enum prop's values; the two copies must agree.
+  for (const [list, propName] of [
+    ['variants', 'variant'],
+    ['sizes', 'size'],
+    ['colors', 'color'],
+  ] as const) {
+    const values = manifest[list];
+    const prop = manifest.props.find((p) => p.name === propName && p.type === 'enum');
+    if (!values || !prop?.values) continue;
+    const sorted = (items: readonly string[]) => [...items].sort().join('|');
+    if (sorted(values) !== sorted(prop.values)) {
+      add(`/${list}`, `must list the same values as the "${propName}" prop`);
+    }
+  }
+
   if (!manifest.parts.some((part) => part.name === 'root')) {
     add('/parts', 'must include the "root" part');
   }

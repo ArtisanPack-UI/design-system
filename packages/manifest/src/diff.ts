@@ -100,14 +100,34 @@ function diffNamed(key: string, before: Named[] = [], after: Named[] = []): Mani
       });
       continue;
     }
-    if (key === 'props' && !item.deprecated && next.deprecated) {
-      changes.push({
-        kind: 'changed',
-        path: `${path}.deprecated`,
-        after: next.deprecated,
-        breaking: false,
-        message: `Deprecated prop \`${item.name}\`: ${String(next.deprecated)}`,
-      });
+    if (!same(item.deprecated, next.deprecated)) {
+      const note = (value: unknown) => (typeof value === 'string' ? `: ${value}` : '.');
+      changes.push(
+        !item.deprecated
+          ? {
+              kind: 'added',
+              path: `${path}.deprecated`,
+              after: next.deprecated,
+              breaking: false,
+              message: `Deprecated ${kind} \`${item.name}\`${note(next.deprecated)}`,
+            }
+          : !next.deprecated
+            ? {
+                kind: 'removed',
+                path: `${path}.deprecated`,
+                before: item.deprecated,
+                breaking: false,
+                message: `${kind[0]!.toUpperCase()}${kind.slice(1)} \`${item.name}\` is no longer deprecated.`,
+              }
+            : {
+                kind: 'changed',
+                path: `${path}.deprecated`,
+                before: item.deprecated,
+                after: next.deprecated,
+                breaking: false,
+                message: `Changed the deprecation note of ${kind} \`${item.name}\`${note(next.deprecated)}`,
+              },
+      );
     }
     if (Array.isArray(item.values) || Array.isArray(next.values)) {
       changes.push(

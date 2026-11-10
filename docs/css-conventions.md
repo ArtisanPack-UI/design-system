@@ -30,7 +30,7 @@ packages/css/src/
 └── utilities.css        # @layer apui.utilities
 ```
 
-Each file wraps its own rules in its layer. To add a component, create `src/components/<name>.css` and import it in `index.css` between the tokens and the utilities. `npm run build` inlines the imports into `dist/index.css`.
+Each file wraps its own rules in its layer. To add a component, create `src/components/<name>.css` and import it in `index.css` between the presets and the utilities. `npm run build` inlines the imports into `dist/index.css`.
 
 ## Markup
 

@@ -98,7 +98,7 @@ export function formatTailwind(map = tokens) {
  * It only adds utilities (bg-primary, text-muted, rounded-control, …) and
  * never redefines a Tailwind default. Import it after Tailwind and
  * @artisanpack-ui/css, and put the apui layer between Tailwind's base and
- * utilities so Preflight never restyles a component and utilities still win:
+ * components so Preflight never restyles a component and utilities still win:
  *
  *   @layer theme, base, apui, components, utilities;
  *   @import 'tailwindcss';

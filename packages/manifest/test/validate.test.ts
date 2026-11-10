@@ -156,6 +156,27 @@ describe('validateManifest', () => {
   });
 });
 
+describe('top-level lists and their props', () => {
+  it.each([
+    ['variants', 'variant'],
+    ['sizes', 'size'],
+    ['colors', 'color'],
+  ] as const)('rejects %s that differ from the %s prop', (list, propName) => {
+    const manifest = button();
+    manifest[list] = manifest[list]!.slice(1);
+    expect(validateManifest(manifest).errors).toContainEqual({
+      path: `/${list}`,
+      message: `must list the same values as the "${propName}" prop`,
+    });
+  });
+
+  it('accepts the same values in another order', () => {
+    const manifest = button();
+    manifest.sizes = [...manifest.sizes!].reverse();
+    expect(validateManifest(manifest).valid).toBe(true);
+  });
+});
+
 describe('validateManifests', () => {
   it('rejects duplicate names and file names that do not match', () => {
     const result = validateManifests([

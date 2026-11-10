@@ -292,11 +292,14 @@ export function buildPreset(model, options, { exact = true } = {}) {
 
   const sources = [];
   if (neutral !== 'keep') {
-    const hue = srgbToOklch(parseHex(options.primary))[2];
-    for (const [step, rgb] of generateNeutral(model, hue, neutral)) {
+    const [, chroma, hue] = srgbToOklch(parseHex(options.primary));
+    // A gray or near-gray primary has no hue worth tinting toward; tinting
+    // toward its nominal hue would make the grays pink. Use pure grays.
+    const tint = neutral === 'tinted' && chroma <= NEUTRAL_CHROMA ? 'pure' : neutral;
+    for (const [step, rgb] of generateNeutral(model, hue, tint)) {
       setPath(base, `gray.${step}`, dtcgColor(rgb));
     }
-    for (const [mode, tokens] of Object.entries(tintedLiterals(model, hue, neutral))) {
+    for (const [mode, tokens] of Object.entries(tintedLiterals(model, hue, tint))) {
       const tree = {};
       for (const [path, value] of Object.entries(tokens)) setPath(tree, path, value);
       sources.push({ file: `theme/${mode}.json`, axis: 'theme', mode, tree });
