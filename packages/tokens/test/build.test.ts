@@ -6,7 +6,7 @@ import { execFileSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
-import { buildOutputs, OUTPUTS } from '../scripts/build-tokens.mjs';
+import { buildOutputs } from '../scripts/build-tokens.mjs';
 import { loadTokens } from '../scripts/lib/model.mjs';
 import { axes, cssVar, tokens } from '../src';
 
@@ -33,7 +33,7 @@ function blockFor(selector: string): string {
 }
 
 describe('outputs', () => {
-  it.each(Object.keys(OUTPUTS))('%s is committed and up to date', (file) => {
+  it.each(Object.keys(outputs))('%s is committed and up to date', (file) => {
     expect(readFileSync(join(root, file), 'utf8')).toBe(outputs[file]);
   });
 

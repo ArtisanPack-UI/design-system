@@ -20,6 +20,9 @@
   ],
   "main": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
+  "bin": {
+    "apui-generate-preset": "./scripts/generate-preset.mjs"
+  },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -27,13 +30,18 @@
     },
     "./css": "./generated/tokens.css",
     "./php": "./generated/tokens.php",
+    "./presets/php": "./generated/presets.php",
+    "./presets/*.css": "./generated/presets/*.css",
     "./dtcg/*": "./tokens/*",
+    "./dtcg-presets/*": "./presets/*",
     "./package.json": "./package.json"
   },
   "files": [
     "dist",
     "generated",
     "tokens",
+    "presets",
+    "scripts",
     "README.md",
     "LICENSE",
     "CHANGELOG.md"
@@ -41,6 +49,8 @@
   "scripts": {
     "tokens": "node scripts/build-tokens.mjs",
     "tokens:check": "node scripts/build-tokens.mjs --check",
+    "preset": "node scripts/generate-preset.mjs",
+    "preset:fixtures": "node scripts/generator-fixtures.mjs",
     "build": "npm run tokens:check && tsup",
     "test": "vitest run",
     "test:watch": "vitest",

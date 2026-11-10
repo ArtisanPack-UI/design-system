@@ -1354,6 +1354,15 @@ return [
 			'value'    => '"Geist Mono", ui-monospace, SFMono-Regular, monospace',
 			'resolved' => '"Geist Mono", ui-monospace, SFMono-Regular, monospace',
 		],
+		'font-family.display'             => [
+			'cssVar'   => '--apui-font-family-display',
+			'type'     => 'fontFamily',
+			'tier'     => 'semantic',
+			'axis'     => null,
+			'varies'   => null,
+			'value'    => 'var(--apui-font-family-sans)',
+			'resolved' => 'Geist, ui-sans-serif, system-ui, sans-serif',
+		],
 		'surface.glass-blur'              => [
 			'cssVar'   => '--apui-surface-glass-blur',
 			'type'     => 'dimension',
@@ -1576,7 +1585,7 @@ return [
 			'tier'     => 'semantic',
 			'axis'     => null,
 			'varies'   => null,
-			'value'    => 'var(--apui-font-family-sans)',
+			'value'    => 'var(--apui-font-family-display)',
 			'resolved' => 'Geist, ui-sans-serif, system-ui, sans-serif',
 		],
 		'type.display-xl.font-size'       => [
@@ -1621,7 +1630,7 @@ return [
 			'tier'     => 'semantic',
 			'axis'     => null,
 			'varies'   => null,
-			'value'    => 'var(--apui-font-family-sans)',
+			'value'    => 'var(--apui-font-family-display)',
 			'resolved' => 'Geist, ui-sans-serif, system-ui, sans-serif',
 		],
 		'type.display-lg.font-size'       => [
@@ -1666,7 +1675,7 @@ return [
 			'tier'     => 'semantic',
 			'axis'     => null,
 			'varies'   => null,
-			'value'    => 'var(--apui-font-family-sans)',
+			'value'    => 'var(--apui-font-family-display)',
 			'resolved' => 'Geist, ui-sans-serif, system-ui, sans-serif',
 		],
 		'type.heading-xl.font-size'       => [
@@ -1711,7 +1720,7 @@ return [
 			'tier'     => 'semantic',
 			'axis'     => null,
 			'varies'   => null,
-			'value'    => 'var(--apui-font-family-sans)',
+			'value'    => 'var(--apui-font-family-display)',
 			'resolved' => 'Geist, ui-sans-serif, system-ui, sans-serif',
 		],
 		'type.heading-lg.font-size'       => [
@@ -2206,7 +2215,7 @@ return [
 			'tier'     => 'semantic',
 			'axis'     => null,
 			'varies'   => null,
-			'value'    => 'var(--apui-font-family-sans)',
+			'value'    => 'var(--apui-font-family-display)',
 			'resolved' => 'Geist, ui-sans-serif, system-ui, sans-serif',
 		],
 		'type.stat-lg.font-size'          => [
@@ -2251,7 +2260,7 @@ return [
 			'tier'     => 'semantic',
 			'axis'     => null,
 			'varies'   => null,
-			'value'    => 'var(--apui-font-family-sans)',
+			'value'    => 'var(--apui-font-family-display)',
 			'resolved' => 'Geist, ui-sans-serif, system-ui, sans-serif',
 		],
 		'type.stat-md.font-size'          => [
@@ -2296,7 +2305,7 @@ return [
 			'tier'     => 'semantic',
 			'axis'     => null,
 			'varies'   => null,
-			'value'    => 'var(--apui-font-family-sans)',
+			'value'    => 'var(--apui-font-family-display)',
 			'resolved' => 'Geist, ui-sans-serif, system-ui, sans-serif',
 		],
 		'type.stat-sm.font-size'          => [

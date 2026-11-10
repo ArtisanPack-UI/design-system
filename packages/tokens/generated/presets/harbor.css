@@ -1,0 +1,164 @@
+/*
+ * @artisanpack-ui/tokens preset "harbor".
+ * Structure through space: soft islands on a tinted canvas, low shadows in light, a display face and an ink primary. For auth, marketing, storefronts and consumer products.
+ * Generated from packages/tokens/presets/harbor. Do not edit; run `npm run tokens`.
+ */
+@layer apui.tokens {
+  [data-preset="harbor"] {
+    --apui-radius-md: 12px;
+    --apui-radius-lg: 20px;
+    --apui-radius-xl: 24px;
+    --apui-panel-padding-compact: 20px;
+    --apui-panel-padding-comfortable: 32px;
+    --apui-row-height-compact: 36px;
+    --apui-row-height-comfortable: 56px;
+    --apui-font-family-sans: "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
+    --apui-font-family-mono: "JetBrains Mono", ui-monospace, monospace;
+    --apui-font-family-display: "Bricolage Grotesque", "Hanken Grotesk", sans-serif;
+    --apui-radius-field: var(--apui-radius-md);
+    --apui-radius-surface: var(--apui-radius-lg);
+    --apui-radius-overlay: var(--apui-radius-xl);
+    --apui-control-height-xs: 28px;
+    --apui-control-height-sm: 32px;
+    --apui-control-height-md: 40px;
+    --apui-control-height-lg: 48px;
+    --apui-control-height-xl: 56px;
+    --apui-type-display-xl-font-family: var(--apui-font-family-display);
+    --apui-type-display-lg-font-family: var(--apui-font-family-display);
+    --apui-type-heading-xl-font-family: var(--apui-font-family-display);
+    --apui-type-heading-lg-font-family: var(--apui-font-family-display);
+    --apui-type-heading-md-font-family: var(--apui-font-family-sans);
+    --apui-type-heading-sm-font-family: var(--apui-font-family-sans);
+    --apui-type-body-lg-font-family: var(--apui-font-family-sans);
+    --apui-type-body-md-font-family: var(--apui-font-family-sans);
+    --apui-type-body-md-font-size: 15px;
+    --apui-type-body-md-line-height: 22px;
+    --apui-type-body-sm-font-family: var(--apui-font-family-sans);
+    --apui-type-caption-font-family: var(--apui-font-family-sans);
+    --apui-type-label-md-font-family: var(--apui-font-family-sans);
+    --apui-type-label-sm-font-family: var(--apui-font-family-sans);
+    --apui-type-label-xs-font-family: var(--apui-font-family-sans);
+    --apui-type-eyebrow-font-family: var(--apui-font-family-sans);
+    --apui-type-stat-lg-font-family: var(--apui-font-family-display);
+    --apui-type-stat-lg-font-size: 38px;
+    --apui-type-stat-lg-font-weight: var(--apui-font-weight-semibold);
+    --apui-type-stat-lg-letter-spacing: -0.03em;
+    --apui-type-stat-md-font-family: var(--apui-font-family-display);
+    --apui-type-stat-md-font-size: 30px;
+    --apui-type-stat-md-font-weight: var(--apui-font-weight-semibold);
+    --apui-type-stat-md-letter-spacing: -0.03em;
+    --apui-type-stat-sm-font-family: var(--apui-font-family-display);
+    --apui-type-num-md-font-family: var(--apui-font-family-sans);
+    --apui-type-code-md-font-family: var(--apui-font-family-mono);
+    --apui-type-code-sm-font-family: var(--apui-font-family-mono);
+    --apui-alert-radius: var(--apui-radius-surface);
+    --apui-card-radius: var(--apui-radius-surface);
+    --apui-dialog-radius: var(--apui-radius-overlay);
+    --apui-drawer-radius: var(--apui-radius-overlay);
+    --apui-input-radius: var(--apui-radius-field);
+    --apui-menu-radius: 20px;
+    --apui-menu-item-radius: var(--apui-radius-md);
+    --apui-popover-radius: var(--apui-radius-surface);
+    --apui-shell-gutter: 16px;
+    --apui-table-radius: var(--apui-radius-surface);
+    --apui-toast-radius: 20px;
+  }
+
+  [data-preset="harbor"],
+  [data-preset="harbor"][data-theme="light"],
+  [data-theme="light"] [data-preset="harbor"],
+  [data-preset="harbor"] [data-theme="light"] {
+    --apui-surface-page: #ebf1f7;
+    --apui-surface-default: var(--apui-gray-0);
+    --apui-border-muted: rgb(0 0 0 / 0);
+    --apui-focus-ring-offset-color: var(--apui-surface-default);
+    --apui-selected-bg: var(--apui-color-primary-soft);
+    --apui-selected-border: var(--apui-color-primary-border);
+    --apui-chart-grid: var(--apui-border-muted);
+    --apui-color-primary: var(--apui-color-neutral);
+    --apui-color-primary-hover: var(--apui-color-neutral-hover);
+    --apui-color-primary-foreground: var(--apui-color-neutral-foreground);
+    --apui-color-primary-soft: var(--apui-color-neutral-soft);
+    --apui-color-primary-soft-foreground: var(--apui-color-neutral-soft-foreground);
+    --apui-color-primary-border: var(--apui-color-neutral-border);
+    --apui-color-primary-text: var(--apui-color-neutral-text);
+    --apui-elevation-overlay: 0 12px 32px 0 rgb(16 20 24 / 0.1), 0 2px 6px 0 rgb(16 20 24 / 0.06);
+    --apui-elevation-raised: 0 1px 2px 0 rgb(16 20 24 / 0.04), 0 2px 8px 0 rgb(16 20 24 / 0.04);
+  }
+
+  [data-preset="harbor"][data-theme="dark"],
+  [data-theme="dark"] [data-preset="harbor"],
+  [data-preset="harbor"] [data-theme="dark"] {
+    --apui-surface-page: var(--apui-gray-950);
+    --apui-surface-default: var(--apui-gray-925);
+    --apui-border-muted: var(--apui-gray-850);
+    --apui-focus-ring-offset-color: var(--apui-surface-default);
+    --apui-selected-bg: var(--apui-color-primary-soft);
+    --apui-selected-border: var(--apui-color-primary-border);
+    --apui-chart-grid: var(--apui-border-muted);
+    --apui-color-primary: var(--apui-color-neutral);
+    --apui-color-primary-hover: var(--apui-color-neutral-hover);
+    --apui-color-primary-foreground: var(--apui-color-neutral-foreground);
+    --apui-color-primary-soft: var(--apui-color-neutral-soft);
+    --apui-color-primary-soft-foreground: var(--apui-color-neutral-soft-foreground);
+    --apui-color-primary-border: var(--apui-color-neutral-border);
+    --apui-color-primary-text: var(--apui-color-neutral-text);
+    --apui-elevation-overlay: 0 8px 24px 0 rgb(0 0 0 / 0.5), 0 1px 3px 0 rgb(0 0 0 / 0.4);
+    --apui-elevation-raised: none;
+  }
+
+  [data-preset="harbor"][data-theme="high-contrast"],
+  [data-theme="high-contrast"] [data-preset="harbor"],
+  [data-preset="harbor"] [data-theme="high-contrast"] {
+    --apui-surface-page: var(--apui-gray-0);
+    --apui-surface-default: var(--apui-gray-0);
+    --apui-border-muted: var(--apui-gray-700);
+    --apui-focus-ring-offset-color: var(--apui-surface-default);
+    --apui-selected-bg: var(--apui-color-primary-soft);
+    --apui-selected-border: var(--apui-color-primary-border);
+    --apui-chart-grid: var(--apui-border-muted);
+    --apui-color-primary: var(--apui-color-neutral);
+    --apui-color-primary-hover: var(--apui-color-neutral-hover);
+    --apui-color-primary-foreground: var(--apui-color-neutral-foreground);
+    --apui-color-primary-soft: var(--apui-color-neutral-soft);
+    --apui-color-primary-soft-foreground: var(--apui-color-neutral-soft-foreground);
+    --apui-color-primary-border: var(--apui-color-neutral-border);
+    --apui-color-primary-text: var(--apui-color-neutral-text);
+    --apui-elevation-overlay: none;
+    --apui-elevation-raised: none;
+  }
+
+  [data-preset="harbor"],
+  [data-preset="harbor"][data-density="default"],
+  [data-density="default"] [data-preset="harbor"],
+  [data-preset="harbor"] [data-density="default"] {
+    --apui-panel-padding: 24px;
+    --apui-panel-gap: 16px;
+    --apui-row-height: 48px;
+    --apui-card-padding: var(--apui-panel-padding);
+    --apui-menu-item-height: var(--apui-row-height);
+    --apui-table-row-height: var(--apui-row-height);
+  }
+
+  [data-preset="harbor"][data-density="compact"],
+  [data-density="compact"] [data-preset="harbor"],
+  [data-preset="harbor"] [data-density="compact"] {
+    --apui-panel-padding: var(--apui-panel-padding-compact);
+    --apui-panel-gap: var(--apui-panel-gap-compact);
+    --apui-row-height: var(--apui-row-height-compact);
+    --apui-card-padding: var(--apui-panel-padding);
+    --apui-menu-item-height: var(--apui-row-height);
+    --apui-table-row-height: var(--apui-row-height);
+  }
+
+  [data-preset="harbor"][data-density="comfortable"],
+  [data-density="comfortable"] [data-preset="harbor"],
+  [data-preset="harbor"] [data-density="comfortable"] {
+    --apui-panel-padding: var(--apui-panel-padding-comfortable);
+    --apui-panel-gap: var(--apui-panel-gap-comfortable);
+    --apui-row-height: var(--apui-row-height-comfortable);
+    --apui-card-padding: var(--apui-panel-padding);
+    --apui-menu-item-height: var(--apui-row-height);
+    --apui-table-row-height: var(--apui-row-height);
+  }
+}

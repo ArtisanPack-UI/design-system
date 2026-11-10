@@ -4,7 +4,7 @@
       "$description": "Marketing and auth heroes.",
       "font-family": {
         "$type": "fontFamily",
-        "$value": "{font-family.sans}"
+        "$value": "{font-family.display}"
       },
       "font-size": {
         "$type": "dimension",
@@ -36,7 +36,7 @@
       "$description": "Page hero, auth card title.",
       "font-family": {
         "$type": "fontFamily",
-        "$value": "{font-family.sans}"
+        "$value": "{font-family.display}"
       },
       "font-size": {
         "$type": "dimension",
@@ -68,7 +68,7 @@
       "$description": "PageHeader title.",
       "font-family": {
         "$type": "fontFamily",
-        "$value": "{font-family.sans}"
+        "$value": "{font-family.display}"
       },
       "font-size": {
         "$type": "dimension",
@@ -100,7 +100,7 @@
       "$description": "Section title, Dialog title in lg.",
       "font-family": {
         "$type": "fontFamily",
-        "$value": "{font-family.sans}"
+        "$value": "{font-family.display}"
       },
       "font-size": {
         "$type": "dimension",
@@ -452,7 +452,7 @@
       "$description": "Stat value, large. Tabular figures. Size and contrast carry hierarchy, not weight.",
       "font-family": {
         "$type": "fontFamily",
-        "$value": "{font-family.sans}"
+        "$value": "{font-family.display}"
       },
       "font-size": {
         "$type": "dimension",
@@ -484,7 +484,7 @@
       "$description": "Stat value, default.",
       "font-family": {
         "$type": "fontFamily",
-        "$value": "{font-family.sans}"
+        "$value": "{font-family.display}"
       },
       "font-size": {
         "$type": "dimension",
@@ -516,7 +516,7 @@
       "$description": "Stat value in compact cards and inline metrics.",
       "font-family": {
         "$type": "fontFamily",
-        "$value": "{font-family.sans}"
+        "$value": "{font-family.display}"
       },
       "font-size": {
         "$type": "dimension",
