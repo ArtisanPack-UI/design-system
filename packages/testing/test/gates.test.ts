@@ -99,9 +99,10 @@ registerReactHost({ Probe: BrokenProbe });`,
     expect(report.ok).toBe(false);
     const react = report.sheets.filter((s) => s.stack === 'react');
     expect(react.every((s) => s.baseline === 'diff' && s.diff && existsSync(s.diff))).toBe(true);
-    expect(
-      report.sheets.filter((s) => s.stack === 'vue').every((s) => s.baseline === 'match'),
-    ).toBe(true);
+    const vue = report.sheets.filter((s) => s.stack === 'vue');
+    expect(vue.map((s) => `${s.sheet}: ${s.baseline} (${s.diffPixels} px)`)).toEqual(
+      vue.map((s) => `${s.sheet}: match (0 px)`),
+    );
     expect(report.cross.every((c) => !c.match && c.diff && existsSync(c.diff))).toBe(true);
     expect(readFileSync(join(out, 'report.md'), 'utf8')).toContain('react vs vue differ by');
   });
