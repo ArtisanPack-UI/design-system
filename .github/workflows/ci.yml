@@ -28,6 +28,8 @@ jobs:
         run: npm run lint:css
       - name: Prettier
         run: npm run format:check
+      - name: Component manifests
+        run: npm run build --workspace @artisanpack-ui/manifest && npm run validate --workspace @artisanpack-ui/manifest
 
   type-check:
     name: Type check

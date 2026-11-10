@@ -1,0 +1,255 @@
+/*
+ * @artisanpack-ui/tokens preset "ledger".
+ * Structure through lines: pure grays, near-square corners, a tight rhythm and IBM Plex. For dense admin, reporting and long forms.
+ * Generated from packages/tokens/presets/ledger. Do not edit; run `npm run tokens`.
+ */
+@layer apui.tokens {
+  [data-preset="ledger"] {
+    --apui-gray-25: #fcfcfc;
+    --apui-gray-50: #f7f7f7;
+    --apui-gray-75: #f3f3f3;
+    --apui-gray-100: #ededed;
+    --apui-gray-150: #e4e4e4;
+    --apui-gray-200: #d9d9d9;
+    --apui-gray-300: #bebebe;
+    --apui-gray-400: #9f9f9f;
+    --apui-gray-500: #808080;
+    --apui-gray-600: #666666;
+    --apui-gray-700: #505050;
+    --apui-gray-800: #404040;
+    --apui-gray-850: #303030;
+    --apui-gray-900: #262626;
+    --apui-gray-925: #1d1d1d;
+    --apui-gray-950: #141414;
+    --apui-gray-975: #0d0d0d;
+    --apui-radius-xs: 2px;
+    --apui-radius-sm: 3px;
+    --apui-radius-md: 4px;
+    --apui-radius-lg: 6px;
+    --apui-radius-xl: 8px;
+    --apui-panel-padding-compact: 12px;
+    --apui-panel-padding-comfortable: 20px;
+    --apui-row-height-compact: 28px;
+    --apui-row-height-comfortable: 44px;
+    --apui-font-family-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+    --apui-font-family-mono: "IBM Plex Mono", ui-monospace, monospace;
+    --apui-font-family-display: var(--apui-font-family-sans);
+    --apui-radius-field: var(--apui-radius-md);
+    --apui-radius-surface: var(--apui-radius-lg);
+    --apui-radius-overlay: var(--apui-radius-xl);
+    --apui-control-height-xs: 22px;
+    --apui-control-height-sm: 26px;
+    --apui-control-height-md: 32px;
+    --apui-control-height-lg: 38px;
+    --apui-control-height-xl: 44px;
+    --apui-type-display-xl-font-family: var(--apui-font-family-display);
+    --apui-type-display-lg-font-family: var(--apui-font-family-display);
+    --apui-type-heading-xl-font-family: var(--apui-font-family-display);
+    --apui-type-heading-lg-font-family: var(--apui-font-family-display);
+    --apui-type-heading-md-font-family: var(--apui-font-family-sans);
+    --apui-type-heading-sm-font-family: var(--apui-font-family-sans);
+    --apui-type-body-lg-font-family: var(--apui-font-family-sans);
+    --apui-type-body-md-font-family: var(--apui-font-family-sans);
+    --apui-type-body-sm-font-family: var(--apui-font-family-sans);
+    --apui-type-caption-font-family: var(--apui-font-family-sans);
+    --apui-type-label-md-font-family: var(--apui-font-family-sans);
+    --apui-type-label-sm-font-family: var(--apui-font-family-sans);
+    --apui-type-label-xs-font-family: var(--apui-font-family-sans);
+    --apui-type-eyebrow-font-family: var(--apui-font-family-sans);
+    --apui-type-stat-lg-font-family: var(--apui-font-family-display);
+    --apui-type-stat-lg-font-weight: var(--apui-font-weight-regular);
+    --apui-type-stat-md-font-family: var(--apui-font-family-display);
+    --apui-type-stat-md-font-weight: var(--apui-font-weight-regular);
+    --apui-type-stat-sm-font-family: var(--apui-font-family-display);
+    --apui-type-stat-sm-font-weight: var(--apui-font-weight-regular);
+    --apui-type-num-md-font-family: var(--apui-font-family-sans);
+    --apui-type-code-md-font-family: var(--apui-font-family-mono);
+    --apui-type-code-sm-font-family: var(--apui-font-family-mono);
+    --apui-alert-radius: var(--apui-radius-surface);
+    --apui-badge-radius: 2px;
+    --apui-button-radius: 4px;
+    --apui-card-radius: var(--apui-radius-surface);
+    --apui-checkbox-radius: var(--apui-radius-xs);
+    --apui-dialog-radius: var(--apui-radius-overlay);
+    --apui-drawer-radius: var(--apui-radius-overlay);
+    --apui-input-radius: var(--apui-radius-field);
+    --apui-kbd-radius: var(--apui-radius-xs);
+    --apui-menu-radius: var(--apui-radius-overlay);
+    --apui-menu-item-radius: 2px;
+    --apui-popover-radius: var(--apui-radius-surface);
+    --apui-table-radius: var(--apui-radius-surface);
+    --apui-tabs-radius: 0;
+    --apui-toast-radius: var(--apui-radius-overlay);
+    --apui-tooltip-radius: 4px;
+  }
+
+  [data-preset="ledger"],
+  [data-preset="ledger"][data-theme="light"],
+  [data-theme="light"] [data-preset="ledger"],
+  [data-preset="ledger"] [data-theme="light"] {
+    --apui-surface-sunken: var(--apui-gray-100);
+    --apui-surface-page: var(--apui-gray-75);
+    --apui-surface-default: var(--apui-gray-25);
+    --apui-surface-raised: var(--apui-gray-0);
+    --apui-surface-overlay: var(--apui-gray-0);
+    --apui-surface-inverse: var(--apui-gray-900);
+    --apui-text-default: var(--apui-gray-900);
+    --apui-text-muted: var(--apui-gray-600);
+    --apui-text-subtle: var(--apui-gray-500);
+    --apui-text-disabled: var(--apui-gray-400);
+    --apui-text-inverse: var(--apui-gray-25);
+    --apui-text-muted-glass: var(--apui-gray-700);
+    --apui-border-muted: var(--apui-gray-200);
+    --apui-border-default: var(--apui-gray-500);
+    --apui-border-strong: var(--apui-gray-700);
+    --apui-focus-ring-color: #366bd3;
+    --apui-focus-ring-offset-color: var(--apui-surface-default);
+    --apui-selected-bg: var(--apui-color-primary-soft);
+    --apui-chart-grid: var(--apui-border-muted);
+    --apui-chart-axis: var(--apui-text-muted);
+    --apui-syntax-comment: var(--apui-gray-600);
+    --apui-color-primary: #366bd3;
+    --apui-color-primary-hover: #1f53b8;
+    --apui-color-primary-foreground: var(--apui-gray-0);
+    --apui-color-primary-soft: #dfeafe;
+    --apui-color-primary-soft-foreground: #1f53b8;
+    --apui-color-primary-text: #1f53b8;
+    --apui-color-secondary-foreground: var(--apui-gray-0);
+    --apui-color-accent-foreground: var(--apui-marigold-950);
+    --apui-color-neutral: var(--apui-gray-900);
+    --apui-color-neutral-hover: var(--apui-gray-925);
+    --apui-color-neutral-foreground: var(--apui-gray-0);
+    --apui-color-neutral-soft: var(--apui-gray-100);
+    --apui-color-neutral-soft-foreground: var(--apui-gray-800);
+    --apui-color-neutral-border: var(--apui-gray-500);
+    --apui-color-neutral-text: var(--apui-gray-700);
+    --apui-color-success-foreground: var(--apui-gray-0);
+    --apui-color-warning-foreground: var(--apui-orange-950);
+    --apui-color-error-foreground: var(--apui-gray-0);
+    --apui-color-info-foreground: var(--apui-gray-0);
+  }
+
+  [data-preset="ledger"][data-theme="dark"],
+  [data-theme="dark"] [data-preset="ledger"],
+  [data-preset="ledger"] [data-theme="dark"] {
+    --apui-surface-sunken: var(--apui-gray-975);
+    --apui-surface-page: var(--apui-gray-950);
+    --apui-surface-default: var(--apui-gray-925);
+    --apui-surface-raised: var(--apui-gray-900);
+    --apui-surface-overlay: var(--apui-gray-850);
+    --apui-surface-inverse: var(--apui-gray-50);
+    --apui-text-default: var(--apui-gray-50);
+    --apui-text-muted: var(--apui-gray-300);
+    --apui-text-subtle: var(--apui-gray-500);
+    --apui-text-disabled: var(--apui-gray-600);
+    --apui-text-inverse: var(--apui-gray-925);
+    --apui-text-muted-glass: var(--apui-gray-300);
+    --apui-border-muted: var(--apui-gray-850);
+    --apui-border-default: var(--apui-gray-500);
+    --apui-border-strong: var(--apui-gray-300);
+    --apui-focus-ring-color: #a0c1fe;
+    --apui-focus-ring-offset-color: var(--apui-surface-default);
+    --apui-selected-bg: var(--apui-color-primary-soft);
+    --apui-chart-grid: var(--apui-border-muted);
+    --apui-chart-axis: var(--apui-text-muted);
+    --apui-syntax-comment: var(--apui-gray-400);
+    --apui-color-primary: #72a3fe;
+    --apui-color-primary-hover: #a0c1fe;
+    --apui-color-primary-foreground: var(--apui-gray-975);
+    --apui-color-primary-soft: var(--apui-steel-900);
+    --apui-color-primary-soft-foreground: var(--apui-steel-300);
+    --apui-color-primary-text: #72a3fe;
+    --apui-color-secondary-foreground: var(--apui-gray-975);
+    --apui-color-accent-foreground: var(--apui-gray-975);
+    --apui-color-neutral: var(--apui-gray-50);
+    --apui-color-neutral-hover: var(--apui-gray-75);
+    --apui-color-neutral-foreground: var(--apui-gray-950);
+    --apui-color-neutral-soft: var(--apui-gray-850);
+    --apui-color-neutral-soft-foreground: var(--apui-gray-100);
+    --apui-color-neutral-border: var(--apui-gray-500);
+    --apui-color-neutral-text: var(--apui-gray-200);
+    --apui-color-success-foreground: var(--apui-gray-975);
+    --apui-color-warning-foreground: var(--apui-gray-975);
+    --apui-color-error-foreground: var(--apui-gray-975);
+    --apui-color-info-foreground: var(--apui-gray-975);
+  }
+
+  [data-preset="ledger"][data-theme="high-contrast"],
+  [data-theme="high-contrast"] [data-preset="ledger"],
+  [data-preset="ledger"] [data-theme="high-contrast"] {
+    --apui-surface-sunken: var(--apui-gray-50);
+    --apui-surface-page: var(--apui-gray-0);
+    --apui-surface-default: var(--apui-gray-0);
+    --apui-surface-raised: var(--apui-gray-0);
+    --apui-surface-overlay: var(--apui-gray-0);
+    --apui-surface-inverse: var(--apui-gray-1000);
+    --apui-text-default: var(--apui-gray-1000);
+    --apui-text-muted: var(--apui-gray-800);
+    --apui-text-subtle: var(--apui-gray-700);
+    --apui-text-disabled: var(--apui-gray-500);
+    --apui-text-inverse: var(--apui-gray-0);
+    --apui-text-muted-glass: var(--apui-gray-800);
+    --apui-border-muted: var(--apui-gray-700);
+    --apui-border-default: var(--apui-gray-1000);
+    --apui-border-strong: var(--apui-gray-1000);
+    --apui-focus-ring-color: var(--apui-steel-800);
+    --apui-focus-ring-offset-color: var(--apui-surface-default);
+    --apui-selected-bg: var(--apui-color-primary-soft);
+    --apui-chart-grid: var(--apui-border-muted);
+    --apui-chart-axis: var(--apui-text-muted);
+    --apui-syntax-comment: var(--apui-gray-700);
+    --apui-color-primary: var(--apui-steel-800);
+    --apui-color-primary-hover: var(--apui-steel-900);
+    --apui-color-primary-foreground: var(--apui-gray-0);
+    --apui-color-primary-soft: var(--apui-steel-50);
+    --apui-color-primary-soft-foreground: var(--apui-steel-900);
+    --apui-color-primary-text: var(--apui-steel-800);
+    --apui-color-secondary-foreground: var(--apui-gray-0);
+    --apui-color-accent-foreground: var(--apui-gray-0);
+    --apui-color-neutral: var(--apui-gray-1000);
+    --apui-color-neutral-hover: var(--apui-gray-1000);
+    --apui-color-neutral-foreground: var(--apui-gray-0);
+    --apui-color-neutral-soft: var(--apui-gray-50);
+    --apui-color-neutral-soft-foreground: var(--apui-gray-1000);
+    --apui-color-neutral-border: var(--apui-gray-1000);
+    --apui-color-neutral-text: var(--apui-gray-1000);
+    --apui-color-success-foreground: var(--apui-gray-0);
+    --apui-color-warning-foreground: var(--apui-gray-0);
+    --apui-color-error-foreground: var(--apui-gray-0);
+    --apui-color-info-foreground: var(--apui-gray-0);
+  }
+
+  [data-preset="ledger"],
+  [data-preset="ledger"][data-density="default"],
+  [data-density="default"] [data-preset="ledger"],
+  [data-preset="ledger"] [data-density="default"] {
+    --apui-panel-padding: 16px;
+    --apui-panel-gap: 16px;
+    --apui-row-height: 36px;
+    --apui-card-padding: var(--apui-panel-padding);
+    --apui-menu-item-height: var(--apui-row-height);
+    --apui-table-row-height: var(--apui-row-height);
+  }
+
+  [data-preset="ledger"][data-density="compact"],
+  [data-density="compact"] [data-preset="ledger"],
+  [data-preset="ledger"] [data-density="compact"] {
+    --apui-panel-padding: var(--apui-panel-padding-compact);
+    --apui-panel-gap: var(--apui-panel-gap-compact);
+    --apui-row-height: var(--apui-row-height-compact);
+    --apui-card-padding: var(--apui-panel-padding);
+    --apui-menu-item-height: var(--apui-row-height);
+    --apui-table-row-height: var(--apui-row-height);
+  }
+
+  [data-preset="ledger"][data-density="comfortable"],
+  [data-density="comfortable"] [data-preset="ledger"],
+  [data-preset="ledger"] [data-density="comfortable"] {
+    --apui-panel-padding: var(--apui-panel-padding-comfortable);
+    --apui-panel-gap: var(--apui-panel-gap-comfortable);
+    --apui-row-height: var(--apui-row-height-comfortable);
+    --apui-card-padding: var(--apui-panel-padding);
+    --apui-menu-item-height: var(--apui-row-height);
+    --apui-table-row-height: var(--apui-row-height);
+  }
+}

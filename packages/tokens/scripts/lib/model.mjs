@@ -171,22 +171,130 @@ function flatten(source, problems) {
  */
 
 /**
+ * @typedef {object} PresetSource
+ * @property {string} file Path inside the preset, such as `base.json` or `theme/dark.json`.
+ * @property {string | null} axis Mode axis for a mode file, or `null` for `base.json`.
+ * @property {string | null} mode
+ * @property {Record<string, any>} tree DTCG tree of reassignments.
+ */
+
+/**
+ * @typedef {object} Preset
+ * @property {string} name Value of `data-preset`, such as `ledger`.
+ * @property {PresetSource[]} sources `base.json` first, then mode files.
+ */
+
+/**
  * @typedef {object} TokenModel
  * @property {Map<string, TokenEntry>} tokens
  * @property {typeof AXES} axes
+ * @property {{ name: string, description: string | undefined } | null} preset
  */
 
 export function cssName(path) {
   return `--${PREFIX}-${path.split('.').join('-')}`;
 }
 
+/** The pattern every token segment and preset name follows. */
+export const NAME_PATTERN = NAME;
+
 /**
- * Loads, validates and indexes the token source in `root`.
+ * Reads a preset directory: an optional `base.json`, plus `<axis>/<mode>.json`
+ * files that reassign mode tokens for one mode. Unlike the token source, a
+ * preset's mode files may be partial.
+ *
+ * @param {string} dir
+ * @param {string} name
+ * @returns {Preset}
+ */
+export function readPreset(dir, name) {
+  const problems = [];
+  if (!NAME.test(name)) problems.push(`presets/${name}: preset names follow ${NAME}`);
+  const sources = [];
+  for (const entry of jsonFiles(dir)) {
+    const path = join(dir, entry);
+    if (entry === 'base.json') {
+      const tree = readJson(path, dir, problems);
+      if (tree) sources.unshift({ file: entry, axis: null, mode: null, tree });
+    } else if (AXES[entry] && statSync(path).isDirectory()) {
+      for (const file of jsonFiles(path)) {
+        const mode = file.replace(/\.json$/, '');
+        if (!file.endsWith('.json') || !AXES[entry].modes.includes(mode)) {
+          problems.push(`presets/${name}/${entry}/${file}: unknown ${entry} mode`);
+          continue;
+        }
+        const tree = readJson(join(path, file), dir, problems);
+        if (tree) sources.push({ file: `${entry}/${file}`, axis: entry, mode, tree });
+      }
+    } else {
+      problems.push(
+        `presets/${name}/${entry}: unexpected entry (expected base.json or ${Object.keys(AXES).join(', ')})`,
+      );
+    }
+  }
+  if (problems.length) throw new TokenError(problems);
+  return { name, sources };
+}
+
+/**
+ * Applies a preset's reassignments to the loaded tokens (D-010). A preset only
+ * reassigns tokens that exist. It may reassign semantic and component tokens,
+ * and of the primitives only color ramps and the radius scale. In `base.json`
+ * a mode token takes the value in every mode; a mode file reassigns that mode.
+ */
+function applyPreset(tokens, preset, problems) {
+  for (const source of preset.sources) {
+    const file = `presets/${preset.name}/${source.file}`;
+    for (const token of flatten({ ...source, file }, problems)) {
+      const entry = tokens.get(token.path);
+      if (!entry) {
+        problems.push(`${file}: ${token.path} does not exist; a preset only reassigns tokens`);
+        continue;
+      }
+      if (token.type !== undefined && entry.type !== undefined && token.type !== entry.type) {
+        problems.push(
+          `${file}: ${token.path} is ${token.type} here but ${entry.type} in the source`,
+        );
+        continue;
+      }
+      if (
+        entry.tier === 'primitive' &&
+        entry.type !== 'color' &&
+        !token.path.startsWith('radius.')
+      ) {
+        problems.push(
+          `${file}: ${token.path} is a primitive; presets reassign only color ramps and the radius scale (D-010)`,
+        );
+        continue;
+      }
+      if (source.axis) {
+        if (entry.axis !== source.axis) {
+          problems.push(
+            `${file}: ${token.path} is not a ${source.axis} token; reassign it in base.json`,
+          );
+          continue;
+        }
+        entry.values[source.mode] = token.value;
+      } else if (entry.axis) {
+        for (const mode of AXES[entry.axis].modes) entry.values[mode] = token.value;
+      } else {
+        entry.value = token.value;
+      }
+      entry.files = [file, ...entry.files];
+    }
+  }
+}
+
+/**
+ * Loads, validates and indexes the token source in `root`, optionally with a
+ * preset's reassignments applied. The merged model is validated like the
+ * source, so a preset can't break a reference, a type or the tier rules.
  *
  * @param {string} root
+ * @param {{ preset?: Preset }} [options]
  * @returns {TokenModel}
  */
-export function loadTokens(root) {
+export function loadTokens(root, { preset } = {}) {
   const problems = [];
   const sources = readSources(root, problems);
   const tokens = new Map();
@@ -253,6 +361,11 @@ export function loadTokens(root) {
         `${entry.path}: defined for ${entry.axis} ${Object.keys(entry.values).join(', ')} but not ${missing.join(', ')}`,
       );
     }
+  }
+
+  if (preset) {
+    if (problems.length) throw new TokenError(problems);
+    applyPreset(tokens, preset, problems);
   }
 
   // Unique custom property names.
@@ -357,7 +470,12 @@ export function loadTokens(root) {
   }
   if (problems.length) throw new TokenError(problems);
 
-  return { tokens, axes: AXES };
+  const base = preset?.sources.find((source) => !source.axis);
+  return {
+    tokens,
+    axes: AXES,
+    preset: preset ? { name: preset.name, description: base?.tree.$description } : null,
+  };
 }
 
 /**

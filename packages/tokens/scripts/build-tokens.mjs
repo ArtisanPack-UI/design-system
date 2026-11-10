@@ -1,18 +1,30 @@
 #!/usr/bin/env node
 /**
- * Builds the token outputs from the DTCG source.
+ * Builds the token outputs from the DTCG source and the presets.
  *
  *   node scripts/build-tokens.mjs           Validate and write the outputs.
  *   node scripts/build-tokens.mjs --check   Validate and fail if any output is stale.
  */
-import { existsSync, mkdirSync, readFileSync, realpathSync, writeFileSync } from 'node:fs';
+import {
+  existsSync,
+  mkdirSync,
+  readdirSync,
+  readFileSync,
+  realpathSync,
+  rmSync,
+  writeFileSync,
+} from 'node:fs';
 import { dirname, join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { formatCss, formatPhp, formatTs } from './lib/formats.mjs';
 import { loadTokens, TokenError } from './lib/model.mjs';
+import { formatPresetCss, formatPresetsPhp, formatPresetsTs, loadPresets } from './lib/presets.mjs';
 
 const packageRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
+
+/** Generated preset stylesheets live here, one per preset. */
+export const PRESET_CSS_DIR = 'generated/presets';
 
 export const OUTPUTS = {
   'generated/tokens.css': formatCss,
@@ -20,9 +32,28 @@ export const OUTPUTS = {
   'src/generated/tokens.ts': formatTs,
 };
 
+/** Returns every output file and its contents. */
 export function buildOutputs(root = packageRoot) {
   const model = loadTokens(join(root, 'tokens'));
-  return Object.fromEntries(Object.entries(OUTPUTS).map(([file, format]) => [file, format(model)]));
+  const presets = loadPresets(join(root, 'tokens'), join(root, 'presets'));
+  const outputs = Object.fromEntries(
+    Object.entries(OUTPUTS).map(([file, format]) => [file, format(model)]),
+  );
+  for (const [name, preset] of presets) {
+    outputs[`${PRESET_CSS_DIR}/${name}.css`] = formatPresetCss(model, preset);
+  }
+  outputs['generated/presets.php'] = formatPresetsPhp(model, presets);
+  outputs['src/generated/presets.ts'] = formatPresetsTs(model, presets);
+  return outputs;
+}
+
+/** Preset stylesheets on disk that no preset produces any more. */
+function orphans(outputs) {
+  const dir = join(packageRoot, PRESET_CSS_DIR);
+  if (!existsSync(dir)) return [];
+  return readdirSync(dir)
+    .map((name) => `${PRESET_CSS_DIR}/${name}`)
+    .filter((file) => !(file in outputs));
 }
 
 function main() {
@@ -49,6 +80,14 @@ function main() {
     mkdirSync(dirname(path), { recursive: true });
     writeFileSync(path, contents);
     console.log(`wrote ${relative(process.cwd(), path)}`);
+  }
+  for (const file of orphans(outputs)) {
+    if (check) {
+      stale.push(file);
+      continue;
+    }
+    rmSync(join(packageRoot, file));
+    console.log(`removed ${file}`);
   }
 
   if (stale.length) {

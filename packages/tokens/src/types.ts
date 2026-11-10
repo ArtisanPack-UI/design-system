@@ -43,3 +43,24 @@ export interface TokenDefinition {
   /** Fully resolved CSS value: one string, or one per mode of `varies`. */
   readonly resolved: string | Readonly<Record<string, string>>;
 }
+
+/** One token a preset changes, directly or through an alias. */
+export interface PresetTokenDefinition {
+  /** `true` when the preset reassigns this token; `false` when it only follows one that is. */
+  readonly changed: boolean;
+  /** CSS value with aliases as `var()`: one string, or one per mode. */
+  readonly value: string | Readonly<Record<string, string>>;
+  /** Fully resolved CSS value: one string, or one per mode. */
+  readonly resolved: string | Readonly<Record<string, string>>;
+}
+
+/** A preset: token reassignments switched by `data-preset` (#23). */
+export interface PresetDefinition {
+  /** The value of `data-preset`. */
+  readonly name: string;
+  readonly description: string | null;
+  /** Always `data-preset`. */
+  readonly attribute: string;
+  /** Every token the preset affects, keyed by path. */
+  readonly tokens: Readonly<Record<string, PresetTokenDefinition>>;
+}

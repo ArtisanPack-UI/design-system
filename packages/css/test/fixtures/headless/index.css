@@ -1,0 +1,10 @@
+/*
+ * A stand-in for src/index.css with one component, for the headless tests
+ * (#25). The pilot replaces it with real components in src/components/.
+ */
+@layer apui.reset, apui.tokens, apui.components, apui.utilities;
+
+@import '../../../src/reset.css';
+@import '@artisanpack-ui/tokens/css';
+@import './components/disclosure.css';
+@import '../../../src/utilities.css';

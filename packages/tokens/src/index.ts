@@ -8,13 +8,24 @@
  *
  * @packageDocumentation
  */
+import { presetAttribute, presets } from './generated/presets';
 import { axes, layer, prefix, tokens } from './generated/tokens';
 
-export { axes, layer, prefix, tokens };
-export type { TokenAxisDefinition, TokenDefinition, TokenTier, TokenType } from './types';
+export { axes, layer, prefix, presetAttribute, presets, tokens };
+export type {
+  PresetDefinition,
+  PresetTokenDefinition,
+  TokenAxisDefinition,
+  TokenDefinition,
+  TokenTier,
+  TokenType,
+} from './types';
 
 /** A token path, such as `color.primary` or `space.4`. */
 export type TokenPath = keyof typeof tokens;
+
+/** A preset name, such as `ledger` or `harbor`. */
+export type PresetName = keyof typeof presets;
 
 /** A mode axis, such as `theme` or `density`. */
 export type TokenAxis = keyof typeof axes;

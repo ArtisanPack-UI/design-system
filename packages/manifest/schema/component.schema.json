@@ -1,0 +1,178 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://artisanpackui.dev/schemas/manifest/component.schema.json",
+  "title": "ArtisanPack UI component manifest",
+  "description": "One component's API contract across Livewire, React and Vue (#26). Names follow docs/inventory/vocabulary.md.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["name", "description", "status", "rootClass", "stacks", "props", "parts", "a11y"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "name": {
+      "description": "Canonical component name from the vocabulary, in PascalCase.",
+      "type": "string",
+      "pattern": "^[A-Z][A-Za-z0-9]*$"
+    },
+    "description": { "type": "string", "minLength": 1 },
+    "status": { "enum": ["planned", "draft", "stable", "deprecated"] },
+    "issue": {
+      "description": "The GitHub issue that builds the component.",
+      "type": "integer",
+      "minimum": 1
+    },
+    "rootClass": {
+      "description": "The root class, `apui-` plus the kebab-case name (D-002).",
+      "type": "string",
+      "pattern": "^apui-[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "stacks": {
+      "description": "Which stacks the component ships in (D-003). `false` means it does not ship there.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["livewire", "react", "vue"],
+      "properties": {
+        "livewire": { "$ref": "#/$defs/stack" },
+        "react": { "$ref": "#/$defs/stack" },
+        "vue": { "$ref": "#/$defs/stack" }
+      }
+    },
+    "props": { "type": "array", "items": { "$ref": "#/$defs/prop" } },
+    "variants": { "$ref": "#/$defs/valueList" },
+    "sizes": { "$ref": "#/$defs/valueList" },
+    "colors": { "$ref": "#/$defs/valueList" },
+    "parts": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/part" } },
+    "slots": { "type": "array", "items": { "$ref": "#/$defs/slot" } },
+    "events": { "type": "array", "items": { "$ref": "#/$defs/event" } },
+    "a11y": { "$ref": "#/$defs/a11y" },
+    "tokens": {
+      "description": "Custom properties the component reads.",
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "pattern": "^--apui-[a-z0-9]+(-[a-z0-9]+)*$" }
+    }
+  },
+  "$defs": {
+    "camelName": { "type": "string", "pattern": "^[a-z][A-Za-z0-9]*$" },
+    "kebabName": { "type": "string", "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$" },
+    "valueList": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" }
+    },
+    "stack": {
+      "oneOf": [
+        { "const": false },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["name"],
+          "properties": {
+            "name": {
+              "description": "The Blade tag without the `x-artisanpack-` prefix, or the React/Vue component name.",
+              "type": "string",
+              "pattern": "^([a-z][a-z0-9]*(-[a-z0-9]+)*|[A-Z][A-Za-z0-9]*)$"
+            },
+            "capabilities": { "type": "array", "uniqueItems": true, "items": { "type": "string" } },
+            "differences": {
+              "description": "Per-stack capability differences, in prose (D-003).",
+              "type": "array",
+              "items": { "type": "string", "minLength": 1 }
+            }
+          }
+        }
+      ]
+    },
+    "prop": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "type", "description"],
+      "properties": {
+        "name": { "$ref": "#/$defs/camelName" },
+        "type": { "enum": ["string", "boolean", "number", "enum", "object", "array", "node"] },
+        "values": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string" }
+        },
+        "default": {},
+        "required": { "type": "boolean" },
+        "description": { "type": "string", "minLength": 1 },
+        "deprecated": { "type": "string", "minLength": 1 },
+        "stacks": {
+          "description": "Set only when the prop exists in some stacks, such as Livewire's `errorField`.",
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "enum": ["livewire", "react", "vue"] }
+        },
+        "a11y": { "type": "string", "minLength": 1 }
+      },
+      "if": { "properties": { "type": { "const": "enum" } } },
+      "then": { "required": ["values"] },
+      "else": { "not": { "required": ["values"] } }
+    },
+    "part": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "description"],
+      "properties": {
+        "name": { "$ref": "#/$defs/camelName" },
+        "element": { "type": "string" },
+        "description": { "type": "string", "minLength": 1 }
+      }
+    },
+    "slot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "description"],
+      "properties": {
+        "name": { "$ref": "#/$defs/camelName" },
+        "description": { "type": "string", "minLength": 1 },
+        "scoped": { "type": "boolean" },
+        "parameters": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "description"],
+      "properties": {
+        "name": { "$ref": "#/$defs/kebabName" },
+        "description": { "type": "string", "minLength": 1 },
+        "payload": { "type": "string" }
+      }
+    },
+    "a11y": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["requirements"],
+      "properties": {
+        "role": { "type": "string" },
+        "element": { "type": "string" },
+        "keyboard": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["keys", "action"],
+            "properties": {
+              "keys": { "type": "string", "minLength": 1 },
+              "action": { "type": "string", "minLength": 1 }
+            }
+          }
+        },
+        "requirements": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "wcag": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "string", "pattern": "^[1-4]\\.[0-9]+\\.[0-9]+$" }
+        }
+      }
+    }
+  }
+}

@@ -5,11 +5,17 @@
  * dist/index.css is one file. The first statement fixes the cascade layer
  * order (D-002): app CSS outside these layers always wins, without !important.
  *
+ * The Ledger and Harbor presets follow the tokens (D-005, #23); apply one with
+ * data-preset on any element. Brand presets are opt-in imports.
+ *
  * Component stylesheets go in src/components/<name>.css and are imported
- * between the tokens and the utilities. See docs/css-conventions.md.
+ * between the presets and the utilities. Headless mode (dist/headless.css,
+ * #25) leaves out every ./components/ import. See docs/css-conventions.md.
  */
 @layer apui.reset, apui.tokens, apui.components, apui.utilities;
 
 @import './reset.css';
 @import '@artisanpack-ui/tokens/css';
+@import '@artisanpack-ui/tokens/presets/ledger.css';
+@import '@artisanpack-ui/tokens/presets/harbor.css';
 @import './utilities.css';

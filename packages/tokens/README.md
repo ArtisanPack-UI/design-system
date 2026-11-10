@@ -21,23 +21,42 @@ The properties sit in `@layer apui.tokens`, so any app CSS overrides them withou
 </html>
 ```
 
+## Presets
+
+```html
+<html data-preset="ledger">
+  <section data-preset="harbor" data-theme="dark">Presets combine with theme and density.</section>
+</html>
+```
+
+Ledger and Harbor (D-005) come with `@artisanpack-ui/css`. On their own, import `@artisanpack-ui/tokens/presets/<name>.css`. A preset reassigns token values only, so every component follows it without a change. The `forest` preset is an example brand preset.
+
+## Brand presets
+
+```bash
+npx apui-generate-preset --name acme --primary "#7c3aed" > acme.css
+```
+
+The generator rebuilds the primary ramp (and optionally the secondary and accent ramps, the grays and the font families) around your colors. Each step keeps your hue but matches the default step's luminance, so every contrast check the default theme passes still passes. It checks every pair in every theme before writing anything. Output is CSS, DTCG source, PHP or JSON. See [docs/tokens](../../docs/tokens/README.md#brand-presets-the-generator-27).
+
 ## TypeScript
 
 ```ts
-import { cssVar, tokens } from '@artisanpack-ui/tokens';
+import { cssVar, presets, tokens } from '@artisanpack-ui/tokens';
 
 cssVar('color.primary'); // 'var(--apui-color-primary)'
 tokens['color.primary'].resolved.dark; // '#60aaf3'
 tokens['card.padding'].resolved.compact; // '16px'
+presets.ledger.tokens['radius.md'].resolved; // '4px'
 ```
 
 ## PHP
 
-`@artisanpack-ui/tokens/php` resolves to `generated/tokens.php`, which returns the same map as an array.
+`@artisanpack-ui/tokens/php` resolves to `generated/tokens.php`, which returns the same map as an array. `@artisanpack-ui/tokens/presets/php` returns the presets.
 
 ## Changing tokens
 
-Edit the JSON in `tokens/`, then run `npm run tokens` and commit the source with the regenerated `generated/` and `src/generated/` files. `npm test` checks the schema, WCAG contrast for every semantic pair, and fidelity to the design spec. The full schema is in [docs/tokens](../../docs/tokens/README.md).
+Edit the JSON in `tokens/` or `presets/`, then run `npm run tokens` and commit the source with the regenerated `generated/` and `src/generated/` files. `npm test` checks the schema, WCAG contrast for every semantic pair in every theme and preset, and fidelity to the design spec. The full schema is in [docs/tokens](../../docs/tokens/README.md).
 
 ## License
 

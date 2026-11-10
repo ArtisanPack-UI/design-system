@@ -5,7 +5,7 @@
 import { AXES, LAYER, PREFIX } from './config.mjs';
 import { cssValue, resolvedCss } from './model.mjs';
 
-const NOTICE =
+export const NOTICE =
   'Generated from the DTCG source in packages/tokens/tokens. Do not edit; run `npm run tokens`.';
 
 function selector(axis, mode) {
@@ -105,8 +105,9 @@ export function formatTs(model) {
 
 const phpString = (value) => `'${String(value).replace(/\\/g, '\\\\').replace(/'/g, "\\'")}'`;
 
-function phpValue(value, depth) {
+export function phpValue(value, depth) {
   if (value === null) return 'null';
+  if (typeof value === 'boolean') return value ? 'true' : 'false';
   if (typeof value === 'number') return String(value);
   if (typeof value === 'string') return phpString(value);
   if (Array.isArray(value)) return `[ ${value.map((item) => phpValue(item, depth)).join(', ')} ]`;
