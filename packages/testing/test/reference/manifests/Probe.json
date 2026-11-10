@@ -1,0 +1,61 @@
+{
+  "$schema": "../../../../manifest/schema/component.schema.json",
+  "name": "Probe",
+  "description": "A test-only button that proves the quality gates in every stack. Not a real component.",
+  "status": "draft",
+  "rootClass": "apui-probe",
+  "stacks": {
+    "livewire": { "name": "probe" },
+    "react": { "name": "Probe" },
+    "vue": { "name": "Probe" }
+  },
+  "props": [
+    {
+      "name": "variant",
+      "type": "enum",
+      "values": ["solid", "outline"],
+      "default": "solid",
+      "description": "Visual treatment."
+    },
+    {
+      "name": "color",
+      "type": "enum",
+      "values": ["primary", "error"],
+      "default": "primary",
+      "description": "Semantic color."
+    },
+    {
+      "name": "size",
+      "type": "enum",
+      "values": ["sm", "md"],
+      "default": "md",
+      "description": "Control height."
+    },
+    { "name": "disabled", "type": "boolean", "default": false, "description": "Disables it." },
+    { "name": "loading", "type": "boolean", "default": false, "description": "Shows the spinner." },
+    { "name": "leadingIcon", "type": "string", "description": "Icon before the label." }
+  ],
+  "variants": ["solid", "outline"],
+  "sizes": ["sm", "md"],
+  "colors": ["primary", "error"],
+  "parts": [
+    { "name": "root", "element": "button", "description": "The native button." },
+    { "name": "icon", "element": "span", "description": "Leading icon." },
+    { "name": "label", "element": "span", "description": "The text." },
+    { "name": "spinner", "element": "span", "description": "Loading indicator." }
+  ],
+  "events": [{ "name": "press", "description": "The probe was pressed." }],
+  "a11y": {
+    "element": "button",
+    "keyboard": [
+      { "keys": "Enter", "action": "Presses it." },
+      { "keys": "Space", "action": "Presses it." }
+    ],
+    "requirements": ["Uses a native button element."],
+    "wcag": ["1.4.3", "2.1.1", "2.4.7", "4.1.2"]
+  },
+  "fixture": {
+    "content": "Probe",
+    "parts": { "loading": true, "leadingIcon": "star" }
+  }
+}

@@ -32,6 +32,7 @@
     },
     "./schema.json": "./schema/component.schema.json",
     "./components/*": "./components/*",
+    "./examples/*": "./examples/*",
     "./php/*": "./php/*",
     "./generated/manifests.php": "./generated/manifests.php",
     "./package.json": "./package.json"
@@ -44,6 +45,7 @@
     "bin",
     "schema",
     "components",
+    "examples",
     "generated",
     "php",
     "README.md",

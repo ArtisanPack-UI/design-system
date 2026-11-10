@@ -144,5 +144,13 @@ return [
 			'wcag'         => [ '1.4.3', '1.4.11', '2.1.1', '2.4.7', '2.5.8', '4.1.2' ],
 		],
 		'tokens'      => [ '--apui-button-radius', '--apui-button-weight', '--apui-control-height-xs', '--apui-control-height-sm', '--apui-control-height-md', '--apui-control-height-lg', '--apui-control-height-xl', '--apui-state-hover', '--apui-state-pressed', '--apui-focus-ring-color', '--apui-target-size-min' ],
+		'fixture'     => [
+			'content' => 'Button',
+			'parts'   => [
+				'loading'      => true,
+				'leadingIcon'  => 'plus',
+				'trailingIcon' => 'arrow-right',
+			],
+		],
 	],
 ];

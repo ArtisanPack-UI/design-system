@@ -1,0 +1,18 @@
+{
+  "description": "What the parity checks report for BrokenProbe, the same in every stack. TypeScript (React, Vue) and PHP (Blade) are both held to this list.",
+  "rendered": [
+    "prop size: \"sm\" renders data-size=\"md\"",
+    "prop loading: true renders none of aria-busy=true, data-loading",
+    "prop leadingIcon: has no effect on the markup",
+    "part icon: missing [data-scope=\"probe\"][data-part=\"icon\"]",
+    "part spinner: missing [data-scope=\"probe\"][data-part=\"spinner\"]",
+    "part badge: rendered but not in the manifest"
+  ],
+  "declared": [
+    "prop loading: not declared by the {stack} component",
+    "prop leadingIcon: not declared by the {stack} component",
+    "prop tone: declared but not in the manifest",
+    "event press: not emitted by the {stack} component",
+    "event click: emitted but not in the manifest"
+  ]
+}

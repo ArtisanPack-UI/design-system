@@ -1,0 +1,22 @@
+[
+  {
+    "id": "basic",
+    "title": "Basic",
+    "description": "One solid primary Button marks the main action of a view."
+  },
+  {
+    "id": "variants",
+    "title": "Variants",
+    "description": "Solid, soft, outline, ghost and link, from most to least emphasis."
+  },
+  {
+    "id": "sizes",
+    "title": "Sizes",
+    "description": "Five control heights, xs to xl. Extra small buttons keep a 24px hit area."
+  },
+  {
+    "id": "states",
+    "title": "Loading and disabled",
+    "description": "Loading keeps the button's width and its label for screen readers. Disabled never relies on opacity alone."
+  }
+]

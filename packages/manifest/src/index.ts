@@ -17,6 +17,7 @@ export type {
   ManifestA11y,
   ManifestError,
   ManifestEvent,
+  ManifestFixture,
   ManifestPart,
   ManifestProp,
   ManifestSlot,
@@ -36,7 +37,16 @@ export {
   STANDARD_PARTS,
   validateManifest,
   validateManifests,
+  WCAG_22_AA,
 } from './validate';
+export {
+  fixtureStates,
+  INTERACTIVE_ELEMENTS,
+  INTERACTIVE_ROLES,
+  isInteractive,
+  PSEUDO_STATES,
+  STATE_PROPS,
+} from './fixture';
 export type { ManifestSource } from './validate';
 export {
   componentsDir,
@@ -50,4 +60,8 @@ export {
   stackName,
 } from './load';
 export { diffManifests, formatChanges } from './diff';
+export { docsTables } from './docs';
+export type { DocsEventRow, DocsPropRow, DocsSlotRow, DocsTables } from './docs';
+export { checkExamples, EXAMPLE_EXTENSIONS, examplesDir, loadExamples } from './examples';
+export type { ComponentExample, ExampleEntry } from './examples';
 export type { ChangeKind, ManifestChange } from './diff';

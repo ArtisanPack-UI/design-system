@@ -15,6 +15,7 @@ Token-driven design system for ArtisanPack UI: DTCG tokens, a plain-CSS componen
 | `docs/tokens/README.md` | The DTCG token schema, modes, presets, the brand generator, outputs and how to change tokens |
 | `docs/css-conventions.md` | How component CSS is written: layers, markup, tokens, RTL, focus |
 | `packages/behavior/README.md` | The behavior engine (Zag + Floating UI, D-015), the Alpine adapter and the rules for Livewire: every part needs a stable server-rendered id, items need `wire:key` |
+| `packages/testing/README.md` | The quality gates (D-016): fixtures from the manifest, `apui-gates check`, axe, parity helpers for Pest and Vitest, baselines |
 | `docs/figma.md` | The Figma variables and Reference page: generated from the tokens, synced one-way, never edited in Figma |
 
 ## Sources of truth
@@ -22,7 +23,7 @@ Token-driven design system for ArtisanPack UI: DTCG tokens, a plain-CSS componen
 1. **Decisions and vocabulary** (`docs/`) decide names and API.
 2. **Design spec** (`design/`) decides how things look. Match its values, states and themes.
 3. **DTCG tokens** in `packages/tokens/tokens/` are the source of truth for values in code (#20). Design changes arrive as diffs against that JSON. Run `npm run tokens` after editing it and commit the regenerated outputs (including the Figma payload); the tests check contrast and fidelity to `design/tokens/tokens.json`.
-4. **Manifest** (#26) in `packages/manifest/components/<Name>.json` is the per-component API contract the parity tests check. Validate with `npm run validate --workspace @artisanpack-ui/manifest`; run `npm run manifest` after editing and commit `generated/manifests.php`.
+4. **Manifest** (#26) in `packages/manifest/components/<Name>.json` is the per-component API contract the parity tests check. Validate with `npm run validate --workspace @artisanpack-ui/manifest`; run `npm run manifest` after editing and commit `generated/manifests.php`, then `npm run fixtures --workspace @artisanpack-ui/testing` and commit `generated/fixtures/`. Docs examples sit next to it in `packages/manifest/examples/<Name>/`.
 
 If two of these disagree, stop and ask rather than picking one.
 

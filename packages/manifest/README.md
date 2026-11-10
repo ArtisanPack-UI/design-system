@@ -63,6 +63,39 @@ $button->propsFor( 'livewire' );
 $manifests->forStack( 'livewire' );
 ```
 
+## Fixture block
+
+`fixture` (optional) tells the quality gates (`@artisanpack-ui/testing`, D-016) how to render the component: `content` for the default slot, `props` added to every case, `parts` that make every optional part render (the parity checks expect each part with them), and `states` to override the derived ones. The validator rejects unknown props, values and states.
+
+```json
+"fixture": { "content": "Button", "parts": { "loading": true, "leadingIcon": "plus" } }
+```
+
+`fixtureStates(manifest)` gives the states: hover, focus-visible and active for interactive components (`a11y.element` or a widget `a11y.role`), plus every state prop.
+
+## Accessibility rules
+
+Besides the schema, the validator checks that `a11y.wcag` only cites WCAG 2.2 A and AA criteria, that interactive components list keyboard interactions and cite 2.1.1 and 2.4.7, that `a11y.element` is the root part's element, and that a component using ArrowLeft or ArrowRight states how they follow the text direction (D-004).
+
+## Docs examples and tables
+
+Examples live in `examples/<Name>/`: `examples.json` lists `{ id, title, description }`, and each id has `<id>.blade.php`, `<id>.tsx` (default export) and `<id>.vue` for every stack the component ships in. `checkExamples(manifest)` reports missing, extra and unlisted files; the tests run it on every manifest.
+
+```ts
+import { docsTables, loadExamples } from '@artisanpack-ui/manifest';
+
+docsTables(button, 'livewire').props[3].name; // 'icon-only'
+docsTables(button, 'react').events; // names like 'onValueChange'
+loadExamples('Button'); // [{ id: 'basic', title, description, files: { livewire, react, vue } }]
+```
+
+```php
+use ArtisanPackUI\DesignSystem\Manifest\{Examples, ManifestDocs};
+
+ManifestDocs::tables( $button, 'vue' );
+( new Examples() )->for( 'Button' );
+```
+
 ## Diff two versions
 
 ```sh

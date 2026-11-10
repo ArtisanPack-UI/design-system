@@ -1,0 +1,1793 @@
+{
+  "version": 1,
+  "component": "Button",
+  "rootClass": "apui-button",
+  "stacks": [
+    "livewire",
+    "react",
+    "vue"
+  ],
+  "names": {
+    "livewire": "button",
+    "react": "Button",
+    "vue": "Button"
+  },
+  "cases": [
+    {
+      "id": "variant=solid size=xs state=default",
+      "props": {
+        "variant": "solid",
+        "size": "xs"
+      },
+      "state": "default",
+      "content": "Button"
+    },
+    {
+      "id": "variant=solid size=xs state=hover",
+      "props": {
+        "variant": "solid",
+        "size": "xs"
+      },
+      "state": "hover",
+      "content": "Button"
+    },
+    {
+      "id": "variant=solid size=xs state=focus-visible",
+      "props": {
+        "variant": "solid",
+        "size": "xs"
+      },
+      "state": "focus-visible",
+      "content": "Button"
+    },
+    {
+      "id": "variant=solid size=xs state=active",
+      "props": {
+        "variant": "solid",
+        "size": "xs"
+      },
+      "state": "active",
+      "content": "Button"
+    },
+    {
+      "id": "variant=solid size=xs state=disabled",
+      "props": {
+        "variant": "solid",
+        "size": "xs",
+        "disabled": true
+      },
+      "state": "disabled",
+      "content": "Button"
+    },
+    {
+      "id": "variant=solid size=xs state=loading",
+      "props": {
+        "variant": "solid",
+        "size": "xs",
+        "loading": true
+      },
+      "state": "loading",
+      "content": "Button"
+    },
+    {
+      "id": "variant=solid size=sm state=default",
+      "props": {
+        "variant": "solid",
+        "size": "sm"
+      },
+      "state": "default",
+      "content": "Button"
+    },
+    {
+      "id": "variant=solid size=sm state=hover",
+      "props": {
+        "variant": "solid",
+        "size": "sm"
+      },
+      "state": "hover",
+      "content": "Button"
+    },
+    {
+      "id": "variant=solid size=sm state=focus-visible",
+      "props": {
+        "variant": "solid",
+        "size": "sm"
+      },
+      "state": "focus-visible",
+      "content": "Button"
+    },
+    {
+      "id": "variant=solid size=sm state=active",
+      "props": {
+        "variant": "solid",
+        "size": "sm"
+      },
+      "state": "active",
+      "content": "Button"
+    },
+    {
+      "id": "variant=solid size=sm state=disabled",
+      "props": {
+        "variant": "solid",
+        "size": "sm",
+        "disabled": true
+      },
+      "state": "disabled",
+      "content": "Button"
+    },
+    {
+      "id": "variant=solid size=sm state=loading",
+      "props": {
+        "variant": "solid",
+        "size": "sm",
+        "loading": true
+      },
+      "state": "loading",
+      "content": "Button"
+    },
+    {
+      "id": "variant=solid size=md state=default",
+      "props": {
+        "variant": "solid",
+        "size": "md"
+      },
+      "state": "default",
+      "content": "Button"
+    },
+    {
+      "id": "variant=solid size=md state=hover",
+      "props": {
+        "variant": "solid",
+        "size": "md"
+      },
+      "state": "hover",
+      "content": "Button"
+    },
+    {
+      "id": "variant=solid size=md state=focus-visible",
+      "props": {
+        "variant": "solid",
+        "size": "md"
+      },
+      "state": "focus-visible",
+      "content": "Button"
+    },
+    {
+      "id": "variant=solid size=md state=active",
+      "props": {
+        "variant": "solid",
+        "size": "md"
+      },
+      "state": "active",
+      "content": "Button"
+    },
+    {
+      "id": "variant=solid size=md state=disabled",
+      "props": {
+        "variant": "solid",
+        "size": "md",
+        "disabled": true
+      },
+      "state": "disabled",
+      "content": "Button"
+    },
+    {
+      "id": "variant=solid size=md state=loading",
+      "props": {
+        "variant": "solid",
+        "size": "md",
+        "loading": true
+      },
+      "state": "loading",
+      "content": "Button"
+    },
+    {
+      "id": "variant=solid size=lg state=default",
+      "props": {
+        "variant": "solid",
+        "size": "lg"
+      },
+      "state": "default",
+      "content": "Button"
+    },
+    {
+      "id": "variant=solid size=lg state=hover",
+      "props": {
+        "variant": "solid",
+        "size": "lg"
+      },
+      "state": "hover",
+      "content": "Button"
+    },
+    {
+      "id": "variant=solid size=lg state=focus-visible",
+      "props": {
+        "variant": "solid",
+        "size": "lg"
+      },
+      "state": "focus-visible",
+      "content": "Button"
+    },
+    {
+      "id": "variant=solid size=lg state=active",
+      "props": {
+        "variant": "solid",
+        "size": "lg"
+      },
+      "state": "active",
+      "content": "Button"
+    },
+    {
+      "id": "variant=solid size=lg state=disabled",
+      "props": {
+        "variant": "solid",
+        "size": "lg",
+        "disabled": true
+      },
+      "state": "disabled",
+      "content": "Button"
+    },
+    {
+      "id": "variant=solid size=lg state=loading",
+      "props": {
+        "variant": "solid",
+        "size": "lg",
+        "loading": true
+      },
+      "state": "loading",
+      "content": "Button"
+    },
+    {
+      "id": "variant=solid size=xl state=default",
+      "props": {
+        "variant": "solid",
+        "size": "xl"
+      },
+      "state": "default",
+      "content": "Button"
+    },
+    {
+      "id": "variant=solid size=xl state=hover",
+      "props": {
+        "variant": "solid",
+        "size": "xl"
+      },
+      "state": "hover",
+      "content": "Button"
+    },
+    {
+      "id": "variant=solid size=xl state=focus-visible",
+      "props": {
+        "variant": "solid",
+        "size": "xl"
+      },
+      "state": "focus-visible",
+      "content": "Button"
+    },
+    {
+      "id": "variant=solid size=xl state=active",
+      "props": {
+        "variant": "solid",
+        "size": "xl"
+      },
+      "state": "active",
+      "content": "Button"
+    },
+    {
+      "id": "variant=solid size=xl state=disabled",
+      "props": {
+        "variant": "solid",
+        "size": "xl",
+        "disabled": true
+      },
+      "state": "disabled",
+      "content": "Button"
+    },
+    {
+      "id": "variant=solid size=xl state=loading",
+      "props": {
+        "variant": "solid",
+        "size": "xl",
+        "loading": true
+      },
+      "state": "loading",
+      "content": "Button"
+    },
+    {
+      "id": "variant=soft size=xs state=default",
+      "props": {
+        "variant": "soft",
+        "size": "xs"
+      },
+      "state": "default",
+      "content": "Button"
+    },
+    {
+      "id": "variant=soft size=xs state=hover",
+      "props": {
+        "variant": "soft",
+        "size": "xs"
+      },
+      "state": "hover",
+      "content": "Button"
+    },
+    {
+      "id": "variant=soft size=xs state=focus-visible",
+      "props": {
+        "variant": "soft",
+        "size": "xs"
+      },
+      "state": "focus-visible",
+      "content": "Button"
+    },
+    {
+      "id": "variant=soft size=xs state=active",
+      "props": {
+        "variant": "soft",
+        "size": "xs"
+      },
+      "state": "active",
+      "content": "Button"
+    },
+    {
+      "id": "variant=soft size=xs state=disabled",
+      "props": {
+        "variant": "soft",
+        "size": "xs",
+        "disabled": true
+      },
+      "state": "disabled",
+      "content": "Button"
+    },
+    {
+      "id": "variant=soft size=xs state=loading",
+      "props": {
+        "variant": "soft",
+        "size": "xs",
+        "loading": true
+      },
+      "state": "loading",
+      "content": "Button"
+    },
+    {
+      "id": "variant=soft size=sm state=default",
+      "props": {
+        "variant": "soft",
+        "size": "sm"
+      },
+      "state": "default",
+      "content": "Button"
+    },
+    {
+      "id": "variant=soft size=sm state=hover",
+      "props": {
+        "variant": "soft",
+        "size": "sm"
+      },
+      "state": "hover",
+      "content": "Button"
+    },
+    {
+      "id": "variant=soft size=sm state=focus-visible",
+      "props": {
+        "variant": "soft",
+        "size": "sm"
+      },
+      "state": "focus-visible",
+      "content": "Button"
+    },
+    {
+      "id": "variant=soft size=sm state=active",
+      "props": {
+        "variant": "soft",
+        "size": "sm"
+      },
+      "state": "active",
+      "content": "Button"
+    },
+    {
+      "id": "variant=soft size=sm state=disabled",
+      "props": {
+        "variant": "soft",
+        "size": "sm",
+        "disabled": true
+      },
+      "state": "disabled",
+      "content": "Button"
+    },
+    {
+      "id": "variant=soft size=sm state=loading",
+      "props": {
+        "variant": "soft",
+        "size": "sm",
+        "loading": true
+      },
+      "state": "loading",
+      "content": "Button"
+    },
+    {
+      "id": "variant=soft size=md state=default",
+      "props": {
+        "variant": "soft",
+        "size": "md"
+      },
+      "state": "default",
+      "content": "Button"
+    },
+    {
+      "id": "variant=soft size=md state=hover",
+      "props": {
+        "variant": "soft",
+        "size": "md"
+      },
+      "state": "hover",
+      "content": "Button"
+    },
+    {
+      "id": "variant=soft size=md state=focus-visible",
+      "props": {
+        "variant": "soft",
+        "size": "md"
+      },
+      "state": "focus-visible",
+      "content": "Button"
+    },
+    {
+      "id": "variant=soft size=md state=active",
+      "props": {
+        "variant": "soft",
+        "size": "md"
+      },
+      "state": "active",
+      "content": "Button"
+    },
+    {
+      "id": "variant=soft size=md state=disabled",
+      "props": {
+        "variant": "soft",
+        "size": "md",
+        "disabled": true
+      },
+      "state": "disabled",
+      "content": "Button"
+    },
+    {
+      "id": "variant=soft size=md state=loading",
+      "props": {
+        "variant": "soft",
+        "size": "md",
+        "loading": true
+      },
+      "state": "loading",
+      "content": "Button"
+    },
+    {
+      "id": "variant=soft size=lg state=default",
+      "props": {
+        "variant": "soft",
+        "size": "lg"
+      },
+      "state": "default",
+      "content": "Button"
+    },
+    {
+      "id": "variant=soft size=lg state=hover",
+      "props": {
+        "variant": "soft",
+        "size": "lg"
+      },
+      "state": "hover",
+      "content": "Button"
+    },
+    {
+      "id": "variant=soft size=lg state=focus-visible",
+      "props": {
+        "variant": "soft",
+        "size": "lg"
+      },
+      "state": "focus-visible",
+      "content": "Button"
+    },
+    {
+      "id": "variant=soft size=lg state=active",
+      "props": {
+        "variant": "soft",
+        "size": "lg"
+      },
+      "state": "active",
+      "content": "Button"
+    },
+    {
+      "id": "variant=soft size=lg state=disabled",
+      "props": {
+        "variant": "soft",
+        "size": "lg",
+        "disabled": true
+      },
+      "state": "disabled",
+      "content": "Button"
+    },
+    {
+      "id": "variant=soft size=lg state=loading",
+      "props": {
+        "variant": "soft",
+        "size": "lg",
+        "loading": true
+      },
+      "state": "loading",
+      "content": "Button"
+    },
+    {
+      "id": "variant=soft size=xl state=default",
+      "props": {
+        "variant": "soft",
+        "size": "xl"
+      },
+      "state": "default",
+      "content": "Button"
+    },
+    {
+      "id": "variant=soft size=xl state=hover",
+      "props": {
+        "variant": "soft",
+        "size": "xl"
+      },
+      "state": "hover",
+      "content": "Button"
+    },
+    {
+      "id": "variant=soft size=xl state=focus-visible",
+      "props": {
+        "variant": "soft",
+        "size": "xl"
+      },
+      "state": "focus-visible",
+      "content": "Button"
+    },
+    {
+      "id": "variant=soft size=xl state=active",
+      "props": {
+        "variant": "soft",
+        "size": "xl"
+      },
+      "state": "active",
+      "content": "Button"
+    },
+    {
+      "id": "variant=soft size=xl state=disabled",
+      "props": {
+        "variant": "soft",
+        "size": "xl",
+        "disabled": true
+      },
+      "state": "disabled",
+      "content": "Button"
+    },
+    {
+      "id": "variant=soft size=xl state=loading",
+      "props": {
+        "variant": "soft",
+        "size": "xl",
+        "loading": true
+      },
+      "state": "loading",
+      "content": "Button"
+    },
+    {
+      "id": "variant=outline size=xs state=default",
+      "props": {
+        "variant": "outline",
+        "size": "xs"
+      },
+      "state": "default",
+      "content": "Button"
+    },
+    {
+      "id": "variant=outline size=xs state=hover",
+      "props": {
+        "variant": "outline",
+        "size": "xs"
+      },
+      "state": "hover",
+      "content": "Button"
+    },
+    {
+      "id": "variant=outline size=xs state=focus-visible",
+      "props": {
+        "variant": "outline",
+        "size": "xs"
+      },
+      "state": "focus-visible",
+      "content": "Button"
+    },
+    {
+      "id": "variant=outline size=xs state=active",
+      "props": {
+        "variant": "outline",
+        "size": "xs"
+      },
+      "state": "active",
+      "content": "Button"
+    },
+    {
+      "id": "variant=outline size=xs state=disabled",
+      "props": {
+        "variant": "outline",
+        "size": "xs",
+        "disabled": true
+      },
+      "state": "disabled",
+      "content": "Button"
+    },
+    {
+      "id": "variant=outline size=xs state=loading",
+      "props": {
+        "variant": "outline",
+        "size": "xs",
+        "loading": true
+      },
+      "state": "loading",
+      "content": "Button"
+    },
+    {
+      "id": "variant=outline size=sm state=default",
+      "props": {
+        "variant": "outline",
+        "size": "sm"
+      },
+      "state": "default",
+      "content": "Button"
+    },
+    {
+      "id": "variant=outline size=sm state=hover",
+      "props": {
+        "variant": "outline",
+        "size": "sm"
+      },
+      "state": "hover",
+      "content": "Button"
+    },
+    {
+      "id": "variant=outline size=sm state=focus-visible",
+      "props": {
+        "variant": "outline",
+        "size": "sm"
+      },
+      "state": "focus-visible",
+      "content": "Button"
+    },
+    {
+      "id": "variant=outline size=sm state=active",
+      "props": {
+        "variant": "outline",
+        "size": "sm"
+      },
+      "state": "active",
+      "content": "Button"
+    },
+    {
+      "id": "variant=outline size=sm state=disabled",
+      "props": {
+        "variant": "outline",
+        "size": "sm",
+        "disabled": true
+      },
+      "state": "disabled",
+      "content": "Button"
+    },
+    {
+      "id": "variant=outline size=sm state=loading",
+      "props": {
+        "variant": "outline",
+        "size": "sm",
+        "loading": true
+      },
+      "state": "loading",
+      "content": "Button"
+    },
+    {
+      "id": "variant=outline size=md state=default",
+      "props": {
+        "variant": "outline",
+        "size": "md"
+      },
+      "state": "default",
+      "content": "Button"
+    },
+    {
+      "id": "variant=outline size=md state=hover",
+      "props": {
+        "variant": "outline",
+        "size": "md"
+      },
+      "state": "hover",
+      "content": "Button"
+    },
+    {
+      "id": "variant=outline size=md state=focus-visible",
+      "props": {
+        "variant": "outline",
+        "size": "md"
+      },
+      "state": "focus-visible",
+      "content": "Button"
+    },
+    {
+      "id": "variant=outline size=md state=active",
+      "props": {
+        "variant": "outline",
+        "size": "md"
+      },
+      "state": "active",
+      "content": "Button"
+    },
+    {
+      "id": "variant=outline size=md state=disabled",
+      "props": {
+        "variant": "outline",
+        "size": "md",
+        "disabled": true
+      },
+      "state": "disabled",
+      "content": "Button"
+    },
+    {
+      "id": "variant=outline size=md state=loading",
+      "props": {
+        "variant": "outline",
+        "size": "md",
+        "loading": true
+      },
+      "state": "loading",
+      "content": "Button"
+    },
+    {
+      "id": "variant=outline size=lg state=default",
+      "props": {
+        "variant": "outline",
+        "size": "lg"
+      },
+      "state": "default",
+      "content": "Button"
+    },
+    {
+      "id": "variant=outline size=lg state=hover",
+      "props": {
+        "variant": "outline",
+        "size": "lg"
+      },
+      "state": "hover",
+      "content": "Button"
+    },
+    {
+      "id": "variant=outline size=lg state=focus-visible",
+      "props": {
+        "variant": "outline",
+        "size": "lg"
+      },
+      "state": "focus-visible",
+      "content": "Button"
+    },
+    {
+      "id": "variant=outline size=lg state=active",
+      "props": {
+        "variant": "outline",
+        "size": "lg"
+      },
+      "state": "active",
+      "content": "Button"
+    },
+    {
+      "id": "variant=outline size=lg state=disabled",
+      "props": {
+        "variant": "outline",
+        "size": "lg",
+        "disabled": true
+      },
+      "state": "disabled",
+      "content": "Button"
+    },
+    {
+      "id": "variant=outline size=lg state=loading",
+      "props": {
+        "variant": "outline",
+        "size": "lg",
+        "loading": true
+      },
+      "state": "loading",
+      "content": "Button"
+    },
+    {
+      "id": "variant=outline size=xl state=default",
+      "props": {
+        "variant": "outline",
+        "size": "xl"
+      },
+      "state": "default",
+      "content": "Button"
+    },
+    {
+      "id": "variant=outline size=xl state=hover",
+      "props": {
+        "variant": "outline",
+        "size": "xl"
+      },
+      "state": "hover",
+      "content": "Button"
+    },
+    {
+      "id": "variant=outline size=xl state=focus-visible",
+      "props": {
+        "variant": "outline",
+        "size": "xl"
+      },
+      "state": "focus-visible",
+      "content": "Button"
+    },
+    {
+      "id": "variant=outline size=xl state=active",
+      "props": {
+        "variant": "outline",
+        "size": "xl"
+      },
+      "state": "active",
+      "content": "Button"
+    },
+    {
+      "id": "variant=outline size=xl state=disabled",
+      "props": {
+        "variant": "outline",
+        "size": "xl",
+        "disabled": true
+      },
+      "state": "disabled",
+      "content": "Button"
+    },
+    {
+      "id": "variant=outline size=xl state=loading",
+      "props": {
+        "variant": "outline",
+        "size": "xl",
+        "loading": true
+      },
+      "state": "loading",
+      "content": "Button"
+    },
+    {
+      "id": "variant=ghost size=xs state=default",
+      "props": {
+        "variant": "ghost",
+        "size": "xs"
+      },
+      "state": "default",
+      "content": "Button"
+    },
+    {
+      "id": "variant=ghost size=xs state=hover",
+      "props": {
+        "variant": "ghost",
+        "size": "xs"
+      },
+      "state": "hover",
+      "content": "Button"
+    },
+    {
+      "id": "variant=ghost size=xs state=focus-visible",
+      "props": {
+        "variant": "ghost",
+        "size": "xs"
+      },
+      "state": "focus-visible",
+      "content": "Button"
+    },
+    {
+      "id": "variant=ghost size=xs state=active",
+      "props": {
+        "variant": "ghost",
+        "size": "xs"
+      },
+      "state": "active",
+      "content": "Button"
+    },
+    {
+      "id": "variant=ghost size=xs state=disabled",
+      "props": {
+        "variant": "ghost",
+        "size": "xs",
+        "disabled": true
+      },
+      "state": "disabled",
+      "content": "Button"
+    },
+    {
+      "id": "variant=ghost size=xs state=loading",
+      "props": {
+        "variant": "ghost",
+        "size": "xs",
+        "loading": true
+      },
+      "state": "loading",
+      "content": "Button"
+    },
+    {
+      "id": "variant=ghost size=sm state=default",
+      "props": {
+        "variant": "ghost",
+        "size": "sm"
+      },
+      "state": "default",
+      "content": "Button"
+    },
+    {
+      "id": "variant=ghost size=sm state=hover",
+      "props": {
+        "variant": "ghost",
+        "size": "sm"
+      },
+      "state": "hover",
+      "content": "Button"
+    },
+    {
+      "id": "variant=ghost size=sm state=focus-visible",
+      "props": {
+        "variant": "ghost",
+        "size": "sm"
+      },
+      "state": "focus-visible",
+      "content": "Button"
+    },
+    {
+      "id": "variant=ghost size=sm state=active",
+      "props": {
+        "variant": "ghost",
+        "size": "sm"
+      },
+      "state": "active",
+      "content": "Button"
+    },
+    {
+      "id": "variant=ghost size=sm state=disabled",
+      "props": {
+        "variant": "ghost",
+        "size": "sm",
+        "disabled": true
+      },
+      "state": "disabled",
+      "content": "Button"
+    },
+    {
+      "id": "variant=ghost size=sm state=loading",
+      "props": {
+        "variant": "ghost",
+        "size": "sm",
+        "loading": true
+      },
+      "state": "loading",
+      "content": "Button"
+    },
+    {
+      "id": "variant=ghost size=md state=default",
+      "props": {
+        "variant": "ghost",
+        "size": "md"
+      },
+      "state": "default",
+      "content": "Button"
+    },
+    {
+      "id": "variant=ghost size=md state=hover",
+      "props": {
+        "variant": "ghost",
+        "size": "md"
+      },
+      "state": "hover",
+      "content": "Button"
+    },
+    {
+      "id": "variant=ghost size=md state=focus-visible",
+      "props": {
+        "variant": "ghost",
+        "size": "md"
+      },
+      "state": "focus-visible",
+      "content": "Button"
+    },
+    {
+      "id": "variant=ghost size=md state=active",
+      "props": {
+        "variant": "ghost",
+        "size": "md"
+      },
+      "state": "active",
+      "content": "Button"
+    },
+    {
+      "id": "variant=ghost size=md state=disabled",
+      "props": {
+        "variant": "ghost",
+        "size": "md",
+        "disabled": true
+      },
+      "state": "disabled",
+      "content": "Button"
+    },
+    {
+      "id": "variant=ghost size=md state=loading",
+      "props": {
+        "variant": "ghost",
+        "size": "md",
+        "loading": true
+      },
+      "state": "loading",
+      "content": "Button"
+    },
+    {
+      "id": "variant=ghost size=lg state=default",
+      "props": {
+        "variant": "ghost",
+        "size": "lg"
+      },
+      "state": "default",
+      "content": "Button"
+    },
+    {
+      "id": "variant=ghost size=lg state=hover",
+      "props": {
+        "variant": "ghost",
+        "size": "lg"
+      },
+      "state": "hover",
+      "content": "Button"
+    },
+    {
+      "id": "variant=ghost size=lg state=focus-visible",
+      "props": {
+        "variant": "ghost",
+        "size": "lg"
+      },
+      "state": "focus-visible",
+      "content": "Button"
+    },
+    {
+      "id": "variant=ghost size=lg state=active",
+      "props": {
+        "variant": "ghost",
+        "size": "lg"
+      },
+      "state": "active",
+      "content": "Button"
+    },
+    {
+      "id": "variant=ghost size=lg state=disabled",
+      "props": {
+        "variant": "ghost",
+        "size": "lg",
+        "disabled": true
+      },
+      "state": "disabled",
+      "content": "Button"
+    },
+    {
+      "id": "variant=ghost size=lg state=loading",
+      "props": {
+        "variant": "ghost",
+        "size": "lg",
+        "loading": true
+      },
+      "state": "loading",
+      "content": "Button"
+    },
+    {
+      "id": "variant=ghost size=xl state=default",
+      "props": {
+        "variant": "ghost",
+        "size": "xl"
+      },
+      "state": "default",
+      "content": "Button"
+    },
+    {
+      "id": "variant=ghost size=xl state=hover",
+      "props": {
+        "variant": "ghost",
+        "size": "xl"
+      },
+      "state": "hover",
+      "content": "Button"
+    },
+    {
+      "id": "variant=ghost size=xl state=focus-visible",
+      "props": {
+        "variant": "ghost",
+        "size": "xl"
+      },
+      "state": "focus-visible",
+      "content": "Button"
+    },
+    {
+      "id": "variant=ghost size=xl state=active",
+      "props": {
+        "variant": "ghost",
+        "size": "xl"
+      },
+      "state": "active",
+      "content": "Button"
+    },
+    {
+      "id": "variant=ghost size=xl state=disabled",
+      "props": {
+        "variant": "ghost",
+        "size": "xl",
+        "disabled": true
+      },
+      "state": "disabled",
+      "content": "Button"
+    },
+    {
+      "id": "variant=ghost size=xl state=loading",
+      "props": {
+        "variant": "ghost",
+        "size": "xl",
+        "loading": true
+      },
+      "state": "loading",
+      "content": "Button"
+    },
+    {
+      "id": "variant=link size=xs state=default",
+      "props": {
+        "variant": "link",
+        "size": "xs"
+      },
+      "state": "default",
+      "content": "Button"
+    },
+    {
+      "id": "variant=link size=xs state=hover",
+      "props": {
+        "variant": "link",
+        "size": "xs"
+      },
+      "state": "hover",
+      "content": "Button"
+    },
+    {
+      "id": "variant=link size=xs state=focus-visible",
+      "props": {
+        "variant": "link",
+        "size": "xs"
+      },
+      "state": "focus-visible",
+      "content": "Button"
+    },
+    {
+      "id": "variant=link size=xs state=active",
+      "props": {
+        "variant": "link",
+        "size": "xs"
+      },
+      "state": "active",
+      "content": "Button"
+    },
+    {
+      "id": "variant=link size=xs state=disabled",
+      "props": {
+        "variant": "link",
+        "size": "xs",
+        "disabled": true
+      },
+      "state": "disabled",
+      "content": "Button"
+    },
+    {
+      "id": "variant=link size=xs state=loading",
+      "props": {
+        "variant": "link",
+        "size": "xs",
+        "loading": true
+      },
+      "state": "loading",
+      "content": "Button"
+    },
+    {
+      "id": "variant=link size=sm state=default",
+      "props": {
+        "variant": "link",
+        "size": "sm"
+      },
+      "state": "default",
+      "content": "Button"
+    },
+    {
+      "id": "variant=link size=sm state=hover",
+      "props": {
+        "variant": "link",
+        "size": "sm"
+      },
+      "state": "hover",
+      "content": "Button"
+    },
+    {
+      "id": "variant=link size=sm state=focus-visible",
+      "props": {
+        "variant": "link",
+        "size": "sm"
+      },
+      "state": "focus-visible",
+      "content": "Button"
+    },
+    {
+      "id": "variant=link size=sm state=active",
+      "props": {
+        "variant": "link",
+        "size": "sm"
+      },
+      "state": "active",
+      "content": "Button"
+    },
+    {
+      "id": "variant=link size=sm state=disabled",
+      "props": {
+        "variant": "link",
+        "size": "sm",
+        "disabled": true
+      },
+      "state": "disabled",
+      "content": "Button"
+    },
+    {
+      "id": "variant=link size=sm state=loading",
+      "props": {
+        "variant": "link",
+        "size": "sm",
+        "loading": true
+      },
+      "state": "loading",
+      "content": "Button"
+    },
+    {
+      "id": "variant=link size=md state=default",
+      "props": {
+        "variant": "link",
+        "size": "md"
+      },
+      "state": "default",
+      "content": "Button"
+    },
+    {
+      "id": "variant=link size=md state=hover",
+      "props": {
+        "variant": "link",
+        "size": "md"
+      },
+      "state": "hover",
+      "content": "Button"
+    },
+    {
+      "id": "variant=link size=md state=focus-visible",
+      "props": {
+        "variant": "link",
+        "size": "md"
+      },
+      "state": "focus-visible",
+      "content": "Button"
+    },
+    {
+      "id": "variant=link size=md state=active",
+      "props": {
+        "variant": "link",
+        "size": "md"
+      },
+      "state": "active",
+      "content": "Button"
+    },
+    {
+      "id": "variant=link size=md state=disabled",
+      "props": {
+        "variant": "link",
+        "size": "md",
+        "disabled": true
+      },
+      "state": "disabled",
+      "content": "Button"
+    },
+    {
+      "id": "variant=link size=md state=loading",
+      "props": {
+        "variant": "link",
+        "size": "md",
+        "loading": true
+      },
+      "state": "loading",
+      "content": "Button"
+    },
+    {
+      "id": "variant=link size=lg state=default",
+      "props": {
+        "variant": "link",
+        "size": "lg"
+      },
+      "state": "default",
+      "content": "Button"
+    },
+    {
+      "id": "variant=link size=lg state=hover",
+      "props": {
+        "variant": "link",
+        "size": "lg"
+      },
+      "state": "hover",
+      "content": "Button"
+    },
+    {
+      "id": "variant=link size=lg state=focus-visible",
+      "props": {
+        "variant": "link",
+        "size": "lg"
+      },
+      "state": "focus-visible",
+      "content": "Button"
+    },
+    {
+      "id": "variant=link size=lg state=active",
+      "props": {
+        "variant": "link",
+        "size": "lg"
+      },
+      "state": "active",
+      "content": "Button"
+    },
+    {
+      "id": "variant=link size=lg state=disabled",
+      "props": {
+        "variant": "link",
+        "size": "lg",
+        "disabled": true
+      },
+      "state": "disabled",
+      "content": "Button"
+    },
+    {
+      "id": "variant=link size=lg state=loading",
+      "props": {
+        "variant": "link",
+        "size": "lg",
+        "loading": true
+      },
+      "state": "loading",
+      "content": "Button"
+    },
+    {
+      "id": "variant=link size=xl state=default",
+      "props": {
+        "variant": "link",
+        "size": "xl"
+      },
+      "state": "default",
+      "content": "Button"
+    },
+    {
+      "id": "variant=link size=xl state=hover",
+      "props": {
+        "variant": "link",
+        "size": "xl"
+      },
+      "state": "hover",
+      "content": "Button"
+    },
+    {
+      "id": "variant=link size=xl state=focus-visible",
+      "props": {
+        "variant": "link",
+        "size": "xl"
+      },
+      "state": "focus-visible",
+      "content": "Button"
+    },
+    {
+      "id": "variant=link size=xl state=active",
+      "props": {
+        "variant": "link",
+        "size": "xl"
+      },
+      "state": "active",
+      "content": "Button"
+    },
+    {
+      "id": "variant=link size=xl state=disabled",
+      "props": {
+        "variant": "link",
+        "size": "xl",
+        "disabled": true
+      },
+      "state": "disabled",
+      "content": "Button"
+    },
+    {
+      "id": "variant=link size=xl state=loading",
+      "props": {
+        "variant": "link",
+        "size": "xl",
+        "loading": true
+      },
+      "state": "loading",
+      "content": "Button"
+    },
+    {
+      "id": "variant=solid size=md color=secondary state=default",
+      "props": {
+        "variant": "solid",
+        "size": "md",
+        "color": "secondary"
+      },
+      "state": "default",
+      "content": "Button"
+    },
+    {
+      "id": "variant=soft size=md color=secondary state=default",
+      "props": {
+        "variant": "soft",
+        "size": "md",
+        "color": "secondary"
+      },
+      "state": "default",
+      "content": "Button"
+    },
+    {
+      "id": "variant=outline size=md color=secondary state=default",
+      "props": {
+        "variant": "outline",
+        "size": "md",
+        "color": "secondary"
+      },
+      "state": "default",
+      "content": "Button"
+    },
+    {
+      "id": "variant=ghost size=md color=secondary state=default",
+      "props": {
+        "variant": "ghost",
+        "size": "md",
+        "color": "secondary"
+      },
+      "state": "default",
+      "content": "Button"
+    },
+    {
+      "id": "variant=link size=md color=secondary state=default",
+      "props": {
+        "variant": "link",
+        "size": "md",
+        "color": "secondary"
+      },
+      "state": "default",
+      "content": "Button"
+    },
+    {
+      "id": "variant=solid size=md color=accent state=default",
+      "props": {
+        "variant": "solid",
+        "size": "md",
+        "color": "accent"
+      },
+      "state": "default",
+      "content": "Button"
+    },
+    {
+      "id": "variant=soft size=md color=accent state=default",
+      "props": {
+        "variant": "soft",
+        "size": "md",
+        "color": "accent"
+      },
+      "state": "default",
+      "content": "Button"
+    },
+    {
+      "id": "variant=outline size=md color=accent state=default",
+      "props": {
+        "variant": "outline",
+        "size": "md",
+        "color": "accent"
+      },
+      "state": "default",
+      "content": "Button"
+    },
+    {
+      "id": "variant=ghost size=md color=accent state=default",
+      "props": {
+        "variant": "ghost",
+        "size": "md",
+        "color": "accent"
+      },
+      "state": "default",
+      "content": "Button"
+    },
+    {
+      "id": "variant=link size=md color=accent state=default",
+      "props": {
+        "variant": "link",
+        "size": "md",
+        "color": "accent"
+      },
+      "state": "default",
+      "content": "Button"
+    },
+    {
+      "id": "variant=solid size=md color=neutral state=default",
+      "props": {
+        "variant": "solid",
+        "size": "md",
+        "color": "neutral"
+      },
+      "state": "default",
+      "content": "Button"
+    },
+    {
+      "id": "variant=soft size=md color=neutral state=default",
+      "props": {
+        "variant": "soft",
+        "size": "md",
+        "color": "neutral"
+      },
+      "state": "default",
+      "content": "Button"
+    },
+    {
+      "id": "variant=outline size=md color=neutral state=default",
+      "props": {
+        "variant": "outline",
+        "size": "md",
+        "color": "neutral"
+      },
+      "state": "default",
+      "content": "Button"
+    },
+    {
+      "id": "variant=ghost size=md color=neutral state=default",
+      "props": {
+        "variant": "ghost",
+        "size": "md",
+        "color": "neutral"
+      },
+      "state": "default",
+      "content": "Button"
+    },
+    {
+      "id": "variant=link size=md color=neutral state=default",
+      "props": {
+        "variant": "link",
+        "size": "md",
+        "color": "neutral"
+      },
+      "state": "default",
+      "content": "Button"
+    },
+    {
+      "id": "variant=solid size=md color=success state=default",
+      "props": {
+        "variant": "solid",
+        "size": "md",
+        "color": "success"
+      },
+      "state": "default",
+      "content": "Button"
+    },
+    {
+      "id": "variant=soft size=md color=success state=default",
+      "props": {
+        "variant": "soft",
+        "size": "md",
+        "color": "success"
+      },
+      "state": "default",
+      "content": "Button"
+    },
+    {
+      "id": "variant=outline size=md color=success state=default",
+      "props": {
+        "variant": "outline",
+        "size": "md",
+        "color": "success"
+      },
+      "state": "default",
+      "content": "Button"
+    },
+    {
+      "id": "variant=ghost size=md color=success state=default",
+      "props": {
+        "variant": "ghost",
+        "size": "md",
+        "color": "success"
+      },
+      "state": "default",
+      "content": "Button"
+    },
+    {
+      "id": "variant=link size=md color=success state=default",
+      "props": {
+        "variant": "link",
+        "size": "md",
+        "color": "success"
+      },
+      "state": "default",
+      "content": "Button"
+    },
+    {
+      "id": "variant=solid size=md color=warning state=default",
+      "props": {
+        "variant": "solid",
+        "size": "md",
+        "color": "warning"
+      },
+      "state": "default",
+      "content": "Button"
+    },
+    {
+      "id": "variant=soft size=md color=warning state=default",
+      "props": {
+        "variant": "soft",
+        "size": "md",
+        "color": "warning"
+      },
+      "state": "default",
+      "content": "Button"
+    },
+    {
+      "id": "variant=outline size=md color=warning state=default",
+      "props": {
+        "variant": "outline",
+        "size": "md",
+        "color": "warning"
+      },
+      "state": "default",
+      "content": "Button"
+    },
+    {
+      "id": "variant=ghost size=md color=warning state=default",
+      "props": {
+        "variant": "ghost",
+        "size": "md",
+        "color": "warning"
+      },
+      "state": "default",
+      "content": "Button"
+    },
+    {
+      "id": "variant=link size=md color=warning state=default",
+      "props": {
+        "variant": "link",
+        "size": "md",
+        "color": "warning"
+      },
+      "state": "default",
+      "content": "Button"
+    },
+    {
+      "id": "variant=solid size=md color=error state=default",
+      "props": {
+        "variant": "solid",
+        "size": "md",
+        "color": "error"
+      },
+      "state": "default",
+      "content": "Button"
+    },
+    {
+      "id": "variant=soft size=md color=error state=default",
+      "props": {
+        "variant": "soft",
+        "size": "md",
+        "color": "error"
+      },
+      "state": "default",
+      "content": "Button"
+    },
+    {
+      "id": "variant=outline size=md color=error state=default",
+      "props": {
+        "variant": "outline",
+        "size": "md",
+        "color": "error"
+      },
+      "state": "default",
+      "content": "Button"
+    },
+    {
+      "id": "variant=ghost size=md color=error state=default",
+      "props": {
+        "variant": "ghost",
+        "size": "md",
+        "color": "error"
+      },
+      "state": "default",
+      "content": "Button"
+    },
+    {
+      "id": "variant=link size=md color=error state=default",
+      "props": {
+        "variant": "link",
+        "size": "md",
+        "color": "error"
+      },
+      "state": "default",
+      "content": "Button"
+    },
+    {
+      "id": "variant=solid size=md color=info state=default",
+      "props": {
+        "variant": "solid",
+        "size": "md",
+        "color": "info"
+      },
+      "state": "default",
+      "content": "Button"
+    },
+    {
+      "id": "variant=soft size=md color=info state=default",
+      "props": {
+        "variant": "soft",
+        "size": "md",
+        "color": "info"
+      },
+      "state": "default",
+      "content": "Button"
+    },
+    {
+      "id": "variant=outline size=md color=info state=default",
+      "props": {
+        "variant": "outline",
+        "size": "md",
+        "color": "info"
+      },
+      "state": "default",
+      "content": "Button"
+    },
+    {
+      "id": "variant=ghost size=md color=info state=default",
+      "props": {
+        "variant": "ghost",
+        "size": "md",
+        "color": "info"
+      },
+      "state": "default",
+      "content": "Button"
+    },
+    {
+      "id": "variant=link size=md color=info state=default",
+      "props": {
+        "variant": "link",
+        "size": "md",
+        "color": "info"
+      },
+      "state": "default",
+      "content": "Button"
+    }
+  ],
+  "sheets": [
+    {
+      "id": "light",
+      "theme": "light",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "dark",
+      "theme": "dark",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "high-contrast",
+      "theme": "high-contrast",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "rtl",
+      "theme": "light",
+      "density": "default",
+      "dir": "rtl"
+    }
+  ]
+}

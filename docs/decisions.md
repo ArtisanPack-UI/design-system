@@ -19,6 +19,7 @@ Decisions that shape the design system. To change one, add a new entry that supe
 | [D-013](#d-013-the-theme-generator-is-a-cli-plus-a-web-builder-on-the-docs-site) | The theme generator is a CLI, plus a web builder on the docs site | #30 | 2026-11-09 |
 | [D-014](#d-014-without-a-bundler-use-the-prebuilt-composer-asset-no-official-cdn-build-at-10) | Without a bundler, use the prebuilt Composer asset; no official CDN build at 1.0 | #31 | 2026-11-09 |
 | [D-015](#d-015-the-behavior-engine-is-zag-with-floating-ui) | The behavior engine is Zag, with Floating UI | #32, #37 | 2026-11-09 |
+| [D-016](#d-016-the-quality-gates-ship-as-artisanpack-uitesting-plus-a-composer-kit) | The quality gates ship as `@artisanpack-ui/testing`, plus a Composer kit | #39, #40, #41, #43 | 2026-11-10 |
 
 ## D-001: No separate brand
 
@@ -262,4 +263,17 @@ The package tests repeat these in Chromium with Alpine's morph plugin, plus RTL 
 - `open-change` and `value-change` report changes the widget makes, not changes to the bound state, as in React and Vue.
 
 **Why.** Zag passed every requirement on both Livewire versions with one build, and the problems the spike hit were in the adapter, not the machines: each has a fix that is now tested. Zag supplies the hard parts (focus trap, dismissal layers, `aria-hidden`, typeahead, collections, positioning) for all three stacks from one definition, which in-house machines would have to rebuild and keep at parity. Floating UI is already inside Zag's positioning, so using it directly for the rest adds nothing new.
+
+## D-016: The quality gates ship as `@artisanpack-ui/testing`, plus a Composer kit
+
+**Decision.**
+
+- The gates live in one place and every component repo runs the same code: **`@artisanpack-ui/testing`** (`packages/testing`, private until #81) holds the fixture builder, the React and Vue fixture hosts, the Playwright runner (`apui-gates check`), axe, the image diffs and the parity checks.
+- **Fixtures come from the manifest.** Every variant × size × state, plus every other color × variant, rendered in each theme at the default density, plus one RTL sheet in the default theme and density (D-004). The states are hover, focus-visible and active for interactive components, forced through the DevTools protocol (no preview-only classes), plus each state prop (`disabled`, `loading`, …). A manifest can tune this with its optional `fixture` block. Stacks a component doesn't ship in are skipped (D-003).
+- **One baseline per sheet, shared by all stacks.** Each stack diffs against it, and when several stacks render in one run they're diffed against each other. Baselines are Linux renders from CI.
+- **Parity checks read rendered markup**, the same way in every stack: root class and element, `data-*` for variant/color/size/surface/orientation, evidence for state props, every other prop changes the markup, every part renders as `[data-scope][data-part]` and nothing else does. Vue's declared props and emits, and Blade's constructor and dispatched events, are compared too. Components are checked once their manifest is past `planned`.
+- **The repo root is a Composer package, `artisanpack-ui/design-system`**, for the PHP side: the manifest classes, the docs example reader, the Blade fixture host and the Blade parity checks with a Pest `toMatchManifest` expectation. Livewire UI Components and the docs site require it.
+- **Docs examples live next to the manifest**, in `packages/manifest/examples/<Name>/`: an `examples.json` and one source per shipping stack. `docsTables()` (TS) and `ManifestDocs::tables()` (PHP) build the props, parts, slots and events tables in each stack's spelling.
+
+**Why.** Three copies of the gates, one per component repo, would drift exactly the way the components did. Reading markup, instead of each framework's type system, gives one rule set for Blade, React and Vue, and a broken reference component in each stack holds the TypeScript and PHP checks to the same messages. Composer is how PHP consumers already get ArtisanPack packages; a root `composer.json` avoids a second repo for a few classes that must match the manifests they read.
 

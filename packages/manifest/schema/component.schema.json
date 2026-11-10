@@ -49,9 +49,35 @@
       "type": "array",
       "uniqueItems": true,
       "items": { "type": "string", "pattern": "^--apui-[a-z0-9]+(-[a-z0-9]+)*$" }
-    }
+    },
+    "fixture": { "$ref": "#/$defs/fixture" }
   },
   "$defs": {
+    "fixture": {
+      "description": "How the quality gates render the component: the visual regression and axe fixtures (#39, #40) and the parity checks (#41).",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "content": {
+          "description": "Text for the default slot (children in React and Vue) in every fixture.",
+          "type": "string"
+        },
+        "props": {
+          "description": "Props every fixture case gets, by manifest prop name.",
+          "type": "object"
+        },
+        "parts": {
+          "description": "Props that make every optional part render, by manifest prop name. The parity checks render with them and expect each part.",
+          "type": "object"
+        },
+        "states": {
+          "description": "The states to render. Defaults to hover, focus-visible and active for interactive components, plus every state prop the component has (disabled, loading, invalid, …).",
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
     "camelName": { "type": "string", "pattern": "^[a-z][A-Za-z0-9]*$" },
     "kebabName": { "type": "string", "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$" },
     "valueList": {
