@@ -36,6 +36,7 @@ export function createCollection(items: ComboboxItem[]) {
  * query matches everything.
  */
 export function filterItems(items: ComboboxItem[], query: string): ComboboxItem[] {
+  /** Lowercases text and strips accents, for matching. */
   const fold = (text: string) =>
     text
       .normalize('NFD')

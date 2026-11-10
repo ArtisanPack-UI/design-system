@@ -56,7 +56,10 @@ export default {
         'apui/layer': null,
         'selector-class-pattern': [
           '^pg-[a-z0-9]+(-[a-z0-9]+)*$|^apui-[a-z0-9]+(-[a-z0-9]+)*$',
-          { message: (selector) => `Class "${selector}" must use the pg- prefix in kebab-case` },
+          {
+            message: (selector) =>
+              `Class "${selector}" must use the pg- or apui- prefix in kebab-case`,
+          },
         ],
       },
     },

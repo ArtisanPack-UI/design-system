@@ -8508,7 +8508,7 @@
         {
           "name": "density/compact/panel/padding",
           "type": "FLOAT",
-          "description": "Compact value of panel/padding for each preset. Use the Density variable instead.",
+          "description": "Compact value of panel/padding for each preset. Use the Density variable instead.\nCSS: --apui-panel-padding",
           "scopes": [],
           "codeSyntax": {
             "WEB": "var(--apui-panel-padding)"
@@ -8544,7 +8544,7 @@
         {
           "name": "density/default/panel/padding",
           "type": "FLOAT",
-          "description": "Default value of panel/padding for each preset. Use the Density variable instead.",
+          "description": "Default value of panel/padding for each preset. Use the Density variable instead.\nCSS: --apui-panel-padding",
           "scopes": [],
           "codeSyntax": {
             "WEB": "var(--apui-panel-padding)"
@@ -8570,7 +8570,7 @@
         {
           "name": "density/comfortable/panel/padding",
           "type": "FLOAT",
-          "description": "Comfortable value of panel/padding for each preset. Use the Density variable instead.",
+          "description": "Comfortable value of panel/padding for each preset. Use the Density variable instead.\nCSS: --apui-panel-padding",
           "scopes": [],
           "codeSyntax": {
             "WEB": "var(--apui-panel-padding)"
@@ -8606,7 +8606,7 @@
         {
           "name": "density/compact/panel/gap",
           "type": "FLOAT",
-          "description": "Compact value of panel/gap for each preset. Use the Density variable instead.",
+          "description": "Compact value of panel/gap for each preset. Use the Density variable instead.\nCSS: --apui-panel-gap",
           "scopes": [],
           "codeSyntax": {
             "WEB": "var(--apui-panel-gap)"
@@ -8642,7 +8642,7 @@
         {
           "name": "density/default/panel/gap",
           "type": "FLOAT",
-          "description": "Default value of panel/gap for each preset. Use the Density variable instead.",
+          "description": "Default value of panel/gap for each preset. Use the Density variable instead.\nCSS: --apui-panel-gap",
           "scopes": [],
           "codeSyntax": {
             "WEB": "var(--apui-panel-gap)"
@@ -8668,7 +8668,7 @@
         {
           "name": "density/comfortable/panel/gap",
           "type": "FLOAT",
-          "description": "Comfortable value of panel/gap for each preset. Use the Density variable instead.",
+          "description": "Comfortable value of panel/gap for each preset. Use the Density variable instead.\nCSS: --apui-panel-gap",
           "scopes": [],
           "codeSyntax": {
             "WEB": "var(--apui-panel-gap)"
@@ -8704,7 +8704,7 @@
         {
           "name": "density/compact/row/height",
           "type": "FLOAT",
-          "description": "Compact value of row/height for each preset. Use the Density variable instead.",
+          "description": "Compact value of row/height for each preset. Use the Density variable instead.\nCSS: --apui-row-height",
           "scopes": [],
           "codeSyntax": {
             "WEB": "var(--apui-row-height)"
@@ -8740,7 +8740,7 @@
         {
           "name": "density/default/row/height",
           "type": "FLOAT",
-          "description": "Default value of row/height for each preset. Use the Density variable instead.",
+          "description": "Default value of row/height for each preset. Use the Density variable instead.\nCSS: --apui-row-height",
           "scopes": [],
           "codeSyntax": {
             "WEB": "var(--apui-row-height)"
@@ -8756,7 +8756,7 @@
         {
           "name": "density/comfortable/row/height",
           "type": "FLOAT",
-          "description": "Comfortable value of row/height for each preset. Use the Density variable instead.",
+          "description": "Comfortable value of row/height for each preset. Use the Density variable instead.\nCSS: --apui-row-height",
           "scopes": [],
           "codeSyntax": {
             "WEB": "var(--apui-row-height)"
@@ -8792,7 +8792,7 @@
         {
           "name": "theme/light/surface/page",
           "type": "COLOR",
-          "description": "Light value of surface/page for each preset. Use the Theme variable instead.",
+          "description": "Light value of surface/page for each preset. Use the Theme variable instead.\nCSS: --apui-surface-page",
           "scopes": [],
           "codeSyntax": {
             "WEB": "var(--apui-surface-page)"
@@ -8828,7 +8828,7 @@
         {
           "name": "theme/dark/surface/page",
           "type": "COLOR",
-          "description": "Dark value of surface/page for each preset. Use the Theme variable instead.",
+          "description": "Dark value of surface/page for each preset. Use the Theme variable instead.\nCSS: --apui-surface-page",
           "scopes": [],
           "codeSyntax": {
             "WEB": "var(--apui-surface-page)"
@@ -8864,7 +8864,7 @@
         {
           "name": "theme/high-contrast/surface/page",
           "type": "COLOR",
-          "description": "High contrast value of surface/page for each preset. Use the Theme variable instead.",
+          "description": "High contrast value of surface/page for each preset. Use the Theme variable instead.\nCSS: --apui-surface-page",
           "scopes": [],
           "codeSyntax": {
             "WEB": "var(--apui-surface-page)"
@@ -8900,7 +8900,7 @@
         {
           "name": "theme/light/surface/default",
           "type": "COLOR",
-          "description": "Light value of surface/default for each preset. Use the Theme variable instead.",
+          "description": "Light value of surface/default for each preset. Use the Theme variable instead.\nCSS: --apui-surface-default",
           "scopes": [],
           "codeSyntax": {
             "WEB": "var(--apui-surface-default)"
@@ -8936,7 +8936,7 @@
         {
           "name": "theme/dark/surface/default",
           "type": "COLOR",
-          "description": "Dark value of surface/default for each preset. Use the Theme variable instead.",
+          "description": "Dark value of surface/default for each preset. Use the Theme variable instead.\nCSS: --apui-surface-default",
           "scopes": [],
           "codeSyntax": {
             "WEB": "var(--apui-surface-default)"
@@ -8972,7 +8972,7 @@
         {
           "name": "theme/high-contrast/surface/default",
           "type": "COLOR",
-          "description": "High contrast value of surface/default for each preset. Use the Theme variable instead.",
+          "description": "High contrast value of surface/default for each preset. Use the Theme variable instead.\nCSS: --apui-surface-default",
           "scopes": [],
           "codeSyntax": {
             "WEB": "var(--apui-surface-default)"
@@ -9008,7 +9008,7 @@
         {
           "name": "theme/light/surface/glass",
           "type": "COLOR",
-          "description": "Light value of surface/glass for each preset. Use the Theme variable instead.",
+          "description": "Light value of surface/glass for each preset. Use the Theme variable instead.\nCSS: --apui-surface-glass",
           "scopes": [],
           "codeSyntax": {
             "WEB": "var(--apui-surface-glass)"
@@ -9044,7 +9044,7 @@
         {
           "name": "theme/dark/surface/glass",
           "type": "COLOR",
-          "description": "Dark value of surface/glass for each preset. Use the Theme variable instead.",
+          "description": "Dark value of surface/glass for each preset. Use the Theme variable instead.\nCSS: --apui-surface-glass",
           "scopes": [],
           "codeSyntax": {
             "WEB": "var(--apui-surface-glass)"
@@ -9080,7 +9080,7 @@
         {
           "name": "theme/high-contrast/surface/glass",
           "type": "COLOR",
-          "description": "High contrast value of surface/glass for each preset. Use the Theme variable instead.",
+          "description": "High contrast value of surface/glass for each preset. Use the Theme variable instead.\nCSS: --apui-surface-glass",
           "scopes": [],
           "codeSyntax": {
             "WEB": "var(--apui-surface-glass)"
@@ -9116,7 +9116,7 @@
         {
           "name": "theme/light/border/muted",
           "type": "COLOR",
-          "description": "Light value of border/muted for each preset. Use the Theme variable instead.",
+          "description": "Light value of border/muted for each preset. Use the Theme variable instead.\nCSS: --apui-border-muted",
           "scopes": [],
           "codeSyntax": {
             "WEB": "var(--apui-border-muted)"
@@ -9152,7 +9152,7 @@
         {
           "name": "theme/dark/border/muted",
           "type": "COLOR",
-          "description": "Dark value of border/muted for each preset. Use the Theme variable instead.",
+          "description": "Dark value of border/muted for each preset. Use the Theme variable instead.\nCSS: --apui-border-muted",
           "scopes": [],
           "codeSyntax": {
             "WEB": "var(--apui-border-muted)"
@@ -9188,7 +9188,7 @@
         {
           "name": "theme/high-contrast/border/muted",
           "type": "COLOR",
-          "description": "High contrast value of border/muted for each preset. Use the Theme variable instead.",
+          "description": "High contrast value of border/muted for each preset. Use the Theme variable instead.\nCSS: --apui-border-muted",
           "scopes": [],
           "codeSyntax": {
             "WEB": "var(--apui-border-muted)"
@@ -9224,7 +9224,7 @@
         {
           "name": "theme/light/focus-ring/color",
           "type": "COLOR",
-          "description": "Light value of focus-ring/color for each preset. Use the Theme variable instead.",
+          "description": "Light value of focus-ring/color for each preset. Use the Theme variable instead.\nCSS: --apui-focus-ring-color",
           "scopes": [],
           "codeSyntax": {
             "WEB": "var(--apui-focus-ring-color)"
@@ -9260,7 +9260,7 @@
         {
           "name": "theme/dark/focus-ring/color",
           "type": "COLOR",
-          "description": "Dark value of focus-ring/color for each preset. Use the Theme variable instead.",
+          "description": "Dark value of focus-ring/color for each preset. Use the Theme variable instead.\nCSS: --apui-focus-ring-color",
           "scopes": [],
           "codeSyntax": {
             "WEB": "var(--apui-focus-ring-color)"
@@ -9296,7 +9296,7 @@
         {
           "name": "theme/high-contrast/focus-ring/color",
           "type": "COLOR",
-          "description": "High contrast value of focus-ring/color for each preset. Use the Theme variable instead.",
+          "description": "High contrast value of focus-ring/color for each preset. Use the Theme variable instead.\nCSS: --apui-focus-ring-color",
           "scopes": [],
           "codeSyntax": {
             "WEB": "var(--apui-focus-ring-color)"
@@ -9332,7 +9332,7 @@
         {
           "name": "theme/light/state/hover",
           "type": "COLOR",
-          "description": "Light value of state/hover for each preset. Use the Theme variable instead.",
+          "description": "Light value of state/hover for each preset. Use the Theme variable instead.\nCSS: --apui-state-hover",
           "scopes": [],
           "codeSyntax": {
             "WEB": "var(--apui-state-hover)"
@@ -9368,7 +9368,7 @@
         {
           "name": "theme/dark/state/hover",
           "type": "COLOR",
-          "description": "Dark value of state/hover for each preset. Use the Theme variable instead.",
+          "description": "Dark value of state/hover for each preset. Use the Theme variable instead.\nCSS: --apui-state-hover",
           "scopes": [],
           "codeSyntax": {
             "WEB": "var(--apui-state-hover)"
@@ -9404,7 +9404,7 @@
         {
           "name": "theme/high-contrast/state/hover",
           "type": "COLOR",
-          "description": "High contrast value of state/hover for each preset. Use the Theme variable instead.",
+          "description": "High contrast value of state/hover for each preset. Use the Theme variable instead.\nCSS: --apui-state-hover",
           "scopes": [],
           "codeSyntax": {
             "WEB": "var(--apui-state-hover)"
@@ -9440,7 +9440,7 @@
         {
           "name": "theme/light/state/pressed",
           "type": "COLOR",
-          "description": "Light value of state/pressed for each preset. Use the Theme variable instead.",
+          "description": "Light value of state/pressed for each preset. Use the Theme variable instead.\nCSS: --apui-state-pressed",
           "scopes": [],
           "codeSyntax": {
             "WEB": "var(--apui-state-pressed)"
@@ -9476,7 +9476,7 @@
         {
           "name": "theme/dark/state/pressed",
           "type": "COLOR",
-          "description": "Dark value of state/pressed for each preset. Use the Theme variable instead.",
+          "description": "Dark value of state/pressed for each preset. Use the Theme variable instead.\nCSS: --apui-state-pressed",
           "scopes": [],
           "codeSyntax": {
             "WEB": "var(--apui-state-pressed)"
@@ -9512,7 +9512,7 @@
         {
           "name": "theme/high-contrast/state/pressed",
           "type": "COLOR",
-          "description": "High contrast value of state/pressed for each preset. Use the Theme variable instead.",
+          "description": "High contrast value of state/pressed for each preset. Use the Theme variable instead.\nCSS: --apui-state-pressed",
           "scopes": [],
           "codeSyntax": {
             "WEB": "var(--apui-state-pressed)"
@@ -9548,7 +9548,7 @@
         {
           "name": "theme/light/backdrop",
           "type": "COLOR",
-          "description": "Light value of backdrop for each preset. Use the Theme variable instead.",
+          "description": "Light value of backdrop for each preset. Use the Theme variable instead.\nCSS: --apui-backdrop",
           "scopes": [],
           "codeSyntax": {
             "WEB": "var(--apui-backdrop)"
@@ -9584,7 +9584,7 @@
         {
           "name": "theme/dark/backdrop",
           "type": "COLOR",
-          "description": "Dark value of backdrop for each preset. Use the Theme variable instead.",
+          "description": "Dark value of backdrop for each preset. Use the Theme variable instead.\nCSS: --apui-backdrop",
           "scopes": [],
           "codeSyntax": {
             "WEB": "var(--apui-backdrop)"
@@ -9620,7 +9620,7 @@
         {
           "name": "theme/high-contrast/backdrop",
           "type": "COLOR",
-          "description": "High contrast value of backdrop for each preset. Use the Theme variable instead.",
+          "description": "High contrast value of backdrop for each preset. Use the Theme variable instead.\nCSS: --apui-backdrop",
           "scopes": [],
           "codeSyntax": {
             "WEB": "var(--apui-backdrop)"
@@ -9656,7 +9656,7 @@
         {
           "name": "theme/light/color/primary",
           "type": "COLOR",
-          "description": "Light value of color/primary for each preset. Use the Theme variable instead.",
+          "description": "Light value of color/primary for each preset. Use the Theme variable instead.\nCSS: --apui-color-primary",
           "scopes": [],
           "codeSyntax": {
             "WEB": "var(--apui-color-primary)"
@@ -9692,7 +9692,7 @@
         {
           "name": "theme/dark/color/primary",
           "type": "COLOR",
-          "description": "Dark value of color/primary for each preset. Use the Theme variable instead.",
+          "description": "Dark value of color/primary for each preset. Use the Theme variable instead.\nCSS: --apui-color-primary",
           "scopes": [],
           "codeSyntax": {
             "WEB": "var(--apui-color-primary)"
@@ -9728,7 +9728,7 @@
         {
           "name": "theme/high-contrast/color/primary",
           "type": "COLOR",
-          "description": "High contrast value of color/primary for each preset. Use the Theme variable instead.",
+          "description": "High contrast value of color/primary for each preset. Use the Theme variable instead.\nCSS: --apui-color-primary",
           "scopes": [],
           "codeSyntax": {
             "WEB": "var(--apui-color-primary)"
@@ -9764,7 +9764,7 @@
         {
           "name": "theme/light/color/primary-hover",
           "type": "COLOR",
-          "description": "Light value of color/primary-hover for each preset. Use the Theme variable instead.",
+          "description": "Light value of color/primary-hover for each preset. Use the Theme variable instead.\nCSS: --apui-color-primary-hover",
           "scopes": [],
           "codeSyntax": {
             "WEB": "var(--apui-color-primary-hover)"
@@ -9800,7 +9800,7 @@
         {
           "name": "theme/dark/color/primary-hover",
           "type": "COLOR",
-          "description": "Dark value of color/primary-hover for each preset. Use the Theme variable instead.",
+          "description": "Dark value of color/primary-hover for each preset. Use the Theme variable instead.\nCSS: --apui-color-primary-hover",
           "scopes": [],
           "codeSyntax": {
             "WEB": "var(--apui-color-primary-hover)"
@@ -9836,7 +9836,7 @@
         {
           "name": "theme/high-contrast/color/primary-hover",
           "type": "COLOR",
-          "description": "High contrast value of color/primary-hover for each preset. Use the Theme variable instead.",
+          "description": "High contrast value of color/primary-hover for each preset. Use the Theme variable instead.\nCSS: --apui-color-primary-hover",
           "scopes": [],
           "codeSyntax": {
             "WEB": "var(--apui-color-primary-hover)"
@@ -9872,7 +9872,7 @@
         {
           "name": "theme/light/color/primary-foreground",
           "type": "COLOR",
-          "description": "Light value of color/primary-foreground for each preset. Use the Theme variable instead.",
+          "description": "Light value of color/primary-foreground for each preset. Use the Theme variable instead.\nCSS: --apui-color-primary-foreground",
           "scopes": [],
           "codeSyntax": {
             "WEB": "var(--apui-color-primary-foreground)"
@@ -9908,7 +9908,7 @@
         {
           "name": "theme/dark/color/primary-foreground",
           "type": "COLOR",
-          "description": "Dark value of color/primary-foreground for each preset. Use the Theme variable instead.",
+          "description": "Dark value of color/primary-foreground for each preset. Use the Theme variable instead.\nCSS: --apui-color-primary-foreground",
           "scopes": [],
           "codeSyntax": {
             "WEB": "var(--apui-color-primary-foreground)"
@@ -9944,7 +9944,7 @@
         {
           "name": "theme/high-contrast/color/primary-foreground",
           "type": "COLOR",
-          "description": "High contrast value of color/primary-foreground for each preset. Use the Theme variable instead.",
+          "description": "High contrast value of color/primary-foreground for each preset. Use the Theme variable instead.\nCSS: --apui-color-primary-foreground",
           "scopes": [],
           "codeSyntax": {
             "WEB": "var(--apui-color-primary-foreground)"
@@ -9980,7 +9980,7 @@
         {
           "name": "theme/light/color/primary-soft",
           "type": "COLOR",
-          "description": "Light value of color/primary-soft for each preset. Use the Theme variable instead.",
+          "description": "Light value of color/primary-soft for each preset. Use the Theme variable instead.\nCSS: --apui-color-primary-soft",
           "scopes": [],
           "codeSyntax": {
             "WEB": "var(--apui-color-primary-soft)"
@@ -10016,7 +10016,7 @@
         {
           "name": "theme/dark/color/primary-soft",
           "type": "COLOR",
-          "description": "Dark value of color/primary-soft for each preset. Use the Theme variable instead.",
+          "description": "Dark value of color/primary-soft for each preset. Use the Theme variable instead.\nCSS: --apui-color-primary-soft",
           "scopes": [],
           "codeSyntax": {
             "WEB": "var(--apui-color-primary-soft)"
@@ -10052,7 +10052,7 @@
         {
           "name": "theme/high-contrast/color/primary-soft",
           "type": "COLOR",
-          "description": "High contrast value of color/primary-soft for each preset. Use the Theme variable instead.",
+          "description": "High contrast value of color/primary-soft for each preset. Use the Theme variable instead.\nCSS: --apui-color-primary-soft",
           "scopes": [],
           "codeSyntax": {
             "WEB": "var(--apui-color-primary-soft)"
@@ -10088,7 +10088,7 @@
         {
           "name": "theme/light/color/primary-soft-foreground",
           "type": "COLOR",
-          "description": "Light value of color/primary-soft-foreground for each preset. Use the Theme variable instead.",
+          "description": "Light value of color/primary-soft-foreground for each preset. Use the Theme variable instead.\nCSS: --apui-color-primary-soft-foreground",
           "scopes": [],
           "codeSyntax": {
             "WEB": "var(--apui-color-primary-soft-foreground)"
@@ -10124,7 +10124,7 @@
         {
           "name": "theme/dark/color/primary-soft-foreground",
           "type": "COLOR",
-          "description": "Dark value of color/primary-soft-foreground for each preset. Use the Theme variable instead.",
+          "description": "Dark value of color/primary-soft-foreground for each preset. Use the Theme variable instead.\nCSS: --apui-color-primary-soft-foreground",
           "scopes": [],
           "codeSyntax": {
             "WEB": "var(--apui-color-primary-soft-foreground)"
@@ -10160,7 +10160,7 @@
         {
           "name": "theme/high-contrast/color/primary-soft-foreground",
           "type": "COLOR",
-          "description": "High contrast value of color/primary-soft-foreground for each preset. Use the Theme variable instead.",
+          "description": "High contrast value of color/primary-soft-foreground for each preset. Use the Theme variable instead.\nCSS: --apui-color-primary-soft-foreground",
           "scopes": [],
           "codeSyntax": {
             "WEB": "var(--apui-color-primary-soft-foreground)"
@@ -10196,7 +10196,7 @@
         {
           "name": "theme/light/color/primary-border",
           "type": "COLOR",
-          "description": "Light value of color/primary-border for each preset. Use the Theme variable instead.",
+          "description": "Light value of color/primary-border for each preset. Use the Theme variable instead.\nCSS: --apui-color-primary-border",
           "scopes": [],
           "codeSyntax": {
             "WEB": "var(--apui-color-primary-border)"
@@ -10232,7 +10232,7 @@
         {
           "name": "theme/dark/color/primary-border",
           "type": "COLOR",
-          "description": "Dark value of color/primary-border for each preset. Use the Theme variable instead.",
+          "description": "Dark value of color/primary-border for each preset. Use the Theme variable instead.\nCSS: --apui-color-primary-border",
           "scopes": [],
           "codeSyntax": {
             "WEB": "var(--apui-color-primary-border)"
@@ -10268,7 +10268,7 @@
         {
           "name": "theme/high-contrast/color/primary-border",
           "type": "COLOR",
-          "description": "High contrast value of color/primary-border for each preset. Use the Theme variable instead.",
+          "description": "High contrast value of color/primary-border for each preset. Use the Theme variable instead.\nCSS: --apui-color-primary-border",
           "scopes": [],
           "codeSyntax": {
             "WEB": "var(--apui-color-primary-border)"
@@ -10304,7 +10304,7 @@
         {
           "name": "theme/light/color/primary-text",
           "type": "COLOR",
-          "description": "Light value of color/primary-text for each preset. Use the Theme variable instead.",
+          "description": "Light value of color/primary-text for each preset. Use the Theme variable instead.\nCSS: --apui-color-primary-text",
           "scopes": [],
           "codeSyntax": {
             "WEB": "var(--apui-color-primary-text)"
@@ -10340,7 +10340,7 @@
         {
           "name": "theme/dark/color/primary-text",
           "type": "COLOR",
-          "description": "Dark value of color/primary-text for each preset. Use the Theme variable instead.",
+          "description": "Dark value of color/primary-text for each preset. Use the Theme variable instead.\nCSS: --apui-color-primary-text",
           "scopes": [],
           "codeSyntax": {
             "WEB": "var(--apui-color-primary-text)"
@@ -10376,7 +10376,7 @@
         {
           "name": "theme/high-contrast/color/primary-text",
           "type": "COLOR",
-          "description": "High contrast value of color/primary-text for each preset. Use the Theme variable instead.",
+          "description": "High contrast value of color/primary-text for each preset. Use the Theme variable instead.\nCSS: --apui-color-primary-text",
           "scopes": [],
           "codeSyntax": {
             "WEB": "var(--apui-color-primary-text)"
@@ -10412,7 +10412,7 @@
         {
           "name": "theme/light/elevation/overlay",
           "type": "STRING",
-          "description": "Light value of elevation/overlay for each preset. Use the Theme variable instead.",
+          "description": "Light value of elevation/overlay for each preset. Use the Theme variable instead.\nCSS: --apui-elevation-overlay",
           "scopes": [],
           "codeSyntax": {
             "WEB": "var(--apui-elevation-overlay)"
@@ -10428,7 +10428,7 @@
         {
           "name": "theme/dark/elevation/overlay",
           "type": "STRING",
-          "description": "Dark value of elevation/overlay for each preset. Use the Theme variable instead.",
+          "description": "Dark value of elevation/overlay for each preset. Use the Theme variable instead.\nCSS: --apui-elevation-overlay",
           "scopes": [],
           "codeSyntax": {
             "WEB": "var(--apui-elevation-overlay)"
@@ -10444,7 +10444,7 @@
         {
           "name": "theme/high-contrast/elevation/overlay",
           "type": "STRING",
-          "description": "High contrast value of elevation/overlay for each preset. Use the Theme variable instead.",
+          "description": "High contrast value of elevation/overlay for each preset. Use the Theme variable instead.\nCSS: --apui-elevation-overlay",
           "scopes": [],
           "codeSyntax": {
             "WEB": "var(--apui-elevation-overlay)"
@@ -10460,7 +10460,7 @@
         {
           "name": "theme/light/elevation/raised",
           "type": "STRING",
-          "description": "Light value of elevation/raised for each preset. Use the Theme variable instead.",
+          "description": "Light value of elevation/raised for each preset. Use the Theme variable instead.\nCSS: --apui-elevation-raised",
           "scopes": [],
           "codeSyntax": {
             "WEB": "var(--apui-elevation-raised)"
@@ -10476,7 +10476,7 @@
         {
           "name": "theme/dark/elevation/raised",
           "type": "STRING",
-          "description": "Dark value of elevation/raised for each preset. Use the Theme variable instead.",
+          "description": "Dark value of elevation/raised for each preset. Use the Theme variable instead.\nCSS: --apui-elevation-raised",
           "scopes": [],
           "codeSyntax": {
             "WEB": "var(--apui-elevation-raised)"
@@ -10492,7 +10492,7 @@
         {
           "name": "theme/high-contrast/elevation/raised",
           "type": "STRING",
-          "description": "High contrast value of elevation/raised for each preset. Use the Theme variable instead.",
+          "description": "High contrast value of elevation/raised for each preset. Use the Theme variable instead.\nCSS: --apui-elevation-raised",
           "scopes": [],
           "codeSyntax": {
             "WEB": "var(--apui-elevation-raised)"

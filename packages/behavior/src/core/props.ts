@@ -32,13 +32,18 @@ const PROPERTIES = new Set(['value', 'checked', 'selected']);
 /** Keys never written: `children` is content, and the author owns `class`. */
 const SKIPPED = new Set(['children', 'class', 'className']);
 
+/** Whether a prop key is an event handler (`onClick`, `onpointerdown`). */
 const isEvent = (key: string) => /^on[A-Z]/.test(key) || /^on[a-z]+$/.test(key);
+/** The DOM event name for a handler key: `onPointerDown` → `pointerdown`. */
 const eventName = (key: string) => key.slice(2).toLowerCase();
+/** A style key as a CSS property: `pointerEvents` → `pointer-events`; custom properties pass through. */
 const cssName = (key: string) =>
   key.startsWith('--') ? key : key.replace(/[A-Z]/g, (c) => `-${c.toLowerCase()}`);
+/** The attribute name to write: lowercased, except on SVG, where case matters. */
 const attributeName = (node: Element, key: string) =>
   node.namespaceURI === 'http://www.w3.org/2000/svg' ? key : key.toLowerCase();
 
+/** Writes style declarations, removing only those the previous props set and these drop. */
 function applyStyle(node: Element, previous: unknown, next: unknown): void {
   const style = (node as HTMLElement).style;
   if (!style) return;
@@ -60,6 +65,7 @@ function applyStyle(node: Element, previous: unknown, next: unknown): void {
   }
 }
 
+/** Writes one attribute or property, skipping writes that would not change it. */
 function applyAttribute(node: Element, key: string, value: unknown): void {
   if (PROPERTIES.has(key)) {
     const element = node as unknown as Record<string, unknown>;

@@ -194,6 +194,20 @@ export function figmaPayload(base, presets) {
   for (const model of presets.values()) {
     for (const path of presetChanges(base, model).changed) changedByPreset.add(path);
   }
+  // A literal is resolved against the source, so it is wrong for a preset that
+  // changes something it depends on (a shadow's color, say) even when the
+  // token's own value doesn't change. Route those too.
+  for (const entry of base.tokens.values()) {
+    if (!entry.axis || changedByPreset.has(entry.path)) continue;
+    const differs = AXES[entry.axis].modes.some((mode) => {
+      const own = JSON.stringify(figmaValue(base, entry, mode, types));
+      return [...presets.values()].some(
+        (model) =>
+          JSON.stringify(figmaValue(model, model.tokens.get(entry.path), mode, types)) !== own,
+      );
+    });
+    if (differs) changedByPreset.add(entry.path);
+  }
 
   const collections = [
     { name: TOKENS_COLLECTION, modes: presetModes.map(([label]) => label), variables: [] },
@@ -240,7 +254,7 @@ export function figmaPayload(base, presets) {
       byName[TOKENS_COLLECTION].variables.push({
         name: route,
         ...common(entry, type),
-        description: `${modeLabel(mode)} value of ${variableName(entry)} for each preset. Use the ${AXIS_COLLECTIONS[entry.axis]} variable instead.`,
+        description: `${modeLabel(mode)} value of ${variableName(entry)} for each preset. Use the ${AXIS_COLLECTIONS[entry.axis]} variable instead.\nCSS: ${entry.cssVar}`,
         scopes: [],
         hidden: true,
         values: Object.fromEntries(

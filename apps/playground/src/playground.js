@@ -35,8 +35,10 @@
 
   const cssVar = (path) => tokens.get(path).cssVar;
   const ref = (path) => `var(${cssVar(path)})`;
+  /** A token or mode name as a label: `high-contrast` → `High contrast`. */
   const label = (name) =>
     name ? name.charAt(0).toUpperCase() + name.slice(1).replace(/-/g, ' ') : '';
+  /** Token paths that start with `prefix`, optionally in one tier. */
   const paths = (prefix, tier) =>
     data.tokens
       .filter((t) => t.path.startsWith(prefix) && (!tier || t.tier === tier))
@@ -62,12 +64,14 @@
   /** A span that shows a token's computed value on the preview, kept current by refresh(). */
   const valueOf = (path) => el('code', { class: 'pg-value', 'data-pg-value': cssVar(path) });
 
+  /** A custom property's computed value on the preview. */
   const computed = (name) => getComputedStyle(stage).getPropertyValue(name).trim();
 
-  /** A CSS color as #rrggbb, or null when it isn't opaque. Works for any color syntax. */
+  /** A 1×1 canvas toHex() paints a color into to read it back as sRGB. */
   const canvas = document.createElement('canvas');
   canvas.width = canvas.height = 1;
   const context = canvas.getContext('2d', { willReadFrequently: true });
+  /** A CSS color as `#rrggbb`, or null when it isn't opaque. Works for any color syntax. */
   function toHex(color) {
     if (!color) return null;
     context.clearRect(0, 0, 1, 1);
@@ -120,6 +124,7 @@
     refresh();
   }
 
+  /** Applies the preset, modes and direction to the preview, mirrors them in the query string and re-applies overrides. */
   function apply() {
     if (state.preset) stage.setAttribute(data.presetAttribute, state.preset);
     else stage.removeAttribute(data.presetAttribute);
@@ -189,6 +194,7 @@
     }
   }
 
+  /** Reads the starting state from the query string and builds the preset, theme, density and direction controls. */
   function initControls() {
     const params = new URLSearchParams(location.search);
     const pick = (value, allowed, fallback) => (allowed.includes(value) ? value : fallback);
@@ -278,6 +284,7 @@
     refresh();
   }
 
+  /** One editor row: the token's name, a text input, a color picker for colors and a reset button. */
   function tokenRow(token) {
     const id = `pg-edit-${token.path.replace(/\./g, '-')}`;
     const set = (value) => {
@@ -322,6 +329,7 @@
     );
   }
 
+  /** Shows the current overrides as CSS to paste into an app, with where they were made. */
   function renderOverrides() {
     const lines = [...state.overrides].map(([path, value]) => `  ${cssVar(path)}: ${value};`);
     // Overrides apply in every theme and preset as written, so say where they were made.
@@ -335,6 +343,7 @@
       : 'None yet.';
   }
 
+  /** Wires the filter, tier, reset and copy controls, then renders the editor. */
   function initEditor() {
     document.getElementById('pg-filter').addEventListener('input', renderEditor);
     document.getElementById('pg-tier').addEventListener('change', renderEditor);
@@ -371,6 +380,7 @@
     );
   }
 
+  /** A titled group within a foundation section. */
   function group(title, ...children) {
     return el(
       'div',
@@ -380,6 +390,7 @@
     );
   }
 
+  /** Color swatches: surfaces, text, edges and states, roles, charts and syntax. */
   function renderColor() {
     const root = document.getElementById('pg-color');
     const colors = (prefix) =>
@@ -480,6 +491,7 @@
     );
   }
 
+  /** One sample per type style, bound to its family, size, line height, weight and letter spacing. */
   function renderType() {
     const root = document.getElementById('pg-type');
     const styles = [...new Set(paths('type.').map((p) => p.split('.')[1]))];
@@ -517,6 +529,7 @@
     }
   }
 
+  /** The space scale as bars, and density values with sample panels. */
   function renderSpace() {
     const root = document.getElementById('pg-space');
     const scale = paths('space.', 'primitive');
@@ -573,6 +586,7 @@
     );
   }
 
+  /** Semantic and component radii as boxes. */
   function renderRadius() {
     const root = document.getElementById('pg-radius');
     const radii = [
@@ -593,6 +607,7 @@
     }
   }
 
+  /** Raised, overlay and glass elevation on their surfaces. */
   function renderElevation() {
     const root = document.getElementById('pg-elevation');
     for (const [p, surface] of [
@@ -614,6 +629,7 @@
     }
   }
 
+  /** Every semantic duration and easing pair as a track the Play button runs. */
   function renderMotion() {
     const root = document.getElementById('pg-motion');
     const durations = paths('motion.duration', 'semantic');
@@ -667,6 +683,7 @@
     );
   }
 
+  /** The focus ring on each surface, live and forced. */
   function renderFocus() {
     const root = document.getElementById('pg-focus');
     root.append(
@@ -709,6 +726,7 @@
     );
   }
 
+  /** A glass card over a busy backdrop. */
   function renderGlass() {
     const root = document.getElementById('pg-glass');
     root.append(
@@ -730,6 +748,7 @@
     );
   }
 
+  /** The sample UI: a table card, a form card and an overlay card. */
   function renderSample() {
     // Static markup: no user data goes into it.
     document.getElementById('pg-sample').innerHTML = `

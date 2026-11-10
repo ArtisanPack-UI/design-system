@@ -16,6 +16,7 @@ async function apuiBuildReferencePage({ pageName = 'Reference' } = {}) {
   const api = figma.variables;
   const collections = await api.getLocalVariableCollectionsAsync();
   const variables = await api.getLocalVariablesAsync();
+  /** A collection by name. Throws when the variables haven't been synced yet. */
   const collection = (name) => {
     const found = collections.find((c) => c.name === name);
     if (!found) throw new Error(`Collection "${name}" is missing. Sync the variables first.`);
@@ -41,6 +42,7 @@ async function apuiBuildReferencePage({ pageName = 'Reference' } = {}) {
     }
     throw new Error(`No variable for ${path}`);
   };
+  /** Whether a variable exists for a token path. */
   const has = (path) => {
     try {
       v(path);
@@ -49,6 +51,7 @@ async function apuiBuildReferencePage({ pageName = 'Reference' } = {}) {
       return false;
     }
   };
+  /** Published variable names in a collection that start with `prefix`. */
   const names = (prefix, source = 'Theme') =>
     variables
       .filter((x) => ids.get(x.variableCollectionId) === source && x.name.startsWith(prefix))
@@ -60,6 +63,7 @@ async function apuiBuildReferencePage({ pageName = 'Reference' } = {}) {
   // has to be loaded before binding.
   const familyNames = new Set();
   const visited = new Set();
+  /** Adds the font families a value resolves to, following aliases through every mode. */
   const collect = async (value) => {
     if (typeof value === 'string') {
       familyNames.add(value);
@@ -99,14 +103,17 @@ async function apuiBuildReferencePage({ pageName = 'Reference' } = {}) {
 
   const paint = (path) =>
     api.setBoundVariableForPaint({ type: 'SOLID', color: { r: 0, g: 0, b: 0 } }, 'color', v(path));
+  /** Binds a node's fill to a color variable, or clears it. */
   const fill = (node, path) => {
     node.fills = path ? [paint(path)] : [];
   };
+  /** Binds a node's stroke to a color variable and its weight to `border.width`. */
   const stroke = (node, path) => {
     node.strokes = [paint(path)];
     node.setBoundVariable('strokeWeight', v('border.width'));
     node.strokeAlign = 'INSIDE';
   };
+  /** Binds all four corner radii to one variable. */
   const radius = (node, path) => {
     for (const corner of [
       'topLeftRadius',
@@ -117,12 +124,14 @@ async function apuiBuildReferencePage({ pageName = 'Reference' } = {}) {
       node.setBoundVariable(corner, v(path));
     }
   };
+  /** Binds inline and block padding to variables. */
   const padding = (node, path, pathY = path) => {
     node.setBoundVariable('paddingLeft', v(path));
     node.setBoundVariable('paddingRight', v(path));
     node.setBoundVariable('paddingTop', v(pathY));
     node.setBoundVariable('paddingBottom', v(pathY));
   };
+  /** An auto-layout frame with no fill. */
   const stack = (name, direction = 'VERTICAL', props = {}) => {
     const frame = figma.createAutoLayout(direction, { name, ...props });
     frame.fills = [];
@@ -146,6 +155,7 @@ async function apuiBuildReferencePage({ pageName = 'Reference' } = {}) {
     return node;
   };
   const caption = (characters) => text(characters, 'code-sm', 'text.muted');
+  /** A page section: a heading and an optional description. */
   const section = (title, description) => {
     const frame = stack(`apui/section/${title}`, 'VERTICAL', { itemSpacing: 24 });
     append(frame, text(title, 'heading-lg'));
@@ -157,6 +167,7 @@ async function apuiBuildReferencePage({ pageName = 'Reference' } = {}) {
     }
     return frame;
   };
+  /** A horizontal auto-layout row that wraps. */
   const wrapRow = (name) => {
     const row = stack(name, 'HORIZONTAL', { itemSpacing: 16, counterAxisSpacing: 16 });
     row.layoutWrap = 'WRAP';
@@ -166,6 +177,7 @@ async function apuiBuildReferencePage({ pageName = 'Reference' } = {}) {
     child.layoutSizingHorizontal = 'FILL';
     return child;
   };
+  /** Sets a node's Tokens, Theme and Density modes; null leaves one inherited. */
   const modes = (node, preset, themeMode, densityMode) => {
     const mode = (c, name) => c.modes.find((m) => m.name === name)?.modeId;
     if (preset) node.setExplicitVariableModeForCollection(tokens, mode(tokens, preset));
@@ -225,6 +237,7 @@ async function apuiBuildReferencePage({ pageName = 'Reference' } = {}) {
     node.appendChild(label_);
     return node;
   };
+  /** A soft badge in a role color. */
   const badge = (label, role) => {
     const node = stack(`badge/${role}`, 'HORIZONTAL');
     padding(node, 'space.2', 'space.0-5');
@@ -233,6 +246,7 @@ async function apuiBuildReferencePage({ pageName = 'Reference' } = {}) {
     node.appendChild(text(label, 'label-xs', `color.${role}-soft-foreground`));
     return node;
   };
+  /** A labelled text field. */
   const input = (placeholder) => {
     const field = stack('field', 'VERTICAL', { itemSpacing: 4 });
     const control = stack('input', 'HORIZONTAL', { counterAxisAlignItems: 'CENTER' });
@@ -248,6 +262,7 @@ async function apuiBuildReferencePage({ pageName = 'Reference' } = {}) {
     fillWidth(control);
     return field;
   };
+  /** The sample card: eyebrow, heading, text, badges, a field and buttons. */
   const card = () => {
     const node = stack('card', 'VERTICAL');
     node.setBoundVariable('itemSpacing', v('panel.gap'));

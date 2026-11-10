@@ -129,6 +129,39 @@ describe('payload', () => {
     },
   );
 
+  it('resolves every theme and density variable to the CSS value in every preset and mode', () => {
+    const models = [
+      [DEFAULT_PRESET_MODE, base],
+      ...[...presets].map(([n, m]) => [modeLabel(n), m]),
+    ] as [string, typeof base][];
+    let checked = 0;
+    for (const [collectionName, axis] of [
+      ['Theme', 'theme'],
+      ['Density', 'density'],
+    ] as const) {
+      for (const variable of collection(collectionName).variables) {
+        const entry = [...base.tokens.values()].find((e) => variableName(e) === variable.name)!;
+        for (const [presetMode, model] of models) {
+          for (const mode of base.axes[axis].modes) {
+            const value = resolve(collectionName, variable.name, {
+              [TOKENS_COLLECTION]: presetMode,
+              Theme: axis === 'theme' ? modeLabel(mode) : 'Light',
+              Density: axis === 'density' ? modeLabel(mode) : 'Default',
+            });
+            const css = resolvedCss(model, entry.path, { [axis]: mode });
+            const where = `${variable.name} in ${presetMode} ${mode}`;
+            if (variable.type === 'STRING') expect(value, where).toBe(css);
+            else if (variable.type === 'FLOAT')
+              expect(`${value}${css.replace(/^[\d.-]+/, '')}`, where).toBe(css);
+            else if (css.startsWith('#')) expect(hex(value as Rgba), where).toBe(css);
+            checked++;
+          }
+        }
+      }
+    }
+    expect(checked).toBeGreaterThan(1000);
+  });
+
   it('resolves density tokens per preset through the routed values', () => {
     for (const [name, model] of presets) {
       for (const mode of base.axes.density.modes) {
@@ -158,6 +191,7 @@ type FakeVariable = {
   resolvedType: string;
   variableCollectionId: string;
   scopes: string[];
+  description: string;
   codeSyntax: Record<string, string>;
   hiddenFromPublishing: boolean;
   valuesByMode: Record<string, unknown>;
@@ -242,6 +276,8 @@ function fakeFigma() {
           name: v.name,
           type: v.resolvedType,
           scopes: v.scopes,
+          // The plugin and the connector chunks must write the same descriptions.
+          description: v.description,
           hidden: v.hiddenFromPublishing,
           code: v.codeSyntax.WEB,
           values: Object.fromEntries(

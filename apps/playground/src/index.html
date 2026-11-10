@@ -18,7 +18,7 @@
     <header class="pg-toolbar" aria-label="Playground controls">
       <h1 class="pg-title">Token playground</h1>
       <div class="pg-controls">
-        <label class="pg-control">
+        <label class="pg-control" for="pg-preset">
           <span>Preset</span>
           <select id="pg-preset" class="pg-select"></select>
         </label>
@@ -80,11 +80,11 @@
           Overrides apply to the preview only, on top of the preset, theme and density.
         </p>
         <div class="pg-editor-filters">
-          <label class="pg-control">
+          <label class="pg-control" for="pg-filter">
             <span>Filter</span>
             <input id="pg-filter" class="pg-input" type="search" placeholder="color.primary" />
           </label>
-          <label class="pg-control">
+          <label class="pg-control" for="pg-tier">
             <span>Tier</span>
             <select id="pg-tier" class="pg-select">
               <option value="semantic">Semantic</option>

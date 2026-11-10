@@ -91,6 +91,7 @@ function restoreStyle(node: HTMLElement, previous: string | null): void {
   }
 }
 
+/** Merges every source bound to the node and applies the result, dropping our own mutation records. */
 function applyNode(node: Element): void {
   const state = nodes.get(node);
   if (!state) return;
@@ -99,6 +100,7 @@ function applyNode(node: Element): void {
   state.observer.takeRecords();
 }
 
+/** Starts observing a node's attributes, re-applying what a morph or other outside change undoes. */
 function watch(node: Element): NodeState {
   const observer = new MutationObserver((records) => {
     const current = nodes.get(node);
@@ -135,6 +137,7 @@ function watch(node: Element): NodeState {
   return state;
 }
 
+/** Adds a source to a node, watching it on first use. Returns a function that removes the source. */
 function bindNode(node: Element, source: Source): () => void {
   const state = nodes.get(node) ?? watch(node);
   state.sources.add(source);

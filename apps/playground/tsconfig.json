@@ -3,7 +3,10 @@
   "compilerOptions": {
     "allowJs": true,
     "noEmit": true,
-    "types": ["vitest/globals", "node"]
+    "types": ["vitest/globals", "node"],
+    "paths": {
+      "@artisanpack-ui/tokens": ["../../packages/tokens/src/index.ts"]
+    }
   },
   "include": ["test", "build.mjs"],
   "exclude": ["dist", "node_modules"]

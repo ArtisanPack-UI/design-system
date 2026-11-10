@@ -50,7 +50,9 @@ interface PartHost {
   apuiPart(part: string, el: Element, args: () => PartArgs): () => void;
 }
 
+/** `close-trigger` → `closeTrigger`. */
 const camel = (part: string) => part.replace(/-([a-z])/g, (_, c: string) => c.toUpperCase());
+/** `close-trigger` → `CloseTrigger`. */
 const pascal = (part: string) => camel(part).replace(/^./, (c) => c.toUpperCase());
 
 /** The machine's props for a part, from `api.get<Part>Props(args)`. */
@@ -119,10 +121,12 @@ function warnMissingId(el: Element, part: string): void {
   );
 }
 
+/** Dispatches a bubbling custom event, as the vocabulary names Livewire and Alpine events. */
 function dispatch(el: Element, name: string, detail: unknown) {
   el.dispatchEvent(new CustomEvent(name, { detail, bubbles: true }));
 }
 
+/** Whether two values (strings or arrays) are equal, treating null and undefined alike. */
 const sameValue = (a: unknown, b: unknown) =>
   JSON.stringify(a ?? null) === JSON.stringify(b ?? null);
 
@@ -147,6 +151,7 @@ export interface DialogOptions extends Pick<
   label?: string;
 }
 
+/** The `apuiDialog` Alpine component. `open` is plain state, so it can be entangled with Livewire. */
 function dialogComponent(options: DialogOptions = {}) {
   let widget: Widget<DialogProps, DialogApi> | undefined;
 
@@ -221,6 +226,7 @@ export interface ComboboxOptions extends Pick<
   id?: string;
 }
 
+/** The `apuiCombobox` Alpine component. `value` and `search` are plain state, so they can be entangled with Livewire. */
 function comboboxComponent(options: ComboboxOptions = {}) {
   const multiple = Boolean(options.multiple);
   let widget: Widget<ComboboxProps, ComboboxApi> | undefined;
@@ -364,6 +370,7 @@ function comboboxComponent(options: ComboboxOptions = {}) {
     });
   }
 
+  /** Rebuilds the collection from the registered items in DOM order, filtered by the typed query unless remote. */
   function refresh() {
     if (!widget) return;
     // A morph removes items before Alpine runs their cleanup, so drop

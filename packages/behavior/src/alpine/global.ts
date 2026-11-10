@@ -23,6 +23,7 @@ const host = window as AlpineWindow;
 // For morph libraries other than Livewire's: call it before each element is patched.
 host.ApuiBehavior = { keepClientState };
 
+/** Registers the plugin once, when Alpine is available. */
 function register() {
   if (host[REGISTERED] || !host.Alpine) return;
   host[REGISTERED] = true;

@@ -160,6 +160,7 @@ describe('editing tokens', () => {
 
   it('lists every semantic token', async () => {
     const page = await open();
+    await page.selectOption('#pg-tier', 'semantic');
     const semantic = Object.values(tokens).filter((token) => token.tier === 'semantic').length;
     expect(await page.$$eval('[data-pg-token]', (rows) => rows.length)).toBe(semantic);
     await page.close();
