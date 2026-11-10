@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Token playground · ArtisanPack UI Design System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Hanken+Grotesk:wght@400;500;600&family=Bricolage+Grotesque:opsz,wght@12..96,600&family=JetBrains+Mono:wght@400;500&display=swap"
+    />
+    <link rel="stylesheet" href="apui.css" />
+    <link rel="stylesheet" href="playground.css" />
+    <script src="tokens.js"></script>
+    <script src="playground.js" defer></script>
+  </head>
+  <body class="pg-body">
+    <header class="pg-toolbar" aria-label="Playground controls">
+      <h1 class="pg-title">Token playground</h1>
+      <div class="pg-controls">
+        <label class="pg-control">
+          <span>Preset</span>
+          <select id="pg-preset" class="pg-select"></select>
+        </label>
+        <fieldset class="pg-control pg-segmented" id="pg-theme">
+          <legend>Theme</legend>
+        </fieldset>
+        <fieldset class="pg-control pg-segmented" id="pg-density">
+          <legend>Density</legend>
+        </fieldset>
+        <fieldset class="pg-control pg-segmented" id="pg-dir">
+          <legend>Direction</legend>
+        </fieldset>
+      </div>
+    </header>
+
+    <div class="pg-layout">
+      <main id="pg-stage" class="pg-stage" aria-label="Preview">
+        <section class="pg-section" aria-labelledby="pg-h-sample">
+          <h2 id="pg-h-sample" class="pg-h2">Sample UI</h2>
+          <div class="pg-sample" id="pg-sample"></div>
+        </section>
+        <section class="pg-section" aria-labelledby="pg-h-color">
+          <h2 id="pg-h-color" class="pg-h2">Color</h2>
+          <div id="pg-color"></div>
+        </section>
+        <section class="pg-section" aria-labelledby="pg-h-type">
+          <h2 id="pg-h-type" class="pg-h2">Typography</h2>
+          <div id="pg-type" class="pg-type-list"></div>
+        </section>
+        <section class="pg-section" aria-labelledby="pg-h-space">
+          <h2 id="pg-h-space" class="pg-h2">Spacing and density</h2>
+          <div id="pg-space"></div>
+        </section>
+        <section class="pg-section" aria-labelledby="pg-h-radius">
+          <h2 id="pg-h-radius" class="pg-h2">Radius</h2>
+          <div id="pg-radius" class="pg-grid"></div>
+        </section>
+        <section class="pg-section" aria-labelledby="pg-h-elevation">
+          <h2 id="pg-h-elevation" class="pg-h2">Elevation</h2>
+          <div id="pg-elevation" class="pg-grid"></div>
+        </section>
+        <section class="pg-section" aria-labelledby="pg-h-motion">
+          <h2 id="pg-h-motion" class="pg-h2">Motion</h2>
+          <div id="pg-motion"></div>
+        </section>
+        <section class="pg-section" aria-labelledby="pg-h-focus">
+          <h2 id="pg-h-focus" class="pg-h2">Focus</h2>
+          <div id="pg-focus"></div>
+        </section>
+        <section class="pg-section" aria-labelledby="pg-h-glass">
+          <h2 id="pg-h-glass" class="pg-h2">Glass</h2>
+          <div id="pg-glass"></div>
+        </section>
+      </main>
+
+      <aside class="pg-editor" aria-labelledby="pg-h-editor">
+        <h2 id="pg-h-editor" class="pg-h2">Edit tokens</h2>
+        <p class="pg-muted">
+          Overrides apply to the preview only, on top of the preset, theme and density.
+        </p>
+        <div class="pg-editor-filters">
+          <label class="pg-control">
+            <span>Filter</span>
+            <input id="pg-filter" class="pg-input" type="search" placeholder="color.primary" />
+          </label>
+          <label class="pg-control">
+            <span>Tier</span>
+            <select id="pg-tier" class="pg-select">
+              <option value="semantic">Semantic</option>
+              <option value="component">Component</option>
+            </select>
+          </label>
+        </div>
+        <div id="pg-token-list" class="pg-token-list"></div>
+        <h3 class="pg-h3">Your overrides</h3>
+        <p class="pg-muted" id="pg-override-count">None yet.</p>
+        <pre class="pg-code" id="pg-overrides" aria-live="polite"></pre>
+        <div class="pg-row">
+          <button type="button" class="pg-button apui-focus-ring" id="pg-copy">Copy CSS</button>
+          <button type="button" class="pg-button apui-focus-ring" id="pg-reset">Reset all</button>
+        </div>
+      </aside>
+    </div>
+  </body>
+</html>

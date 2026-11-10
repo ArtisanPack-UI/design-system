@@ -46,4 +46,19 @@ export default {
       { message: (prop, value) => `"${prop}: ${value}" is physical. Use start or end (D-004)` },
     ],
   },
+  overrides: [
+    {
+      // Dev apps such as the token playground (#29) are pages, not the
+      // library: they keep logical properties but have their own class names
+      // and no cascade layers.
+      files: ['apps/**/*.css'],
+      rules: {
+        'apui/layer': null,
+        'selector-class-pattern': [
+          '^pg-[a-z0-9]+(-[a-z0-9]+)*$|^apui-[a-z0-9]+(-[a-z0-9]+)*$',
+          { message: (selector) => `Class "${selector}" must use the pg- prefix in kebab-case` },
+        ],
+      },
+    },
+  ],
 };
