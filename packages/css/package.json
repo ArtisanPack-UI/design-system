@@ -2,7 +2,7 @@
   "name": "@artisanpack-ui/css",
   "version": "0.0.0",
   "private": true,
-  "description": "Plain-CSS component layer for ArtisanPack UI. Tailwind is not required.",
+  "description": "Plain-CSS component layer for ArtisanPack UI, with a headless entry and an optional Tailwind v4 preset. Tailwind is not required.",
   "license": "MIT",
   "author": "Jacob Martella <me@jacobmartella.com>",
   "repository": {
@@ -22,6 +22,9 @@
   "style": "./dist/index.css",
   "exports": {
     ".": "./dist/index.css",
+    "./headless": "./dist/headless.css",
+    "./tailwind": "./dist/tailwind.css",
+    "./assets.php": "./dist/assets.php",
     "./package.json": "./package.json"
   },
   "files": [
@@ -38,6 +41,8 @@
     "access": "public"
   },
   "devDependencies": {
-    "@artisanpack-ui/tokens": "*"
+    "@artisanpack-ui/tokens": "*",
+    "@tailwindcss/node": "~4.1.11",
+    "tailwindcss": "~4.1.11"
   }
 }

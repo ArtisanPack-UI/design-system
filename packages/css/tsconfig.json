@@ -8,5 +8,5 @@
       "@artisanpack-ui/tokens": ["../tokens/src/index.ts"]
     }
   },
-  "include": ["test", "build.mjs"]
+  "include": ["test", "build.mjs", "tailwind.mjs"]
 }

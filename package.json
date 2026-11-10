@@ -17,7 +17,7 @@
     "build": "npm run build --workspaces",
     "test": "npm run test --workspaces --if-present",
     "lint": "eslint packages",
-    "lint:css": "stylelint \"packages/*/src/**/*.css\" \"packages/tokens/generated/*.css\"",
+    "lint:css": "stylelint \"packages/*/src/**/*.css\" \"packages/tokens/generated/**/*.css\"",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "type-check": "npm run type-check --workspaces --if-present",
