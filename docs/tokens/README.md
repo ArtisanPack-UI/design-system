@@ -16,8 +16,13 @@ packages/tokens/
 ├── generated/                  # Build output, committed
 │   ├── tokens.css              # @artisanpack-ui/tokens/css
 │   └── tokens.php              # @artisanpack-ui/tokens/php
+├── presets/<name>/             # Presets (#23, D-010): base.json + optional <axis>/<mode>.json
+├── generated/presets/<name>.css  # One stylesheet per preset, committed
+├── generated/presets.php       # Every preset as a PHP array, committed
 ├── src/generated/tokens.ts     # Build output, committed; compiled into the package entry
-└── scripts/build-tokens.mjs    # The build
+├── src/generated/presets.ts    # Every preset as a typed map, committed
+├── scripts/build-tokens.mjs    # The build
+└── scripts/generate-preset.mjs # The brand preset generator (#27), bin apui-generate-preset
 ```
 
 - The directory decides the tier. Nothing else may sit in `tokens/`, and only `.json` files go in a tier directory.
@@ -113,6 +118,64 @@ The per-mode values are tokens too (`--apui-panel-padding-compact` and so on), s
 </html>
 ```
 
+## Presets (#23)
+
+A preset is a named set of token reassignments, switched by `data-preset` on any element ([D-010](../decisions.md#d-010-presets-may-reassign-color-ramps-and-the-radius-scale)). Themes and density are axes of the token source; presets sit on top of them, so `<section data-preset="ledger" data-theme="dark" data-density="compact">` combines all three.
+
+| Preset | What it is | Ships in `@artisanpack-ui/css` |
+|---|---|---|
+| Strata | The default: the token source itself. No attribute | Yes |
+| `ledger` | Structure through lines: pure grays, near-square corners, a tighter rhythm, IBM Plex ([spec](../../design/presets.md#ledger)) | Yes |
+| `harbor` | Structure through space: white islands on a tinted canvas, soft shadows in light, a display face, an ink primary ([spec](../../design/presets.md#harbor)) | Yes |
+| `forest` | Example brand preset made by the generator from `#1f6f3d` | No, import `@artisanpack-ui/tokens/presets/forest.css` |
+
+Glass is not a preset; it's a surface ([D-006](../decisions.md#d-006-glass-is-a-surface-not-a-theme-preset)).
+
+### Authoring a preset
+
+```text
+presets/<name>/
+├── base.json            # Reassignments that apply in every mode
+├── theme/<mode>.json    # Optional: theme tokens for one theme
+└── density/<mode>.json  # Optional: density tokens for one density
+```
+
+- Every file is plain DTCG and holds only tokens that already exist. A preset never adds a token.
+- `base.json` may reassign semantic and component tokens, color ramps (`gray.*`, `steel.*`, …) and the radius scale (`radius.xs` … `radius.full`). Other primitives are rejected.
+- In `base.json` a mode token takes the value in every mode: Harbor points `color.primary` at `{color.neutral}` this way. A mode file reassigns its own axis's tokens for that one mode, and wins over `base.json`.
+- The root `$description` of `base.json` becomes the preset's description.
+- Names follow the token name rule (`^[a-z0-9]+(-[a-z0-9]+)*$`).
+
+`npm run tokens` validates the merged token set (references, types, tiers and cycles, as for the source) and writes the outputs. `npm test` runs every contrast pair against every preset in every theme.
+
+The CSS declares the reassigned tokens and every token that depends on them on `[data-preset="<name>"]`. A custom property is computed where it is declared, so `--apui-input-radius: var(--apui-radius-field)` has to be declared again under the preset to pick up Ledger's `radius.md`. Tokens that vary by a mode are declared once per mode. The selectors match the preset on the same element as the mode, inside the mode and around it, so they're more specific than the plain mode blocks.
+
+### Brand presets: the generator (#27)
+
+Most rebrands only need a primary color. The generator builds a full preset from a few inputs:
+
+```bash
+npx apui-generate-preset --name acme --primary "#7c3aed" > acme.css
+npx apui-generate-preset --name acme --primary "#7c3aed" --accent "#f59e0b" \
+  --neutral pure --font-sans "Inter, system-ui, sans-serif" --format dtcg --out presets/acme
+```
+
+| Option | Default | Does |
+|---|---|---|
+| `--name` | required | The `data-preset` value |
+| `--primary` | required | Rebuilds the primary ramp (`steel-*`) around this color |
+| `--secondary`, `--accent` | keep | Rebuild the secondary (`slate-*`) and accent (`marigold-*`) ramps |
+| `--neutral` | `tinted` | `tinted` re-hues the grays, glass, washes and backdrop toward the primary; `pure` makes them pure gray; `keep` leaves them |
+| `--font-sans`, `--font-mono`, `--font-display` | keep | Comma-separated font families |
+| `--format` | `css` | `css`, `dtcg` (a preset directory, needs `--out`), `php` or `json` |
+| `--out` | stdout | File, or directory for `dtcg` |
+
+How it keeps contrast: each generated ramp step keeps the input's hue and chroma (in OKLCH) but matches the WCAG relative luminance of the default ramp's step. Contrast depends only on luminance, so every pair that passes in the default theme still passes. The input color lands exactly on the step nearest its luminance when the result still passes; otherwise that step is luminance-matched too. The command reports which step it used. It then runs every contrast pair in every theme and writes nothing if one fails.
+
+`dtcg` output records the inputs in `$extensions["dev.artisanpackui.generator"]`, so a test can regenerate the preset and catch drift. The `forest` example is checked this way.
+
+From code, `scripts/lib/generator.mjs` exports `generatePreset(tokensRoot, options)`, which returns the preset, its token model and any contrast failures.
+
 ## Outputs (#19)
 
 | Output | Import | Shape |
@@ -121,6 +184,10 @@ The per-mode values are tokens too (`--apui-panel-padding-compact` and so on), s
 | TypeScript | `@artisanpack-ui/tokens` | `tokens[path]` = `{ cssVar, type, tier, axis, varies, value, resolved }`, plus `axes`, `prefix`, `layer`, the `TokenPath` type and `cssVar(path)` |
 | PHP | `@artisanpack-ui/tokens/php` | `return [ 'prefix', 'layer', 'axes', 'tokens' ]`, with the same per-token fields |
 | DTCG source | `@artisanpack-ui/tokens/dtcg/*` | The source files, for design tools |
+| Preset CSS | `@artisanpack-ui/tokens/presets/<name>.css` | `[data-preset]` blocks inside `@layer apui.tokens` |
+| Presets, TypeScript | `@artisanpack-ui/tokens` | `presets[name]` = `{ name, description, attribute, tokens }`, where `tokens[path]` = `{ changed, value, resolved }` for every token the preset affects |
+| Presets, PHP | `@artisanpack-ui/tokens/presets/php` | `return [ 'attribute', 'presets' ]`, with the same fields |
+| Preset sources | `@artisanpack-ui/tokens/dtcg-presets/*` | The preset directories |
 
 In the TS and PHP maps, `value` is the CSS with aliases as `var()`, one per mode for mode tokens. `resolved` is the final CSS value, one per mode when the token varies by an axis.
 
@@ -131,7 +198,7 @@ The outputs are committed. `npm run build` checks them first and fails if the so
 1. Edit the JSON in `packages/tokens/tokens/`.
 2. Run `npm run tokens` (from the root or `packages/tokens`) to validate and regenerate.
 3. Run `npm test --workspace @artisanpack-ui/tokens`. Besides the schema and output tests, it checks:
-   - **Contrast:** WCAG 2.2 AA for every semantic pair in every theme. Text roles need 4.5:1 on every surface; control edges and focus need 3:1; glass text is checked over black, white, red and blue backdrops.
+   - **Contrast:** WCAG 2.2 AA for every semantic pair in every theme, for the source and every preset. Text roles need 4.5:1 on every surface; control edges and focus need 3:1; glass text is checked over black, white, red and blue backdrops.
    - **Spec fidelity:** every token in `design/tokens/tokens.json` exists under its name with the same value. A deliberate change to a spec value also needs the spec updated, or a recorded decision.
    - **Phase 0 map:** every target in the token audit either exists or has a resolution in [`phase-0-map.json`](phase-0-map.json).
 4. Commit the source and the regenerated outputs together.

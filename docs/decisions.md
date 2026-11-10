@@ -13,6 +13,9 @@ Decisions that shape the design system. To change one, add a new entry that supe
 | [D-007](#d-007-tokens-moves-here-1x-is-frozen-next-release-is-200) | `tokens` moves here; 1.x is frozen, next release is 2.0.0 | #17 | 2026-11-08 |
 | [D-008](#d-008-token-source-format-and-build) | Token source format and build | #18, #19 | 2026-11-09 |
 | [D-009](#d-009-css-lint-scope-and-a-scoped-reset) | CSS lint scope and a scoped reset | #21 | 2026-11-09 |
+| [D-010](#d-010-presets-may-reassign-color-ramps-and-the-radius-scale) | Presets may reassign color ramps and the radius scale | #23, #27 | 2026-11-09 |
+| [D-011](#d-011-the-tailwind-preset-only-adds-and-apui-sits-under-utilities) | The Tailwind preset only adds, and `apui` sits under utilities | #24 | 2026-11-09 |
+| [D-012](#d-012-headless-means-no-apuicomponents-layer) | Headless means no `apui.components` layer | #25 | 2026-11-09 |
 
 ## D-001: No separate brand
 
@@ -146,4 +149,55 @@ Ledger (lines, near-square, tight) and Harbor (space and soft shadow, ink primar
 - Sizes don't flip in RTL, and the spec uses them throughout, so banning them would add exceptions without catching a bug.
 - A page-wide reset would restyle the host app's markup, which a component library loaded into existing Laravel, React and Vue apps must not do.
 - Text inherits as a computed color, so without the `data-theme` rule a dark region on a light page keeps the page's dark text. The element opts in through the attribute, so this stays scoped. Backgrounds are left to the surfaces the components paint.
+
+## D-010: Presets may reassign color ramps and the radius scale
+
+**Decision.**
+
+- A **preset** is a named set of token reassignments, switched by `data-preset` on any element. It lives in `packages/tokens/presets/<name>/` as a `base.json` plus optional `<axis>/<mode>.json` files, all plain DTCG. The build validates the merged token set and writes `generated/presets/<name>.css` in `@layer apui.tokens`, plus TypeScript and PHP maps.
+- A preset reassigns **existing** tokens only. It may reassign semantic and component tokens and, of the primitives, **color ramps and the radius scale**. Spacing, durations, font weights and other primitives stay fixed.
+- **Themes** (`light`, `dark`, `high-contrast`) still reassign semantic tokens only.
+- Components still read semantic and component tokens only, so a preset never needs a component change.
+- Every preset passes the same contrast checks as the default, in every theme.
+- Ledger and Harbor ship in `@artisanpack-ui/css`. Brand presets, including the `forest` example, are opt-in imports.
+
+**Why.**
+
+- The spec's Ledger preset reassigns the gray ramp and the radius scale (`design/presets.md`), and its rebrand guide reassigns the primary and gray ramps. Expressing that through semantic tokens alone would mean restating every gray-based role in every theme, and a ramp edit couldn't cascade.
+- Allowing only color ramps and radii keeps the rhythm (space) and motion fixed, so a preset changes personality without breaking layout.
+- A custom property is computed where it is declared. The preset CSS therefore re-declares every token that depends on a reassigned one, for every mode it varies by. Its selectors cover the preset on the same element as the mode, inside it and around it, so `data-theme` and `data-density` keep working at any nesting.
+
+**Limits.** Presets don't nest back: `data-preset="ledger"` inside a Harbor region works, but there is no `strata` preset that restores the default inside a preset region. With two different themes nested *above* a preset element, the last mode block in source order wins over the nearer one. Put `data-theme` on the preset element, or inside it, when you mix them.
+
+## D-011: The Tailwind preset only adds, and `apui` sits under utilities
+
+**Decision.**
+
+- `@artisanpack-ui/css/tailwind` is one `@theme inline` block, generated from the token map by mapping rules, with no hand-written list. Each utility reads the `--apui-*` property, so utilities follow theme, density and preset at runtime.
+- It **only adds** theme variables. It never redefines one of Tailwind's defaults, which a test checks against `tailwindcss/theme.css`. The token font families map to `font-ui`, `font-code` and `font-display`, not to `font-sans` and `font-mono`.
+- Apps put the whole `apui` layer between Tailwind's `base` and `components`:
+
+  ```css
+  @layer theme, base, apui, components, utilities;
+  @import 'tailwindcss';
+  @import '@artisanpack-ui/css';
+  @import '@artisanpack-ui/css/tailwind';
+  ```
+
+**Why.**
+
+- If `font-sans` were remapped, importing the preset would change the base font of every Tailwind app, and components that inherit their font would render differently with and without it. Additive means the preset is safe to add or remove.
+- `apui.reset` … `apui.utilities` are sublayers of one `apui` layer, so a single statement places them. Above `base`, Preflight never overrides what a component sets. Below `utilities`, a utility class on a component still wins. The tests compile this setup with Tailwind and compare the rendering in Chromium.
+
+## D-012: Headless means no `apui.components` layer
+
+**Decision.**
+
+- `@artisanpack-ui/css/headless` (`dist/headless.css`) is the full bundle minus every `./components/` import. It is built from the same entry, so the two can't drift.
+- It keeps the reset, tokens, presets and utilities. `.apui-sr-only` still hides text, the focus ring utility still works, and headless markup can still read the tokens.
+- Markup, ARIA and behavior are identical in both modes. The tests compare the DOM and the accessibility tree before and after interaction.
+- Component CSS must not change what assistive technology gets: no `display: none` for state and no text in `content`. State is markup (`hidden`, `aria-*`, `data-state`).
+- `dist/assets.php` lists the entry points (`default`, `headless`, `tailwind`) for the Livewire package's published assets (#42).
+
+**Why.** Dropping one layer is the only form of headless that can't drift from the styled build. Keeping the utilities avoids a headless build that suddenly shows screen-reader text.
 

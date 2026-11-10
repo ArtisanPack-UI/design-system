@@ -12,7 +12,7 @@ Token-driven design system for ArtisanPack UI: DTCG tokens, a plain-CSS componen
 | `docs/inventory/token-audit.md` + `data/token-map.json` | Where existing tokens land in `--apui-*` |
 | `design/README.md` | The visual spec (Phase 1). The target every token and component must match |
 | `design/brand-book.md` | The design rules: tokens, color roles, type, spacing, density, focus, glass, RTL |
-| `docs/tokens/README.md` | The DTCG token schema, modes, outputs and how to change tokens |
+| `docs/tokens/README.md` | The DTCG token schema, modes, presets, the brand generator, outputs and how to change tokens |
 | `docs/css-conventions.md` | How component CSS is written: layers, markup, tokens, RTL, focus |
 
 ## Sources of truth
@@ -20,7 +20,7 @@ Token-driven design system for ArtisanPack UI: DTCG tokens, a plain-CSS componen
 1. **Decisions and vocabulary** (`docs/`) decide names and API.
 2. **Design spec** (`design/`) decides how things look. Match its values, states and themes.
 3. **DTCG tokens** in `packages/tokens/tokens/` are the source of truth for values in code (#20). Design changes arrive as diffs against that JSON. Run `npm run tokens` after editing it and commit the regenerated outputs; the tests check contrast and fidelity to `design/tokens/tokens.json`.
-4. **Manifest** (#26) is the per-component API contract the parity tests check.
+4. **Manifest** (#26) in `packages/manifest/components/<Name>.json` is the per-component API contract the parity tests check. Validate with `npm run validate --workspace @artisanpack-ui/manifest`; run `npm run manifest` after editing and commit `generated/manifests.php`.
 
 If two of these disagree, stop and ask rather than picking one.
 
@@ -28,8 +28,9 @@ If two of these disagree, stop and ask rather than picking one.
 
 - **Namespace `apui` (D-002):** `.apui-<component>` root class, `--apui-*` custom properties, `@layer apui.reset, apui.tokens, apui.components, apui.utilities`. Never `ap-` in CSS (it collides with `visual-editor`).
 - **Markup (#21):** one root class per component. Variants and state are data attributes: `data-variant`, `data-color`, `data-size`, `data-surface`, `data-state`, `data-invalid`, `data-disabled`. Parts carry `data-scope="<component>" data-part="<part>"`, matching Zag. Part names come from the vocabulary.
-- **Tokens:** three tiers. Components read semantic and component tokens, never primitives. Themes and presets reassign semantic tokens only. Use the audit's names (`--apui-surface-page`, `--apui-text-default`, `--apui-border-muted`, `--apui-color-<c>-soft-foreground`, `--apui-elevation-*`, `--apui-space-4` = 16px).
-- **No Tailwind dependency.** The Tailwind preset (#24) is optional and generated from tokens.
+- **Tokens:** three tiers. Components read semantic and component tokens, never primitives. Themes reassign semantic tokens only. Presets (`packages/tokens/presets/`, `data-preset`) reassign semantic and component tokens, plus color ramps and the radius scale (D-010); brand presets come from `apui-generate-preset` (#27). Use the audit's names (`--apui-surface-page`, `--apui-text-default`, `--apui-border-muted`, `--apui-color-<c>-soft-foreground`, `--apui-elevation-*`, `--apui-space-4` = 16px).
+- **No Tailwind dependency.** The Tailwind preset (`@artisanpack-ui/css/tailwind`, #24) is optional, generated from tokens and only adds to Tailwind's theme (D-011).
+- **Headless (D-012):** `@artisanpack-ui/css/headless` is the bundle without `apui.components`. State lives in markup, never in component CSS, so markup and ARIA are identical in both modes.
 - **RTL (D-004):** logical properties only, enforced by stylelint (`npm run lint:css`, D-009). `start`/`end`, never `left`/`right`. Directional icons mirror. Chart plots and Code/Diff content stay LTR.
 - **Accessibility:** WCAG 2.2 AA. Text 4.5:1 and control edges and focus 3:1 against every surface in every theme, checked by script, not by eye. Visible focus ring on `:focus-visible`, never removed.
 - **Parity (D-003):** every component ships in all three stacks except ImageLibrary, StreamableContent and ThemePreview (Livewire only) and RichTextEditor (different engines).

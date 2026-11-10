@@ -92,10 +92,53 @@ Logical properties only ([D-004](decisions.md#d-004-rtl-is-a-launch-requirement)
 - Set `--apui-focus-ring-offset-color` to the surface the control sits on when that isn't `--apui-surface-default`.
 - Inside tables and grids, inset the ring so it doesn't overlap neighboring cells.
 
-## Theme, density and surface
+## Entry points
+
+| Import | File | Holds |
+|---|---|---|
+| `@artisanpack-ui/css` | `dist/index.css` | Every layer: reset, tokens, the Ledger and Harbor presets, components, utilities |
+| `@artisanpack-ui/css/headless` | `dist/headless.css` | The same without the `apui.components` layer ([D-012](decisions.md#d-012-headless-means-no-apuicomponents-layer)) |
+| `@artisanpack-ui/css/tailwind` | `dist/tailwind.css` | The optional Tailwind v4 preset ([D-011](decisions.md#d-011-the-tailwind-preset-only-adds-and-apui-sits-under-utilities)) |
+| `@artisanpack-ui/css/assets.php` | `dist/assets.php` | The entry points and layers as a PHP array, for the Livewire package |
+
+### Headless mode (#25)
+
+Headless drops the visual CSS and nothing else. The markup, ARIA and behavior from the Livewire, React and Vue packages are the same in both modes. So component CSS must never be what hides or reveals content to assistive technology: state lives in markup (`hidden`, `aria-expanded`, `data-state`), and CSS only styles it. Don't use `display: none` for a state and don't put text in `content`. The headless tests compare the DOM and the accessibility tree with and without the components layer.
+
+### With Tailwind (#24)
+
+Tailwind is never required. Apps that keep it put the `apui` layer between Tailwind's `base` and `components`, so Preflight never overrides a component and Tailwind utilities still win:
+
+```css
+@layer theme, base, apui, components, utilities;
+@import 'tailwindcss';
+@import '@artisanpack-ui/css';
+@import '@artisanpack-ui/css/tailwind'; /* optional */
+```
+
+The preset only adds utilities, all generated from the semantic tokens and all following theme, density and preset at runtime:
+
+| Tokens | Utilities |
+|---|---|
+| `color.*` | `bg-primary`, `text-primary-text`, `border-primary-border`, `bg-error-soft`, … |
+| `surface.*` | `bg-surface-page`, `bg-surface-raised`, … |
+| `text.*`, `border.*` | `text-default`, `text-muted`, `border-muted`, `border-default`, … |
+| `focus-ring.*`, `state.*`, `selected.*`, `chart.*`, `syntax.*`, `backdrop` | `ring-focus-ring`, `bg-state-hover`, `bg-selected-bg`, `fill-chart-1`, `text-syntax-keyword`, `bg-backdrop` |
+| `radius.control` … `overlay` | `rounded-control`, `rounded-field`, `rounded-surface`, `rounded-overlay` |
+| `elevation.*` | `shadow-raised`, `shadow-overlay`, `shadow-glass` |
+| `font-family.*` | `font-ui`, `font-code`, `font-display` |
+| `type.<style>.*` | `text-body-md`, `text-heading-lg`, … (size, line height, weight and letter spacing) |
+| `motion.ease-*` | `ease-standard`, `ease-enter`, `ease-exit` |
+| `control-height.*`, `icon-size.*` | `h-control-md`, `size-icon-sm`, … |
+| `panel.*`, `row.height`, `cell.padding-x`, `field.gap` | `p-panel-padding`, `gap-panel-gap`, `h-row-height`, `px-cell-padding-x`, `gap-field-gap` |
+| `content-max-width`, `measure` | `max-w-content`, `max-w-measure` |
+
+The preset never redefines a Tailwind default, so Tailwind's `font-sans` stays as the app set it. To make it Geist, add `--font-sans: var(--apui-font-family-sans);` to your own `@theme`.
+
+## Theme, density, preset and surface
 
 - An element with `data-theme` resets its text color to `--apui-text-default` and sets `color-scheme`, so inherited text follows the theme. It does not paint a background: put a themed region on a surface (a component or `background: var(--apui-surface-page)`).
-- Theme and density are attributes on any element: `data-theme="light | dark | high-contrast"`, `data-density="compact | default | comfortable"`. Component CSS never checks them. It reads tokens, which the attributes reassign. See [docs/tokens](tokens/README.md#modes).
+- Theme, density and preset are attributes on any element: `data-theme="light | dark | high-contrast"`, `data-density="compact | default | comfortable"`, `data-preset="ledger | harbor | <brand>"`. Component CSS never checks them. It reads tokens, which the attributes reassign. See [docs/tokens](tokens/README.md#modes) and [presets](tokens/README.md#presets-23).
 - Density changes spacing through `--apui-panel-padding`, `--apui-panel-gap`, `--apui-row-height`, `--apui-cell-padding-x`, `--apui-field-gap` and the component tokens that alias them. It never changes control sizes.
 - Glass is a surface: `data-surface="glass"` on a container ([D-006](decisions.md#d-006-glass-is-a-surface-not-a-theme-preset)). It falls back to `--apui-surface-raised` under `prefers-reduced-transparency`, without `backdrop-filter` support, and in high contrast.
 
