@@ -294,15 +294,17 @@ describe('sync', () => {
   it('gives the same file in connector chunks, each within the size cap', async () => {
     const chunks = figmaChunks(base, presets);
     for (const chunk of chunks) expect(chunk.code.length).toBeLessThanOrEqual(45000);
-    const order = ['declare', 'values', 'prune'];
+    const order = ['declare', 'values', 'prune', 'reference'];
     const steps = chunks.map((c) => order.indexOf(c.step));
     expect(steps).toEqual([...steps].sort((a, b) => a - b));
-    expect(chunks.at(-1)!.step).toBe('prune');
+    expect(chunks.at(-1)!.step).toBe('reference');
+    expect(chunks.at(-1)!.code).toContain('return await apuiBuildReferencePage();');
 
     const whole_ = fakeFigma();
     await whole_.run(whole);
     const chunked = fakeFigma();
-    for (const chunk of chunks) await chunked.run(chunk.code);
+    // The Reference page needs the full Plugin API; the fake covers variables only.
+    for (const chunk of chunks.filter((c) => c.step !== 'reference')) await chunked.run(chunk.code);
     expect(chunked.snapshot()).toEqual(whole_.snapshot());
   });
 

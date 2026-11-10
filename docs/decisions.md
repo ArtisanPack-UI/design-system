@@ -258,7 +258,7 @@ The package tests repeat these in Chromium with Alpine's morph plugin, plus RTL 
 **Costs.**
 
 - The bundler-free asset with Dialog and Combobox is 132 KB minified, 44 KB gzipped. `@zag-js/dom-query`, the combobox and its collection are most of it. Apps that bundle only pay for the widgets they import.
-- Zag's part names differ from the spec in places: Dialog `backdrop`, `content` and `closeTrigger` against the spec's scrim, root and close; Combobox `content` and `item` against listbox and option. The vocabulary's standard parts (`trigger`, `content`, `item`) match Zag, so the pilots (#46, #49) settle the spec names against it rather than rename Zag's.
+- Zag's part names differ from the spec in places: Dialog `backdrop`, `content` and `closeTrigger` against the spec's scrim, root and close; Combobox `content` and `item` against listbox and option. The vocabulary's standard parts (`trigger`, `content`, `item`) match Zag, so the Dialog pilot (#49) and the Combobox family (#54) settle the spec names against it rather than rename Zag's.
 - `open-change` and `value-change` report changes the widget makes, not changes to the bound state, as in React and Vue.
 
 **Why.** Zag passed every requirement on both Livewire versions with one build, and the problems the spike hit were in the adapter, not the machines: each has a fix that is now tested. Zag supplies the hard parts (focus trap, dismissal layers, `aria-hidden`, typeahead, collections, positioning) for all three stacks from one definition, which in-house machines would have to rebuild and keep at parity. Floating UI is already inside Zag's positioning, so using it directly for the rest adds nothing new.
