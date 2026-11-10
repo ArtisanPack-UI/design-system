@@ -3,7 +3,8 @@
  *
  * The shared interaction engine (#32): Zag state machines for the hard
  * widgets, Floating UI for positioning, and adapters per stack. The Alpine
- * adapter is `@artisanpack-ui/behavior/alpine`; React and Vue follow in #36.
+ * adapter is `@artisanpack-ui/behavior/alpine`; React and Vue are
+ * `@artisanpack-ui/behavior/react` and `@artisanpack-ui/behavior/vue` (#36).
  */
 
 /** The npm package name. */
