@@ -196,6 +196,11 @@ describe('examples', () => {
       writeFileSync(join(dir, 'Button', 'examples.json'), JSON.stringify([entry]));
       expect(() => loadExamples('Button', dir)).toThrow('must be kebab-case');
     }
+    writeFileSync(
+      join(dir, 'Button', 'examples.json'),
+      JSON.stringify([{ id: 'basic', title: 't', description: 1 }]),
+    );
+    expect(() => loadExamples('Button', dir)).toThrow('needs a string description');
   });
 
   it('returns the same keys as the PHP reader', () => {

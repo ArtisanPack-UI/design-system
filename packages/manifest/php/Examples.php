@@ -58,7 +58,7 @@ final class Examples
 	 *
 	 * @param  string $component The component name, such as `Button`.
 	 *
-	 * @throws InvalidArgumentException When the name isn't a component name, examples.json isn't a JSON array, or an id isn't kebab-case.
+	 * @throws InvalidArgumentException When the name isn't a component name, examples.json isn't a JSON array, an id isn't kebab-case, or a title or description isn't a string.
 	 *
 	 * @return list<array{id: string, title: string, description: string, files: array<string, string>}> The examples, empty when there are none.
 	 */
@@ -79,9 +79,15 @@ final class Examples
 		}
 
 		return array_map(
-			function ( array $entry ) use ( $component, $index ): array {
-				if ( 1 !== preg_match( '/^[a-z][a-z0-9]*(-[a-z0-9]+)*$/', (string) ( $entry['id'] ?? '' ) ) ) {
-					throw new InvalidArgumentException( sprintf( '%s: example id %s must be kebab-case', $index, (string) json_encode( $entry['id'] ?? null ) ) );
+			function ( mixed $entry ) use ( $component, $index ): array {
+				$id = is_array( $entry ) ? ( $entry['id'] ?? null ) : null;
+				if ( ! is_string( $id ) || 1 !== preg_match( '/^[a-z][a-z0-9]*(-[a-z0-9]+)*$/', $id ) ) {
+					throw new InvalidArgumentException( sprintf( '%s: example id %s must be kebab-case', $index, (string) json_encode( $id ) ) );
+				}
+				foreach ( [ 'title', 'description' ] as $field ) {
+					if ( ! is_string( $entry[ $field ] ?? null ) ) {
+						throw new InvalidArgumentException( sprintf( '%s: example %s needs a string %s', $index, $id, $field ) );
+					}
 				}
 
 				$files = [];

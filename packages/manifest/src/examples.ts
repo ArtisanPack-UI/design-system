@@ -51,6 +51,11 @@ export function loadExamples(name: string, dir: string = examplesDir): Component
         `${index}: example id ${JSON.stringify(entry?.id)} must be kebab-case`,
       );
     }
+    for (const field of ['title', 'description'] as const) {
+      if (typeof entry[field] !== 'string') {
+        throw new ManifestLoadError(`${index}: example ${entry.id} needs a string ${field}`);
+      }
+    }
     const files: Partial<Record<Stack, string>> = {};
     for (const stack of STACKS) {
       const file = join(dir, name, `${entry.id}${EXAMPLE_EXTENSIONS[stack]}`);

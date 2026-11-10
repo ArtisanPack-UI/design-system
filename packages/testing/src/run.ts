@@ -13,7 +13,7 @@ import {
   type Stack,
 } from '@artisanpack-ui/manifest';
 import { build } from 'esbuild';
-import { type Browser, chromium } from 'playwright';
+import { type Browser, chromium, type Page } from 'playwright';
 
 import { checkManifestA11y } from './a11y';
 import { type AxeViolation, runAxe } from './axe';
@@ -186,41 +186,52 @@ export async function runGates(
         const scripts = (stackConfig.scripts ?? []).map((f) => readFileSync(f, 'utf8'));
 
         for (const sheet of sheets) {
-          const source = await sheetSource(stack, stackConfig, manifest, sheet, hosts);
-          if (typeof source === 'string') {
-            report.problems.push(source);
-            continue;
-          }
-          log(`${manifest.name} ${stack} ${sheet.id}`);
-          const { page, errors } = await openSheet(browser, {
-            sheet,
-            source,
-            css,
-            scripts,
-            rootClass: manifest.rootClass,
-          });
-          const axe = config.axe === false ? [] : await runAxe(page);
-          const a11y = await checkManifestA11y(page, manifest);
-          const png = await screenshotSheet(page);
-          await page.close();
+          // One sheet that fails to bundle, render or check is a problem, not a crash:
+          // the run goes on and still writes its report.
+          let page: Page | undefined;
+          try {
+            const source = await sheetSource(stack, stackConfig, manifest, sheet, hosts);
+            if (typeof source === 'string') {
+              report.problems.push(source);
+              continue;
+            }
+            log(`${manifest.name} ${stack} ${sheet.id}`);
+            const opened = await openSheet(browser, {
+              sheet,
+              source,
+              css,
+              scripts,
+              rootClass: manifest.rootClass,
+            });
+            page = opened.page;
+            const axe = config.axe === false ? [] : await runAxe(page);
+            const a11y = await checkManifestA11y(page, manifest);
+            const png = await screenshotSheet(page);
 
-          const screenshot = join(config.out, stack, manifest.name, `${sheet.id}.png`);
-          write(screenshot, png);
-          const result: SheetResult = {
-            component: manifest.name,
-            stack,
-            sheet: sheet.id,
-            screenshot,
-            baseline: 'match',
-            diffPixels: 0,
-            axe,
-            a11y,
-            errors,
-          };
-          compareBaseline(result, png, config, options);
-          report.sheets.push(result);
-          if (!shots.has(sheet.id)) shots.set(sheet.id, new Map());
-          shots.get(sheet.id)!.set(stack, png);
+            const screenshot = join(config.out, stack, manifest.name, `${sheet.id}.png`);
+            write(screenshot, png);
+            const result: SheetResult = {
+              component: manifest.name,
+              stack,
+              sheet: sheet.id,
+              screenshot,
+              baseline: 'match',
+              diffPixels: 0,
+              axe,
+              a11y,
+              errors: opened.errors,
+            };
+            compareBaseline(result, png, config, options);
+            report.sheets.push(result);
+            if (!shots.has(sheet.id)) shots.set(sheet.id, new Map());
+            shots.get(sheet.id)!.set(stack, png);
+          } catch (error) {
+            report.problems.push(
+              `${manifest.name} ${stack} ${sheet.id}: ${(error as Error).message.split('\n')[0]}`,
+            );
+          } finally {
+            await page?.close();
+          }
         }
       }
 

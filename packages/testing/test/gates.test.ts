@@ -106,6 +106,26 @@ registerReactHost({ Probe: BrokenProbe });`,
     expect(readFileSync(join(out, 'report.md'), 'utf8')).toContain('react vs vue differ by');
   });
 
+  it('records a sheet that fails to render and still writes the report', async () => {
+    const out = tmp();
+    const unregistered = join(out, 'unregistered-host.tsx');
+    writeFileSync(
+      unregistered,
+      `import { registerReactHost } from ${JSON.stringify(join(__dirname, '../src/hosts/react'))};
+registerReactHost({});`,
+    );
+    const report = await runGates(
+      config(out, { react: { host: unregistered }, vue: { host: join(reference, 'vue/host.ts') } }),
+    );
+    expect(report.ok).toBe(false);
+    expect(report.sheets.filter((s) => s.stack === 'react')).toEqual([]);
+    expect(report.sheets.filter((s) => s.stack === 'vue').length).toBeGreaterThan(0);
+    expect(report.problems).toEqual(
+      expect.arrayContaining([expect.stringMatching(/^Probe react light: .*Probe/)]),
+    );
+    expect(existsSync(join(out, 'report.json'))).toBe(true);
+  });
+
   it('reports a stack it cannot render', async () => {
     const out = tmp();
     const report = await runGates(

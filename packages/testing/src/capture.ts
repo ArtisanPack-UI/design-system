@@ -56,24 +56,30 @@ export async function openSheet(browser: Browser, options: OpenSheetOptions): Pr
     if (message.type() === 'error' || message.type() === 'warning') errors.push(message.text());
   });
 
-  const html = fixturePage({
-    sheet,
-    css,
-    scripts: source.kind === 'host' ? [...scripts, source.script] : scripts,
-    body: source.kind === 'html' ? source.html : '',
-  });
-  await page.setContent(html, { waitUntil: 'load' });
-  if (source.kind === 'host') {
-    await page.waitForFunction(() => window.apuiFixture !== undefined);
-    await page.evaluate(
-      ([s, name]) => window.apuiFixture!.render(s as FixtureSheet, name as string),
-      [sheet, source.component] as const,
-    );
+  // The caller closes the page, but only once it has it: close it on a failed render.
+  try {
+    const html = fixturePage({
+      sheet,
+      css,
+      scripts: source.kind === 'host' ? [...scripts, source.script] : scripts,
+      body: source.kind === 'html' ? source.html : '',
+    });
+    await page.setContent(html, { waitUntil: 'load' });
+    if (source.kind === 'host') {
+      await page.waitForFunction(() => window.apuiFixture !== undefined);
+      await page.evaluate(
+        ([s, name]) => window.apuiFixture!.render(s as FixtureSheet, name as string),
+        [sheet, source.component] as const,
+      );
+    }
+    await page.evaluate(() => document.fonts.ready);
+    await settle(page);
+    await forceStates(page, rootClass);
+    await settle(page);
+  } catch (error) {
+    await page.close();
+    throw error;
   }
-  await page.evaluate(() => document.fonts.ready);
-  await settle(page);
-  await forceStates(page, rootClass);
-  await settle(page);
   return { page, errors };
 }
 

@@ -10,6 +10,8 @@ export default defineConfig([
     sourcemap: true,
     // The runner finds the manifests and fixtures from import.meta.url, in the CJS build too.
     shims: true,
+    // pixelmatch 8 is ESM-only; bundle it so the CJS entry needn't require() an ES module.
+    noExternal: ['pixelmatch'],
     target: 'es2020',
     outExtension: ({ format }) => ({ js: format === 'cjs' ? '.cjs' : '.mjs' }),
   },
