@@ -78,6 +78,8 @@ it( 'reads dispatched events and value binding, and nothing looser', function ()
 		->toBe( [ 'wire:model' ] );
 	expect( ManifestParity::dispatchedEvents( [ '<input id="{{ $attributes->get( \'id\' ) }}" /><div {{ $attributes }}></div>' ] ) )
 		->toBe( [] );
+	expect( ManifestParity::dispatchedEvents( [ '<input @class( [ \'is-invalid\' => $invalid ] ) {{ $attributes->except( \'class\' ) }} />' ] ) )
+		->toBe( [ 'wire:model' ] );
 } );
 
 it( 'reports a root that disappears with the parts props', function (): void {

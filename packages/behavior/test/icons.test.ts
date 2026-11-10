@@ -6,6 +6,7 @@ import {
   iconSvg,
   registerIcons,
   resetIcons,
+  isSafeIconBody,
   resolveIcon,
   UnsafeIconError,
 } from '../src/icons';
@@ -56,9 +57,26 @@ describe('icon registry (D-017)', () => {
     ['image', '<image href="x" />'],
     ['javascript url', '<path d="javascript:alert(1)" />'],
     ['style', '<style>*{}</style>'],
+    ['handler after a slash', '<path/onmouseover=alert(1) />'],
+    ['handler after a quote', '<path d="M0 0"onclick=alert(1) />'],
+    ['animate', '<animate attributeName="href" values="javascript:alert(1)" />'],
+    ['set', '<set attributeName="href" to="x" />'],
+    ['entity-encoded scheme', '<path d="java&#115;cript:x" />'],
+    ['style attribute', '<path style="fill:red" d="M1 1" />'],
+    ['comment', '<!-- x --><path d="M1 1" />'],
+    ['text', '<text>hi</text>'],
   ])('rejects unsafe markup: %s', (_label, body) => {
     expect(() => registerIcons({ bad: body })).toThrow(UnsafeIconError);
     expect(resolveIcon('bad')).toBeUndefined();
+  });
+
+  it('accepts every default icon and every allowed shape', () => {
+    for (const body of Object.values(defaultIcons)) expect(isSafeIconBody(body)).toBe(true);
+    expect(
+      isSafeIconBody(
+        '<g><polygon points="1 1 2 2" /><ellipse cx="1" cy="1" rx="1" ry="1" /></g><rect width="1" height="1" />',
+      ),
+    ).toBe(true);
   });
 
   it('registers nothing when any body in the set is unsafe', () => {

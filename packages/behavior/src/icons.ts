@@ -31,13 +31,41 @@ const registry: Map<string, string> = (globalStore[REGISTRY_KEY] ??= new Map(
   Object.entries(defaultIcons),
 ));
 
+/** The only elements an icon body may contain: static SVG shapes. */
+export const ICON_SHAPE_TAGS = Object.freeze([
+  'path',
+  'circle',
+  'rect',
+  'line',
+  'polyline',
+  'polygon',
+  'ellipse',
+  'g',
+] as const);
+
 /**
- * Markup an icon body must not contain. Every stack injects bodies as HTML
- * (`dangerouslySetInnerHTML`, `innerHTML`, `{!! !!}`), so these would run
- * script or pull in outside content.
+ * Attribute-level markup an icon body must not contain: event handlers (after
+ * any separator a parser accepts), links, inline styles, character references
+ * (which could spell a scheme) and script-capable URL schemes.
  */
-const UNSAFE_MARKUP =
-  /<\s*\/?\s*(script|style|foreignObject|iframe|object|embed|image|use|a)\b|\son[a-z]+\s*=|(javascript|vbscript|data)\s*:/i;
+const UNSAFE_ATTRIBUTES =
+  /[\s/"'](on[a-z]+|href|xlink:href|style)\s*=|&|(javascript|vbscript|data)\s*:/i;
+
+/**
+ * Whether a body is safe to inject: every element is an allowed shape tag and
+ * no attribute can run script or load anything. Every stack injects bodies as
+ * HTML (`dangerouslySetInnerHTML`, `innerHTML`, `{!! !!}`), so this is an
+ * allowlist rather than a denylist. Livewire UI Components applies the same
+ * rules in PHP (D-017).
+ */
+export function isSafeIconBody(body: unknown): body is string {
+  if (typeof body !== 'string' || UNSAFE_ATTRIBUTES.test(body)) return false;
+  const shapes: readonly string[] = ICON_SHAPE_TAGS;
+  for (const match of body.matchAll(/<\s*\/?\s*([^\s/>]*)/g)) {
+    if (!shapes.includes((match[1] ?? '').toLowerCase())) return false;
+  }
+  return !/<\s*[!?]/.test(body);
+}
 
 /** Thrown by `registerIcons` for a body that could run script. */
 export class UnsafeIconError extends Error {
@@ -49,14 +77,15 @@ export class UnsafeIconError extends Error {
  *
  * Bodies are injected as markup in every stack, so register trusted, static
  * SVG shapes only (path, circle, rect, line, polyline, polygon, ellipse, g),
- * never user or CMS input. Bodies with script, event handlers, external
- * references or `javascript:` URLs are rejected.
+ * never user or CMS input. Any other element, event handlers, links, inline
+ * styles, character references and `javascript:`, `vbscript:` or `data:`
+ * URLs are rejected (`isSafeIconBody`).
  *
  * @throws {UnsafeIconError} When a body contains unsafe markup.
  */
 export function registerIcons(icons: IconSet): void {
   for (const [name, body] of Object.entries(icons)) {
-    if (typeof body !== 'string' || UNSAFE_MARKUP.test(body)) {
+    if (!isSafeIconBody(body)) {
       throw new UnsafeIconError(
         `Icon "${name}" was not registered: icon bodies must be static SVG shapes (D-017)`,
       );

@@ -4,6 +4,9 @@
  *
  * One-off colors go through the override hooks, not the color prop:
  *   style="--apui-button-bg: #7c3aed; --apui-button-fg: #fff"
+ * Set --apui-button-bg-hover for the solid hover color; without it a solid
+ * button with a one-off background keeps that color on hover instead of
+ * switching to the theme's hover color.
  */
 @layer apui.components {
   .apui-button {
@@ -194,7 +197,7 @@
   }
 
   .apui-button[data-variant='solid']:not(:disabled, [aria-disabled='true']):hover {
-    background-color: var(--apui-button-bg-hover, var(--apui-_solid-hover));
+    background-color: var(--apui-button-bg-hover, var(--apui-button-bg, var(--apui-_solid-hover)));
   }
 
   .apui-button[data-variant='soft'] {

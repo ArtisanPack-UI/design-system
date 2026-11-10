@@ -412,8 +412,10 @@ final class ManifestParity
 	}
 
 	/**
-	 * Replaces every `{{ … }}` echo and every `->` with placeholders, so a tag
-	 * regex isn't cut short by the `>` in `$errors->has()`. An echo of the
+	 * Replaces every `{{ … }}` echo and every `->`, `=>` and `>=` with
+	 * placeholders, so a tag regex isn't cut short by the `>` in
+	 * `$errors->has()` or `@class( [ 'x' => $y ] )`. A bare `>` comparison in a
+	 * directive inside a tag still ends the scan. An echo of the
 	 * component's attributes becomes `__APUI_ATTRIBUTES__`; reads such as
 	 * `$attributes->get( 'id' )` don't count.
 	 *
@@ -435,7 +437,7 @@ final class ManifestParity
 			$source,
 		);
 
-		return str_replace( '->', '__APUI_ARROW__', $masked );
+		return str_replace( [ '->', '=>', '>=' ], '__APUI_ARROW__', $masked );
 	}
 
 	/**

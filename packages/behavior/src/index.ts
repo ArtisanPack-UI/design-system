@@ -34,7 +34,9 @@ export {
 } from './widgets/combobox';
 export {
   defaultIcons,
+  ICON_SHAPE_TAGS,
   ICON_SVG_ATTRIBUTES,
+  isSafeIconBody,
   iconNames,
   iconSvg,
   registerIcons,
