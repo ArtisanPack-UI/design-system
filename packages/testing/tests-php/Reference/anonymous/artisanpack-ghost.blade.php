@@ -1,0 +1,3 @@
+{{-- An anonymous Probe: same markup, no class, so its declared API can't be read. --}}
+@props( [ 'variant' => 'solid', 'color' => 'primary', 'size' => 'md', 'disabled' => false, 'loading' => false, 'leadingIcon' => null ] )
+<button type="button" class="apui-probe" data-variant="{{ $variant }}" data-color="{{ $color }}" data-size="{{ $size }}" @if ( $disabled ) disabled data-disabled @endif @if ( $loading ) aria-busy="true" @endif>@if ( $leadingIcon )<span data-scope="probe" data-part="icon" aria-hidden="true"></span>@endif<span data-scope="probe" data-part="label">{{ $slot }}</span>@if ( $loading )<span data-scope="probe" data-part="spinner" aria-hidden="true"></span>@endif</button>

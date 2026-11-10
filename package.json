@@ -9,6 +9,7 @@
     "packages/css",
     "packages/behavior",
     "packages/manifest",
+    "packages/testing",
     "apps/playground"
   ],
   "engines": {

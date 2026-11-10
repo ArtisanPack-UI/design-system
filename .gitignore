@@ -6,3 +6,11 @@ coverage/
 
 # Figma connector scripts from `npm run figma:chunks`.
 packages/tokens/.figma-chunks
+
+# Composer (the PHP kit in composer.json).
+vendor/
+composer.lock
+.phpunit.cache/
+
+# apui-gates output.
+packages/testing/build/

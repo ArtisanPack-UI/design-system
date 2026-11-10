@@ -1,0 +1,123 @@
+{
+  "name": "@artisanpack-ui/testing",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Quality gates for ArtisanPack UI components: manifest fixtures, cross-stack visual regression, axe and API parity checks for Livewire, React and Vue.",
+  "license": "MIT",
+  "author": "Jacob Martella <me@jacobmartella.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ArtisanPack-UI/design-system.git",
+    "directory": "packages/testing"
+  },
+  "bugs": {
+    "url": "https://github.com/ArtisanPack-UI/design-system/issues"
+  },
+  "homepage": "https://github.com/ArtisanPack-UI/design-system/tree/main/packages/testing#readme",
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./react": {
+      "import": {
+        "types": "./dist/react.d.ts",
+        "default": "./dist/react.mjs"
+      },
+      "require": {
+        "types": "./dist/react.d.cts",
+        "default": "./dist/react.cjs"
+      }
+    },
+    "./vue": {
+      "import": {
+        "types": "./dist/vue.d.ts",
+        "default": "./dist/vue.mjs"
+      },
+      "require": {
+        "types": "./dist/vue.d.cts",
+        "default": "./dist/vue.cjs"
+      }
+    },
+    "./react-host": {
+      "types": "./dist/react-host.d.ts",
+      "default": "./dist/react-host.mjs"
+    },
+    "./vue-host": {
+      "types": "./dist/vue-host.d.ts",
+      "default": "./dist/vue-host.mjs"
+    },
+    "./generated/fixtures/*": "./generated/fixtures/*",
+    "./php/*": "./php/*",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "apui-gates": "./bin/apui-gates.mjs"
+  },
+  "files": [
+    "dist",
+    "bin",
+    "generated",
+    "baselines",
+    "php",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "fixtures": "node scripts/build-fixtures.mjs",
+    "fixtures:check": "node scripts/build-fixtures.mjs --check",
+    "build": "tsup && npm run fixtures:check",
+    "test": "vitest run",
+    "type-check": "tsc --noEmit",
+    "gates": "npm run gates:blade && node bin/apui-gates.mjs check --config test/reference/apui-gates.config.json",
+    "gates:blade": "node bin/apui-gates.mjs fixtures Probe --manifests test/reference/manifests --out build/fixtures && php test/reference/render-blade.php build/fixtures build/gates/html/livewire"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@artisanpack-ui/manifest": "*",
+    "@artisanpack-ui/tokens": "*",
+    "axe-core": "~4.14.0",
+    "esbuild": "^0.28.2",
+    "happy-dom": "^21.0.4",
+    "pixelmatch": "^8.0.0",
+    "pngjs": "^7.0.0"
+  },
+  "devDependencies": {
+    "@types/pngjs": "^6.0.5",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "vue": "^3.5.45"
+  },
+  "peerDependencies": {
+    "playwright": "^1.64.0",
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0",
+    "vue": "^3.5.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    },
+    "vue": {
+      "optional": true
+    }
+  }
+}
