@@ -178,6 +178,18 @@ export function figmaPayload(base, presets) {
     ...[...presets].map(([name, model]) => [modeLabel(name), model]),
   ];
   const types = new Map([...base.tokens.values()].map((e) => [e.path, figmaType(base, e)]));
+  // A variable has one type in every mode, so a preset can't change it (a
+  // dimension from px to em, say).
+  for (const [name, model] of presets) {
+    for (const entry of model.tokens.values()) {
+      const type = figmaType(model, entry);
+      if (type !== types.get(entry.path)) {
+        throw new Error(
+          `Preset "${name}" makes ${entry.path} a ${type} in Figma, but it is a ${types.get(entry.path)} in the source. A Figma variable has one type in every mode.`,
+        );
+      }
+    }
+  }
   const changedByPreset = new Set();
   for (const model of presets.values()) {
     for (const path of presetChanges(base, model).changed) changedByPreset.add(path);
@@ -348,7 +360,7 @@ export function figmaChunks(base, presets, { limit = 45000 } = {}) {
 
   const encodeValue = (type, value) => {
     if (value && typeof value === 'object' && 'alias' in value) {
-      return `=${index[value.alias.collection]}${value.alias.name}`;
+      return `=${index[value.alias.collection]}:${value.alias.name}`;
     }
     if (typeof value === 'string' && value.startsWith('=')) return `=${value}`;
     return type === 'COLOR' ? compactColor(value) : value;

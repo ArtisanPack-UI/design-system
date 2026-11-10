@@ -79,14 +79,19 @@ function authoredIds(root: Element): Record<string, string> {
         visit(el.content, (inner) => inner.closest('[x-data]') !== null);
         continue;
       }
-      if (!el.id) continue;
-      for (const { name } of Array.from(el.attributes)) {
-        if (!name.startsWith('x-apui:')) continue;
-        const part = name.slice('x-apui:'.length);
-        if (part !== 'item' && !part.startsWith('item-')) ids[camel(part)] = el.id;
-      }
+      collect(el);
     }
   };
+  const collect = (el: Element) => {
+    if (!el.id) return;
+    for (const { name } of Array.from(el.attributes)) {
+      if (!name.startsWith('x-apui:')) continue;
+      const part = name.slice('x-apui:'.length);
+      if (part !== 'item' && !part.startsWith('item-')) ids[camel(part)] = el.id;
+    }
+  };
+  // The component's own element can be a part too (x-apui:root).
+  collect(root);
   visit(root, (el) => el.closest('[x-data]') !== root);
   return ids;
 }
@@ -221,6 +226,7 @@ function comboboxComponent(options: ComboboxOptions = {}) {
   let widget: Widget<ComboboxProps, ComboboxApi> | undefined;
   const items = new Map<Element, ComboboxItem>();
   let visible: ComboboxItem[] = [];
+  let shown = new Set<ComboboxItem>();
   let query = '';
   let scheduled = false;
   let root: HTMLElement | undefined;
@@ -264,7 +270,8 @@ function comboboxComponent(options: ComboboxOptions = {}) {
         inputBehavior: 'autohighlight',
         openOnClick: true,
         selectionBehavior: multiple ? 'clear' : 'replace',
-        positioning: { ...zagPositioning(el, options.positioning), sameWidth: true },
+        // The listbox is as wide as the control unless the options say otherwise.
+        positioning: zagPositioning(el, { sameWidth: true, ...options.positioning }),
         onValueChange: ({ value }) => {
           const next = multiple ? value : (value[0] ?? null);
           if (!sameValue(this.value, next)) this.value = next;
@@ -311,7 +318,7 @@ function comboboxComponent(options: ComboboxOptions = {}) {
         schedule();
         const unbind = widget.bind(el, (api) => ({
           ...api.getItemProps({ item }),
-          hidden: options.remote || visible.includes(item) ? undefined : true,
+          hidden: options.remote || shown.has(item) ? undefined : true,
         }));
         return () => {
           unbind();
@@ -320,19 +327,23 @@ function comboboxComponent(options: ComboboxOptions = {}) {
         };
       }
       if (part === 'item-text' || part === 'item-indicator') {
-        const owner = el.closest('[data-part="item"]');
-        const item = owner && items.get(owner);
-        if (!item) return () => {};
-        return widget.bind(el, (api) =>
-          partProps(api as unknown as Record<string, unknown>, 'combobox', part, { item }),
-        );
+        const owner = el.closest('[x-apui\\:item]');
+        if (!owner) return () => {};
+        // Looked up on every apply: the item changes when its expression does.
+        return widget.bind(el, (api) => {
+          const item = items.get(owner);
+          return item
+            ? partProps(api as unknown as Record<string, unknown>, 'combobox', part, { item })
+            : {};
+        });
       }
       if (part === 'empty') {
-        // Not a machine part: shown when no item matches.
+        // Not a machine part: shown when no item matches. Screen readers hear
+        // the machine's own results announcement (`translations.noResults`),
+        // so this isn't a live region.
         return widget.bind(el, () => ({
           'data-scope': 'combobox',
           'data-part': 'empty',
-          role: 'status',
           hidden: visible.length ? true : undefined,
         }));
       }
@@ -364,6 +375,7 @@ function comboboxComponent(options: ComboboxOptions = {}) {
       )
       .map(([, item]) => item);
     visible = options.remote ? ordered : filterItems(ordered, query);
+    shown = new Set(visible);
     widget.setProps({ collection: createCollection(visible) });
   }
 
@@ -387,12 +399,17 @@ function comboboxComponent(options: ComboboxOptions = {}) {
   }
 }
 
-/** An item from its directive's expression, defaulting the label to the text. */
+/**
+ * An item from its directive's expression. The label defaults to the
+ * `item-text` part's text, or the item's own text when it has none, so an
+ * indicator (a checkmark) never ends up in the label.
+ */
 function toItem(el: Element, args: PartArgs): ComboboxItem {
-  const value = args?.value ?? el.getAttribute('data-value') ?? el.textContent?.trim() ?? '';
+  const text = (el.querySelector('[x-apui\\:item-text]') ?? el).textContent?.trim();
+  const value = args?.value ?? el.getAttribute('data-value') ?? text ?? '';
   return {
     value: String(value),
-    label: String(args?.label ?? el.textContent?.trim() ?? value),
+    label: String(args?.label ?? text ?? value),
     disabled: Boolean(args?.disabled),
   };
 }

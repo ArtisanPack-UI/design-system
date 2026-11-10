@@ -6,10 +6,16 @@
 import { keepClientState } from '../core/morph';
 import apuiBehavior from './index';
 
+/**
+ * Marks registration. A symbol, not a named property, so page markup can't
+ * fake it through DOM clobbering (`<img name="…">`) and stop the plugin loading.
+ */
+const REGISTERED = Symbol.for('artisanpack-ui.behavior');
+
 type AlpineWindow = Window & {
   Alpine?: Parameters<typeof apuiBehavior>[0];
   ApuiBehavior?: { keepClientState: typeof keepClientState };
-  __apuiBehavior?: boolean;
+  [REGISTERED]?: boolean;
 };
 
 const host = window as AlpineWindow;
@@ -18,8 +24,8 @@ const host = window as AlpineWindow;
 host.ApuiBehavior = { keepClientState };
 
 function register() {
-  if (host.__apuiBehavior || !host.Alpine) return;
-  host.__apuiBehavior = true;
+  if (host[REGISTERED] || !host.Alpine) return;
+  host[REGISTERED] = true;
   host.Alpine.plugin(apuiBehavior);
 }
 

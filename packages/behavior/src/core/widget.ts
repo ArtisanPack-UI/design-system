@@ -12,8 +12,9 @@
  * conventions (#21).
  */
 import type { Machine, MachineSchema, Service } from '@zag-js/core';
-import { normalizeProps, VanillaMachine } from '@zag-js/vanilla';
+import { mergeProps, normalizeProps, VanillaMachine } from '@zag-js/vanilla';
 
+import { effectStyles } from './morph';
 import { applyProps, type Attrs, hasProps, removeProps } from './props';
 
 /** Turns props into DOM attributes, the way each stack expects. */
@@ -42,18 +43,44 @@ export interface Widget<Props, Api> {
   /**
    * Keeps `node` in sync with `attrs(api)`: after every state change, and
    * whenever something else rewrites its attributes, such as a server
-   * re-render morphing the DOM. Returns an unbind function.
+   * re-render morphing the DOM. A node can carry several parts, of one widget
+   * or several (a Tooltip on a Dialog trigger); their props are merged as
+   * Zag's `mergeProps` does. Returns an unbind function.
    */
   bind(node: Element, attrs: (api: Api) => Attrs): () => void;
 }
 
-/** Re-adds declarations from `previous` (a style attribute) that the node lost. */
+// ---------------------------------------------------------------------------
+// Bound nodes. Every source bound to a node is merged and applied together,
+// with one observer, so two parts on one element can't undo each other's
+// writes and re-apply forever.
+
+/** Counts renders across all widgets, to tell machine effects from outside changes. */
+let renders = 0;
+
+/** Re-applies allowed per node before the next task, in case something outside fights back. */
+const REAPPLY_LIMIT = 25;
+
+interface Source {
+  attrs(): Attrs;
+}
+
+interface NodeState {
+  sources: Set<Source>;
+  observer: MutationObserver;
+  last: Attrs;
+  seen: number;
+  reapplies: number;
+}
+
+const nodes = new WeakMap<Element, NodeState>();
+
+/** Re-adds effect-owned declarations from `previous` (a style attribute) that the node lost. */
 function restoreStyle(node: HTMLElement, previous: string | null): void {
   if (!previous || !node.style) return;
   const probe = document.createElement('div').style;
   probe.cssText = previous;
-  for (let i = 0; i < probe.length; i++) {
-    const property = probe.item(i);
+  for (const property of effectStyles(probe)) {
     if (!node.style.getPropertyValue(property)) {
       node.style.setProperty(
         property,
@@ -64,10 +91,67 @@ function restoreStyle(node: HTMLElement, previous: string | null): void {
   }
 }
 
-interface Binding {
-  apply(): void;
-  dispose(): void;
+function applyNode(node: Element): void {
+  const state = nodes.get(node);
+  if (!state) return;
+  state.last = mergeProps(...[...state.sources].map((source) => source.attrs())) as Attrs;
+  applyProps(node, state.last);
+  state.observer.takeRecords();
 }
+
+function watch(node: Element): NodeState {
+  const observer = new MutationObserver((records) => {
+    const current = nodes.get(node);
+    if (!current) return;
+    // Our own writes are taken off the queue in applyNode(), so anything left
+    // came from a machine's effects or from outside.
+    if (current.seen !== renders) {
+      // A machine re-rendered since: these are its effects (a layer's
+      // pointer-events on open, their removal on close). Accept them.
+      current.seen = renders;
+    } else {
+      // Nothing changed state, so something outside rewrote the node: a
+      // morph. Put back inline styles the machine's effects had set.
+      const before = records.find((record) => record.attributeName === 'style');
+      if (before) restoreStyle(node as HTMLElement, before.oldValue);
+    }
+    if (hasProps(node, current.last)) {
+      observer.takeRecords();
+      return;
+    }
+    if (current.reapplies++ === 0) setTimeout(() => (current.reapplies = 0));
+    if (current.reapplies > REAPPLY_LIMIT) {
+      console.warn(
+        '[apui] Something keeps rewriting the attributes a behavior part owns; stopped re-applying them until the next task.',
+        node,
+      );
+      return;
+    }
+    applyNode(node);
+  });
+  const state: NodeState = { sources: new Set(), observer, last: {}, seen: renders, reapplies: 0 };
+  nodes.set(node, state);
+  observer.observe(node, { attributes: true, attributeOldValue: true });
+  return state;
+}
+
+function bindNode(node: Element, source: Source): () => void {
+  const state = nodes.get(node) ?? watch(node);
+  state.sources.add(source);
+  applyNode(node);
+  return () => {
+    state.sources.delete(source);
+    if (state.sources.size) {
+      applyNode(node);
+      return;
+    }
+    state.observer.disconnect();
+    removeProps(node);
+    nodes.delete(node);
+  };
+}
+
+// ---------------------------------------------------------------------------
 
 /**
  * Creates a widget. `props` are the machine's props and must include a unique
@@ -78,18 +162,17 @@ export function createWidget<Schema extends MachineSchema, Api>(
   props: Partial<Schema['props']> & { id: string },
 ): Widget<Schema['props'], Api> {
   const machine = new VanillaMachine(definition.machine, props);
-  const bindings = new Set<Binding>();
+  /** Nodes this widget has a source on, with the function that removes it. */
+  const bound = new Map<Source, { node: Element; unbind: () => void }>();
   const listeners = new Set<(api: Api) => void>();
   let current: Api | undefined;
   let running = false;
-  /** Counts renders, so bindings can tell machine effects from outside changes. */
-  let generation = 0;
 
   const connect = () => definition.connect(machine.service, normalizeProps);
   const render = () => {
-    generation++;
+    renders++;
     current = connect();
-    for (const binding of bindings) binding.apply();
+    for (const node of new Set([...bound.values()].map((entry) => entry.node))) applyNode(node);
     for (const listener of listeners) listener(current);
   };
 
@@ -108,7 +191,7 @@ export function createWidget<Schema extends MachineSchema, Api>(
     stop() {
       if (!running) return;
       running = false;
-      for (const binding of [...bindings]) binding.dispose();
+      for (const { unbind } of [...bound.values()]) unbind();
       unsubscribe?.();
       listeners.clear();
       machine.stop();
@@ -121,40 +204,14 @@ export function createWidget<Schema extends MachineSchema, Api>(
       return () => listeners.delete(fn);
     },
     bind(node, attrs) {
-      let last: Attrs = {};
-      let seen = generation;
-      const observer = new MutationObserver((records) => {
-        // Our own writes are taken off the queue in apply(), so anything left
-        // came from the machine's effects or from outside.
-        if (seen !== generation) {
-          // The machine re-rendered since: these are its effects (a layer's
-          // pointer-events on open, their removal on close). Accept them.
-          seen = generation;
-        } else {
-          // Nothing changed state, so something outside rewrote the node: a
-          // morph. Put back inline styles the machine's effects had set.
-          const before = records.find((record) => record.attributeName === 'style');
-          if (before) restoreStyle(node as HTMLElement, before.oldValue);
-        }
-        if (!hasProps(node, last)) binding.apply();
-        else observer.takeRecords();
-      });
-      const binding: Binding = {
-        apply() {
-          last = attrs(current ?? connect());
-          applyProps(node, last, props.id);
-          observer.takeRecords();
-        },
-        dispose() {
-          observer.disconnect();
-          removeProps(node, props.id);
-          bindings.delete(binding);
-        },
+      const source: Source = { attrs: () => attrs(current ?? connect()) };
+      const release = bindNode(node, source);
+      const unbind = () => {
+        if (!bound.delete(source)) return;
+        release();
       };
-      bindings.add(binding);
-      binding.apply();
-      observer.observe(node, { attributes: true, attributeOldValue: true });
-      return () => binding.dispose();
+      bound.set(source, { node, unbind });
+      return unbind;
     },
   };
 }

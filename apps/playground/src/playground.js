@@ -324,8 +324,10 @@
 
   function renderOverrides() {
     const lines = [...state.overrides].map(([path, value]) => `  ${cssVar(path)}: ${value};`);
+    // Overrides apply in every theme and preset as written, so say where they were made.
+    const context = `/* Made with preset ${state.preset || 'Strata'}, theme ${state.theme}, density ${state.density}. As written, these apply in every theme. */`;
     document.getElementById('pg-overrides').textContent = lines.length
-      ? `:root {\n${lines.join('\n')}\n}`
+      ? `${context}\n:root {\n${lines.join('\n')}\n}`
       : '';
     const count = state.overrides.size;
     document.getElementById('pg-override-count').textContent = count
@@ -737,10 +739,10 @@
             <p class="pg-eyebrow">Orders</p>
             <h3 class="pg-card-title">Recent orders</h3>
           </div>
-          <div class="pg-tabs" role="tablist" aria-label="Order range">
-            <button type="button" role="tab" aria-selected="true" class="pg-tab apui-focus-ring">Week</button>
-            <button type="button" role="tab" aria-selected="false" tabindex="-1" class="pg-tab apui-focus-ring">Month</button>
-            <button type="button" role="tab" aria-selected="false" tabindex="-1" class="pg-tab apui-focus-ring">Year</button>
+          <div class="pg-tabs" role="group" aria-label="Order range">
+            <button type="button" aria-pressed="true" class="pg-tab apui-focus-ring">Week</button>
+            <button type="button" aria-pressed="false" class="pg-tab apui-focus-ring">Month</button>
+            <button type="button" aria-pressed="false" class="pg-tab apui-focus-ring">Year</button>
           </div>
         </div>
         <div class="pg-table-wrap">
@@ -748,7 +750,7 @@
             <thead><tr><th scope="col">Order</th><th scope="col">Customer</th><th scope="col">Status</th><th scope="col" class="pg-num">Total</th></tr></thead>
             <tbody>
               <tr><td><code>#1042</code></td><td>Amira Haddad</td><td><span class="pg-badge" data-color="success">Paid</span></td><td class="pg-num">$248.00</td></tr>
-              <tr aria-selected="true"><td><code>#1041</code></td><td>Leo Park</td><td><span class="pg-badge" data-color="warning">Pending</span></td><td class="pg-num">$92.50</td></tr>
+              <tr data-selected><td><code>#1041</code></td><td>Leo Park</td><td><span class="pg-badge" data-color="warning">Pending</span></td><td class="pg-num">$92.50</td></tr>
               <tr><td><code>#1040</code></td><td>Sofia Rossi</td><td><span class="pg-badge" data-color="error">Failed</span></td><td class="pg-num">$1,310.00</td></tr>
             </tbody>
           </table>
@@ -790,6 +792,14 @@
 
   initControls();
   renderSample();
+  // The sample's segmented control: one pressed button at a time.
+  document.querySelector('.pg-tabs').addEventListener('click', (event) => {
+    const pressed = event.target.closest('.pg-tab');
+    if (!pressed) return;
+    for (const tab of document.querySelectorAll('.pg-tab')) {
+      tab.setAttribute('aria-pressed', String(tab === pressed));
+    }
+  });
   renderColor();
   renderType();
   renderSpace();

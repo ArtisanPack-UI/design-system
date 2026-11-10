@@ -40,14 +40,18 @@ async function apuiSyncVariables(payload, { declare = true, values = true, prune
       collections.set(spec.name, collection);
     }
     const ids = {};
-    spec.modes.forEach((mode, index) => {
+    spec.modes.forEach((mode) => {
       const existing = collection.modes.find((m) => m.name === mode);
       if (existing) {
         ids[mode] = existing.modeId;
         return;
       }
-      // A new collection's only mode is renamed rather than left as "Mode 1".
-      const unused = index === 0 && collection.modes.find((m) => !spec.modes.includes(m.name));
+      // Rename a mode the payload no longer has rather than add one: a new
+      // collection's "Mode 1", or a replaced preset. Figma caps modes per
+      // collection (4 on Professional), so adding first would fail at the cap.
+      const unused = collection.modes.find(
+        (m) => !spec.modes.includes(m.name) && !Object.values(ids).includes(m.modeId),
+      );
       if (unused) {
         collection.renameMode(unused.modeId, mode);
         ids[mode] = unused.modeId;
@@ -155,7 +159,7 @@ async function apuiSyncVariables(payload, { declare = true, values = true, prune
  * - `v`: per collection, variables as `{ n, t, c, d, s, h, v }`: name, type,
  *   custom property, description, scopes, hidden, values.
  * - A value is one value for every mode, or an array in mode order.
- *   `=<collection index><name>` is an alias, `#rrggbb` an opaque color.
+ *   `=<collection index>:<name>` is an alias, `#rrggbb` an opaque color.
  * - `k`: per collection, the names to keep, for the prune step.
  */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars -- called by the chunks
@@ -170,7 +174,14 @@ function apuiExpandChunk(chunk) {
   };
   const decode = (type, value) => {
     if (typeof value === 'string' && value.startsWith('=') && !value.startsWith('==')) {
-      return { alias: { collection: chunk.c[Number(value[1])][0], name: value.slice(2) } };
+      // `=<collection index>:<name>`
+      const colon = value.indexOf(':');
+      return {
+        alias: {
+          collection: chunk.c[Number(value.slice(1, colon))][0],
+          name: value.slice(colon + 1),
+        },
+      };
     }
     if (typeof value === 'string' && value.startsWith('==')) return value.slice(1);
     return literal(type, value);
@@ -255,15 +266,29 @@ async function apuiBuildReferencePage({ pageName = 'Reference' } = {}) {
       .filter((x) => !x.hiddenFromPublishing)
       .map((x) => x.name);
 
-  // Fonts for every preset's families, in every weight the tokens use.
-  const families = [
-    ['Geist', 'Geist Mono'],
-    ['IBM Plex Sans', 'IBM Plex Mono'],
-    ['Hanken Grotesk', 'JetBrains Mono', 'Bricolage Grotesque'],
-  ].flat();
+  // Fonts: every family the font-family variables hold in any preset, in the
+  // weights the type styles use. Text binds to those variables, so each one
+  // has to be loaded before binding.
+  const familyNames = new Set();
+  const visited = new Set();
+  const collect = async (value) => {
+    if (typeof value === 'string') {
+      familyNames.add(value);
+      return;
+    }
+    if (!value || value.type !== 'VARIABLE_ALIAS' || visited.has(value.id)) return;
+    visited.add(value.id);
+    const target = await api.getVariableByIdAsync(value.id);
+    // Every mode: the alias resolves in whichever preset a frame uses.
+    for (const next of Object.values(target?.valuesByMode ?? {})) await collect(next);
+  };
+  for (const variable of variables) {
+    if (variable.resolvedType !== 'STRING' || !variable.scopes.includes('FONT_FAMILY')) continue;
+    for (const value of Object.values(variable.valuesByMode)) await collect(value);
+  }
   const available = await figma.listAvailableFontsAsync();
-  for (const family of families) {
-    for (const style of ['Regular', 'Medium', 'SemiBold']) {
+  for (const family of familyNames) {
+    for (const style of ['Regular', 'Medium', 'SemiBold', 'Bold']) {
       if (available.some((f) => f.fontName.family === family && f.fontName.style === style)) {
         await figma.loadFontAsync({ family, style });
       }

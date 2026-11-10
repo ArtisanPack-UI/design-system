@@ -55,15 +55,29 @@ async function apuiBuildReferencePage({ pageName = 'Reference' } = {}) {
       .filter((x) => !x.hiddenFromPublishing)
       .map((x) => x.name);
 
-  // Fonts for every preset's families, in every weight the tokens use.
-  const families = [
-    ['Geist', 'Geist Mono'],
-    ['IBM Plex Sans', 'IBM Plex Mono'],
-    ['Hanken Grotesk', 'JetBrains Mono', 'Bricolage Grotesque'],
-  ].flat();
+  // Fonts: every family the font-family variables hold in any preset, in the
+  // weights the type styles use. Text binds to those variables, so each one
+  // has to be loaded before binding.
+  const familyNames = new Set();
+  const visited = new Set();
+  const collect = async (value) => {
+    if (typeof value === 'string') {
+      familyNames.add(value);
+      return;
+    }
+    if (!value || value.type !== 'VARIABLE_ALIAS' || visited.has(value.id)) return;
+    visited.add(value.id);
+    const target = await api.getVariableByIdAsync(value.id);
+    // Every mode: the alias resolves in whichever preset a frame uses.
+    for (const next of Object.values(target?.valuesByMode ?? {})) await collect(next);
+  };
+  for (const variable of variables) {
+    if (variable.resolvedType !== 'STRING' || !variable.scopes.includes('FONT_FAMILY')) continue;
+    for (const value of Object.values(variable.valuesByMode)) await collect(value);
+  }
   const available = await figma.listAvailableFontsAsync();
-  for (const family of families) {
-    for (const style of ['Regular', 'Medium', 'SemiBold']) {
+  for (const family of familyNames) {
+    for (const style of ['Regular', 'Medium', 'SemiBold', 'Bold']) {
       if (available.some((f) => f.fontName.family === family && f.fontName.style === style)) {
         await figma.loadFontAsync({ family, style });
       }

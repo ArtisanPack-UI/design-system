@@ -59,7 +59,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@floating-ui/dom": "^1.8.0",
+    "@floating-ui/dom": "~1.8.0",
     "@zag-js/combobox": "~1.47.0",
     "@zag-js/core": "~1.47.0",
     "@zag-js/dialog": "~1.47.0",

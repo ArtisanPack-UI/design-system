@@ -41,14 +41,18 @@ async function apuiSyncVariables(payload, { declare = true, values = true, prune
       collections.set(spec.name, collection);
     }
     const ids = {};
-    spec.modes.forEach((mode, index) => {
+    spec.modes.forEach((mode) => {
       const existing = collection.modes.find((m) => m.name === mode);
       if (existing) {
         ids[mode] = existing.modeId;
         return;
       }
-      // A new collection's only mode is renamed rather than left as "Mode 1".
-      const unused = index === 0 && collection.modes.find((m) => !spec.modes.includes(m.name));
+      // Rename a mode the payload no longer has rather than add one: a new
+      // collection's "Mode 1", or a replaced preset. Figma caps modes per
+      // collection (4 on Professional), so adding first would fail at the cap.
+      const unused = collection.modes.find(
+        (m) => !spec.modes.includes(m.name) && !Object.values(ids).includes(m.modeId),
+      );
       if (unused) {
         collection.renameMode(unused.modeId, mode);
         ids[mode] = unused.modeId;
@@ -156,7 +160,7 @@ async function apuiSyncVariables(payload, { declare = true, values = true, prune
  * - `v`: per collection, variables as `{ n, t, c, d, s, h, v }`: name, type,
  *   custom property, description, scopes, hidden, values.
  * - A value is one value for every mode, or an array in mode order.
- *   `=<collection index><name>` is an alias, `#rrggbb` an opaque color.
+ *   `=<collection index>:<name>` is an alias, `#rrggbb` an opaque color.
  * - `k`: per collection, the names to keep, for the prune step.
  */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars -- called by the chunks
@@ -171,7 +175,14 @@ function apuiExpandChunk(chunk) {
   };
   const decode = (type, value) => {
     if (typeof value === 'string' && value.startsWith('=') && !value.startsWith('==')) {
-      return { alias: { collection: chunk.c[Number(value[1])][0], name: value.slice(2) } };
+      // `=<collection index>:<name>`
+      const colon = value.indexOf(':');
+      return {
+        alias: {
+          collection: chunk.c[Number(value.slice(1, colon))][0],
+          name: value.slice(colon + 1),
+        },
+      };
     }
     if (typeof value === 'string' && value.startsWith('==')) return value.slice(1);
     return literal(type, value);

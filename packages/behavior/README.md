@@ -70,7 +70,9 @@ Without a bundler, load `alpine.global.js` before Livewire's script. A component
 
 `open` and `value` are plain Alpine state, so `$wire.entangle()` binds them to Livewire properties both ways. That's what `wire:model` on the Blade components compiles to. Events report changes the widget makes, like `onOpenChange` in React; setting the bound state doesn't fire them.
 
-Combobox filters its items by label (ignoring case and accents) as you type. With `remote: true` it doesn't: typing updates the entangled `search`, the server renders the matching items, and the combobox picks them up from the morph. `x-apui:empty` shows when no item matches.
+Combobox filters its items by label (ignoring case and accents) as you type. With `remote: true` it doesn't: typing updates the entangled `search`, the server renders the matching items, and the combobox picks them up from the morph. `x-apui:empty` shows when no item matches. It isn't a live region: the machine announces the result count ("3 results", "No results") itself, from `translations.resultsCount` and `translations.noResults`, which the Blade components pass through `__()`. An item's label defaults to the text of its `x-apui:item-text` part, so an indicator never ends up in it.
+
+One element can carry several parts, of one widget or of two (a Tooltip on a DropdownMenu trigger). Their props are merged the way Zag's `mergeProps` does: event handlers all run, and for other attributes the part bound last wins. An element has only one `id`, though, so only one of the parts on a shared element can keep an authored id.
 
 ### Rules for Livewire
 

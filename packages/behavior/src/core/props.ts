@@ -11,10 +11,20 @@
 /** Props as `connect()` returns them through `normalizeProps`. */
 export type Attrs = Record<string, unknown>;
 
-type Listener = EventListener;
+/** The props last applied to each node, for removed keys. */
+const applied = new WeakMap<Element, Attrs>();
 
-/** The last props applied to each node, per machine, for events and removed keys. */
-const applied = new WeakMap<Element, Map<string, Attrs>>();
+interface Handler {
+  current: ((event: Event) => void) | undefined;
+  listener: EventListener;
+}
+
+/**
+ * One listener per node and event, calling the latest handler. `connect()`
+ * returns new handler functions on every render; swapping them here avoids
+ * removing and adding DOM listeners each time.
+ */
+const handlers = new WeakMap<Element, Map<string, Handler>>();
 
 /** Properties that are set on the element rather than as attributes. */
 const PROPERTIES = new Set(['value', 'checked', 'selected']);
@@ -68,55 +78,64 @@ function applyAttribute(node: Element, key: string, value: unknown): void {
 }
 
 /**
- * Applies `attrs` to `node` and returns a function that removes the event
- * listeners it added. `owner` scopes the bookkeeping, so two machines can
- * share a node.
+ * Applies `attrs` to `node`. Attributes the previous call set and these
+ * don't are removed; event handlers are swapped behind one listener per
+ * event. Returns a function that removes the listeners.
  */
-export function applyProps(node: Element, attrs: Attrs, owner = 'default'): () => void {
-  let byOwner = applied.get(node);
-  if (!byOwner) {
-    byOwner = new Map();
-    applied.set(node, byOwner);
-  }
-  const previous = byOwner.get(owner) ?? {};
+export function applyProps(node: Element, attrs: Attrs): () => void {
+  const previous = applied.get(node) ?? {};
 
   for (const [key, value] of Object.entries(previous)) {
-    if (isEvent(key)) {
-      if (attrs[key] !== value) node.removeEventListener(eventName(key), value as Listener);
-    } else if (!(key in attrs) && !SKIPPED.has(key)) {
-      if (key === 'style') applyStyle(node, value, undefined);
-      else applyAttribute(node, key, undefined);
-    }
+    if (isEvent(key) || key in attrs || SKIPPED.has(key)) continue;
+    if (key === 'style') applyStyle(node, value, undefined);
+    else applyAttribute(node, key, undefined);
   }
 
+  let byEvent = handlers.get(node);
+  const events = new Set<string>();
   for (const [key, value] of Object.entries(attrs)) {
     if (SKIPPED.has(key)) continue;
     if (isEvent(key)) {
-      if (typeof value === 'function' && previous[key] !== value) {
-        node.addEventListener(eventName(key), value as Listener);
+      if (typeof value !== 'function') continue;
+      const name = eventName(key);
+      events.add(name);
+      if (!byEvent) {
+        byEvent = new Map();
+        handlers.set(node, byEvent);
       }
+      let handler = byEvent.get(name);
+      if (!handler) {
+        const created: Handler = {
+          current: undefined,
+          listener: (event) => created.current?.(event),
+        };
+        handler = created;
+        byEvent.set(name, handler);
+        node.addEventListener(name, handler.listener);
+      }
+      handler.current = value as (event: Event) => void;
       continue;
     }
     if (key === 'style') applyStyle(node, previous.style, value);
     else applyAttribute(node, key, value);
   }
+  for (const [name, handler] of byEvent ?? []) {
+    if (events.has(name)) continue;
+    node.removeEventListener(name, handler.listener);
+    byEvent!.delete(name);
+  }
 
-  byOwner.set(owner, attrs);
-  return () => removeProps(node, owner);
+  applied.set(node, attrs);
+  return () => removeProps(node);
 }
 
-/** Removes the event listeners `applyProps` added for `owner`. Attributes stay. */
-export function removeProps(node: Element, owner = 'default'): void {
-  const byOwner = applied.get(node);
-  const previous = byOwner?.get(owner);
-  if (!byOwner || !previous) return;
-  for (const [key, value] of Object.entries(previous)) {
-    if (isEvent(key) && typeof value === 'function') {
-      node.removeEventListener(eventName(key), value as Listener);
-    }
+/** Removes the event listeners `applyProps` added. Attributes stay. */
+export function removeProps(node: Element): void {
+  for (const [name, handler] of handlers.get(node) ?? []) {
+    node.removeEventListener(name, handler.listener);
   }
-  byOwner.delete(owner);
-  if (!byOwner.size) applied.delete(node);
+  handlers.delete(node);
+  applied.delete(node);
 }
 
 /**

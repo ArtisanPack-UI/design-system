@@ -22,7 +22,8 @@ const chunks = figmaChunks(base, presets);
 
 mkdirSync(out, { recursive: true });
 for (const name of readdirSync(out)) {
-  if (name.endsWith('.js')) rmSync(join(out, name));
+  // Only files this script writes, so a wrong out-dir loses nothing else.
+  if (/^\d{2}-(declare|values|prune|reference)\.js$/.test(name)) rmSync(join(out, name));
 }
 chunks.forEach((chunk, index) => {
   const file = `${String(index + 1).padStart(2, '0')}-${chunk.step}.js`;

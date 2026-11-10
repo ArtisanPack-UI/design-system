@@ -26,8 +26,8 @@ const MARKERS: Record<string, string> = {
  * version of the same element, so the morph keeps it:
  *
  * - `aria-hidden` and `inert` that a machine set, with their markers.
- * - On behavior parts (`data-scope`), inline style declarations the server
- *   didn't render.
+ * - On behavior parts (`data-scope`), the inline styles machine effects
+ *   write (see `isEffectStyle`), when the server didn't render them.
  *
  * The server's own attributes always win; only what's missing is copied.
  */
@@ -45,8 +45,7 @@ export function keepClientState(from: Element, to: Element): void {
     const source = (from as HTMLElement).style;
     const target = (to as HTMLElement).style;
     if (!source || !target) return;
-    for (let i = 0; i < source.length; i++) {
-      const property = source.item(i);
+    for (const property of effectStyles(source)) {
       if (!target.getPropertyValue(property)) {
         target.setProperty(
           property,
@@ -56,6 +55,27 @@ export function keepClientState(from: Element, to: Element): void {
       }
     }
   }
+}
+
+/**
+ * Whether a machine's effects own an inline style property: `pointer-events`
+ * (a dismissable layer) and custom properties (layer stacking, and the
+ * positioner's `--x`, `--y`, `--reference-width` and friends). Only these are
+ * carried through a morph or restored after one, so the server can still
+ * change or remove its own inline styles, such as a `max-height`.
+ */
+export function isEffectStyle(property: string): boolean {
+  return property === 'pointer-events' || property.startsWith('--');
+}
+
+/** The effect-owned properties in a style declaration. */
+export function effectStyles(style: CSSStyleDeclaration): string[] {
+  const properties: string[] = [];
+  for (let i = 0; i < style.length; i++) {
+    const property = style.item(i);
+    if (isEffectStyle(property)) properties.push(property);
+  }
+  return properties;
 }
 
 interface LivewireLike {

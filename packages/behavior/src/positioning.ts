@@ -73,7 +73,10 @@ export function position(
     sameWidth = false,
   } = options;
 
+  let disposed = false;
+  let sequence = 0;
   const update = async () => {
+    const run = ++sequence;
     const dir = options.dir ?? directionOf(reference);
     const result = await computePosition(reference, floating, {
       placement: toPlacement(placement, dir),
@@ -90,6 +93,8 @@ export function position(
           }),
       ],
     });
+    // A late result after cleanup, or overtaken by a newer one, is dropped.
+    if (disposed || run !== sequence) return;
     Object.assign(floating.style, {
       position: 'fixed',
       top: '0',
@@ -99,7 +104,11 @@ export function position(
     floating.dataset.placement = result.placement;
   };
 
-  return autoUpdate(reference, floating, update);
+  const stop = autoUpdate(reference, floating, update);
+  return () => {
+    disposed = true;
+    stop();
+  };
 }
 
 /**
@@ -112,6 +121,7 @@ export function zagPositioning(reference: Element | null, options: PositionOptio
     placement: toPlacement(options.placement ?? 'bottom-start', dir),
     gutter: options.gutter ?? 4,
     flip: options.flip ?? true,
+    overflowPadding: options.shiftPadding ?? 8,
     sameWidth: options.sameWidth ?? false,
   };
 }

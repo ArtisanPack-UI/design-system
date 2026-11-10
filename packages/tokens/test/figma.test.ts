@@ -330,6 +330,20 @@ describe('sync', () => {
     expect(figma.variables.size).toBe(count);
   });
 
+  it('replaces a preset at the 4-mode limit by renaming the stale mode', async () => {
+    const figma = fakeFigma();
+    await figma.run(whole);
+    // A new payload where Forest became Ocean.
+    const replaced = JSON.parse(JSON.stringify(payload).replace(/"Forest"/g, '"Ocean"'));
+    const summary = await figma.run(
+      `${syncSource()}\nreturn await apuiSyncVariables(${JSON.stringify(replaced)});`,
+    );
+    expect(summary.created).toBe(0);
+    const tokens = figma.snapshot().find((c) => c.name === TOKENS_COLLECTION)!;
+    expect(tokens.modes).toEqual(replaced.collections[0].modes);
+    expect(tokens.modes).toContain('Ocean');
+  });
+
   it('refuses a payload from another version', async () => {
     const figma = fakeFigma();
     await expect(
