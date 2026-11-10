@@ -75,10 +75,10 @@
     "LICENSE"
   ],
   "scripts": {
-    "fixtures": "node scripts/build-fixtures.mjs",
-    "fixtures:check": "node scripts/build-fixtures.mjs --check",
-    "build": "tsup && npm run fixtures:check",
-    "test": "vitest run",
+    "fixtures": "tsup && node scripts/build-fixtures.mjs",
+    "fixtures:check": "tsup && node scripts/build-fixtures.mjs --check",
+    "build": "npm run fixtures:check",
+    "test": "tsup && vitest run",
     "type-check": "tsc --noEmit",
     "gates": "npm run gates:blade && node bin/apui-gates.mjs check --config test/reference/apui-gates.config.json",
     "gates:blade": "node bin/apui-gates.mjs fixtures Probe --manifests test/reference/manifests --out build/fixtures && php test/reference/render-blade.php build/fixtures build/gates/html/livewire"

@@ -45,8 +45,8 @@ export function loadExamples(name: string, dir: string = examplesDir): Component
   if (!existsSync(index)) return [];
   const entries: unknown = JSON.parse(readFileSync(index, 'utf8'));
   if (!Array.isArray(entries)) throw new ManifestLoadError(`${index} must be a JSON array`);
-  return entries.map((entry: ExampleEntry) => {
-    if (!EXAMPLE_ID.test(String(entry?.id))) {
+  return entries.map((entry: ExampleEntry | null) => {
+    if (typeof entry?.id !== 'string' || !EXAMPLE_ID.test(entry.id)) {
       throw new ManifestLoadError(
         `${index}: example id ${JSON.stringify(entry?.id)} must be kebab-case`,
       );

@@ -192,6 +192,10 @@ describe('examples', () => {
     expect(() => loadExamples('Button', dir)).toThrow('must be kebab-case');
     writeFileSync(join(dir, 'Button', 'examples.json'), '{}');
     expect(() => loadExamples('Button', dir)).toThrow('must be a JSON array');
+    for (const entry of [{ title: 't', description: 'd' }, { id: true }, null]) {
+      writeFileSync(join(dir, 'Button', 'examples.json'), JSON.stringify([entry]));
+      expect(() => loadExamples('Button', dir)).toThrow('must be kebab-case');
+    }
   });
 
   it('returns the same keys as the PHP reader', () => {

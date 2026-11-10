@@ -3,7 +3,7 @@
  * pixels, axe and the manifest checks pass, and real drift is caught.
  */
 import { execFileSync } from 'node:child_process';
-import { existsSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
@@ -14,7 +14,7 @@ import { runAxe } from '../src/axe';
 import { openSheet, screenshotSheet } from '../src/capture';
 import { compareImages } from '../src/diff';
 import { a11yChecklist } from '../src/checklist';
-import { componentFixtures, fixtureSheets } from '../src/fixtures';
+import { fixtureSheets } from '../src/fixtures';
 import { bundleHost, type GatesConfig, readConfig, runGates } from '../src/run';
 import { hasBlade, probe, reference } from './helpers';
 
@@ -123,12 +123,22 @@ registerReactHost({ Probe: BrokenProbe });`,
   it('skips stacks the component does not ship in (D-003)', async () => {
     const out = tmp();
     const manifests = join(out, 'manifests');
-    execFileSync('mkdir', ['-p', manifests]);
+    mkdirSync(manifests, { recursive: true });
+    // ThemePreview is a D-003 exception, so a Livewire-only copy of the Probe validates.
     const m = probe();
-    m.stacks.react = false;
-    writeFileSync(join(manifests, 'Probe.json'), JSON.stringify(m));
-    // A D-003 exception only validates under an exception's name, so check the stack list directly.
-    expect(componentFixtures(m).stacks).toEqual(['livewire', 'vue']);
+    m.name = 'ThemePreview';
+    m.rootClass = 'apui-theme-preview';
+    m.stacks = { livewire: { name: 'theme-preview' }, react: false, vue: false };
+    writeFileSync(join(manifests, 'ThemePreview.json'), JSON.stringify(m));
+    const report = await runGates({
+      ...config(out, { react: { host: join(reference, 'react/host.tsx') } }),
+      components: ['ThemePreview'],
+      manifests,
+    });
+    expect(report.sheets.filter((sheet) => sheet.stack === 'react')).toEqual([]);
+    expect(report.problems).toEqual([
+      'ThemePreview: nothing rendered. Configure a stack it ships in (livewire).',
+    ]);
   });
 
   it('fails when nothing renders: a misspelled stack, no stack it ships in, or no components', async () => {
