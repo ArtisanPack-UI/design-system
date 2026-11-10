@@ -54,12 +54,64 @@ jobs:
         with:
           node-version: 22
           cache: npm
+      # The manifest's PHP twins and the gate tests' Blade host run on PHP.
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          coverage: none
+      - run: composer install --no-interaction --no-progress
       - run: npm ci
-      # The CSS cascade tests run in Chromium.
+      # The CSS cascade tests and the gate tests run in Chromium.
       - run: npx playwright install --with-deps chromium
       # Fails when the committed token outputs are stale (#19).
       - run: npm run build
       - run: npm test
+
+  php:
+    name: PHP kit (Pest)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['8.2', '8.4']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+      - run: composer install --no-interaction --no-progress
+      - run: composer test
+
+  gates:
+    name: Quality gates (reference Probe)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          coverage: none
+      - run: composer install --no-interaction --no-progress
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run build
+      # Renders the Probe in Blade, React and Vue, diffs them against each other
+      # and test/baselines, and runs axe (#39, #40). Baselines are Linux renders:
+      # take them from this job's artifact, never from a local run on another OS.
+      - run: npm run gates --workspace @artisanpack-ui/testing
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: quality-gates
+          path: packages/testing/build/gates
+          if-no-files-found: ignore
 
   inventory:
     name: Inventory checks
@@ -79,7 +131,7 @@ jobs:
     name: Release
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    needs: [lint, type-check, test, inventory]
+    needs: [lint, type-check, test, php, gates, inventory]
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     permissions:
       contents: write

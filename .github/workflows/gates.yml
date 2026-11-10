@@ -1,0 +1,77 @@
+# Reusable quality gates for component repos (#39 to #41): Livewire UI
+# Components, React and Vue call this with their own apui-gates config.
+#
+#   jobs:
+#     gates:
+#       uses: ArtisanPack-UI/design-system/.github/workflows/gates.yml@release/1.0
+#       with:
+#         config: apui-gates.config.json
+#         # Livewire only: render the Blade fixtures first.
+#         prepare: vendor/bin/pest --group=gates
+#         php: '8.4'
+name: Quality gates
+
+on:
+  workflow_call:
+    inputs:
+      config:
+        description: Path to the apui-gates config file.
+        required: true
+        type: string
+      prepare:
+        description: A command that runs before the gates, such as rendering the Blade fixtures.
+        required: false
+        type: string
+        default: ''
+      php:
+        description: PHP version to set up, or empty for none.
+        required: false
+        type: string
+        default: ''
+      node:
+        description: Node version.
+        required: false
+        type: string
+        default: '22'
+
+permissions:
+  contents: read
+
+jobs:
+  gates:
+    name: Quality gates
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ inputs.node }}
+          cache: npm
+      - if: inputs.php != ''
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ inputs.php }}
+          coverage: none
+      - if: inputs.php != ''
+        run: composer install --no-interaction --no-progress
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      # Inputs reach the shell through env, never interpolated into the script.
+      - if: inputs.prepare != ''
+        env:
+          PREPARE: ${{ inputs.prepare }}
+        run: bash -c "$PREPARE"
+      - env:
+          CONFIG: ${{ inputs.config }}
+        run: npx apui-gates check --config "$CONFIG"
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: quality-gates
+          path: |
+            build/gates
+            **/build/gates
+          if-no-files-found: ignore

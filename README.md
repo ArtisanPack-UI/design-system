@@ -11,7 +11,10 @@ Phase 0 and Phase 1 are complete. The [inventory](docs/inventory/README.md) reco
 | [`@artisanpack-ui/tokens`](packages/tokens) | Source tokens in W3C DTCG JSON plus generated CSS, TypeScript and PHP | 2.0.0 in progress: DTCG source, themes and density built ([docs](docs/tokens/README.md)) |
 | [`@artisanpack-ui/css`](packages/css) | Plain-CSS component layer (Tailwind not required), plus an optional Tailwind v4 preset at `/tailwind` (planned in #24) | Layers, reset and utilities; components next ([conventions](docs/css-conventions.md)) |
 | [`@artisanpack-ui/behavior`](packages/behavior) | Shared interaction engine with Alpine, React and Vue adapters | Scaffold |
-| [`@artisanpack-ui/manifest`](packages/manifest) | Per-component JSON manifest | Scaffold |
+| [`@artisanpack-ui/manifest`](packages/manifest) | Per-component JSON manifest, docs examples and docs tables | Scaffold |
+| [`@artisanpack-ui/testing`](packages/testing) | Quality gates: cross-stack visual regression, axe and API parity | Gate harness built; first component in the pilot (#44) |
+
+The repo root is also a Composer package, `artisanpack-ui/design-system`, with the PHP side of the manifest and the gates ([D-016](docs/decisions.md#d-016-the-quality-gates-ship-as-artisanpack-uitesting-plus-a-composer-kit)).
 
 None is published from this repo yet. The 1.0 releases are tracked in #81.
 
