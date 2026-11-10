@@ -84,6 +84,19 @@ export interface ComponentManifest {
   events?: ManifestEvent[];
   a11y: ManifestA11y;
   tokens?: string[];
+  fixture?: ManifestFixture;
+}
+
+/** How the quality gates render a component (#39 to #41). */
+export interface ManifestFixture {
+  /** Text for the default slot, or children in React and Vue. */
+  content?: string;
+  /** Props every fixture case gets. */
+  props?: Record<string, unknown>;
+  /** Props that make every optional part render, for the parity checks. */
+  parts?: Record<string, unknown>;
+  /** The states to render, overriding the derived ones. */
+  states?: string[];
 }
 
 /** One validation problem. `path` is a JSON pointer into the manifest, or `''` for the root. */

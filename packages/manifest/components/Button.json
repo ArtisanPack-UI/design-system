@@ -133,5 +133,9 @@
     "--apui-state-pressed",
     "--apui-focus-ring-color",
     "--apui-target-size-min"
-  ]
+  ],
+  "fixture": {
+    "content": "Button",
+    "parts": { "loading": true, "leadingIcon": "plus", "trailingIcon": "arrow-right" }
+  }
 }

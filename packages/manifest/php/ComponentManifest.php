@@ -38,6 +38,18 @@ final class ComponentManifest
 	public const STACKS = [ 'livewire', 'react', 'vue' ];
 
 	/**
+	 * Concepts whose names differ per stack (vocabulary, Events).
+	 *
+	 * @since 1.0.0
+	 *
+	 * @var array<string, array<string, string>>
+	 */
+	public const SPECIAL_EVENTS = [
+		'value-change' => [ 'livewire' => 'wire:model', 'react' => 'onValueChange', 'vue' => 'update:modelValue' ],
+		'open-change'  => [ 'livewire' => 'open-change', 'react' => 'onOpenChange', 'vue' => 'update:open' ],
+	];
+
+	/**
 	 * Creates a manifest.
 	 *
 	 * @since 1.0.0
@@ -57,6 +69,7 @@ final class ComponentManifest
 	 * @param  list<array<string, mixed>>                                                      $events      Events.
 	 * @param  array<string, mixed>                                                            $a11y        Accessibility requirements.
 	 * @param  list<string>                                                                    $tokens      Custom properties the component reads.
+	 * @param  array{content?: string, props?: array<string, mixed>, parts?: array<string, mixed>, states?: list<string>} $fixture How the quality gates render it.
 	 */
 	public function __construct(
 		public readonly string $name,
@@ -74,6 +87,7 @@ final class ComponentManifest
 		public readonly array $events,
 		public readonly array $a11y,
 		public readonly array $tokens,
+		public readonly array $fixture = [],
 	) {
 	}
 
@@ -112,6 +126,7 @@ final class ComponentManifest
 			events: $data['events'] ?? [],
 			a11y: $data['a11y'],
 			tokens: $data['tokens'] ?? [],
+			fixture: $data['fixture'] ?? [],
 		);
 	}
 
@@ -172,6 +187,63 @@ final class ComponentManifest
 	}
 
 	/**
+	 * An event's name in a stack: the kebab-case concept in Livewire and Vue,
+	 * `on` plus PascalCase in React, and the vocabulary's names for value and
+	 * open changes. Mirrors `eventName()` in the TypeScript loader.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param  string $event The concept name, such as `row-click`.
+	 * @param  string $stack `livewire`, `react` or `vue`.
+	 *
+	 * @return string The name, such as `onRowClick`.
+	 */
+	public static function eventName( string $event, string $stack ): string
+	{
+		if ( isset( self::SPECIAL_EVENTS[ $event ][ $stack ] ) ) {
+			return self::SPECIAL_EVENTS[ $event ][ $stack ];
+		}
+
+		if ( 'react' === $stack ) {
+			return 'on' . ucfirst( self::camel( $event ) );
+		}
+
+		return $event;
+	}
+
+	/**
+	 * `row-click` to `rowClick`.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param  string $kebab A kebab-case name.
+	 *
+	 * @return string The camelCase name.
+	 */
+	public static function camel( string $kebab ): string
+	{
+		return (string) preg_replace_callback( '/-([a-z0-9])/', static fn ( array $match ): string => strtoupper( $match[1] ), $kebab );
+	}
+
+	/**
+	 * `iconOnly` to `icon-only`, `ButtonGroup` to `button-group`. Mirrors
+	 * `kebab()` in the TypeScript validator.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param  string $name A camelCase or PascalCase name.
+	 *
+	 * @return string The kebab-case name.
+	 */
+	public static function kebab( string $name ): string
+	{
+		$name = (string) preg_replace( '/([a-z0-9])([A-Z])/', '$1-$2', $name );
+		$name = (string) preg_replace( '/([A-Z])([A-Z][a-z])/', '$1-$2', $name );
+
+		return strtolower( $name );
+	}
+
+	/**
 	 * Names of the component's parts.
 	 *
 	 * @since 1.0.0
@@ -208,6 +280,7 @@ final class ComponentManifest
 			'events'      => $this->events,
 			'a11y'        => $this->a11y,
 			'tokens'      => $this->tokens,
+			'fixture'     => $this->fixture,
 		];
 	}
 }

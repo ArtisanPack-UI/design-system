@@ -5,6 +5,7 @@
 import { Ajv2020 } from 'ajv/dist/2020.js';
 
 import componentSchema from '../schema/component.schema.json';
+import { isInteractive, PSEUDO_STATES } from './fixture';
 import { STACKS } from './types';
 import type { ComponentManifest, ManifestError, ValidationResult } from './types';
 
@@ -78,6 +79,65 @@ export const STACK_EXCEPTIONS: Readonly<Record<string, readonly string[]>> = {
 
 /** D-003: components that ship everywhere with different capabilities. */
 export const DIFFERING_COMPONENTS: readonly string[] = ['RichTextEditor'];
+
+/** WCAG 2.2 level A and AA success criteria: the conformance target. */
+export const WCAG_22_AA: readonly string[] = [
+  '1.1.1',
+  '1.2.1',
+  '1.2.2',
+  '1.2.3',
+  '1.2.4',
+  '1.2.5',
+  '1.3.1',
+  '1.3.2',
+  '1.3.3',
+  '1.3.4',
+  '1.3.5',
+  '1.4.1',
+  '1.4.2',
+  '1.4.3',
+  '1.4.4',
+  '1.4.5',
+  '1.4.10',
+  '1.4.11',
+  '1.4.12',
+  '1.4.13',
+  '2.1.1',
+  '2.1.2',
+  '2.1.4',
+  '2.2.1',
+  '2.2.2',
+  '2.3.1',
+  '2.4.1',
+  '2.4.2',
+  '2.4.3',
+  '2.4.4',
+  '2.4.5',
+  '2.4.6',
+  '2.4.7',
+  '2.4.11',
+  '2.5.1',
+  '2.5.2',
+  '2.5.3',
+  '2.5.4',
+  '2.5.7',
+  '2.5.8',
+  '3.1.1',
+  '3.1.2',
+  '3.2.1',
+  '3.2.2',
+  '3.2.3',
+  '3.2.4',
+  '3.2.6',
+  '3.3.1',
+  '3.3.2',
+  '3.3.3',
+  '3.3.4',
+  '3.3.7',
+  '3.3.8',
+  '4.1.2',
+  '4.1.3',
+];
 
 const BOOLEAN_PREFIX = /^(no|with|without|show|has)[A-Z]/;
 const PHYSICAL = /^(left|right|top-left|top-right|bottom-left|bottom-right)$/;
@@ -190,6 +250,8 @@ function semanticErrors(manifest: ComponentManifest): ManifestError[] {
     });
   });
 
+  errors.push(...a11yErrors(manifest), ...fixtureErrors(manifest));
+
   const shipping = STACKS.filter((stack) => manifest.stacks[stack] !== false);
   const exception = STACK_EXCEPTIONS[manifest.name];
   if (exception) {
@@ -208,6 +270,86 @@ function semanticErrors(manifest: ComponentManifest): ManifestError[] {
     }
   }
 
+  return errors;
+}
+
+/** The accessibility requirements a manifest must state (#40). */
+function a11yErrors(manifest: ComponentManifest): ManifestError[] {
+  const errors: ManifestError[] = [];
+  const { a11y } = manifest;
+  a11y.wcag?.forEach((criterion, i) => {
+    if (!WCAG_22_AA.includes(criterion)) {
+      errors.push({
+        path: `/a11y/wcag/${i}`,
+        message: `"${criterion}" is not a WCAG 2.2 level A or AA success criterion`,
+      });
+    }
+  });
+  if (isInteractive(manifest)) {
+    if (!a11y.keyboard?.length) {
+      errors.push({
+        path: '/a11y/keyboard',
+        message: 'an interactive component must list its keyboard interactions',
+      });
+    }
+    for (const criterion of ['2.1.1', '2.4.7']) {
+      if (!a11y.wcag?.includes(criterion)) {
+        errors.push({
+          path: '/a11y/wcag',
+          message: `an interactive component must cite ${criterion}`,
+        });
+      }
+    }
+  }
+  const root = manifest.parts.find((part) => part.name === 'root');
+  if (a11y.element && root?.element) {
+    const elements = root.element.split('|').map((element) => element.trim());
+    if (!elements.includes(a11y.element)) {
+      errors.push({
+        path: '/a11y/element',
+        message: `"${a11y.element}" is not the root part's element (${root.element})`,
+      });
+    }
+  }
+  const horizontal = a11y.keyboard?.some((entry) => /Arrow(Left|Right)/.test(entry.keys));
+  if (horizontal && !a11y.requirements.some((text) => /\bRTL\b|text direction/i.test(text))) {
+    errors.push({
+      path: '/a11y/requirements',
+      message:
+        'ArrowLeft and ArrowRight must follow the text direction: add an RTL requirement (D-004)',
+    });
+  }
+  return errors;
+}
+
+/** The fixture block must name real props, values and states (#39). */
+function fixtureErrors(manifest: ComponentManifest): ManifestError[] {
+  const errors: ManifestError[] = [];
+  const { fixture } = manifest;
+  if (!fixture) return errors;
+  for (const key of ['props', 'parts'] as const) {
+    for (const [name, value] of Object.entries(fixture[key] ?? {})) {
+      const path = `/fixture/${key}/${name}`;
+      const prop = manifest.props.find((p) => p.name === name);
+      if (!prop) {
+        errors.push({ path, message: `"${name}" is not a prop of ${manifest.name}` });
+      } else if (prop.type === 'enum' && !prop.values?.includes(value as string)) {
+        errors.push({ path, message: `${JSON.stringify(value)} is not one of the prop's values` });
+      } else if (prop.type === 'boolean' && typeof value !== 'boolean') {
+        errors.push({ path, message: 'a boolean prop needs a boolean' });
+      }
+    }
+  }
+  fixture.states?.forEach((state, i) => {
+    const pseudo = (PSEUDO_STATES as readonly string[]).includes(state);
+    const prop = manifest.props.some((p) => p.name === state && p.type === 'boolean');
+    if (!pseudo && !prop) {
+      errors.push({
+        path: `/fixture/states/${i}`,
+        message: `"${state}" is neither a pseudo-state (${PSEUDO_STATES.join(', ')}) nor a boolean prop`,
+      });
+    }
+  });
   return errors;
 }
 
