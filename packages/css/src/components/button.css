@@ -99,18 +99,14 @@
   }
 
   /* xs keeps a 24px hit area (WCAG 2.5.8) without growing visually. */
+  /* Centered without translate, so it needs no direction rule. */
   .apui-button[data-size='xs']::after {
     content: '';
     position: absolute;
-    inset-block-start: 50%;
-    inset-inline-start: 50%;
+    inset-block-start: calc(50% - max(50%, var(--apui-target-size-min) / 2));
+    inset-inline-start: calc(50% - max(50%, var(--apui-target-size-min) / 2));
     inline-size: max(100%, var(--apui-target-size-min));
     block-size: max(100%, var(--apui-target-size-min));
-    translate: -50% -50%;
-  }
-
-  .apui-button[data-size='xs']:dir(rtl)::after {
-    translate: 50% -50%;
   }
 
   .apui-button[data-icon-only] {

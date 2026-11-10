@@ -111,3 +111,27 @@ describe('Button', () => {
     await page.close();
   });
 });
+
+describe('Button xs hit area', () => {
+  it.each(['ltr', 'rtl'])('extends a 16px button to a centered 24px target (%s)', async (dir) => {
+    const page = await open(
+      `<button class="apui-button" data-size="xs" data-icon-only data-variant="solid" style="--apui-control-height-xs: 16px; margin: 40px"></button>`,
+      `data-theme="light" dir="${dir}"`,
+    );
+    const hits = await page.$eval('.apui-button', (button) => {
+      const box = button.getBoundingClientRect();
+      const y = box.top + box.height / 2;
+      const x = box.left + box.width / 2;
+      const at = (px: number, py: number) => document.elementFromPoint(px, py) === button;
+      return {
+        start: at(box.left - 3, y),
+        end: at(box.right + 3, y),
+        top: at(x, box.top - 3),
+        bottom: at(x, box.bottom + 3),
+        outside: at(box.left - 6, y),
+      };
+    });
+    expect(hits).toEqual({ start: true, end: true, top: true, bottom: true, outside: false });
+    await page.close();
+  });
+});
