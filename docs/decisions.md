@@ -16,6 +16,8 @@ Decisions that shape the design system. To change one, add a new entry that supe
 | [D-010](#d-010-presets-may-reassign-color-ramps-and-the-radius-scale) | Presets may reassign color ramps and the radius scale | #23, #27 | 2026-11-09 |
 | [D-011](#d-011-the-tailwind-preset-only-adds-and-apui-sits-under-utilities) | The Tailwind preset only adds, and `apui` sits under utilities | #24 | 2026-11-09 |
 | [D-012](#d-012-headless-means-no-apuicomponents-layer) | Headless means no `apui.components` layer | #25 | 2026-11-09 |
+| [D-013](#d-013-the-theme-generator-is-a-cli-plus-a-web-builder-on-the-docs-site) | The theme generator is a CLI, plus a web builder on the docs site | #30 | 2026-11-09 |
+| [D-014](#d-014-without-a-bundler-use-the-prebuilt-composer-asset-no-official-cdn-build-at-10) | Without a bundler, use the prebuilt Composer asset; no official CDN build at 1.0 | #31 | 2026-11-09 |
 
 ## D-001: No separate brand
 
@@ -200,4 +202,25 @@ Ledger (lines, near-square, tight) and Harbor (space and soft shadow, ink primar
 - `dist/assets.php` lists the entry points (`default`, `headless`, `tailwind`) for the Livewire package's published assets (#42).
 
 **Why.** Dropping one layer is the only form of headless that can't drift from the styled build. Keeping the utilities avoids a headless build that suddenly shows screen-reader text.
+
+## D-013: The theme generator is a CLI, plus a web builder on the docs site
+
+**Decision.**
+
+- The generator is the CLI: `apui-generate-preset` from `@artisanpack-ui/tokens` (#27), and `php artisan artisanpack:generate-theme` in Livewire UI Components 3.0, on the same generator core.
+- A **web theme builder** also ships, on docs.artisanpackui.dev: brand inputs in, a live preview in every theme and density, the contrast report, and the preset out as CSS, DTCG, PHP or JSON. It's tracked in the docs repo (ArtisanPack-UI/artisanpack-ui-docs#196), not here, because the docs site UI is rebuilt after the design system is complete.
+- The builder runs the generator core in the browser rather than reimplementing it, so the CLI and the web produce the same preset from the same inputs.
+- The token playground (#29) stays a token explorer. It doesn't export presets.
+
+**Why.** The builder is the strongest showcase of the token structure: one color in, a fully re-themed system out, with contrast guaranteed by the same checks as the build. Putting it in the docs repo keeps it out of the 1.0 critical path and lets it use the rebuilt docs UI instead of being built twice. Sharing the generator core means the two can't disagree.
+
+## D-014: Without a bundler, use the prebuilt Composer asset; no official CDN build at 1.0
+
+**Decision.**
+
+- Apps without a bundler use the **prebuilt CSS and JS** that Livewire UI Components publishes through `vendor:publish` (#42), from the `dist/assets.php` entry points (D-012). That is the only supported bundler-free path at 1.0.
+- There is **no official CDN build** at 1.0. Once the packages are public (#81), jsDelivr and unpkg serve their files anyway, but without a global bundle, integrity hashes or a compatibility promise, so the docs don't present them as supported.
+- An official CDN build (a self-registering Alpine adapter bundle, minified CSS, SRI hashes, pinned URLs) is a future release, tracked in #97.
+
+**Why.** The audience without a bundler is almost entirely Livewire apps, which already have Composer, so the published asset covers them with nothing new to build or support. A CDN build adds a separate bundle format and a smoke test to every release, which isn't worth doing before 1.0 when nothing asks for it yet. Keeping it as a tracked future release means the behavior package's build doesn't have to change shape for it later.
 
