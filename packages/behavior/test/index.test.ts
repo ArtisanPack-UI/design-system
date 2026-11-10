@@ -1,4 +1,4 @@
-import { packageName } from './index';
+import { packageName } from '../src/index';
 
 describe('@artisanpack-ui/behavior', () => {
   it('exports its package name', () => {
