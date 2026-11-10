@@ -15,7 +15,9 @@
   },
   "homepage": "https://github.com/ArtisanPack-UI/design-system/tree/main/packages/behavior#readme",
   "type": "module",
-  "sideEffects": false,
+  "sideEffects": [
+    "./dist/alpine.global.js"
+  ],
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -29,7 +31,19 @@
         "types": "./dist/index.d.cts",
         "default": "./dist/index.cjs"
       }
-    }
+    },
+    "./alpine": {
+      "import": {
+        "types": "./dist/alpine.d.ts",
+        "default": "./dist/alpine.mjs"
+      },
+      "require": {
+        "types": "./dist/alpine.d.cts",
+        "default": "./dist/alpine.cjs"
+      }
+    },
+    "./alpine.global.js": "./dist/alpine.global.js",
+    "./package.json": "./package.json"
   },
   "files": [
     "dist",
@@ -43,5 +57,31 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@floating-ui/dom": "~1.8.0",
+    "@zag-js/combobox": "~1.47.0",
+    "@zag-js/core": "~1.47.0",
+    "@zag-js/dialog": "~1.47.0",
+    "@zag-js/types": "~1.47.0",
+    "@zag-js/vanilla": "~1.47.0"
+  },
+  "devDependencies": {
+    "@alpinejs/morph": "^3.17.5",
+    "@types/alpinejs": "^3.17.0",
+    "alpinejs": "^3.17.5",
+    "esbuild": "^0.28.2"
+  },
+  "peerDependencies": {
+    "@types/alpinejs": "^3.13.0",
+    "alpinejs": "^3.13"
+  },
+  "peerDependenciesMeta": {
+    "@types/alpinejs": {
+      "optional": true
+    },
+    "alpinejs": {
+      "optional": true
+    }
   }
 }

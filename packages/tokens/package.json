@@ -34,7 +34,8 @@
     "./presets/*.css": "./generated/presets/*.css",
     "./dtcg/*": "./tokens/*",
     "./dtcg-presets/*": "./presets/*",
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./figma": "./generated/figma/variables.json"
   },
   "files": [
     "dist",
@@ -54,7 +55,8 @@
     "build": "npm run tokens:check && tsup",
     "test": "vitest run",
     "test:watch": "vitest",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "figma:chunks": "node scripts/figma-chunks.mjs"
   },
   "publishConfig": {
     "access": "public"

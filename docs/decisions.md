@@ -16,6 +16,9 @@ Decisions that shape the design system. To change one, add a new entry that supe
 | [D-010](#d-010-presets-may-reassign-color-ramps-and-the-radius-scale) | Presets may reassign color ramps and the radius scale | #23, #27 | 2026-11-09 |
 | [D-011](#d-011-the-tailwind-preset-only-adds-and-apui-sits-under-utilities) | The Tailwind preset only adds, and `apui` sits under utilities | #24 | 2026-11-09 |
 | [D-012](#d-012-headless-means-no-apuicomponents-layer) | Headless means no `apui.components` layer | #25 | 2026-11-09 |
+| [D-013](#d-013-the-theme-generator-is-a-cli-plus-a-web-builder-on-the-docs-site) | The theme generator is a CLI, plus a web builder on the docs site | #30 | 2026-11-09 |
+| [D-014](#d-014-without-a-bundler-use-the-prebuilt-composer-asset-no-official-cdn-build-at-10) | Without a bundler, use the prebuilt Composer asset; no official CDN build at 1.0 | #31 | 2026-11-09 |
+| [D-015](#d-015-the-behavior-engine-is-zag-with-floating-ui) | The behavior engine is Zag, with Floating UI | #32, #37 | 2026-11-09 |
 
 ## D-001: No separate brand
 
@@ -200,4 +203,63 @@ Ledger (lines, near-square, tight) and Harbor (space and soft shadow, ink primar
 - `dist/assets.php` lists the entry points (`default`, `headless`, `tailwind`) for the Livewire package's published assets (#42).
 
 **Why.** Dropping one layer is the only form of headless that can't drift from the styled build. Keeping the utilities avoids a headless build that suddenly shows screen-reader text.
+
+## D-013: The theme generator is a CLI, plus a web builder on the docs site
+
+**Decision.**
+
+- The generator is the CLI: `apui-generate-preset` from `@artisanpack-ui/tokens` (#27), and `php artisan artisanpack:generate-theme` in Livewire UI Components 3.0, on the same generator core.
+- A **web theme builder** also ships, on docs.artisanpackui.dev: brand inputs in, a live preview in every theme and density, the contrast report, and the preset out as CSS, DTCG, PHP or JSON. It's tracked in the docs repo (ArtisanPack-UI/artisanpack-ui-docs#196), not here, because the docs site UI is rebuilt after the design system is complete.
+- The builder runs the generator core in the browser rather than reimplementing it, so the CLI and the web produce the same preset from the same inputs.
+- The token playground (#29) stays a token explorer. It doesn't export presets.
+
+**Why.** The builder is the strongest showcase of the token structure: one color in, a fully re-themed system out, with contrast guaranteed by the same checks as the build. Putting it in the docs repo keeps it out of the 1.0 critical path and lets it use the rebuilt docs UI instead of being built twice. Sharing the generator core means the two can't disagree.
+
+## D-014: Without a bundler, use the prebuilt Composer asset; no official CDN build at 1.0
+
+**Decision.**
+
+- Apps without a bundler use the **prebuilt CSS and JS** that Livewire UI Components publishes through `vendor:publish` (#42), from the `dist/assets.php` entry points (D-012). That is the only supported bundler-free path at 1.0.
+- There is **no official CDN build** at 1.0. Once the packages are public (#81), jsDelivr and unpkg serve their files anyway, but without a global bundle, integrity hashes or a compatibility promise, so the docs don't present them as supported.
+- An official CDN build (a self-registering Alpine adapter bundle, minified CSS, SRI hashes, pinned URLs) is a future release, tracked in #97.
+
+**Why.** The audience without a bundler is almost entirely Livewire apps, which already have Composer, so the published asset covers them with nothing new to build or support. A CDN build adds a separate bundle format and a smoke test to every release, which isn't worth doing before 1.0 when nothing asks for it yet. Keeping it as a tracked future release means the behavior package's build doesn't have to change shape for it later.
+
+## D-015: The behavior engine is Zag, with Floating UI
+
+**Decision.**
+
+- **Zag.js is confirmed** as the state machine library for the engine widgets (Menu and DropdownMenu, Combobox, Select and Choices, Popover, Tooltip, Dialog, Modal and Drawer, Tabs, DatePicker, the Toast stack and Spotlight). **Floating UI** positions everything Zag doesn't. The fallback (Floating UI plus small in-house machines) isn't needed.
+- `@artisanpack-ui/behavior` defines each widget once (`machine` + `connect`). Alpine runs it through the package's own adapter, `createWidget` plus `x-apui:<part>` directives; React and Vue run the same definitions through Zag's framework adapters (#36). Parts carry Zag's `data-scope` and `data-part`, as the CSS conventions require (#21).
+- Zag is pinned to a minor (`~1.47.0`) and updated deliberately: the adapter relies on its DOM ids and effects, which a minor can change.
+- **Every part of a Livewire component has a stable, server-rendered `id`.** The Blade components render one per part; items use `wire:key`.
+
+**Evidence: the spike (#33 to #35).** Dialog and Combobox ran through the Alpine adapter on Livewire 3.7.3 and 4.4.2, driven by Playwright, and passed 35 of 35 checks on each:
+
+| Requirement | Result |
+|---|---|
+| Morphing | A dialog stays open, labelled and focus-trapped while server round trips re-render its teleported content. Combobox ARIA, the selected option and the input label survive `$refresh`. A morphed option list replaces the collection, and keyboard selection runs over the new items |
+| `wire:model` | `open` and `value` are Alpine state, entangled both ways: the server opens and closes the dialog, and selections (single and multiple) reach the server |
+| `wire:navigate` | Teardown releases the focus trap, scroll lock and `aria-hidden`, and adds no listeners per widget across round trips |
+| Focus trap, Escape, scroll lock, portal | Pass, with `x-teleport` as the portal |
+| Remote search | Typing updates an entangled `search`; the server's results replace the options |
+| Livewire 3 and 4 | Both, with the same build |
+
+The package tests repeat these in Chromium with Alpine's morph plugin, plus RTL positioning.
+
+**What the spike found, and how the adapter handles it.**
+
+- Livewire keys morphed elements by `wire:key`, then **`id`**. Zag gives every part an id, so a part rendered without one gets a different key from the server's and is replaced, stranding the machine's effects on a detached node. Hence the id rule above; the adapter passes author ids to the machine and warns about parts without one.
+- Zag writes some state from effects rather than part props: `aria-hidden` on the page behind a modal, and a layer's inline `pointer-events`. A morph resets those, so the page behind an open modal became readable to screen readers again. The adapter carries them through the morph (`keepClientState`, hooked into Livewire's `morph.updating`) and restores inline styles that something outside strips.
+- Zag's `spreadProps` caches what it last wrote, so it can't restore attributes a morph reset. The adapter applies props against the DOM instead.
+- A morph removes list items before Alpine runs their cleanup, so the combobox drops detached items before rebuilding its collection.
+- The classic-script build must target the browser: Zag reads `process.env.NODE_ENV`.
+
+**Costs.**
+
+- The bundler-free asset with Dialog and Combobox is 132 KB minified, 44 KB gzipped. `@zag-js/dom-query`, the combobox and its collection are most of it. Apps that bundle only pay for the widgets they import.
+- Zag's part names differ from the spec in places: Dialog `backdrop`, `content` and `closeTrigger` against the spec's scrim, root and close; Combobox `content` and `item` against listbox and option. The vocabulary's standard parts (`trigger`, `content`, `item`) match Zag, so the Dialog pilot (#49) and the Combobox family (#54) settle the spec names against it rather than rename Zag's.
+- `open-change` and `value-change` report changes the widget makes, not changes to the bound state, as in React and Vue.
+
+**Why.** Zag passed every requirement on both Livewire versions with one build, and the problems the spike hit were in the adapter, not the machines: each has a fix that is now tested. Zag supplies the hard parts (focus trap, dismissal layers, `aria-hidden`, typeahead, collections, positioning) for all three stacks from one definition, which in-house machines would have to rebuild and keep at parity. Floating UI is already inside Zag's positioning, so using it directly for the rest adds nothing new.
 

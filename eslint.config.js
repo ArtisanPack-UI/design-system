@@ -22,6 +22,26 @@ export default tseslint.config(
     },
   },
   {
-    ignores: ['**/dist/**', '**/node_modules/**', 'design/**', 'tools/**'],
+    // The playground page runs as a classic script in the browser.
+    files: ['apps/*/src/**/*.js'],
+    languageOptions: {
+      sourceType: 'script',
+      globals: Object.fromEntries(
+        [
+          'window',
+          'document',
+          'navigator',
+          'location',
+          'history',
+          'getComputedStyle',
+          'URLSearchParams',
+          'Event',
+          'setTimeout',
+        ].map((name) => [name, 'readonly']),
+      ),
+    },
+  },
+  {
+    ignores: ['**/dist/**', '**/node_modules/**', '**/.figma-chunks/**', 'design/**', 'tools/**'],
   },
 );

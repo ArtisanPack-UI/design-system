@@ -15,6 +15,13 @@ Phase 0 and Phase 1 are complete. The [inventory](docs/inventory/README.md) reco
 
 None is published from this repo yet. The 1.0 releases are tracked in #81.
 
+## Tools
+
+| Tool | What it's for |
+|---|---|
+| [Token playground](apps/playground) | Explore the tokens live: switch preset, theme, density and direction, edit semantic tokens and watch sample UI change. `npm run playground` |
+| [Figma variables](docs/figma.md) | The tokens as Figma variables for outside designers, synced one-way from the code |
+
 ## Development
 
 ```bash

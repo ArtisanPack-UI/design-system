@@ -8,7 +8,8 @@
     "packages/tokens",
     "packages/css",
     "packages/behavior",
-    "packages/manifest"
+    "packages/manifest",
+    "apps/playground"
   ],
   "engines": {
     "node": ">=22"
@@ -16,15 +17,16 @@
   "scripts": {
     "build": "npm run build --workspaces",
     "test": "npm run test --workspaces --if-present",
-    "lint": "eslint packages",
-    "lint:css": "stylelint \"packages/*/src/**/*.css\" \"packages/tokens/generated/**/*.css\"",
+    "lint": "eslint packages apps",
+    "lint:css": "stylelint \"packages/*/src/**/*.css\" \"packages/tokens/generated/**/*.css\" \"apps/*/src/**/*.css\"",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "type-check": "npm run type-check --workspaces --if-present",
     "changeset": "changeset",
     "version-packages": "changeset version",
     "release": "npm run build && changeset publish",
-    "tokens": "npm run tokens --workspace @artisanpack-ui/tokens"
+    "tokens": "npm run tokens --workspace @artisanpack-ui/tokens",
+    "playground": "npm run playground --workspace @artisanpack-ui/playground"
   },
   "devDependencies": {
     "@changesets/changelog-github": "^1.0.1",
