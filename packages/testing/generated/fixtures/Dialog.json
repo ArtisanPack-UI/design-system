@@ -1,0 +1,232 @@
+{
+  "version": 1,
+  "component": "Dialog",
+  "rootClass": "apui-dialog",
+  "stacks": [
+    "livewire",
+    "react",
+    "vue"
+  ],
+  "names": {
+    "livewire": "dialog",
+    "react": "Dialog",
+    "vue": "Dialog"
+  },
+  "cases": [
+    {
+      "id": "size=sm state=default",
+      "props": {
+        "open": true,
+        "modal": false,
+        "portal": false,
+        "title": "Invite member",
+        "description": "Members can edit every listing.",
+        "icon": "user",
+        "footer": "Send invite",
+        "size": "sm"
+      },
+      "state": "default",
+      "content": "They'll get an email with a link to join the project."
+    },
+    {
+      "id": "size=md state=default",
+      "props": {
+        "open": true,
+        "modal": false,
+        "portal": false,
+        "title": "Invite member",
+        "description": "Members can edit every listing.",
+        "icon": "user",
+        "footer": "Send invite",
+        "size": "md"
+      },
+      "state": "default",
+      "content": "They'll get an email with a link to join the project."
+    },
+    {
+      "id": "size=lg state=default",
+      "props": {
+        "open": true,
+        "modal": false,
+        "portal": false,
+        "title": "Invite member",
+        "description": "Members can edit every listing.",
+        "icon": "user",
+        "footer": "Send invite",
+        "size": "lg"
+      },
+      "state": "default",
+      "content": "They'll get an email with a link to join the project."
+    },
+    {
+      "id": "size=md color=primary state=default",
+      "props": {
+        "open": true,
+        "modal": false,
+        "portal": false,
+        "title": "Invite member",
+        "description": "Members can edit every listing.",
+        "icon": "user",
+        "footer": "Send invite",
+        "size": "md",
+        "color": "primary"
+      },
+      "state": "default",
+      "content": "They'll get an email with a link to join the project."
+    },
+    {
+      "id": "size=md color=secondary state=default",
+      "props": {
+        "open": true,
+        "modal": false,
+        "portal": false,
+        "title": "Invite member",
+        "description": "Members can edit every listing.",
+        "icon": "user",
+        "footer": "Send invite",
+        "size": "md",
+        "color": "secondary"
+      },
+      "state": "default",
+      "content": "They'll get an email with a link to join the project."
+    },
+    {
+      "id": "size=md color=accent state=default",
+      "props": {
+        "open": true,
+        "modal": false,
+        "portal": false,
+        "title": "Invite member",
+        "description": "Members can edit every listing.",
+        "icon": "user",
+        "footer": "Send invite",
+        "size": "md",
+        "color": "accent"
+      },
+      "state": "default",
+      "content": "They'll get an email with a link to join the project."
+    },
+    {
+      "id": "size=md color=neutral state=default",
+      "props": {
+        "open": true,
+        "modal": false,
+        "portal": false,
+        "title": "Invite member",
+        "description": "Members can edit every listing.",
+        "icon": "user",
+        "footer": "Send invite",
+        "size": "md",
+        "color": "neutral"
+      },
+      "state": "default",
+      "content": "They'll get an email with a link to join the project."
+    },
+    {
+      "id": "size=md color=success state=default",
+      "props": {
+        "open": true,
+        "modal": false,
+        "portal": false,
+        "title": "Invite member",
+        "description": "Members can edit every listing.",
+        "icon": "user",
+        "footer": "Send invite",
+        "size": "md",
+        "color": "success"
+      },
+      "state": "default",
+      "content": "They'll get an email with a link to join the project."
+    },
+    {
+      "id": "size=md color=warning state=default",
+      "props": {
+        "open": true,
+        "modal": false,
+        "portal": false,
+        "title": "Invite member",
+        "description": "Members can edit every listing.",
+        "icon": "user",
+        "footer": "Send invite",
+        "size": "md",
+        "color": "warning"
+      },
+      "state": "default",
+      "content": "They'll get an email with a link to join the project."
+    },
+    {
+      "id": "size=md color=error state=default",
+      "props": {
+        "open": true,
+        "modal": false,
+        "portal": false,
+        "title": "Invite member",
+        "description": "Members can edit every listing.",
+        "icon": "user",
+        "footer": "Send invite",
+        "size": "md",
+        "color": "error"
+      },
+      "state": "default",
+      "content": "They'll get an email with a link to join the project."
+    },
+    {
+      "id": "size=md color=info state=default",
+      "props": {
+        "open": true,
+        "modal": false,
+        "portal": false,
+        "title": "Invite member",
+        "description": "Members can edit every listing.",
+        "icon": "user",
+        "footer": "Send invite",
+        "size": "md",
+        "color": "info"
+      },
+      "state": "default",
+      "content": "They'll get an email with a link to join the project."
+    },
+    {
+      "id": "size=md surface=glass state=default",
+      "props": {
+        "open": true,
+        "modal": false,
+        "portal": false,
+        "title": "Invite member",
+        "description": "Members can edit every listing.",
+        "icon": "user",
+        "footer": "Send invite",
+        "size": "md",
+        "surface": "glass"
+      },
+      "state": "default",
+      "content": "They'll get an email with a link to join the project."
+    }
+  ],
+  "sheets": [
+    {
+      "id": "light",
+      "theme": "light",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "dark",
+      "theme": "dark",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "high-contrast",
+      "theme": "high-contrast",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "rtl",
+      "theme": "light",
+      "density": "default",
+      "dir": "rtl"
+    }
+  ]
+}

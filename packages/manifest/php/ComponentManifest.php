@@ -188,20 +188,39 @@ final class ComponentManifest
 	}
 
 	/**
-	 * An event's name in a stack: the kebab-case concept in Livewire and Vue,
-	 * `on` plus PascalCase in React, and the vocabulary's names for value and
-	 * open changes. Mirrors `eventName()` in the TypeScript loader.
+	 * The prop each special event binds (`v-model:open`, `wire:model`).
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param  string $event The concept name, such as `row-click`.
-	 * @param  string $stack `livewire`, `react` or `vue`.
+	 * @var array<string, string>
+	 */
+	public const BOUND_PROPS = [
+		'value-change'   => 'value',
+		'open-change'    => 'open',
+		'checked-change' => 'checked',
+	];
+
+	/**
+	 * An event's name in a stack: the kebab-case concept in Livewire and Vue,
+	 * `on` plus PascalCase in React, and the vocabulary's names for value, open
+	 * and checked changes. With the manifest, those binding spellings apply only
+	 * when the component has the prop they bind (D-019). Mirrors `eventName()`
+	 * in the TypeScript loader.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param  string                 $event    The concept name, such as `row-click`.
+	 * @param  string                 $stack    `livewire`, `react` or `vue`.
+	 * @param  ComponentManifest|null $manifest The component, to check it has the bound prop.
 	 *
 	 * @return string The name, such as `onRowClick`.
 	 */
-	public static function eventName( string $event, string $stack ): string
+	public static function eventName( string $event, string $stack, ?self $manifest = null ): string
 	{
-		if ( isset( self::SPECIAL_EVENTS[ $event ][ $stack ] ) ) {
+		$binds = null === $manifest || ! isset( self::BOUND_PROPS[ $event ] )
+			|| in_array( self::BOUND_PROPS[ $event ], array_column( $manifest->props, 'name' ), true );
+
+		if ( $binds && isset( self::SPECIAL_EVENTS[ $event ][ $stack ] ) ) {
 			return self::SPECIAL_EVENTS[ $event ][ $stack ];
 		}
 

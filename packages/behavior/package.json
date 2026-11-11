@@ -95,6 +95,8 @@
     "@zag-js/combobox": "~1.47.0",
     "@zag-js/core": "~1.47.0",
     "@zag-js/dialog": "~1.47.0",
+    "@zag-js/menu": "~1.47.0",
+    "@zag-js/toast": "~1.47.0",
     "@zag-js/types": "~1.47.0",
     "@zag-js/vanilla": "~1.47.0"
   },

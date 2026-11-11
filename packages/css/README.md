@@ -2,7 +2,7 @@
 
 Plain-CSS component layer for ArtisanPack UI. Tailwind is not required.
 
-> **Not published yet.** This package holds the cascade layers, a scoped reset, the design tokens with the Ledger and Harbor presets, two utilities (`.apui-sr-only`, `.apui-focus-ring`) and the components built so far: Button, Input, Select, Checkbox and Card (pilot, #44 to #48), with the field anatomy they share in `field.css`. The first release is tracked in #81.
+> **Not published yet.** This package holds the cascade layers, a scoped reset, the design tokens with the Ledger and Harbor presets, two utilities (`.apui-sr-only`, `.apui-focus-ring`) and the components built so far: Button, Input, Select, Checkbox, Card, Dialog, DropdownMenu and Toast (pilot, #44 to #51), with the field anatomy the form fields share in `field.css`. The first release is tracked in #81.
 
 ```css
 @import '@artisanpack-ui/css';
@@ -18,12 +18,12 @@ Everything sits in `@layer apui.reset, apui.tokens, apui.components, apui.utilit
 
 ## Entry points
 
-| Import | For |
-|---|---|
-| `@artisanpack-ui/css` | Everything |
-| `@artisanpack-ui/css/headless` | The same without the `apui.components` layer: identical markup, ARIA and behavior, no visual CSS. Bring your own styles |
-| `@artisanpack-ui/css/tailwind` | Optional Tailwind v4 utilities generated from the tokens (`bg-primary`, `text-muted`, `rounded-control`, …) |
-| `@artisanpack-ui/css/assets.php` | The entry points as a PHP array, for the Livewire package |
+| Import                           | For                                                                                                                     |
+| -------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `@artisanpack-ui/css`            | Everything                                                                                                              |
+| `@artisanpack-ui/css/headless`   | The same without the `apui.components` layer: identical markup, ARIA and behavior, no visual CSS. Bring your own styles |
+| `@artisanpack-ui/css/tailwind`   | Optional Tailwind v4 utilities generated from the tokens (`bg-primary`, `text-muted`, `rounded-control`, …)             |
+| `@artisanpack-ui/css/assets.php` | The entry points as a PHP array, for the Livewire package                                                               |
 
 Brand presets are separate imports from `@artisanpack-ui/tokens/presets/<name>.css`. Make your own with `npx apui-generate-preset` ([docs](../../docs/tokens/README.md#brand-presets-the-generator-27)).
 

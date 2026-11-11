@@ -13,6 +13,13 @@ export const FIXTURE_WIDTH = 1200;
 /**
  * Layout for the harness, outside the apui layers. Each case gets padding so
  * focus rings and shadows stay inside its box.
+ *
+ * Overlays (Dialog, DropdownMenu) render open and in place (`portal: false`,
+ * D-019). Their positioner and backdrop are fixed to the viewport, or placed
+ * by the machine with inline styles, so here they sit in the case instead: the
+ * positioner in flow under its trigger, the backdrop behind it filling the
+ * case, as the spec's previews show them. `!important` beats the machine's
+ * inline styles; the rule is the harness's, identical in every stack.
  */
 export const HARNESS_CSS = `
 html, body { margin: 0; }
@@ -20,6 +27,9 @@ body { background: var(--apui-surface-page); color: var(--apui-text-default); fo
 #${FIXTURE_ROOT_ID} { box-sizing: border-box; display: flex; flex-wrap: wrap; align-items: flex-start; gap: 8px; padding: 16px; inline-size: ${FIXTURE_WIDTH}px; }
 [data-apui-case] { display: inline-flex; padding: 8px; }
 *, *::before, *::after { caret-color: transparent; }
+[data-apui-case]:has([data-part='positioner']) { position: relative; flex-direction: column; align-items: flex-start; gap: 8px; }
+[data-apui-case] [data-part='positioner'] { position: relative !important; inset: auto !important; transform: none !important; z-index: auto !important; }
+[data-apui-case] [data-part='backdrop'] { position: absolute !important; inset: 0 !important; z-index: auto !important; }
 `;
 
 const escapeAttribute = (value: string) =>

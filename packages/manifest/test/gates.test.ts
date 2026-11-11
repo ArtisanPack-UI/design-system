@@ -121,6 +121,8 @@ describe('fixture block', () => {
 describe('docsTables', () => {
   it('spells props and events per stack', () => {
     const m = button();
+    // value-change spells as wire:model and update:modelValue because it binds value.
+    m.props = [...m.props, { name: 'value', type: 'string', description: 'The value.' }];
     m.events = [
       { name: 'value-change', description: 'Value changed.' },
       { name: 'row-click', description: 'A row was clicked.', payload: '{ row }' },
@@ -272,6 +274,8 @@ describe('PHP twins', () => {
       ] );
     `;
     const m = button();
+    // value-change spells as wire:model and update:modelValue because it binds value.
+    m.props = [...m.props, { name: 'value', type: 'string', description: 'The value.' }];
     m.events = [
       { name: 'value-change', description: 'Value changed.' },
       { name: 'row-click', description: 'A row was clicked.', payload: '{ row }' },
@@ -285,7 +289,16 @@ describe('PHP twins', () => {
       (['livewire', 'react', 'vue'] as const).map((stack) => docsTables(m, stack)),
     );
     expect(output.examples).toEqual(loadExamples('Button'));
-    expect(output.components).toEqual(['Button', 'Card', 'Checkbox', 'Input', 'Select']);
+    expect(output.components).toEqual([
+      'Button',
+      'Card',
+      'Checkbox',
+      'Dialog',
+      'DropdownMenu',
+      'Input',
+      'Select',
+      'Toast',
+    ]);
     expect(output.kebab).toEqual(['icon-only', 'button-group']);
   });
 });

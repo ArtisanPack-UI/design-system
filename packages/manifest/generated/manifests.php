@@ -7,7 +7,7 @@
  */
 
 return [
-	'Button'   => [
+	'Button'       => [
 		'name'        => 'Button',
 		'description' => 'Triggers an action. The one solid primary Button marks the main action of a view.',
 		'status'      => 'draft',
@@ -160,7 +160,7 @@ return [
 			],
 		],
 	],
-	'Card'     => [
+	'Card'         => [
 		'name'        => 'Card',
 		'description' => 'The default container: a surface with an edge, plus optional media, header, body and footer parts.',
 		'status'      => 'draft',
@@ -325,7 +325,7 @@ return [
 			'states'  => [ 'hover' ],
 		],
 	],
-	'Checkbox' => [
+	'Checkbox'     => [
 		'name'        => 'Checkbox',
 		'description' => 'Turns one option on or off, or selects items in a list or table. Supports the indeterminate (mixed) state.',
 		'status'      => 'draft',
@@ -476,7 +476,505 @@ return [
 			'states' => [ 'hover', 'focus-visible', 'checked', 'indeterminate', 'disabled', 'invalid' ],
 		],
 	],
-	'Input'    => [
+	'Dialog'       => [
+		'name'        => 'Dialog',
+		'description' => 'A modal window for a focused task or a confirmation. Traps focus, locks scroll and hides the page behind it from assistive technology; Escape, the close button and the backdrop close it, and focus returns to the trigger. Replaces Modal.',
+		'status'      => 'draft',
+		'issue'       => 49,
+		'rootClass'   => 'apui-dialog',
+		'stacks'      => [
+			'livewire' => [
+				'name'         => 'dialog',
+				'capabilities' => [ 'wire:model binds open both ways through $wire.entangle()' ],
+			],
+			'react'    => [
+				'name' => 'Dialog',
+			],
+			'vue'      => [
+				'name' => 'Dialog',
+			],
+		],
+		'props'       => [
+			[
+				'name'        => 'open',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'Whether it\'s open. Livewire binds it with wire:model, Vue with v-model:open. Emitted as data-state on every part.',
+			],
+			[
+				'name'        => 'defaultOpen',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'The initial state of an uncontrolled dialog.',
+				'stacks'      => [ 'react' ],
+			],
+			[
+				'name'        => 'size',
+				'type'        => 'enum',
+				'values'      => [ 'sm', 'md', 'lg' ],
+				'default'     => 'md',
+				'description' => 'The panel\'s width: 360px, --apui-dialog-width (480px) or 640px, never wider than the viewport. Emitted as data-size.',
+			],
+			[
+				'name'        => 'role',
+				'type'        => 'enum',
+				'values'      => [ 'dialog', 'alertdialog' ],
+				'default'     => 'dialog',
+				'description' => 'alertdialog for confirmations that interrupt: the backdrop doesn\'t close it, and focus starts on the close button, the safe action.',
+				'a11y'        => 'Sets the panel\'s role.',
+			],
+			[
+				'name'        => 'surface',
+				'type'        => 'enum',
+				'values'      => [ 'overlay', 'glass' ],
+				'default'     => 'overlay',
+				'description' => 'The panel\'s surface. Emitted as data-surface. Glass falls back to the overlay surface under reduced transparency and in high contrast.',
+			],
+			[
+				'name'        => 'color',
+				'type'        => 'enum',
+				'values'      => [ 'primary', 'secondary', 'accent', 'neutral', 'success', 'warning', 'error', 'info' ],
+				'description' => 'Tints the header icon, for confirmations. Emitted as data-color.',
+			],
+			[
+				'name'        => 'icon',
+				'type'        => 'string',
+				'description' => 'An icon name from the registry, shown in a tinted circle before the title. A slot or node overrides it.',
+			],
+			[
+				'name'        => 'title',
+				'type'        => 'node',
+				'description' => 'The heading, linked to the panel with aria-labelledby.',
+				'a11y'        => 'Every dialog needs a title; it is the panel\'s accessible name.',
+			],
+			[
+				'name'        => 'description',
+				'type'        => 'node',
+				'description' => 'Supporting text under the title, linked with aria-describedby.',
+			],
+			[
+				'name'        => 'footer',
+				'type'        => 'node',
+				'description' => 'The actions row. Name the confirm action ("Delete listing"), not "OK".',
+			],
+			[
+				'name'        => 'trigger',
+				'type'        => 'node',
+				'description' => 'Content for a trigger button that opens the dialog. Without it, open the dialog through open.',
+			],
+			[
+				'name'        => 'modal',
+				'type'        => 'boolean',
+				'default'     => true,
+				'description' => 'Traps focus, locks scroll and hides the rest of the page from assistive technology. Turn it off only for a dialog that must leave the page usable.',
+				'a11y'        => 'Sets aria-modal.',
+			],
+			[
+				'name'        => 'portal',
+				'type'        => 'boolean',
+				'default'     => true,
+				'description' => 'Renders the dialog at the end of the body, above everything (x-teleport, a React portal, Vue Teleport). Off renders it in place.',
+			],
+			[
+				'name'        => 'hideClose',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'Hides the close button in the header. Escape still closes the dialog.',
+			],
+			[
+				'name'        => 'closeLabel',
+				'type'        => 'string',
+				'default'     => 'Close',
+				'description' => 'The close button\'s accessible name. Translate it: Livewire defaults it through __( \'Close\' ).',
+				'a11y'        => 'The close button is icon-only, so this is its only name.',
+			],
+			[
+				'name'        => 'classes',
+				'type'        => 'object',
+				'description' => 'Extra classes per part, such as { header: \'…\', body: \'…\' }.',
+			],
+		],
+		'sizes'       => [ 'sm', 'md', 'lg' ],
+		'colors'      => [ 'primary', 'secondary', 'accent', 'neutral', 'success', 'warning', 'error', 'info' ],
+		'parts'       => [
+			[
+				'name'        => 'root',
+				'element'     => 'div',
+				'description' => 'The panel, carrying the root class. It is Zag\'s content part, so it also carries data-part="content" (D-019).',
+			],
+			[
+				'name'        => 'content',
+				'element'     => 'div',
+				'description' => 'The panel: the same element as root.',
+			],
+			[
+				'name'        => 'trigger',
+				'element'     => 'button',
+				'description' => 'The button that opens the dialog, when trigger is set.',
+			],
+			[
+				'name'        => 'backdrop',
+				'element'     => 'div',
+				'description' => 'The scrim behind the panel.',
+			],
+			[
+				'name'        => 'positioner',
+				'element'     => 'div',
+				'description' => 'Fills the viewport and centers the panel.',
+			],
+			[
+				'name'        => 'header',
+				'element'     => 'div',
+				'description' => 'Icon, title, description and close button.',
+			],
+			[
+				'name'        => 'icon',
+				'element'     => 'span',
+				'description' => 'The tinted icon before the title.',
+			],
+			[
+				'name'        => 'title',
+				'element'     => 'h2',
+				'description' => 'The heading.',
+			],
+			[
+				'name'        => 'description',
+				'element'     => 'p',
+				'description' => 'Supporting text.',
+			],
+			[
+				'name'        => 'closeTrigger',
+				'element'     => 'button',
+				'description' => 'The close button: a ghost, neutral, small icon-only Button.',
+			],
+			[
+				'name'        => 'body',
+				'element'     => 'div',
+				'description' => 'The default slot.',
+			],
+			[
+				'name'        => 'footer',
+				'element'     => 'div',
+				'description' => 'The actions row.',
+			],
+		],
+		'slots'       => [
+			[
+				'name'        => 'trigger',
+				'description' => 'Content for the trigger button.',
+			],
+			[
+				'name'        => 'icon',
+				'description' => 'Overrides the icon.',
+			],
+			[
+				'name'        => 'title',
+				'description' => 'Rich title content, rendered inside the heading.',
+			],
+			[
+				'name'        => 'description',
+				'description' => 'Rich supporting text.',
+			],
+			[
+				'name'        => 'footer',
+				'description' => 'The actions row.',
+			],
+		],
+		'events'      => [
+			[
+				'name'        => 'open-change',
+				'description' => 'The dialog opened or closed itself: the trigger, Escape, the backdrop or the close button. Setting open doesn\'t fire it.',
+				'payload'     => 'boolean',
+			],
+		],
+		'a11y'        => [
+			'role'         => 'dialog',
+			'roles'        => [ 'alertdialog' ],
+			'element'      => 'div',
+			'keyboard'     => [
+				[
+					'keys'   => 'Tab, Shift+Tab',
+					'action' => 'Move between the controls inside; focus stays in the dialog.',
+				],
+				[
+					'keys'   => 'Escape',
+					'action' => 'Closes the dialog and returns focus to the trigger.',
+				],
+				[
+					'keys'   => 'Enter, Space',
+					'action' => 'On the trigger, opens the dialog.',
+				],
+			],
+			'requirements' => [ 'Focus moves into the dialog on open and is trapped there while it\'s modal; it returns to the trigger on close.', 'The title is linked with aria-labelledby and the description with aria-describedby.', 'A modal dialog sets aria-modal and hides everything else from assistive technology, and locks page scroll.', 'Destructive confirmations use alertdialog: the backdrop doesn\'t close them and focus starts on the safe action.', 'The close button has an accessible name (translatable, "Close").', 'Text keeps 4.5:1 and the panel\'s edge 3:1 on the overlay surface in every theme, glass included.', 'Glass falls back to the overlay surface under prefers-reduced-transparency, without backdrop-filter, and in high contrast.', 'Every part keeps a stable, server-rendered id in Livewire, so morphs never replace the panel (D-015).' ],
+			'wcag'         => [ '1.3.1', '1.4.3', '1.4.11', '2.1.1', '2.1.2', '2.4.3', '2.4.7', '4.1.2' ],
+		],
+		'tokens'      => [ '--apui-dialog-radius', '--apui-dialog-width', '--apui-surface-overlay', '--apui-surface-glass', '--apui-surface-glass-border', '--apui-surface-glass-blur', '--apui-surface-glass-saturation', '--apui-elevation-overlay', '--apui-elevation-glass', '--apui-backdrop', '--apui-z-modal', '--apui-border-muted', '--apui-text-default', '--apui-text-muted', '--apui-text-muted-glass', '--apui-field-gap' ],
+		'fixture'     => [
+			'content' => 'They\'ll get an email with a link to join the project.',
+			'props'   => [
+				'open'        => true,
+				'modal'       => false,
+				'portal'      => false,
+				'title'       => 'Invite member',
+				'description' => 'Members can edit every listing.',
+				'icon'        => 'user',
+				'footer'      => 'Send invite',
+			],
+			'parts'   => [
+				'trigger' => 'Invite',
+			],
+			'states'  => [],
+		],
+	],
+	'DropdownMenu' => [
+		'name'        => 'DropdownMenu',
+		'description' => 'A list of actions or options anchored to a trigger button: action, checkbox and radio items, in groups with labels. Arrow keys move, typeahead jumps, Escape closes. Replaces Dropdown.',
+		'status'      => 'draft',
+		'issue'       => 50,
+		'rootClass'   => 'apui-dropdown-menu',
+		'stacks'      => [
+			'livewire' => [
+				'name'         => 'dropdown-menu',
+				'capabilities' => [ 'Children: dropdown-menu-item, dropdown-menu-group and dropdown-menu-separator; items renders the same children', 'wire:click on an item runs from the keyboard too: choosing an item clicks it' ],
+			],
+			'react'    => [
+				'name'         => 'DropdownMenu',
+				'capabilities' => [ 'Children: DropdownMenuItem, DropdownMenuGroup and DropdownMenuSeparator' ],
+			],
+			'vue'      => [
+				'name'         => 'DropdownMenu',
+				'capabilities' => [ 'Children: DropdownMenuItem, DropdownMenuGroup and DropdownMenuSeparator' ],
+			],
+		],
+		'props'       => [
+			[
+				'name'        => 'open',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'Whether it\'s open. Livewire binds it with wire:model, Vue with v-model:open. Emitted as data-state on every part.',
+			],
+			[
+				'name'        => 'defaultOpen',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'The initial state of an uncontrolled menu.',
+				'stacks'      => [ 'react' ],
+			],
+			[
+				'name'        => 'label',
+				'type'        => 'node',
+				'description' => 'The trigger button\'s content.',
+				'a11y'        => 'An icon-only trigger needs an aria-label through classes or the slot\'s text.',
+			],
+			[
+				'name'        => 'items',
+				'type'        => 'array',
+				'description' => 'The items as data, rendering the same children as composition: { value, label, icon, shortcut, color: \'error\', disabled }, { type: \'checkbox\' | \'radio\', value, label, checked }, { type: \'separator\' } and { type: \'group\', label, items }.',
+			],
+			[
+				'name'        => 'align',
+				'type'        => 'enum',
+				'values'      => [ 'start', 'center', 'end' ],
+				'default'     => 'start',
+				'description' => 'Which of the menu\'s edges lines up with the trigger\'s, along the inline axis; start and end follow the text direction. Emitted as data-align.',
+			],
+			[
+				'name'        => 'surface',
+				'type'        => 'enum',
+				'values'      => [ 'overlay', 'glass' ],
+				'default'     => 'overlay',
+				'description' => 'The menu\'s surface. Emitted as data-surface. Glass falls back to the overlay surface under reduced transparency and in high contrast.',
+			],
+			[
+				'name'        => 'portal',
+				'type'        => 'boolean',
+				'default'     => true,
+				'description' => 'Renders the menu at the end of the body, above everything (x-teleport, a React portal, Vue Teleport). Off renders it in place.',
+			],
+			[
+				'name'        => 'classes',
+				'type'        => 'object',
+				'description' => 'Extra classes per part, such as { trigger: \'…\', item: \'…\' }.',
+			],
+		],
+		'parts'       => [
+			[
+				'name'        => 'root',
+				'element'     => 'div',
+				'description' => 'The menu panel, carrying the root class. It is Zag\'s content part, so it also carries data-part="content" (D-019).',
+			],
+			[
+				'name'        => 'content',
+				'element'     => 'div',
+				'description' => 'The menu panel: the same element as root.',
+			],
+			[
+				'name'        => 'trigger',
+				'element'     => 'button',
+				'description' => 'The button that opens the menu.',
+			],
+			[
+				'name'        => 'positioner',
+				'element'     => 'div',
+				'description' => 'Places the panel against the trigger.',
+			],
+			[
+				'name'        => 'itemGroup',
+				'element'     => 'div',
+				'description' => 'A group of items, labelled by its label.',
+			],
+			[
+				'name'        => 'itemGroupLabel',
+				'element'     => 'div',
+				'description' => 'A group\'s label.',
+			],
+			[
+				'name'        => 'item',
+				'element'     => 'div',
+				'description' => 'An action, checkbox or radio item: role menuitem, menuitemcheckbox or menuitemradio.',
+			],
+			[
+				'name'        => 'icon',
+				'element'     => 'span',
+				'description' => 'An item\'s leading icon.',
+			],
+			[
+				'name'        => 'itemText',
+				'element'     => 'span',
+				'description' => 'An item\'s label.',
+			],
+			[
+				'name'        => 'shortcut',
+				'element'     => 'kbd',
+				'description' => 'An item\'s keyboard shortcut, shown at the end.',
+			],
+			[
+				'name'        => 'itemIndicator',
+				'element'     => 'span',
+				'description' => 'The check on a checkbox or radio item, shown while it\'s checked.',
+			],
+			[
+				'name'        => 'separator',
+				'element'     => 'hr',
+				'description' => 'A rule between items.',
+			],
+		],
+		'slots'       => [
+			[
+				'name'        => 'label',
+				'description' => 'The trigger button\'s content.',
+			],
+		],
+		'events'      => [
+			[
+				'name'        => 'open-change',
+				'description' => 'The menu opened or closed itself: the trigger, Escape, an outside click or a choice. Setting open doesn\'t fire it.',
+				'payload'     => 'boolean',
+			],
+			[
+				'name'        => 'select',
+				'description' => 'An action item was chosen, by click or Enter. The payload is its value.',
+				'payload'     => 'string',
+			],
+			[
+				'name'        => 'checked-change',
+				'description' => 'A checkbox or radio item was chosen. Its checked state stays the owner\'s to set.',
+				'payload'     => '{ value: string, checked: boolean }',
+			],
+		],
+		'a11y'        => [
+			'role'         => 'menu',
+			'element'      => 'div',
+			'keyboard'     => [
+				[
+					'keys'   => 'Enter, Space, ArrowDown',
+					'action' => 'On the trigger, opens the menu on the first item.',
+				],
+				[
+					'keys'   => 'ArrowUp',
+					'action' => 'On the trigger, opens the menu on the last item.',
+				],
+				[
+					'keys'   => 'ArrowDown, ArrowUp',
+					'action' => 'Move to the next or previous item, skipping disabled ones.',
+				],
+				[
+					'keys'   => 'Home, End',
+					'action' => 'Move to the first or last item.',
+				],
+				[
+					'keys'   => 'A–Z',
+					'action' => 'Typeahead: moves to the next item whose label starts with the typed text.',
+				],
+				[
+					'keys'   => 'Enter, Space',
+					'action' => 'Chooses the item; a checkbox or radio item toggles.',
+				],
+				[
+					'keys'   => 'Escape',
+					'action' => 'Closes the menu and returns focus to the trigger.',
+				],
+				[
+					'keys'   => 'Tab',
+					'action' => 'Closes the menu and moves on.',
+				],
+			],
+			'requirements' => [ 'role=menu with menuitem, menuitemcheckbox and menuitemradio items; checked items set aria-checked.', 'The trigger sets aria-haspopup=menu, aria-expanded and aria-controls.', 'Focus moves into the menu on open and returns to the trigger when it closes.', 'Disabled items set aria-disabled and are skipped by the arrow keys.', 'Groups are labelled by their label with aria-labelledby.', 'The highlighted item shows the hover tint and the focus ring.', 'Danger items (color error) use --apui-color-error-text, 4.5:1 on the overlay surface; put them last, after a separator.', 'The panel opens below the trigger at its start edge and mirrors in RTL; it flips when there\'s no room.', 'Every part keeps a stable, server-rendered id in Livewire and items carry wire:key (D-015).' ],
+			'wcag'         => [ '1.3.1', '1.4.3', '1.4.11', '2.1.1', '2.1.2', '2.4.3', '2.4.7', '4.1.2' ],
+		],
+		'tokens'      => [ '--apui-menu-radius', '--apui-menu-item-radius', '--apui-menu-item-height', '--apui-surface-overlay', '--apui-surface-glass', '--apui-surface-glass-border', '--apui-surface-glass-blur', '--apui-surface-glass-saturation', '--apui-elevation-overlay', '--apui-elevation-glass', '--apui-z-dropdown', '--apui-border-muted', '--apui-state-hover', '--apui-selected-bg', '--apui-text-default', '--apui-text-muted', '--apui-text-disabled', '--apui-color-primary-text', '--apui-color-primary-soft-foreground', '--apui-color-error-text', '--apui-focus-ring-color' ],
+		'fixture'     => [
+			'props'  => [
+				'open'   => true,
+				'portal' => false,
+				'label'  => 'Options',
+				'items'  => [
+					[
+						'type'  => 'group',
+						'label' => 'Listing',
+						'items' => [
+							[
+								'value'    => 'edit',
+								'label'    => 'Edit',
+								'icon'     => 'pencil',
+								'shortcut' => 'E',
+							],
+							[
+								'value' => 'duplicate',
+								'label' => 'Duplicate',
+								'icon'  => 'copy',
+							],
+							[
+								'value'    => 'archive',
+								'label'    => 'Archive',
+								'disabled' => true,
+							],
+						],
+					],
+					[
+						'type' => 'separator',
+					],
+					[
+						'type'    => 'checkbox',
+						'value'   => 'grid',
+						'label'   => 'Show grid',
+						'checked' => true,
+					],
+					[
+						'type' => 'separator',
+					],
+					[
+						'value' => 'delete',
+						'label' => 'Delete',
+						'icon'  => 'trash',
+						'color' => 'error',
+					],
+				],
+			],
+			'states' => [],
+		],
+	],
+	'Input'        => [
 		'name'        => 'Input',
 		'description' => 'Single-line text entry with a visible label, hint and error. It anchors the field anatomy (root, label, control, hint, error) every form component reuses.',
 		'status'      => 'draft',
@@ -707,7 +1205,7 @@ return [
 			'states' => [ 'hover', 'focus-visible', 'disabled', 'invalid', 'readonly' ],
 		],
 	],
-	'Select'   => [
+	'Select'       => [
 		'name'        => 'Select',
 		'description' => 'Chooses one value from a short list with the native select element. It shares the Input field anatomy; searchable and rich options are the Combobox family (#54).',
 		'status'      => 'draft',
@@ -911,6 +1409,180 @@ return [
 				'leadingIcon' => 'user',
 			],
 			'states' => [ 'hover', 'focus-visible', 'disabled', 'invalid' ],
+		],
+	],
+	'Toast'        => [
+		'name'        => 'Toast',
+		'description' => 'A brief, non-blocking message about something that just happened. A toaster (the region) shows toasts created from data, stacked, timed and paused on hover and focus; Livewire triggers them from the server. Rendered on its own, a Toast is static.',
+		'status'      => 'draft',
+		'issue'       => 51,
+		'rootClass'   => 'apui-toast',
+		'stacks'      => [
+			'livewire' => [
+				'name'         => 'toast',
+				'capabilities' => [ 'toaster renders the region; $this->dispatch(\'toast\', …) from a Livewire component, and toasts flashed to the session, show in it', 'ApuiBehavior.toast({ … }) shows one from JavaScript' ],
+			],
+			'react'    => [
+				'name'         => 'Toast',
+				'capabilities' => [ 'Toaster renders the region; toast.create({ … }) shows one' ],
+			],
+			'vue'      => [
+				'name'         => 'Toast',
+				'capabilities' => [ 'Toaster renders the region; toast.create({ … }) shows one' ],
+			],
+		],
+		'props'       => [
+			[
+				'name'        => 'title',
+				'type'        => 'node',
+				'description' => 'The message, linked with aria-labelledby.',
+			],
+			[
+				'name'        => 'description',
+				'type'        => 'node',
+				'description' => 'Supporting text, linked with aria-describedby.',
+			],
+			[
+				'name'        => 'color',
+				'type'        => 'enum',
+				'values'      => [ 'primary', 'secondary', 'accent', 'neutral', 'success', 'warning', 'error', 'info' ],
+				'default'     => 'neutral',
+				'description' => 'Tints the icon. Emitted as data-color. error makes the toast an alert.',
+				'a11y'        => 'error sets role=alert, so it\'s announced at once.',
+			],
+			[
+				'name'        => 'variant',
+				'type'        => 'enum',
+				'values'      => [ 'default', 'inverse' ],
+				'default'     => 'default',
+				'description' => 'inverse uses the inverse surface, for a toast that must stand out. Emitted as data-variant.',
+			],
+			[
+				'name'        => 'surface',
+				'type'        => 'enum',
+				'values'      => [ 'overlay', 'glass' ],
+				'default'     => 'overlay',
+				'description' => 'The toast\'s surface. Emitted as data-surface. Glass falls back to the overlay surface under reduced transparency and in high contrast.',
+			],
+			[
+				'name'        => 'icon',
+				'type'        => 'string',
+				'description' => 'An icon name from the registry. Defaults to the color\'s status icon: circle-check, triangle-alert, circle-alert or info. A slot or node overrides it.',
+			],
+			[
+				'name'        => 'actions',
+				'type'        => 'node',
+				'description' => 'Buttons under the text, such as Undo. In a toaster, a toast with an action doesn\'t dismiss itself.',
+			],
+			[
+				'name'        => 'hideClose',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'Hides the close button.',
+			],
+			[
+				'name'        => 'closeLabel',
+				'type'        => 'string',
+				'default'     => 'Dismiss notification',
+				'description' => 'The close button\'s accessible name. Translate it: Livewire defaults it through __( \'Dismiss notification\' ).',
+				'a11y'        => 'The close button is icon-only, so this is its only name.',
+			],
+			[
+				'name'        => 'classes',
+				'type'        => 'object',
+				'description' => 'Extra classes per part, such as { title: \'…\', actions: \'…\' }.',
+			],
+		],
+		'variants'    => [ 'default', 'inverse' ],
+		'colors'      => [ 'primary', 'secondary', 'accent', 'neutral', 'success', 'warning', 'error', 'info' ],
+		'parts'       => [
+			[
+				'name'        => 'root',
+				'element'     => 'div',
+				'description' => 'The toast: role status, or alert for errors.',
+			],
+			[
+				'name'        => 'icon',
+				'element'     => 'span',
+				'description' => 'The status icon.',
+			],
+			[
+				'name'        => 'title',
+				'element'     => 'p',
+				'description' => 'The message.',
+			],
+			[
+				'name'        => 'description',
+				'element'     => 'p',
+				'description' => 'Supporting text.',
+			],
+			[
+				'name'        => 'actions',
+				'element'     => 'div',
+				'description' => 'The action buttons.',
+			],
+			[
+				'name'        => 'closeTrigger',
+				'element'     => 'button',
+				'description' => 'The close button: a ghost, neutral, small icon-only Button.',
+			],
+		],
+		'slots'       => [
+			[
+				'name'        => 'icon',
+				'description' => 'Overrides the icon.',
+			],
+			[
+				'name'        => 'title',
+				'description' => 'Rich message content.',
+			],
+			[
+				'name'        => 'description',
+				'description' => 'Rich supporting text.',
+			],
+			[
+				'name'        => 'actions',
+				'description' => 'The action buttons.',
+			],
+		],
+		'events'      => [
+			[
+				'name'        => 'open-change',
+				'description' => 'The close button was pressed. In a toaster the toast also dismisses itself; on its own, hiding it is the owner\'s job.',
+				'payload'     => 'boolean',
+			],
+		],
+		'a11y'        => [
+			'role'         => 'status',
+			'roles'        => [ 'alert' ],
+			'element'      => 'div',
+			'keyboard'     => [
+				[
+					'keys'   => 'Alt+T',
+					'action' => 'Moves focus to the toaster\'s region.',
+				],
+				[
+					'keys'   => 'Tab',
+					'action' => 'Moves through the toasts\' actions and close buttons.',
+				],
+				[
+					'keys'   => 'Escape',
+					'action' => 'On a toast in a toaster, dismisses it.',
+				],
+			],
+			'requirements' => [ 'The toaster\'s region is a labelled landmark (role=region, translatable "Notifications") with aria-live=polite; an error toast is role=alert, announced at once.', 'A toast times out after its duration (default 5000ms), paused while the region is hovered or focused; duration 0 keeps it.', 'Toasts with actions don\'t dismiss themselves (WCAG 2.2.1).', 'Never the only place an error is reported: blocking errors use Alert.', 'The close button has an accessible name (translatable, "Dismiss notification").', 'Text keeps 4.5:1 on the overlay, inverse and glass surfaces; the icon tint is --apui-color-<c>-text.', 'The region sits at the bottom end of the viewport and mirrors in RTL.' ],
+			'wcag'         => [ '1.3.1', '1.4.3', '1.4.11', '2.1.1', '2.2.1', '2.4.7', '4.1.2', '4.1.3' ],
+		],
+		'tokens'      => [ '--apui-toast-radius', '--apui-surface-overlay', '--apui-surface-inverse', '--apui-surface-glass', '--apui-surface-glass-border', '--apui-surface-glass-blur', '--apui-surface-glass-saturation', '--apui-elevation-overlay', '--apui-elevation-glass', '--apui-z-toast', '--apui-border-muted', '--apui-text-default', '--apui-text-muted', '--apui-text-muted-glass', '--apui-text-inverse', '--apui-color-success-text', '--apui-color-warning-text', '--apui-color-error-text', '--apui-color-info-text' ],
+		'fixture'     => [
+			'props'  => [
+				'title'       => 'Listing saved',
+				'description' => 'Cedarwood Estates is live now.',
+			],
+			'parts'  => [
+				'actions' => 'Undo',
+			],
+			'states' => [],
 		],
 	],
 ];

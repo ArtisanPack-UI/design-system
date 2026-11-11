@@ -59,6 +59,8 @@ export interface ManifestEvent {
 
 export interface ManifestA11y {
   role?: string;
+  /** Other roles the root takes in some states, such as `alert` for an error toast. */
+  roles?: string[];
   element?: string;
   keyboard?: { keys: string; action: string }[];
   requirements: string[];

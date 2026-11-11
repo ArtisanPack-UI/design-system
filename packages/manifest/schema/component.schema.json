@@ -175,6 +175,12 @@
       "required": ["requirements"],
       "properties": {
         "role": { "type": "string" },
+        "roles": {
+          "description": "Other roles the root takes in some states, such as alert for an error toast.",
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "string" }
+        },
         "element": { "type": "string" },
         "keyboard": {
           "type": "array",

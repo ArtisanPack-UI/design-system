@@ -75,7 +75,7 @@ export function docsTables(manifest: ComponentManifest, stack: Stack): DocsTable
     })),
     events: (manifest.events ?? []).map((event) => ({
       concept: event.name,
-      name: eventName(event, stack),
+      name: eventName(event, stack, manifest),
       description: event.description,
       payload: event.payload ?? null,
     })),

@@ -135,3 +135,137 @@ describe('Button xs hit area', () => {
     await page.close();
   });
 });
+
+const dialog = (attrs = '', header = '') => `
+  <div data-scope="dialog" data-part="positioner" style="position: static">
+    <div class="apui-dialog" data-scope="dialog" data-part="content" role="dialog" ${attrs}>
+      <div data-scope="dialog" data-part="header">
+        ${header}
+        <h2 data-scope="dialog" data-part="title">Invite member</h2>
+        <p data-scope="dialog" data-part="description">They'll get an email.</p>
+        <button class="apui-button" data-scope="dialog" data-part="close-trigger">x</button>
+      </div>
+    </div>
+  </div>`;
+
+describe('Dialog', () => {
+  it('stays hidden while the machine sets hidden, though it sets display', async () => {
+    const page = await open(dialog('hidden'));
+    expect(await style(page, '.apui-dialog', 'display')).toBe('none');
+    await page.close();
+  });
+
+  it('sizes the panel from data-size', async () => {
+    for (const [size, width] of [
+      ['sm', '360px'],
+      ['md', '480px'],
+      ['lg', '640px'],
+    ]) {
+      const page = await open(dialog(`data-size="${size}"`));
+      expect(await style(page, '.apui-dialog', 'width')).toBe(width);
+      await page.close();
+    }
+  });
+
+  it('puts the text in the middle column after an icon, and first without one', async () => {
+    const icon =
+      '<span data-scope="dialog" data-part="icon"><svg viewBox="0 0 24 24"></svg></span>';
+    const withIcon = await open(dialog('data-color="error"', icon));
+    expect(await style(withIcon, '[data-part="title"]', 'grid-column-start')).toBe('2');
+    expect(await style(withIcon, '[data-part="icon"]', 'background-color')).not.toBe(
+      'rgba(0, 0, 0, 0)',
+    );
+    await withIcon.close();
+    const without = await open(dialog());
+    const left = (selector: string) =>
+      without.$eval(selector, (el) => Math.round(el.getBoundingClientRect().left));
+    expect(await left('[data-part="title"]')).toBe(await left('[data-part="description"]'));
+    await without.close();
+  });
+});
+
+const menuItem = (attrs = '', text = 'Edit') => `
+  <div data-scope="dropdown-menu" data-part="item" role="menuitem" ${attrs}>
+    <span data-scope="dropdown-menu" data-part="item-indicator" hidden>✓</span>
+    <span data-scope="dropdown-menu" data-part="item-text">${text}</span>
+  </div>`;
+
+describe('DropdownMenu', () => {
+  it('keeps the check column while unchecked, so labels line up', async () => {
+    const page = await open(
+      `<div class="apui-dropdown-menu" data-scope="dropdown-menu" data-part="content">${menuItem()}</div>`,
+    );
+    expect(await style(page, '[data-part="item-indicator"]', 'visibility')).toBe('hidden');
+    expect(await style(page, '[data-part="item-indicator"]', 'width')).toBe('16px');
+    await page.close();
+  });
+
+  it('tints checked, danger and highlighted items', async () => {
+    const page = await open(
+      `<div class="apui-dropdown-menu">
+        ${menuItem('id="checked" aria-checked="true"')}
+        ${menuItem('id="danger" data-color="error"')}
+        ${menuItem('id="plain"')}
+        ${menuItem('id="highlighted" data-highlighted')}
+      </div>`,
+    );
+    const plain = await style(page, '#plain', 'background-color');
+    expect(await style(page, '#checked', 'background-color')).not.toBe(plain);
+    expect(await style(page, '#highlighted', 'background-color')).not.toBe(plain);
+    expect(await style(page, '#danger', 'color')).not.toBe(await style(page, '#plain', 'color'));
+    await page.close();
+  });
+});
+
+const toastMarkup = (attrs = '') => `
+  <div class="apui-toast" data-scope="toast" data-part="root" role="status" ${attrs}>
+    <span data-scope="toast" data-part="icon"><svg viewBox="0 0 24 24"></svg></span>
+    <p data-scope="toast" data-part="title">Listing saved</p>
+  </div>`;
+
+describe('Toast', () => {
+  it('tints the icon from data-color, muted when neutral', async () => {
+    const page = await open(
+      `<div id="success">${toastMarkup('data-color="success"')}</div><div id="neutral">${toastMarkup('data-color="neutral"')}</div>`,
+    );
+    expect(await style(page, '#success [data-part="icon"]', 'color')).not.toBe(
+      await style(page, '#neutral [data-part="icon"]', 'color'),
+    );
+    await page.close();
+  });
+
+  it('keeps a hidden close trigger hidden, though it is a Button', async () => {
+    const page = await open(
+      toastMarkup().replace(
+        '</div>',
+        '<button class="apui-button" data-scope="toast" data-part="close-trigger" hidden>x</button></div>',
+      ),
+    );
+    expect(await style(page, '[data-part="close-trigger"]', 'display')).toBe('none');
+    await page.close();
+  });
+
+  it('uses the inverse surface and text for the inverse variant', async () => {
+    const page = await open(
+      `<div id="a">${toastMarkup('data-variant="default"')}</div><div id="b">${toastMarkup('data-variant="inverse"')}</div>`,
+    );
+    expect(await style(page, '#b .apui-toast', 'background-color')).not.toBe(
+      await style(page, '#a .apui-toast', 'background-color'),
+    );
+    expect(await style(page, '#b [data-part="title"]', 'color')).not.toBe(
+      await style(page, '#a [data-part="title"]', 'color'),
+    );
+    await page.close();
+  });
+
+  it('stacks toasts in the region through the properties Zag writes', async () => {
+    const page = await open(
+      `<div data-scope="toast" data-part="group" style="position: fixed; bottom: 0">
+        ${toastMarkup('style="position: absolute; --y: 12px; --opacity: 0.5; --x: 0"')}
+      </div>`,
+    );
+    expect(await style(page, '.apui-toast', 'opacity')).toBe('0.5');
+    expect(await style(page, '.apui-toast', 'translate')).toBe('0px 12px');
+    await page.close();
+  });
+});

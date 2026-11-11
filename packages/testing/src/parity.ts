@@ -8,7 +8,8 @@
  * - each state prop leaves evidence (`disabled`, `aria-busy`, `data-state`…);
  * - every other prop changes the markup, so none is silently ignored;
  * - with the fixture's `parts` props, every part renders as
- *   `[data-scope][data-part]`, and no part outside the manifest does;
+ *   `[data-scope][data-part]` somewhere in the render (an overlay's trigger
+ *   sits outside its panel), and no part outside the manifest does;
  * - optionally, the props and events the stack declares match the manifest.
  *
  * `php/ManifestParity.php` runs the same checks for Blade with the same
@@ -175,7 +176,7 @@ export async function checkParity(
   const renderRoot = async (overrides: Record<string, unknown>) => {
     const html = await render({ ...base, ...overrides }, content);
     const container = parseFragment(html);
-    return { html, root: container.querySelector(`.${manifest.rootClass}`) };
+    return { html, container, root: container.querySelector(`.${manifest.rootClass}`) };
   };
 
   const initial = await renderRoot({});
@@ -247,17 +248,22 @@ export async function checkParity(
       `root: no element with class "${manifest.rootClass}" with the fixture's parts props`,
     );
   } else {
+    // The whole render, not just the root: an overlay's trigger, backdrop and
+    // positioner sit around the panel that carries the root class (D-019).
     const rendered = new Set(
-      [full.root, ...full.root.querySelectorAll(`[data-scope="${scope}"][data-part]`)]
+      [full.root, ...full.container.querySelectorAll(`[data-scope="${scope}"][data-part]`)]
         .filter((el) => el.getAttribute('data-scope') === scope && el.hasAttribute('data-part'))
         .map((el) => el.getAttribute('data-part')!),
     );
+    // Behavior parts carry Zag's kebab-case names (`close-trigger`) for the
+    // manifest's camelCase ones (`closeTrigger`), so compare both as kebab (D-019).
+    const renderedKebab = new Set([...rendered].map(kebab));
     for (const part of manifest.parts) {
-      if (part.name === 'root' || rendered.has(part.name)) continue;
+      if (part.name === 'root' || renderedKebab.has(kebab(part.name))) continue;
       problems.push(`part ${part.name}: missing [data-scope="${scope}"][data-part="${part.name}"]`);
     }
     for (const name of [...rendered].sort()) {
-      if (name !== 'root' && !manifest.parts.some((part) => part.name === name)) {
+      if (name !== 'root' && !manifest.parts.some((part) => kebab(part.name) === kebab(name))) {
         problems.push(`part ${name}: rendered but not in the manifest`);
       }
     }
@@ -288,7 +294,7 @@ export function declaredProblems(
     }
   }
   if (declared?.events) {
-    const expected = (manifest.events ?? []).map((event) => eventName(event, stack));
+    const expected = (manifest.events ?? []).map((event) => eventName(event, stack, manifest));
     for (const name of expected) {
       if (!declared.events.includes(name)) {
         problems.push(`event ${name}: not emitted by the ${stack} component`);

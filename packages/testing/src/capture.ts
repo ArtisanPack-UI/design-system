@@ -74,6 +74,12 @@ export async function openSheet(browser: Browser, options: OpenSheetOptions): Pr
     }
     await page.evaluate(() => document.fonts.ready);
     await settle(page);
+    // States are forced below, never real focus. An open overlay's machine
+    // moves focus into it, and whether that shows a ring depends on each
+    // framework's focus heuristics, not on the component (D-019). A blur moves
+    // focus to the body, which dismisses nothing.
+    await page.evaluate(() => (document.activeElement as HTMLElement | null)?.blur?.());
+    await settle(page);
     await forceStates(page, rootClass);
     await settle(page);
   } catch (error) {

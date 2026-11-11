@@ -26,7 +26,7 @@ const IMPLICIT_ROLES: Record<string, string> = {
 
 /**
  * Problems with the rendered roots: a tag outside the root part's elements, or
- * an accessibility role other than the manifest's.
+ * an accessibility role other than the manifest's (`role`, or one of `roles`).
  */
 export async function checkManifestA11y(
   page: Page,
@@ -72,8 +72,9 @@ export async function checkManifestA11y(
       fetchRelatives: false,
     });
     const actual = nodes[0]?.role?.value;
-    if (actual !== undefined && actual !== role) {
-      problems.add(`${id}: has role "${String(actual)}", expected "${role}"`);
+    const allowed = [role, ...(manifest.a11y.roles ?? [])];
+    if (actual !== undefined && !allowed.includes(String(actual))) {
+      problems.add(`${id}: has role "${String(actual)}", expected "${allowed.join('" or "')}"`);
     }
   }
   await session.detach();

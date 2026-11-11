@@ -84,16 +84,33 @@ const SPECIAL_EVENTS: Record<string, Record<Stack, string>> = {
   'checked-change': { livewire: 'wire:model', react: 'onCheckedChange', vue: 'update:checked' },
 };
 
+/** The prop each special event binds (`v-model:open`, `wire:model`). */
+const BOUND_PROPS: Record<string, string> = {
+  'value-change': 'value',
+  'open-change': 'open',
+  'checked-change': 'checked',
+};
+
 /**
  * An event's name in a stack. Livewire and Vue use the kebab-case concept,
- * React `on` plus PascalCase; value and open changes follow the vocabulary.
+ * React `on` plus PascalCase; value, open and checked changes follow the
+ * vocabulary. With the manifest, those binding spellings (`update:open`,
+ * `wire:model`) apply only when the component has the prop they bind: a
+ * DropdownMenu's `checked-change` reports an item, so it stays `checked-change`
+ * (D-019).
  *
  * @example eventName('row-click', 'react') // 'onRowClick'
  */
-export function eventName(event: ManifestEvent | string, stack: Stack): string {
+export function eventName(
+  event: ManifestEvent | string,
+  stack: Stack,
+  manifest?: Pick<ComponentManifest, 'props'>,
+): string {
   const name = typeof event === 'string' ? event : event.name;
   const special = SPECIAL_EVENTS[name];
-  if (special) return special[stack];
+  const bound = BOUND_PROPS[name];
+  const binds = !manifest || manifest.props.some((prop) => prop.name === bound);
+  if (special && binds) return special[stack];
   if (stack === 'react') {
     const pascal = camel(name);
     return `on${pascal.charAt(0).toUpperCase()}${pascal.slice(1)}`;

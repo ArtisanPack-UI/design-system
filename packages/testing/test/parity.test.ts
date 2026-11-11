@@ -130,6 +130,31 @@ describe('review fixes', () => {
     );
   });
 
+  it("matches Zag's kebab-case part names to the manifest's camelCase ones (D-019)", async () => {
+    const manifest = probe();
+    manifest.parts = manifest.parts.map((part) =>
+      part.name === 'label' ? { ...part, name: 'itemText' } : part,
+    );
+    const as = (name: string) => (props: Record<string, unknown>) =>
+      probeMarkup(props).replace('data-part="label"', `data-part="${name}"`);
+    expect(await checkParity(manifest, 'react', as('item-text'))).toEqual([]);
+    expect(await checkParity(manifest, 'react', as('itemText'))).toEqual([]);
+    expect(await checkParity(manifest, 'react', as('item-label'))).toEqual([
+      'part itemText: missing [data-scope="probe"][data-part="itemText"]',
+      'part item-label: rendered but not in the manifest',
+    ]);
+  });
+
+  it("finds parts outside the root, such as an overlay's trigger (D-019)", async () => {
+    const problems = await checkParity(probe(), 'react', (props) => {
+      const markup = probeMarkup(props);
+      const icon = '<span data-scope="probe" data-part="icon"></span>';
+      // The icon moves out of the root, as a dialog's trigger sits outside its panel.
+      return markup.includes(icon) ? `${icon}${markup.replace(icon, '')}` : markup;
+    });
+    expect(problems).toEqual([]);
+  });
+
   it('ignores a root with data-scope but no data-part', async () => {
     const problems = await checkParity(probe(), 'react', (props) =>
       probeMarkup(props).replace('class="apui-probe"', 'class="apui-probe" data-scope="probe"'),

@@ -31,11 +31,22 @@ export interface WidgetDefinition<Schema extends MachineSchema, Api> {
 export interface Widget<Props, Api> {
   /** The machine's id, unique per instance. */
   readonly id: string;
+  /**
+   * The running machine. Child machines take it as their parent: each toast
+   * runs under its region's.
+   */
+  readonly service: Service<MachineSchema>;
   /** The current API: state, actions and a `get*Props()` per part. */
   api(): Api;
   start(): void;
   /** Stops the machine, unbinds every node and runs the machine's cleanups. */
   stop(): void;
+  /**
+   * Re-applies every bound part from the machine's current state. For a
+   * child machine whose props read its parent's state (a toast's position
+   * in its region): the parent changing doesn't re-render the child.
+   */
+  refresh(): void;
   /** Merges new props in, e.g. a controlled `open` or `value`. */
   setProps(props: Partial<Props>): void;
   /** Calls `fn` after every state change. Returns an unsubscribe function. */
@@ -183,6 +194,9 @@ export function createWidget<Schema extends MachineSchema, Api>(
 
   return {
     id: props.id,
+    get service() {
+      return machine.service as unknown as Service<MachineSchema>;
+    },
     api: () => (current ??= connect()),
     start() {
       if (running) return;
@@ -201,6 +215,9 @@ export function createWidget<Schema extends MachineSchema, Api>(
     },
     setProps(next) {
       machine.updateProps(next);
+    },
+    refresh() {
+      if (running) render();
     },
     subscribe(fn) {
       listeners.add(fn);

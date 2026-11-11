@@ -217,7 +217,7 @@ interface FixtureWindow {
 /** Mounts a fixture widget (`fixtures/shared.ts` lists the options). */
 export async function mount(
   page: Page,
-  widget: 'dialog' | 'combobox',
+  widget: 'dialog' | 'combobox' | 'menu' | 'toaster',
   options: object,
 ): Promise<void> {
   await page.evaluate(
