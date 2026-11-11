@@ -1,0 +1,124 @@
+/*
+ * Pagination (#56). Root `.apui-pagination` is the nav landmark. Parts:
+ * summary, previous, page, ellipsis and next. The current page carries
+ * aria-current="page"; previous and next on the first or last page carry
+ * aria-disabled="true". Their chevrons mirror in RTL.
+ */
+@layer apui.components {
+  .apui-pagination {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px;
+    color: var(--apui-text-default);
+    font-family: var(--apui-font-family-sans);
+    font-size: var(--apui-type-body-sm-font-size);
+    line-height: var(--apui-type-body-sm-line-height);
+    font-variant-numeric: tabular-nums;
+  }
+
+  [data-scope='pagination']:is(
+    [data-part='previous'],
+    [data-part='page'],
+    [data-part='next'],
+    [data-part='ellipsis']
+  ) {
+    display: inline-grid;
+    place-items: center;
+    box-sizing: border-box;
+    min-inline-size: var(--apui-control-height-sm);
+    block-size: var(--apui-control-height-sm);
+    padding: 0 8px;
+    border: 0;
+    border-radius: var(--apui-radius-full);
+    background: none;
+    color: var(--apui-text-default);
+    font: inherit;
+    font-weight: var(--apui-font-weight-medium);
+    text-decoration: none;
+  }
+
+  [data-scope='pagination']:is([data-part='previous'], [data-part='page'], [data-part='next']) {
+    cursor: pointer;
+    transition: background-color var(--apui-motion-duration-fast) var(--apui-motion-ease-standard);
+  }
+
+  [data-scope='pagination']:is(
+      [data-part='previous'],
+      [data-part='page'],
+      [data-part='next']
+    ):hover {
+    background: var(--apui-state-hover);
+  }
+
+  [data-scope='pagination']:is(
+      [data-part='previous'],
+      [data-part='page'],
+      [data-part='next']
+    ):active {
+    background: var(--apui-state-pressed);
+  }
+
+  [data-scope='pagination'][data-part='page'][aria-current='page'] {
+    background: var(--apui-selected-bg);
+    box-shadow: inset 0 0 0 1px var(--apui-selected-border);
+    color: var(--apui-color-primary-soft-foreground);
+  }
+
+  [data-scope='pagination']:is([data-part='previous'], [data-part='next'])[aria-disabled='true'] {
+    background: none;
+    color: var(--apui-text-disabled);
+    cursor: not-allowed;
+  }
+
+  [data-scope='pagination'][data-part='ellipsis'] {
+    color: var(--apui-text-muted);
+    cursor: default;
+  }
+
+  [data-scope='pagination']:is([data-part='previous'], [data-part='next']) > svg {
+    inline-size: var(--apui-icon-size-md);
+    block-size: var(--apui-icon-size-md);
+  }
+
+  [dir='rtl']
+    [data-scope='pagination']:is([data-part='previous'], [data-part='next'])[data-mirror]
+    > svg {
+    scale: -1 1;
+  }
+
+  [data-scope='pagination'][data-part='summary'] {
+    margin-inline-end: 8px;
+    color: var(--apui-text-muted);
+    font-weight: var(--apui-font-weight-regular);
+  }
+
+  [data-scope='pagination']:is(
+      [data-part='previous'],
+      [data-part='page'],
+      [data-part='next']
+    ):focus-visible {
+    outline: var(--apui-focus-ring-width) solid transparent;
+    box-shadow:
+      0 0 0 var(--apui-focus-ring-offset) var(--apui-focus-ring-offset-color),
+      0 0 0 calc(var(--apui-focus-ring-offset) + var(--apui-focus-ring-width))
+        var(--apui-focus-ring-color);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-scope='pagination']:is([data-part='previous'], [data-part='page'], [data-part='next']) {
+      transition: none;
+    }
+  }
+
+  @media (forced-colors: active) {
+    [data-scope='pagination'][data-part='page'][aria-current='page'] {
+      outline: 2px solid Highlight;
+      outline-offset: -2px;
+    }
+
+    [data-scope='pagination']:is([data-part='previous'], [data-part='next'])[aria-disabled='true'] {
+      color: GrayText;
+    }
+  }
+}

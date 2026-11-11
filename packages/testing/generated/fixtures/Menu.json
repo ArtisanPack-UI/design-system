@@ -1,0 +1,112 @@
+{
+  "version": 1,
+  "component": "Menu",
+  "rootClass": "apui-menu",
+  "stacks": [
+    "livewire",
+    "react",
+    "vue"
+  ],
+  "names": {
+    "livewire": "menu",
+    "react": "Menu",
+    "vue": "Menu"
+  },
+  "cases": [
+    {
+      "id": "state=default",
+      "props": {
+        "label": "Main",
+        "items": [
+          {
+            "label": "Dashboard",
+            "href": "#dashboard",
+            "icon": "list"
+          },
+          {
+            "label": "Properties",
+            "icon": "settings",
+            "open": true,
+            "items": [
+              {
+                "label": "All properties",
+                "href": "#properties"
+              },
+              {
+                "label": "Lakeview Lofts",
+                "href": "#lakeview",
+                "current": true
+              },
+              {
+                "label": "Drafts",
+                "href": "#drafts",
+                "badge": "3"
+              }
+            ]
+          },
+          {
+            "label": "Analytics",
+            "icon": "calendar",
+            "items": [
+              {
+                "label": "Reports",
+                "href": "#reports"
+              }
+            ]
+          },
+          {
+            "label": "Inbox",
+            "href": "#inbox",
+            "icon": "mail",
+            "badge": "12"
+          },
+          {
+            "type": "title",
+            "label": "Settings"
+          },
+          {
+            "label": "Team",
+            "href": "#team",
+            "icon": "user"
+          },
+          {
+            "type": "separator"
+          },
+          {
+            "label": "Billing",
+            "href": "#billing",
+            "disabled": true
+          }
+        ]
+      },
+      "state": "default",
+      "content": null
+    }
+  ],
+  "sheets": [
+    {
+      "id": "light",
+      "theme": "light",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "dark",
+      "theme": "dark",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "high-contrast",
+      "theme": "high-contrast",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "rtl",
+      "theme": "light",
+      "density": "default",
+      "dir": "rtl"
+    }
+  ]
+}

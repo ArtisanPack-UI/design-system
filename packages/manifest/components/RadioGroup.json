@@ -1,0 +1,214 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "RadioGroup",
+  "description": "Chooses exactly one option from a small set, with native radios in a fieldset. Default, cards and segmented (joined buttons) layouts, vertical or horizontal.",
+  "status": "draft",
+  "issue": 53,
+  "rootClass": "apui-radio-group",
+  "stacks": {
+    "livewire": { "name": "radio-group" },
+    "react": { "name": "RadioGroup" },
+    "vue": { "name": "RadioGroup" }
+  },
+  "props": [
+    {
+      "name": "options",
+      "type": "array",
+      "description": "The options: strings, or { value, label, description, meta, disabled } objects."
+    },
+    {
+      "name": "value",
+      "type": "string",
+      "description": "The selected value. Livewire binds it with wire:model, Vue with v-model."
+    },
+    {
+      "name": "defaultValue",
+      "type": "string",
+      "description": "The initial value of an uncontrolled group.",
+      "stacks": ["react"]
+    },
+    {
+      "name": "label",
+      "type": "node",
+      "description": "The group label, rendered as the fieldset's legend."
+    },
+    {
+      "name": "hint",
+      "type": "node",
+      "description": "Help text under the options, linked to the group with aria-describedby."
+    },
+    {
+      "name": "error",
+      "type": "string",
+      "description": "Validation message. Marks the group invalid and is linked with aria-describedby."
+    },
+    {
+      "name": "invalid",
+      "type": "boolean",
+      "default": false,
+      "description": "Marks the group invalid without a message. Emitted as data-invalid.",
+      "a11y": "Sets aria-invalid on every radio."
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": false,
+      "description": "Disables every option. An option's own disabled disables only that one."
+    },
+    {
+      "name": "required",
+      "type": "boolean",
+      "default": false,
+      "description": "Marks the group required and shows the required mark in the legend.",
+      "a11y": "Sets required on the radios."
+    },
+    {
+      "name": "orientation",
+      "type": "enum",
+      "values": ["vertical", "horizontal"],
+      "default": "vertical",
+      "description": "Stacks the options or lays them in a row. Emitted as data-orientation."
+    },
+    {
+      "name": "variant",
+      "type": "enum",
+      "values": ["default", "cards", "segmented"],
+      "default": "default",
+      "description": "Plain radios, bordered cards for options with a description or price, or joined segmented buttons (the old Livewire group). Emitted as data-variant."
+    },
+    {
+      "name": "errorField",
+      "type": "string",
+      "description": "The validation key to read from $errors. Defaults to the wire:model name.",
+      "stacks": ["livewire"]
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part, such as { item: '…', itemText: '…' }."
+    }
+  ],
+  "variants": ["default", "cards", "segmented"],
+  "parts": [
+    {
+      "name": "root",
+      "element": "fieldset",
+      "description": "The group: legend, items, hint and error."
+    },
+    { "name": "label", "element": "legend", "description": "The group label." },
+    {
+      "name": "required",
+      "element": "span",
+      "description": "The required mark inside the legend. Hidden from screen readers; the radios are required."
+    },
+    { "name": "items", "element": "div", "description": "The options, stacked or in a row." },
+    {
+      "name": "item",
+      "element": "label",
+      "description": "One option. The whole item is the radio's label, so a card is clickable anywhere."
+    },
+    {
+      "name": "box",
+      "element": "span",
+      "description": "The visible circle. The native radio covers it."
+    },
+    {
+      "name": "control",
+      "element": "input",
+      "description": "The native radio, visually hidden over the box. Attributes other than class land on every radio."
+    },
+    { "name": "indicator", "element": "span", "description": "The dot shown while checked." },
+    { "name": "itemText", "element": "span", "description": "The option's label text." },
+    {
+      "name": "itemDescription",
+      "element": "span",
+      "description": "Supporting text under the option's label, linked with aria-describedby."
+    },
+    { "name": "itemMeta", "element": "span", "description": "A price or other figure on a card." },
+    { "name": "hint", "element": "p", "description": "Help text." },
+    { "name": "error", "element": "p", "description": "Validation message, with an icon." }
+  ],
+  "events": [
+    {
+      "name": "value-change",
+      "description": "The selected value changed. React and Vue pass the option's value as given; Livewire gives the string.",
+      "payload": "string | number"
+    }
+  ],
+  "a11y": {
+    "element": "fieldset",
+    "keyboard": [
+      {
+        "keys": "Tab",
+        "action": "Moves focus into the group, to the checked radio or the first one."
+      },
+      {
+        "keys": "ArrowDown, ArrowRight",
+        "action": "Moves to the next option and checks it (platform behavior), following the text direction."
+      },
+      {
+        "keys": "ArrowUp, ArrowLeft",
+        "action": "Moves to the previous option and checks it, following the text direction."
+      },
+      { "keys": "Space", "action": "Checks the focused option." }
+    ],
+    "requirements": [
+      "Native input type=radio elements sharing one name, in a fieldset with a legend, so the platform supplies the radio group role, roving focus and arrow keys.",
+      "Arrow keys follow the text direction under RTL (native behavior); the dot and cards mirror with logical properties.",
+      "Every radio has a name: the given name, else the control id, so arrow keys move between the options.",
+      "Hint and error are linked to the fieldset with aria-describedby; invalid sets aria-invalid on each radio.",
+      "An option's description is linked to its radio with aria-describedby.",
+      "Visible focus ring on the box (or the segment) while its radio has :focus-visible.",
+      "Disabled uses --apui-surface-sunken and --apui-text-disabled, never opacity alone.",
+      "Use Select for more than about six options."
+    ],
+    "wcag": ["1.3.1", "1.4.3", "1.4.11", "2.1.1", "2.4.7", "2.5.8", "3.3.1", "3.3.2", "4.1.2"]
+  },
+  "tokens": [
+    "--apui-color-primary",
+    "--apui-color-primary-hover",
+    "--apui-color-primary-foreground",
+    "--apui-selected-bg",
+    "--apui-selected-border",
+    "--apui-radius-md",
+    "--apui-button-radius",
+    "--apui-border-default",
+    "--apui-border-strong",
+    "--apui-border-muted",
+    "--apui-color-error-border",
+    "--apui-color-error-text",
+    "--apui-surface-default",
+    "--apui-surface-sunken",
+    "--apui-text-default",
+    "--apui-text-muted",
+    "--apui-text-disabled",
+    "--apui-focus-ring-color"
+  ],
+  "fixture": {
+    "props": {
+      "label": "Plan",
+      "value": "growth",
+      "options": [
+        {
+          "value": "starter",
+          "label": "Starter",
+          "description": "Up to 5 listings",
+          "meta": "$0 / month"
+        },
+        {
+          "value": "growth",
+          "label": "Growth",
+          "description": "Up to 50 listings",
+          "meta": "$39 / month"
+        },
+        { "value": "portfolio", "label": "Portfolio", "disabled": true }
+      ]
+    },
+    "parts": {
+      "required": true,
+      "hint": "You can change plans at any time.",
+      "error": "Choose a plan."
+    },
+    "states": ["hover", "focus-visible", "disabled", "invalid"]
+  }
+}

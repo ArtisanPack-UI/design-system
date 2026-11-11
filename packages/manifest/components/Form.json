@@ -1,0 +1,73 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "Form",
+  "description": "A native form that lays out its fields with the field gap and ends with an actions row. Livewire submits it with wire:submit; React and Vue with the native submit event.",
+  "status": "draft",
+  "issue": 53,
+  "rootClass": "apui-form",
+  "stacks": {
+    "livewire": {
+      "name": "form"
+    },
+    "react": {
+      "name": "Form"
+    },
+    "vue": {
+      "name": "Form"
+    }
+  },
+  "props": [
+    {
+      "name": "actions",
+      "type": "node",
+      "description": "The buttons at the end of the form, such as Cancel and Save, aligned to the end."
+    },
+    {
+      "name": "divided",
+      "type": "boolean",
+      "default": false,
+      "description": "Separates the actions row with an edge above it. Emitted as data-divided."
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part, such as { actions: '…' }."
+    }
+  ],
+  "parts": [
+    {
+      "name": "root",
+      "element": "form",
+      "description": "The native form; the default slot holds the fields. Attributes (wire:submit, action, method, novalidate) land here."
+    },
+    {
+      "name": "actions",
+      "element": "div",
+      "description": "The button row at the end."
+    }
+  ],
+  "slots": [
+    {
+      "name": "actions",
+      "description": "The buttons at the end of the form."
+    }
+  ],
+  "a11y": {
+    "requirements": [
+      "A native form, so Enter in a field submits it and the browser's validation runs unless novalidate is set.",
+      "Name the form (aria-label or aria-labelledby) when a page has more than one; a named form is a landmark.",
+      "The primary action comes last in the actions row and is a submit button.",
+      "Put a ValidationSummary at the top after a failed submit, and keep each field's own error."
+    ],
+    "wcag": ["1.3.1", "3.3.1", "3.3.2", "3.3.4"]
+  },
+  "tokens": ["--apui-field-gap", "--apui-panel-gap", "--apui-border-muted"],
+  "fixture": {
+    "content": "Fields go here.",
+    "props": {},
+    "parts": {
+      "actions": "Save listing"
+    },
+    "states": []
+  }
+}

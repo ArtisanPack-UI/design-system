@@ -1,0 +1,106 @@
+{
+  "version": 1,
+  "component": "Textarea",
+  "rootClass": "apui-textarea",
+  "stacks": [
+    "livewire",
+    "react",
+    "vue"
+  ],
+  "names": {
+    "livewire": "textarea",
+    "react": "Textarea",
+    "vue": "Textarea"
+  },
+  "cases": [
+    {
+      "id": "state=default",
+      "props": {
+        "label": "Description",
+        "placeholder": "Describe the property, nearby amenities and anything renters should know…",
+        "maxLength": 500
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "state=hover",
+      "props": {
+        "label": "Description",
+        "placeholder": "Describe the property, nearby amenities and anything renters should know…",
+        "maxLength": 500
+      },
+      "state": "hover",
+      "content": null
+    },
+    {
+      "id": "state=focus-visible",
+      "props": {
+        "label": "Description",
+        "placeholder": "Describe the property, nearby amenities and anything renters should know…",
+        "maxLength": 500
+      },
+      "state": "focus-visible",
+      "content": null
+    },
+    {
+      "id": "state=disabled",
+      "props": {
+        "label": "Description",
+        "placeholder": "Describe the property, nearby amenities and anything renters should know…",
+        "maxLength": 500,
+        "disabled": true
+      },
+      "state": "disabled",
+      "content": null
+    },
+    {
+      "id": "state=invalid",
+      "props": {
+        "label": "Description",
+        "placeholder": "Describe the property, nearby amenities and anything renters should know…",
+        "maxLength": 500,
+        "invalid": true
+      },
+      "state": "invalid",
+      "content": null
+    },
+    {
+      "id": "state=readonly",
+      "props": {
+        "label": "Description",
+        "placeholder": "Describe the property, nearby amenities and anything renters should know…",
+        "maxLength": 500,
+        "readonly": true
+      },
+      "state": "readonly",
+      "content": null
+    }
+  ],
+  "sheets": [
+    {
+      "id": "light",
+      "theme": "light",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "dark",
+      "theme": "dark",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "high-contrast",
+      "theme": "high-contrast",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "rtl",
+      "theme": "light",
+      "density": "default",
+      "dir": "rtl"
+    }
+  ]
+}

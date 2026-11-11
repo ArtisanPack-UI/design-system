@@ -25,6 +25,10 @@ export interface ComboboxFixture {
   remote?: boolean;
   items?: [string, string][];
   id?: string;
+  /** With multiple, the most values (#54). */
+  max?: number;
+  /** Offers the create option and records `create` events (#54). */
+  allowCreate?: boolean;
 }
 
 export interface MenuFixture {

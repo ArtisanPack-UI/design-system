@@ -73,7 +73,7 @@ const Dialog = defineComponent({
 const Combobox = defineComponent({
   props: { options: { type: Object as () => ComboboxFixture, required: true } },
   setup(props) {
-    const { mode, initial, multiple, remote, id } = props.options;
+    const { mode, initial, multiple, remote, id, max, allowCreate } = props.options;
     const items = computed(() => toItems(pairs.value));
     const cb = useCombobox(() => ({
       id,
@@ -81,6 +81,9 @@ const Combobox = defineComponent({
       items: items.value,
       multiple,
       remote,
+      max,
+      allowCreate,
+      onCreate: (details) => fixture.events.push(['create', details]),
       ...(mode === 'uncontrolled' ? { defaultValue: initial } : { value: value.value }),
       onValueChange: (details) => {
         fixture.events.push(['value-change', details]);

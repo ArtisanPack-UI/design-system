@@ -31,11 +31,11 @@ describe('icon registry (D-017)', () => {
   });
 
   it('registers new icons and replaces existing ones', () => {
-    registerIcons({ star: '<circle cx="12" cy="12" r="4" />', plus: '<path d="M1 1" />' });
-    expect(resolveIcon('star')).toBe('<circle cx="12" cy="12" r="4" />');
+    registerIcons({ sparkles: '<circle cx="12" cy="12" r="4" />', plus: '<path d="M1 1" />' });
+    expect(resolveIcon('sparkles')).toBe('<circle cx="12" cy="12" r="4" />');
     expect(resolveIcon('plus')).toBe('<path d="M1 1" />');
     resetIcons();
-    expect(resolveIcon('star')).toBeUndefined();
+    expect(resolveIcon('sparkles')).toBeUndefined();
     expect(resolveIcon('plus')).toBe(defaultIcons.plus);
   });
 

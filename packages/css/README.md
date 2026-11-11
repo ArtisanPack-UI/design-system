@@ -2,7 +2,7 @@
 
 Plain-CSS component layer for ArtisanPack UI. Tailwind is not required.
 
-> **Not published yet.** This package holds the cascade layers, a scoped reset, the design tokens with the Ledger and Harbor presets, two utilities (`.apui-sr-only`, `.apui-focus-ring`) and the components built so far: Button, Input, Select, Checkbox, Card, Dialog, DropdownMenu and Toast (pilot, #44 to #51), with the field anatomy the form fields share in `field.css`. The first release is tracked in #81.
+> **Not published yet.** This package holds the cascade layers, a scoped reset, the design tokens with the Ledger and Harbor presets, two utilities (`.apui-sr-only`, `.apui-focus-ring`) and the components built so far: Button, Input, Select, Checkbox, Card, Dialog, DropdownMenu and Toast (pilot, #44 to #51), Tabs, Menu and Navbar (#56), with the field anatomy the form fields share in `field.css`. The first release is tracked in #81.
 
 ```css
 @import '@artisanpack-ui/css';

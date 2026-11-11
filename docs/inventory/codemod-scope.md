@@ -18,8 +18,8 @@ Sizes the migration for Phase 6 (tooling) and Phase 7 (dogfood). Scans every pac
 | React component usages | 491 |
 | Vue component usages | 495 |
 | Usages of a renamed component | 119 |
-| Attributes needing a rename | 407 |
-| Attributes that are removed (glass tints, `uuid`, … have no downstream use) | 0 |
+| Attributes needing a rename | 418 |
+| Attributes that are removed (glass tints, `uuid`, … have no downstream use) | 19 |
 | Raw DaisyUI component classes | 1916 |
 | Ambiguous DaisyUI-named classes | 1087 |
 | DaisyUI-only theme utilities (`bg-base-*`, `*-content`) | 999 |
@@ -33,7 +33,7 @@ Sorted by component usages plus raw classes, which suggests a dogfood order. "At
 | Package | Ref | In plan | Blade files | Blade uses | React uses | Vue uses | Attr. | DaisyUI files | Component classes | Theme utilities | Theme vars | Depends on daisyui |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
 | forms | `security/153-154-157-choice-validation-builder-auth-file-privacy` | yes | 37 | 214 | 181 | 182 | 15 | 117 | 921 | 339 | 0 | — |
-| ecommerce-admin-livewire | `main` | yes | 100 | 810 | 0 | 0 | 240 | 54 | 104 | 65 | 0 | yes |
+| ecommerce-admin-livewire | `main` | yes | 100 | 810 | 0 | 0 | 270 | 54 | 104 | 65 | 0 | yes |
 | media-library | `main` | yes | 10 | 247 | 92 | 92 | 55 | 21 | 68 | 81 | 0 | — |
 | ecommerce-storefront-livewire | `fix/1.0-release-readiness` | **no** | 58 | 212 | 0 | 0 | 77 | 55 | 201 | 127 | 43 | yes |
 | seo | `main` | yes | 7 | 134 | 91 | 99 | 1 | 20 | 3 | 95 | 0 | — |
@@ -94,14 +94,24 @@ Planned packages with no UI usage at this snapshot: none.
 | `variant (rename)` | 272 |
 | `link (rename)` | 65 |
 | `noWireNavigate (rename)` | 38 |
+| `searchable (remove)` | 7 |
+| `noResultText (rename)` | 7 |
 | `boxClass (rename)` | 6 |
 | `activeTab (rename)` | 5 |
 | `omitError (rename)` | 5 |
 | `right (rename)` | 4 |
+| `single (remove)` | 4 |
 | `inline (rename)` | 4 |
 | `horizontal (rename)` | 2 |
+| `searchFunction (rename)` | 2 |
+| `optionValue (remove)` | 2 |
+| `optionLabel (remove)` | 2 |
+| `optionSubLabel (remove)` | 2 |
+| `valuesAsString (remove)` | 2 |
 | `tooltipBottom (rename)` | 1 |
 | `badgeClasses (rename)` | 1 |
+| `searchText (rename)` | 1 |
+| `noResultsText (rename)` | 1 |
 | `stepsColor (rename)` | 1 |
 | `stepperClasses (rename)` | 1 |
 | `selected (rename)` | 1 |

@@ -1,0 +1,111 @@
+{
+  "version": 1,
+  "component": "Spotlight",
+  "rootClass": "apui-spotlight",
+  "stacks": [
+    "livewire",
+    "react",
+    "vue"
+  ],
+  "names": {
+    "livewire": "spotlight",
+    "react": "Spotlight",
+    "vue": "Spotlight"
+  },
+  "cases": [
+    {
+      "id": "state=default",
+      "props": {
+        "open": true,
+        "modal": false,
+        "portal": false,
+        "groups": [
+          {
+            "id": "properties",
+            "label": "Properties",
+            "items": [
+              {
+                "value": "grove",
+                "label": "The Grove at Greenfield",
+                "description": "Spain, Barcelona · Draft",
+                "icon": "house",
+                "color": "primary"
+              },
+              {
+                "value": "golden-hour",
+                "label": "Golden Hour Apartments",
+                "description": "United States, Denver",
+                "icon": "house",
+                "color": "primary"
+              }
+            ]
+          },
+          {
+            "id": "pages",
+            "label": "Pages",
+            "items": [
+              {
+                "value": "reports",
+                "label": "Analytics › Reports",
+                "icon": "file-text",
+                "href": "#reports"
+              },
+              {
+                "value": "settings",
+                "label": "Settings",
+                "icon": "settings",
+                "href": "#settings"
+              }
+            ]
+          },
+          {
+            "id": "actions",
+            "label": "Actions",
+            "items": [
+              {
+                "value": "add",
+                "label": "Add property",
+                "icon": "plus",
+                "color": "success",
+                "shortcut": "⌘ N"
+              },
+              {
+                "value": "import",
+                "label": "Import listings from CSV",
+                "icon": "upload"
+              }
+            ]
+          }
+        ]
+      },
+      "state": "default",
+      "content": null
+    }
+  ],
+  "sheets": [
+    {
+      "id": "light",
+      "theme": "light",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "dark",
+      "theme": "dark",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "high-contrast",
+      "theme": "high-contrast",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "rtl",
+      "theme": "light",
+      "density": "default",
+      "dir": "rtl"
+    }
+  ]
+}

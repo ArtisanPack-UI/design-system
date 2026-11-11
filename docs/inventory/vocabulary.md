@@ -14,7 +14,7 @@ One vocabulary for props, parts, slots and events across Blade, React and Vue. E
 | `surface` | `default` · `raised` · `sunken` · `glass` | `glass`, `glassTint`, `glassTintOpacity` |
 | `classes` | Map of part name to class string | `*Class`, `*Classes`, `*ClassName` (see Parts) |
 
-Components only declare the props that apply to them. Component-specific values are allowed where the shared list doesn't fit: Tabs `variant` (`bordered` · `lifted` · `boxed`) and Loading `variant` (`spinner` · `dots` · …) are visual treatments, so the prop name still means the same thing.
+Components only declare the props that apply to them. Component-specific values are allowed where the shared list doesn't fit: Tabs `variant` (`segmented` · `underline`, D-023) and Loading `variant` (`spinner` · `dots` · …) are visual treatments, so the prop name still means the same thing.
 
 ### Decision: no arbitrary colors
 
@@ -138,14 +138,14 @@ Blade tags are the kebab-case form: `<x-artisanpack-dropdown-menu>`.
 
 | Merge | Into | Status |
 |---|---|---|
-| `choices` + `choices-offline` | Combobox with `searchable` and `remote` modes | Planned (#54) |
-| `radio` + `radio-group` + `group` | RadioGroup | Proposed |
+| `choices` + `choices-offline` | Combobox with local filtering and `remote` mode | Accepted (#54, D-020) |
+| `radio` + `radio-group` + `group` | RadioGroup; `group` is `variant="segmented"` | Accepted (#53, D-025) |
 | `heading` + `subheading` | Heading with `level` / `size` | Proposed |
-| `menu*` | Menu family | Proposed |
-| `step` + `steps`, `tab` + `tabs` | Keep as parent and child | Proposed |
-| `tags` | Combobox `multiple` + `allowCustom` | Open |
-| `select-group` | Select with option groups | Open |
-| `datetime` | DatePicker `time` mode | Open (#55) |
+| `menu*` | Menu family | Accepted (#56, D-023) |
+| `step` + `steps`, `tab` + `tabs` | Keep as parent and child | Accepted (#56, D-023) |
+| `tags` | Combobox `multiple` + `allowCreate` | Accepted (#54, D-020) |
+| `select-group` | Select with option groups | Accepted (#53, D-025) |
+| `datetime` | DatePicker `time` mode | Accepted (#55, D-021) |
 | `progress-radial` | Progress `variant="radial"` | Open |
 | `kpi-card` | Stat layout option | Open |
 | `image-slider` | Carousel image mode | Open |

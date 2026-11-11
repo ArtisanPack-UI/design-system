@@ -25,6 +25,19 @@ const IMPLICIT_ROLES: Record<string, string> = {
 };
 
 /**
+ * Chromium's accessibility-tree names for ARIA roles that differ from the
+ * ARIA spelling: `role="img"` is reported as `image`. Compared as ARIA.
+ */
+const CHROMIUM_ROLES: Record<string, string> = {
+  image: 'img',
+};
+
+/** A role from Chromium's accessibility tree, in ARIA's spelling. */
+export function ariaRole(role: string): string {
+  return CHROMIUM_ROLES[role] ?? role;
+}
+
+/**
  * Problems with the rendered roots: a tag outside the root part's elements, or
  * an accessibility role other than the manifest's (`role`, or one of `roles`).
  */
@@ -73,7 +86,7 @@ export async function checkManifestA11y(
     });
     const actual = nodes[0]?.role?.value;
     const allowed = [role, ...(manifest.a11y.roles ?? [])];
-    if (actual !== undefined && !allowed.includes(String(actual))) {
+    if (actual !== undefined && !allowed.includes(ariaRole(String(actual)))) {
       problems.add(`${id}: has role "${String(actual)}", expected "${allowed.join('" or "')}"`);
     }
   }

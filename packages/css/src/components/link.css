@@ -1,0 +1,101 @@
+/*
+ * Link (#56). Root `.apui-link`: an anchor, or a button styled the same when
+ * there's no href. data-tone (primary, muted) and data-standalone. Parts:
+ * icon and iconEnd. Inline links stay underlined so color isn't the only cue
+ * (1.4.1); standalone links drop it until hover.
+ */
+@layer apui.components {
+  .apui-link {
+    border-radius: var(--apui-radius-xs);
+    color: var(--apui-color-primary-text);
+    cursor: pointer;
+    text-decoration-line: underline;
+    text-decoration-color: var(--apui-color-primary-border);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
+
+  /* The button form (no href) reads exactly like the anchor. */
+  button.apui-link {
+    display: inline;
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    text-align: inherit;
+  }
+
+  .apui-link:hover {
+    text-decoration-color: currentcolor;
+    text-decoration-thickness: 2px;
+  }
+
+  .apui-link[data-tone='muted'] {
+    color: var(--apui-text-muted);
+    text-decoration-color: var(--apui-border-default);
+  }
+
+  .apui-link[data-tone='muted']:hover {
+    color: var(--apui-text-default);
+    text-decoration-color: currentcolor;
+  }
+
+  .apui-link[data-standalone] {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: var(--apui-font-weight-medium);
+    text-decoration-line: none;
+  }
+
+  .apui-link[data-standalone]:hover {
+    text-decoration-line: underline;
+  }
+
+  .apui-link:focus-visible {
+    outline: var(--apui-focus-ring-width) solid transparent;
+    box-shadow:
+      0 0 0 var(--apui-focus-ring-offset) var(--apui-focus-ring-offset-color),
+      0 0 0 calc(var(--apui-focus-ring-offset) + var(--apui-focus-ring-width))
+        var(--apui-focus-ring-color);
+    text-decoration-line: none;
+  }
+
+  /* Parts */
+  [data-scope='link']:is([data-part='icon'], [data-part='iconEnd']) {
+    display: inline-flex;
+    inline-size: 14px;
+    block-size: 14px;
+    vertical-align: -2px;
+  }
+
+  /* Inline icons sit in the text run, so they need their own gap. */
+  .apui-link:not([data-standalone]) [data-scope='link'][data-part='icon'] {
+    margin-inline-end: 4px;
+  }
+
+  .apui-link:not([data-standalone]) [data-scope='link'][data-part='iconEnd'] {
+    margin-inline-start: 4px;
+  }
+
+  [data-scope='link']:is([data-part='icon'], [data-part='iconEnd']) > svg {
+    inline-size: 100%;
+    block-size: 100%;
+  }
+
+  [dir='rtl'] [data-scope='link']:is([data-part='icon'], [data-part='iconEnd'])[data-mirror] > svg {
+    scale: -1 1;
+  }
+
+  @media (forced-colors: active) {
+    .apui-link,
+    .apui-link[data-tone='muted'] {
+      color: LinkText;
+      text-decoration-color: currentcolor;
+    }
+
+    button.apui-link {
+      color: ButtonText;
+    }
+  }
+}

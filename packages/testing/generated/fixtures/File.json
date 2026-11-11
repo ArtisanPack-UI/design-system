@@ -1,0 +1,307 @@
+{
+  "version": 1,
+  "component": "File",
+  "rootClass": "apui-file",
+  "stacks": [
+    "livewire",
+    "react",
+    "vue"
+  ],
+  "names": {
+    "livewire": "file",
+    "react": "File",
+    "vue": "File"
+  },
+  "cases": [
+    {
+      "id": "variant=dropzone state=default",
+      "props": {
+        "label": "Listing photos",
+        "multiple": true,
+        "value": [
+          {
+            "name": "lakeview-lofts-exterior.jpg",
+            "size": 2400000
+          },
+          {
+            "name": "courtyard-garden.jpg",
+            "size": 1250000,
+            "progress": 64
+          },
+          {
+            "name": "floor-plan.heic",
+            "size": 830000,
+            "error": "HEIC isn't supported. Use JPG or PNG."
+          }
+        ],
+        "variant": "dropzone"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=dropzone state=hover",
+      "props": {
+        "label": "Listing photos",
+        "multiple": true,
+        "value": [
+          {
+            "name": "lakeview-lofts-exterior.jpg",
+            "size": 2400000
+          },
+          {
+            "name": "courtyard-garden.jpg",
+            "size": 1250000,
+            "progress": 64
+          },
+          {
+            "name": "floor-plan.heic",
+            "size": 830000,
+            "error": "HEIC isn't supported. Use JPG or PNG."
+          }
+        ],
+        "variant": "dropzone"
+      },
+      "state": "hover",
+      "content": null
+    },
+    {
+      "id": "variant=dropzone state=focus-visible",
+      "props": {
+        "label": "Listing photos",
+        "multiple": true,
+        "value": [
+          {
+            "name": "lakeview-lofts-exterior.jpg",
+            "size": 2400000
+          },
+          {
+            "name": "courtyard-garden.jpg",
+            "size": 1250000,
+            "progress": 64
+          },
+          {
+            "name": "floor-plan.heic",
+            "size": 830000,
+            "error": "HEIC isn't supported. Use JPG or PNG."
+          }
+        ],
+        "variant": "dropzone"
+      },
+      "state": "focus-visible",
+      "content": null
+    },
+    {
+      "id": "variant=dropzone state=disabled",
+      "props": {
+        "label": "Listing photos",
+        "multiple": true,
+        "value": [
+          {
+            "name": "lakeview-lofts-exterior.jpg",
+            "size": 2400000
+          },
+          {
+            "name": "courtyard-garden.jpg",
+            "size": 1250000,
+            "progress": 64
+          },
+          {
+            "name": "floor-plan.heic",
+            "size": 830000,
+            "error": "HEIC isn't supported. Use JPG or PNG."
+          }
+        ],
+        "variant": "dropzone",
+        "disabled": true
+      },
+      "state": "disabled",
+      "content": null
+    },
+    {
+      "id": "variant=dropzone state=invalid",
+      "props": {
+        "label": "Listing photos",
+        "multiple": true,
+        "value": [
+          {
+            "name": "lakeview-lofts-exterior.jpg",
+            "size": 2400000
+          },
+          {
+            "name": "courtyard-garden.jpg",
+            "size": 1250000,
+            "progress": 64
+          },
+          {
+            "name": "floor-plan.heic",
+            "size": 830000,
+            "error": "HEIC isn't supported. Use JPG or PNG."
+          }
+        ],
+        "variant": "dropzone",
+        "invalid": true
+      },
+      "state": "invalid",
+      "content": null
+    },
+    {
+      "id": "variant=compact state=default",
+      "props": {
+        "label": "Listing photos",
+        "multiple": true,
+        "value": [
+          {
+            "name": "lakeview-lofts-exterior.jpg",
+            "size": 2400000
+          },
+          {
+            "name": "courtyard-garden.jpg",
+            "size": 1250000,
+            "progress": 64
+          },
+          {
+            "name": "floor-plan.heic",
+            "size": 830000,
+            "error": "HEIC isn't supported. Use JPG or PNG."
+          }
+        ],
+        "variant": "compact"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=compact state=hover",
+      "props": {
+        "label": "Listing photos",
+        "multiple": true,
+        "value": [
+          {
+            "name": "lakeview-lofts-exterior.jpg",
+            "size": 2400000
+          },
+          {
+            "name": "courtyard-garden.jpg",
+            "size": 1250000,
+            "progress": 64
+          },
+          {
+            "name": "floor-plan.heic",
+            "size": 830000,
+            "error": "HEIC isn't supported. Use JPG or PNG."
+          }
+        ],
+        "variant": "compact"
+      },
+      "state": "hover",
+      "content": null
+    },
+    {
+      "id": "variant=compact state=focus-visible",
+      "props": {
+        "label": "Listing photos",
+        "multiple": true,
+        "value": [
+          {
+            "name": "lakeview-lofts-exterior.jpg",
+            "size": 2400000
+          },
+          {
+            "name": "courtyard-garden.jpg",
+            "size": 1250000,
+            "progress": 64
+          },
+          {
+            "name": "floor-plan.heic",
+            "size": 830000,
+            "error": "HEIC isn't supported. Use JPG or PNG."
+          }
+        ],
+        "variant": "compact"
+      },
+      "state": "focus-visible",
+      "content": null
+    },
+    {
+      "id": "variant=compact state=disabled",
+      "props": {
+        "label": "Listing photos",
+        "multiple": true,
+        "value": [
+          {
+            "name": "lakeview-lofts-exterior.jpg",
+            "size": 2400000
+          },
+          {
+            "name": "courtyard-garden.jpg",
+            "size": 1250000,
+            "progress": 64
+          },
+          {
+            "name": "floor-plan.heic",
+            "size": 830000,
+            "error": "HEIC isn't supported. Use JPG or PNG."
+          }
+        ],
+        "variant": "compact",
+        "disabled": true
+      },
+      "state": "disabled",
+      "content": null
+    },
+    {
+      "id": "variant=compact state=invalid",
+      "props": {
+        "label": "Listing photos",
+        "multiple": true,
+        "value": [
+          {
+            "name": "lakeview-lofts-exterior.jpg",
+            "size": 2400000
+          },
+          {
+            "name": "courtyard-garden.jpg",
+            "size": 1250000,
+            "progress": 64
+          },
+          {
+            "name": "floor-plan.heic",
+            "size": 830000,
+            "error": "HEIC isn't supported. Use JPG or PNG."
+          }
+        ],
+        "variant": "compact",
+        "invalid": true
+      },
+      "state": "invalid",
+      "content": null
+    }
+  ],
+  "sheets": [
+    {
+      "id": "light",
+      "theme": "light",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "dark",
+      "theme": "dark",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "high-contrast",
+      "theme": "high-contrast",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "rtl",
+      "theme": "light",
+      "density": "default",
+      "dir": "rtl"
+    }
+  ]
+}

@@ -1,0 +1,507 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "Combobox",
+  "description": "A text input that filters a listbox: pick one match, or several shown as removable chips, and optionally create a value that isn't listed. It shares the field anatomy with Input and Select. Filtering is local by default; remote hands the search to the app or server. Replaces Choices, ChoicesOffline and Tags (multiple + allowCreate).",
+  "status": "draft",
+  "issue": 54,
+  "rootClass": "apui-combobox",
+  "stacks": {
+    "livewire": {
+      "name": "combobox",
+      "capabilities": [
+        "wire:model binds value (a string, or an array with multiple) through $wire.entangle()",
+        "search-model entangles the search text with a Livewire property, debounced, for remote search"
+      ]
+    },
+    "react": {
+      "name": "Combobox"
+    },
+    "vue": {
+      "name": "Combobox"
+    }
+  },
+  "props": [
+    {
+      "name": "size",
+      "type": "enum",
+      "values": ["sm", "md", "lg"],
+      "default": "md",
+      "description": "Control height. Emitted as data-size."
+    },
+    {
+      "name": "options",
+      "type": "array",
+      "description": "The options: strings, or { value, label, description, icon, color, disabled } objects. description is a second line; color tints the option's chip with multiple."
+    },
+    {
+      "name": "label",
+      "type": "node",
+      "description": "The visible label, linked to the input."
+    },
+    {
+      "name": "hint",
+      "type": "node",
+      "description": "Help text under the control, linked with aria-describedby."
+    },
+    {
+      "name": "error",
+      "type": "string",
+      "description": "Validation message. Marks the field invalid and is linked with aria-describedby."
+    },
+    {
+      "name": "invalid",
+      "type": "boolean",
+      "default": false,
+      "description": "Marks the field invalid without a message. Emitted as data-invalid.",
+      "a11y": "Sets aria-invalid on the input."
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": false,
+      "description": "Disables the input, the buttons and the chips."
+    },
+    {
+      "name": "required",
+      "type": "boolean",
+      "default": false,
+      "description": "Marks the field required and shows the required mark.",
+      "a11y": "Sets required on the input."
+    },
+    {
+      "name": "placeholder",
+      "type": "string",
+      "default": "Search…",
+      "description": "Shown in the empty input. Translated by default."
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "description": "Submits the value with a native form: a hidden input carrying the value, or one per value with multiple (use a name such as tags[] if the server expects an array). None while the value is empty. The text input itself has no name."
+    },
+    {
+      "name": "value",
+      "type": "string",
+      "description": "The selected value: a string, or an array of strings with multiple. Livewire binds it with wire:model, Vue with v-model."
+    },
+    {
+      "name": "defaultValue",
+      "type": "string",
+      "description": "The initial value of an uncontrolled combobox.",
+      "stacks": ["react"]
+    },
+    {
+      "name": "multiple",
+      "type": "boolean",
+      "default": false,
+      "description": "Selects several values, shown as removable chips before the input. Backspace in the empty input removes the last one. Emitted as data-multiple."
+    },
+    {
+      "name": "max",
+      "type": "number",
+      "description": "With multiple, the most values that can be chosen. Once reached, the other options are disabled."
+    },
+    {
+      "name": "allowCreate",
+      "type": "boolean",
+      "default": false,
+      "description": "Offers “Create …” for typed text that matches no option, ignoring case and accents. Choosing it adds the text as a value and fires create. With multiple, this is the tags input."
+    },
+    {
+      "name": "remote",
+      "type": "boolean",
+      "default": false,
+      "description": "The app filters the options: typing fires search-change and the combobox shows the options it's given, unfiltered. Without it, options are filtered by label here."
+    },
+    {
+      "name": "search",
+      "type": "string",
+      "description": "The text in the input when it renders: it filters the options (unless remote) and marks the matches."
+    },
+    {
+      "name": "loading",
+      "type": "boolean",
+      "default": false,
+      "description": "Shows a spinner in the control and the loading text in the listbox, while remote results load. Emitted as data-loading.",
+      "a11y": "Sets aria-busy on the listbox."
+    },
+    {
+      "name": "clearable",
+      "type": "boolean",
+      "default": false,
+      "description": "Adds a button that clears the value, shown while there is one."
+    },
+    {
+      "name": "open",
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the listbox is open. Vue binds it with v-model:open."
+    },
+    {
+      "name": "defaultOpen",
+      "type": "boolean",
+      "default": false,
+      "description": "The initial state of an uncontrolled listbox.",
+      "stacks": ["react"]
+    },
+    {
+      "name": "portal",
+      "type": "boolean",
+      "default": true,
+      "description": "Renders the listbox at the end of the body, above everything (x-teleport, a React portal, Vue Teleport). Off renders it in place."
+    },
+    {
+      "name": "leadingIcon",
+      "type": "string",
+      "description": "Icon name before the input, resolved through the icon registry. A slot or node overrides it."
+    },
+    {
+      "name": "emptyLabel",
+      "type": "string",
+      "default": "No matches for “{search}”.",
+      "description": "Shown in the listbox when nothing matches; {search} is the typed text. The empty slot overrides it. Livewire translates it with :search."
+    },
+    {
+      "name": "loadingLabel",
+      "type": "string",
+      "default": "Loading…",
+      "description": "Shown in the listbox while loading."
+    },
+    {
+      "name": "createLabel",
+      "type": "string",
+      "default": "Create “{value}”",
+      "description": "The create option's text; {value} is the typed text. Livewire translates it with :value."
+    },
+    {
+      "name": "removeLabel",
+      "type": "string",
+      "default": "Remove {label}",
+      "description": "Each chip's remove button's accessible name; {label} is the chip's label. Livewire translates it with :label."
+    },
+    {
+      "name": "removedLabel",
+      "type": "string",
+      "default": "Removed {label}.",
+      "description": "Announced when a chip is removed. Livewire translates it with :label."
+    },
+    {
+      "name": "clearLabel",
+      "type": "string",
+      "default": "Clear",
+      "description": "The clear button's accessible name."
+    },
+    {
+      "name": "triggerLabel",
+      "type": "string",
+      "default": "Show options",
+      "description": "The chevron button's accessible name."
+    },
+    {
+      "name": "searchModel",
+      "type": "string",
+      "description": "The Livewire property the search text is entangled with, after debounce. The component reads it to filter the options it renders.",
+      "stacks": ["livewire"]
+    },
+    {
+      "name": "debounce",
+      "type": "number",
+      "default": 250,
+      "description": "Milliseconds to wait after typing before setting search-model.",
+      "stacks": ["livewire"]
+    },
+    {
+      "name": "errorField",
+      "type": "string",
+      "description": "The validation key to read from $errors. Defaults to the wire:model name.",
+      "stacks": ["livewire"]
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part, such as { label: '…', content: '…', chip: '…' }."
+    }
+  ],
+  "sizes": ["sm", "md", "lg"],
+  "parts": [
+    {
+      "name": "root",
+      "element": "div",
+      "description": "The field: label, control, hint, error and the listbox. Zag's root part."
+    },
+    {
+      "name": "label",
+      "element": "label",
+      "description": "The visible label, for the input."
+    },
+    {
+      "name": "required",
+      "element": "span",
+      "description": "The required mark inside the label. Hidden from screen readers; the input is required."
+    },
+    {
+      "name": "box",
+      "element": "div",
+      "description": "The bordered box around the icon, the chips, the input and the buttons, as in Input and Select (D-018). Zag's control part, renamed."
+    },
+    {
+      "name": "icon",
+      "element": "span",
+      "description": "Leading icon in the control, and an option's icon."
+    },
+    {
+      "name": "chip",
+      "element": "span",
+      "description": "With multiple, one chosen value. Tinted by the option's color."
+    },
+    {
+      "name": "chipRemove",
+      "element": "button",
+      "description": "A chip's remove button, labelled by removeLabel."
+    },
+    {
+      "name": "control",
+      "element": "input",
+      "description": "The text input: role combobox. Attributes go to the root, not here, since its text isn't the value. Zag's input part, renamed (D-018)."
+    },
+    {
+      "name": "spinner",
+      "element": "span",
+      "description": "Shown in the control while loading."
+    },
+    {
+      "name": "clearTrigger",
+      "element": "button",
+      "description": "Clears the value. Rendered with clearable, hidden while there's no value."
+    },
+    {
+      "name": "trigger",
+      "element": "button",
+      "description": "The chevron that opens and closes the listbox. Not in the tab order; the input has the keyboard."
+    },
+    {
+      "name": "hint",
+      "element": "p",
+      "description": "Help text."
+    },
+    {
+      "name": "error",
+      "element": "p",
+      "description": "Validation message, with an icon."
+    },
+    {
+      "name": "positioner",
+      "element": "div",
+      "description": "Places the listbox under the control, as wide as it."
+    },
+    {
+      "name": "content",
+      "element": "div",
+      "description": "The listbox: role listbox. The spec's listbox."
+    },
+    {
+      "name": "item",
+      "element": "div",
+      "description": "An option: role option. The spec's option. The create option is an item with data-create."
+    },
+    {
+      "name": "itemText",
+      "element": "span",
+      "description": "An option's label."
+    },
+    {
+      "name": "mark",
+      "element": "mark",
+      "description": "The part of a label that matches the typed text: bold and underlined, never color alone."
+    },
+    {
+      "name": "itemDescription",
+      "element": "span",
+      "description": "An option's second line. The spec's description."
+    },
+    {
+      "name": "itemIndicator",
+      "element": "span",
+      "description": "With multiple, the check on a chosen option."
+    },
+    {
+      "name": "empty",
+      "element": "div",
+      "description": "Shown in the listbox when nothing matches, or while loading."
+    },
+    {
+      "name": "status",
+      "element": "span",
+      "description": "Visually hidden live region that announces a removed chip."
+    }
+  ],
+  "slots": [
+    {
+      "name": "icon",
+      "description": "Overrides the leading icon."
+    },
+    {
+      "name": "empty",
+      "description": "Overrides the empty text, such as a link to add a record."
+    },
+    {
+      "name": "item",
+      "description": "Renders each option's content, given the option. Scoped: @scope('item', $option) in Blade, #item=\"{ option }\" in Vue, renderItem in React."
+    }
+  ],
+  "events": [
+    {
+      "name": "value-change",
+      "description": "A choice changed the value: a string or null, or an array with multiple.",
+      "payload": "string | string[] | null"
+    },
+    {
+      "name": "search-change",
+      "description": "The person typed. The payload is the text; with remote, that's the query to filter by.",
+      "payload": "string"
+    },
+    {
+      "name": "open-change",
+      "description": "The listbox opened or closed itself. Setting open doesn't fire it.",
+      "payload": "boolean"
+    },
+    {
+      "name": "create",
+      "description": "The create option was chosen. The payload is the new value, already in the value; add it to the options to keep it.",
+      "payload": "string"
+    }
+  ],
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Tab",
+        "action": "Moves focus to the input."
+      },
+      {
+        "keys": "Typing",
+        "action": "Filters the options (or sends the search, with remote) and highlights the first match."
+      },
+      {
+        "keys": "ArrowDown, ArrowUp",
+        "action": "Opens the listbox and moves through the options, skipping disabled ones."
+      },
+      {
+        "keys": "Home, End",
+        "action": "Moves to the first or last option while open."
+      },
+      {
+        "keys": "Enter",
+        "action": "Chooses the highlighted option; with multiple, toggles it and keeps the listbox open."
+      },
+      {
+        "keys": "Escape",
+        "action": "Closes the listbox; the value stays."
+      },
+      {
+        "keys": "Backspace",
+        "action": "With multiple, in the empty input, removes the last chip and announces it."
+      }
+    ],
+    "requirements": [
+      "The input is role combobox with aria-expanded, aria-controls, aria-autocomplete=list and aria-activedescendant on the highlighted option.",
+      "The listbox is role listbox, labelled by the label; with multiple it sets aria-multiselectable, and chosen options set aria-selected.",
+      "Matches are shown with weight and an underline, not color.",
+      "The result count is announced as the list changes (translated); the empty state explains what to do next.",
+      "Each chip's remove button is labelled “Remove {label}”; removing a chip with Backspace is announced through the status region.",
+      "The label is always visible and linked with for/id; hint and error are linked with aria-describedby; invalid sets aria-invalid.",
+      "Visible focus ring on the box while the input (control) has :focus-visible; the highlighted option shows the hover tint and, from the keyboard, the ring.",
+      "The listbox opens under the control at its start edge and mirrors in RTL; it flips when there's no room.",
+      "Every part keeps a stable, server-rendered id in Livewire and options carry wire:key (D-015).",
+      "With name, the value is submitted through hidden inputs; the visible input's text (a label) is never submitted."
+    ],
+    "wcag": [
+      "1.3.1",
+      "1.4.1",
+      "1.4.3",
+      "1.4.11",
+      "2.1.1",
+      "2.4.3",
+      "2.4.7",
+      "2.5.8",
+      "3.3.1",
+      "3.3.2",
+      "4.1.2",
+      "4.1.3"
+    ]
+  },
+  "tokens": [
+    "--apui-input-radius",
+    "--apui-chip-radius",
+    "--apui-control-height-sm",
+    "--apui-control-height-md",
+    "--apui-control-height-lg",
+    "--apui-menu-radius",
+    "--apui-menu-item-radius",
+    "--apui-menu-item-height",
+    "--apui-surface-default",
+    "--apui-surface-sunken",
+    "--apui-surface-overlay",
+    "--apui-elevation-overlay",
+    "--apui-z-dropdown",
+    "--apui-border-default",
+    "--apui-border-strong",
+    "--apui-border-muted",
+    "--apui-state-hover",
+    "--apui-selected-bg",
+    "--apui-text-default",
+    "--apui-text-muted",
+    "--apui-text-disabled",
+    "--apui-color-primary-text",
+    "--apui-color-primary-border",
+    "--apui-color-primary-soft-foreground",
+    "--apui-color-neutral-soft",
+    "--apui-color-neutral-soft-foreground",
+    "--apui-color-error-border",
+    "--apui-color-error-text",
+    "--apui-focus-ring-color"
+  ],
+  "fixture": {
+    "props": {
+      "label": "Property",
+      "options": [
+        {
+          "value": "lakeview",
+          "label": "Lakeview Lofts",
+          "description": "United States, Chicago"
+        },
+        {
+          "value": "lakeside",
+          "label": "Lakeside Commons",
+          "description": "Canada, Toronto",
+          "color": "success"
+        },
+        {
+          "value": "silver-lake",
+          "label": "Silver Lake Bungalows",
+          "description": "United States, Los Angeles",
+          "color": "info"
+        },
+        {
+          "value": "harbor",
+          "label": "Harbor Point",
+          "description": "United States, Boston"
+        }
+      ],
+      "search": "Lake",
+      "allowCreate": true,
+      "open": true,
+      "portal": false
+    },
+    "parts": {
+      "required": true,
+      "hint": "Start typing a property name.",
+      "error": "Choose a property from the list.",
+      "leadingIcon": "search",
+      "multiple": true,
+      "value": ["lakeside", "silver-lake"],
+      "clearable": true,
+      "loading": true
+    },
+    "states": ["hover", "focus-visible", "disabled", "invalid", "loading"]
+  }
+}

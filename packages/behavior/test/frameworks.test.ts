@@ -285,6 +285,41 @@ describe.each<Stack>(['react', 'vue'])('%s adapter', (stack) => {
       await page.close();
     });
 
+    it('uncontrolled: enforces max, disables the rest, and keeps reporting creates', async () => {
+      const { page } = await openStack(stack);
+      await mount(page, 'combobox', {
+        mode: 'uncontrolled',
+        multiple: true,
+        initial: [],
+        max: 2,
+        allowCreate: true,
+      });
+      await page.click('#cb-input');
+      await settle(page);
+      await page.click('[data-value="gh"]');
+      await settle(page);
+      // A create after an earlier pick is still reported.
+      await type(page, 'Atlantis');
+      await page.keyboard.press('Enter');
+      await settle(page);
+      expect(await getParent(page, 'value')).toEqual(['gh', 'Atlantis']);
+      expect(named(await events(page), 'create')).toEqual([{ value: 'Atlantis' }]);
+      // At max: the others are disabled and a click is refused.
+      await page.fill('#cb-input', '');
+      await settle(page);
+      expect(await page.$eval('[data-value="fr"]', (el) => el.getAttribute('aria-disabled'))).toBe(
+        'true',
+      );
+      await page.click('[data-value="fr"]', { force: true });
+      await settle(page);
+      expect(await getParent(page, 'value')).toEqual(['gh', 'Atlantis']);
+      expect(named(await events(page), 'value-change')).toEqual([
+        { value: ['gh'] },
+        { value: ['gh', 'Atlantis'] },
+      ]);
+      await page.close();
+    });
+
     it('remote: reports the search, does not filter, and takes new items', async () => {
       const { page } = await openStack(stack);
       await mount(page, 'combobox', { mode: 'controlled', remote: true });
@@ -319,7 +354,7 @@ describe.each<Stack>(['react', 'vue'])('%s adapter', (stack) => {
       await settle(page);
       await settle(page);
       const [control, list] = await Promise.all([
-        page.$eval('[data-part="control"]', (el) => el.getBoundingClientRect().toJSON()),
+        page.$eval('[data-part="box"]', (el) => el.getBoundingClientRect().toJSON()),
         page.$eval('#cb-list', (el) => el.getBoundingClientRect().toJSON()),
       ]);
       // bottom-start in RTL aligns the listbox with the control's right edge,

@@ -1,0 +1,17 @@
+[
+  {
+    "id": "basic",
+    "title": "Basic",
+    "description": "Segmented tabs, each child rendering its trigger and its panel. The selected value binds both ways; without one, the first enabled tab is selected."
+  },
+  {
+    "id": "underline",
+    "title": "Underline with counts",
+    "description": "The underline variant, for tabs under a PageHeader, with a count, a disabled tab and manual activation: the arrow keys move focus and Enter or Space selects."
+  },
+  {
+    "id": "data",
+    "title": "From data",
+    "description": "tabs renders the same children as composition. Small tabs suit filters and view switches."
+  }
+]

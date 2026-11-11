@@ -1,0 +1,98 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "ValidationSummary",
+  "description": "Lists every error in a form after a failed submit, each linked to its field. Livewire reads Laravel's error bag; React and Vue take an errors prop. It is not ErrorState.",
+  "status": "draft",
+  "issue": 53,
+  "rootClass": "apui-validation-summary",
+  "stacks": {
+    "livewire": { "name": "validation-summary" },
+    "react": { "name": "ValidationSummary" },
+    "vue": { "name": "ValidationSummary" }
+  },
+  "props": [
+    {
+      "name": "errors",
+      "type": "array",
+      "description": "The errors: [{ field, message }], or a map of field to message(s). field is the control's id or name. Livewire defaults to the first message of every key in $errors. Renders nothing when empty."
+    },
+    {
+      "name": "only",
+      "type": "array",
+      "description": "The fields ($errors keys) to list, in order. Defaults to every one.",
+      "stacks": ["livewire"]
+    },
+    {
+      "name": "color",
+      "type": "enum",
+      "values": ["error", "warning"],
+      "default": "error",
+      "description": "Error blocks the submit and is an alert; warning lists non-blocking recommendations and is a status. Emitted as data-color."
+    },
+    {
+      "name": "title",
+      "type": "node",
+      "description": "The heading. Defaults to Fix 1 field / Fix N fields (error) or 1 recommendation / N recommendations (warning); Livewire translates the defaults."
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part, such as { title: '…', list: '…' }."
+    }
+  ],
+  "colors": ["error", "warning"],
+  "parts": [
+    {
+      "name": "root",
+      "element": "div",
+      "description": "The panel: icon, title and list. Focusable (tabindex=-1), and focused when it appears."
+    },
+    {
+      "name": "icon",
+      "element": "span",
+      "description": "circle-alert for errors, triangle-alert for warnings (aria-hidden)."
+    },
+    { "name": "title", "element": "p", "description": "The heading, with the count." },
+    { "name": "list", "element": "ul", "description": "The errors." },
+    { "name": "item", "element": "li", "description": "One error." },
+    {
+      "name": "link",
+      "element": "a",
+      "description": "The message, linking to #field; activating it moves focus to the field."
+    }
+  ],
+  "slots": [{ "name": "title", "description": "Rich heading content." }],
+  "a11y": {
+    "role": "alert",
+    "roles": ["status"],
+    "requirements": [
+      "Rendered at the top of the form after a failed submit, focused (tabindex=-1) and role=alert; warnings use role=status and aren't focused.",
+      "Each link moves focus to its field: the element with that id, else the control with that name or wire:model.",
+      "Fields keep their own inline errors, with the same wording.",
+      "Don't show it before the first submit.",
+      "The color is never the only signal: the title says how many fields to fix."
+    ],
+    "wcag": ["1.3.1", "1.4.1", "1.4.3", "2.4.3", "3.3.1", "3.3.3", "4.1.3"]
+  },
+  "tokens": [
+    "--apui-alert-radius",
+    "--apui-color-error-soft",
+    "--apui-color-error-soft-foreground",
+    "--apui-color-error-border",
+    "--apui-color-warning-soft",
+    "--apui-color-warning-soft-foreground",
+    "--apui-color-warning-border",
+    "--apui-focus-ring-color"
+  ],
+  "fixture": {
+    "props": {
+      "errors": [
+        { "field": "postal-code", "message": "Spanish postal codes have 5 digits." },
+        { "field": "photos", "message": "Add at least 2 more photos." },
+        { "field": "terms", "message": "Accept the listing terms." }
+      ]
+    },
+    "parts": {},
+    "states": []
+  }
+}

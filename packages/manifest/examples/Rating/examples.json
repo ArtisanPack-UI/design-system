@@ -1,0 +1,17 @@
+[
+  {
+    "id": "display",
+    "title": "Read-only",
+    "description": "Shows a score with half stars, the value and the review count. Screen readers hear one text alternative."
+  },
+  {
+    "id": "input",
+    "title": "Input",
+    "description": "Native radios, one per star. Arrow keys change the score and follow the text direction."
+  },
+  {
+    "id": "sizes",
+    "title": "Sizes",
+    "description": "Small, medium and large stars."
+  }
+]

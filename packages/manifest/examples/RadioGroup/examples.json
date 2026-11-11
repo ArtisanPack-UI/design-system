@@ -1,0 +1,17 @@
+[
+  {
+    "id": "basic",
+    "title": "Basic",
+    "description": "Options with descriptions, stacked. Arrow keys move between them and follow the text direction."
+  },
+  {
+    "id": "cards",
+    "title": "Cards",
+    "description": "Bordered cards for options with a description or a price. The whole card is clickable."
+  },
+  {
+    "id": "segmented",
+    "title": "Segmented",
+    "description": "Joined buttons for two to four short options, in a row."
+  }
+]

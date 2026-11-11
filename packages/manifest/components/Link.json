@@ -1,0 +1,146 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "Link",
+  "description": "Navigates somewhere. Inline links are always underlined; standalone links drop the underline until hover. Without href it renders a button styled as a link, for an action that reads as one.",
+  "status": "draft",
+  "issue": 56,
+  "rootClass": "apui-link",
+  "stacks": {
+    "livewire": {
+      "name": "link",
+      "capabilities": [
+        "navigate adds wire:navigate, so Livewire fetches the page without a full reload"
+      ]
+    },
+    "react": {
+      "name": "Link"
+    },
+    "vue": {
+      "name": "Link"
+    }
+  },
+  "props": [
+    {
+      "name": "href",
+      "type": "string",
+      "description": "The destination. Only relative, http, https, mailto, tel and sms URLs are used. Without one, Link renders a button (type=\"button\") with the same styles.",
+      "a11y": "A link navigates; an action without a destination is a button, so screen readers announce what it does."
+    },
+    {
+      "name": "tone",
+      "type": "enum",
+      "values": ["primary", "muted"],
+      "default": "primary",
+      "description": "primary for links in running text and calls to action, muted for secondary links such as footers and legal text. Emitted as data-tone."
+    },
+    {
+      "name": "standalone",
+      "type": "boolean",
+      "default": false,
+      "description": "A link on its own line (\"View all properties\"): medium weight, underlined only on hover, with room for icons. Emitted as data-standalone.",
+      "a11y": "Only for links that don't sit in running text: inline links keep the underline so color isn't the only cue."
+    },
+    {
+      "name": "external",
+      "type": "boolean",
+      "default": false,
+      "description": "Opens in a new tab (target=\"_blank\" with rel=\"noopener noreferrer\") and adds the external-link icon and visually hidden text that says so.",
+      "a11y": "Announces that it opens a new tab through externalLabel."
+    },
+    {
+      "name": "externalLabel",
+      "type": "string",
+      "default": "(opens in a new tab)",
+      "description": "The visually hidden text an external link announces. Translate it: Livewire defaults it through __( '(opens in a new tab)' )."
+    },
+    {
+      "name": "leadingIcon",
+      "type": "string",
+      "description": "Icon name before the text, resolved through the icon registry. A slot or node overrides it."
+    },
+    {
+      "name": "trailingIcon",
+      "type": "string",
+      "description": "Icon name after the text, such as arrow-right on a standalone link; it replaces the external-link icon. Arrows and chevrons mirror in RTL. A slot or node overrides it."
+    },
+    {
+      "name": "navigate",
+      "type": "boolean",
+      "default": true,
+      "description": "Adds wire:navigate to an internal link, so Livewire fetches the page and swaps it in without a full reload. Off-site, `#`, `mailto:` and new-tab links load normally.",
+      "stacks": ["livewire"]
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part, such as { icon: '…' }."
+    }
+  ],
+  "parts": [
+    {
+      "name": "root",
+      "element": "a | button",
+      "description": "The link, or a button when there's no href."
+    },
+    {
+      "name": "icon",
+      "element": "span",
+      "description": "The leading icon."
+    },
+    {
+      "name": "iconEnd",
+      "element": "span",
+      "description": "The trailing icon, or the external-link icon."
+    }
+  ],
+  "slots": [
+    {
+      "name": "icon",
+      "description": "Overrides the leading icon."
+    },
+    {
+      "name": "iconEnd",
+      "description": "Overrides the trailing icon."
+    }
+  ],
+  "events": [],
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Enter",
+        "action": "Follows the link, or activates the button form."
+      }
+    ],
+    "requirements": [
+      "Uses a native anchor, or a native button when there's no href.",
+      "Inline links are underlined, so color isn't the only cue (1.4.1); standalone links are set apart by position and weight.",
+      "External links say they open a new tab, in visually hidden text (externalLabel).",
+      "The link text says where it goes: never \"click here\".",
+      "Icons are decorative (aria-hidden); an icon-only link needs an aria-label.",
+      "Visible focus ring on :focus-visible."
+    ],
+    "wcag": ["1.4.1", "1.4.3", "2.1.1", "2.4.4", "2.4.7", "4.1.2"]
+  },
+  "tokens": [
+    "--apui-color-primary-text",
+    "--apui-color-primary-border",
+    "--apui-text-muted",
+    "--apui-text-default",
+    "--apui-border-default",
+    "--apui-radius-xs",
+    "--apui-font-weight-medium",
+    "--apui-focus-ring-color",
+    "--apui-focus-ring-offset-color"
+  ],
+  "fixture": {
+    "content": "View all properties",
+    "props": {
+      "href": "#",
+      "external": true
+    },
+    "parts": {
+      "leadingIcon": "download",
+      "trailingIcon": "arrow-right"
+    }
+  }
+}

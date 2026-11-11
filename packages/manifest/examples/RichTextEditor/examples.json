@@ -1,0 +1,17 @@
+[
+  {
+    "id": "basic",
+    "title": "Basic",
+    "description": "The full toolbar over the shared prose styles, with the word and character count in the footer."
+  },
+  {
+    "id": "compact",
+    "title": "Compact",
+    "description": "Keep the toolbar to the formats your content needs. A placeholder shows while it's empty."
+  },
+  {
+    "id": "markdown",
+    "title": "Markdown output",
+    "description": "output=\"markdown\" reads and writes Markdown and leaves underline off the toolbar. maxLength stops typing at the limit."
+  }
+]

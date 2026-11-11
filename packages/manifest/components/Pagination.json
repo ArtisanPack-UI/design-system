@@ -1,0 +1,193 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "Pagination",
+  "description": "Moves between the pages of a long list: previous and next, the first and last pages, the pages around the current one, and an optional summary.",
+  "status": "draft",
+  "issue": 56,
+  "rootClass": "apui-pagination",
+  "stacks": {
+    "livewire": {
+      "name": "pagination",
+      "capabilities": [
+        "rows takes a Laravel paginator: pages become links to its URLs, and inside a Livewire component with WithPagination they call gotoPage() instead of reloading",
+        "A simple or cursor paginator renders previous and next only"
+      ]
+    },
+    "react": {
+      "name": "Pagination"
+    },
+    "vue": {
+      "name": "Pagination",
+      "capabilities": ["v-model:page binds the page (update:page) alongside page-change"]
+    }
+  },
+  "props": [
+    {
+      "name": "page",
+      "type": "number",
+      "default": 1,
+      "description": "The current page, from 1. Clamped to the page count."
+    },
+    {
+      "name": "pageCount",
+      "type": "number",
+      "description": "How many pages there are. Without it, Pagination works it out from total and perPage."
+    },
+    {
+      "name": "total",
+      "type": "number",
+      "description": "How many items the whole list has. With perPage it gives the page count and the summary's range."
+    },
+    {
+      "name": "perPage",
+      "type": "number",
+      "default": 10,
+      "description": "How many items a page holds."
+    },
+    {
+      "name": "siblings",
+      "type": "number",
+      "default": 1,
+      "description": "How many pages show on each side of the current one. The first and last pages always show, and gaps collapse into an ellipsis, so the control keeps one width as the page changes."
+    },
+    {
+      "name": "summary",
+      "type": "boolean",
+      "default": false,
+      "description": "Shows the summary before the pages: \"Showing 21–30 of 318\", or \"Page 3 of 32\" without a total."
+    },
+    {
+      "name": "rows",
+      "type": "object",
+      "description": "A Laravel paginator (LengthAwarePaginator, Paginator or CursorPaginator). It supplies page, total, perPage and each page's URL; a simple or cursor paginator renders previous and next only.",
+      "stacks": ["livewire"]
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "default": "Pagination",
+      "description": "The navigation landmark's accessible name. Translate it: Livewire defaults it through __( 'Pagination' ).",
+      "a11y": "Names the nav landmark; give two paginations on one page different labels."
+    },
+    {
+      "name": "previousLabel",
+      "type": "string",
+      "default": "Previous page",
+      "description": "The previous button's accessible name. Translate it: Livewire defaults it through __( 'Previous page' ).",
+      "a11y": "The previous button is icon-only, so this is its only name."
+    },
+    {
+      "name": "nextLabel",
+      "type": "string",
+      "default": "Next page",
+      "description": "The next button's accessible name. Translate it: Livewire defaults it through __( 'Next page' ).",
+      "a11y": "The next button is icon-only, so this is its only name."
+    },
+    {
+      "name": "pageLabel",
+      "type": "string",
+      "default": "Page {page}",
+      "description": "Each page's accessible name; {page} is its number. Translate it: Livewire defaults it through __( 'Page {page}' )."
+    },
+    {
+      "name": "summaryLabel",
+      "type": "string",
+      "default": "Showing {from}–{to} of {total}",
+      "description": "The summary's text, with {from}, {to}, {total}, {page} and {pageCount}. Without a total the default is \"Page {page} of {pageCount}\". Translate it: Livewire defaults both through __()."
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part, such as { page: '…', summary: '…' }."
+    }
+  ],
+  "parts": [
+    {
+      "name": "root",
+      "element": "nav",
+      "description": "The navigation landmark."
+    },
+    {
+      "name": "summary",
+      "element": "span",
+      "description": "Which items or page are showing, when summary is set."
+    },
+    {
+      "name": "previous",
+      "element": "button | a",
+      "description": "Goes to the previous page. Icon-only, named by previousLabel; aria-disabled on the first page. Its chevron mirrors in RTL."
+    },
+    {
+      "name": "page",
+      "element": "button | a",
+      "description": "Goes to a page. The current page has aria-current=\"page\"."
+    },
+    {
+      "name": "ellipsis",
+      "element": "span",
+      "description": "Stands in for the pages between two shown ones. Hidden from assistive technology."
+    },
+    {
+      "name": "next",
+      "element": "button | a",
+      "description": "Goes to the next page. Icon-only, named by nextLabel; aria-disabled on the last page. Its chevron mirrors in RTL."
+    }
+  ],
+  "events": [
+    {
+      "name": "page-change",
+      "description": "A page, previous or next was chosen. Setting page doesn't fire it. Livewire dispatches it as a browser event (x-on:page-change, wire:page-change) with { page } in $event.detail.",
+      "payload": "number"
+    }
+  ],
+  "a11y": {
+    "role": "navigation",
+    "element": "nav",
+    "keyboard": [
+      {
+        "keys": "Tab",
+        "action": "Moves through previous, the pages and next."
+      },
+      {
+        "keys": "Enter / Space",
+        "action": "Goes to the focused page (Enter only on links)."
+      }
+    ],
+    "requirements": [
+      "A nav landmark named by label (\"Pagination\").",
+      "The current page has aria-current=\"page\".",
+      "Previous and next are icon-only with translatable names; on the first or last page they stay focusable with aria-disabled=\"true\" and do nothing.",
+      "Each page is named \"Page n\" (pageLabel); ellipses are aria-hidden.",
+      "Previous and next chevrons mirror in RTL, and the order follows the text direction.",
+      "Items are at least --apui-control-height-sm (28px) square, above the 24px target minimum.",
+      "Visible focus ring on :focus-visible."
+    ],
+    "wcag": ["1.3.1", "1.4.3", "1.4.11", "2.1.1", "2.4.7", "2.5.8", "4.1.2"]
+  },
+  "tokens": [
+    "--apui-control-height-sm",
+    "--apui-radius-full",
+    "--apui-selected-bg",
+    "--apui-selected-border",
+    "--apui-color-primary-soft-foreground",
+    "--apui-state-hover",
+    "--apui-state-pressed",
+    "--apui-text-default",
+    "--apui-text-muted",
+    "--apui-text-disabled",
+    "--apui-type-body-sm-font-size",
+    "--apui-type-body-sm-line-height",
+    "--apui-font-weight-medium",
+    "--apui-focus-ring-color",
+    "--apui-focus-ring-offset-color"
+  ],
+  "fixture": {
+    "props": {
+      "page": 3,
+      "total": 318,
+      "perPage": 10,
+      "summary": true
+    },
+    "states": []
+  }
+}

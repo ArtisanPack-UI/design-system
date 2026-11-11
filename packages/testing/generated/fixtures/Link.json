@@ -1,0 +1,52 @@
+{
+  "version": 1,
+  "component": "Link",
+  "rootClass": "apui-link",
+  "stacks": [
+    "livewire",
+    "react",
+    "vue"
+  ],
+  "names": {
+    "livewire": "link",
+    "react": "Link",
+    "vue": "Link"
+  },
+  "cases": [
+    {
+      "id": "state=default",
+      "props": {
+        "href": "#",
+        "external": true
+      },
+      "state": "default",
+      "content": "View all properties"
+    }
+  ],
+  "sheets": [
+    {
+      "id": "light",
+      "theme": "light",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "dark",
+      "theme": "dark",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "high-contrast",
+      "theme": "high-contrast",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "rtl",
+      "theme": "light",
+      "density": "default",
+      "dir": "rtl"
+    }
+  ]
+}

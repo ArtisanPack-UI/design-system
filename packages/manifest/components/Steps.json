@@ -1,0 +1,171 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "Steps",
+  "description": "Shows progress through a sequence: an ordered list of steps, each complete, current, upcoming or in error. Compose it from Step children, or pass the same structure as steps.",
+  "status": "draft",
+  "issue": 56,
+  "rootClass": "apui-steps",
+  "stacks": {
+    "livewire": {
+      "name": "steps",
+      "capabilities": [
+        "Children: step; steps renders the same children",
+        "wire:model binds value; with clickable, choosing a completed step sets it",
+        "A step's 2.x step and text props still work, as its number and title"
+      ]
+    },
+    "react": {
+      "name": "Steps",
+      "capabilities": ["Children: Step"]
+    },
+    "vue": {
+      "name": "Steps",
+      "capabilities": ["Children: Step"]
+    }
+  },
+  "props": [
+    {
+      "name": "steps",
+      "type": "array",
+      "description": "The steps as data, rendering the same children as composition: { title, description, state, icon }. state is complete, current, upcoming or error; without it, value decides. icon replaces the marker's number or check."
+    },
+    {
+      "name": "value",
+      "type": "number",
+      "description": "The current step, from 1. Steps before it are complete and steps after it upcoming; a step's own state overrides that (error). Livewire binds it with wire:model, Vue with v-model."
+    },
+    {
+      "name": "orientation",
+      "type": "enum",
+      "values": ["horizontal", "vertical"],
+      "default": "horizontal",
+      "description": "A row with connectors between the steps, or a column with the connector down the side and room for longer descriptions. Emitted as data-orientation."
+    },
+    {
+      "name": "clickable",
+      "type": "boolean",
+      "default": false,
+      "description": "Lets people go back to a completed step: its title becomes a button that reports value-change. Upcoming steps stay plain text.",
+      "a11y": "Only completed steps become buttons, so people can't skip ahead."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "description": "The list's accessible name, such as \"Checkout progress\"."
+    },
+    {
+      "name": "completeLabel",
+      "type": "string",
+      "default": "Completed",
+      "description": "The visually hidden text in a complete step's marker, so the state isn't only a check icon. Translate it: Livewire defaults it through __( 'Completed' )."
+    },
+    {
+      "name": "errorLabel",
+      "type": "string",
+      "default": "Error",
+      "description": "The visually hidden text in an error step's marker. Translate it: Livewire defaults it through __( 'Error' )."
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part, children included, such as { marker: '…', title: '…' }."
+    }
+  ],
+  "parts": [
+    {
+      "name": "root",
+      "element": "ol",
+      "description": "The ordered list of steps. It is the spec's list part."
+    },
+    {
+      "name": "step",
+      "element": "li",
+      "description": "One step, with data-state complete, current, upcoming or error. The current step has aria-current=\"step\"."
+    },
+    {
+      "name": "marker",
+      "element": "span",
+      "description": "The circle: the step's number, a check when complete, an x on error, or its icon. Complete and error carry visually hidden text."
+    },
+    {
+      "name": "title",
+      "element": "span | button",
+      "description": "The step's name. A button on completed steps when clickable."
+    },
+    {
+      "name": "connector",
+      "element": "span",
+      "description": "The line to the next step, filled once the step is complete. Hidden from assistive technology and not drawn after the last step."
+    },
+    {
+      "name": "description",
+      "element": "span",
+      "description": "Supporting text under the title."
+    }
+  ],
+  "events": [
+    {
+      "name": "value-change",
+      "description": "A completed step was chosen while clickable. The payload is its number. Setting value doesn't fire it.",
+      "payload": "number"
+    }
+  ],
+  "a11y": {
+    "element": "ol",
+    "keyboard": [
+      {
+        "keys": "Tab",
+        "action": "Moves through the completed steps' buttons, when clickable. Otherwise Steps has no stops."
+      },
+      {
+        "keys": "Enter / Space",
+        "action": "Goes back to the focused completed step."
+      }
+    ],
+    "requirements": [
+      "An ordered list, so the count and position are announced.",
+      "The current step has aria-current=\"step\".",
+      "Complete and error steps carry visually hidden text (completeLabel, errorLabel), not only an icon.",
+      "Markers and connectors meet 3:1 against the surface; titles and descriptions 4.5:1.",
+      "Only completed steps are buttons when clickable; upcoming steps can't be reached.",
+      "Visible focus ring on :focus-visible."
+    ],
+    "wcag": ["1.3.1", "1.4.1", "1.4.3", "1.4.11", "2.1.1", "2.4.7", "4.1.2"]
+  },
+  "tokens": [
+    "--apui-color-primary",
+    "--apui-color-primary-foreground",
+    "--apui-color-primary-text",
+    "--apui-color-primary-soft",
+    "--apui-color-error-soft",
+    "--apui-color-error-border",
+    "--apui-color-error-soft-foreground",
+    "--apui-color-error-text",
+    "--apui-surface-default",
+    "--apui-border-default",
+    "--apui-border-muted",
+    "--apui-border-width",
+    "--apui-text-default",
+    "--apui-text-muted",
+    "--apui-type-body-sm-font-size",
+    "--apui-type-body-sm-line-height",
+    "--apui-type-caption-font-size",
+    "--apui-type-caption-line-height",
+    "--apui-font-weight-medium",
+    "--apui-font-weight-semibold",
+    "--apui-focus-ring-color",
+    "--apui-focus-ring-offset-color"
+  ],
+  "fixture": {
+    "props": {
+      "value": 4,
+      "steps": [
+        { "title": "Basics", "description": "Title and type" },
+        { "title": "Location", "description": "Address and map" },
+        { "title": "Pricing", "description": "Price rejected", "state": "error" },
+        { "title": "Photos", "description": "At least 6" },
+        { "title": "Review", "description": "Publish" }
+      ]
+    }
+  }
+}

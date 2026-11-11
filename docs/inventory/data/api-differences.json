@@ -4312,7 +4312,7 @@
         },
         {
           "group": "prop",
-          "canonical": "classes.hint",
+          "canonical": "classes",
           "current": {
             "livewire": {
               "name": "hintClass",
@@ -4328,21 +4328,35 @@
               "kind": "rename",
               "stack": "livewire",
               "from": "hintClass",
-              "to": "classes.hint",
-              "note": "Per-part override."
+              "to": "classes",
+              "note": "`classes.error`."
+            },
+            {
+              "kind": "rename",
+              "stack": "livewire",
+              "from": "errorClass",
+              "to": "classes",
+              "note": "`classes.error`."
             },
             {
               "kind": "rename",
               "stack": "livewire",
               "from": "hintClass",
-              "to": "classes.hint",
-              "note": "Per-part override."
+              "to": "classes",
+              "note": "`classes.error`."
+            },
+            {
+              "kind": "rename",
+              "stack": "livewire",
+              "from": "errorClass",
+              "to": "classes",
+              "note": "`classes.error`."
             }
           ]
         },
         {
           "group": "prop",
-          "canonical": "icon",
+          "canonical": "leadingIcon",
           "current": {
             "livewire": {
               "name": "icon",
@@ -4353,11 +4367,24 @@
             }
           },
           "daisyCoupled": false,
-          "differences": []
+          "differences": [
+            {
+              "kind": "rename",
+              "stack": "livewire",
+              "from": "icon",
+              "to": "leadingIcon"
+            },
+            {
+              "kind": "rename",
+              "stack": "livewire",
+              "from": "icon",
+              "to": "leadingIcon"
+            }
+          ]
         },
         {
           "group": "prop",
-          "canonical": "iconRight",
+          "canonical": null,
           "current": {
             "livewire": {
               "name": "iconRight",
@@ -4368,11 +4395,22 @@
             }
           },
           "daisyCoupled": false,
-          "differences": []
+          "differences": [
+            {
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "iconRight"
+            },
+            {
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "iconRight"
+            }
+          ]
         },
         {
           "group": "prop",
-          "canonical": "inline",
+          "canonical": null,
           "current": {
             "livewire": {
               "name": "inline",
@@ -4383,7 +4421,18 @@
             }
           },
           "daisyCoupled": false,
-          "differences": []
+          "differences": [
+            {
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "inline"
+            },
+            {
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "inline"
+            }
+          ]
         },
         {
           "group": "prop",
@@ -4402,7 +4451,7 @@
         },
         {
           "group": "prop",
-          "canonical": "prefix",
+          "canonical": null,
           "current": {
             "livewire": {
               "name": "prefix",
@@ -4413,11 +4462,22 @@
             }
           },
           "daisyCoupled": false,
-          "differences": []
+          "differences": [
+            {
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "prefix"
+            },
+            {
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "prefix"
+            }
+          ]
         },
         {
           "group": "prop",
-          "canonical": "suffix",
+          "canonical": null,
           "current": {
             "livewire": {
               "name": "suffix",
@@ -4428,11 +4488,22 @@
             }
           },
           "daisyCoupled": false,
-          "differences": []
+          "differences": [
+            {
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "suffix"
+            },
+            {
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "suffix"
+            }
+          ]
         },
         {
           "group": "prop",
-          "canonical": "searchable",
+          "canonical": null,
           "current": {
             "livewire": {
               "name": "searchable",
@@ -4443,11 +4514,24 @@
             }
           },
           "daisyCoupled": false,
-          "differences": []
+          "differences": [
+            {
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "searchable",
+              "note": "`choices`: becomes `remote` (server search). `choices-offline`: dropped, filtering is always on."
+            },
+            {
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "searchable",
+              "note": "`choices`: becomes `remote` (server search). `choices-offline`: dropped, filtering is always on."
+            }
+          ]
         },
         {
           "group": "prop",
-          "canonical": "single",
+          "canonical": null,
           "current": {
             "livewire": {
               "name": "single",
@@ -4458,11 +4542,24 @@
             }
           },
           "daisyCoupled": false,
-          "differences": []
+          "differences": [
+            {
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "single",
+              "note": "Inverted: add `multiple` when the old tag had no `single`. `choices` and `choices-offline` were multiple by default; `tags` becomes `multiple` + `allowCreate`."
+            },
+            {
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "single",
+              "note": "Inverted: add `multiple` when the old tag had no `single`. `choices` and `choices-offline` were multiple by default; `tags` becomes `multiple` + `allowCreate`."
+            }
+          ]
         },
         {
           "group": "prop",
-          "canonical": "compact",
+          "canonical": null,
           "current": {
             "livewire": {
               "name": "compact",
@@ -4473,11 +4570,22 @@
             }
           },
           "daisyCoupled": false,
-          "differences": []
+          "differences": [
+            {
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "compact"
+            },
+            {
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "compact"
+            }
+          ]
         },
         {
           "group": "prop",
-          "canonical": "compactText",
+          "canonical": null,
           "current": {
             "livewire": {
               "name": "compactText",
@@ -4488,11 +4596,22 @@
             }
           },
           "daisyCoupled": false,
-          "differences": []
+          "differences": [
+            {
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "compactText"
+            },
+            {
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "compactText"
+            }
+          ]
         },
         {
           "group": "prop",
-          "canonical": "allowAll",
+          "canonical": null,
           "current": {
             "livewire": {
               "name": "allowAll",
@@ -4503,7 +4622,18 @@
             }
           },
           "daisyCoupled": false,
-          "differences": []
+          "differences": [
+            {
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "allowAll"
+            },
+            {
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "allowAll"
+            }
+          ]
         },
         {
           "group": "prop",
@@ -4522,7 +4652,7 @@
         },
         {
           "group": "prop",
-          "canonical": "minChars",
+          "canonical": null,
           "current": {
             "livewire": {
               "name": "minChars",
@@ -4533,11 +4663,24 @@
             }
           },
           "daisyCoupled": false,
-          "differences": []
+          "differences": [
+            {
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "minChars",
+              "note": "Check the length in the `search-model` handler."
+            },
+            {
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "minChars",
+              "note": "Check the length in the `search-model` handler."
+            }
+          ]
         },
         {
           "group": "prop",
-          "canonical": "allowAllText",
+          "canonical": null,
           "current": {
             "livewire": {
               "name": "allowAllText",
@@ -4548,11 +4691,22 @@
             }
           },
           "daisyCoupled": false,
-          "differences": []
+          "differences": [
+            {
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "allowAllText"
+            },
+            {
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "allowAllText"
+            }
+          ]
         },
         {
           "group": "prop",
-          "canonical": "removeAllText",
+          "canonical": null,
           "current": {
             "livewire": {
               "name": "removeAllText",
@@ -4563,11 +4717,22 @@
             }
           },
           "daisyCoupled": false,
-          "differences": []
+          "differences": [
+            {
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "removeAllText"
+            },
+            {
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "removeAllText"
+            }
+          ]
         },
         {
           "group": "prop",
-          "canonical": "searchFunction",
+          "canonical": "searchModel",
           "current": {
             "livewire": {
               "name": "searchFunction",
@@ -4578,11 +4743,19 @@
             }
           },
           "daisyCoupled": false,
-          "differences": []
+          "differences": [
+            {
+              "kind": "rename",
+              "stack": "livewire",
+              "from": "searchFunction",
+              "to": "searchModel",
+              "note": "Manual: a method name became a property name. Or keep the method with `wire:search-change`."
+            }
+          ]
         },
         {
           "group": "prop",
-          "canonical": "optionValue",
+          "canonical": null,
           "current": {
             "livewire": {
               "name": "optionValue",
@@ -4593,11 +4766,24 @@
             }
           },
           "daisyCoupled": false,
-          "differences": []
+          "differences": [
+            {
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "optionValue",
+              "note": "Manual: map options to `{ value, label, description }`."
+            },
+            {
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "optionValue",
+              "note": "Manual: map options to `{ value, label, description }`."
+            }
+          ]
         },
         {
           "group": "prop",
-          "canonical": "optionLabel",
+          "canonical": null,
           "current": {
             "livewire": {
               "name": "optionLabel",
@@ -4608,11 +4794,24 @@
             }
           },
           "daisyCoupled": false,
-          "differences": []
+          "differences": [
+            {
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "optionLabel",
+              "note": "Manual: see `optionValue`."
+            },
+            {
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "optionLabel",
+              "note": "Manual: see `optionValue`."
+            }
+          ]
         },
         {
           "group": "prop",
-          "canonical": "optionSubLabel",
+          "canonical": null,
           "current": {
             "livewire": {
               "name": "optionSubLabel",
@@ -4623,11 +4822,24 @@
             }
           },
           "daisyCoupled": false,
-          "differences": []
+          "differences": [
+            {
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "optionSubLabel",
+              "note": "Manual: becomes each option's `description`."
+            },
+            {
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "optionSubLabel",
+              "note": "Manual: becomes each option's `description`."
+            }
+          ]
         },
         {
           "group": "prop",
-          "canonical": "optionAvatar",
+          "canonical": null,
           "current": {
             "livewire": {
               "name": "optionAvatar",
@@ -4638,11 +4850,24 @@
             }
           },
           "daisyCoupled": false,
-          "differences": []
+          "differences": [
+            {
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "optionAvatar",
+              "note": "Use the option's `icon` or the `item` scoped slot."
+            },
+            {
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "optionAvatar",
+              "note": "Use the option's `icon` or the `item` scoped slot."
+            }
+          ]
         },
         {
           "group": "prop",
-          "canonical": "valuesAsString",
+          "canonical": null,
           "current": {
             "livewire": {
               "name": "valuesAsString",
@@ -4653,11 +4878,22 @@
             }
           },
           "daisyCoupled": false,
-          "differences": []
+          "differences": [
+            {
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "valuesAsString"
+            },
+            {
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "valuesAsString"
+            }
+          ]
         },
         {
           "group": "prop",
-          "canonical": "height",
+          "canonical": null,
           "current": {
             "livewire": {
               "name": "height",
@@ -4668,7 +4904,18 @@
             }
           },
           "daisyCoupled": false,
-          "differences": []
+          "differences": [
+            {
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "height"
+            },
+            {
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "height"
+            }
+          ]
         },
         {
           "group": "prop",
@@ -4687,7 +4934,7 @@
         },
         {
           "group": "prop",
-          "canonical": "noResultText",
+          "canonical": "emptyLabel",
           "current": {
             "livewire": {
               "name": "noResultText",
@@ -4698,7 +4945,20 @@
             }
           },
           "daisyCoupled": false,
-          "differences": []
+          "differences": [
+            {
+              "kind": "rename",
+              "stack": "livewire",
+              "from": "noResultText",
+              "to": "emptyLabel"
+            },
+            {
+              "kind": "rename",
+              "stack": "livewire",
+              "from": "noResultText",
+              "to": "emptyLabel"
+            }
+          ]
         },
         {
           "group": "prop",
@@ -4717,35 +4977,7 @@
         },
         {
           "group": "prop",
-          "canonical": "classes.error",
-          "current": {
-            "livewire": {
-              "name": "errorClass",
-              "kind": "prop",
-              "type": "?string",
-              "default": "text-error",
-              "values": null
-            }
-          },
-          "daisyCoupled": true,
-          "differences": [
-            {
-              "kind": "rename",
-              "stack": "livewire",
-              "from": "errorClass",
-              "to": "classes.error"
-            },
-            {
-              "kind": "rename",
-              "stack": "livewire",
-              "from": "errorClass",
-              "to": "classes.error"
-            }
-          ]
-        },
-        {
-          "group": "prop",
-          "canonical": "hideError",
+          "canonical": null,
           "current": {
             "livewire": {
               "name": "omitError",
@@ -4758,24 +4990,20 @@
           "daisyCoupled": false,
           "differences": [
             {
-              "kind": "rename",
+              "kind": "remove",
               "stack": "livewire",
-              "from": "omitError",
-              "to": "hideError",
-              "note": "Positive-hide naming, matching `hideErrors`."
+              "from": "omitError"
             },
             {
-              "kind": "rename",
+              "kind": "remove",
               "stack": "livewire",
-              "from": "omitError",
-              "to": "hideError",
-              "note": "Positive-hide naming, matching `hideErrors`."
+              "from": "omitError"
             }
           ]
         },
         {
           "group": "prop",
-          "canonical": "firstErrorOnly",
+          "canonical": null,
           "current": {
             "livewire": {
               "name": "firstErrorOnly",
@@ -4786,11 +5014,22 @@
             }
           },
           "daisyCoupled": false,
-          "differences": []
+          "differences": [
+            {
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "firstErrorOnly"
+            },
+            {
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "firstErrorOnly"
+            }
+          ]
         },
         {
           "group": "prop",
-          "canonical": "lazyLoad",
+          "canonical": null,
           "current": {
             "livewire": {
               "name": "lazyLoad",
@@ -4801,11 +5040,17 @@
             }
           },
           "daisyCoupled": false,
-          "differences": []
+          "differences": [
+            {
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "lazyLoad"
+            }
+          ]
         },
         {
           "group": "prop",
-          "canonical": "lazyLoadMethod",
+          "canonical": null,
           "current": {
             "livewire": {
               "name": "lazyLoadMethod",
@@ -4816,11 +5061,17 @@
             }
           },
           "daisyCoupled": false,
-          "differences": []
+          "differences": [
+            {
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "lazyLoadMethod"
+            }
+          ]
         },
         {
           "group": "prop",
-          "canonical": "lazyLoadModifier",
+          "canonical": null,
           "current": {
             "livewire": {
               "name": "lazyLoadModifier",
@@ -4831,11 +5082,17 @@
             }
           },
           "daisyCoupled": false,
-          "differences": []
+          "differences": [
+            {
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "lazyLoadModifier"
+            }
+          ]
         },
         {
           "group": "prop",
-          "canonical": "hasMoreOptions",
+          "canonical": null,
           "current": {
             "livewire": {
               "name": "hasMoreOptions",
@@ -4846,7 +5103,13 @@
             }
           },
           "daisyCoupled": false,
-          "differences": []
+          "differences": [
+            {
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "hasMoreOptions"
+            }
+          ]
         },
         {
           "group": "prop",
@@ -4865,7 +5128,7 @@
         },
         {
           "group": "prop",
-          "canonical": "selection",
+          "canonical": null,
           "current": {
             "livewire": {
               "name": "selection",
@@ -4876,11 +5139,24 @@
             }
           },
           "daisyCoupled": false,
-          "differences": []
+          "differences": [
+            {
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "selection",
+              "note": "Slot removed; chips render the label."
+            },
+            {
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "selection",
+              "note": "Slot removed; chips render the label."
+            }
+          ]
         },
         {
           "group": "prop",
-          "canonical": "prepend",
+          "canonical": null,
           "current": {
             "livewire": {
               "name": "prepend",
@@ -4891,11 +5167,22 @@
             }
           },
           "daisyCoupled": false,
-          "differences": []
+          "differences": [
+            {
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "prepend"
+            },
+            {
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "prepend"
+            }
+          ]
         },
         {
           "group": "prop",
-          "canonical": "append",
+          "canonical": null,
           "current": {
             "livewire": {
               "name": "append",
@@ -4906,7 +5193,18 @@
             }
           },
           "daisyCoupled": false,
-          "differences": []
+          "differences": [
+            {
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "append"
+            },
+            {
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "append"
+            }
+          ]
         },
         {
           "group": "event",
@@ -4925,16 +5223,16 @@
         }
       ],
       "totals": {
-        "members": 41,
-        "rename": 6,
+        "members": 40,
+        "rename": 9,
         "missing": 0,
         "behavioral": 0,
-        "remove": 0,
-        "daisyCoupled": 2
+        "remove": 50,
+        "daisyCoupled": 1
       },
       "structure": null,
       "rename": null,
-      "consolidation": "Choices + ChoicesOffline → Combobox with `searchable` and `remote` modes."
+      "consolidation": "Choices + ChoicesOffline → Combobox with local filtering and a `remote` mode (D-020)."
     },
     {
       "canonical": "Tags",
@@ -5412,7 +5710,7 @@
       },
       "structure": null,
       "rename": null,
-      "consolidation": "Candidate to become a Combobox `multiple` + `allowCustom` mode; it already shares the searchable option API."
+      "consolidation": "Consolidated into Combobox `multiple` + `allowCreate` (D-020); Livewire `tags` is a deprecated alias."
     },
     {
       "canonical": "SelectGroup",
@@ -5725,7 +6023,7 @@
       },
       "structure": null,
       "rename": null,
-      "consolidation": "Candidate for Select with an option-group shape rather than a separate component."
+      "consolidation": "Consolidated into Select with `{ label, options }` option groups (D-025); Livewire `select-group` is a deprecated alias."
     },
     {
       "canonical": "DatePicker",
@@ -6611,7 +6909,7 @@
       },
       "structure": null,
       "rename": null,
-      "consolidation": "Candidate for a DatePicker `time` mode; the issue tracks both together."
+      "consolidation": "Consolidated into DatePicker `time` mode (D-021); Livewire `datetime` is a deprecated alias."
     },
     {
       "canonical": "Textarea",
@@ -7698,7 +7996,7 @@
       "members": [
         {
           "group": "prop",
-          "canonical": "size",
+          "canonical": "length",
           "current": {
             "livewire": {
               "name": "size",
@@ -7706,17 +8004,30 @@
               "type": "int",
               "default": null,
               "values": null
+            },
+            "react": {
+              "name": "length",
+              "kind": "prop",
+              "type": "number",
+              "default": null,
+              "values": null
+            },
+            "vue": {
+              "name": "length",
+              "kind": "prop",
+              "type": "number",
+              "default": null,
+              "values": null
             }
           },
           "daisyCoupled": false,
           "differences": [
             {
-              "kind": "missing",
-              "stack": "react"
-            },
-            {
-              "kind": "missing",
-              "stack": "vue"
+              "kind": "rename",
+              "stack": "livewire",
+              "from": "size",
+              "to": "length",
+              "note": "The number of cells."
             }
           ]
         },
@@ -7997,33 +8308,6 @@
         },
         {
           "group": "prop",
-          "canonical": "length",
-          "current": {
-            "react": {
-              "name": "length",
-              "kind": "prop",
-              "type": "number",
-              "default": null,
-              "values": null
-            },
-            "vue": {
-              "name": "length",
-              "kind": "prop",
-              "type": "number",
-              "default": null,
-              "values": null
-            }
-          },
-          "daisyCoupled": false,
-          "differences": [
-            {
-              "kind": "missing",
-              "stack": "livewire"
-            }
-          ]
-        },
-        {
-          "group": "prop",
           "canonical": "error",
           "current": {
             "react": {
@@ -8166,9 +8450,9 @@
         }
       ],
       "totals": {
-        "members": 17,
-        "rename": 7,
-        "missing": 9,
+        "members": 16,
+        "rename": 8,
+        "missing": 6,
         "behavioral": 3,
         "remove": 0,
         "daisyCoupled": 2
@@ -8507,14 +8791,14 @@
               "stack": "livewire",
               "from": "card",
               "to": "variant",
-              "note": "`variant=\"card\"`."
+              "note": "`variant=\"cards\"` (D-025)."
             },
             {
               "kind": "rename",
               "stack": "livewire",
               "from": "card",
               "to": "variant",
-              "note": "`variant=\"card\"`."
+              "note": "`variant=\"cards\"` (D-025)."
             },
             {
               "kind": "missing",
@@ -16621,7 +16905,7 @@
         },
         {
           "group": "prop",
-          "canonical": "searchText",
+          "canonical": "placeholder",
           "current": {
             "livewire": {
               "name": "searchText",
@@ -16629,23 +16913,34 @@
               "type": "?string",
               "default": "Search ...",
               "values": null
+            },
+            "react": {
+              "name": "placeholder",
+              "kind": "prop",
+              "type": "string",
+              "default": "'Search…'",
+              "values": null
             }
           },
           "daisyCoupled": false,
           "differences": [
             {
-              "kind": "missing",
-              "stack": "react"
+              "kind": "rename",
+              "stack": "livewire",
+              "from": "searchText",
+              "to": "placeholder",
+              "note": "Deprecated alias kept in 3.0."
             },
             {
-              "kind": "missing",
-              "stack": "vue"
+              "kind": "behavioral",
+              "aspect": "default",
+              "detail": "livewire: Search ..., react: Search…"
             }
           ]
         },
         {
           "group": "prop",
-          "canonical": "noResultsText",
+          "canonical": "emptyText",
           "current": {
             "livewire": {
               "name": "noResultsText",
@@ -16657,6 +16952,13 @@
           },
           "daisyCoupled": false,
           "differences": [
+            {
+              "kind": "rename",
+              "stack": "livewire",
+              "from": "noResultsText",
+              "to": "emptyText",
+              "note": "Deprecated alias kept in 3.0."
+            },
             {
               "kind": "missing",
               "stack": "react"
@@ -16715,7 +17017,7 @@
         },
         {
           "group": "prop",
-          "canonical": "append",
+          "canonical": "footer",
           "current": {
             "livewire": {
               "name": "append",
@@ -16727,6 +17029,13 @@
           },
           "daisyCoupled": false,
           "differences": [
+            {
+              "kind": "rename",
+              "stack": "livewire",
+              "from": "append",
+              "to": "footer",
+              "note": "Slot. Deprecated alias kept in 3.0."
+            },
             {
               "kind": "missing",
               "stack": "react"
@@ -16780,21 +17089,6 @@
               "stack": "vue"
             }
           ]
-        },
-        {
-          "group": "prop",
-          "canonical": "placeholder",
-          "current": {
-            "react": {
-              "name": "placeholder",
-              "kind": "prop",
-              "type": "string",
-              "default": "'Search…'",
-              "values": null
-            }
-          },
-          "daisyCoupled": false,
-          "differences": []
         },
         {
           "group": "prop",
@@ -16982,10 +17276,10 @@
         }
       ],
       "totals": {
-        "members": 17,
-        "rename": 2,
-        "missing": 24,
-        "behavioral": 3,
+        "members": 16,
+        "rename": 5,
+        "missing": 22,
+        "behavioral": 4,
         "remove": 1,
         "daisyCoupled": 0
       },

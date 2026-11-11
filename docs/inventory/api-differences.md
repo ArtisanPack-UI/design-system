@@ -8,7 +8,7 @@ Summary of [data/api-differences.json](data/api-differences.json), the machine-r
 
 | Members | rename | missing | behavioral | remove | DaisyUI-coupled |
 |---|---|---|---|---|---|
-| 1292 | 239 | 845 | 119 | 60 | 124 |
+| 1289 | 246 | 840 | 120 | 110 | 123 |
 
 - **rename:** same concept, different name today or under the proposed vocabulary.
 - **missing:** present in another stack but not this one. HTML attributes that pass through (`disabled`, `name`, …) are not counted.
@@ -33,8 +33,8 @@ Livewire values come from docblocks and are only captured where they are listed.
 | Wave | Components | Members | rename | missing | behavioral | remove |
 |---|---|---|---|---|---|---|
 | Pilot | 8 | 149 | 40 | 85 | 36 | 13 |
-| Form | 21 | 382 | 81 | 120 | 20 | 4 |
-| Navigation | 8 | 166 | 61 | 156 | 7 | 12 |
+| Form | 21 | 380 | 85 | 117 | 20 | 54 |
+| Navigation | 8 | 165 | 64 | 154 | 8 | 12 |
 | Layout | 14 | 172 | 24 | 121 | 5 | 13 |
 | Feedback | 8 | 60 | 3 | 23 | 6 | 4 |
 | Data Display | 13 | 261 | 21 | 244 | 41 | 13 |
@@ -53,9 +53,9 @@ Livewire values come from docblocks and are only captured where they are listed.
 | Calendar | 18 | 3 | 27 | 5 | 0 |
 | Card | 20 | 3 | 25 | 3 | 2 |
 | Password | 29 | 4 | 25 | 3 | 1 |
+| Spotlight | 16 | 5 | 22 | 4 | 1 |
 | Drawer | 21 | 5 | 23 | 1 | 3 |
 | File | 28 | 7 | 21 | 2 | 0 |
-| Spotlight | 17 | 2 | 24 | 3 | 1 |
 
 ## Pilot components
 

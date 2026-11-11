@@ -1,0 +1,17 @@
+[
+  {
+    "id": "basic",
+    "title": "Basic",
+    "description": "One input drives the cells, so SMS autofill and paste fill the whole code. complete fires when the last cell is filled."
+  },
+  {
+    "id": "masked",
+    "title": "Masked and alphanumeric",
+    "description": "mask shows dots; alphanumeric allows letters too."
+  },
+  {
+    "id": "states",
+    "title": "Validation and sizes",
+    "description": "Say why a code failed; don't clear it silently."
+  }
+]

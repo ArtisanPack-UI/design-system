@@ -1,0 +1,185 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "Textarea",
+  "description": "Multi-line text entry. It shares Input's field anatomy (label, box, hint, error) and adds an optional character counter.",
+  "status": "draft",
+  "issue": 53,
+  "rootClass": "apui-textarea",
+  "stacks": {
+    "livewire": { "name": "textarea" },
+    "react": { "name": "Textarea" },
+    "vue": { "name": "Textarea" }
+  },
+  "props": [
+    {
+      "name": "rows",
+      "type": "number",
+      "default": 4,
+      "description": "Visible lines of text. With autoResize, the minimum."
+    },
+    {
+      "name": "maxLength",
+      "type": "number",
+      "description": "The most characters allowed. Sets maxlength on the control and shows the counter.",
+      "a11y": "The counter is aria-hidden; a polite live region announces the characters left only near the limit."
+    },
+    {
+      "name": "autoResize",
+      "type": "boolean",
+      "default": false,
+      "description": "Grows the box with its content (CSS field-sizing). Emitted as data-auto-resize."
+    },
+    {
+      "name": "label",
+      "type": "node",
+      "description": "The visible label, linked to the control."
+    },
+    {
+      "name": "hint",
+      "type": "node",
+      "description": "Help text under the box, linked with aria-describedby."
+    },
+    {
+      "name": "error",
+      "type": "string",
+      "description": "Validation message. Marks the field invalid and is linked with aria-describedby."
+    },
+    {
+      "name": "invalid",
+      "type": "boolean",
+      "default": false,
+      "description": "Marks the field invalid without a message. Emitted as data-invalid.",
+      "a11y": "Sets aria-invalid on the control."
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": false,
+      "description": "Disables the control."
+    },
+    {
+      "name": "readonly",
+      "type": "boolean",
+      "default": false,
+      "description": "Makes the control read-only. It stays focusable."
+    },
+    {
+      "name": "required",
+      "type": "boolean",
+      "default": false,
+      "description": "Marks the field required and shows the required mark.",
+      "a11y": "Sets required (and so aria-required) on the control."
+    },
+    {
+      "name": "placeholder",
+      "type": "string",
+      "description": "Placeholder text. Never a replacement for the label."
+    },
+    {
+      "name": "value",
+      "type": "string",
+      "description": "The value. Livewire binds it with wire:model, Vue with v-model."
+    },
+    {
+      "name": "defaultValue",
+      "type": "string",
+      "description": "The initial value of an uncontrolled textarea.",
+      "stacks": ["react"]
+    },
+    {
+      "name": "remainingLabel",
+      "type": "string",
+      "default": "Characters left: {count}",
+      "description": "The counter's announcement near the limit. {count} is replaced with the characters left. Livewire translates the default."
+    },
+    {
+      "name": "errorField",
+      "type": "string",
+      "description": "The validation key to read from $errors. Defaults to the wire:model name.",
+      "stacks": ["livewire"]
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part, such as { label: '…', control: '…' }."
+    }
+  ],
+  "parts": [
+    { "name": "root", "element": "div", "description": "The field: label, box, hint and error." },
+    { "name": "label", "element": "label", "description": "The visible label, for the control." },
+    {
+      "name": "required",
+      "element": "span",
+      "description": "The required mark inside the label. Hidden from screen readers; the control is required."
+    },
+    {
+      "name": "box",
+      "element": "div",
+      "description": "The bordered box around the control and the counter."
+    },
+    {
+      "name": "control",
+      "element": "textarea",
+      "description": "The native textarea. Attributes other than class land here."
+    },
+    {
+      "name": "count",
+      "element": "span",
+      "description": "The counter, such as 118 / 500, at the end of the box. Shown with maxLength."
+    },
+    { "name": "hint", "element": "p", "description": "Help text." },
+    { "name": "error", "element": "p", "description": "Validation message, with an icon." }
+  ],
+  "events": [
+    {
+      "name": "value-change",
+      "description": "The value changed.",
+      "payload": "string"
+    }
+  ],
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Tab",
+        "action": "Moves focus to the control; typing edits the value and Enter adds a line."
+      }
+    ],
+    "requirements": [
+      "The label is always visible and linked with for/id; a placeholder never replaces it.",
+      "Hint and error are linked to the control with aria-describedby.",
+      "Invalid sets aria-invalid on the control; the error is text, never color alone.",
+      "The counter is aria-hidden. A polite live region announces the characters left once within 10% of the limit (at least 10), never on every keystroke.",
+      "Class goes to the root; every other attribute (wire:model, name, autocomplete) goes to the control.",
+      "Disabled uses --apui-surface-sunken and --apui-text-disabled, never opacity alone.",
+      "Visible focus ring on the box while the control has :focus-visible."
+    ],
+    "wcag": ["1.3.1", "1.4.3", "1.4.11", "2.1.1", "2.4.7", "3.3.1", "3.3.2", "4.1.2", "4.1.3"]
+  },
+  "tokens": [
+    "--apui-input-radius",
+    "--apui-border-default",
+    "--apui-border-strong",
+    "--apui-border-muted",
+    "--apui-color-error-border",
+    "--apui-color-error-text",
+    "--apui-surface-default",
+    "--apui-surface-sunken",
+    "--apui-text-default",
+    "--apui-text-muted",
+    "--apui-text-disabled",
+    "--apui-focus-ring-color"
+  ],
+  "fixture": {
+    "props": {
+      "label": "Description",
+      "placeholder": "Describe the property, nearby amenities and anything renters should know…",
+      "maxLength": 500
+    },
+    "parts": {
+      "required": true,
+      "hint": "Shown on the listing page.",
+      "error": "Write at least 40 characters."
+    },
+    "states": ["hover", "focus-visible", "disabled", "invalid", "readonly"]
+  }
+}

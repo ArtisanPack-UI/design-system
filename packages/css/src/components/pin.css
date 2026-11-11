@@ -1,0 +1,144 @@
+/*
+ * Pin (#53). Root `.apui-pin` is the field: label, cells, hint and error,
+ * sharing the field rules in field.css. One native input (control) lies
+ * transparent over the row of cells, so autofill, paste and screen readers
+ * see one field; the cells mirror its value. The stacks mark the cell the
+ * next character goes in with data-active, which takes the focus ring and
+ * the caret while the control has focus.
+ */
+@layer apui.components {
+  .apui-pin {
+    --apui-_cell-w: 44px;
+    --apui-_cell-h: 52px;
+    --apui-_cell-fs: 20px;
+
+    justify-items: start;
+  }
+
+  .apui-pin[data-size='sm'] {
+    --apui-_cell-w: 36px;
+    --apui-_cell-h: 40px;
+    --apui-_cell-fs: 16px;
+  }
+
+  [data-scope='pin'][data-part='cells'] {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  [data-scope='pin'][data-part='control'] {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    box-sizing: border-box;
+    inline-size: 100%;
+    block-size: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: none;
+    background: transparent;
+    color: transparent;
+    caret-color: transparent;
+    font-size: 16px;
+    letter-spacing: 0;
+    opacity: 0;
+    cursor: text;
+  }
+
+  [data-scope='pin'][data-part='cell'] {
+    display: grid;
+    place-items: center;
+    box-sizing: border-box;
+    inline-size: var(--apui-_cell-w);
+    block-size: var(--apui-_cell-h);
+    border: var(--apui-border-width) solid var(--apui-border-default);
+    border-radius: var(--apui-input-radius);
+    background: var(--apui-surface-default);
+    color: var(--apui-text-default);
+    font-size: var(--apui-_cell-fs);
+    font-variant-numeric: tabular-nums;
+    font-weight: var(--apui-font-weight-medium);
+    line-height: 1;
+    transition: border-color var(--apui-motion-duration-fast) var(--apui-motion-ease-standard);
+  }
+
+  [data-scope='pin'][data-part='cell'][data-filled] {
+    border-color: var(--apui-border-strong);
+  }
+
+  [data-scope='pin'][data-part='cells']:is(:hover, :has([data-part='control']:hover))
+    > [data-part='cell'] {
+    border-color: var(--apui-border-strong);
+  }
+
+  /* Focus: the ring and a blinking caret on the cell the next character goes in. */
+  [data-scope='pin'][data-part='cells']:has([data-part='control']:focus-visible)
+    > [data-part='cell'][data-active] {
+    outline: var(--apui-focus-ring-width) solid transparent;
+    box-shadow:
+      0 0 0 var(--apui-focus-ring-offset) var(--apui-focus-ring-offset-color),
+      0 0 0 calc(var(--apui-focus-ring-offset) + var(--apui-focus-ring-width))
+        var(--apui-focus-ring-color);
+  }
+
+  [data-scope='pin'][data-part='cells']:has([data-part='control']:focus-visible)
+    > [data-part='cell'][data-active]:not([data-filled])::after {
+    content: '';
+    inline-size: 1.5px;
+    block-size: calc(var(--apui-_cell-fs) + 2px);
+    background: var(--apui-text-default);
+    animation: apui-pin-caret 1s steps(1) infinite;
+  }
+
+  [data-scope='pin'][data-part='separator'] {
+    flex: none;
+    inline-size: 10px;
+    block-size: 2px;
+    border-radius: 2px;
+    background: var(--apui-border-default);
+  }
+
+  .apui-pin[data-invalid] [data-scope='pin'][data-part='cell'] {
+    border-color: var(--apui-color-error-border);
+  }
+
+  .apui-pin[data-disabled] [data-scope='pin'][data-part='cell'] {
+    border-color: var(--apui-border-muted);
+    background: var(--apui-surface-sunken);
+    color: var(--apui-text-disabled);
+  }
+
+  .apui-pin[data-disabled] [data-scope='pin'][data-part='control'] {
+    cursor: not-allowed;
+  }
+
+  @keyframes apui-pin-caret {
+    50% {
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-scope='pin'][data-part='cells']:has([data-part='control']:focus-visible)
+      > [data-part='cell'][data-active]:not([data-filled])::after {
+      animation: none;
+    }
+
+    [data-scope='pin'][data-part='cell'] {
+      transition: none;
+    }
+  }
+
+  @media (forced-colors: active) {
+    [data-scope='pin'][data-part='cell'] {
+      border-color: CanvasText;
+    }
+
+    [data-scope='pin'][data-part='separator'] {
+      background: CanvasText;
+    }
+  }
+}

@@ -1,0 +1,17 @@
+[
+  {
+    "id": "basic",
+    "title": "Basic",
+    "description": "page, total and perPage. The first and last pages always show, with siblings pages around the current one; page-change reports the chosen page."
+  },
+  {
+    "id": "summary",
+    "title": "With a summary",
+    "description": "summary shows which items are on screen. Translate it through summaryLabel; {from}, {to}, {total}, {page} and {pageCount} are filled in."
+  },
+  {
+    "id": "paginator",
+    "title": "From a Laravel paginator",
+    "description": "Livewire only: rows takes a paginator. Inside a component using WithPagination, the pages call gotoPage() without a reload; elsewhere they are links. React and Vue pass the paginator's numbers instead."
+  }
+]

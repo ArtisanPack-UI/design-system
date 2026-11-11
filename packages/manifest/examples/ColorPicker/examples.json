@@ -1,0 +1,17 @@
+[
+  {
+    "id": "basic",
+    "title": "Basic",
+    "description": "The swatch opens the popover: area, hue and opacity sliders, format select and eyedropper. The text value stays in the field, always available for typing."
+  },
+  {
+    "id": "swatches",
+    "title": "Formats and brand swatches",
+    "description": "Preset colors in the popover. The format select switches the text between HEX, RGB, HSL and OKLCH; format sets the starting one."
+  },
+  {
+    "id": "states",
+    "title": "Validation and disabled",
+    "description": "The error is linked to the text value. Without alpha every value is opaque. Disabled uses the sunken surface."
+  }
+]

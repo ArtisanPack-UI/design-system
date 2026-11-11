@@ -33,11 +33,15 @@ import type { Attrs } from '../core/props';
 import { createWidget, type Widget } from '../core/widget';
 import {
   combobox,
+  COMBOBOX_LABELS,
   type ComboboxApi,
   type ComboboxItem,
   type ComboboxProps,
   createCollection,
+  createItem,
   filterItems,
+  formatLabel,
+  highlight,
 } from '../widgets/combobox';
 import { dialog, type DialogApi, type DialogProps } from '../widgets/dialog';
 import {
@@ -58,8 +62,13 @@ import {
   type ToastOptions,
   type ToastProps,
 } from '../widgets/toast';
+import { datePickerComponent } from './date-picker';
+import { colorPickerComponent } from './color-picker';
+import { tabsComponent } from './tabs';
 import { menuPlacement, type MenuAlign } from '../core/options';
 import { iconSvg } from '../icons';
+import { spotlightComponent } from './spotlight';
+import { codeEditorComponent, richTextEditorComponent, signatureComponent } from './form';
 import { directionOf, type PositionOptions, zagPositioning } from '../positioning';
 
 type Alpine = AlpineGlobal.Alpine;
@@ -130,6 +139,9 @@ const warned = new WeakSet<Element>();
  */
 function warnMissingId(el: Element, part: string): void {
   if (el.id || part === 'item' || part.startsWith('item-') || warned.has(el)) return;
+  // The morph skips a wire:ignore subtree, so client-rendered parts there
+  // (a date picker's day cells) can keep the machine's ids.
+  if (el.closest('[wire\\:ignore]')) return;
   // Teleported parts live outside the component; follow them back to it.
   const teleported = el.closest('[data-teleport-target]') as { _x_teleportBack?: Element } | null;
   const origin = teleported?._x_teleportBack ?? el;
@@ -226,59 +238,132 @@ function dialogComponent(options: DialogOptions = {}) {
 // ---------------------------------------------------------------------------
 // Combobox
 
+/** The combobox's built-in labels. Livewire passes them through `__()`. */
+export type ComboboxLabels = Partial<Record<keyof typeof COMBOBOX_LABELS, string>>;
+
 export interface ComboboxOptions extends Pick<
   ComboboxProps,
-  'multiple' | 'disabled' | 'readOnly' | 'placeholder' | 'name' | 'translations' | 'closeOnSelect'
+  | 'multiple'
+  | 'disabled'
+  | 'readOnly'
+  | 'placeholder'
+  | 'name'
+  | 'translations'
+  | 'closeOnSelect'
+  | 'invalid'
+  | 'required'
 > {
-  /** Initial or entangled value: a string, or an array with `multiple`. */
-  value?: string | string[] | null;
+  /**
+   * Initial or entangled value: a string, or an array with `multiple`. An
+   * item given a number value (a Livewire integer id) is bound as that number.
+   */
+  value?: string | number | (string | number)[] | null;
   /**
    * Entangled search text. With `remote`, the server filters: typing updates
-   * this and the server renders the matching items.
+   * this (after `debounce`) and the server renders the matching items.
    */
   search?: string;
   /** The server filters the items. Without it, items are filtered by label here. */
   remote?: boolean;
+  /** Milliseconds between the last keystroke and updating `search`, with `remote`. Default 0. */
+  debounce?: number;
   /** Accept a typed value that isn't an item. */
   allowCustom?: boolean;
+  /**
+   * Offer a create option for typed text that names no item or chosen value.
+   * The view renders it as `x-apui:item="createOption"`; choosing it
+   * dispatches `create`.
+   */
+  allowCreate?: boolean;
+  /** With `multiple`, the most values that can be chosen. */
+  max?: number;
+  /** Initial loading state: a spinner and the loading text. Plain state the view can set. */
+  loading?: boolean;
+  /** Initial open state of the listbox. */
+  open?: boolean;
+  /** Built-in labels, translated. */
+  labels?: ComboboxLabels;
   /** Where the listbox opens. Default `bottom-start`, as wide as the control. */
   positioning?: PositionOptions;
   id?: string;
 }
 
-/** The `apuiCombobox` Alpine component. `value` and `search` are plain state, so they can be entangled with Livewire. */
+/** Escapes text for `x-html`. */
+const escapeHtml = (text: string) =>
+  text.replace(
+    /[&<>"']/g,
+    (char) =>
+      ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char] ?? char,
+  );
+
+/** A combobox chip: one chosen value with its label and color. */
+interface ComboboxChip {
+  value: string;
+  label: string;
+  color?: string;
+}
+
+/**
+ * The `apuiCombobox` Alpine component. `value` and `search` are plain state,
+ * so they can be entangled with Livewire. Besides the machine's parts, the
+ * view uses `chips`, `remove()`, `itemHtml()`, `createOption`, `createText`,
+ * `emptyText`, `loading` and `status`.
+ */
 function comboboxComponent(options: ComboboxOptions = {}) {
   const multiple = Boolean(options.multiple);
+  const labels = { ...COMBOBOX_LABELS, ...options.labels };
   let widget: Widget<ComboboxProps, ComboboxApi> | undefined;
   const items = new Map<Element, ComboboxItem>();
   let visible: ComboboxItem[] = [];
-  let shown = new Set<ComboboxItem>();
-  let query = '';
+  let shown = new Map<string, ComboboxItem>();
   let scheduled = false;
   let root: HTMLElement | undefined;
+  let searchTimer: ReturnType<typeof setTimeout> | undefined;
+  /** Labels and colors of values seen, so chips keep them after their item is filtered or gone. */
+  const known = new Map<string, ComboboxItem>();
+  /**
+   * Items' values as the server gave them (a Livewire integer id stays an
+   * integer), by their string form, so the bound value keeps their type.
+   */
+  const originals = new Map<string, number>();
+  const original = (values: string[]) => values.map((entry) => originals.get(entry) ?? entry);
+  /** The listed items' values and labels at the last refresh, to tell when they change. */
+  let signature = '';
+  /** The component's reactive state, once it inits. */
+  let state: { query: string; value: unknown; revision: number; remove(value: string): void };
+
+  const toArray = (value: unknown): string[] =>
+    Array.isArray(value) ? value.map(String) : value == null || value === '' ? [] : [String(value)];
 
   return {
     value: options.value ?? (multiple ? [] : null),
     search: options.search ?? '',
-    inputValue: '',
-    open: false,
+    inputValue: options.search ?? '',
+    /** The typed text the items are filtered and marked by; empty after a choice. */
+    query: options.search ?? '',
+    open: Boolean(options.open),
+    loading: Boolean(options.loading),
+    /** The status region's text: the last removed chip. */
+    status: '',
+    /** Bumped when the items change, so getters that read them re-run. */
+    revision: 0,
 
     init(
       this: AlpineMagics & {
-        value: string | string[] | null;
+        value: string | number | (string | number)[] | null;
         search: string;
         inputValue: string;
+        query: string;
         open: boolean;
+        loading: boolean;
+        revision: number;
+        remove(value: string): void;
       },
     ) {
       const el = this.$el;
       root = el;
-      const toArray = (value: unknown): string[] =>
-        Array.isArray(value)
-          ? value.map(String)
-          : value == null || value === ''
-            ? []
-            : [String(value)];
+      // eslint-disable-next-line @typescript-eslint/no-this-alias -- helpers outside the component object need Alpine's reactive proxy
+      state = this;
 
       widget = createWidget(combobox, {
         id: options.id ?? this.$id('apui-combobox'),
@@ -286,38 +371,63 @@ function comboboxComponent(options: ComboboxOptions = {}) {
         multiple,
         disabled: options.disabled,
         readOnly: options.readOnly,
+        invalid: options.invalid,
+        required: options.required,
+        loading: this.loading,
         placeholder: options.placeholder,
-        name: options.name,
+        // No `name` on the text input: it holds a label. The view renders
+        // hidden inputs for `formValues` instead.
         translations: options.translations,
         closeOnSelect: options.closeOnSelect,
-        allowCustomValue: options.allowCustom,
+        // A created value isn't an item once the text is gone, so the machine
+        // must not revert the input to the last item's label on blur.
+        allowCustomValue: options.allowCustom || options.allowCreate,
         collection: createCollection([]),
         value: toArray(this.value),
+        defaultOpen: this.open,
+        defaultInputValue: this.inputValue,
         inputBehavior: 'autohighlight',
         openOnClick: true,
         selectionBehavior: multiple ? 'clear' : 'replace',
         // The listbox is as wide as the control unless the options say otherwise.
         positioning: zagPositioning(el, { sameWidth: true, ...options.positioning }),
         onValueChange: ({ value }) => {
-          const next = multiple ? value : (value[0] ?? null);
+          const previous = toArray(this.value);
+          const added = value.find((entry) => !previous.includes(entry));
+          if (multiple && options.max && value.length > options.max && added !== undefined) {
+            // Past max: put the machine back.
+            widget?.setProps({ value: previous });
+            return;
+          }
+          const created = added === undefined ? undefined : shown.get(added);
+          if (created) known.set(created.value, { ...created, create: false });
+          const next = multiple ? original(value) : (original(value)[0] ?? null);
           if (!sameValue(this.value, next)) this.value = next;
           dispatch(el, 'value-change', { value: next });
+          if (created?.create) dispatch(el, 'create', { value: created.value });
         },
         onInputValueChange: ({ inputValue, reason }) => {
           this.inputValue = inputValue;
-          if (options.remote) {
-            if (reason === 'input-change' && this.search !== inputValue) this.search = inputValue;
-            return;
+          // Filter and mark only on typing. After a choice the input shows the
+          // label, and the next open should list everything again.
+          this.query = reason === 'input-change' ? inputValue : '';
+          if (reason === 'input-change') {
+            dispatch(el, 'search-change', { search: inputValue });
+            if (options.remote) {
+              clearTimeout(searchTimer);
+              const update = () => {
+                if (this.search !== inputValue) this.search = inputValue;
+              };
+              if (options.debounce) searchTimer = setTimeout(update, options.debounce);
+              else update();
+            }
           }
-          // Filter only on typing. After a selection the input shows the label,
-          // and the next open should list everything again.
-          query = reason === 'input-change' ? inputValue : '';
           refresh();
         },
         onOpenChange: ({ open }) => {
           this.open = open;
-          if (!open && !options.remote) {
-            query = '';
+          if (!open) {
+            this.query = '';
             refresh();
           }
           dispatch(el, 'open-change', { open });
@@ -326,26 +436,108 @@ function comboboxComponent(options: ComboboxOptions = {}) {
       widget.start();
       this.$watch('value', (value: unknown) => {
         widget?.setProps({ value: toArray(value) });
+        refresh();
         queueMicrotask(showLabel);
       });
+      this.$watch('loading', (loading: unknown) => widget?.setProps({ loading: Boolean(loading) }));
     },
 
     destroy() {
+      clearTimeout(searchTimer);
       widget?.stop();
       widget = undefined;
       items.clear();
     },
 
+    /** The values a form submits: one hidden input each, under the view's `name`. */
+    get formValues(): string[] {
+      return toArray((this as unknown as { value: unknown }).value);
+    },
+
+    /** With multiple, the chosen values as chips, in the order they were chosen. */
+    get chips(): ComboboxChip[] {
+      const self = this as unknown as { value: unknown; revision: number };
+      void self.revision;
+      return toArray(self.value).map((value) => {
+        const item = known.get(value);
+        return { value, label: item?.label ?? value, color: item?.color };
+      });
+    },
+
+    /** The create option for the typed text, or null. Bind it as `x-apui:item="createOption"`. */
+    get createOption(): ComboboxItem | null {
+      const self = this as unknown as { query: string; value: unknown; revision: number };
+      void self.revision;
+      if (!options.allowCreate) return null;
+      const listed = [...items.values()].filter((item) => !item.create);
+      return createItem(self.query, listed, toArray(self.value));
+    },
+
+    /** The create option's text. */
+    get createText(): string {
+      const self = this as unknown as { query: string };
+      return formatLabel(labels.create, { value: self.query.trim() });
+    },
+
+    /** The empty part's text: loading, or no matches for the typed text. */
+    get emptyText(): string {
+      const self = this as unknown as { query: string; loading: boolean };
+      return self.loading ? labels.loading : formatLabel(labels.empty, { search: self.query });
+    },
+
+    /** A chip remove button's accessible name. */
+    removeLabel(label: string) {
+      return formatLabel(labels.remove, { label });
+    },
+
+    /** An item's label as HTML, the typed text marked, then its description. */
+    itemHtml(this: { query: string }, label: string, description?: string | null) {
+      const marked = highlight(label, this.query)
+        .map(({ text, match }) =>
+          match
+            ? `<mark data-scope="combobox" data-part="mark">${escapeHtml(text)}</mark>`
+            : escapeHtml(text),
+        )
+        .join('');
+      return description
+        ? `${marked}<span data-scope="combobox" data-part="item-description">${escapeHtml(description)}</span>`
+        : marked;
+    },
+
+    /** Removes one chosen value (a chip's remove button) and announces it. */
+    remove(this: { value: unknown; status: string }, value: string) {
+      if (options.disabled || options.readOnly) return;
+      const current = toArray(this.value);
+      if (!current.includes(value)) return;
+      const next = current.filter((entry) => entry !== value);
+      this.value = multiple ? original(next) : null;
+      this.status = formatLabel(labels.removed, { label: known.get(value)?.label ?? value });
+      if (root) dispatch(root, 'value-change', { value: this.value });
+    },
+
     apuiPart(part: string, el: Element, args: () => PartArgs) {
       if (!widget) return () => {};
       if (part === 'item') {
-        const item = toItem(el, args());
+        const given = args();
+        // `x-apui:item="createOption"` is null while there's nothing to create.
+        if (given === null) {
+          return widget.bind(el, () => ({ hidden: true }));
+        }
+        const item = toItem(el, given);
         items.set(el, item);
+        if (!item.create) {
+          known.set(item.value, item);
+          const raw = (given as Record<string, unknown> | undefined)?.value;
+          if (typeof raw === 'number') originals.set(item.value, raw);
+        }
         schedule();
-        const unbind = widget.bind(el, (api) => ({
-          ...api.getItemProps({ item }),
-          hidden: options.remote || shown.has(item) ? undefined : true,
-        }));
+        const unbind = widget.bind(el, (api) => {
+          const current = shown.get(item.value);
+          return {
+            ...api.getItemProps({ item: current ?? item }),
+            hidden: current ? undefined : true,
+          };
+        });
         return () => {
           unbind();
           items.delete(el);
@@ -359,7 +551,9 @@ function comboboxComponent(options: ComboboxOptions = {}) {
         return widget.bind(el, (api) => {
           const item = items.get(owner);
           return item
-            ? partProps(api as unknown as Record<string, unknown>, 'combobox', part, { item })
+            ? partProps(api as unknown as Record<string, unknown>, 'combobox', part, {
+                item: shown.get(item.value) ?? item,
+              })
             : {};
         });
       }
@@ -372,6 +566,21 @@ function comboboxComponent(options: ComboboxOptions = {}) {
           'data-part': 'empty',
           hidden: visible.length ? true : undefined,
         }));
+      }
+      if (part === 'input') {
+        // Backspace in the empty input removes the last chip.
+        const onKeydown = (event: Event) => {
+          const key = event as KeyboardEvent;
+          if (!multiple || key.key !== 'Backspace' || (el as HTMLInputElement).value !== '') return;
+          const last = toArray(state.value).at(-1);
+          if (last !== undefined) state.remove(last);
+        };
+        el.addEventListener('keydown', onKeydown);
+        const unbind = widget.bind(el, (api) => api.getInputProps());
+        return () => {
+          el.removeEventListener('keydown', onKeydown);
+          unbind();
+        };
       }
       return widget.bind(el, (api) =>
         partProps(api as unknown as Record<string, unknown>, 'combobox', part, args()),
@@ -390,9 +599,15 @@ function comboboxComponent(options: ComboboxOptions = {}) {
     });
   }
 
-  /** Rebuilds the collection from the registered items in DOM order, filtered by the typed query unless remote. */
+  /**
+   * Rebuilds the collection from the registered items in DOM order: filtered
+   * by the typed query unless remote, and with the items not chosen disabled
+   * once `max` is reached.
+   */
   function refresh() {
     if (!widget) return;
+    const query = state?.query ?? '';
+    const values = toArray(state?.value);
     // A morph removes items before Alpine runs their cleanup, so drop
     // detached ones here rather than wait for it.
     for (const el of [...items.keys()]) if (!el.isConnected) items.delete(el);
@@ -401,9 +616,23 @@ function comboboxComponent(options: ComboboxOptions = {}) {
         a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1,
       )
       .map(([, item]) => item);
-    visible = options.remote ? ordered : filterItems(ordered, query);
-    shown = new Set(visible);
+    const listed = ordered.filter((item) => !item.create);
+    const created = ordered.filter((item) => item.create);
+    visible = [...(options.remote ? listed : filterItems(listed, query)), ...created];
+    if (multiple && options.max && values.length >= options.max) {
+      visible = visible.map((item) =>
+        values.includes(item.value) || item.disabled ? item : { ...item, disabled: true },
+      );
+    }
+    shown = new Map(visible.map((item) => [item.value, item]));
     widget.setProps({ collection: createCollection(visible) });
+    // Getters that read the listed items (chips, createOption) re-run when
+    // they change. Not for the create option itself, which they produce.
+    const next = JSON.stringify(listed.map((item) => [item.value, item.label]));
+    if (state && next !== signature) {
+      signature = next;
+      state.revision++;
+    }
   }
 
   /**
@@ -413,13 +642,14 @@ function comboboxComponent(options: ComboboxOptions = {}) {
    * empty.
    */
   function showLabel() {
-    if (!widget || multiple) return;
+    // Not while the server's search text is in the input.
+    if (!widget || multiple || state?.query) return;
     const api = widget.api();
     // Never while someone is typing in it.
-    if (api.open || root?.querySelector('[data-part="input"]') === document.activeElement) return;
+    const input = root?.querySelector('[data-scope="combobox"][data-part="control"]');
+    if (api.open || input === document.activeElement) return;
     const selected = api.value[0];
-    const item =
-      selected === undefined ? undefined : [...items.values()].find((i) => i.value === selected);
+    const item = selected === undefined ? undefined : known.get(selected);
     if (selected !== undefined && !item) return;
     const label = item?.label ?? '';
     if (api.inputValue !== label) api.setInputValue(label, 'script');
@@ -434,10 +664,16 @@ function comboboxComponent(options: ComboboxOptions = {}) {
 function toItem(el: Element, args: PartArgs): ComboboxItem {
   const text = (el.querySelector('[x-apui\\:item-text]') ?? el).textContent?.trim();
   const value = args?.value ?? el.getAttribute('data-value') ?? text ?? '';
+  const optional = (key: string) =>
+    typeof args?.[key] === 'string' ? (args[key] as string) : undefined;
   return {
     value: String(value),
     label: String(args?.label ?? text ?? value),
     disabled: Boolean(args?.disabled),
+    description: optional('description'),
+    icon: optional('icon'),
+    color: optional('color'),
+    create: Boolean(args?.create) || undefined,
   };
 }
 
@@ -771,12 +1007,19 @@ export default function apuiBehavior(Alpine: Alpine): void {
   }
 
   Alpine.data('apuiDialog', dialogComponent as never);
+  Alpine.data('apuiDatePicker', datePickerComponent as never);
+  Alpine.data('apuiColorPicker', colorPickerComponent as never);
   Alpine.data('apuiCombobox', comboboxComponent as never);
   Alpine.data('apuiDropdownMenu', dropdownMenuComponent as never);
+  Alpine.data('apuiTabs', tabsComponent as never);
   Alpine.data('apuiToaster', ((options?: ToasterAlpineOptions) =>
     toasterComponent(Alpine, options)) as never);
   Alpine.data('apuiToast', ((entry: ToastProps, index?: number) =>
     toastComponent(Alpine, entry, index)) as never);
+  Alpine.data('apuiSpotlight', spotlightComponent as never);
+  Alpine.data('apuiSignature', signatureComponent as never);
+  Alpine.data('apuiRichTextEditor', richTextEditorComponent as never);
+  Alpine.data('apuiCodeEditor', codeEditorComponent as never);
 
   Alpine.directive(
     'apui',

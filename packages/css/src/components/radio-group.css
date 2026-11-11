@@ -1,0 +1,353 @@
+/*
+ * RadioGroup (#53). Root `fieldset.apui-radio-group`: the legend (label),
+ * the items, then the hint and error (field.css). Each item is a `label`
+ * holding the box (the native radio over it, plus the dot indicator), the
+ * text, and an optional description and meta. The box follows the pilot
+ * Checkbox: the radio stays in the DOM, transparent over the box with a 4px
+ * larger hit area, and checked styles read the native :checked state, so the
+ * dot follows a click before a deferred wire:model round trip re-renders.
+ *
+ * Variants: default, cards (bordered, clickable anywhere) and segmented
+ * (joined buttons, the old Livewire `group`).
+ */
+@layer apui.components {
+  .apui-radio-group {
+    display: grid;
+    gap: 8px;
+    min-inline-size: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-family: var(--apui-font-family-sans);
+  }
+
+  [data-scope='radio-group'][data-part='label'] {
+    margin-block-end: 4px;
+  }
+
+  [data-scope='radio-group'][data-part='items'] {
+    display: grid;
+    gap: 12px;
+  }
+
+  .apui-radio-group[data-orientation='horizontal'] [data-scope='radio-group'][data-part='items'] {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 20px;
+  }
+
+  [data-scope='radio-group'][data-part='item'] {
+    position: relative;
+    display: inline-grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: 10px;
+    row-gap: 2px;
+    align-items: start;
+    color: var(--apui-text-default);
+    font-size: var(--apui-type-body-md-font-size);
+    line-height: var(--apui-type-body-md-line-height);
+    cursor: pointer;
+  }
+
+  [data-scope='radio-group'][data-part='box'] {
+    position: relative;
+    display: grid;
+    grid-row: span 3;
+    place-items: center;
+    box-sizing: border-box;
+    inline-size: 18px;
+    block-size: 18px;
+    margin-block-start: 1px;
+    border: var(--apui-border-width) solid var(--apui-border-default);
+    border-radius: var(--apui-radius-full);
+    background: var(--apui-surface-default);
+    transition:
+      background-color var(--apui-motion-duration-fast) var(--apui-motion-ease-standard),
+      border-color var(--apui-motion-duration-fast) var(--apui-motion-ease-standard);
+  }
+
+  [data-scope='radio-group'][data-part='control'] {
+    position: absolute;
+    z-index: 1;
+    inset: -4px;
+    inline-size: calc(100% + 8px);
+    block-size: calc(100% + 8px);
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  [data-scope='radio-group'][data-part='indicator'] {
+    inline-size: 8px;
+    block-size: 8px;
+    border-radius: var(--apui-radius-full);
+    background: var(--apui-color-primary-foreground);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  [data-scope='radio-group'][data-part='item-text'] {
+    grid-column: 2;
+  }
+
+  [data-scope='radio-group'][data-part='item-description'] {
+    grid-column: 2;
+    color: var(--apui-text-muted);
+    font-size: var(--apui-type-body-sm-font-size);
+    line-height: var(--apui-type-body-sm-line-height);
+  }
+
+  [data-scope='radio-group'][data-part='item-meta'] {
+    grid-column: 2;
+    margin-block-start: 4px;
+    color: var(--apui-text-default);
+    font-size: var(--apui-type-body-sm-font-size);
+    font-weight: var(--apui-font-weight-medium);
+    line-height: var(--apui-type-body-sm-line-height);
+  }
+
+  /* Hover */
+  [data-scope='radio-group'][data-part='item']:hover [data-scope='radio-group'][data-part='box'],
+  [data-scope='radio-group'][data-part='box']:has([data-part='control']:hover) {
+    border-color: var(--apui-border-strong);
+  }
+
+  /* Checked */
+  [data-scope='radio-group'][data-part='box']:has([data-part='control']:checked) {
+    border-color: var(--apui-color-primary);
+    background: var(--apui-color-primary);
+  }
+
+  [data-scope='radio-group'][data-part='box']:has([data-part='control']:checked)
+    > [data-part='indicator'] {
+    opacity: 1;
+  }
+
+  [data-scope='radio-group'][data-part='item']:hover
+    [data-scope='radio-group'][data-part='box']:has([data-part='control']:checked) {
+    border-color: var(--apui-color-primary-hover);
+    background: var(--apui-color-primary-hover);
+  }
+
+  /* Focus */
+  [data-scope='radio-group'][data-part='box']:has([data-part='control']:focus-visible) {
+    outline: var(--apui-focus-ring-width) solid transparent;
+    box-shadow:
+      0 0 0 var(--apui-focus-ring-offset) var(--apui-focus-ring-offset-color),
+      0 0 0 calc(var(--apui-focus-ring-offset) + var(--apui-focus-ring-width))
+        var(--apui-focus-ring-color);
+  }
+
+  /* Invalid */
+  .apui-radio-group[data-invalid] [data-scope='radio-group'][data-part='box'] {
+    border-color: var(--apui-color-error-border);
+  }
+
+  /* Disabled: the sunken surface, never opacity alone. */
+  [data-scope='radio-group'][data-part='item'][data-disabled] {
+    color: var(--apui-text-disabled);
+    cursor: not-allowed;
+  }
+
+  [data-scope='radio-group'][data-part='item'][data-disabled] [data-scope='radio-group'] {
+    cursor: not-allowed;
+  }
+
+  [data-scope='radio-group'][data-part='item'][data-disabled]
+    [data-scope='radio-group']:is([data-part='item-description'], [data-part='item-meta']) {
+    color: var(--apui-text-disabled);
+  }
+
+  [data-scope='radio-group'][data-part='item'][data-disabled]
+    [data-scope='radio-group'][data-part='box'],
+  [data-scope='radio-group'][data-part='item'][data-disabled]
+    [data-scope='radio-group'][data-part='box']:has([data-part='control']:checked) {
+    border-color: var(--apui-border-muted);
+    background: var(--apui-surface-sunken);
+  }
+
+  [data-scope='radio-group'][data-part='item'][data-disabled]
+    [data-scope='radio-group'][data-part='indicator'] {
+    background: var(--apui-text-disabled);
+  }
+
+  /* Cards: bordered, clickable anywhere (the item is the radio's label). */
+  .apui-radio-group[data-variant='cards'] [data-scope='radio-group'][data-part='items'] {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 8px;
+  }
+
+  .apui-radio-group[data-variant='cards'] [data-scope='radio-group'][data-part='item'] {
+    padding-block: 12px;
+    padding-inline: 14px;
+    border: var(--apui-border-width) solid var(--apui-border-default);
+    border-radius: var(--apui-radius-md);
+    background: var(--apui-surface-default);
+  }
+
+  .apui-radio-group[data-variant='cards']
+    [data-scope='radio-group'][data-part='item']:has([data-part='control']:checked) {
+    border-color: var(--apui-selected-border);
+    background: var(--apui-selected-bg);
+    box-shadow: inset 0 0 0 1px var(--apui-selected-border);
+  }
+
+  .apui-radio-group[data-variant='cards']
+    [data-scope='radio-group'][data-part='item']:has([data-part='control']:focus-visible) {
+    outline: var(--apui-focus-ring-width) solid transparent;
+  }
+
+  .apui-radio-group[data-variant='cards'][data-invalid]
+    [data-scope='radio-group'][data-part='item'] {
+    border-color: var(--apui-color-error-border);
+  }
+
+  .apui-radio-group[data-variant='cards']
+    [data-scope='radio-group'][data-part='item'][data-disabled] {
+    border-color: var(--apui-border-muted);
+    background: var(--apui-surface-sunken);
+  }
+
+  /* Segmented: joined buttons. The radio covers the whole segment. */
+  .apui-radio-group[data-variant='segmented'] [data-scope='radio-group'][data-part='items'] {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 0;
+    justify-self: start;
+  }
+
+  .apui-radio-group[data-variant='segmented'][data-orientation='vertical']
+    [data-scope='radio-group'][data-part='items'] {
+    flex-direction: column;
+  }
+
+  .apui-radio-group[data-variant='segmented'] [data-scope='radio-group'][data-part='item'] {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    min-block-size: var(--apui-control-height-md);
+    padding-block: 0;
+    padding-inline: 14px;
+    border: var(--apui-border-width) solid var(--apui-border-default);
+    background: var(--apui-surface-default);
+    font-size: var(--apui-type-body-sm-font-size);
+    font-weight: var(--apui-font-weight-medium);
+  }
+
+  .apui-radio-group[data-variant='segmented']
+    [data-scope='radio-group'][data-part='item']
+    + [data-scope='radio-group'][data-part='item'] {
+    margin-inline-start: calc(var(--apui-border-width) * -1);
+  }
+
+  .apui-radio-group[data-variant='segmented'][data-orientation='vertical']
+    [data-scope='radio-group'][data-part='item']
+    + [data-scope='radio-group'][data-part='item'] {
+    margin-block-start: calc(var(--apui-border-width) * -1);
+    margin-inline-start: 0;
+  }
+
+  .apui-radio-group[data-variant='segmented']
+    [data-scope='radio-group'][data-part='item']:first-child {
+    border-start-start-radius: var(--apui-button-radius);
+    border-end-start-radius: var(--apui-button-radius);
+  }
+
+  .apui-radio-group[data-variant='segmented']
+    [data-scope='radio-group'][data-part='item']:last-child {
+    border-start-end-radius: var(--apui-button-radius);
+    border-end-end-radius: var(--apui-button-radius);
+  }
+
+  .apui-radio-group[data-variant='segmented'][data-orientation='vertical']
+    [data-scope='radio-group'][data-part='item']:first-child {
+    border-radius: var(--apui-button-radius) var(--apui-button-radius) 0 0;
+  }
+
+  .apui-radio-group[data-variant='segmented'][data-orientation='vertical']
+    [data-scope='radio-group'][data-part='item']:last-child {
+    border-radius: 0 0 var(--apui-button-radius) var(--apui-button-radius);
+  }
+
+  /* The box becomes the whole segment's hit area; the circle isn't drawn. */
+  .apui-radio-group[data-variant='segmented'] [data-scope='radio-group'][data-part='box'] {
+    position: static;
+    inline-size: 0;
+    block-size: 0;
+    margin: 0;
+    border: 0;
+  }
+
+  /* The dot isn't drawn. Segments render no description or meta (every stack leaves them out). */
+  .apui-radio-group[data-variant='segmented'] [data-scope='radio-group'][data-part='indicator'] {
+    display: none;
+  }
+
+  .apui-radio-group[data-variant='segmented'] [data-scope='radio-group'][data-part='control'] {
+    inset: 0;
+    inline-size: 100%;
+    block-size: 100%;
+  }
+
+  .apui-radio-group[data-variant='segmented'] [data-scope='radio-group'][data-part='item']:hover {
+    z-index: 1;
+    border-color: var(--apui-border-strong);
+  }
+
+  .apui-radio-group[data-variant='segmented']
+    [data-scope='radio-group'][data-part='item']:has([data-part='control']:checked) {
+    z-index: 2;
+    border-color: var(--apui-color-primary);
+    background: var(--apui-color-primary);
+    color: var(--apui-color-primary-foreground);
+  }
+
+  .apui-radio-group[data-variant='segmented']
+    [data-scope='radio-group'][data-part='item']:has([data-part='control']:focus-visible) {
+    z-index: 3;
+    outline: var(--apui-focus-ring-width) solid transparent;
+    box-shadow:
+      0 0 0 var(--apui-focus-ring-offset) var(--apui-focus-ring-offset-color),
+      0 0 0 calc(var(--apui-focus-ring-offset) + var(--apui-focus-ring-width))
+        var(--apui-focus-ring-color);
+  }
+
+  .apui-radio-group[data-variant='segmented'][data-invalid]
+    [data-scope='radio-group'][data-part='item'] {
+    border-color: var(--apui-color-error-border);
+  }
+
+  .apui-radio-group[data-variant='segmented']
+    [data-scope='radio-group'][data-part='item'][data-disabled],
+  .apui-radio-group[data-variant='segmented']
+    [data-scope='radio-group'][data-part='item'][data-disabled]:has([data-part='control']:checked) {
+    border-color: var(--apui-border-muted);
+    background: var(--apui-surface-sunken);
+    color: var(--apui-text-disabled);
+  }
+
+  @media (forced-colors: active) {
+    [data-scope='radio-group'][data-part='box'] {
+      border-color: CanvasText;
+    }
+
+    [data-scope='radio-group'][data-part='indicator'] {
+      background: CanvasText;
+    }
+
+    .apui-radio-group[data-variant='segmented']
+      [data-scope='radio-group'][data-part='item']:has([data-part='control']:checked) {
+      border-color: Highlight;
+      background: Highlight;
+      color: HighlightText;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-scope='radio-group'][data-part='box'] {
+      transition: none;
+    }
+  }
+}

@@ -1,0 +1,179 @@
+{
+  "version": 1,
+  "component": "Tabs",
+  "rootClass": "apui-tabs",
+  "stacks": [
+    "livewire",
+    "react",
+    "vue"
+  ],
+  "names": {
+    "livewire": "tabs",
+    "react": "Tabs",
+    "vue": "Tabs"
+  },
+  "cases": [
+    {
+      "id": "variant=segmented size=sm state=default",
+      "props": {
+        "tabs": [
+          {
+            "value": "overview",
+            "label": "Overview",
+            "icon": "list",
+            "content": "Your portfolio at a glance."
+          },
+          {
+            "value": "notifications",
+            "label": "Notifications",
+            "count": "4",
+            "content": "Four unread notifications."
+          },
+          {
+            "value": "history",
+            "label": "Trade history",
+            "content": "Every trade in the last year."
+          },
+          {
+            "value": "archived",
+            "label": "Archived",
+            "disabled": true,
+            "content": "Archived trades."
+          }
+        ],
+        "variant": "segmented",
+        "size": "sm"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=segmented size=md state=default",
+      "props": {
+        "tabs": [
+          {
+            "value": "overview",
+            "label": "Overview",
+            "icon": "list",
+            "content": "Your portfolio at a glance."
+          },
+          {
+            "value": "notifications",
+            "label": "Notifications",
+            "count": "4",
+            "content": "Four unread notifications."
+          },
+          {
+            "value": "history",
+            "label": "Trade history",
+            "content": "Every trade in the last year."
+          },
+          {
+            "value": "archived",
+            "label": "Archived",
+            "disabled": true,
+            "content": "Archived trades."
+          }
+        ],
+        "variant": "segmented",
+        "size": "md"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=underline size=sm state=default",
+      "props": {
+        "tabs": [
+          {
+            "value": "overview",
+            "label": "Overview",
+            "icon": "list",
+            "content": "Your portfolio at a glance."
+          },
+          {
+            "value": "notifications",
+            "label": "Notifications",
+            "count": "4",
+            "content": "Four unread notifications."
+          },
+          {
+            "value": "history",
+            "label": "Trade history",
+            "content": "Every trade in the last year."
+          },
+          {
+            "value": "archived",
+            "label": "Archived",
+            "disabled": true,
+            "content": "Archived trades."
+          }
+        ],
+        "variant": "underline",
+        "size": "sm"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=underline size=md state=default",
+      "props": {
+        "tabs": [
+          {
+            "value": "overview",
+            "label": "Overview",
+            "icon": "list",
+            "content": "Your portfolio at a glance."
+          },
+          {
+            "value": "notifications",
+            "label": "Notifications",
+            "count": "4",
+            "content": "Four unread notifications."
+          },
+          {
+            "value": "history",
+            "label": "Trade history",
+            "content": "Every trade in the last year."
+          },
+          {
+            "value": "archived",
+            "label": "Archived",
+            "disabled": true,
+            "content": "Archived trades."
+          }
+        ],
+        "variant": "underline",
+        "size": "md"
+      },
+      "state": "default",
+      "content": null
+    }
+  ],
+  "sheets": [
+    {
+      "id": "light",
+      "theme": "light",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "dark",
+      "theme": "dark",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "high-contrast",
+      "theme": "high-contrast",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "rtl",
+      "theme": "light",
+      "density": "default",
+      "dir": "rtl"
+    }
+  ]
+}
