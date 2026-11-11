@@ -15,7 +15,7 @@ import { openSheet, screenshotSheet } from '../src/capture';
 import { compareImages } from '../src/diff';
 import { a11yChecklist } from '../src/checklist';
 import { fixtureSheets } from '../src/fixtures';
-import { bundleHost, type GatesConfig, readConfig, runGates } from '../src/run';
+import { bundleHost, type GatesConfig, readConfig, RENDER_ARGS, runGates } from '../src/run';
 import { hasBlade, probe, reference } from './helpers';
 
 const css = [join(__dirname, '../../css/dist/index.css'), join(reference, 'probe.css')];
@@ -187,7 +187,7 @@ registerReactHost({});`,
 
 describe('forced states', () => {
   it('change the pixels, so a broken forceStates cannot pass unnoticed', async () => {
-    const browser = await chromium.launch();
+    const browser = await chromium.launch({ args: [...RENDER_ARGS] });
     try {
       const sheet = fixtureSheets(probe())[0]!;
       const pick = (state: string) =>
@@ -217,7 +217,7 @@ describe('forced states', () => {
 
 describe('axe and the manifest checks', () => {
   it('reports contrast violations and the wrong root element', async () => {
-    const browser = await chromium.launch();
+    const browser = await chromium.launch({ args: [...RENDER_ARGS] });
     try {
       const sheet = fixtureSheets(probe())[0]!;
       const fixtureCase = sheet.cases[0]!;

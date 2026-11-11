@@ -123,6 +123,23 @@ export function resolveConfig(config: GatesConfig, base: string): GatesConfig {
   };
 }
 
+/**
+ * Chromium flags that make a render repeatable: software raster in one pass,
+ * sRGB, and grayscale text. Without them, Linux renders of the same page
+ * differ by a few anti-aliased pixels from run to run (the corners of a
+ * focus ring at a subpixel offset), which a zero-tolerance gate reads as a
+ * regression.
+ */
+export const RENDER_ARGS = Object.freeze([
+  '--disable-gpu',
+  '--disable-gpu-rasterization',
+  '--disable-partial-raster',
+  '--disable-skia-runtime-opts',
+  '--disable-lcd-text',
+  '--force-color-profile=srgb',
+  '--font-render-hinting=none',
+]);
+
 /** Framework packages a host and its components must share one copy of. */
 const FRAMEWORK = /^(react|react-dom|vue)(\/.*)?$/;
 
@@ -192,7 +209,7 @@ export async function runGates(
     }
   }
   if (!config.components.length) report.problems.push('components: list at least one component');
-  const browser: Browser = await chromium.launch();
+  const browser: Browser = await chromium.launch({ args: [...RENDER_ARGS] });
 
   try {
     for (const name of config.components) {
