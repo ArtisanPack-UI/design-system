@@ -431,7 +431,9 @@ final class ManifestParity
 			preg_match_all( '/(?:\$dispatch|\$this->dispatch)\(\s*[\'"]([A-Za-z0-9][A-Za-z0-9:.-]*)[\'"]/', $source, $matches );
 			array_push( $events, ...$matches[1] );
 			foreach ( self::WIDGET_EVENTS as $widget => $widgetEvents ) {
-				if ( preg_match( '/\b' . $widget . '\s*\(/', $source ) ) {
+				// Only where the widget is mounted: its call starts a quoted string,
+				// an x-data value or a PHP literal, never a comment or prose.
+				if ( preg_match( '/["\']\s*' . $widget . '\s*\(/', $source ) ) {
 					array_push( $events, ...$widgetEvents );
 				}
 			}

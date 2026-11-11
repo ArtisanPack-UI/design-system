@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { DropdownMenu } from '@artisanpack-ui/vue';
+import { DropdownMenu, type DropdownMenuEntry } from '@artisanpack-ui/vue';
 import { computed, ref } from 'vue';
 
 const showGrid = ref(true);
 const sort = ref('newest');
 
-const items = computed(() => [
+const items = computed<DropdownMenuEntry[]>(() => [
   { type: 'checkbox', value: 'grid', label: 'Show grid', checked: showGrid.value },
   { type: 'separator' },
   {

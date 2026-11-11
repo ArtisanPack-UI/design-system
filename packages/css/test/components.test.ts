@@ -234,6 +234,17 @@ describe('Toast', () => {
     await page.close();
   });
 
+  it('keeps a hidden close trigger hidden, though it is a Button', async () => {
+    const page = await open(
+      toastMarkup().replace(
+        '</div>',
+        '<button class="apui-button" data-scope="toast" data-part="close-trigger" hidden>x</button></div>',
+      ),
+    );
+    expect(await style(page, '[data-part="close-trigger"]', 'display')).toBe('none');
+    await page.close();
+  });
+
   it('uses the inverse surface and text for the inverse variant', async () => {
     const page = await open(
       `<div id="a">${toastMarkup('data-variant="default"')}</div><div id="b">${toastMarkup('data-variant="inverse"')}</div>`,

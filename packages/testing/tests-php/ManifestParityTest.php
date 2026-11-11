@@ -129,5 +129,7 @@ it( 'credits the events a behavior widget dispatches to the view that mounts it 
 	expect( ManifestParity::dispatchedEvents( [ '<div x-data="apuiDropdownMenu( { open: false } )"></div>' ] ) )
 		->toBe( [ 'open-change', 'select', 'checked-change' ] )
 		->and( ManifestParity::dispatchedEvents( [ '<div x-data="apuiDialog({})"></div>' ] ) )->toBe( [ 'open-change' ] )
-		->and( ManifestParity::dispatchedEvents( [ '<div x-data="apuiDialogue"></div>' ] ) )->toBe( [] );
+		->and( ManifestParity::dispatchedEvents( [ '<div x-data="apuiDialogue"></div>' ] ) )->toBe( [] )
+		->and( ManifestParity::dispatchedEvents( [ "sprintf( 'apuiDialog({ id: %s })', \$id )" ] ) )->toBe( [ 'open-change' ] )
+		->and( ManifestParity::dispatchedEvents( [ '{{-- Renders apuiDialog() around the panel --}}' ] ) )->toBe( [] );
 } );

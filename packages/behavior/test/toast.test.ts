@@ -292,6 +292,17 @@ describe('toast', () => {
     await page.close();
   });
 
+  it('sends a toast event to the newest toaster only', async () => {
+    const { page } = await open(
+      markup('{ duration: 0 }') + markup('{ duration: 0 }').replace('id="toaster"', 'id="second"'),
+    );
+    await dispatchToast(page, { title: 'Once' });
+    await settle(page);
+    expect((await toasts(page)).map((t) => t.title)).toEqual(['Once']);
+    expect(await page.$$eval('#second [data-part="root"]', (els) => els.length)).toBe(1);
+    await page.close();
+  });
+
   it('stops listening when the toaster is destroyed', async () => {
     const { page, errors } = await open(markup());
     await page.evaluate(() => {

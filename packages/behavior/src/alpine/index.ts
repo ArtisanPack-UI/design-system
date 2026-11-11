@@ -620,6 +620,8 @@ function toasterComponent(Alpine: Alpine, options: ToasterAlpineOptions = {}) {
         // Livewire 3 sends dispatch()'s named arguments as the detail; some
         // versions wrap them in an array.
         const toastOptions = Array.isArray(detail) ? detail[0] : detail;
+        // Like ApuiBehavior.toast(), an event goes to the newest toaster only.
+        if (toasters.at(-1) !== toaster) return;
         // Another library's `toast` event (a different shape) isn't ours.
         if (!toastOptions || typeof toastOptions !== 'object') return;
         if (

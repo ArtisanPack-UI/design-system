@@ -689,6 +689,7 @@ return [
 		],
 		'a11y'        => [
 			'role'         => 'dialog',
+			'roles'        => [ 'alertdialog' ],
 			'element'      => 'div',
 			'keyboard'     => [
 				[
