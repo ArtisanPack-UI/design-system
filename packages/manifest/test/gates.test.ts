@@ -285,7 +285,7 @@ describe('PHP twins', () => {
       (['livewire', 'react', 'vue'] as const).map((stack) => docsTables(m, stack)),
     );
     expect(output.examples).toEqual(loadExamples('Button'));
-    expect(output.components).toEqual(['Button']);
+    expect(output.components).toEqual(['Button', 'Card', 'Checkbox', 'Input', 'Select']);
     expect(output.kebab).toEqual(['icon-only', 'button-group']);
   });
 });

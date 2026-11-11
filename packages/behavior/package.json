@@ -62,11 +62,23 @@
         "default": "./dist/vue.cjs"
       }
     },
+    "./icons": {
+      "import": {
+        "types": "./dist/icons.d.ts",
+        "default": "./dist/icons.mjs"
+      },
+      "require": {
+        "types": "./dist/icons.d.cts",
+        "default": "./dist/icons.cjs"
+      }
+    },
+    "./icons.json": "./icons/lucide.json",
     "./alpine.global.js": "./dist/alpine.global.js",
     "./package.json": "./package.json"
   },
   "files": [
     "dist",
+    "icons",
     "README.md",
     "LICENSE"
   ],

@@ -85,20 +85,30 @@ export async function openSheet(browser: Browser, options: OpenSheetOptions): Pr
 
 /**
  * Forces `:hover`, `:focus-visible` and `:active` on each case's root through
- * the DevTools protocol, so no stack needs preview-only classes.
+ * the DevTools protocol, so no stack needs preview-only classes. A field's
+ * root is a wrapper around a native `control` part (Input, Select, Checkbox),
+ * so the state goes on that control instead, where the browser would put it.
  */
 export async function forceStates(page: Page, rootClass: string): Promise<void> {
+  const scope = rootClass.replace(/^apui-/, '');
   const session = await page.context().newCDPSession(page);
   await session.send('DOM.enable');
   await session.send('CSS.enable');
   const { root } = await session.send('DOM.getDocument', { depth: -1 });
   for (const state of PSEUDO_STATES) {
-    const { nodeIds } = await session.send('DOM.querySelectorAll', {
+    const { nodeIds: roots } = await session.send('DOM.querySelectorAll', {
       nodeId: root.nodeId,
       selector: `[data-apui-state="${state}"] .${rootClass}`,
     });
-    for (const nodeId of nodeIds) {
-      await session.send('CSS.forcePseudoState', { nodeId, forcedPseudoClasses: [state] });
+    for (const rootId of roots) {
+      const { nodeId: controlId } = await session.send('DOM.querySelector', {
+        nodeId: rootId,
+        selector: `[data-scope="${scope}"][data-part="control"]`,
+      });
+      await session.send('CSS.forcePseudoState', {
+        nodeId: controlId || rootId,
+        forcedPseudoClasses: [state],
+      });
     }
   }
 }

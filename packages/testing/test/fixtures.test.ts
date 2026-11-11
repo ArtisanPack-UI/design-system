@@ -52,6 +52,22 @@ describe('fixtureCases', () => {
       'state=loading',
     ]);
   });
+
+  it('renders every other surface once, at the default variant and size (D-006)', () => {
+    const m = probe();
+    m.props.push({
+      name: 'surface',
+      type: 'enum',
+      values: ['default', 'raised', 'glass'],
+      default: 'default',
+      description: 'Surface.',
+    });
+    const surfaces = fixtureCases(m).filter((c) => c.props.surface !== undefined);
+    expect(surfaces.map((c) => c.id)).toEqual([
+      'variant=solid size=md surface=raised state=default',
+      'variant=solid size=md surface=glass state=default',
+    ]);
+  });
 });
 
 describe('fixtureSheets', () => {
@@ -92,7 +108,7 @@ describe('componentFixtures', () => {
 describe('parityTargets', () => {
   it('skips planned components and stacks a component does not ship in', () => {
     const draft = probe();
-    const planned = loadManifest('Button');
+    const planned = { ...loadManifest('Button'), name: 'Planned', status: 'planned' as const };
     const reactLess = {
       ...probe(),
       name: 'Other',

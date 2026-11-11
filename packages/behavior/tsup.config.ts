@@ -7,6 +7,7 @@ export default defineConfig([
       alpine: 'src/alpine/index.ts',
       react: 'src/react/index.ts',
       vue: 'src/vue/index.ts',
+      icons: 'src/icons.ts',
     },
     format: ['esm', 'cjs'],
     dts: true,

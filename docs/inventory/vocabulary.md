@@ -95,6 +95,7 @@ One concept name, spelled the way each stack expects.
 |---|---|---|---|
 | Value changed | `wire:model` | `onValueChange` | `v-model` / `update:modelValue` |
 | Open state changed | `wire:model` plus `open-change` | `onOpenChange` | `v-model:open` / `update:open` |
+| Checked state changed (Checkbox, D-018) | `wire:model` | `onCheckedChange` | `v-model:checked` / `update:checked` |
 | Other events | `x-on:row-click`, `wire:row-click` | `onRowClick` | `@row-click` |
 
 - Livewire and Alpine events are kebab-case browser events with no package prefix, except global bus events.

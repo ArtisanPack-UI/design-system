@@ -15,7 +15,7 @@ import { openSheet, screenshotSheet } from '../src/capture';
 import { compareImages } from '../src/diff';
 import { a11yChecklist } from '../src/checklist';
 import { fixtureSheets } from '../src/fixtures';
-import { bundleHost, type GatesConfig, readConfig, runGates } from '../src/run';
+import { bundleHost, type GatesConfig, readConfig, RENDER_ARGS, runGates } from '../src/run';
 import { hasBlade, probe, reference } from './helpers';
 
 const css = [join(__dirname, '../../css/dist/index.css'), join(reference, 'probe.css')];
@@ -99,9 +99,10 @@ registerReactHost({ Probe: BrokenProbe });`,
     expect(report.ok).toBe(false);
     const react = report.sheets.filter((s) => s.stack === 'react');
     expect(react.every((s) => s.baseline === 'diff' && s.diff && existsSync(s.diff))).toBe(true);
-    expect(
-      report.sheets.filter((s) => s.stack === 'vue').every((s) => s.baseline === 'match'),
-    ).toBe(true);
+    const vue = report.sheets.filter((s) => s.stack === 'vue');
+    expect(vue.map((s) => `${s.sheet}: ${s.baseline} (${s.diffPixels} px)`)).toEqual(
+      vue.map((s) => `${s.sheet}: match (0 px)`),
+    );
     expect(report.cross.every((c) => !c.match && c.diff && existsSync(c.diff))).toBe(true);
     expect(readFileSync(join(out, 'report.md'), 'utf8')).toContain('react vs vue differ by');
   });
@@ -186,7 +187,7 @@ registerReactHost({});`,
 
 describe('forced states', () => {
   it('change the pixels, so a broken forceStates cannot pass unnoticed', async () => {
-    const browser = await chromium.launch();
+    const browser = await chromium.launch({ args: [...RENDER_ARGS] });
     try {
       const sheet = fixtureSheets(probe())[0]!;
       const pick = (state: string) =>
@@ -216,7 +217,7 @@ describe('forced states', () => {
 
 describe('axe and the manifest checks', () => {
   it('reports contrast violations and the wrong root element', async () => {
-    const browser = await chromium.launch();
+    const browser = await chromium.launch({ args: [...RENDER_ARGS] });
     try {
       const sheet = fixtureSheets(probe())[0]!;
       const fixtureCase = sheet.cases[0]!;

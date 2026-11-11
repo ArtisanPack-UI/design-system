@@ -68,6 +68,18 @@ it( 'reads dispatched events and value binding, and nothing looser', function ()
 		->toBe( [ 'rowClick', 'wire:model', 'row-click' ] );
 	expect( ManifestParity::dispatchedEvents( [ '$attributes->whereStartsWith( \'wire:model\' ); Event::dispatch( \'saved\' );' ] ) )
 		->toBe( [] );
+	expect( ManifestParity::dispatchedEvents( [ '<input data-part="control" {{ $attributes->except( \'class\' ) }} />' ] ) )
+		->toBe( [ 'wire:model' ] );
+	expect( ManifestParity::dispatchedEvents( [ "<select\n\tid=\"x\"\n\t{{ \$attributes->whereDoesntStartWith( 'class' ) }}>" ] ) )
+		->toBe( [ 'wire:model' ] );
+	expect( ManifestParity::dispatchedEvents( [ '<div {{ $attributes }}><input type="hidden" /></div>' ] ) )
+		->toBe( [] );
+	expect( ManifestParity::dispatchedEvents( [ '<input aria-invalid="{{ $errors->has( $field ) ? \'true\' : \'false\' }}" {{ $attributes->except( \'class\' ) }} />' ] ) )
+		->toBe( [ 'wire:model' ] );
+	expect( ManifestParity::dispatchedEvents( [ '<input id="{{ $attributes->get( \'id\' ) }}" /><div {{ $attributes }}></div>' ] ) )
+		->toBe( [] );
+	expect( ManifestParity::dispatchedEvents( [ '<input @class( [ \'is-invalid\' => $invalid ] ) {{ $attributes->except( \'class\' ) }} />' ] ) )
+		->toBe( [ 'wire:model' ] );
 } );
 
 it( 'reports a root that disappears with the parts props', function (): void {

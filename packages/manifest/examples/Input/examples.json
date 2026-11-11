@@ -1,0 +1,18 @@
+[
+  {
+    "id": "basic",
+    "title": "Basic",
+    "description": "A visible label is required. Hints prevent errors before they happen."
+  },
+  {
+    "id": "addons",
+    "title": "Icons, prefix and suffix",
+    "description": "Units, currency and protocols go in the box, so the value stays clean."
+  },
+  {
+    "id": "validation",
+    "title": "Validation",
+    "description": "The error replaces nothing: it sits under the hint, linked to the control, and marks the field invalid."
+  },
+  { "id": "sizes", "title": "Sizes", "description": "Small, medium and large control heights." }
+]

@@ -43,6 +43,26 @@ use Throwable;
 final class ManifestParity
 {
 	/**
+	 * A native form control that receives the component's attributes, so a
+	 * `wire:model` on the component binds to it natively (Input, Select,
+	 * Checkbox).
+	 *
+	 * @since 1.0.0
+	 *
+	 * @var string
+	 */
+	private const NATIVE_MODEL = '/<(?:input|select|textarea)\b[^>]*__APUI_ATTRIBUTES__/';
+
+	/**
+	 * `$attributes` reads that return a value rather than echo the attributes.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @var string
+	 */
+	private const ATTRIBUTE_READS = '/^\$attributes\s*->\s*(?:get|has|hasAny|missing|wire|first|isEmpty|isNotEmpty|count)\b/';
+
+	/**
 	 * Enum props that must be emitted as `data-<name>` on the root.
 	 *
 	 * @since 1.0.0
@@ -367,7 +387,9 @@ final class ManifestParity
 	/**
 	 * The events a component's source dispatches: `$dispatch('name')` in its
 	 * view, `$this->dispatch('name')` in its class, and `wire:model` when it
-	 * binds a value (`x-modelable`, `@entangle(` or `$wire.entangle(`).
+	 * binds a value (`x-modelable`, `@entangle(` or `$wire.entangle(`) or
+	 * hands its attributes to a native form control, where `wire:model` binds
+	 * natively (`<input … {{ $attributes… }}`).
 	 *
 	 * @since 1.0.0
 	 *
@@ -381,12 +403,41 @@ final class ManifestParity
 		foreach ( $sources as $source ) {
 			preg_match_all( '/(?:\$dispatch|\$this->dispatch)\(\s*[\'"]([A-Za-z0-9][A-Za-z0-9:.-]*)[\'"]/', $source, $matches );
 			array_push( $events, ...$matches[1] );
-			if ( preg_match( '/x-modelable|@entangle\(|\$wire\.entangle\(/', $source ) ) {
+			if ( preg_match( '/x-modelable|@entangle\(|\$wire\.entangle\(/', $source ) || preg_match( self::NATIVE_MODEL, self::maskEchoes( $source ) ) ) {
 				$events[] = 'wire:model';
 			}
 		}
 
 		return array_values( array_unique( $events ) );
+	}
+
+	/**
+	 * Replaces every `{{ … }}` echo and every `->`, `=>` and `>=` with
+	 * placeholders, so a tag regex isn't cut short by the `>` in
+	 * `$errors->has()` or `@class( [ 'x' => $y ] )`. A bare `>` comparison in a
+	 * directive inside a tag still ends the scan. An echo of the
+	 * component's attributes becomes `__APUI_ATTRIBUTES__`; reads such as
+	 * `$attributes->get( 'id' )` don't count.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param  string $source Blade source.
+	 *
+	 * @return string The masked source.
+	 */
+	private static function maskEchoes( string $source ): string
+	{
+		$masked = (string) preg_replace_callback(
+			'/\{\{(.*?)\}\}/s',
+			static function ( array $match ): string {
+				$echo = trim( $match[1] );
+
+				return str_starts_with( $echo, '$attributes' ) && ! preg_match( self::ATTRIBUTE_READS, $echo ) ? '__APUI_ATTRIBUTES__' : '__APUI_ECHO__';
+			},
+			$source,
+		);
+
+		return str_replace( [ '->', '=>', '>=' ], '__APUI_ARROW__', $masked );
 	}
 
 	/**

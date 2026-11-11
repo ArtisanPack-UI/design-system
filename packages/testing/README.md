@@ -14,8 +14,8 @@ The quality gates every ArtisanPack UI component passes, in every stack it ships
 
 Fixtures come from the component's manifest, so every stack renders the same matrix:
 
-- every variant × size × state, then every other color × variant;
-- states: `hover`, `focus-visible` and `active` for interactive components, forced through the DevTools protocol, plus each state prop the component has (`disabled`, `loading`, `invalid`, …);
+- every variant × size × state, then every other color × variant, then every other `surface` once;
+- states: `hover`, `focus-visible` and `active` for interactive components, forced through the DevTools protocol on the root, or on a field's native `control` part instead, plus each state prop the component has (`disabled`, `loading`, `invalid`, …);
 - one sheet per theme (`light`, `dark`, `high-contrast`) at the default density, plus one `rtl` sheet in the default theme and density ([D-004](../../docs/decisions.md#d-004-rtl-is-a-launch-requirement)).
 
 The manifest's optional `fixture` block sets the slot text, extra props, the props that render every part, and the states. `generated/fixtures/<Name>.json` holds the same fixtures for PHP; run `npm run fixtures` after a manifest changes, and `npm run build` fails while they're stale.

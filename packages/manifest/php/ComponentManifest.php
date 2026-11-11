@@ -45,8 +45,9 @@ final class ComponentManifest
 	 * @var array<string, array<string, string>>
 	 */
 	public const SPECIAL_EVENTS = [
-		'value-change' => [ 'livewire' => 'wire:model', 'react' => 'onValueChange', 'vue' => 'update:modelValue' ],
-		'open-change'  => [ 'livewire' => 'open-change', 'react' => 'onOpenChange', 'vue' => 'update:open' ],
+		'value-change'   => [ 'livewire' => 'wire:model', 'react' => 'onValueChange', 'vue' => 'update:modelValue' ],
+		'open-change'    => [ 'livewire' => 'open-change', 'react' => 'onOpenChange', 'vue' => 'update:open' ],
+		'checked-change' => [ 'livewire' => 'wire:model', 'react' => 'onCheckedChange', 'vue' => 'update:checked' ],
 	];
 
 	/**

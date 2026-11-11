@@ -1,0 +1,103 @@
+{
+  "version": 1,
+  "component": "Checkbox",
+  "rootClass": "apui-checkbox",
+  "stacks": [
+    "livewire",
+    "react",
+    "vue"
+  ],
+  "names": {
+    "livewire": "checkbox",
+    "react": "Checkbox",
+    "vue": "Checkbox"
+  },
+  "cases": [
+    {
+      "id": "state=default",
+      "props": {
+        "label": "Email me about new offers"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "state=hover",
+      "props": {
+        "label": "Email me about new offers"
+      },
+      "state": "hover",
+      "content": null
+    },
+    {
+      "id": "state=focus-visible",
+      "props": {
+        "label": "Email me about new offers"
+      },
+      "state": "focus-visible",
+      "content": null
+    },
+    {
+      "id": "state=checked",
+      "props": {
+        "label": "Email me about new offers",
+        "checked": true
+      },
+      "state": "checked",
+      "content": null
+    },
+    {
+      "id": "state=indeterminate",
+      "props": {
+        "label": "Email me about new offers",
+        "indeterminate": true
+      },
+      "state": "indeterminate",
+      "content": null
+    },
+    {
+      "id": "state=disabled",
+      "props": {
+        "label": "Email me about new offers",
+        "disabled": true
+      },
+      "state": "disabled",
+      "content": null
+    },
+    {
+      "id": "state=invalid",
+      "props": {
+        "label": "Email me about new offers",
+        "invalid": true
+      },
+      "state": "invalid",
+      "content": null
+    }
+  ],
+  "sheets": [
+    {
+      "id": "light",
+      "theme": "light",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "dark",
+      "theme": "dark",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "high-contrast",
+      "theme": "high-contrast",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "rtl",
+      "theme": "light",
+      "density": "default",
+      "dir": "rtl"
+    }
+  ]
+}

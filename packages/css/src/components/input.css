@@ -1,0 +1,58 @@
+/*
+ * Input (#45). Root `.apui-input` is the field: label, box, hint and error.
+ * The box holds the icon, prefix, the native input (control), suffix and
+ * trailing icon. Shared field rules live in field.css.
+ */
+@layer apui.components {
+  [data-scope='input'][data-part='box'] {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-inline: var(--apui-_pad);
+    cursor: text;
+  }
+
+  [data-scope='input'][data-part='control'] {
+    flex: 1;
+    align-self: stretch;
+    inline-size: 100%;
+  }
+
+  [data-scope='input'][data-part='control']::placeholder {
+    color: var(--apui-text-muted);
+    opacity: 1;
+  }
+
+  [data-scope='input'][data-part='iconEnd'] {
+    display: inline-flex;
+    flex: none;
+    inline-size: var(--apui-icon-size-md);
+    block-size: var(--apui-icon-size-md);
+    color: var(--apui-text-muted);
+  }
+
+  [data-scope='input'][data-part='iconEnd'] > svg {
+    inline-size: 100%;
+    block-size: 100%;
+  }
+
+  [data-scope='input']:is([data-part='prefix'], [data-part='suffix']) {
+    flex: none;
+    color: var(--apui-text-muted);
+    white-space: nowrap;
+  }
+
+  [data-scope='input'][data-part='prefix'] {
+    padding-inline-end: 8px;
+    border-inline-end: var(--apui-border-width) solid var(--apui-border-muted);
+  }
+
+  [data-scope='input'][data-part='suffix'] {
+    padding-inline-start: 8px;
+    border-inline-start: var(--apui-border-width) solid var(--apui-border-muted);
+  }
+
+  .apui-input[data-disabled] [data-scope='input'][data-part='control']::placeholder {
+    color: var(--apui-text-disabled);
+  }
+}

@@ -75,6 +75,16 @@ jobs:
       # Fails when the committed token outputs are stale (#19).
       - run: npm run build
       - run: npm test
+        env:
+          TMPDIR: ${{ runner.temp }}
+      - name: Upload the gate tests' screenshots and diffs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gate-test-output
+          path: ${{ runner.temp }}/apui-gates-*
+          if-no-files-found: ignore
+          retention-days: 7
 
   php:
     name: PHP kit (Pest)

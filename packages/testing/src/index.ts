@@ -49,7 +49,7 @@ export {
   stackPropName,
 } from './parity';
 export type { ParityOptions, ParityRender } from './parity';
-export { bundleHost, formatReport, readConfig, resolveConfig, runGates } from './run';
+export { bundleHost, formatReport, readConfig, RENDER_ARGS, resolveConfig, runGates } from './run';
 export type {
   BaselineStatus,
   CrossStackResult,

@@ -12,7 +12,7 @@ import {
   shipsIn,
   type Stack,
 } from '@artisanpack-ui/manifest';
-import { build } from 'esbuild';
+import { build, type Plugin } from 'esbuild';
 import { type Browser, chromium, type Page } from 'playwright';
 
 import { checkManifestA11y } from './a11y';
@@ -123,10 +123,54 @@ export function resolveConfig(config: GatesConfig, base: string): GatesConfig {
   };
 }
 
+/**
+ * Chromium flags that make a render repeatable: software raster in one pass,
+ * sRGB, and grayscale text. Without them, Linux renders of the same page
+ * differ by a few anti-aliased pixels from run to run (the corners of a
+ * focus ring at a subpixel offset), which a zero-tolerance gate reads as a
+ * regression.
+ */
+export const RENDER_ARGS = Object.freeze([
+  '--disable-gpu',
+  '--disable-gpu-rasterization',
+  '--disable-partial-raster',
+  '--disable-skia-runtime-opts',
+  '--disable-lcd-text',
+  '--force-color-profile=srgb',
+  '--font-render-hinting=none',
+]);
+
+/** Framework packages a host and its components must share one copy of. */
+const FRAMEWORK = /^(react|react-dom|vue)(\/.*)?$/;
+
+/**
+ * Resolves React, ReactDOM and Vue from the host entry's directory, wherever
+ * they're imported from. Without it, a linked `@artisanpack-ui/testing`
+ * (`file:` or a workspace symlink) bundles its own copy next to the
+ * component repo's, and hooks fail with "Cannot read properties of null".
+ */
+function frameworkFromEntry(entry: string): Plugin {
+  return {
+    name: 'apui-framework-from-entry',
+    setup(pluginBuild) {
+      pluginBuild.onResolve({ filter: FRAMEWORK }, async (args) => {
+        if (args.pluginData === 'apui-framework') return undefined;
+        const resolved = await pluginBuild.resolve(args.path, {
+          kind: args.kind,
+          resolveDir: dirname(resolve(entry)),
+          pluginData: 'apui-framework',
+        });
+        return resolved.errors.length ? undefined : { path: resolved.path };
+      });
+    },
+  };
+}
+
 /** Bundles a React or Vue fixture entry into one classic script. */
 export async function bundleHost(entry: string): Promise<string> {
   const result = await build({
     entryPoints: [entry],
+    plugins: [frameworkFromEntry(entry)],
     bundle: true,
     format: 'iife',
     platform: 'browser',
@@ -165,7 +209,7 @@ export async function runGates(
     }
   }
   if (!config.components.length) report.problems.push('components: list at least one component');
-  const browser: Browser = await chromium.launch();
+  const browser: Browser = await chromium.launch({ args: [...RENDER_ARGS] });
 
   try {
     for (const name of config.components) {
