@@ -25,6 +25,7 @@ import {
 import type { Attrs } from '../core/props';
 import { chosenItem, type SpotlightExtras, type SpotlightOptions } from '../core/spotlight-options';
 import type { Normalize } from '../core/widget';
+import { useDirection } from './direction';
 import {
   flattenGroups,
   isApplePlatform,
@@ -106,6 +107,7 @@ export function useSpotlight(
   );
   const entries = computed(() => flattenGroups(groups.value).map(option));
 
+  const measured = useDirection(() => ({ id: id(), ids: current().ids }));
   const dialogService = useMachine(
     spotlightDialog.machine,
     computed(() => {
@@ -117,7 +119,7 @@ export function useSpotlight(
         defaultOpen: o.defaultOpen,
         modal: o.modal,
         label: o.label,
-        dir: o.dir,
+        dir: o.dir ?? measured.value,
         onOpenChange: (open) => current().onOpenChange?.(open),
       });
     }),
@@ -138,7 +140,7 @@ export function useSpotlight(
         inputValue: o.search,
         defaultInputValue: o.defaultSearch,
         loading: o.loading,
-        dir: o.dir,
+        dir: o.dir ?? measured.value,
         translations: o.translations,
         onInputValueChange: (inputValue, reason) => {
           typed.value = inputValue;

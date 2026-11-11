@@ -288,7 +288,7 @@ A toaster's region is `useToaster({ toaster })`, where `toaster = createToaster(
 - Render `combobox.items`, not the items you passed: they're filtered by label as you type (ignoring case and accents). With `remote: true` they aren't; send the search to the server from `onInputValueChange` when `reason` is `input-change`, and pass the results back as `items`. The Alpine adapter hides filtered-out items instead of removing them; the parts and attributes of the items that render are the same.
 - `getEmptyProps()` is the `empty` part, as `x-apui:empty` is in Alpine.
 - Ids default to React's `useId()` and Vue's `useId()`. Pass `id` for the machine, and `ids` (`{ trigger: 'edit-trigger', … }`) to name parts yourself.
-- Logical placements read the direction from `<html dir>`, since the hooks compute props before the elements exist. Pass `dir` for a widget in a differently-directed subtree.
+- The direction starts as `<html dir>`, since the hooks compute props before the elements exist; after mount each hook measures the direction the widget's parts sit in and hands it to the machine when it differs, so a `<div dir="rtl">` around a widget mirrors its parts, arrow keys and placements as `<html dir="rtl">` does. An explicit `dir` always wins. The toast region is fixed to the viewport, so it keeps `<html dir>`.
 
 ## Positioning
 
