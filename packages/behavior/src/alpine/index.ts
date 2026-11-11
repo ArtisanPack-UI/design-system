@@ -40,7 +40,27 @@ import {
   filterItems,
 } from '../widgets/combobox';
 import { dialog, type DialogApi, type DialogProps } from '../widgets/dialog';
-import { type PositionOptions, zagPositioning } from '../positioning';
+import {
+  dropdownMenu,
+  type DropdownMenuApi,
+  type DropdownMenuProps,
+} from '../widgets/dropdown-menu';
+import {
+  createToaster,
+  TOAST_ICONS,
+  toast,
+  type ToastApi,
+  type Toaster,
+  type ToasterOptions,
+  toastGroup,
+  type ToastGroupApi,
+  type ToastGroupProps,
+  type ToastOptions,
+  type ToastProps,
+} from '../widgets/toast';
+import { menuPlacement, type MenuAlign } from '../core/options';
+import { iconSvg } from '../icons';
+import { directionOf, type PositionOptions, zagPositioning } from '../positioning';
 
 type Alpine = AlpineGlobal.Alpine;
 type PartArgs = Record<string, unknown> | undefined;
@@ -422,6 +442,309 @@ function toItem(el: Element, args: PartArgs): ComboboxItem {
 }
 
 // ---------------------------------------------------------------------------
+// DropdownMenu
+
+export interface DropdownMenuOptions extends Pick<
+  DropdownMenuProps,
+  'closeOnSelect' | 'loopFocus' | 'typeahead'
+> {
+  /** Initial or entangled open state. */
+  open?: boolean;
+  /** The menu's edge that lines up with the trigger's. Default `start`. */
+  align?: MenuAlign;
+  /** Overrides the placement `align` sets, the gap and flipping. */
+  positioning?: PositionOptions;
+  /** Machine id. Defaults to an Alpine `$id`, unique on the page. */
+  id?: string;
+}
+
+/**
+ * The `apuiDropdownMenu` Alpine component. `open` is plain state, so it can be
+ * entangled with Livewire. Items are `x-apui:item="{ value }"`; choosing one
+ * clicks it (so `wire:click` on an item runs from the keyboard too) and
+ * dispatches `select`. Checkbox and radio items are
+ * `x-apui:option-item="{ type, value, checked }"` and dispatch
+ * `checked-change` from the item; their `checked` stays the page's to set.
+ */
+function dropdownMenuComponent(options: DropdownMenuOptions = {}) {
+  let widget: Widget<DropdownMenuProps, DropdownMenuApi> | undefined;
+  // The machine names groups and their labels by group id. Livewire keys
+  // them by their server-rendered ids, so those are kept (rule 1).
+  const groupIds = new Map<string, string>();
+  const labelIds = new Map<string, string>();
+
+  return {
+    open: options.open ?? false,
+
+    init(this: AlpineMagics & { open: boolean }) {
+      const el = this.$el;
+      const id = options.id ?? this.$id('apui-dropdown-menu');
+      widget = createWidget(dropdownMenu, {
+        id,
+        ids: {
+          ...authoredIds(el),
+          group: (group: string) => groupIds.get(group) ?? `menu:${id}:group:${group}`,
+          groupLabel: (group: string) => labelIds.get(group) ?? `menu:${id}:group-label:${group}`,
+        },
+        open: Boolean(this.open),
+        closeOnSelect: options.closeOnSelect,
+        loopFocus: options.loopFocus,
+        typeahead: options.typeahead,
+        positioning: zagPositioning(el, {
+          placement: menuPlacement(options.align),
+          ...options.positioning,
+        }),
+        onOpenChange: ({ open }) => {
+          if (this.open !== open) this.open = open;
+          dispatch(el, 'open-change', { open });
+        },
+        onSelect: ({ value }) => dispatch(el, 'select', { value }),
+      });
+      widget.start();
+      this.$watch('open', (open: unknown) => widget?.setProps({ open: Boolean(open) }));
+    },
+
+    destroy() {
+      widget?.stop();
+      widget = undefined;
+    },
+
+    show(this: { open: boolean }) {
+      this.open = true;
+    },
+
+    hide(this: { open: boolean }) {
+      this.open = false;
+    },
+
+    apuiPart(part: string, el: Element, args: () => PartArgs) {
+      if (!widget) return () => {};
+      if (part === 'item-group') {
+        const group = String(args()?.id ?? '');
+        if (el.id) groupIds.set(group, el.id);
+        // The group binds before its label and points aria-labelledby at it.
+        const label = el.querySelector('[x-apui\\:item-group-label]');
+        if (label?.id) labelIds.set(group, label.id);
+      }
+      if (el.id && part === 'item-group-label') {
+        labelIds.set(String(args()?.htmlFor ?? ''), el.id);
+      }
+      if (part === 'option-item') {
+        return widget.bind(el, (api) => {
+          const option = (args() ?? {}) as { type?: 'checkbox' | 'radio'; value?: string };
+          return api.getOptionItemProps({
+            ...(args() as object),
+            type: option.type ?? 'checkbox',
+            value: String(option.value ?? ''),
+            checked: Boolean((args() as { checked?: unknown } | undefined)?.checked),
+            onCheckedChange: (checked: boolean) =>
+              dispatch(el, 'checked-change', { value: String(option.value ?? ''), checked }),
+          } as never) as Attrs;
+        });
+      }
+      return widget.bind(el, (api) =>
+        partProps(api as unknown as Record<string, unknown>, 'dropdown-menu', part, args()),
+      );
+    },
+  };
+}
+
+// ---------------------------------------------------------------------------
+// Toast
+
+export interface ToasterAlpineOptions extends ToasterOptions {
+  /** The region's accessible name. Default `Notifications`. */
+  label?: string;
+  /** The close button's accessible name. Default `Dismiss notification`. */
+  closeLabel?: string;
+  /** Toasts to show on load, such as ones flashed to the session before a redirect. */
+  toasts?: ToastOptions[];
+  /** Machine id. Defaults to an Alpine `$id`, unique on the page. */
+  id?: string;
+}
+
+/** Toasters on the page, newest last. `toast` events and `ApuiBehavior.toast()` go to the newest. */
+const toasters: Toaster[] = [];
+
+/** Shows a toast in the page's toaster. Returns its id, or undefined when there's no toaster yet. */
+export function showToast(options: ToastOptions): string | undefined {
+  return toasters.at(-1)?.create(options);
+}
+
+/**
+ * The `apuiToaster` Alpine component: the region (`x-apui:group`) that
+ * renders the page's toasts, newest first, with `apuiToast` for each.
+ * A `toast` browser event adds one, so a Livewire component shows one with
+ * `$this->dispatch('toast', title: …)`.
+ */
+function toasterComponent(Alpine: Alpine, options: ToasterAlpineOptions = {}) {
+  let widget: Widget<ToastGroupProps, ToastGroupApi> | undefined;
+  let toaster: Toaster | undefined;
+  let stopListening: (() => void) | undefined;
+  /** The machines of the toasts inside, by toast id. */
+  const children = new Map<string, Widget<ToastProps, ToastApi>>();
+
+  return {
+    toasts: [] as ToastProps[],
+
+    init(this: AlpineMagics & { toasts: ToastProps[] }) {
+      toaster = createToaster(options);
+      toasters.push(toaster);
+      widget = createWidget(toastGroup, {
+        id: options.id ?? this.$id('apui-toaster'),
+        store: toaster.store,
+        // Zag maps `-end` to a physical side from `dir`: follow the page's.
+        dir: directionOf(this.$el),
+      });
+      // The group re-renders on every height measurement; only a different
+      // list of toasts (added, removed or updated) re-renders the template.
+      widget.subscribe((api) => {
+        const next = api.getToasts() as ToastProps[];
+        const current = Alpine.raw(this.toasts) as ToastProps[];
+        // Each toast's position reads the region's measured heights, which
+        // change without the list changing: re-render every toast, as a
+        // React or Vue parent re-render does.
+        for (const child of children.values()) child.refresh();
+        if (next.length === current.length && next.every((t, i) => t === current[i])) return;
+        // The store publishes a toast's changes (pausing on hover, an update)
+        // as a new object: hand them to its machine, as a React re-render would.
+        next.forEach((entry, index) => {
+          if (entry !== current[index])
+            children.get(String(entry.id))?.setProps({ ...entry, index });
+        });
+        this.toasts = [...next];
+      });
+      widget.start();
+      const onToast = (event: Event) => {
+        const detail = (event as CustomEvent<ToastOptions | ToastOptions[]>).detail;
+        // Livewire 3 sends dispatch()'s named arguments as the detail; some
+        // versions wrap them in an array.
+        const toastOptions = Array.isArray(detail) ? detail[0] : detail;
+        // Another library's `toast` event (a different shape) isn't ours.
+        if (!toastOptions || typeof toastOptions !== 'object') return;
+        if (
+          typeof toastOptions.title !== 'string' &&
+          typeof toastOptions.description !== 'string'
+        ) {
+          return;
+        }
+        toaster?.create(toastOptions);
+      };
+      window.addEventListener('toast', onToast);
+      stopListening = () => window.removeEventListener('toast', onToast);
+      for (const initial of options.toasts ?? []) toaster.create(initial);
+    },
+
+    destroy() {
+      stopListening?.();
+      if (toaster) toasters.splice(toasters.indexOf(toaster), 1);
+      widget?.stop();
+      widget = undefined;
+      toaster = undefined;
+    },
+
+    /** Adds a toast. Returns its id. */
+    create(toastOptions: ToastOptions) {
+      return toaster?.create(toastOptions);
+    },
+
+    /** Dismisses one toast, or all of them. */
+    dismiss(id?: string) {
+      toaster?.dismiss(id);
+    },
+
+    /** The region's service, for the toasts inside it. */
+    apuiToasterService() {
+      return widget?.service;
+    },
+
+    /** Registers a toast's machine, so it gets the store's changes. Returns an unregister function. */
+    apuiAdoptToast(id: string, child: Widget<ToastProps, ToastApi>) {
+      children.set(id, child);
+      return () => {
+        if (children.get(id) === child) children.delete(id);
+      };
+    },
+
+    /** The close button's accessible name, for the toasts inside it. */
+    apuiCloseLabel() {
+      return options.closeLabel;
+    },
+
+    apuiPart(part: string, el: Element, args: () => PartArgs) {
+      if (!widget) return () => {};
+      if (part !== 'group') throw new Error(`[apui] a toaster has no part "${part}"`);
+      return widget.bind(el, (api) =>
+        api.getGroupProps({ label: options.label ?? 'Notifications', ...(args() ?? {}) }),
+      ) as () => void;
+    },
+  };
+}
+
+/**
+ * The `apuiToast` Alpine component: one toast inside `apuiToaster`, driven
+ * by the toast's machine. Its parts are `x-apui:root`, `icon`, `title`,
+ * `description`, `actions`, `action-trigger` and `close-trigger`. `icon` is
+ * the status icon's SVG, for `x-html`.
+ */
+function toastComponent(Alpine: Alpine, proxied: ToastProps, index = 0) {
+  // The machine reads the entry, so give it the store's object, not Alpine's
+  // reactive proxy of it: reads through the proxy would track Alpine effects.
+  const entry = Alpine.raw(proxied) as ToastProps;
+  let widget: Widget<ToastProps, ToastApi> | undefined;
+  let release: (() => void) | undefined;
+
+  return {
+    toast: entry,
+    icon: '',
+
+    init(
+      this: AlpineMagics & {
+        toast: ToastProps;
+        icon: string;
+        apuiToasterService?: () => unknown;
+        apuiCloseLabel?: () => string | undefined;
+        apuiAdoptToast?: (id: string, child: Widget<ToastProps, ToastApi>) => () => void;
+      },
+    ) {
+      const parent = this.apuiToasterService?.();
+      if (!parent) throw new Error('[apui] apuiToast must be inside an apuiToaster');
+      const iconFor = (meta: { color?: keyof typeof TOAST_ICONS; icon?: string } = {}) =>
+        iconSvg(meta.icon ?? TOAST_ICONS[meta.color ?? 'neutral'] ?? 'info') ?? '';
+      this.icon = iconFor(entry.meta as never);
+      const closeTriggerLabel = this.apuiCloseLabel?.();
+      widget = createWidget(toast, {
+        ...entry,
+        id: entry.id,
+        index,
+        parent: parent as never,
+        translations: closeTriggerLabel ? { closeTriggerLabel } : undefined,
+      } as ToastProps & { id: string });
+      widget.start();
+      // An update by id can change the color or icon.
+      widget.subscribe((api) => {
+        const icon = iconFor(api.meta);
+        if (this.icon !== icon) this.icon = icon;
+      });
+      release = this.apuiAdoptToast?.(String(entry.id), widget);
+    },
+
+    destroy() {
+      release?.();
+      widget?.stop();
+      widget = undefined;
+    },
+
+    apuiPart(part: string, el: Element, args: () => PartArgs) {
+      if (!widget) return () => {};
+      return widget.bind(el, (api) =>
+        partProps(api as unknown as Record<string, unknown>, 'toast', part, args()),
+      );
+    },
+  };
+}
+
+// ---------------------------------------------------------------------------
 // Plugin
 
 /** The magics a component's methods use. */
@@ -431,7 +754,10 @@ interface AlpineMagics {
   $watch(property: string, callback: (value: unknown) => void): void;
 }
 
-/** Registers `apuiDialog`, `apuiCombobox` and the `x-apui:<part>` directive. */
+/**
+ * Registers `apuiDialog`, `apuiCombobox`, `apuiDropdownMenu`, `apuiToaster`,
+ * `apuiToast` and the `x-apui:<part>` directive.
+ */
 export default function apuiBehavior(Alpine: Alpine): void {
   // Keep machine state that lives outside part props (aria-hidden on the page
   // behind a modal, layer styles) through Livewire's morph.
@@ -444,6 +770,11 @@ export default function apuiBehavior(Alpine: Alpine): void {
 
   Alpine.data('apuiDialog', dialogComponent as never);
   Alpine.data('apuiCombobox', comboboxComponent as never);
+  Alpine.data('apuiDropdownMenu', dropdownMenuComponent as never);
+  Alpine.data('apuiToaster', ((options?: ToasterAlpineOptions) =>
+    toasterComponent(Alpine, options)) as never);
+  Alpine.data('apuiToast', ((entry: ToastProps, index?: number) =>
+    toastComponent(Alpine, entry, index)) as never);
 
   Alpine.directive(
     'apui',
@@ -451,7 +782,7 @@ export default function apuiBehavior(Alpine: Alpine): void {
       if (!part) throw new Error('[apui] x-apui needs a part, e.g. x-apui:trigger');
       const host = Alpine.$data(el as HTMLElement) as unknown as Partial<PartHost>;
       if (typeof host.apuiPart !== 'function') {
-        throw new Error(`[apui] x-apui:${part} must be inside an apuiDialog or apuiCombobox`);
+        throw new Error(`[apui] x-apui:${part} must be inside an apui widget (apuiDialog, …)`);
       }
       warnMissingId(el, part);
       let args: PartArgs;

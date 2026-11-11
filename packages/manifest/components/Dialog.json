@@ -1,0 +1,285 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "Dialog",
+  "description": "A modal window for a focused task or a confirmation. Traps focus, locks scroll and hides the page behind it from assistive technology; Escape, the close button and the backdrop close it, and focus returns to the trigger. Replaces Modal.",
+  "status": "draft",
+  "issue": 49,
+  "rootClass": "apui-dialog",
+  "stacks": {
+    "livewire": {
+      "name": "dialog",
+      "capabilities": ["wire:model binds open both ways through $wire.entangle()"]
+    },
+    "react": {
+      "name": "Dialog"
+    },
+    "vue": {
+      "name": "Dialog"
+    }
+  },
+  "props": [
+    {
+      "name": "open",
+      "type": "boolean",
+      "default": false,
+      "description": "Whether it's open. Livewire binds it with wire:model, Vue with v-model:open. Emitted as data-state on every part."
+    },
+    {
+      "name": "defaultOpen",
+      "type": "boolean",
+      "default": false,
+      "description": "The initial state of an uncontrolled dialog.",
+      "stacks": ["react"]
+    },
+    {
+      "name": "size",
+      "type": "enum",
+      "values": ["sm", "md", "lg"],
+      "default": "md",
+      "description": "The panel's width: 360px, --apui-dialog-width (480px) or 640px, never wider than the viewport. Emitted as data-size."
+    },
+    {
+      "name": "role",
+      "type": "enum",
+      "values": ["dialog", "alertdialog"],
+      "default": "dialog",
+      "description": "alertdialog for confirmations that interrupt: the backdrop doesn't close it, and focus starts on the close button, the safe action.",
+      "a11y": "Sets the panel's role."
+    },
+    {
+      "name": "surface",
+      "type": "enum",
+      "values": ["overlay", "glass"],
+      "default": "overlay",
+      "description": "The panel's surface. Emitted as data-surface. Glass falls back to the overlay surface under reduced transparency and in high contrast."
+    },
+    {
+      "name": "color",
+      "type": "enum",
+      "values": [
+        "primary",
+        "secondary",
+        "accent",
+        "neutral",
+        "success",
+        "warning",
+        "error",
+        "info"
+      ],
+      "description": "Tints the header icon, for confirmations. Emitted as data-color."
+    },
+    {
+      "name": "icon",
+      "type": "string",
+      "description": "An icon name from the registry, shown in a tinted circle before the title. A slot or node overrides it."
+    },
+    {
+      "name": "title",
+      "type": "node",
+      "description": "The heading, linked to the panel with aria-labelledby.",
+      "a11y": "Every dialog needs a title; it is the panel's accessible name."
+    },
+    {
+      "name": "description",
+      "type": "node",
+      "description": "Supporting text under the title, linked with aria-describedby."
+    },
+    {
+      "name": "footer",
+      "type": "node",
+      "description": "The actions row. Name the confirm action (\"Delete listing\"), not \"OK\"."
+    },
+    {
+      "name": "trigger",
+      "type": "node",
+      "description": "Content for a trigger button that opens the dialog. Without it, open the dialog through open."
+    },
+    {
+      "name": "modal",
+      "type": "boolean",
+      "default": true,
+      "description": "Traps focus, locks scroll and hides the rest of the page from assistive technology. Turn it off only for a dialog that must leave the page usable.",
+      "a11y": "Sets aria-modal."
+    },
+    {
+      "name": "portal",
+      "type": "boolean",
+      "default": true,
+      "description": "Renders the dialog at the end of the body, above everything (x-teleport, a React portal, Vue Teleport). Off renders it in place."
+    },
+    {
+      "name": "hideClose",
+      "type": "boolean",
+      "default": false,
+      "description": "Hides the close button in the header. Escape still closes the dialog."
+    },
+    {
+      "name": "closeLabel",
+      "type": "string",
+      "default": "Close",
+      "description": "The close button's accessible name. Translate it: Livewire defaults it through __( 'Close' ).",
+      "a11y": "The close button is icon-only, so this is its only name."
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part, such as { header: '…', body: '…' }."
+    }
+  ],
+  "sizes": ["sm", "md", "lg"],
+  "colors": ["primary", "secondary", "accent", "neutral", "success", "warning", "error", "info"],
+  "parts": [
+    {
+      "name": "root",
+      "element": "div",
+      "description": "The panel, carrying the root class. It is Zag's content part, so it also carries data-part=\"content\" (D-019)."
+    },
+    {
+      "name": "content",
+      "element": "div",
+      "description": "The panel: the same element as root."
+    },
+    {
+      "name": "trigger",
+      "element": "button",
+      "description": "The button that opens the dialog, when trigger is set."
+    },
+    {
+      "name": "backdrop",
+      "element": "div",
+      "description": "The scrim behind the panel."
+    },
+    {
+      "name": "positioner",
+      "element": "div",
+      "description": "Fills the viewport and centers the panel."
+    },
+    {
+      "name": "header",
+      "element": "div",
+      "description": "Icon, title, description and close button."
+    },
+    {
+      "name": "icon",
+      "element": "span",
+      "description": "The tinted icon before the title."
+    },
+    {
+      "name": "title",
+      "element": "h2",
+      "description": "The heading."
+    },
+    {
+      "name": "description",
+      "element": "p",
+      "description": "Supporting text."
+    },
+    {
+      "name": "closeTrigger",
+      "element": "button",
+      "description": "The close button: a ghost, neutral, small icon-only Button."
+    },
+    {
+      "name": "body",
+      "element": "div",
+      "description": "The default slot."
+    },
+    {
+      "name": "footer",
+      "element": "div",
+      "description": "The actions row."
+    }
+  ],
+  "slots": [
+    {
+      "name": "trigger",
+      "description": "Content for the trigger button."
+    },
+    {
+      "name": "icon",
+      "description": "Overrides the icon."
+    },
+    {
+      "name": "title",
+      "description": "Rich title content, rendered inside the heading."
+    },
+    {
+      "name": "description",
+      "description": "Rich supporting text."
+    },
+    {
+      "name": "footer",
+      "description": "The actions row."
+    }
+  ],
+  "events": [
+    {
+      "name": "open-change",
+      "description": "The dialog opened or closed itself: the trigger, Escape, the backdrop or the close button. Setting open doesn't fire it.",
+      "payload": "boolean"
+    }
+  ],
+  "a11y": {
+    "role": "dialog",
+    "element": "div",
+    "keyboard": [
+      {
+        "keys": "Tab, Shift+Tab",
+        "action": "Move between the controls inside; focus stays in the dialog."
+      },
+      {
+        "keys": "Escape",
+        "action": "Closes the dialog and returns focus to the trigger."
+      },
+      {
+        "keys": "Enter, Space",
+        "action": "On the trigger, opens the dialog."
+      }
+    ],
+    "requirements": [
+      "Focus moves into the dialog on open and is trapped there while it's modal; it returns to the trigger on close.",
+      "The title is linked with aria-labelledby and the description with aria-describedby.",
+      "A modal dialog sets aria-modal and hides everything else from assistive technology, and locks page scroll.",
+      "Destructive confirmations use alertdialog: the backdrop doesn't close them and focus starts on the safe action.",
+      "The close button has an accessible name (translatable, \"Close\").",
+      "Text keeps 4.5:1 and the panel's edge 3:1 on the overlay surface in every theme, glass included.",
+      "Glass falls back to the overlay surface under prefers-reduced-transparency, without backdrop-filter, and in high contrast.",
+      "Every part keeps a stable, server-rendered id in Livewire, so morphs never replace the panel (D-015)."
+    ],
+    "wcag": ["1.3.1", "1.4.3", "1.4.11", "2.1.1", "2.1.2", "2.4.3", "2.4.7", "4.1.2"]
+  },
+  "tokens": [
+    "--apui-dialog-radius",
+    "--apui-dialog-width",
+    "--apui-surface-overlay",
+    "--apui-surface-glass",
+    "--apui-surface-glass-border",
+    "--apui-surface-glass-blur",
+    "--apui-surface-glass-saturation",
+    "--apui-elevation-overlay",
+    "--apui-elevation-glass",
+    "--apui-backdrop",
+    "--apui-z-modal",
+    "--apui-border-muted",
+    "--apui-text-default",
+    "--apui-text-muted",
+    "--apui-text-muted-glass",
+    "--apui-field-gap"
+  ],
+  "fixture": {
+    "content": "They'll get an email with a link to join the project.",
+    "props": {
+      "open": true,
+      "modal": false,
+      "portal": false,
+      "title": "Invite member",
+      "description": "Members can edit every listing.",
+      "icon": "user",
+      "footer": "Send invite"
+    },
+    "parts": {
+      "trigger": "Invite"
+    },
+    "states": []
+  }
+}

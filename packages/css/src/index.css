@@ -24,4 +24,7 @@
 @import './components/select.css';
 @import './components/checkbox.css';
 @import './components/card.css';
+@import './components/dialog.css';
+@import './components/dropdown-menu.css';
+@import './components/toast.css';
 @import './utilities.css';

@@ -43,6 +43,19 @@ use Throwable;
 final class ManifestParity
 {
 	/**
+	 * Events each behavior widget's Alpine adapter dispatches itself, so a
+	 * view that mounts the widget emits them without a `$dispatch` of its own.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @var array<string, list<string>>
+	 */
+	public const WIDGET_EVENTS = [
+		'apuiDialog'       => [ 'open-change' ],
+		'apuiDropdownMenu' => [ 'open-change', 'select', 'checked-change' ],
+	];
+
+	/**
 	 * A native form control that receives the component's attributes, so a
 	 * `wire:model` on the component binds to it natively (Input, Select,
 	 * Checkbox).
@@ -295,22 +308,28 @@ final class ManifestParity
 			if ( $full->getAttribute( 'data-scope' ) === $scope && $full->hasAttribute( 'data-part' ) ) {
 				$rendered[] = $full->getAttribute( 'data-part' );
 			}
+			// The whole render, not just the root: an overlay's trigger, backdrop
+			// and positioner sit around the panel that carries the root class (D-019).
 			$xpath = new DOMXPath( $full->ownerDocument );
-			foreach ( $xpath->query( sprintf( './/*[@data-scope="%s"][@data-part]', $scope ), $full ) ?: [] as $element ) {
+			foreach ( $xpath->query( sprintf( '//*[@data-scope="%s"][@data-part]', $scope ) ) ?: [] as $element ) {
 				if ( $element instanceof DOMElement ) {
 					$rendered[] = $element->getAttribute( 'data-part' );
 				}
 			}
 			$rendered = array_values( array_unique( $rendered ) );
 			$parts    = $manifest->partNames();
+			// Behavior parts carry Zag's kebab-case names (`close-trigger`) for
+			// the manifest's camelCase ones (`closeTrigger`), so compare both as kebab (D-019).
+			$renderedKebab = array_map( [ ComponentManifest::class, 'kebab' ], $rendered );
+			$partsKebab    = array_map( [ ComponentManifest::class, 'kebab' ], $parts );
 			foreach ( $parts as $part ) {
-				if ( 'root' !== $part && ! in_array( $part, $rendered, true ) ) {
+				if ( 'root' !== $part && ! in_array( ComponentManifest::kebab( $part ), $renderedKebab, true ) ) {
 					$problems[] = sprintf( 'part %s: missing [data-scope="%s"][data-part="%s"]', $part, $scope, $part );
 				}
 			}
 			sort( $rendered );
 			foreach ( $rendered as $part ) {
-				if ( 'root' !== $part && ! in_array( $part, $parts, true ) ) {
+				if ( 'root' !== $part && ! in_array( ComponentManifest::kebab( $part ), $partsKebab, true ) ) {
 					$problems[] = sprintf( 'part %s: rendered but not in the manifest', $part );
 				}
 			}
@@ -350,7 +369,7 @@ final class ManifestParity
 
 		if ( isset( $declared['events'] ) ) {
 			$expected = array_map(
-				static fn ( array $event ): string => ComponentManifest::eventName( $event['name'], 'livewire' ),
+				fn ( array $event ): string => ComponentManifest::eventName( $event['name'], 'livewire', $this->manifest ),
 				$this->manifest->events,
 			);
 			foreach ( $expected as $name ) {
@@ -358,7 +377,13 @@ final class ManifestParity
 					$problems[] = sprintf( 'event %s: not emitted by the livewire component', $name );
 				}
 			}
+			// `wire:model` on an overlay binds its `open` prop through the widget
+			// ($wire.entangle), which isn't an event of its own (D-019).
+			$bindsOpen = in_array( 'open', array_column( $this->manifest->props, 'name' ), true );
 			foreach ( $listed( $declared['events'] ) as $name ) {
+				if ( 'wire:model' === $name && $bindsOpen ) {
+					continue;
+				}
 				if ( ! in_array( $name, $expected, true ) ) {
 					$problems[] = sprintf( 'event %s: emitted but not in the manifest', $name );
 				}
@@ -389,7 +414,9 @@ final class ManifestParity
 	 * view, `$this->dispatch('name')` in its class, and `wire:model` when it
 	 * binds a value (`x-modelable`, `@entangle(` or `$wire.entangle(`) or
 	 * hands its attributes to a native form control, where `wire:model` binds
-	 * natively (`<input … {{ $attributes… }}`).
+	 * natively (`<input … {{ $attributes… }}`). A view that mounts a behavior
+	 * widget (`x-data="apuiDialog(…)"`) also emits the events that widget's
+	 * Alpine adapter dispatches (D-019).
 	 *
 	 * @since 1.0.0
 	 *
@@ -403,6 +430,11 @@ final class ManifestParity
 		foreach ( $sources as $source ) {
 			preg_match_all( '/(?:\$dispatch|\$this->dispatch)\(\s*[\'"]([A-Za-z0-9][A-Za-z0-9:.-]*)[\'"]/', $source, $matches );
 			array_push( $events, ...$matches[1] );
+			foreach ( self::WIDGET_EVENTS as $widget => $widgetEvents ) {
+				if ( preg_match( '/\b' . $widget . '\s*\(/', $source ) ) {
+					array_push( $events, ...$widgetEvents );
+				}
+			}
 			if ( preg_match( '/x-modelable|@entangle\(|\$wire\.entangle\(/', $source ) || preg_match( self::NATIVE_MODEL, self::maskEchoes( $source ) ) ) {
 				$events[] = 'wire:model';
 			}

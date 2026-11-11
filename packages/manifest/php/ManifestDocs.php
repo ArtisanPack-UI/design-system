@@ -70,7 +70,7 @@ final class ManifestDocs
 			'events' => array_map(
 				static fn ( array $event ): array => [
 					'concept'     => $event['name'],
-					'name'        => ComponentManifest::eventName( $event['name'], $stack ),
+					'name'        => ComponentManifest::eventName( $event['name'], $stack, $manifest ),
 					'description' => $event['description'],
 					'payload'     => $event['payload'] ?? null,
 				],

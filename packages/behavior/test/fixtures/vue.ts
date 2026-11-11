@@ -6,7 +6,17 @@
 import { type App, computed, createApp, defineComponent, h, nextTick, ref } from 'vue';
 
 import type { ComboboxValue } from '../../src/core/options';
-import { useCombobox, useDialog } from '../../src/vue';
+import {
+  createToaster,
+  type Toaster as CoreToaster,
+  type ToasterApi,
+  type ToastEntry,
+  useCombobox,
+  useDialog,
+  useDropdownMenu,
+  useToast,
+  useToaster,
+} from '../../src/vue';
 import {
   COMBOBOX_IDS,
   COUNTRIES,
@@ -14,7 +24,11 @@ import {
   DIALOG_IDS,
   type DialogFixture,
   install,
+  MENU_IDS,
+  MENU_ITEMS,
+  type MenuFixture,
   toItems,
+  type ToasterFixture,
 } from './shared';
 
 /** The parent's state, for `fixture.set` and `fixture.get`. */
@@ -98,12 +112,112 @@ const Combobox = defineComponent({
   },
 });
 
+const Menu = defineComponent({
+  props: { options: { type: Object as () => MenuFixture, required: true } },
+  setup(props) {
+    const { mode, initial, id } = props.options;
+    const grid = ref(false);
+    const menu = useDropdownMenu(() => ({
+      id,
+      ids: MENU_IDS,
+      ...(mode === 'uncontrolled' ? { defaultOpen: initial } : { open: open.value }),
+      onOpenChange: (details) => {
+        fixture.events.push(['open-change', details]);
+        if (mode === 'controlled') open.value = details.open;
+      },
+      onSelect: (details) => fixture.events.push(['select', details]),
+    }));
+    own = { open: () => menu.value.open };
+    const option = () => ({
+      type: 'checkbox' as const,
+      value: 'grid',
+      checked: grid.value,
+      onCheckedChange: (checked: boolean) => {
+        fixture.events.push(['checked-change', { value: 'grid', checked }]);
+        grid.value = checked;
+      },
+    });
+
+    return () =>
+      h('div', { id: 'menu' }, [
+        h('button', menu.value.getTriggerProps(), 'Options'),
+        h('div', menu.value.getPositionerProps(), [
+          h('div', menu.value.getContentProps(), [
+            h('div', menu.value.getItemGroupProps({ id: 'edit' }), [
+              h('div', menu.value.getItemGroupLabelProps({ htmlFor: 'edit' }), 'Edit'),
+              ...MENU_ITEMS.map(([value, label, disabled]) =>
+                h('div', { key: value, ...menu.value.getItemProps({ value, disabled }) }, [
+                  h('span', menu.value.getItemTextProps({ value }), label),
+                ]),
+              ),
+            ]),
+            h('hr', menu.value.getSeparatorProps()),
+            h('div', menu.value.getOptionItemProps(option()), [
+              h('span', menu.value.getItemIndicatorProps(option()), '✓'),
+              h('span', menu.value.getItemTextProps(option()), 'Show grid'),
+            ]),
+          ]),
+        ]),
+      ]);
+  },
+});
+
+const ToastItem = defineComponent({
+  props: {
+    entry: { type: Object as () => ToastEntry, required: true },
+    parentService: { type: Object as () => ToasterApi['service'], required: true },
+    index: { type: Number, required: true },
+  },
+  setup(props) {
+    const toast = useToast(
+      () => props.entry,
+      props.parentService,
+      () => props.index,
+    );
+    return () =>
+      h('div', toast.value.getRootProps(), [
+        h('span', toast.value.getIconProps()),
+        h('p', toast.value.getTitleProps(), toast.value.title),
+        h('p', toast.value.getDescriptionProps(), toast.value.description),
+        h('button', toast.value.getCloseTriggerProps(), '×'),
+      ]);
+  },
+});
+
+let toaster: CoreToaster | undefined;
+
+const Toaster = defineComponent({
+  props: { options: { type: Object as () => ToasterFixture, required: true } },
+  setup(props) {
+    const instance = (toaster = createToaster({ duration: 0 }));
+    const region = useToaster({ toaster: instance, id: props.options.id });
+    return () =>
+      h('div', { id: 'toaster' }, [
+        h(
+          'div',
+          region.value.getGroupProps({ label: 'Notifications' }),
+          region.value.toasts.map((entry, index) =>
+            h(ToastItem, {
+              key: entry.id,
+              entry,
+              parentService: region.value.service,
+              index,
+            }),
+          ),
+        ),
+      ]);
+  },
+});
+
 let app: App | undefined;
 let controlled = false;
 
-function render(component: object, options: DialogFixture | ComboboxFixture) {
+function render(
+  component: object,
+  options: DialogFixture | ComboboxFixture | MenuFixture | ToasterFixture,
+) {
   fixture.unmount();
-  controlled = options.mode !== 'uncontrolled';
+  controlled = 'mode' in options && options.mode !== 'uncontrolled';
   app = createApp(component, { options });
   app.mount('#root');
 }
@@ -117,6 +231,17 @@ const fixture = install({
     value.value = options.initial ?? (options.multiple ? [] : null);
     pairs.value = options.items ?? COUNTRIES;
     render(Combobox, options);
+  },
+  menu(options) {
+    open.value = options.initial ?? false;
+    render(Menu, options);
+  },
+  toaster(options) {
+    render(Toaster, options);
+  },
+  toast(options) {
+    toaster?.create(options);
+    void nextTick();
   },
   unmount() {
     app?.unmount();

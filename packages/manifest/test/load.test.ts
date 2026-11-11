@@ -79,4 +79,18 @@ describe('eventName', () => {
     expect(eventName(concept, 'react')).toBe(react);
     expect(eventName({ name: concept, description: 'x' }, 'vue')).toBe(vue);
   });
+
+  it('binds only a prop the component has (D-019)', () => {
+    const prop = (name: string) => ({ name, type: 'boolean' as const, description: 'x' });
+    const checkbox = { props: [prop('checked')] };
+    const menu = { props: [prop('open')] };
+    const toast = { props: [prop('hideClose')] };
+    expect(eventName('checked-change', 'vue', checkbox)).toBe('update:checked');
+    expect(eventName('checked-change', 'livewire', checkbox)).toBe('wire:model');
+    expect(eventName('checked-change', 'vue', menu)).toBe('checked-change');
+    expect(eventName('checked-change', 'livewire', menu)).toBe('checked-change');
+    expect(eventName('checked-change', 'react', menu)).toBe('onCheckedChange');
+    expect(eventName('open-change', 'vue', menu)).toBe('update:open');
+    expect(eventName('open-change', 'vue', toast)).toBe('open-change');
+  });
 });

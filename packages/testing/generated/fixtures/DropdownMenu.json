@@ -1,0 +1,148 @@
+{
+  "version": 1,
+  "component": "DropdownMenu",
+  "rootClass": "apui-dropdown-menu",
+  "stacks": [
+    "livewire",
+    "react",
+    "vue"
+  ],
+  "names": {
+    "livewire": "dropdown-menu",
+    "react": "DropdownMenu",
+    "vue": "DropdownMenu"
+  },
+  "cases": [
+    {
+      "id": "state=default",
+      "props": {
+        "open": true,
+        "portal": false,
+        "label": "Options",
+        "items": [
+          {
+            "type": "group",
+            "label": "Listing",
+            "items": [
+              {
+                "value": "edit",
+                "label": "Edit",
+                "icon": "pencil",
+                "shortcut": "E"
+              },
+              {
+                "value": "duplicate",
+                "label": "Duplicate",
+                "icon": "copy"
+              },
+              {
+                "value": "archive",
+                "label": "Archive",
+                "disabled": true
+              }
+            ]
+          },
+          {
+            "type": "separator"
+          },
+          {
+            "type": "checkbox",
+            "value": "grid",
+            "label": "Show grid",
+            "checked": true
+          },
+          {
+            "type": "separator"
+          },
+          {
+            "value": "delete",
+            "label": "Delete",
+            "icon": "trash",
+            "color": "error"
+          }
+        ]
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "surface=glass state=default",
+      "props": {
+        "open": true,
+        "portal": false,
+        "label": "Options",
+        "items": [
+          {
+            "type": "group",
+            "label": "Listing",
+            "items": [
+              {
+                "value": "edit",
+                "label": "Edit",
+                "icon": "pencil",
+                "shortcut": "E"
+              },
+              {
+                "value": "duplicate",
+                "label": "Duplicate",
+                "icon": "copy"
+              },
+              {
+                "value": "archive",
+                "label": "Archive",
+                "disabled": true
+              }
+            ]
+          },
+          {
+            "type": "separator"
+          },
+          {
+            "type": "checkbox",
+            "value": "grid",
+            "label": "Show grid",
+            "checked": true
+          },
+          {
+            "type": "separator"
+          },
+          {
+            "value": "delete",
+            "label": "Delete",
+            "icon": "trash",
+            "color": "error"
+          }
+        ],
+        "surface": "glass"
+      },
+      "state": "default",
+      "content": null
+    }
+  ],
+  "sheets": [
+    {
+      "id": "light",
+      "theme": "light",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "dark",
+      "theme": "dark",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "high-contrast",
+      "theme": "high-contrast",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "rtl",
+      "theme": "light",
+      "density": "default",
+      "dir": "rtl"
+    }
+  ]
+}

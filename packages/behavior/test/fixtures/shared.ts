@@ -27,10 +27,24 @@ export interface ComboboxFixture {
   id?: string;
 }
 
+export interface MenuFixture {
+  mode: Mode;
+  initial?: boolean;
+  id?: string;
+}
+
+export interface ToasterFixture {
+  id?: string;
+}
+
 /** The global the tests call: `window.fixture`. */
 export interface FixtureApi {
   dialog(options: DialogFixture): void;
   combobox(options: ComboboxFixture): void;
+  menu(options: MenuFixture): void;
+  toaster(options: ToasterFixture): void;
+  /** Adds a toast to the mounted toaster. */
+  toast(options: Record<string, unknown>): void;
   unmount(): void;
   /** Sets the parent's state, as a parent component re-rendering with new props does. */
   set(key: 'open' | 'value' | 'items', value: unknown): void;
@@ -55,6 +69,21 @@ export const COMBOBOX_IDS = {
   trigger: 'cb-toggle',
   content: 'cb-list',
 };
+
+export const MENU_IDS = {
+  trigger: 'trigger',
+  positioner: 'positioner',
+  content: 'content',
+  group: () => 'group',
+  groupLabel: () => 'group-label',
+};
+
+/** The menu's items: [value, label, disabled]. */
+export const MENU_ITEMS: [string, string, boolean][] = [
+  ['rename', 'Rename', false],
+  ['duplicate', 'Duplicate', false],
+  ['archive', 'Archive', true],
+];
 
 export const COUNTRIES: [string, string][] = [
   ['fr', 'France'],

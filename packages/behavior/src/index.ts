@@ -25,6 +25,36 @@ export {
 } from './positioning';
 export { dialog, type DialogApi, type DialogProps } from './widgets/dialog';
 export {
+  DROPDOWN_MENU_SCOPE,
+  dropdownMenu,
+  rescope,
+  type DropdownMenuApi,
+  type DropdownMenuProps,
+} from './widgets/dropdown-menu';
+export { menuPlacement, type MenuAlign } from './core/options';
+export {
+  createToaster,
+  staticToastParts,
+  TOAST_ICONS,
+  toast,
+  toastGroup,
+  toastMeta,
+  toZagToast,
+  toZagToastPatch,
+  type StaticToastIds,
+  type ToastApi,
+  type ToastColor,
+  type Toaster,
+  type ToasterOptions,
+  type ToastGroupApi,
+  type ToastGroupProps,
+  type ToastMeta,
+  type ToastOptions,
+  type ToastPlacement,
+  type ToastProps,
+  type ToastStore,
+} from './widgets/toast';
+export {
   combobox,
   createCollection,
   filterItems,

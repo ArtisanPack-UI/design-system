@@ -1,0 +1,12 @@
+[
+  {
+    "id": "basic",
+    "title": "Basic",
+    "description": "A trigger, a title and description, a body and a footer of named actions. Escape, the close button and the backdrop close it."
+  },
+  {
+    "id": "confirm",
+    "title": "Confirmation",
+    "description": "A destructive confirmation is an alertdialog: the backdrop doesn't close it, and focus starts on the safe action. color tints the icon."
+  }
+]

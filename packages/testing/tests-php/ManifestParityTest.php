@@ -2,6 +2,7 @@
 
 declare( strict_types=1 );
 
+use ArtisanPackUI\DesignSystem\Manifest\ComponentManifest;
 use ArtisanPackUI\DesignSystem\Manifest\ManifestRepository;
 use ArtisanPackUI\DesignSystem\Testing\BladeFixtureHost;
 use ArtisanPackUI\DesignSystem\Testing\ManifestParity;
@@ -91,6 +92,28 @@ it( 'reports a root that disappears with the parts props', function (): void {
 	expect( $parity->check( $render ) )->toContain( 'root: no element with class "apui-probe" with the fixture\'s parts props' );
 } );
 
+it( 'matches Zag\'s kebab-case part names to the manifest\'s camelCase ones (D-019)', function (): void {
+	$data = json_decode( (string) file_get_contents( TestCase::REFERENCE . '/manifests/Probe.json' ), true );
+	unset( $data['$schema'] );
+	$data['parts'] = array_map(
+		static fn ( array $part ): array => 'label' === $part['name'] ? [ ...$part, 'name' => 'itemText' ] : $part,
+		$data['parts'],
+	);
+	$parity = new ManifestParity( ComponentManifest::fromArray( $data ) );
+	$as     = static fn ( string $name ): Closure => static fn ( array $props ): string => str_replace(
+		'data-part="label"',
+		sprintf( 'data-part="%s"', $name ),
+		BladeFixtureHost::renderComponent( 'probe', $props, 'Probe' ),
+	);
+
+	expect( $parity->check( $as( 'item-text' ) ) )->toBe( [] )
+		->and( $parity->check( $as( 'itemText' ) ) )->toBe( [] )
+		->and( $parity->check( $as( 'item-label' ) ) )->toBe( [
+			'part itemText: missing [data-scope="probe"][data-part="itemText"]',
+			'part item-label: rendered but not in the manifest',
+		] );
+} );
+
 it( 'reports a component with no registered class, unless told it is anonymous', function (): void {
 	Blade::anonymousComponentPath( __DIR__ . '/Reference/anonymous' );
 	$data                       = $this->probe()->toArray();
@@ -100,4 +123,11 @@ it( 'reports a component with no registered class, unless told it is anonymous',
 
 	expect( ManifestParity::forBlade( $manifest ) )->toBe( [ $problem ] )
 		->and( ManifestParity::forBlade( $manifest, [ 'declared' => false ] ) )->toBe( [] );
+} );
+
+it( 'credits the events a behavior widget dispatches to the view that mounts it (D-019)', function (): void {
+	expect( ManifestParity::dispatchedEvents( [ '<div x-data="apuiDropdownMenu( { open: false } )"></div>' ] ) )
+		->toBe( [ 'open-change', 'select', 'checked-change' ] )
+		->and( ManifestParity::dispatchedEvents( [ '<div x-data="apuiDialog({})"></div>' ] ) )->toBe( [ 'open-change' ] )
+		->and( ManifestParity::dispatchedEvents( [ '<div x-data="apuiDialogue"></div>' ] ) )->toBe( [] );
 } );

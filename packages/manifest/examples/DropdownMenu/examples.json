@@ -1,0 +1,12 @@
+[
+  {
+    "id": "basic",
+    "title": "Basic",
+    "description": "Action items with icons and shortcuts, a group with a label, and a danger item last, after a separator. Choosing an item clicks it, so a click handler runs from the keyboard too."
+  },
+  {
+    "id": "options",
+    "title": "Checkbox and radio items",
+    "description": "Checkbox and radio items report checked-change; their checked state stays yours to set. items renders the same children as composition."
+  }
+]

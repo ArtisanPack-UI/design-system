@@ -4,7 +4,7 @@
  * itself when Alpine starts, so load it before Livewire's script.
  */
 import { keepClientState } from '../core/morph';
-import apuiBehavior from './index';
+import apuiBehavior, { showToast } from './index';
 
 /**
  * Marks registration. A symbol, not a named property, so page markup can't
@@ -14,14 +14,15 @@ const REGISTERED = Symbol.for('artisanpack-ui.behavior');
 
 type AlpineWindow = Window & {
   Alpine?: Parameters<typeof apuiBehavior>[0];
-  ApuiBehavior?: { keepClientState: typeof keepClientState };
+  ApuiBehavior?: { keepClientState: typeof keepClientState; toast: typeof showToast };
   [REGISTERED]?: boolean;
 };
 
 const host = window as AlpineWindow;
 
-// For morph libraries other than Livewire's: call it before each element is patched.
-host.ApuiBehavior = { keepClientState };
+// keepClientState is for morph libraries other than Livewire's: call it
+// before each element is patched. toast() shows a toast in the page's toaster.
+host.ApuiBehavior = { keepClientState, toast: showToast };
 
 /** Registers the plugin once, when Alpine is available. */
 function register() {

@@ -11,7 +11,12 @@
  * the widget own it.
  */
 import type { Attrs } from './props';
-import { type Direction, type PositionOptions, zagPositioning } from '../positioning';
+import {
+  type Direction,
+  type LogicalPlacement,
+  type PositionOptions,
+  zagPositioning,
+} from '../positioning';
 import {
   type ComboboxItem,
   type ComboboxProps,
@@ -19,6 +24,8 @@ import {
   filterItems,
 } from '../widgets/combobox';
 import type { DialogProps } from '../widgets/dialog';
+import type { DropdownMenuProps } from '../widgets/dropdown-menu';
+import type { Toaster, ToastGroupProps } from '../widgets/toast';
 
 // ---------------------------------------------------------------------------
 // Dialog
@@ -140,7 +147,10 @@ export function visibleItems(options: ComboboxOptions, query: string): ComboboxI
  * every render, and reading computed style there would force a style
  * recalculation per keystroke.
  */
-function direction(options: ComboboxOptions): Direction {
+function direction(options: {
+  dir?: Direction;
+  positioning?: Pick<PositionOptions, 'dir'>;
+}): Direction {
   const explicit = options.positioning?.dir ?? options.dir;
   if (explicit) return explicit;
   if (typeof document === 'undefined') return 'ltr';
@@ -212,4 +222,80 @@ export function emptyProps(items: ComboboxItem[]): Attrs {
     'data-part': 'empty',
     hidden: items.length ? true : undefined,
   };
+}
+
+// ---------------------------------------------------------------------------
+// DropdownMenu
+
+/** Where the menu lines up with its trigger, along the inline axis. */
+export type MenuAlign = 'start' | 'center' | 'end';
+
+export interface DropdownMenuOptions extends Pick<
+  DropdownMenuProps,
+  'closeOnSelect' | 'loopFocus' | 'typeahead' | 'ids' | 'dir'
+> {
+  /** Controlled open state. Pair it with `onOpenChange`. */
+  open?: boolean;
+  /** Initial open state when uncontrolled. */
+  defaultOpen?: boolean;
+  /** Called when the menu opens or closes itself (trigger, Escape, outside click, a selection). */
+  onOpenChange?: (details: { open: boolean }) => void;
+  /** Called when an item is chosen, with its value. */
+  onSelect?: (details: { value: string }) => void;
+  /** The menu's edge that lines up with the trigger's. Default `start`. */
+  align?: MenuAlign;
+  /** Overrides the placement `align` sets, the gap and flipping. */
+  positioning?: PositionOptions;
+  /** Machine id. Defaults to one unique on the page. */
+  id?: string;
+}
+
+/** The logical placement for an alignment: below the trigger, at its start, center or end. */
+export function menuPlacement(align: MenuAlign = 'start'): LogicalPlacement {
+  return align === 'center' ? 'bottom' : `bottom-${align}`;
+}
+
+/** The menu machine's props for `options`. */
+export function toDropdownMenuProps(
+  options: DropdownMenuOptions,
+  id: string,
+): Partial<DropdownMenuProps> {
+  return {
+    id,
+    ids: options.ids,
+    dir: options.dir,
+    open: options.open,
+    defaultOpen: options.defaultOpen,
+    closeOnSelect: options.closeOnSelect,
+    loopFocus: options.loopFocus,
+    typeahead: options.typeahead,
+    positioning: zagPositioning(null, {
+      placement: menuPlacement(options.align),
+      ...options.positioning,
+      dir: direction(options),
+    }),
+    onOpenChange: ({ open }) => options.onOpenChange?.({ open }),
+    onSelect: ({ value }) => options.onSelect?.({ value }),
+  };
+}
+
+// ---------------------------------------------------------------------------
+// Toast
+
+export interface ToastGroupOptions {
+  /** The toaster whose toasts the region renders. */
+  toaster: Toaster;
+  /** Machine id. Defaults to one unique on the page. */
+  id?: string;
+  dir?: Direction;
+}
+
+/** The toast group machine's props for `options`. */
+export function toToastGroupProps(
+  options: ToastGroupOptions,
+  id: string,
+): Partial<ToastGroupProps> {
+  // Zag maps `-end` to a physical side from `dir`, so without it the region
+  // stays on the right in RTL.
+  return { id, store: options.toaster.store, dir: direction(options) };
 }
