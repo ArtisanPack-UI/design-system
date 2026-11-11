@@ -22,6 +22,16 @@ Decisions that shape the design system. To change one, add a new entry that supe
 | [D-016](#d-016-the-quality-gates-ship-as-artisanpack-uitesting-plus-a-composer-kit) | The quality gates ship as `@artisanpack-ui/testing`, plus a Composer kit | #39, #40, #41, #43 | 2026-11-10 |
 | [D-017](#d-017-icon-names-resolve-against-one-lucide-set-shipped-by-behavior) | Icon names resolve against one Lucide set, shipped by `behavior` | #44 | 2026-11-10 |
 | [D-018](#d-018-form-fields-share-one-anatomy-and-route-attributes-to-the-native-control) | Form fields share one anatomy and route attributes to the native control | #45, #46, #47 | 2026-11-10 |
+| [D-019](#d-019-overlays-put-the-root-class-on-the-panel-keep-zags-part-names-and-render-in-place-for-the-gates) | Overlays put the root class on the panel, keep Zag's part names, and render in place for the gates | #49, #50, #51 | 2026-11-11 |
+| [D-020](#d-020-combobox-is-one-family-on-the-field-anatomy-tags-is-its-multiple--allowcreate-mode) | Combobox is one family on the field anatomy; Tags is its `multiple` + `allowCreate` mode | #54 | 2026-11-11 |
+| [D-021](#d-021-datetime-is-datepickers-time-mode) | DateTime is DatePicker's `time` mode | #55 | 2026-11-11 |
+| [D-022](#d-022-spotlight-composes-the-dialog-and-combobox-machines) | Spotlight composes the dialog and combobox machines | #57 | 2026-11-11 |
+| [D-023](#d-023-the-navigation-menu-is-a-list-of-links-with-disclosure-sub-menus-tabs-is-an-engine-widget) | The navigation Menu is a list of links with disclosure sub-menus; Tabs is an engine widget | #56 | 2026-11-11 |
+| [D-024](#d-024-router-links-plug-into-navigation-items-without-a-component-prop) | Router links plug into navigation items without a component prop | #56 | 2026-11-11 |
+| [D-025](#d-025-form-wave-consolidations-selectgroup-radio-and-group) | Form wave consolidations: SelectGroup, Radio and `group` | #53 | 2026-11-11 |
+| [D-026](#d-026-colorpicker-is-an-engine-widget) | ColorPicker is an engine widget | #53 | 2026-11-11 |
+| [D-027](#d-027-a-field-with-several-controls-binds-through-x-modelable) | A field with several controls binds through `x-modelable` | #53 | 2026-11-11 |
+| [D-028](#d-028-form-helpers-that-arent-machines-live-in-behaviorform) | Form helpers that aren't machines live in `behavior/form` | #53 | 2026-11-11 |
 
 ## D-001: No separate brand
 
@@ -320,3 +330,110 @@ The package tests repeat these in Chromium with Alpine's morph plugin, plus RTL 
 - **Toasts are created from data, the same in every stack.** `createToaster()` wraps Zag's store with the design system's defaults (bottom-end, 8px gap, 5000ms, at most 5). `color` maps onto Zag's `type`, and `error` makes a toast an alert; `duration: 0` and an action keep a toast on screen. Duration is a toaster option, not a Toast prop, since a Toast rendered on its own (docs, fixtures, inline status) is static. Livewire's toaster listens for a `toast` browser event, so `$this->dispatch('toast', title: …)` shows one, and `ApuiBehavior.toast()` does from JavaScript.
 
 **Why.** Rooting the class on the panel keeps the spec's CSS and the machine's parts on one element, so nothing wraps the panel only to carry a class. Renaming Zag's parts would mean rewriting its connect output and DOM queries for every widget, which is the cost D-015 avoided. Rendering overlays in place for the gates is the only way to compare them pixel for pixel and to read them from server markup; the harness rule keeps that out of the components.
+
+## D-020: Combobox is one family on the field anatomy; Tags is its `multiple` + `allowCreate` mode
+
+**Decision.**
+
+- **Choices and ChoicesOffline become Combobox** (#54), on Zag's combobox machine (D-015). Filtering is local by default, by label, ignoring case and accents. `remote` hands the search to the app (`search-change`, and in Livewire a `search-model` set after `debounce`) and shows the options it's given. There's no non-searchable mode: a short list without search is Select (D-018).
+- **Tags is not a component.** It's Combobox with `multiple` and `allowCreate`. Chosen values render as chips (`chip`, `chipRemove`); Backspace in the empty input removes the last one and announces it through a `status` live region; `max` caps the count. "Create …" is offered for text that matches no option or chosen value, ignoring case and accents, and choosing it fires `create`. `allowCreate` is the spec's name; the engine's `allowCustom` (accept free text with no option) is a different behavior and stays an engine option.
+- **Combobox uses the field anatomy (D-018), which wins over D-019's "keep Zag's names" for field parts.** The root `.apui-combobox` is the field, not the panel. Zag's `control` and `input` render as `box` and `control` through `repart()`, a normalize proxy like `rescope()`: Zag finds the combobox's elements by id and its options by `role=option`, never by part. Its other parts keep Zag's names: `content` (spec listbox), `item` (option), `itemText`, `itemIndicator`, `trigger`, `clearTrigger`, `positioner`.
+- **Built-in strings are props** with `{search}`, `{value}`, `{label}` placeholders (Livewire passes them through `__()` with `:search`, `:value`, `:label`). Matches are marked in `<mark data-part="mark">`: weight and underline, never color alone.
+- `value` is a string or null, or an array with `multiple`. `wire:model` entangles it. With `name`, hidden inputs submit the value in a plain form.
+- Livewire's `choices`, `choices-offline` and `tags` stay in 3.0 as deprecated aliases. The old Choices was multiple by default; the upgrade rules say so.
+
+**Why.** The three Livewire components shared one option API and differed only in where filtering happened and whether values were chips. The Tags spec is "built from Combobox", and a second component would duplicate the listbox, keyboard and chip code in three stacks. The field anatomy is what D-018 asked later form components to reuse, and the validator already treats `input` as a rename of `control`.
+
+**Known limit.** Zag's result-count announcement is English; Livewire translates it, React and Vue take it as a prop.
+
+## D-021: DateTime is DatePicker's `time` mode
+
+**Decision.**
+
+- **One component.** DateTime ships as `DatePicker` with `time`: a time list (`role=listbox`, every `step` minutes) beside the month, and values that carry the time. Time mode takes single dates only. Livewire keeps `datetime` (rendering the time mode) and `datepicker` as deprecated aliases of `date-picker`.
+- **Values are ISO 8601 strings in every stack**: `2026-11-12`, `2026-11-12T11:00`, and an array of two with `mode="range"`. `wire:model` binds them through `$wire.entangle()`; hidden inputs submit them under `name` (`name[]` for a range).
+- **Typing always works.** The text field takes a numeric pattern, the locale's by default or `format`. Month and weekday names come from `Intl` in `locale`.
+- **The root class is on the field**, like Combobox (D-020): a DatePicker is a form field whose popover is an aid, so D-019's panel rule doesn't apply. The panel is the `content` part. Zag's `control` and `input` render as `box` and `control` through `repart()`; the calendar parts keep Zag's names (spec grid → `table`, weekday → `tableHeader`, day → `tableCellTrigger`, month → `rangeText`).
+- Livewire renders the month on the client from the widget's state, inside a `wire:ignore` positioner.
+
+**Why.** The spec draws DateTime with DatePicker's root class and parts, plus a time column. A second component would duplicate the machine, the CSS and three stacks of code for one column.
+
+## D-022: Spotlight composes the dialog and combobox machines
+
+**Decision.**
+
+- Spotlight has no machine of its own. Zag's dialog is the overlay and Zag's combobox the search, its listbox open whenever the dialog is. Escape and outside clicks reach the dialog.
+- Both machines' parts carry the `spotlight` scope. Where their names collide (`trigger`, `positioner`, `content`), the dialog keeps Zag's (D-019: `content` is the root) and the combobox's take the spec's: `search` (Zag `control`), `query` (`input`), `results` (`content`).
+- Result-count announcements live inside the panel, so a modal's `aria-hidden` doesn't silence them.
+- Livewire searches three ways: `groups` filtered in the browser, `remote` with `search-change`, or a JSON `url`, which defaults to the 2.x `artisanpack.spotlight` route because a palette usually sits in a layout outside any Livewire component.
+- Recent choices in `localStorage` are opt-in (`recent`), so nothing about what someone searched for is kept on the device unless the app asks for it.
+- React and Vue export `Spotlight`; `SpotlightSearch` stays as a deprecated alias.
+
+**Why.** Rebuilding the focus trap, dismissal, active descendant and announcements for one component would duplicate two machines that are already tested (D-015).
+
+## D-023: The navigation Menu is a list of links with disclosure sub-menus; Tabs is an engine widget
+
+**Decision.**
+
+- **Menu is not an engine widget.** It's a nav landmark of links, not an ARIA `menu`: Zag's menu machine is a popup `role=menu`, which is wrong for site navigation (DropdownMenu keeps it, D-019). A sub-menu is the disclosure pattern: a button with `aria-expanded` and `aria-controls` toggling a list that is `hidden` while closed. A sub-menu holding the current page renders open. Livewire keeps the open state in Alpine with `wire:ignore.self`, so a morph keeps what the person left. This takes Menu off D-015's list.
+- **Tabs is an engine widget** on `@zag-js/tabs`, with automatic or manual activation and arrow keys that follow the text direction. The spec's `panel` is Zag's `content`. Tabs `variant` is the spec's `segmented` · `underline`.
+- **Composition is the base and data is a convenience** (vocabulary), in all three stacks: Tabs and `tab`/`Tab` with `tabs`, Menu and `menu-item`, `menu-sub`, `menu-title`, `menu-separator` with `items`, Navbar and `navbar-item` with `links`, Steps and `step` with `steps`. Data renders before composed children.
+- Navbar's parts are the spec's `brand`, `links`, `link`, `search` and `actions`. On a narrow bar the links scroll sideways. Livewire `nav` stays as a deprecated alias of `navbar`.
+- The spec's Menubar isn't built in this wave.
+
+**Why.** A navigation list read as an application menu makes screen readers announce menu semantics and swallow arrow keys, which is the wrong model for links. Tabs is the one navigation widget with the roving focus and selection a machine is for.
+
+## D-024: Router links plug into navigation items without a component prop
+
+**Decision.**
+
+- **React:** link items take `renderLink` (Breadcrumbs items, Menu items and `MenuItem`). It receives the part's props, which the router's link spreads, so the markup matches a plain item. It's used only for an enabled item with an `href`.
+- **Vue:** a wrapper provides the router's link component through `MENU_LINK_KEY` (`provide(MENU_LINK_KEY, Link)`); `MenuItem` renders it in place of the `<a>` with the same attributes. Breadcrumbs has a scoped `link` slot.
+- **Livewire** uses `navigate` (`wire:navigate`), on by default as in 2.x, for internal links only: off-site, `#`, `mailto:` and new-tab links load normally (`SafeUrl::navigable()`). `:navigate="false"` turns it off, and the 2.x `no-wire-navigate` still does, deprecated.
+- `react-laravel` and `vue-laravel` wrap these for Inertia (`InertiaMenu`, `InertiaBreadcrumbs`) and keep their 2.x item shapes.
+
+**Why.** A link component isn't part of the component's API: it's how an app routes. Keeping it out of the declared props keeps the manifest the same in every stack, and lets Inertia, Vue Router or a plain `<a>` render identical markup.
+
+## D-025: Form wave consolidations: SelectGroup, Radio and `group`
+
+**Decision.**
+
+- **SelectGroup is Select with option groups.** Select's `options` accepts `{ label, options }` entries, rendered as native `<optgroup>` in every stack. Livewire's `select-group` is a deprecated alias. The spec's "attached controls that share an edge" half belongs to Input's `prepend`/`append`, not to Select.
+- **There is no standalone Radio.** Radios are RadioGroup parts (`item`, `box`, `control`, `indicator`, `itemText`, `itemDescription`), scoped `radio-group`, not the spec's shared `choice` scope: parity finds parts by the component's own scope.
+- **RadioGroup `variant` is `default` · `cards` · `segmented`.** `segmented` replaces Livewire's `group`; the spec doesn't draw it, so it's built from Button's tokens.
+- **CheckboxGroup reuses the pilot Checkbox** for its items and select-all (mixed state).
+- **File** keeps its name in every stack (vocabulary rule 5); Vue's `FileUpload` is a deprecated alias.
+
+**Why.** The platform renders option groups accessibly with no new component, and the spec says SelectGroup is "built from Select". A shared `choice` scope would hide the items from the parity gate.
+
+## D-026: ColorPicker is an engine widget
+
+**Decision.**
+
+- ColorPicker joins D-015's engine widgets, on `@zag-js/color-picker`. The spec's popover needs a 2D area and channel sliders with pointer and keyboard handling, which the machine supplies for all three stacks.
+- The root class is on the field (as in D-020 and D-021). The spec's swatch is Zag's `trigger`; the popover is `positioner` + `content`; the area, sliders, swatches and eyedropper keep Zag's names. The text value (`control`) stays outside the popover, so a color can always be typed.
+- Values are text in `format`: `hex` (default), `rgb`, `hsl` or `oklch`. Zag's color utilities don't do OKLCH, so the widget converts sRGB ↔ OKLab ↔ OKLCH itself, clipped to the sRGB gamut. `alpha: false` drops the opacity slider.
+- Zag mirrors the area and sliders in RTL but doesn't swap ArrowLeft and ArrowRight, so the widget does. Zag's English labels are replaced by translatable props. The eyedropper is hidden where the browser has no `EyeDropper`.
+
+**Why.** A native `<input type=color>` can't draw the spec's picker, and an in-house area and sliders would be one more machine to keep at parity.
+
+## D-027: A field with several controls binds through `x-modelable`
+
+**Decision.**
+
+- A field with one native control keeps D-018: every attribute but `class` goes to the control, and `wire:model` binds natively.
+- A field whose value spans several native controls (Range with `dual`) puts `wire:model` on its root with `x-modelable`, holds the value in Alpine, and passes the other attributes to each control. The parity kit counts `x-modelable` as `wire:model` binding.
+- Alpine state that mirrors a natively bound control (Textarea's counter, Password's strength meter, Pin's cells, Range's fill) re-reads the control after each Livewire commit, because a server change sets `el.value` without an input event.
+
+**Why.** Two controls can't share one native `wire:model`. `x-modelable` is how Livewire binds a composite value, and keeping the other attributes on the controls keeps `name`, `aria-*` and modifiers where people expect them.
+
+## D-028: Form helpers that aren't machines live in `behavior/form`
+
+**Decision.**
+
+- Signature, RichTextEditor and CodeEditor aren't Zag machines. Their logic (drawing on a canvas, sanitizing and converting rich text, indenting code) lives once in `@artisanpack-ui/behavior`'s `src/form`, with Chromium tests. Alpine registers `apuiSignature`, `apuiRichTextEditor` and `apuiCodeEditor`; React and Vue call the helpers directly. This amends the behavior README's "engine widgets only".
+- RichTextEditor is the D-003 exception: Livewire runs TinyMCE under the design-system toolbar when the page loads it and the built-in editor otherwise; React and Vue use the built-in editor. The manifest records the difference. Output is `html` or `markdown`.
+- Every Signature mode (drawn, typed, uploaded) produces a PNG data URL, so `value` has one shape.
+- CodeEditor is a textarea with code keys (indent, outdent, line numbers); it has no syntax highlighting, and its content stays LTR (D-004).
+
+**Why.** Three hand-written copies of a signature pad and a sanitizer are where the stacks drifted before. One tested implementation in the package every stack already loads keeps them identical, which the cross-stack gate checks pixel for pixel.

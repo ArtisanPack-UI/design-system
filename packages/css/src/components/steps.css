@@ -1,0 +1,195 @@
+/*
+ * Steps (#56). Root `.apui-steps` is the ordered list, with data-orientation
+ * (horizontal, vertical). Parts: step (li, data-state complete, current,
+ * upcoming or error), marker, title (a button on completed steps when
+ * clickable), connector and description. The connector is an aria-hidden
+ * element rather than a pseudo-element, so it is a stylable part; it isn't
+ * drawn after the last step.
+ */
+@layer apui.components {
+  .apui-steps {
+    display: flex;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    color: var(--apui-text-default);
+    font-family: var(--apui-font-family-sans);
+    list-style: none;
+  }
+
+  [data-scope='steps'][data-part='step'] {
+    display: grid;
+    flex: 1;
+    grid-template-columns: auto auto 1fr;
+    align-items: center;
+    gap: 2px 8px;
+    min-inline-size: 0;
+  }
+
+  [data-scope='steps'][data-part='marker'] {
+    display: grid;
+    grid-column: 1;
+    place-items: center;
+    box-sizing: border-box;
+    inline-size: 28px;
+    block-size: 28px;
+    margin-inline-end: 2px;
+    border: var(--apui-border-width) solid var(--apui-border-default);
+    border-radius: var(--apui-radius-full);
+    background: var(--apui-surface-default);
+    color: var(--apui-text-muted);
+    font-size: var(--apui-type-body-sm-font-size);
+    font-variant-numeric: tabular-nums;
+    font-weight: var(--apui-font-weight-semibold);
+    line-height: 1;
+  }
+
+  [data-scope='steps'][data-part='marker'] > svg {
+    inline-size: 14px;
+    block-size: 14px;
+    stroke-width: 2.5;
+  }
+
+  [data-scope='steps'][data-part='title'] {
+    grid-column: 2;
+    min-inline-size: 0;
+    color: var(--apui-text-muted);
+    font-size: var(--apui-type-body-sm-font-size);
+    font-weight: var(--apui-font-weight-medium);
+    line-height: var(--apui-type-body-sm-line-height);
+  }
+
+  /* A completed step's title when clickable. */
+  button[data-scope='steps'][data-part='title'] {
+    padding: 0;
+    border: 0;
+    border-radius: var(--apui-radius-xs);
+    background: none;
+    cursor: pointer;
+    font-family: inherit;
+    text-align: start;
+  }
+
+  button[data-scope='steps'][data-part='title']:hover {
+    text-decoration-line: underline;
+    text-underline-offset: 3px;
+  }
+
+  button[data-scope='steps'][data-part='title']:focus-visible {
+    outline: var(--apui-focus-ring-width) solid transparent;
+    box-shadow:
+      0 0 0 var(--apui-focus-ring-offset) var(--apui-focus-ring-offset-color),
+      0 0 0 calc(var(--apui-focus-ring-offset) + var(--apui-focus-ring-width))
+        var(--apui-focus-ring-color);
+  }
+
+  [data-scope='steps'][data-part='connector'] {
+    grid-column: 3;
+    min-inline-size: 16px;
+    block-size: 2px;
+    border-radius: 2px;
+    background: var(--apui-border-muted);
+  }
+
+  [data-scope='steps'][data-part='step']:last-child > [data-scope='steps'][data-part='connector'] {
+    display: none;
+  }
+
+  [data-scope='steps'][data-part='description'] {
+    grid-column: 2 / -1;
+    color: var(--apui-text-muted);
+    font-size: var(--apui-type-caption-font-size);
+    line-height: var(--apui-type-caption-line-height);
+  }
+
+  /* States */
+  [data-scope='steps'][data-part='step'][data-state='complete'] > [data-part='marker'] {
+    border-color: var(--apui-color-primary);
+    background: var(--apui-color-primary);
+    color: var(--apui-color-primary-foreground);
+  }
+
+  [data-scope='steps'][data-part='step']:is([data-state='complete'], [data-state='current'])
+    > [data-part='title'] {
+    color: var(--apui-text-default);
+  }
+
+  [data-scope='steps'][data-part='step'][data-state='complete'] > [data-part='connector'] {
+    background: var(--apui-color-primary);
+  }
+
+  [data-scope='steps'][data-part='step'][data-state='current'] > [data-part='marker'] {
+    border: 2px solid var(--apui-color-primary);
+    box-shadow: 0 0 0 3px var(--apui-color-primary-soft);
+    color: var(--apui-color-primary-text);
+  }
+
+  [data-scope='steps'][data-part='step'][data-state='current'] > [data-part='title'] {
+    font-weight: var(--apui-font-weight-semibold);
+  }
+
+  [data-scope='steps'][data-part='step'][data-state='error'] > [data-part='marker'] {
+    border-color: var(--apui-color-error-border);
+    background: var(--apui-color-error-soft);
+    color: var(--apui-color-error-soft-foreground);
+  }
+
+  [data-scope='steps'][data-part='step'][data-state='error'] > [data-part='title'] {
+    color: var(--apui-color-error-text);
+  }
+
+  /* Vertical: the connector runs down from the marker. */
+  .apui-steps[data-orientation='vertical'] {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .apui-steps[data-orientation='vertical'] > [data-part='step'] {
+    position: relative;
+    grid-template-columns: auto 1fr;
+    align-items: start;
+    padding-block-end: 20px;
+  }
+
+  .apui-steps[data-orientation='vertical'] > [data-part='step'] > [data-part='title'] {
+    padding-block-start: 4px;
+  }
+
+  .apui-steps[data-orientation='vertical'] > [data-part='step'] > [data-part='connector'] {
+    position: absolute;
+    grid-column: auto;
+    inset-block: 32px 4px;
+    inset-inline-start: 13.5px;
+    inline-size: 1px;
+    min-inline-size: 0;
+    block-size: auto;
+  }
+
+  .apui-steps[data-orientation='vertical']
+    > [data-part='step'][data-state='complete']
+    > [data-part='connector'] {
+    inset-inline-start: 13px;
+    inline-size: 2px;
+  }
+
+  @media (forced-colors: active) {
+    [data-scope='steps'][data-part='marker'] {
+      border-color: CanvasText;
+    }
+
+    [data-scope='steps'][data-part='step'][data-state='complete'] > [data-part='marker'],
+    [data-scope='steps'][data-part='step'][data-state='complete'] > [data-part='connector'] {
+      border-color: Highlight;
+      background: Highlight;
+      color: HighlightText;
+    }
+
+    [data-scope='steps'][data-part='step'][data-state='current'] > [data-part='marker'] {
+      border-color: Highlight;
+    }
+
+    [data-scope='steps'][data-part='connector'] {
+      background: CanvasText;
+    }
+  }
+}

@@ -241,6 +241,35 @@ describe('axe and the manifest checks', () => {
   });
 });
 
+describe('manifest roles', () => {
+  it("accepts Chromium's image for role=img and still reports a wrong role", async () => {
+    const browser = await chromium.launch({ args: [...RENDER_ARGS] });
+    try {
+      const manifest = probe();
+      manifest.parts = manifest.parts.map((part) =>
+        part.name === 'root' ? { ...part, element: 'div' } : part,
+      );
+      manifest.a11y = { ...manifest.a11y, role: 'radiogroup', roles: ['img'] };
+      const sheet = fixtureSheets(manifest)[0]!;
+      const [first, second] = sheet.cases;
+      const render = (fixtureCase: typeof first, role: string) =>
+        `<div data-apui-case="${fixtureCase!.id}" data-apui-state="default"><div class="apui-probe" role="${role}" aria-label="4 out of 5">Probe</div></div>`;
+      const { page } = await openSheet(browser, {
+        sheet: { ...sheet, cases: [first!, second!] },
+        source: { kind: 'html', html: render(first, 'img') + render(second, 'button') },
+        css: css.map((file) => readFileSync(file, 'utf8')),
+        rootClass: 'apui-probe',
+      });
+      expect(await checkManifestA11y(page, manifest)).toEqual([
+        `${second!.id}: has role "button", expected "radiogroup" or "img"`,
+      ]);
+      await page.close();
+    } finally {
+      await browser.close();
+    }
+  });
+});
+
 describe('a11yChecklist', () => {
   it('lists the manifest keyboard rows per shipping stack', () => {
     const text = a11yChecklist(probe());

@@ -1,0 +1,337 @@
+{
+  "version": 1,
+  "component": "CheckboxGroup",
+  "rootClass": "apui-checkbox-group",
+  "stacks": [
+    "livewire",
+    "react",
+    "vue"
+  ],
+  "names": {
+    "livewire": "checkbox-group",
+    "react": "CheckboxGroup",
+    "vue": "CheckboxGroup"
+  },
+  "cases": [
+    {
+      "id": "variant=default state=default",
+      "props": {
+        "label": "Notify me about",
+        "value": [
+          "offers"
+        ],
+        "selectAll": true,
+        "options": [
+          {
+            "value": "offers",
+            "label": "New offers",
+            "description": "Within an hour of submission"
+          },
+          {
+            "value": "prices",
+            "label": "Price changes in saved searches"
+          },
+          {
+            "value": "digest",
+            "label": "Weekly analytics digest",
+            "disabled": true
+          }
+        ],
+        "variant": "default"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=default state=hover",
+      "props": {
+        "label": "Notify me about",
+        "value": [
+          "offers"
+        ],
+        "selectAll": true,
+        "options": [
+          {
+            "value": "offers",
+            "label": "New offers",
+            "description": "Within an hour of submission"
+          },
+          {
+            "value": "prices",
+            "label": "Price changes in saved searches"
+          },
+          {
+            "value": "digest",
+            "label": "Weekly analytics digest",
+            "disabled": true
+          }
+        ],
+        "variant": "default"
+      },
+      "state": "hover",
+      "content": null
+    },
+    {
+      "id": "variant=default state=focus-visible",
+      "props": {
+        "label": "Notify me about",
+        "value": [
+          "offers"
+        ],
+        "selectAll": true,
+        "options": [
+          {
+            "value": "offers",
+            "label": "New offers",
+            "description": "Within an hour of submission"
+          },
+          {
+            "value": "prices",
+            "label": "Price changes in saved searches"
+          },
+          {
+            "value": "digest",
+            "label": "Weekly analytics digest",
+            "disabled": true
+          }
+        ],
+        "variant": "default"
+      },
+      "state": "focus-visible",
+      "content": null
+    },
+    {
+      "id": "variant=default state=disabled",
+      "props": {
+        "label": "Notify me about",
+        "value": [
+          "offers"
+        ],
+        "selectAll": true,
+        "options": [
+          {
+            "value": "offers",
+            "label": "New offers",
+            "description": "Within an hour of submission"
+          },
+          {
+            "value": "prices",
+            "label": "Price changes in saved searches"
+          },
+          {
+            "value": "digest",
+            "label": "Weekly analytics digest",
+            "disabled": true
+          }
+        ],
+        "variant": "default",
+        "disabled": true
+      },
+      "state": "disabled",
+      "content": null
+    },
+    {
+      "id": "variant=default state=invalid",
+      "props": {
+        "label": "Notify me about",
+        "value": [
+          "offers"
+        ],
+        "selectAll": true,
+        "options": [
+          {
+            "value": "offers",
+            "label": "New offers",
+            "description": "Within an hour of submission"
+          },
+          {
+            "value": "prices",
+            "label": "Price changes in saved searches"
+          },
+          {
+            "value": "digest",
+            "label": "Weekly analytics digest",
+            "disabled": true
+          }
+        ],
+        "variant": "default",
+        "invalid": true
+      },
+      "state": "invalid",
+      "content": null
+    },
+    {
+      "id": "variant=cards state=default",
+      "props": {
+        "label": "Notify me about",
+        "value": [
+          "offers"
+        ],
+        "selectAll": true,
+        "options": [
+          {
+            "value": "offers",
+            "label": "New offers",
+            "description": "Within an hour of submission"
+          },
+          {
+            "value": "prices",
+            "label": "Price changes in saved searches"
+          },
+          {
+            "value": "digest",
+            "label": "Weekly analytics digest",
+            "disabled": true
+          }
+        ],
+        "variant": "cards"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=cards state=hover",
+      "props": {
+        "label": "Notify me about",
+        "value": [
+          "offers"
+        ],
+        "selectAll": true,
+        "options": [
+          {
+            "value": "offers",
+            "label": "New offers",
+            "description": "Within an hour of submission"
+          },
+          {
+            "value": "prices",
+            "label": "Price changes in saved searches"
+          },
+          {
+            "value": "digest",
+            "label": "Weekly analytics digest",
+            "disabled": true
+          }
+        ],
+        "variant": "cards"
+      },
+      "state": "hover",
+      "content": null
+    },
+    {
+      "id": "variant=cards state=focus-visible",
+      "props": {
+        "label": "Notify me about",
+        "value": [
+          "offers"
+        ],
+        "selectAll": true,
+        "options": [
+          {
+            "value": "offers",
+            "label": "New offers",
+            "description": "Within an hour of submission"
+          },
+          {
+            "value": "prices",
+            "label": "Price changes in saved searches"
+          },
+          {
+            "value": "digest",
+            "label": "Weekly analytics digest",
+            "disabled": true
+          }
+        ],
+        "variant": "cards"
+      },
+      "state": "focus-visible",
+      "content": null
+    },
+    {
+      "id": "variant=cards state=disabled",
+      "props": {
+        "label": "Notify me about",
+        "value": [
+          "offers"
+        ],
+        "selectAll": true,
+        "options": [
+          {
+            "value": "offers",
+            "label": "New offers",
+            "description": "Within an hour of submission"
+          },
+          {
+            "value": "prices",
+            "label": "Price changes in saved searches"
+          },
+          {
+            "value": "digest",
+            "label": "Weekly analytics digest",
+            "disabled": true
+          }
+        ],
+        "variant": "cards",
+        "disabled": true
+      },
+      "state": "disabled",
+      "content": null
+    },
+    {
+      "id": "variant=cards state=invalid",
+      "props": {
+        "label": "Notify me about",
+        "value": [
+          "offers"
+        ],
+        "selectAll": true,
+        "options": [
+          {
+            "value": "offers",
+            "label": "New offers",
+            "description": "Within an hour of submission"
+          },
+          {
+            "value": "prices",
+            "label": "Price changes in saved searches"
+          },
+          {
+            "value": "digest",
+            "label": "Weekly analytics digest",
+            "disabled": true
+          }
+        ],
+        "variant": "cards",
+        "invalid": true
+      },
+      "state": "invalid",
+      "content": null
+    }
+  ],
+  "sheets": [
+    {
+      "id": "light",
+      "theme": "light",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "dark",
+      "theme": "dark",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "high-contrast",
+      "theme": "high-contrast",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "rtl",
+      "theme": "light",
+      "density": "default",
+      "dir": "rtl"
+    }
+  ]
+}

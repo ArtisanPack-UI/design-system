@@ -1,0 +1,207 @@
+/*
+ * Toggle (#53). Root `.apui-toggle`: the track, then the label,
+ * description and error in the second column, like Checkbox. The native
+ * checkbox (control, role=switch) stays in the DOM, transparent over the
+ * track with a 6px larger hit area. The on state reads the native :checked,
+ * so the track follows a click before a deferred wire:model round trip
+ * re-renders data-state. The thumb moves toward the logical end, so it
+ * mirrors under RTL.
+ */
+@layer apui.components {
+  .apui-toggle {
+    --apui-_tw: 36px;
+    --apui-_th: 20px;
+    --apui-_kn: 14px;
+    --apui-_on: var(--apui-color-primary);
+    --apui-_on-fg: var(--apui-color-primary-foreground);
+
+    display: inline-grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: 10px;
+    row-gap: 2px;
+    align-items: start;
+    font-family: var(--apui-font-family-sans);
+    font-size: var(--apui-type-body-md-font-size);
+    line-height: var(--apui-type-body-md-line-height);
+  }
+
+  .apui-toggle[data-size='sm'] {
+    --apui-_tw: 28px;
+    --apui-_th: 16px;
+    --apui-_kn: 10px;
+
+    font-size: var(--apui-type-body-sm-font-size);
+    line-height: var(--apui-type-body-sm-line-height);
+  }
+
+  .apui-toggle[data-size='lg'] {
+    --apui-_tw: 44px;
+    --apui-_th: 24px;
+    --apui-_kn: 18px;
+  }
+
+  .apui-toggle[data-color='secondary'] {
+    --apui-_on: var(--apui-color-secondary);
+    --apui-_on-fg: var(--apui-color-secondary-foreground);
+  }
+
+  .apui-toggle[data-color='accent'] {
+    --apui-_on: var(--apui-color-accent);
+    --apui-_on-fg: var(--apui-color-accent-foreground);
+  }
+
+  .apui-toggle[data-color='neutral'] {
+    --apui-_on: var(--apui-color-neutral);
+    --apui-_on-fg: var(--apui-color-neutral-foreground);
+  }
+
+  .apui-toggle[data-color='success'] {
+    --apui-_on: var(--apui-color-success);
+    --apui-_on-fg: var(--apui-color-success-foreground);
+  }
+
+  .apui-toggle[data-color='warning'] {
+    --apui-_on: var(--apui-color-warning);
+    --apui-_on-fg: var(--apui-color-warning-foreground);
+  }
+
+  .apui-toggle[data-color='error'] {
+    --apui-_on: var(--apui-color-error);
+    --apui-_on-fg: var(--apui-color-error-foreground);
+  }
+
+  .apui-toggle[data-color='info'] {
+    --apui-_on: var(--apui-color-info);
+    --apui-_on-fg: var(--apui-color-info-foreground);
+  }
+
+  [data-scope='toggle'][data-part='track'] {
+    position: relative;
+    box-sizing: border-box;
+    inline-size: var(--apui-_tw);
+    block-size: var(--apui-_th);
+    margin-block-start: max(0px, calc((1lh - var(--apui-_th)) / 2));
+    border: var(--apui-border-width) solid var(--apui-border-default);
+    border-radius: var(--apui-radius-full);
+    background: var(--apui-surface-sunken);
+    transition:
+      background-color var(--apui-motion-duration-fast) var(--apui-motion-ease-standard),
+      border-color var(--apui-motion-duration-fast) var(--apui-motion-ease-standard);
+  }
+
+  [data-scope='toggle'][data-part='control'] {
+    position: absolute;
+    z-index: 1;
+    inset: -6px;
+    inline-size: calc(100% + 12px);
+    block-size: calc(100% + 12px);
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  [data-scope='toggle'][data-part='thumb'] {
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-start: 2px;
+    inline-size: var(--apui-_kn);
+    block-size: var(--apui-_kn);
+    border-radius: var(--apui-radius-full);
+    background: var(--apui-text-muted);
+    pointer-events: none;
+    transform: translateY(-50%);
+    transition:
+      inset-inline-start var(--apui-motion-duration-fast) var(--apui-motion-ease-standard),
+      background-color var(--apui-motion-duration-fast) var(--apui-motion-ease-standard);
+  }
+
+  [data-scope='toggle'][data-part='label'] {
+    grid-column: 2;
+    color: var(--apui-text-default);
+    cursor: pointer;
+  }
+
+  [data-scope='toggle'][data-part='description'] {
+    grid-column: 2;
+    margin: 0;
+    color: var(--apui-text-muted);
+    font-size: var(--apui-type-body-sm-font-size);
+    line-height: var(--apui-type-body-sm-line-height);
+  }
+
+  .apui-toggle > [data-scope='toggle'][data-part='error'] {
+    grid-column: 2;
+  }
+
+  /* Hover */
+  .apui-toggle:hover [data-scope='toggle'][data-part='track'],
+  [data-scope='toggle'][data-part='track']:has([data-part='control']:hover) {
+    border-color: var(--apui-border-strong);
+  }
+
+  /* On */
+  [data-scope='toggle'][data-part='track']:has([data-part='control']:checked) {
+    border-color: var(--apui-_on);
+    background: var(--apui-_on);
+  }
+
+  [data-scope='toggle'][data-part='track']:has([data-part='control']:checked)
+    > [data-part='thumb'] {
+    inset-inline-start: calc(var(--apui-_tw) - var(--apui-_kn) - 4px);
+    background: var(--apui-_on-fg);
+  }
+
+  /* Focus */
+  [data-scope='toggle'][data-part='track']:has([data-part='control']:focus-visible) {
+    outline: var(--apui-focus-ring-width) solid transparent;
+    box-shadow:
+      0 0 0 var(--apui-focus-ring-offset) var(--apui-focus-ring-offset-color),
+      0 0 0 calc(var(--apui-focus-ring-offset) + var(--apui-focus-ring-width))
+        var(--apui-focus-ring-color);
+  }
+
+  /* Invalid */
+  .apui-toggle[data-invalid] [data-scope='toggle'][data-part='track'] {
+    border-color: var(--apui-color-error-border);
+  }
+
+  /* Disabled: the sunken surface, never opacity alone. */
+  .apui-toggle[data-disabled] [data-scope='toggle'][data-part='track'],
+  .apui-toggle[data-disabled]
+    [data-scope='toggle'][data-part='track']:has([data-part='control']:checked) {
+    border-color: var(--apui-border-muted);
+    background: var(--apui-surface-sunken);
+  }
+
+  .apui-toggle[data-disabled] [data-scope='toggle'][data-part='thumb'],
+  .apui-toggle[data-disabled]
+    [data-scope='toggle'][data-part='track']:has([data-part='control']:checked)
+    > [data-part='thumb'] {
+    background: var(--apui-text-disabled);
+  }
+
+  .apui-toggle[data-disabled] [data-scope='toggle']:is([data-part='control'], [data-part='label']) {
+    cursor: not-allowed;
+  }
+
+  .apui-toggle[data-disabled] [data-scope='toggle'][data-part='label'] {
+    color: var(--apui-text-disabled);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-scope='toggle']:is([data-part='track'], [data-part='thumb']) {
+      transition: none;
+    }
+  }
+
+  @media (forced-colors: active) {
+    [data-scope='toggle'][data-part='track'] {
+      border-color: CanvasText;
+    }
+
+    [data-scope='toggle'][data-part='thumb'] {
+      background: CanvasText;
+      forced-color-adjust: none;
+    }
+  }
+}

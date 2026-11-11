@@ -1,0 +1,387 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "ColorPicker",
+  "description": "A color field: a swatch that opens a popover (saturation and brightness area, hue and opacity sliders, format select, eyedropper and preset swatches) and a text value that is always available for typing. On the behavior engine's color-picker machine (Zag).",
+  "status": "draft",
+  "issue": 53,
+  "rootClass": "apui-color-picker",
+  "stacks": {
+    "livewire": {
+      "name": "color-picker",
+      "capabilities": [
+        "wire:model binds value (text in the current format) through $wire.entangle()",
+        "colorpicker stays as a deprecated alias"
+      ]
+    },
+    "react": { "name": "ColorPicker" },
+    "vue": { "name": "ColorPicker" }
+  },
+  "props": [
+    {
+      "name": "value",
+      "type": "string",
+      "description": "The color as text in any of the formats (#1f74bf, rgb(…), hsl(…), oklch(…)); reported back in the current format. Livewire binds it with wire:model, Vue with v-model."
+    },
+    {
+      "name": "defaultValue",
+      "type": "string",
+      "description": "The initial color of an uncontrolled picker.",
+      "stacks": ["react"]
+    },
+    {
+      "name": "format",
+      "type": "enum",
+      "values": ["hex", "rgb", "hsl", "oklch"],
+      "default": "hex",
+      "description": "The text format of the value. The format select switches it, rewriting the value. Emitted as data-format."
+    },
+    {
+      "name": "alpha",
+      "type": "boolean",
+      "default": true,
+      "description": "Offers opacity: the opacity slider, and an alpha in the text (#rrggbbaa, / 0.5) when below 1. Off keeps every value opaque."
+    },
+    {
+      "name": "swatches",
+      "type": "array",
+      "description": "Preset colors as text, such as the brand palette, shown in the popover."
+    },
+    {
+      "name": "size",
+      "type": "enum",
+      "values": ["sm", "md", "lg"],
+      "default": "md",
+      "description": "Control height, matching Input. Emitted as data-size."
+    },
+    {
+      "name": "label",
+      "type": "node",
+      "description": "The visible label, linked to the text value."
+    },
+    {
+      "name": "hint",
+      "type": "node",
+      "description": "Help text under the field, linked with aria-describedby."
+    },
+    {
+      "name": "error",
+      "type": "string",
+      "description": "Validation message. Marks the field invalid and is linked with aria-describedby."
+    },
+    {
+      "name": "invalid",
+      "type": "boolean",
+      "default": false,
+      "description": "Marks the field invalid without a message. Emitted as data-invalid.",
+      "a11y": "Sets aria-invalid on the text value."
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": false,
+      "description": "Disables the field and the popover's controls."
+    },
+    {
+      "name": "required",
+      "type": "boolean",
+      "default": false,
+      "description": "Marks the field required and shows the required mark.",
+      "a11y": "Sets required on the text value."
+    },
+    {
+      "name": "open",
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the popover is open. Vue binds it with v-model:open. Emitted as data-state."
+    },
+    {
+      "name": "defaultOpen",
+      "type": "boolean",
+      "default": false,
+      "description": "The initial state of an uncontrolled popover.",
+      "stacks": ["react"]
+    },
+    {
+      "name": "portal",
+      "type": "boolean",
+      "default": true,
+      "description": "Renders the popover at the end of the body (x-teleport, a React portal, Vue Teleport). Off renders it in place."
+    },
+    {
+      "name": "triggerLabel",
+      "type": "string",
+      "default": "Choose a color",
+      "description": "The swatch button's and the popover's accessible name. Translated by default."
+    },
+    {
+      "name": "areaLabel",
+      "type": "string",
+      "default": "Saturation and brightness",
+      "description": "The area's accessible name. Translated by default."
+    },
+    {
+      "name": "hueLabel",
+      "type": "string",
+      "default": "Hue",
+      "description": "The hue slider's accessible name. Translated by default."
+    },
+    {
+      "name": "alphaLabel",
+      "type": "string",
+      "default": "Opacity",
+      "description": "The opacity slider's accessible name. Translated by default."
+    },
+    {
+      "name": "formatLabel",
+      "type": "string",
+      "default": "Format",
+      "description": "The format select's accessible name. Translated by default."
+    },
+    {
+      "name": "eyeDropperLabel",
+      "type": "string",
+      "default": "Pick a color from the screen",
+      "description": "The eyedropper's accessible name. Translated by default."
+    },
+    {
+      "name": "swatchesLabel",
+      "type": "string",
+      "default": "Swatches",
+      "description": "The preset swatch group's accessible name. Translated by default."
+    },
+    {
+      "name": "errorField",
+      "type": "string",
+      "description": "The validation key to read from $errors. Defaults to the wire:model name.",
+      "stacks": ["livewire"]
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part, such as { trigger: '…', content: '…' }."
+    }
+  ],
+  "sizes": ["sm", "md", "lg"],
+  "parts": [
+    {
+      "name": "root",
+      "element": "div",
+      "description": "The field: label, box, hint and error, then the popover. Zag's root part."
+    },
+    {
+      "name": "label",
+      "element": "label",
+      "description": "The visible label, for the text value."
+    },
+    {
+      "name": "required",
+      "element": "span",
+      "description": "The required mark inside the label. Hidden from screen readers; the text value is required."
+    },
+    {
+      "name": "box",
+      "element": "div",
+      "description": "The bordered box around the trigger and the text value: Zag's control part, renamed to the field anatomy's box (D-018)."
+    },
+    {
+      "name": "trigger",
+      "element": "button",
+      "description": "The spec's swatch: a button at the start of the box that opens the popover. Zag's trigger."
+    },
+    {
+      "name": "swatch",
+      "element": "span",
+      "description": "A color fill: the current color in the trigger, or a preset in a swatch trigger."
+    },
+    {
+      "name": "control",
+      "element": "input",
+      "description": "The text value, always visible. Enter or blur sets the color from any format. Attributes other than class land here."
+    },
+    { "name": "hint", "element": "p", "description": "Help text." },
+    { "name": "error", "element": "p", "description": "Validation message, with an icon." },
+    {
+      "name": "positioner",
+      "element": "div",
+      "description": "Places the popover under the field."
+    },
+    {
+      "name": "content",
+      "element": "div",
+      "description": "The popover (role=dialog), named by triggerLabel."
+    },
+    {
+      "name": "area",
+      "element": "div",
+      "description": "The saturation (inline axis) and brightness (block axis) area."
+    },
+    {
+      "name": "areaBackground",
+      "element": "div",
+      "description": "The area's gradients, drawn by the machine for the current hue."
+    },
+    {
+      "name": "areaThumb",
+      "element": "div",
+      "description": "The spec's cursor: a 2D slider (role=slider) with aria-valuetext."
+    },
+    {
+      "name": "channelSlider",
+      "element": "div",
+      "description": "A channel slider, data-channel=\"hue\" or \"alpha\"."
+    },
+    {
+      "name": "channelSliderTrack",
+      "element": "div",
+      "description": "The slider's track, with the channel's gradient."
+    },
+    {
+      "name": "channelSliderThumb",
+      "element": "div",
+      "description": "The slider's thumb (role=slider), with aria-valuetext in degrees or percent."
+    },
+    {
+      "name": "transparencyGrid",
+      "element": "div",
+      "description": "The checkerboard under the opacity slider's gradient."
+    },
+    {
+      "name": "row",
+      "element": "div",
+      "description": "The row with the format select and the eyedropper."
+    },
+    {
+      "name": "formatSelect",
+      "element": "select",
+      "description": "A native select of the text formats: HEX, RGB, HSL, OKLCH."
+    },
+    {
+      "name": "eyeDropperTrigger",
+      "element": "button",
+      "description": "Picks a color from the screen. Hidden where the browser has no EyeDropper API."
+    },
+    {
+      "name": "swatchGroup",
+      "element": "div",
+      "description": "role=group of the preset swatches, named by swatchesLabel."
+    },
+    {
+      "name": "swatchTrigger",
+      "element": "button",
+      "description": "One preset, named by its value, aria-pressed while it is the color."
+    }
+  ],
+  "events": [
+    {
+      "name": "value-change",
+      "description": "The color changed: dragged, typed, picked, chosen from a swatch, or rewritten by a format change. Reports the text in the current format.",
+      "payload": "string"
+    },
+    {
+      "name": "open-change",
+      "description": "The popover opened or closed itself: the trigger, Escape or an outside click. Setting open doesn't fire it.",
+      "payload": "boolean"
+    },
+    {
+      "name": "format-change",
+      "description": "The format select changed the text format.",
+      "payload": "'hex' | 'rgb' | 'hsl' | 'oklch'"
+    }
+  ],
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Tab",
+        "action": "Moves between the trigger and the text value; in the popover, between the area, the sliders, the format select, the eyedropper and the swatches."
+      },
+      {
+        "keys": "Enter, Space",
+        "action": "On the trigger, opens the popover; on a swatch, chooses it."
+      },
+      {
+        "keys": "ArrowLeft, ArrowRight",
+        "action": "On the area, less or more saturation; on a slider, less or more of its channel. They follow the text direction, so they swap under RTL."
+      },
+      {
+        "keys": "ArrowUp, ArrowDown",
+        "action": "On the area, more or less brightness; on a slider, more or less of its channel."
+      },
+      { "keys": "PageUp, PageDown, Shift+Arrow", "action": "Larger steps." },
+      { "keys": "Enter", "action": "In the text value, sets the color from the typed text." },
+      { "keys": "Escape", "action": "Closes the popover and returns focus to the trigger." }
+    ],
+    "requirements": [
+      "The text value is always visible outside the popover and always available for typing, in any of the four formats.",
+      "The area and sliders are keyboard-operable role=slider elements with aria-valuetext (\"72%, 75%\", \"208°\", \"80%\").",
+      "The area and sliders mirror under RTL, and ArrowLeft and ArrowRight follow the text direction.",
+      "Swatches are buttons named by their value, with aria-pressed on the current one, in a named group.",
+      "The trigger is labelled and reports aria-expanded and aria-controls; the popover is a named dialog.",
+      "The eyedropper is hidden where the browser can't pick from the screen.",
+      "Every built-in label is a translatable prop.",
+      "Hint and error are linked to the text value with aria-describedby; invalid sets aria-invalid.",
+      "Every server-rendered part keeps a stable id in Livewire; the popover is wire:ignore (D-015)."
+    ],
+    "wcag": [
+      "1.3.1",
+      "1.4.3",
+      "1.4.11",
+      "2.1.1",
+      "2.4.3",
+      "2.4.7",
+      "2.5.7",
+      "2.5.8",
+      "3.3.1",
+      "3.3.2",
+      "4.1.2"
+    ]
+  },
+  "tokens": [
+    "--apui-input-radius",
+    "--apui-popover-radius",
+    "--apui-control-height-sm",
+    "--apui-control-height-md",
+    "--apui-control-height-lg",
+    "--apui-radius-xs",
+    "--apui-radius-md",
+    "--apui-radius-full",
+    "--apui-surface-default",
+    "--apui-surface-sunken",
+    "--apui-surface-overlay",
+    "--apui-elevation-overlay",
+    "--apui-z-dropdown",
+    "--apui-border-default",
+    "--apui-border-strong",
+    "--apui-border-muted",
+    "--apui-color-error-border",
+    "--apui-color-error-text",
+    "--apui-text-default",
+    "--apui-text-muted",
+    "--apui-text-disabled",
+    "--apui-font-family-mono",
+    "--apui-focus-ring-color"
+  ],
+  "fixture": {
+    "props": {
+      "label": "Primary color",
+      "value": "#1f74bf",
+      "swatches": [
+        "#1f74bf",
+        "#0b9488",
+        "#1f6f3d",
+        "#de9d16",
+        "#e88761",
+        "#c92f33",
+        "#91256c",
+        "#23272b"
+      ],
+      "open": true,
+      "portal": false
+    },
+    "parts": {
+      "required": true,
+      "hint": "Used for buttons and links.",
+      "error": "Enter a color, such as #1f74bf."
+    },
+    "states": ["hover", "focus-visible", "disabled", "invalid"]
+  }
+}

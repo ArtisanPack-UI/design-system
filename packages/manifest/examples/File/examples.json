@@ -1,0 +1,17 @@
+[
+  {
+    "id": "dropzone",
+    "title": "Drop zone",
+    "description": "Drop files or browse. The list shows each file's size, upload progress and errors, with a labelled remove button."
+  },
+  {
+    "id": "compact",
+    "title": "Compact",
+    "description": "A single-row drop zone for one document."
+  },
+  {
+    "id": "states",
+    "title": "Validation and disabled",
+    "description": "The error is linked to the input. Disabled uses the sunken surface."
+  }
+]

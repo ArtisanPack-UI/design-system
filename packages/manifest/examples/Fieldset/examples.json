@@ -1,0 +1,12 @@
+[
+  {
+    "id": "basic",
+    "title": "Panel",
+    "description": "The legend names the group, so it's announced with each field. Fields side by side go in a row."
+  },
+  {
+    "id": "variants",
+    "title": "Divided and plain",
+    "description": "divided separates sections of a long form with an edge; plain has no chrome. disabled disables every control inside."
+  }
+]

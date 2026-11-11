@@ -1,0 +1,258 @@
+{
+  "version": 1,
+  "component": "Range",
+  "rootClass": "apui-range",
+  "stacks": [
+    "livewire",
+    "react",
+    "vue"
+  ],
+  "names": {
+    "livewire": "range",
+    "react": "Range",
+    "vue": "Range"
+  },
+  "cases": [
+    {
+      "id": "size=sm state=default",
+      "props": {
+        "label": "Search radius",
+        "value": 20,
+        "max": 50,
+        "format": "{value} km",
+        "size": "sm"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "size=sm state=hover",
+      "props": {
+        "label": "Search radius",
+        "value": 20,
+        "max": 50,
+        "format": "{value} km",
+        "size": "sm"
+      },
+      "state": "hover",
+      "content": null
+    },
+    {
+      "id": "size=sm state=focus-visible",
+      "props": {
+        "label": "Search radius",
+        "value": 20,
+        "max": 50,
+        "format": "{value} km",
+        "size": "sm"
+      },
+      "state": "focus-visible",
+      "content": null
+    },
+    {
+      "id": "size=sm state=disabled",
+      "props": {
+        "label": "Search radius",
+        "value": 20,
+        "max": 50,
+        "format": "{value} km",
+        "size": "sm",
+        "disabled": true
+      },
+      "state": "disabled",
+      "content": null
+    },
+    {
+      "id": "size=sm state=invalid",
+      "props": {
+        "label": "Search radius",
+        "value": 20,
+        "max": 50,
+        "format": "{value} km",
+        "size": "sm",
+        "invalid": true
+      },
+      "state": "invalid",
+      "content": null
+    },
+    {
+      "id": "size=md state=default",
+      "props": {
+        "label": "Search radius",
+        "value": 20,
+        "max": 50,
+        "format": "{value} km",
+        "size": "md"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "size=md state=hover",
+      "props": {
+        "label": "Search radius",
+        "value": 20,
+        "max": 50,
+        "format": "{value} km",
+        "size": "md"
+      },
+      "state": "hover",
+      "content": null
+    },
+    {
+      "id": "size=md state=focus-visible",
+      "props": {
+        "label": "Search radius",
+        "value": 20,
+        "max": 50,
+        "format": "{value} km",
+        "size": "md"
+      },
+      "state": "focus-visible",
+      "content": null
+    },
+    {
+      "id": "size=md state=disabled",
+      "props": {
+        "label": "Search radius",
+        "value": 20,
+        "max": 50,
+        "format": "{value} km",
+        "size": "md",
+        "disabled": true
+      },
+      "state": "disabled",
+      "content": null
+    },
+    {
+      "id": "size=md state=invalid",
+      "props": {
+        "label": "Search radius",
+        "value": 20,
+        "max": 50,
+        "format": "{value} km",
+        "size": "md",
+        "invalid": true
+      },
+      "state": "invalid",
+      "content": null
+    },
+    {
+      "id": "size=md color=secondary state=default",
+      "props": {
+        "label": "Search radius",
+        "value": 20,
+        "max": 50,
+        "format": "{value} km",
+        "size": "md",
+        "color": "secondary"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "size=md color=accent state=default",
+      "props": {
+        "label": "Search radius",
+        "value": 20,
+        "max": 50,
+        "format": "{value} km",
+        "size": "md",
+        "color": "accent"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "size=md color=neutral state=default",
+      "props": {
+        "label": "Search radius",
+        "value": 20,
+        "max": 50,
+        "format": "{value} km",
+        "size": "md",
+        "color": "neutral"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "size=md color=success state=default",
+      "props": {
+        "label": "Search radius",
+        "value": 20,
+        "max": 50,
+        "format": "{value} km",
+        "size": "md",
+        "color": "success"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "size=md color=warning state=default",
+      "props": {
+        "label": "Search radius",
+        "value": 20,
+        "max": 50,
+        "format": "{value} km",
+        "size": "md",
+        "color": "warning"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "size=md color=error state=default",
+      "props": {
+        "label": "Search radius",
+        "value": 20,
+        "max": 50,
+        "format": "{value} km",
+        "size": "md",
+        "color": "error"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "size=md color=info state=default",
+      "props": {
+        "label": "Search radius",
+        "value": 20,
+        "max": 50,
+        "format": "{value} km",
+        "size": "md",
+        "color": "info"
+      },
+      "state": "default",
+      "content": null
+    }
+  ],
+  "sheets": [
+    {
+      "id": "light",
+      "theme": "light",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "dark",
+      "theme": "dark",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "high-contrast",
+      "theme": "high-contrast",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "rtl",
+      "theme": "light",
+      "density": "default",
+      "dir": "rtl"
+    }
+  ]
+}

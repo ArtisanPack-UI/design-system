@@ -1,0 +1,160 @@
+{
+  "version": 1,
+  "component": "CodeEditor",
+  "rootClass": "apui-code-editor",
+  "stacks": [
+    "livewire",
+    "react",
+    "vue"
+  ],
+  "names": {
+    "livewire": "code-editor",
+    "react": "CodeEditor",
+    "vue": "CodeEditor"
+  },
+  "cases": [
+    {
+      "id": "state=default",
+      "props": {
+        "label": "Source",
+        "rows": 6,
+        "tabs": [
+          {
+            "value": "format-price.ts",
+            "label": "format-price.ts"
+          },
+          {
+            "value": "listing.blade.php",
+            "label": "listing.blade.php"
+          }
+        ]
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "state=hover",
+      "props": {
+        "label": "Source",
+        "rows": 6,
+        "tabs": [
+          {
+            "value": "format-price.ts",
+            "label": "format-price.ts"
+          },
+          {
+            "value": "listing.blade.php",
+            "label": "listing.blade.php"
+          }
+        ]
+      },
+      "state": "hover",
+      "content": null
+    },
+    {
+      "id": "state=focus-visible",
+      "props": {
+        "label": "Source",
+        "rows": 6,
+        "tabs": [
+          {
+            "value": "format-price.ts",
+            "label": "format-price.ts"
+          },
+          {
+            "value": "listing.blade.php",
+            "label": "listing.blade.php"
+          }
+        ]
+      },
+      "state": "focus-visible",
+      "content": null
+    },
+    {
+      "id": "state=disabled",
+      "props": {
+        "label": "Source",
+        "rows": 6,
+        "tabs": [
+          {
+            "value": "format-price.ts",
+            "label": "format-price.ts"
+          },
+          {
+            "value": "listing.blade.php",
+            "label": "listing.blade.php"
+          }
+        ],
+        "disabled": true
+      },
+      "state": "disabled",
+      "content": null
+    },
+    {
+      "id": "state=invalid",
+      "props": {
+        "label": "Source",
+        "rows": 6,
+        "tabs": [
+          {
+            "value": "format-price.ts",
+            "label": "format-price.ts"
+          },
+          {
+            "value": "listing.blade.php",
+            "label": "listing.blade.php"
+          }
+        ],
+        "invalid": true
+      },
+      "state": "invalid",
+      "content": null
+    },
+    {
+      "id": "state=readonly",
+      "props": {
+        "label": "Source",
+        "rows": 6,
+        "tabs": [
+          {
+            "value": "format-price.ts",
+            "label": "format-price.ts"
+          },
+          {
+            "value": "listing.blade.php",
+            "label": "listing.blade.php"
+          }
+        ],
+        "readonly": true
+      },
+      "state": "readonly",
+      "content": null
+    }
+  ],
+  "sheets": [
+    {
+      "id": "light",
+      "theme": "light",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "dark",
+      "theme": "dark",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "high-contrast",
+      "theme": "high-contrast",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "rtl",
+      "theme": "light",
+      "density": "default",
+      "dir": "rtl"
+    }
+  ]
+}

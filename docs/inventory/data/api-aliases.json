@@ -69,7 +69,7 @@
     ],
     "RadioGroup": [
       { "from": "inline", "to": "orientation", "note": "`orientation=\"horizontal\"`. Only on option groups: on Input, `inline` means a floating label." },
-      { "stack": "livewire", "from": "card", "to": "variant", "note": "`variant=\"card\"`." }
+      { "stack": "livewire", "from": "card", "to": "variant", "note": "`variant=\"cards\"` (D-025)." }
     ],
     "Stat": [
       { "from": "tooltipPosition", "to": "tooltipPosition" }
@@ -85,6 +85,51 @@
     ],
     "File": [
       { "from": "multiple", "to": "multiple" }
+    ],
+    "Combobox": [
+      { "stack": "livewire", "from": "single", "to": null, "note": "Inverted: add `multiple` when the old tag had no `single`. `choices` and `choices-offline` were multiple by default; `tags` becomes `multiple` + `allowCreate`." },
+      { "stack": "livewire", "from": "searchable", "to": null, "note": "`choices`: becomes `remote` (server search). `choices-offline`: dropped, filtering is always on." },
+      { "stack": "livewire", "from": "searchFunction", "to": "searchModel", "note": "Manual: a method name became a property name. Or keep the method with `wire:search-change`." },
+      { "stack": "livewire", "from": "debounce", "to": "debounce", "note": "A `250ms` string becomes integer milliseconds (`:debounce=\"250\"`)." },
+      { "stack": "livewire", "from": "minChars", "to": null, "note": "Check the length in the `search-model` handler." },
+      { "stack": "livewire", "from": "optionValue", "to": null, "note": "Manual: map options to `{ value, label, description }`." },
+      { "stack": "livewire", "from": "optionLabel", "to": null, "note": "Manual: see `optionValue`." },
+      { "stack": "livewire", "from": "optionSubLabel", "to": null, "note": "Manual: becomes each option's `description`." },
+      { "stack": "livewire", "from": "optionAvatar", "to": null, "note": "Use the option's `icon` or the `item` scoped slot." },
+      { "stack": "livewire", "from": "noResultText", "to": "emptyLabel" },
+      { "stack": "livewire", "from": "icon", "to": "leadingIcon" },
+      { "stack": "livewire", "from": "iconRight", "to": null },
+      { "stack": "livewire", "from": "allowCustomTags", "to": "allowCreate", "note": "`tags` only." },
+      { "stack": "livewire", "from": "customTagsText", "to": "createLabel", "note": "`tags` only; `:value` is the typed text." },
+      { "stack": "livewire", "from": "compact", "to": null },
+      { "stack": "livewire", "from": "compactText", "to": null },
+      { "stack": "livewire", "from": "allowAll", "to": null },
+      { "stack": "livewire", "from": "allowAllText", "to": null },
+      { "stack": "livewire", "from": "removeAllText", "to": null },
+      { "stack": "livewire", "from": "valuesAsString", "to": null },
+      { "stack": "livewire", "from": "height", "to": null },
+      { "stack": "livewire", "from": "inline", "to": null },
+      { "stack": "livewire", "from": "prefix", "to": null },
+      { "stack": "livewire", "from": "suffix", "to": null },
+      { "stack": "livewire", "from": "hintClass", "to": "classes", "note": "`classes.hint`." },
+      { "stack": "livewire", "from": "errorClass", "to": "classes", "note": "`classes.error`." },
+      { "stack": "livewire", "from": "omitError", "to": null },
+      { "stack": "livewire", "from": "firstErrorOnly", "to": null },
+      { "stack": "livewire", "from": "lazyLoad", "to": null },
+      { "stack": "livewire", "from": "lazyLoadMethod", "to": null },
+      { "stack": "livewire", "from": "lazyLoadModifier", "to": null },
+      { "stack": "livewire", "from": "hasMoreOptions", "to": null },
+      { "stack": "livewire", "from": "selection", "to": null, "note": "Slot removed; chips render the label." },
+      { "stack": "livewire", "from": "prepend", "to": null },
+      { "stack": "livewire", "from": "append", "to": null }
+    ],
+    "Spotlight": [
+      { "stack": "livewire", "from": "searchText", "to": "placeholder", "note": "Deprecated alias kept in 3.0." },
+      { "stack": "livewire", "from": "noResultsText", "to": "emptyText", "note": "Deprecated alias kept in 3.0." },
+      { "stack": "livewire", "from": "append", "to": "footer", "note": "Slot. Deprecated alias kept in 3.0." }
+    ],
+    "Pin": [
+      { "stack": "livewire", "from": "size", "to": "length", "note": "The number of cells." }
     ]
   }
 }

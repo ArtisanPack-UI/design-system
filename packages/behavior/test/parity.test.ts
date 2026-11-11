@@ -160,7 +160,7 @@ describe('parity across Alpine, React and Vue', () => {
       'close-trigger',
     ]);
     expect(new Set(combobox.closed.map((part) => part['data-part']))).toEqual(
-      new Set(['label', 'control', 'input', 'trigger', 'positioner', 'content', 'item', 'empty']),
+      new Set(['label', 'box', 'control', 'trigger', 'positioner', 'content', 'item', 'empty']),
     );
     const { menu, toast } = alpine as {
       menu: { closed: { 'data-part': string }[] };

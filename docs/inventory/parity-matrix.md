@@ -34,7 +34,7 @@ React and Vue match each other almost everywhere; the only exports that differ a
 | Canonical | Issue | Livewire | React | Vue | Notes |
 |---|---|---|---|---|---|
 | **Combobox** | #54 | `choices` `choices-offline` | — | — | New to React and Vue. |
-| **Tags** | #53 | `tags` | — | — |  |
+| **Tags** | #54 | `tags` | — | — |  |
 | **SelectGroup** | #53 | `select-group` | — | — |  |
 | **DatePicker** | #55 | `datepicker` | `DatePicker` | `DatePicker` |  |
 | **DateTime** | #55 | `datetime` | — | — |  |
@@ -47,13 +47,13 @@ React and Vue match each other almost everywhere; the only exports that differ a
 | **Range** | #53 | `range` | `Range` | `Range` |  |
 | **Rating** | #53 | `rating` | — | — |  |
 | **ColorPicker** | #53 | `colorpicker` | `ColorPicker` | `ColorPicker` | colorpicker → color-picker (Blade tag only). |
-| **File** | #53 | `file` | `File` | `FileUpload` | Vue exports FileUpload because File shadows the browser global; React has the same shadowing problem. Pick one name for all stacks. |
+| **File** | #53 | `file` | `File` | `FileUpload` | `File` in every stack; Vue keeps `FileUpload` as a deprecated alias (vocabulary decision 5, D-025). |
 | **Fieldset** | #53 | `fieldset` | — | — |  |
 | **Form** | #53 | `form` | — | — |  |
 | **ValidationSummary** | #53 | `errors` | — | — | errors → validation-summary, so it is not confused with ErrorState. Reads Laravel's error bag. Not the same thing as React/Vue ErrorDisplay. |
 | **Signature** | #53 | `signature` | — | — | React and Vue ports start from the signature pads already in forms. |
 | **RichTextEditor** | #53 | `editor` | `RichTextEditor` | `RichTextEditor` | editor → rich-text-editor (Blade tag only). Same purpose, different engines: Livewire embeds TinyMCE with uploads; React and Vue use a bare contentEditable. These are not at feature parity even though all stacks 'have' it. |
-| **CodeEditor** | **none** | — | `Editor` | `Editor` | Editor → CodeEditor. The same word means TinyMCE in Livewire and a monospace textarea here. Not in any wave issue. Could also become a Textarea `monospace` option and be dropped as a component. |
+| **CodeEditor** | #53 | — | `Editor` | `Editor` | Editor → CodeEditor. The same word means TinyMCE in Livewire and a monospace textarea here. Ships in all three stacks as a component (#53, D-028); new to Livewire. |
 
 ## Navigation
 
@@ -149,10 +149,10 @@ The other Livewire-only components need React and Vue ports, unless a consolidat
 
 | Component | Proposal |
 |---|---|
-| **Combobox** | Choices + ChoicesOffline → Combobox with `searchable` and `remote` modes. |
-| **Tags** | Candidate to become a Combobox `multiple` + `allowCustom` mode; it already shares the searchable option API. |
-| **SelectGroup** | Candidate for Select with an option-group shape rather than a separate component. |
-| **DateTime** | Candidate for a DatePicker `time` mode; the issue tracks both together. |
+| **Combobox** | Choices + ChoicesOffline → Combobox with local filtering and a `remote` mode (D-020). |
+| **Tags** | Consolidated into Combobox `multiple` + `allowCreate` (D-020); Livewire `tags` is a deprecated alias. |
+| **SelectGroup** | Consolidated into Select with `{ label, options }` option groups (D-025); Livewire `select-group` is a deprecated alias. |
+| **DateTime** | Consolidated into DatePicker `time` mode (D-021); Livewire `datetime` is a deprecated alias. |
 | **RadioGroup** | `radio` and `radio-group` overlap almost entirely (only `inline` vs `horizontal` differ). `group` is the same options API rendered as a joined button group, which becomes a `variant`. |
 | **Menu** | Menu* are one family, with composition as the base; see vocabulary.md, 'Data-driven vs compositional'. |
 | **Heading** | Subheading → Heading with a `level` or `size`. |
@@ -167,7 +167,6 @@ These exist in React and Vue but are not listed in any wave issue, which only na
 
 | Component | Proposed wave |
 |---|---|
-| **CodeEditor** | Form |
 | **Stack** | Layout |
 | **Skeleton** | Feedback |
 | **EmptyState** | Feedback |

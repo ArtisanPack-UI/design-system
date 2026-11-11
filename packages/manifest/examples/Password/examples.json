@@ -1,0 +1,17 @@
+[
+  {
+    "id": "basic",
+    "title": "Basic",
+    "description": "A sign-in password with the reveal toggle. The button keeps one name and toggles aria-pressed."
+  },
+  {
+    "id": "strength",
+    "title": "Strength and requirements",
+    "description": "On sign-up, show the requirements before people type, plus the strength meter. Use autocomplete new-password."
+  },
+  {
+    "id": "validation",
+    "title": "Validation",
+    "description": "The error sits under the box, linked to the control. Never block paste."
+  }
+]

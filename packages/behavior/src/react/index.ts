@@ -15,18 +15,20 @@ import type { Api as ZagDialogApi } from '@zag-js/dialog';
 import type { Api as ZagMenuApi } from '@zag-js/menu';
 import { normalizeProps, type PropTypes, useMachine } from '@zag-js/react';
 import type { GroupService, Props as ZagToastProps } from '@zag-js/toast';
-import { useId, useMemo, useState } from 'react';
+import { useEffect, useId, useMemo, useRef, useState } from 'react';
 
 import {
   type ComboboxOptions,
   type DialogOptions,
   type DropdownMenuOptions,
   emptyProps,
+  currentValue,
   toComboboxProps,
   toDialogProps,
   toDropdownMenuProps,
   type ToastGroupOptions,
   toToastGroupProps,
+  toValueArray,
   visibleItems,
 } from '../core/options';
 import type { Attrs } from '../core/props';
@@ -35,6 +37,161 @@ import { combobox, type ComboboxItem } from '../widgets/combobox';
 import { dialog } from '../widgets/dialog';
 import { dropdownMenu } from '../widgets/dropdown-menu';
 import { toast, type ToastApi as CoreToastApi, toastGroup } from '../widgets/toast';
+import type { Api as ZagTabsApi } from '@zag-js/tabs';
+import { firstEnabledTab, tabs, type TabsOptions, toTabsProps } from '../widgets/tabs';
+
+export type { TabsActivationMode, TabsIds, TabsOptions, TabsOrientation } from '../widgets/tabs';
+
+/** The tabs' API with React props for each part. */
+export type TabsApi = ZagTabsApi<PropTypes>;
+
+/**
+ * Tabs: a tablist with a roving tabindex, arrow keys that follow the
+ * orientation and the text direction, and automatic or manual activation.
+ * Triggers are `getTriggerProps({ value, disabled })`, panels
+ * `getContentProps({ value })`.
+ */
+export function useTabs(options: TabsOptions = {}): TabsApi {
+  const fallback = useId();
+  const service = useMachine(tabs.machine, toTabsProps(options, options.id ?? fallback));
+  const api = tabs.connect(service, normalize) as unknown as TabsApi;
+  // With nothing selected, select the first enabled tab (as Alpine does), so
+  // one trigger is in the Tab order; also once tabs that load late appear.
+  useEffect(() => {
+    if (api.value != null) return;
+    const first = firstEnabledTab(api.getListProps().id as string | undefined);
+    if (first !== undefined) api.setValue(first);
+  });
+  return api;
+}
+import { type ColorPickerOptions, toColorPickerProps } from '../core/color-picker-options';
+import {
+  colorPicker,
+  type ColorPickerApi as CoreColorPickerApi,
+  type ColorTextFormat,
+  formatColor,
+} from '../widgets/color-picker';
+
+export type { ColorPickerOptions } from '../core/color-picker-options';
+export {
+  COLOR_FORMATS,
+  COLOR_PICKER_LABELS,
+  formatColor,
+  parseColorText,
+  parseColorValue,
+  type ColorPickerLabels,
+  type ColorTextFormat,
+} from '../widgets/color-picker';
+
+/** The color picker's API with React props for each part. */
+export type ColorPickerApi = CoreColorPickerApi<PropTypes>;
+
+/**
+ * ColorPicker: a field with a text value, and a popover with a
+ * saturation/brightness area, hue and opacity sliders, a format select, an
+ * eyedropper and swatches. Values are text in the current format; the
+ * format select changes it (uncontrolled unless `format` changes).
+ */
+export function useColorPicker(options: ColorPickerOptions = {}): ColorPickerApi {
+  const fallback = useId();
+  const [format, setFormat] = useState<ColorTextFormat>(options.format ?? 'hex');
+  useEffect(() => {
+    if (options.format) setFormat(options.format);
+  }, [options.format]);
+  const reported = useMemo(
+    () => ({ text: undefined as string | undefined, color: undefined as never }),
+    [],
+  );
+  const service = useMachine(
+    colorPicker.machine,
+    toColorPickerProps(
+      {
+        ...options,
+        format,
+        valueColor:
+          options.value != null && options.value === reported.text ? reported.color : undefined,
+        onValueChange: (details) => {
+          reported.text = details.value;
+          reported.color = details.color as never;
+          options.onValueChange?.(details);
+        },
+        onFormatChange: ({ format: next }) => {
+          setFormat(next);
+          options.onFormatChange?.({ format: next });
+          const current = service.context.get('value');
+          const value = formatColor(current, next, options.alpha ?? true);
+          reported.text = value;
+          reported.color = current as never;
+          options.onValueChange?.({ value, color: current });
+        },
+      },
+      options.id ?? fallback,
+    ) as never,
+  );
+  const api = colorPicker.connect(service, normalize) as unknown as ColorPickerApi;
+  // React renders the text input uncontrolled: write the value's text,
+  // except while someone is typing in it. The input is the one the caller
+  // spread `getValueInputProps({ id })` on, whatever id it passed.
+  const text = api.textValue;
+  const inputId = useRef<string | undefined>(undefined);
+  useEffect(() => {
+    if (typeof document === 'undefined' || !inputId.current) return;
+    const el = document.getElementById(inputId.current);
+    if (el instanceof HTMLInputElement && el !== document.activeElement && el.value !== text) {
+      el.value = text;
+    }
+  });
+  return {
+    ...api,
+    getValueInputProps(props) {
+      const { value, ...rest } = api.getValueInputProps(props) as Record<string, unknown>;
+      inputId.current = rest.id as string | undefined;
+      return { ...rest, defaultValue: value } as never;
+    },
+  };
+}
+import { type DatePickerOptions, toDatePickerProps } from '../core/date-picker-options';
+import {
+  datePicker,
+  type DatePickerApi as CoreDatePickerApi,
+  parseIso as parseIsoDate,
+} from '../widgets/date-picker';
+
+export type { DatePickerLabels, DatePickerOptions } from '../core/date-picker-options';
+export {
+  datePattern,
+  formatDate,
+  parseIso,
+  timeOptions,
+  toIso,
+  type DatePickerMode,
+  type DatePickerValue,
+  type TimeOption,
+} from '../widgets/date-picker';
+
+/** The date picker's API with React props for each part, plus the time list's. */
+export type DatePickerApi = CoreDatePickerApi<PropTypes>;
+
+/**
+ * DatePicker: a typed field and a calendar popover (`role=grid`), single
+ * dates or a range, with a time list in time mode. Render `weeks` and
+ * `weekDays` inside the table; values are ISO strings.
+ */
+export function useDatePicker(options: DatePickerOptions = {}): DatePickerApi {
+  const fallback = useId();
+  const service = useMachine(
+    datePicker.machine,
+    toDatePickerProps(options, options.id ?? fallback),
+  );
+  const api = datePicker.connect(service, normalize) as unknown as DatePickerApi;
+  // A value from outside (a reset, a parent) shows its month next time it opens.
+  const first = Array.isArray(options.value) ? options.value[0] : options.value;
+  useEffect(() => {
+    const date = parseIsoDate(first);
+    if (date && !service.state.matches('open')) service.send({ type: 'FOCUS.SET', value: date });
+  }, [first, service]);
+  return api;
+}
 
 export type {
   ComboboxOptions,
@@ -44,7 +201,14 @@ export type {
   MenuAlign,
   ToastGroupOptions,
 } from '../core/options';
-export type { ComboboxItem } from '../widgets/combobox';
+export type { ComboboxItem, LabelSegment } from '../widgets/combobox';
+export {
+  COMBOBOX_LABELS,
+  createItem,
+  filterItems,
+  formatLabel,
+  highlight,
+} from '../widgets/combobox';
 export {
   createToaster,
   staticToastParts,
@@ -101,12 +265,25 @@ export function useDialog(options: DialogOptions = {}): DialogApi {
  */
 export function useCombobox(options: ComboboxOptions): ComboboxApi {
   const fallback = useId();
-  const [query, setQuery] = useState('');
-  const { items: all, remote } = options;
-  const items = useMemo(() => visibleItems({ items: all, remote }, query), [all, remote, query]);
+  // The typed text the items are filtered by; a default input value starts it.
+  const [query, setQuery] = useState(options.defaultInputValue ?? '');
+  // The value while uncontrolled; the machine always runs controlled.
+  const [ownValue, setOwnValue] = useState(() => toValueArray(options.defaultValue));
+  const local = { value: ownValue, set: setOwnValue };
+  const { items: all, remote, allowCreate, max, multiple } = options;
+  const valueKey = JSON.stringify(currentValue(options, local));
+  const items = useMemo(
+    () =>
+      visibleItems(
+        { items: all, remote, allowCreate, max, multiple },
+        query,
+        JSON.parse(valueKey) as string[],
+      ),
+    [all, remote, allowCreate, max, multiple, query, valueKey],
+  );
   const service = useMachine(
     combobox.machine,
-    toComboboxProps(options, options.id ?? fallback, items, setQuery),
+    toComboboxProps(options, options.id ?? fallback, items, setQuery, local),
   );
   const api = combobox.connect(service, normalize) as unknown as ZagComboboxApi<
     PropTypes,
@@ -152,3 +329,12 @@ export function useToast(entry: ToastEntry, parent: GroupService, index: number)
   const service = useMachine(toast.machine, { ...entry, parent, index } as never);
   return toast.connect(service, normalize) as unknown as ToastApi;
 }
+
+export { useSpotlight, type SpotlightApi, type SpotlightOptions } from './spotlight';
+export { highlightLabel, type SpotlightLabelSegment } from '../widgets/spotlight';
+export type {
+  SpotlightGroup,
+  SpotlightItem,
+  SpotlightEntry,
+  SpotlightResultGroup,
+} from '../widgets/spotlight';

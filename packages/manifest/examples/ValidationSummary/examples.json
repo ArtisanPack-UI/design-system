@@ -1,0 +1,12 @@
+[
+  {
+    "id": "basic",
+    "title": "Errors",
+    "description": "After a failed submit it lists every error, takes focus, and each link moves focus to its field. Livewire reads $errors."
+  },
+  {
+    "id": "warning",
+    "title": "Warnings",
+    "description": "Non-blocking recommendations use the warning color and role=status, and don't take focus."
+  }
+]

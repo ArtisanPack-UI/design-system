@@ -87,6 +87,9 @@ function Combobox({ options }: { options: ComboboxFixture }) {
     items,
     multiple: options.multiple,
     remote: options.remote,
+    max: options.max,
+    allowCreate: options.allowCreate,
+    onCreate: (details) => fixture.events.push(['create', details]),
     ...(options.mode === 'uncontrolled' ? { defaultValue: options.initial } : { value }),
     onValueChange: (details) => {
       fixture.events.push(['value-change', details]);

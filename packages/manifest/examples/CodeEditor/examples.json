@@ -1,0 +1,17 @@
+[
+  {
+    "id": "basic",
+    "title": "Basic",
+    "description": "A labeled code field with line numbers and a status bar. Tab indents; Escape, then Tab, leaves the editor."
+  },
+  {
+    "id": "files",
+    "title": "Files and languages",
+    "description": "File tabs and a language select over the code. The app swaps the value when tab-change reports a new file."
+  },
+  {
+    "id": "diagnostics",
+    "title": "Diagnostics",
+    "description": "Problems are marked in the gutter and listed in text under the code, with their line and severity."
+  }
+]

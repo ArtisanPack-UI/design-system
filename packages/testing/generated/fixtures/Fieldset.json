@@ -1,0 +1,100 @@
+{
+  "version": 1,
+  "component": "Fieldset",
+  "rootClass": "apui-fieldset",
+  "stacks": [
+    "livewire",
+    "react",
+    "vue"
+  ],
+  "names": {
+    "livewire": "fieldset",
+    "react": "Fieldset",
+    "vue": "Fieldset"
+  },
+  "cases": [
+    {
+      "id": "variant=panel state=default",
+      "props": {
+        "title": "Contact",
+        "variant": "panel"
+      },
+      "state": "default",
+      "content": "Full name, email and phone fields go here."
+    },
+    {
+      "id": "variant=panel state=disabled",
+      "props": {
+        "title": "Contact",
+        "variant": "panel",
+        "disabled": true
+      },
+      "state": "disabled",
+      "content": "Full name, email and phone fields go here."
+    },
+    {
+      "id": "variant=divided state=default",
+      "props": {
+        "title": "Contact",
+        "variant": "divided"
+      },
+      "state": "default",
+      "content": "Full name, email and phone fields go here."
+    },
+    {
+      "id": "variant=divided state=disabled",
+      "props": {
+        "title": "Contact",
+        "variant": "divided",
+        "disabled": true
+      },
+      "state": "disabled",
+      "content": "Full name, email and phone fields go here."
+    },
+    {
+      "id": "variant=plain state=default",
+      "props": {
+        "title": "Contact",
+        "variant": "plain"
+      },
+      "state": "default",
+      "content": "Full name, email and phone fields go here."
+    },
+    {
+      "id": "variant=plain state=disabled",
+      "props": {
+        "title": "Contact",
+        "variant": "plain",
+        "disabled": true
+      },
+      "state": "disabled",
+      "content": "Full name, email and phone fields go here."
+    }
+  ],
+  "sheets": [
+    {
+      "id": "light",
+      "theme": "light",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "dark",
+      "theme": "dark",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "high-contrast",
+      "theme": "high-contrast",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "rtl",
+      "theme": "light",
+      "density": "default",
+      "dir": "rtl"
+    }
+  ]
+}

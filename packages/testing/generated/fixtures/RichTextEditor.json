@@ -1,0 +1,82 @@
+{
+  "version": 1,
+  "component": "RichTextEditor",
+  "rootClass": "apui-rich-text-editor",
+  "stacks": [
+    "livewire",
+    "react",
+    "vue"
+  ],
+  "names": {
+    "livewire": "rich-text-editor",
+    "react": "RichTextEditor",
+    "vue": "RichTextEditor"
+  },
+  "cases": [
+    {
+      "id": "state=default",
+      "props": {
+        "label": "Description",
+        "toolbar": "default"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "state=disabled",
+      "props": {
+        "label": "Description",
+        "toolbar": "default",
+        "disabled": true
+      },
+      "state": "disabled",
+      "content": null
+    },
+    {
+      "id": "state=invalid",
+      "props": {
+        "label": "Description",
+        "toolbar": "default",
+        "invalid": true
+      },
+      "state": "invalid",
+      "content": null
+    },
+    {
+      "id": "state=readonly",
+      "props": {
+        "label": "Description",
+        "toolbar": "default",
+        "readonly": true
+      },
+      "state": "readonly",
+      "content": null
+    }
+  ],
+  "sheets": [
+    {
+      "id": "light",
+      "theme": "light",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "dark",
+      "theme": "dark",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "high-contrast",
+      "theme": "high-contrast",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "rtl",
+      "theme": "light",
+      "density": "default",
+      "dir": "rtl"
+    }
+  ]
+}

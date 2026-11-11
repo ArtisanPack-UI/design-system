@@ -1,0 +1,198 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "Tabs",
+  "description": "Switches between views of the same content: a tablist of triggers and one panel per tab. Arrow keys move between tabs and follow the text direction; activation is automatic or manual.",
+  "status": "draft",
+  "issue": 56,
+  "rootClass": "apui-tabs",
+  "stacks": {
+    "livewire": {
+      "name": "tabs",
+      "capabilities": [
+        "Children: tab, each rendering its trigger and its panel; tabs renders the same children from data",
+        "wire:model binds the selected tab's value"
+      ]
+    },
+    "react": {
+      "name": "Tabs",
+      "capabilities": [
+        "Children: Tab, each rendering its trigger and its panel; tabs renders the same children from data"
+      ]
+    },
+    "vue": {
+      "name": "Tabs",
+      "capabilities": [
+        "Children: Tab, each rendering its trigger and its panel; tabs renders the same children from data"
+      ]
+    }
+  },
+  "props": [
+    {
+      "name": "value",
+      "type": "string",
+      "description": "The selected tab's value. Livewire binds it with wire:model, Vue with v-model. Without it, the first enabled tab is selected."
+    },
+    {
+      "name": "defaultValue",
+      "type": "string",
+      "description": "The initially selected tab of uncontrolled tabs.",
+      "stacks": ["react"]
+    },
+    {
+      "name": "tabs",
+      "type": "array",
+      "description": "The tabs as data, rendering the same children as composition: { value, label, icon, count, disabled, content }."
+    },
+    {
+      "name": "variant",
+      "type": "enum",
+      "values": ["segmented", "underline"],
+      "default": "segmented",
+      "description": "Segmented for filters and small view switches, underline under a PageHeader. Emitted as data-variant."
+    },
+    {
+      "name": "size",
+      "type": "enum",
+      "values": ["sm", "md"],
+      "default": "md",
+      "description": "The triggers' size. Emitted as data-size."
+    },
+    {
+      "name": "orientation",
+      "type": "enum",
+      "values": ["horizontal", "vertical"],
+      "default": "horizontal",
+      "description": "Lays the tablist out in a row or a column, and picks the arrow keys that move between tabs. Emitted as data-orientation."
+    },
+    {
+      "name": "activationMode",
+      "type": "enum",
+      "values": ["automatic", "manual"],
+      "default": "automatic",
+      "description": "Automatic selects a tab as the arrow keys reach it; manual only moves focus, and Enter or Space selects. Emitted as data-activation-mode.",
+      "a11y": "Use manual when showing a panel is slow, such as a server round trip."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "description": "Names the tablist for assistive technology. Needed when a page has more than one set of tabs."
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part, such as { list: '…', trigger: '…' }."
+    }
+  ],
+  "variants": ["segmented", "underline"],
+  "sizes": ["sm", "md"],
+  "parts": [
+    { "name": "root", "element": "div", "description": "Holds the tablist and the panels." },
+    {
+      "name": "list",
+      "element": "div",
+      "description": "The tablist: the track the triggers sit in."
+    },
+    {
+      "name": "trigger",
+      "element": "button",
+      "description": "A tab: role tab, aria-selected while selected, and only the selected one in the Tab order."
+    },
+    { "name": "icon", "element": "span", "description": "A tab's leading icon." },
+    {
+      "name": "count",
+      "element": "span",
+      "description": "A tab's count, such as unread items, at the end of the trigger."
+    },
+    {
+      "name": "content",
+      "element": "div",
+      "description": "A tab's panel: role tabpanel, labelled by its trigger and hidden while another tab is selected. The spec calls it panel; it keeps Zag's name (D-019)."
+    }
+  ],
+  "events": [
+    {
+      "name": "value-change",
+      "description": "Another tab was selected, by click or the keyboard. Setting value doesn't fire it.",
+      "payload": "string"
+    }
+  ],
+  "a11y": {
+    "element": "div",
+    "keyboard": [
+      {
+        "keys": "ArrowRight, ArrowLeft",
+        "action": "Horizontal tabs: move to the next or previous tab, wrapping, and following the text direction, so in RTL ArrowLeft moves to the next tab. Automatic activation selects it too."
+      },
+      {
+        "keys": "ArrowDown, ArrowUp",
+        "action": "Vertical tabs: move to the next or previous tab, wrapping."
+      },
+      { "keys": "Home, End", "action": "Move to the first or last tab." },
+      { "keys": "Enter, Space", "action": "Manual activation: selects the focused tab." },
+      {
+        "keys": "Tab",
+        "action": "From the selected tab, moves into its panel; the other tabs are out of the Tab order."
+      }
+    ],
+    "requirements": [
+      "role=tablist with role=tab triggers and role=tabpanel panels; the selected trigger sets aria-selected=true and aria-controls its panel.",
+      "Each panel is labelled by its trigger with aria-labelledby and is hidden while another tab is selected.",
+      "Only the selected tab is in the Tab order (roving tabindex); the panel takes focus next.",
+      "Disabled tabs set disabled and aria-disabled and are skipped by the arrow keys.",
+      "The tablist sets aria-orientation; the arrow keys follow it, and follow the text direction in RTL.",
+      "A tablist on a page with several sets of tabs is named with label.",
+      "A count in a trigger is part of its name, so screen readers announce it.",
+      "The focus ring shows on the focused trigger; the selected trigger is shown by surface and edge, not by color alone.",
+      "Every part keeps a stable, server-rendered id in Livewire (D-015)."
+    ],
+    "wcag": ["1.3.1", "1.4.3", "1.4.11", "2.1.1", "2.4.3", "2.4.7", "4.1.2"]
+  },
+  "tokens": [
+    "--apui-tabs-radius",
+    "--apui-surface-sunken",
+    "--apui-surface-raised",
+    "--apui-border-muted",
+    "--apui-selected-indicator-width",
+    "--apui-color-primary",
+    "--apui-color-primary-soft",
+    "--apui-color-primary-soft-foreground",
+    "--apui-color-neutral-soft",
+    "--apui-color-neutral-soft-foreground",
+    "--apui-control-height-sm",
+    "--apui-control-height-md",
+    "--apui-text-default",
+    "--apui-text-muted",
+    "--apui-text-disabled",
+    "--apui-focus-ring-color"
+  ],
+  "fixture": {
+    "props": {
+      "tabs": [
+        {
+          "value": "overview",
+          "label": "Overview",
+          "icon": "list",
+          "content": "Your portfolio at a glance."
+        },
+        {
+          "value": "notifications",
+          "label": "Notifications",
+          "count": "4",
+          "content": "Four unread notifications."
+        },
+        {
+          "value": "history",
+          "label": "Trade history",
+          "content": "Every trade in the last year."
+        },
+        {
+          "value": "archived",
+          "label": "Archived",
+          "disabled": true,
+          "content": "Archived trades."
+        }
+      ]
+    },
+    "states": []
+  }
+}

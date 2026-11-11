@@ -289,16 +289,13 @@ describe('PHP twins', () => {
       (['livewire', 'react', 'vue'] as const).map((stack) => docsTables(m, stack)),
     );
     expect(output.examples).toEqual(loadExamples('Button'));
-    expect(output.components).toEqual([
-      'Button',
-      'Card',
-      'Checkbox',
-      'Dialog',
-      'DropdownMenu',
-      'Input',
-      'Select',
-      'Toast',
-    ]);
+    // Examples::components() lists every example directory, sorted the way PHP's sort() does.
+    expect(output.components).toEqual(
+      readdirSync(examplesDir, { withFileTypes: true })
+        .filter((entry) => entry.isDirectory())
+        .map((entry) => entry.name)
+        .sort(),
+    );
     expect(output.kebab).toEqual(['icon-only', 'button-group']);
   });
 });

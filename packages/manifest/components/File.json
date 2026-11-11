@@ -1,0 +1,239 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "File",
+  "description": "Uploads files by dropping or browsing: a native file input over a drop zone, and a list of the chosen files with their size, progress, errors and a remove button. Livewire uploads through wire:model on the native input.",
+  "status": "draft",
+  "issue": 53,
+  "rootClass": "apui-file",
+  "stacks": {
+    "livewire": {
+      "name": "file",
+      "differences": [
+        "The list reads the wire:model property's uploads (or value), and its remove buttons call $removeUpload for temporary uploads. Upload progress comes from Livewire's upload events."
+      ]
+    },
+    "react": {
+      "name": "File",
+      "differences": ["The list shows the chosen files unless value is given."]
+    },
+    "vue": {
+      "name": "File",
+      "differences": [
+        "Exported as File (FileUpload stays as a deprecated alias). The list shows the chosen files unless v-model is bound."
+      ]
+    }
+  },
+  "props": [
+    {
+      "name": "label",
+      "type": "node",
+      "description": "The visible label above the drop zone, for the native input."
+    },
+    {
+      "name": "title",
+      "type": "string",
+      "default": "Drop files here or browse",
+      "description": "The drop zone's main line. Translated by default."
+    },
+    {
+      "name": "hint",
+      "type": "node",
+      "description": "Limits under the title (types, size, count), linked with aria-describedby."
+    },
+    {
+      "name": "error",
+      "type": "string",
+      "description": "Validation message. Marks the field invalid and is linked with aria-describedby."
+    },
+    {
+      "name": "invalid",
+      "type": "boolean",
+      "default": false,
+      "description": "Marks the field invalid without a message. Emitted as data-invalid.",
+      "a11y": "Sets aria-invalid on the native input."
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": false,
+      "description": "Disables the input and the drop zone."
+    },
+    {
+      "name": "required",
+      "type": "boolean",
+      "default": false,
+      "description": "Marks the field required and shows the required mark.",
+      "a11y": "Sets required on the native input."
+    },
+    {
+      "name": "accept",
+      "type": "string",
+      "description": "The accepted types, as the native accept attribute."
+    },
+    {
+      "name": "multiple",
+      "type": "boolean",
+      "default": false,
+      "description": "Allows choosing several files."
+    },
+    {
+      "name": "maxSize",
+      "type": "number",
+      "description": "The largest file in bytes, for scripts and the hint to read. Emitted as data-max-size; validate sizes on the server (or in value-change) and pass errors back through value entries."
+    },
+    {
+      "name": "variant",
+      "type": "enum",
+      "values": ["dropzone", "compact"],
+      "default": "dropzone",
+      "description": "A large centered drop zone, or a compact row. Emitted as data-variant."
+    },
+    {
+      "name": "value",
+      "type": "array",
+      "description": "The files to list: File objects, Livewire uploads, or { name, size, progress, error } entries. Without it React and Vue list the files the user chose."
+    },
+    {
+      "name": "removeLabel",
+      "type": "string",
+      "default": "Remove :name",
+      "description": "Each remove button's accessible name, with a :name placeholder. Translated by default."
+    },
+    {
+      "name": "errorField",
+      "type": "string",
+      "description": "The validation key to read from $errors. Defaults to the wire:model name.",
+      "stacks": ["livewire"]
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part, such as { dropzone: '…', item: '…' }."
+    }
+  ],
+  "variants": ["dropzone", "compact"],
+  "parts": [
+    {
+      "name": "root",
+      "element": "div",
+      "description": "The field: label, drop zone, file list and error."
+    },
+    {
+      "name": "label",
+      "element": "label",
+      "description": "The visible label, for the native input."
+    },
+    {
+      "name": "required",
+      "element": "span",
+      "description": "The required mark inside the label. Hidden from screen readers; the input is required."
+    },
+    {
+      "name": "dropzone",
+      "element": "div",
+      "description": "The dashed area. data-state=\"drag\" while files are dragged over it."
+    },
+    {
+      "name": "control",
+      "element": "input",
+      "description": "The native input type=file, transparent over the drop zone, so a click browses and a drop chooses. Attributes other than class land here."
+    },
+    { "name": "icon", "element": "span", "description": "The upload icon tile." },
+    { "name": "title", "element": "p", "description": "The drop zone's main line." },
+    { "name": "hint", "element": "p", "description": "The limits." },
+    { "name": "list", "element": "ul", "description": "The chosen or uploaded files." },
+    {
+      "name": "item",
+      "element": "li",
+      "description": "One file. data-state=\"error\" when it failed or is too large."
+    },
+    { "name": "thumb", "element": "span", "description": "The file icon." },
+    {
+      "name": "name",
+      "element": "span",
+      "description": "The file name, truncated with an ellipsis."
+    },
+    { "name": "meta", "element": "span", "description": "The size, or the file's error." },
+    {
+      "name": "progress",
+      "element": "progress",
+      "description": "The native progress bar while a file uploads."
+    },
+    {
+      "name": "actions",
+      "element": "span",
+      "description": "The remove button, labelled with the file name."
+    },
+    { "name": "error", "element": "p", "description": "Validation message, with an icon." }
+  ],
+  "events": [
+    {
+      "name": "value-change",
+      "description": "The chosen files changed: chosen, dropped or removed. Livewire uploads them through wire:model.",
+      "payload": "File[]"
+    },
+    {
+      "name": "remove",
+      "description": "A file's remove button was pressed, with the file or entry. Livewire removes its temporary uploads itself and dispatches remove for other entries, with { index, name }.",
+      "payload": "File | { index, name }"
+    }
+  ],
+  "a11y": {
+    "keyboard": [
+      { "keys": "Tab", "action": "Moves to the file input, then each remove button." },
+      { "keys": "Enter, Space", "action": "Opens the file dialog, or removes a file." }
+    ],
+    "requirements": [
+      "The native input type=file stays in the DOM, transparent over the drop zone, so it is keyboard and screen-reader operable; drag and drop is an enhancement the platform supplies.",
+      "The label, title and hint name and describe the input; error is linked with aria-describedby.",
+      "Each remove button is labelled with its file's name.",
+      "Progress is a native progress element; a file's error shows in its meta text, not by color alone.",
+      "Visible focus ring on the drop zone while the input has :focus-visible.",
+      "State the limits (types, size, count) before upload, and never reject a whole batch for one bad file."
+    ],
+    "wcag": ["1.3.1", "1.4.3", "1.4.11", "2.1.1", "2.4.7", "2.5.8", "3.3.1", "3.3.2", "4.1.2"]
+  },
+  "tokens": [
+    "--apui-radius-lg",
+    "--apui-radius-md",
+    "--apui-radius-sm",
+    "--apui-selected-bg",
+    "--apui-selected-border",
+    "--apui-border-default",
+    "--apui-border-strong",
+    "--apui-border-muted",
+    "--apui-color-primary",
+    "--apui-color-primary-soft",
+    "--apui-color-primary-soft-foreground",
+    "--apui-color-error-border",
+    "--apui-color-error-text",
+    "--apui-surface-default",
+    "--apui-surface-sunken",
+    "--apui-text-default",
+    "--apui-text-muted",
+    "--apui-text-disabled",
+    "--apui-progress-height",
+    "--apui-focus-ring-color"
+  ],
+  "fixture": {
+    "props": {
+      "label": "Listing photos",
+      "multiple": true,
+      "value": [
+        { "name": "lakeview-lofts-exterior.jpg", "size": 2400000 },
+        { "name": "courtyard-garden.jpg", "size": 1250000, "progress": 64 },
+        {
+          "name": "floor-plan.heic",
+          "size": 830000,
+          "error": "HEIC isn't supported. Use JPG or PNG."
+        }
+      ]
+    },
+    "parts": {
+      "required": true,
+      "hint": "JPG or PNG, up to 20 MB each.",
+      "error": "Add at least one photo."
+    },
+    "states": ["hover", "focus-visible", "disabled", "invalid"]
+  }
+}

@@ -1,0 +1,404 @@
+/*
+ * Spotlight (#57). Root `.apui-spotlight` is the panel, the dialog's content
+ * part (D-019). Parts: trigger (a Button with the shortcut's keys), backdrop,
+ * positioner, search (icon, query, close-trigger), results (item-group,
+ * item-group-label, item with tile, item-text, item-description and
+ * shortcut), empty, loading and footer. The active result is
+ * aria-selected="true" (and data-highlighted). The machines set hidden on
+ * closed and filtered-out parts; the rules below keep it working where they
+ * set display. See design/components/Spotlight.
+ */
+@layer apui.components {
+  [data-scope='spotlight'][data-part='backdrop'] {
+    position: fixed;
+    inset: 0;
+    z-index: var(--apui-z-modal);
+    background: var(--apui-backdrop);
+  }
+
+  /* The panel sits near the top, so results grow downward without moving the query. */
+  [data-scope='spotlight'][data-part='positioner'] {
+    position: fixed;
+    inset: 0;
+    z-index: var(--apui-z-modal);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-block: max(16px, 12vh) 16px;
+    padding-inline: 16px;
+    overflow-y: auto;
+  }
+
+  [data-scope='spotlight'][data-part][hidden],
+  .apui-spotlight[hidden] {
+    display: none;
+  }
+
+  .apui-spotlight {
+    --apui-_spotlight-results-height: 360px;
+
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    inline-size: min(var(--apui-spotlight-width), 100%);
+    max-block-size: 100%;
+    overflow: hidden;
+    border: var(--apui-border-width) solid var(--apui-border-muted);
+    border-radius: var(--apui-radius-overlay);
+    background: var(--apui-surface-overlay);
+    box-shadow: var(--apui-elevation-overlay);
+    color: var(--apui-text-default);
+    font-family: var(--apui-font-family-sans);
+    font-size: var(--apui-type-body-md-font-size);
+    line-height: var(--apui-type-body-md-line-height);
+    outline: none;
+
+    /* Controls inside ring against the panel, not the page. */
+    --apui-focus-ring-offset-color: var(--apui-surface-overlay);
+  }
+
+  .apui-spotlight[data-state='open'] {
+    animation: apui-spotlight-enter var(--apui-motion-duration-moderate)
+      var(--apui-motion-ease-enter);
+  }
+
+  [data-scope='spotlight'][data-part='backdrop'][data-state='open'] {
+    animation: apui-spotlight-fade var(--apui-motion-duration-moderate)
+      var(--apui-motion-ease-enter);
+  }
+
+  @keyframes apui-spotlight-enter {
+    from {
+      opacity: 0;
+      transform: translateY(-8px) scale(0.98);
+    }
+  }
+
+  @keyframes apui-spotlight-fade {
+    from {
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .apui-spotlight[data-state='open'],
+    [data-scope='spotlight'][data-part='backdrop'][data-state='open'] {
+      animation: none;
+    }
+  }
+
+  /* The trigger is a Button; its keys sit at the end. */
+  [data-scope='spotlight'][data-part='trigger'] [data-scope='spotlight'][data-part='shortcut'] {
+    margin-inline-start: 4px;
+  }
+
+  /* Search row: icon, query, Esc. */
+  [data-scope='spotlight'][data-part='search'] {
+    display: flex;
+    flex: none;
+    align-items: center;
+    gap: 12px;
+    block-size: 56px;
+    padding-inline: 18px;
+    border-block-end: var(--apui-border-width) solid var(--apui-border-muted);
+    font-size: var(--apui-type-body-lg-font-size);
+  }
+
+  /*
+   * The query has no box of its own, so the row shows keyboard focus: an
+   * inset ring with the focus tokens.
+   */
+  [data-scope='spotlight'][data-part='search']:has([data-part='query']:focus-visible) {
+    box-shadow: inset 0 0 0 var(--apui-focus-ring-width) var(--apui-focus-ring-color);
+  }
+
+  [data-scope='spotlight'][data-part='icon'] {
+    display: inline-flex;
+    flex: none;
+    color: var(--apui-text-muted);
+  }
+
+  [data-scope='spotlight'][data-part='icon'] > svg {
+    inline-size: var(--apui-icon-size-lg);
+    block-size: var(--apui-icon-size-lg);
+  }
+
+  [data-scope='spotlight'][data-part='query'] {
+    flex: 1;
+    min-inline-size: 0;
+    block-size: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--apui-text-default);
+    font: inherit;
+    outline: none;
+  }
+
+  [data-scope='spotlight'][data-part='query']::placeholder {
+    color: var(--apui-text-muted);
+    opacity: 1;
+  }
+
+  [data-scope='spotlight'][data-part='query']::-webkit-search-cancel-button {
+    appearance: none;
+  }
+
+  /* Keys: the Esc button, item shortcuts, the trigger's and the footer's hints. */
+  /* A key combination reads in the keyboard's order in RTL too (⌘ then N). */
+  [data-scope='spotlight'][data-part='shortcut'] {
+    direction: ltr;
+    unicode-bidi: isolate;
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    gap: 4px;
+    color: var(--apui-text-muted);
+  }
+
+  :is(
+    [data-scope='spotlight'][data-part='shortcut'] > kbd,
+    [data-scope='spotlight'][data-part='close-trigger']
+  ) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    min-inline-size: 18px;
+    block-size: 18px;
+    margin: 0;
+    padding-inline: 4px;
+    border: var(--apui-border-width) solid var(--apui-border-default);
+    border-block-end-width: 2px;
+    border-radius: var(--apui-kbd-radius);
+    background: var(--apui-surface-raised);
+    color: var(--apui-text-default);
+    font-family: var(--apui-font-family-mono);
+    font-size: 11px;
+    font-weight: var(--apui-font-weight-regular);
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  [data-scope='spotlight'][data-part='close-trigger'] {
+    flex: none;
+    cursor: pointer;
+  }
+
+  [data-scope='spotlight'][data-part='close-trigger']:hover {
+    background: var(--apui-surface-default);
+  }
+
+  [data-scope='spotlight'][data-part='close-trigger']:focus-visible {
+    outline: var(--apui-focus-ring-width) solid transparent;
+    box-shadow:
+      0 0 0 var(--apui-focus-ring-offset) var(--apui-focus-ring-offset-color),
+      0 0 0 calc(var(--apui-focus-ring-offset) + var(--apui-focus-ring-width))
+        var(--apui-focus-ring-color);
+  }
+
+  /* Results. */
+  [data-scope='spotlight'][data-part='results'] {
+    flex: 1 1 auto;
+    max-block-size: var(--apui-_spotlight-results-height);
+    padding: 6px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    outline: none;
+  }
+
+  [data-scope='spotlight'][data-part='item-group-label'] {
+    padding-block: 8px 4px;
+    padding-inline: 10px;
+    color: var(--apui-text-muted);
+    font-size: var(--apui-type-caption-font-size);
+    font-weight: var(--apui-font-weight-medium);
+    line-height: var(--apui-type-caption-line-height);
+  }
+
+  [data-scope='spotlight'][data-part='item'] {
+    --apui-_spotlight-tone-soft: var(--apui-color-neutral-soft);
+    --apui-_spotlight-tone-soft-foreground: var(--apui-color-neutral-soft-foreground);
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-block-size: 44px;
+    padding-block: 6px;
+    padding-inline: 10px;
+    box-sizing: border-box;
+    border-radius: var(--apui-menu-item-radius);
+    color: var(--apui-text-default);
+    text-decoration: none;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  /* The active result: aria-activedescendant points at it, and Enter opens it. */
+  [data-scope='spotlight'][data-part='item']:is([aria-selected='true'], [data-highlighted]) {
+    background: var(--apui-selected-bg);
+    color: var(--apui-text-default);
+  }
+
+  [data-scope='spotlight'][data-part='item']:is([aria-disabled='true'], [data-disabled]) {
+    background: none;
+    color: var(--apui-text-disabled);
+    cursor: not-allowed;
+  }
+
+  [data-scope='spotlight'][data-part='tile'] {
+    display: inline-grid;
+    flex: none;
+    place-items: center;
+    inline-size: 32px;
+    block-size: 32px;
+    border-radius: var(--apui-radius-sm);
+    background: var(--apui-_spotlight-tone-soft);
+    color: var(--apui-_spotlight-tone-soft-foreground);
+  }
+
+  [data-scope='spotlight'][data-part='tile'] > svg {
+    inline-size: var(--apui-icon-size-md);
+    block-size: var(--apui-icon-size-md);
+  }
+
+  [data-scope='spotlight'][data-part='item']:is([aria-selected='true'], [data-highlighted])
+    [data-scope='spotlight'][data-part='tile'] {
+    background: var(--apui-surface-default);
+  }
+
+  [data-scope='spotlight'][data-part='item']:is([aria-disabled='true'], [data-disabled])
+    [data-scope='spotlight'][data-part='tile'] {
+    color: inherit;
+  }
+
+  [data-scope='spotlight'][data-part='item'][data-color='primary'] {
+    --apui-_spotlight-tone-soft: var(--apui-color-primary-soft);
+    --apui-_spotlight-tone-soft-foreground: var(--apui-color-primary-soft-foreground);
+  }
+
+  [data-scope='spotlight'][data-part='item'][data-color='secondary'] {
+    --apui-_spotlight-tone-soft: var(--apui-color-secondary-soft);
+    --apui-_spotlight-tone-soft-foreground: var(--apui-color-secondary-soft-foreground);
+  }
+
+  [data-scope='spotlight'][data-part='item'][data-color='accent'] {
+    --apui-_spotlight-tone-soft: var(--apui-color-accent-soft);
+    --apui-_spotlight-tone-soft-foreground: var(--apui-color-accent-soft-foreground);
+  }
+
+  [data-scope='spotlight'][data-part='item'][data-color='success'] {
+    --apui-_spotlight-tone-soft: var(--apui-color-success-soft);
+    --apui-_spotlight-tone-soft-foreground: var(--apui-color-success-soft-foreground);
+  }
+
+  [data-scope='spotlight'][data-part='item'][data-color='warning'] {
+    --apui-_spotlight-tone-soft: var(--apui-color-warning-soft);
+    --apui-_spotlight-tone-soft-foreground: var(--apui-color-warning-soft-foreground);
+  }
+
+  [data-scope='spotlight'][data-part='item'][data-color='error'] {
+    --apui-_spotlight-tone-soft: var(--apui-color-error-soft);
+    --apui-_spotlight-tone-soft-foreground: var(--apui-color-error-soft-foreground);
+  }
+
+  [data-scope='spotlight'][data-part='item'][data-color='info'] {
+    --apui-_spotlight-tone-soft: var(--apui-color-info-soft);
+    --apui-_spotlight-tone-soft-foreground: var(--apui-color-info-soft-foreground);
+  }
+
+  [data-scope='spotlight'][data-part='item-text'] {
+    flex: 1;
+    min-inline-size: 0;
+    overflow-wrap: anywhere;
+  }
+
+  [data-scope='spotlight'][data-part='item-description'] {
+    display: block;
+    color: var(--apui-text-muted);
+    font-size: var(--apui-type-caption-font-size);
+    line-height: var(--apui-type-caption-line-height);
+  }
+
+  [data-scope='spotlight'][data-part='item'] [data-scope='spotlight'][data-part='shortcut'] {
+    margin-inline-start: auto;
+  }
+
+  /* The Enter glyph: on the active result only, pointing toward the start edge. */
+  [data-scope='spotlight'][data-part='item-indicator'] {
+    display: inline-flex;
+    flex: none;
+    color: var(--apui-text-muted);
+    visibility: hidden;
+  }
+
+  [data-scope='spotlight'][data-part='item-indicator'] > svg {
+    inline-size: var(--apui-icon-size-md);
+    block-size: var(--apui-icon-size-md);
+  }
+
+  [data-scope='spotlight'][data-part='item']:is([aria-selected='true'], [data-highlighted])
+    [data-scope='spotlight'][data-part='item-indicator'] {
+    visibility: visible;
+  }
+
+  [dir='rtl'] [data-scope='spotlight'][data-part='item-indicator'] > svg {
+    transform: scaleX(-1);
+  }
+
+  /* The query's matches in a label. */
+  .apui-spotlight mark {
+    background: none;
+    color: inherit;
+    font-weight: var(--apui-font-weight-semibold);
+    text-decoration: underline;
+    text-decoration-color: var(--apui-color-primary-border);
+    text-underline-offset: 3px;
+  }
+
+  :is([data-scope='spotlight'][data-part='empty'], [data-scope='spotlight'][data-part='loading']) {
+    padding-block: 12px;
+    padding-inline: 10px;
+    color: var(--apui-text-muted);
+    font-size: var(--apui-type-body-sm-font-size);
+    line-height: var(--apui-type-body-sm-line-height);
+  }
+
+  [data-scope='spotlight'][data-part='footer'] {
+    display: flex;
+    flex: none;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
+    padding-block: 8px;
+    padding-inline: 16px;
+    border-block-start: var(--apui-border-width) solid var(--apui-border-muted);
+    background: var(--apui-surface-default);
+    color: var(--apui-text-muted);
+    font-size: var(--apui-type-caption-font-size);
+    line-height: var(--apui-type-caption-line-height);
+  }
+
+  [data-scope='spotlight'][data-part='footer'] > span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  @media (forced-colors: active) {
+    .apui-spotlight {
+      border-color: CanvasText;
+    }
+
+    [data-scope='spotlight'][data-part='item']:is([aria-selected='true'], [data-highlighted]) {
+      outline: var(--apui-focus-ring-width) solid Highlight;
+      outline-offset: calc(var(--apui-focus-ring-width) * -1);
+    }
+
+    [data-scope='spotlight'][data-part='search']:has([data-part='query']:focus-visible) {
+      outline: var(--apui-focus-ring-width) solid Highlight;
+      outline-offset: calc(var(--apui-focus-ring-width) * -1);
+    }
+  }
+}

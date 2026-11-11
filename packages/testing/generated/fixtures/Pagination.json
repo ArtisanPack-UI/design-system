@@ -1,0 +1,54 @@
+{
+  "version": 1,
+  "component": "Pagination",
+  "rootClass": "apui-pagination",
+  "stacks": [
+    "livewire",
+    "react",
+    "vue"
+  ],
+  "names": {
+    "livewire": "pagination",
+    "react": "Pagination",
+    "vue": "Pagination"
+  },
+  "cases": [
+    {
+      "id": "state=default",
+      "props": {
+        "page": 3,
+        "total": 318,
+        "perPage": 10,
+        "summary": true
+      },
+      "state": "default",
+      "content": null
+    }
+  ],
+  "sheets": [
+    {
+      "id": "light",
+      "theme": "light",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "dark",
+      "theme": "dark",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "high-contrast",
+      "theme": "high-contrast",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "rtl",
+      "theme": "light",
+      "density": "default",
+      "dir": "rtl"
+    }
+  ]
+}

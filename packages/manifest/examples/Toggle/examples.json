@@ -1,0 +1,17 @@
+[
+  {
+    "id": "basic",
+    "title": "Basic",
+    "description": "Label the setting, not the state. It takes effect immediately; in forms with a submit, use Checkbox."
+  },
+  {
+    "id": "settings",
+    "title": "Settings rows",
+    "description": "A description explains what the setting does."
+  },
+  {
+    "id": "sizes",
+    "title": "Sizes and colors",
+    "description": "Small, medium and large tracks, in any of the eight colors."
+  }
+]

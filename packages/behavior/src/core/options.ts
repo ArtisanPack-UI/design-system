@@ -21,6 +21,7 @@ import {
   type ComboboxItem,
   type ComboboxProps,
   createCollection,
+  createItem,
   filterItems,
 } from '../widgets/combobox';
 import type { DialogProps } from '../widgets/dialog';
@@ -89,6 +90,9 @@ export interface ComboboxOptions extends Pick<
   | 'name'
   | 'translations'
   | 'closeOnSelect'
+  | 'invalid'
+  | 'required'
+  | 'loading'
   | 'ids'
   | 'dir'
 > {
@@ -118,6 +122,16 @@ export interface ComboboxOptions extends Pick<
   remote?: boolean;
   /** Accept a typed value that isn't an item. */
   allowCustom?: boolean;
+  /**
+   * Offer a create option for typed text that names no item or chosen value
+   * (ignoring case and accents). Choosing it adds the text to the value and
+   * calls `onCreate`.
+   */
+  allowCreate?: boolean;
+  /** Called with the new value when the create option is chosen. */
+  onCreate?: (details: { value: string }) => void;
+  /** With `multiple`, the most values that can be chosen; the other items are disabled once reached. */
+  max?: number;
   /** Where the listbox opens. Default `bottom-start`, as wide as the control. */
   positioning?: PositionOptions;
   /** Machine id. Defaults to one unique on the page. */
@@ -135,9 +149,51 @@ export function fromValueArray(value: string[], multiple: boolean | undefined): 
   return multiple ? value : (value[0] ?? null);
 }
 
-/** The items to render: every item when remote, otherwise those whose label matches `query`. */
-export function visibleItems(options: ComboboxOptions, query: string): ComboboxItem[] {
-  return options.remote ? options.items : filterItems(options.items, query);
+/**
+ * The items to render: every item when remote, otherwise those whose label
+ * matches `query`; then the create option, with `allowCreate`. With `max`
+ * reached, the items not chosen are disabled. `values` defaults to the
+ * options' value.
+ */
+export function visibleItems(
+  options: Pick<ComboboxOptions, 'items' | 'remote' | 'allowCreate' | 'max' | 'multiple'> &
+    Partial<Pick<ComboboxOptions, 'value' | 'defaultValue'>>,
+  query: string,
+  values: string[] = toValueArray(options.value ?? options.defaultValue),
+): ComboboxItem[] {
+  let items = options.remote ? options.items : filterItems(options.items, query);
+  const created = options.allowCreate ? createItem(query, options.items, values) : null;
+  if (created) items = [...items, created];
+  if (options.multiple && options.max && values.length >= options.max) {
+    items = items.map((item) =>
+      values.includes(item.value) || item.disabled ? item : { ...item, disabled: true },
+    );
+  }
+  return items;
+}
+
+/**
+ * Whether a value change is allowed, and the value it creates if any. A
+ * change past `max` is refused; a new value that is the create option among
+ * `items` is reported.
+ */
+export function reviewValueChange(
+  options: Pick<ComboboxOptions, 'multiple' | 'max'>,
+  previous: string[],
+  next: string[],
+  items: readonly ComboboxItem[],
+): { allowed: boolean; created: string | null } {
+  if (
+    options.multiple &&
+    options.max &&
+    next.length > options.max &&
+    next.length > previous.length
+  ) {
+    return { allowed: false, created: null };
+  }
+  const added = next.find((value) => !previous.includes(value));
+  const created = added !== undefined && items.some((item) => item.create && item.value === added);
+  return { allowed: true, created: created ? added! : null };
 }
 
 /**
@@ -147,7 +203,7 @@ export function visibleItems(options: ComboboxOptions, query: string): ComboboxI
  * every render, and reading computed style there would force a style
  * recalculation per keystroke.
  */
-function direction(options: {
+export function direction(options: {
   dir?: Direction;
   positioning?: Pick<PositionOptions, 'dir'>;
 }): Direction {
@@ -168,6 +224,7 @@ export function toComboboxProps(
   id: string,
   items: ComboboxItem[],
   setQuery: (query: string) => void,
+  local?: ComboboxLocalValue,
 ): Partial<ComboboxProps> {
   const multiple = Boolean(options.multiple);
   return {
@@ -178,14 +235,23 @@ export function toComboboxProps(
     disabled: options.disabled,
     readOnly: options.readOnly,
     placeholder: options.placeholder,
-    name: options.name,
+    // No `name` on the text input: it holds a label. Components render a
+    // hidden input per value instead (`toValueArray`).
     translations: options.translations,
     closeOnSelect: options.closeOnSelect,
-    allowCustomValue: options.allowCustom,
+    invalid: options.invalid,
+    required: options.required,
+    loading: options.loading,
+    // A created value isn't an item once the text is gone, so the machine
+    // must not revert the input to the last item's label on blur.
+    allowCustomValue: options.allowCustom || options.allowCreate,
     collection: createCollection(items),
-    value: options.value === undefined ? undefined : toValueArray(options.value),
+    // Always controlled: the options' value, else the adapter's own state
+    // (`local`), so a refused change (past `max`) leaves the machine where it
+    // was instead of keeping the extra value.
+    value: currentValue(options, local),
     defaultValue:
-      options.defaultValue === undefined ? undefined : toValueArray(options.defaultValue),
+      local || options.defaultValue === undefined ? undefined : toValueArray(options.defaultValue),
     open: options.open,
     defaultOpen: options.defaultOpen,
     inputValue: options.inputValue,
@@ -198,8 +264,14 @@ export function toComboboxProps(
       ...options.positioning,
       dir: direction(options),
     }),
-    onValueChange: ({ value }) =>
-      options.onValueChange?.({ value: fromValueArray(value, multiple) }),
+    onValueChange: ({ value }) => {
+      const previous = currentValue(options, local) ?? [];
+      const review = reviewValueChange(options, previous, value, items);
+      if (!review.allowed) return;
+      if (options.value === undefined) local?.set(value);
+      options.onValueChange?.({ value: fromValueArray(value, multiple) });
+      if (review.created !== null) options.onCreate?.({ value: review.created });
+    },
     onInputValueChange: ({ inputValue, reason }) => {
       if (!options.remote) setQuery(reason === 'input-change' ? inputValue : '');
       options.onInputValueChange?.({ inputValue, reason });
@@ -209,6 +281,24 @@ export function toComboboxProps(
       options.onOpenChange?.({ open });
     },
   };
+}
+
+/**
+ * The value an adapter keeps for an uncontrolled combobox, seeded from
+ * `defaultValue`. React keeps it in state, Vue in a ref.
+ */
+export interface ComboboxLocalValue {
+  value: string[];
+  set(value: string[]): void;
+}
+
+/** The value the machine shows: the options' when controlled, else the adapter's own. */
+export function currentValue(
+  options: Pick<ComboboxOptions, 'value'>,
+  local?: ComboboxLocalValue,
+): string[] | undefined {
+  if (options.value !== undefined) return toValueArray(options.value);
+  return local?.value;
 }
 
 /**

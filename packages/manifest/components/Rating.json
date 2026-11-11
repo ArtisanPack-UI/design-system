@@ -1,0 +1,158 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "Rating",
+  "description": "Shows or collects a star score. Read-only, it is one image with a text alternative and supports half stars; as an input it is a group of native radios.",
+  "status": "draft",
+  "issue": 53,
+  "rootClass": "apui-rating",
+  "stacks": {
+    "livewire": { "name": "rating" },
+    "react": { "name": "Rating" },
+    "vue": { "name": "Rating" }
+  },
+  "props": [
+    {
+      "name": "value",
+      "type": "number",
+      "description": "The score. Read-only, it rounds to the nearest half star. Livewire binds it with wire:model, Vue with v-model."
+    },
+    {
+      "name": "defaultValue",
+      "type": "number",
+      "description": "The initial score of an uncontrolled input.",
+      "stacks": ["react"]
+    },
+    {
+      "name": "max",
+      "type": "number",
+      "default": 5,
+      "description": "The number of stars."
+    },
+    {
+      "name": "readonly",
+      "type": "boolean",
+      "default": false,
+      "description": "Shows the score instead of collecting it. Emitted as data-readonly.",
+      "a11y": "Renders role=img with the value label instead of radios."
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": false,
+      "description": "Disables the radios."
+    },
+    {
+      "name": "size",
+      "type": "enum",
+      "values": ["sm", "md", "lg"],
+      "default": "md",
+      "description": "Star size. Emitted as data-size."
+    },
+    {
+      "name": "count",
+      "type": "number",
+      "description": "The number of reviews, shown after the value."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "description": "The input's accessible name, such as \"Rate the viewing\". Livewire defaults it to the translated \"Rating\"."
+    },
+    {
+      "name": "valueLabel",
+      "type": "string",
+      "default": ":value out of :max",
+      "description": "The text alternative for the score and each star's radio, with :value and :max placeholders. Translated by default."
+    },
+    {
+      "name": "countLabel",
+      "type": "string",
+      "description": "The review count text, with a :count placeholder. Defaults to \"(:count reviews)\", singular for one, translated in Livewire."
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part, such as { star: '…', value: '…' }."
+    }
+  ],
+  "sizes": ["sm", "md", "lg"],
+  "parts": [
+    {
+      "name": "root",
+      "element": "div",
+      "description": "role=radiogroup holding the stars as an input; role=img with the value label when read-only."
+    },
+    {
+      "name": "item",
+      "element": "label",
+      "description": "One star's radio and its star, as an input."
+    },
+    {
+      "name": "control",
+      "element": "input",
+      "description": "The native radio for one score, visually hidden over its star. Attributes other than class land on every radio."
+    },
+    {
+      "name": "star",
+      "element": "span",
+      "description": "A star icon. data-filled when it counts, data-half when it is the half star."
+    },
+    {
+      "name": "half",
+      "element": "span",
+      "description": "The filled half of a half star, on the start side."
+    },
+    { "name": "value", "element": "span", "description": "The numeric score." },
+    { "name": "count", "element": "span", "description": "The number of reviews." }
+  ],
+  "events": [
+    {
+      "name": "value-change",
+      "description": "The score changed, as a number.",
+      "payload": "number"
+    }
+  ],
+  "a11y": {
+    "role": "radiogroup",
+    "roles": ["img"],
+    "keyboard": [
+      { "keys": "Tab", "action": "Moves focus to the checked star, or the first." },
+      {
+        "keys": "ArrowRight, ArrowUp",
+        "action": "Raises the score by one (platform radio behavior), following the text direction."
+      },
+      {
+        "keys": "ArrowLeft, ArrowDown",
+        "action": "Lowers the score by one, following the text direction."
+      },
+      { "keys": "Space", "action": "Chooses the focused star." }
+    ],
+    "requirements": [
+      "Read-only: role=img with the value label, such as \"4.2 out of 5\"; the stars are decorative.",
+      "Input: native radios sharing one name, so the platform supplies roving focus and arrow keys. Each radio is labelled with the value label, such as \"3 out of 5\".",
+      "The stars run in the inline direction and mirror under RTL; the half star fills from the start side, and arrow keys follow the text direction.",
+      "The filled stars follow the native :checked state, so they update before a deferred wire:model round trip.",
+      "Visible focus ring on the star whose radio has :focus-visible.",
+      "Show the numeric value next to the stars; color is never the only cue.",
+      "Every label is translatable."
+    ],
+    "wcag": ["1.1.1", "1.3.1", "1.4.3", "1.4.11", "2.1.1", "2.4.7", "2.5.8", "4.1.2"]
+  },
+  "tokens": [
+    "--apui-color-accent",
+    "--apui-color-accent-border",
+    "--apui-color-accent-soft",
+    "--apui-border-default",
+    "--apui-icon-size-sm",
+    "--apui-icon-size-lg",
+    "--apui-radius-xs",
+    "--apui-text-default",
+    "--apui-text-muted",
+    "--apui-text-disabled",
+    "--apui-focus-ring-color"
+  ],
+  "fixture": {
+    "props": { "value": 4, "count": 17, "label": "Rate the viewing" },
+    "states": ["hover", "focus-visible", "readonly", "disabled"]
+  }
+}

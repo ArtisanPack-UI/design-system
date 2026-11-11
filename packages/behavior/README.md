@@ -11,14 +11,14 @@ Part of the [ArtisanPack UI Design System](../../README.md).
 | Export                                      | What it is                                                                                                                                                                                                                                                                                                                                          |
 | ------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `@artisanpack-ui/behavior`                  | The adapter interface (`createWidget`, `WidgetDefinition`), widget definitions (`dialog`, `combobox`, `dropdownMenu`, `toast`, `toastGroup`), the toaster (`createToaster`, `staticToastParts`), positioning (`position`, `toPlacement`, `zagPositioning`) and morph support (`keepClientState`)                                                    |
-| `@artisanpack-ui/behavior/alpine`           | The Alpine plugin: `apuiDialog`, `apuiCombobox`, `apuiDropdownMenu`, `apuiToaster`, `apuiToast` and the `x-apui:<part>` directive                                                                                                                                                                                                                   |
-| `@artisanpack-ui/behavior/react`            | React hooks: `useDialog`, `useCombobox`, `useDropdownMenu`, `useToaster`, `useToast`                                                                                                                                                                                                                                                                |
-| `@artisanpack-ui/behavior/vue`              | Vue composables: `useDialog`, `useCombobox`, `useDropdownMenu`, `useToaster`, `useToast`                                                                                                                                                                                                                                                            |
+| `@artisanpack-ui/behavior/alpine`           | The Alpine plugin: `apuiDialog`, `apuiCombobox`, `apuiDropdownMenu`, `apuiTabs`, `apuiToaster`, `apuiToast` and the `x-apui:<part>` directive                                                                                                                                                                                                                   |
+| `@artisanpack-ui/behavior/react`            | React hooks: `useDialog`, `useCombobox`, `useDropdownMenu`, `useTabs`, `useToaster`, `useToast`                                                                                                                                                                                                                                                                |
+| `@artisanpack-ui/behavior/vue`              | Vue composables: `useDialog`, `useCombobox`, `useDropdownMenu`, `useTabs`, `useToaster`, `useToast`                                                                                                                                                                                                                                                            |
 | `@artisanpack-ui/behavior/icons`            | The icon registry every stack resolves string icon names against: `resolveIcon`, `iconSvg`, `registerIcons` (trusted static SVG shapes only; anything else throws `UnsafeIconError`, see `isSafeIconBody`), with a default Lucide set ([D-017](../../docs/decisions.md#d-017-icon-names-resolve-against-one-lucide-set-shipped-by-behavior))        |
 | `@artisanpack-ui/behavior/icons.json`       | The default set as JSON (`icons/lucide.json`), which Livewire UI Components copies into PHP along with its license notice (`icons/LICENSE-lucide.txt`)                                                                                                                                                                                              |
 | `@artisanpack-ui/behavior/alpine.global.js` | The same plugin as one classic script that registers itself on `alpine:init`, for pages without a bundler ([D-014](../../docs/decisions.md#d-014-without-a-bundler-use-the-prebuilt-composer-asset-no-official-cdn-build-at-10)). About 63 KB gzipped with Dialog, Combobox, DropdownMenu and the toast stack; `ApuiBehavior.toast()` shows a toast |
 
-Engine widgets only: Menu and DropdownMenu, Combobox and Choices, Popover, Tooltip, Dialog, Modal and Drawer, Tabs, DatePicker, the Toast stack and Spotlight. Simple components stay native in each stack, Select included ([D-018](../../docs/decisions.md#d-018-form-fields-share-one-anatomy-and-route-attributes-to-the-native-control)).
+Engine widgets only: DropdownMenu (the navigation Menu is links plus a disclosure per sub-menu, so it needs no widget), Combobox and Choices, Popover, Tooltip, Dialog, Modal and Drawer, Tabs, DatePicker, the Toast stack and Spotlight. Simple components stay native in each stack, Select included ([D-018](../../docs/decisions.md#d-018-form-fields-share-one-anatomy-and-route-attributes-to-the-native-control)).
 
 ## Alpine and Livewire
 
@@ -70,11 +70,13 @@ Without a bundler, load `alpine.global.js` before Livewire's script. A component
 | ---------------- | ----------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
 | `open` / `value` | Open state                                                                                                        | Value: a string, or an array with `multiple`                                                                                 | Open state                                                        |
 | Events           | `open-change`                                                                                                     | `value-change`, `open-change`                                                                                                | `open-change`, `select`, `checked-change`                         |
-| Other            | `role`, `modal`, `closeOnEscape`, `closeOnInteractOutside`, `preventScroll`, `trapFocus`, `restoreFocus`, `label` | `multiple`, `remote` + `search`, `allowCustom`, `placeholder`, `disabled`, `readOnly`, `name`, `translations`, `positioning` | `align`, `closeOnSelect`, `loopFocus`, `typeahead`, `positioning` |
+| Other            | `role`, `modal`, `closeOnEscape`, `closeOnInteractOutside`, `preventScroll`, `trapFocus`, `restoreFocus`, `label` | `multiple`, `max`, `remote` + `search` + `debounce`, `allowCustom`, `allowCreate`, `loading`, `labels`, `invalid`, `required`, `placeholder`, `disabled`, `readOnly`, `name`, `translations`, `positioning` | `align`, `closeOnSelect`, `loopFocus`, `typeahead`, `positioning` |
 
 `open` and `value` are plain Alpine state, so `$wire.entangle()` binds them to Livewire properties both ways. That's what `wire:model` on the Blade components compiles to. Events report changes the widget makes, like `onOpenChange` in React; setting the bound state doesn't fire them.
 
 Combobox filters its items by label (ignoring case and accents) as you type. With `remote: true` it doesn't: typing updates the entangled `search`, the server renders the matching items, and the combobox picks them up from the morph. `x-apui:empty` shows when no item matches. It isn't a live region: the machine announces the result count ("3 results", "No results") itself, from `translations.resultsCount` and `translations.noResults`, which the Blade components pass through `__()`. An item's label defaults to the text of its `x-apui:item-text` part, so an indicator never ends up in it.
+
+The combobox's field parts follow the form anatomy ([D-018](../../docs/decisions.md#d-018-form-fields-share-one-anatomy-and-route-attributes-to-the-native-control)): Zag's `control` and `input` render as `data-part="box"` and `data-part="control"` (`repart()`), though the directives keep the machine's names (`x-apui:control` on the box, `x-apui:input` on the text input). Typing dispatches `search-change`; with `remote` it also sets `search` after `debounce` ms. With `multiple` the component exposes `chips` and `remove(value)` (Backspace in the empty input removes the last one and sets `status`, for a live region); with `allowCreate`, bind `x-apui:item="createOption"` and `createText` for the create option, which dispatches `create` when chosen. `itemHtml(label, description)` returns the label with the typed text in `<mark data-part="mark">`, escaped, and `emptyText` is the empty or loading text. Labels default to `COMBOBOX_LABELS` and take translations through `labels`. React and Vue get the same from `useCombobox` (`allowCreate`, `onCreate`, `max`, `loading`) plus the `highlight()` and `formatLabel()` helpers.
 
 One element can carry several parts, of one widget or of two (a Tooltip on a DropdownMenu trigger). Their props are merged the way Zag's `mergeProps` does: event handlers all run, and for other attributes the part bound last wins. An element has only one `id`, though, so only one of the parts on a shared element can keep an authored id.
 
@@ -104,6 +106,19 @@ One element can carry several parts, of one widget or of two (a Tooltip on a Dro
 A DropdownMenu's parts are scoped `dropdown-menu`, apart from the navigation Menu ([D-019](../../docs/decisions.md#d-019-overlays-put-the-root-class-on-the-panel-keep-zags-part-names-and-render-in-place-for-the-gates)). Choosing an item clicks it, so `wire:click` runs from the keyboard too, and dispatches `select`. Checkbox and radio items dispatch `checked-change` from the item; their `checked` stays the page's to set. The machine names items `<id>/<value>`, so items are keyed by `wire:key`; groups and their labels keep their ids.
 
 ```blade
+<div id="account" x-data="apuiTabs({ value: $wire.entangle('section'), activationMode: 'automatic' })" x-apui:root>
+    <div id="account-list" x-apui:list>
+        <button id="account-trigger-profile" x-apui:trigger="{ value: 'profile' }">Profile</button>
+        <button id="account-trigger-billing" x-apui:trigger="{ value: 'billing', disabled: true }">Billing</button>
+    </div>
+    <div id="account-content-profile" x-apui:content="{ value: 'profile' }">…</div>
+    <div id="account-content-billing" x-apui:content="{ value: 'billing' }">…</div>
+</div>
+```
+
+Tabs (#56) keep Zag's parts and scope (`tabs`); the spec's panel is the `content` part. Triggers and panels are named per value, so their authored ids are kept per value. `value` is plain state, entangled with Livewire, and a selection dispatches `value-change`; with no value, the first enabled tab is selected. The arrow keys follow `orientation` and the direction the root computes to, so ArrowLeft moves to the next tab in RTL. `activationMode: 'manual'` moves focus only, and Enter or Space selects.
+
+```blade
 <div x-data="apuiToaster({ label: @js(__('Notifications')) })" wire:ignore>
     <div x-apui:group>
         <template x-for="(entry, index) in toasts" :key="entry.id">
@@ -120,6 +135,41 @@ A DropdownMenu's parts are scoped `dropdown-menu`, apart from the navigation Men
 
 The toaster renders the page's toasts, newest first. A `toast` browser event adds one, so a Livewire component calls `$this->dispatch('toast', title: __('Saved'), color: 'success')`; `ApuiBehavior.toast({ … })` does the same from JavaScript, and `toasts: [...]` shows ones flashed to the session. The region is client-rendered, so keep it `wire:ignore`, outside the morph. Toast options are the same in every stack: `title`, `description`, `color` (`error` is an alert), `variant`, `surface`, `icon`, `duration` (0 keeps it), `action: { label, onClick }` (keeps it too) and `hideClose`.
 
+```blade
+<div x-data="apuiSpotlight({ id: 'palette', shortcut: 'mod+k', url: '/spotlight' })">
+    <button id="palette-trigger" x-apui:trigger>Search</button>
+    <template x-teleport="body">
+        <div>
+            <div id="palette-backdrop" x-apui:backdrop></div>
+            <div id="palette-positioner" x-apui:positioner>
+                <div id="palette-content" x-apui:content class="apui-spotlight">
+                    <div id="palette-search" x-apui:search>
+                        <input id="palette-query" x-apui:query aria-label="Search">
+                        <button id="palette-close" x-apui:close-trigger aria-label="Close">Esc</button>
+                    </div>
+                    <div id="palette-results" x-apui:results aria-label="Search">
+                        <div id="palette-pages" x-apui:item-group="{ id: 'pages' }">
+                            <div id="palette-pages-label" x-apui:item-group-label="{ htmlFor: 'pages' }">Pages</div>
+                            <a href="/reports" wire:key="reports" x-apui:item="{ value: 'reports', label: 'Reports', keywords: ['analytics'] }">
+                                <span x-apui:item-text>Reports</span>
+                            </a>
+                        </div>
+                        <div id="palette-empty" x-apui:empty>No results.</div>
+                        <div id="palette-loading" x-apui:loading hidden>Searching…</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+</div>
+```
+
+Spotlight (#57) composes two machines instead of adding one: the dialog is the overlay and the combobox is the search, its listbox always open while the dialog is. Both scope their parts `spotlight`; their names collide (each has a `trigger`, `positioner` and `content`), so the dialog keeps Zag's and the combobox's take the spec's: `search` (Zag's control), `query` (input) and `results` (content). Items are filtered by every word of the query against their label, description and keywords; the active result is `aria-activedescendant` and `aria-selected`. The global shortcut (`mod+k`: ⌘K on Apple platforms, Ctrl+K elsewhere) toggles it. Choosing an item dispatches `select` (`{ value, item }`) and closes it, following a link item; typing dispatches `search-change`. With `remote` the server filters; with `url` the component fetches JSON for `?search=…` and renders it through `clientGroups('remote')` in an `x-for`, as it does recent choices (`clientGroups('recent')`, kept in `localStorage`). React and Vue use `useSpotlight({ groups, … })`, which returns the visible `groups` and a `get<Part>Props()` per part.
+
+### DatePicker
+
+`apuiDatePicker` (`useDatePicker` in React and Vue) is DatePicker and, with `time`, DateTime (#55), on Zag's date-picker machine. `value` is an ISO string (`2026-11-12`, `2026-11-12T11:00` in time mode) or an array of two with `mode: 'range'`, so `$wire.entangle()` binds it like any value; `open` is plain state too. The month (`table`, `table-row`, `table-cell`, `table-cell-trigger`) renders from the component's `weeks` and `weekDays` with `x-for`, so keep the positioner `wire:ignore`: its client-rendered cells keep the machine's ids, and the adapter doesn't ask them for server ids. The field's parts follow the shared anatomy: Zag's `control` and `input` are `x-apui:box` and `x-apui:control` (`DATE_PICKER_PARTS`). The time list (`x-apui:time-list`, `x-apui:time-option="{ value: '11:00' }"`) is a listbox the definition adds on top of the machine. Options: `mode`, `time`, `step`, `locale` (Intl month and weekday names), `timeZone`, `min`, `max`, `disabledDates`, `weekStartsOn`, `format` (`dd.MM.yyyy`; the locale's numeric pattern by default), `disabled`, `readOnly`, `required`, `invalid`, `placeholder`, `labels` (`trigger`, `previous`, `next`, `calendar`) and `timeLabel`. Arrow keys follow the text direction.
+
 ### Rules for Livewire
 
 These came out of running the spike on Livewire 3.7 and 4.4 ([D-015](../../docs/decisions.md#d-015-the-behavior-engine-is-zag-with-floating-ui)):
@@ -132,6 +182,10 @@ What the adapter handles for you:
 
 - **Morphing.** The machine owns every attribute it writes on a part. A re-render resets them to the server's HTML, and the widget writes them back before the next paint. State the machine writes outside part props (`aria-hidden` on the page behind a modal, a layer's `pointer-events`) is carried through the morph by `keepClientState`, which the plugin hooks into Livewire's `morph.updating`. For another morph library, call `ApuiBehavior.keepClientState(el, toEl)` (or import it) before each element is patched.
 - **`wire:navigate`.** Alpine destroys the old page's components, which stops each machine and runs its cleanups: the focus trap, scroll lock, `aria-hidden` and listeners all go. Zag installs one set of focus-modality listeners per window on first use and keeps them, which is expected.
+
+## Form editors (not Zag)
+
+Signature, RichTextEditor and CodeEditor (#53) have no machine to coordinate, so they ship as plain helpers from `@artisanpack-ui/behavior` that every stack drives the same way: `SignaturePad` (pointer drawing, undo, clear, typed and uploaded signatures as one PNG data URL), `RichTextSurface` with `resolveToolbar`, `sanitizeRichText`, `htmlToMarkdown` and `markdownToHtml` (the built-in contentEditable engine), `codeEditorKeydown` with `caretPosition`, `gutterLines` and `severityByLine` (Tab indents; Escape, then Tab, leaves), and `rovingKeydown` for their toolbars and tabs (arrows follow the text direction). The Alpine plugin registers `apuiSignature`, `apuiRichTextEditor` (TinyMCE inline under the design-system toolbar when the page loads it, else the built-in engine) and `apuiCodeEditor`; React and Vue components use the helpers directly. The helpers and the Alpine components take the built-in strings as one `translations` object (`definedLabels` drops unset ones); the components expose them as one `*Label` prop per string (D-019).
 
 ## React and Vue
 
@@ -224,6 +278,7 @@ const dialog = useDialog(() => ({
 | Combobox listbox | `open`       | `defaultOpen`       | `onOpenChange({ open })`                        |
 | Combobox text    | `inputValue` | `defaultInputValue` | `onInputValueChange({ inputValue, reason })`    |
 | DropdownMenu     | `open`       | `defaultOpen`       | `onOpenChange({ open })`, `onSelect({ value })` |
+| Tabs             | `value`      | `defaultValue`      | `onValueChange({ value })`                      |
 
 A toaster's region is `useToaster({ toaster })`, where `toaster = createToaster({ … })`; render each of its `toasts` with `useToast(entry, region.service, index)`, as the Alpine toaster does. Checkbox and radio menu items are `getOptionItemProps({ type, value, checked, onCheckedChange })`.
 

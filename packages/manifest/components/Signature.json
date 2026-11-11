@@ -1,0 +1,332 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "Signature",
+  "description": "Captures a signature by drawing, typing or uploading. Every mode produces the same value, a PNG data URL, and Type mode is always offered as the keyboard-accessible path.",
+  "status": "draft",
+  "issue": 53,
+  "rootClass": "apui-signature",
+  "stacks": {
+    "livewire": {
+      "name": "signature"
+    },
+    "react": {
+      "name": "Signature"
+    },
+    "vue": {
+      "name": "Signature"
+    }
+  },
+  "props": [
+    {
+      "name": "mode",
+      "type": "enum",
+      "values": ["draw", "type", "upload"],
+      "default": "draw",
+      "description": "The mode shown first. Emitted as data-mode; the mode switch changes it."
+    },
+    {
+      "name": "modes",
+      "type": "array",
+      "default": ["draw", "type", "upload"],
+      "description": "The modes offered, from draw, type and upload. Type is always added: it's the keyboard path."
+    },
+    {
+      "name": "penColor",
+      "type": "enum",
+      "values": [
+        "default",
+        "primary",
+        "secondary",
+        "accent",
+        "neutral",
+        "success",
+        "warning",
+        "error",
+        "info"
+      ],
+      "default": "default",
+      "description": "The ink: default is the text color; the others use the color's text tone, which keeps 4.5:1 on the pad. Emitted as data-pen-color."
+    },
+    {
+      "name": "label",
+      "type": "node",
+      "description": "The visible label. It names the group."
+    },
+    {
+      "name": "hint",
+      "type": "node",
+      "description": "Help text under the pad, such as who is signing and the date. Linked with aria-describedby."
+    },
+    {
+      "name": "error",
+      "type": "string",
+      "description": "Validation message. Marks the field invalid and is linked with aria-describedby."
+    },
+    {
+      "name": "invalid",
+      "type": "boolean",
+      "default": false,
+      "description": "Marks the field invalid without a message. Emitted as data-invalid."
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": false,
+      "description": "Disables drawing, typing, uploading and the tools. Emitted as data-disabled."
+    },
+    {
+      "name": "required",
+      "type": "boolean",
+      "default": false,
+      "description": "Marks the field required and shows the required mark.",
+      "a11y": "Sets aria-required on the typed-name input."
+    },
+    {
+      "name": "placeholder",
+      "type": "string",
+      "description": "The text under the signing line. Defaults to \"Sign above the line\", translated."
+    },
+    {
+      "name": "value",
+      "type": "string",
+      "description": "The signature as a PNG data URL, or empty. Livewire binds it with wire:model, Vue with v-model."
+    },
+    {
+      "name": "defaultValue",
+      "type": "string",
+      "stacks": ["react"],
+      "description": "The initial value of an uncontrolled signature."
+    },
+    {
+      "name": "modesLabel",
+      "type": "string",
+      "description": "The mode switch group's accessible name. Defaults to \"Signature method\", translated in Livewire."
+    },
+    {
+      "name": "drawLabel",
+      "type": "string",
+      "description": "The draw mode button. Defaults to \"Draw\", translated in Livewire."
+    },
+    {
+      "name": "typeLabel",
+      "type": "string",
+      "description": "The type mode button. Defaults to \"Type\", translated in Livewire."
+    },
+    {
+      "name": "uploadLabel",
+      "type": "string",
+      "description": "The upload mode button. Defaults to \"Upload\", translated in Livewire."
+    },
+    {
+      "name": "padLabel",
+      "type": "string",
+      "description": "The canvas's accessible name. Defaults to \"Signature pad. Draw with a mouse, finger or stylus, or choose Type.\", translated in Livewire."
+    },
+    {
+      "name": "typedLabel",
+      "type": "string",
+      "description": "The typed-name input's accessible name. Defaults to \"Type your full name\", translated in Livewire."
+    },
+    {
+      "name": "uploadTriggerLabel",
+      "type": "string",
+      "description": "The upload trigger's text. Defaults to \"Choose an image\", translated in Livewire."
+    },
+    {
+      "name": "undoLabel",
+      "type": "string",
+      "description": "The icon-only undo button's accessible name. Defaults to \"Undo stroke\", translated in Livewire."
+    },
+    {
+      "name": "clearLabel",
+      "type": "string",
+      "description": "The clear button's text. Defaults to \"Clear\", translated in Livewire."
+    },
+    {
+      "name": "clearedLabel",
+      "type": "string",
+      "description": "Announced in the live region after clearing. Defaults to \"Signature cleared.\", translated in Livewire."
+    },
+    {
+      "name": "errorField",
+      "type": "string",
+      "stacks": ["livewire"],
+      "description": "The validation key to read from $errors. Defaults to the wire:model name."
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part, such as { pad: '…', typed: '…' }."
+    }
+  ],
+  "parts": [
+    {
+      "name": "root",
+      "element": "div",
+      "description": "The field: label, mode switch, pad, hint and error. A group named by the label."
+    },
+    {
+      "name": "label",
+      "element": "span",
+      "description": "The visible label. It names the root group."
+    },
+    {
+      "name": "required",
+      "element": "span",
+      "description": "The required mark inside the label. Hidden from screen readers."
+    },
+    {
+      "name": "modes",
+      "element": "div",
+      "description": "The mode switch, a group of toggle buttons."
+    },
+    {
+      "name": "mode",
+      "element": "button",
+      "description": "One mode's toggle button, with aria-pressed."
+    },
+    {
+      "name": "pad",
+      "element": "div",
+      "description": "The bordered signing surface: the spec's frame."
+    },
+    {
+      "name": "line",
+      "element": "span",
+      "description": "The dashed signing line. Decorative."
+    },
+    {
+      "name": "mark",
+      "element": "span",
+      "description": "The × at the start of the line. Decorative."
+    },
+    {
+      "name": "ink",
+      "element": "canvas",
+      "description": "The drawing surface in draw and upload modes, an image to screen readers."
+    },
+    {
+      "name": "typed",
+      "element": "input",
+      "description": "The typed name, set on the line in a script face. Shown in type mode."
+    },
+    {
+      "name": "upload",
+      "element": "label",
+      "description": "The upload trigger wrapping a native file input. Shown in upload mode until an image is chosen."
+    },
+    {
+      "name": "tools",
+      "element": "div",
+      "description": "Undo and clear, at the pad's top end."
+    },
+    {
+      "name": "undo",
+      "element": "button",
+      "description": "Undoes the last stroke. Icon-only with an accessible name; shown in draw mode."
+    },
+    {
+      "name": "clear",
+      "element": "button",
+      "description": "Clears the signature."
+    },
+    {
+      "name": "placeholder",
+      "element": "span",
+      "description": "The instruction under the line. Decorative; the pad's label says the same."
+    },
+    {
+      "name": "hint",
+      "element": "p",
+      "description": "Help text."
+    },
+    {
+      "name": "error",
+      "element": "p",
+      "description": "Validation message, with an icon."
+    },
+    {
+      "name": "status",
+      "element": "span",
+      "description": "A visually hidden polite live region that announces a cleared signature."
+    }
+  ],
+  "events": [
+    {
+      "name": "value-change",
+      "description": "The signature changed: a stroke ended, the name changed, an image loaded, or it was undone or cleared.",
+      "payload": "string"
+    }
+  ],
+  "a11y": {
+    "role": "group",
+    "keyboard": [
+      {
+        "keys": "Tab",
+        "action": "Moves through the mode buttons, the typed name or the upload input, then undo and clear."
+      },
+      {
+        "keys": "Enter / Space",
+        "action": "Chooses a mode or runs undo and clear."
+      }
+    ],
+    "requirements": [
+      "Type mode is always offered and is the keyboard-accessible path; drawing is never the only option.",
+      "The root is a group named by the label and described by the hint and error.",
+      "The canvas is role=img with an accessible name that points to Type mode.",
+      "Mode buttons are toggle buttons with aria-pressed; switching modes starts over.",
+      "Undo and clear are labeled buttons; undo is icon-only with an accessible name, and its icon mirrors in RTL.",
+      "Clearing is announced through a polite live region.",
+      "The ink and the typed name use text tones, 4.5:1 on the pad in every theme, and CanvasText in forced colors.",
+      "Invalid shows an error edge on the pad plus the error text, never color alone.",
+      "Disabled uses --apui-surface-sunken and --apui-text-disabled, never opacity alone.",
+      "Class goes to the root; wire:model binds value; name goes to a hidden input so forms submit it."
+    ],
+    "wcag": [
+      "1.1.1",
+      "1.3.1",
+      "1.4.3",
+      "1.4.11",
+      "2.1.1",
+      "2.4.7",
+      "2.5.1",
+      "2.5.8",
+      "3.3.1",
+      "3.3.2",
+      "4.1.2",
+      "4.1.3"
+    ]
+  },
+  "tokens": [
+    "--apui-input-radius",
+    "--apui-tabs-radius",
+    "--apui-button-radius",
+    "--apui-border-default",
+    "--apui-border-muted",
+    "--apui-border-strong",
+    "--apui-surface-default",
+    "--apui-surface-sunken",
+    "--apui-surface-raised",
+    "--apui-text-default",
+    "--apui-text-muted",
+    "--apui-text-disabled",
+    "--apui-color-error-border",
+    "--apui-color-error-text",
+    "--apui-state-hover",
+    "--apui-state-pressed",
+    "--apui-focus-ring-color",
+    "--apui-target-size-min"
+  ],
+  "fixture": {
+    "props": {
+      "label": "Signature"
+    },
+    "parts": {
+      "required": true,
+      "hint": "Olivia Rhye · Nov 7, 2026",
+      "error": "Sign to accept the lease.",
+      "clearLabel": "Erase"
+    },
+    "states": ["disabled", "invalid"]
+  }
+}

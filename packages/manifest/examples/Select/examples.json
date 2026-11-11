@@ -18,5 +18,10 @@
     "id": "sizes",
     "title": "Sizes",
     "description": "Small, medium and large control heights, matching Input."
+  },
+  {
+    "id": "groups",
+    "title": "Option groups",
+    "description": "Entries with a label and options render as native optgroups. This replaces the Livewire select-group component."
   }
 ]

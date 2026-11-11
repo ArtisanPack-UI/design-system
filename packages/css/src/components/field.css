@@ -4,11 +4,99 @@
  * data-scope, so these rules list the scopes that use them.
  */
 @layer apui.components {
-  :is([data-scope='input'], [data-scope='select'], [data-scope='checkbox'])[data-part='label'] {
+  :is(
+    [data-scope='input'],
+    [data-scope='select'],
+    [data-scope='checkbox'],
+    [data-scope='combobox']
+  )[data-part='label'] {
     color: var(--apui-text-default);
   }
 
-  :is([data-scope='input'], [data-scope='select'])[data-part='label'] {
+  /* Form-choice group (#53): legends and field labels use the same type. */
+  :is(
+    [data-scope='radio-group'],
+    [data-scope='checkbox-group'],
+    [data-scope='color-picker'],
+    [data-scope='file']
+  )[data-part='label'] {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    padding: 0;
+    color: var(--apui-text-default);
+    font-size: var(--apui-type-body-sm-font-size);
+    font-weight: var(--apui-font-weight-medium);
+    line-height: var(--apui-type-body-sm-line-height);
+  }
+
+  :is(
+    [data-scope='radio-group'],
+    [data-scope='color-picker'],
+    [data-scope='file']
+  )[data-part='required'] {
+    color: var(--apui-color-error-text);
+  }
+
+  :is(
+    [data-scope='radio-group'],
+    [data-scope='checkbox-group'],
+    [data-scope='color-picker'],
+    [data-scope='file']
+  ):is([data-part='hint'], [data-part='error']) {
+    margin: 0;
+    font-size: var(--apui-type-caption-font-size);
+    line-height: var(--apui-type-caption-line-height);
+  }
+
+  :is(
+    [data-scope='radio-group'],
+    [data-scope='checkbox-group'],
+    [data-scope='color-picker']
+  )[data-part='hint'] {
+    color: var(--apui-text-muted);
+  }
+
+  :is(
+    [data-scope='radio-group'],
+    [data-scope='checkbox-group'],
+    [data-scope='color-picker'],
+    [data-scope='file']
+  )[data-part='error'] {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--apui-color-error-text);
+  }
+
+  :is(
+      [data-scope='radio-group'],
+      [data-scope='checkbox-group'],
+      [data-scope='color-picker'],
+      [data-scope='file']
+    )[data-part='error']
+    > svg {
+    flex: none;
+    inline-size: var(--apui-icon-size-sm);
+    block-size: var(--apui-icon-size-sm);
+  }
+
+  :is(.apui-color-picker, .apui-file, .apui-radio-group, .apui-checkbox-group)[data-disabled]
+    > :is(
+      [data-scope='color-picker'],
+      [data-scope='file'],
+      [data-scope='radio-group'],
+      [data-scope='checkbox-group']
+    )[data-part='label'] {
+    color: var(--apui-text-disabled);
+  }
+
+  :is(
+    [data-scope='input'],
+    [data-scope='select'],
+    [data-scope='combobox'],
+    [data-scope='date-picker']
+  )[data-part='label'] {
     display: flex;
     align-items: baseline;
     gap: 4px;
@@ -17,29 +105,63 @@
     line-height: var(--apui-type-body-sm-line-height);
   }
 
-  :is([data-scope='input'], [data-scope='select'], [data-scope='checkbox'])[data-part='required'] {
+  :is(
+    [data-scope='input'],
+    [data-scope='select'],
+    [data-scope='checkbox'],
+    [data-scope='combobox'],
+    [data-scope='date-picker']
+  )[data-part='required'] {
     color: var(--apui-color-error-text);
   }
 
-  :is([data-scope='input'], [data-scope='select'])[data-part='hint'],
-  :is([data-scope='input'], [data-scope='select'], [data-scope='checkbox'])[data-part='error'] {
+  :is(
+    [data-scope='input'],
+    [data-scope='select'],
+    [data-scope='combobox'],
+    [data-scope='date-picker']
+  ):is([data-part='hint'], [data-part='time-zone']),
+  :is(
+    [data-scope='input'],
+    [data-scope='select'],
+    [data-scope='checkbox'],
+    [data-scope='combobox'],
+    [data-scope='date-picker']
+  )[data-part='error'] {
     margin: 0;
     font-size: var(--apui-type-caption-font-size);
     line-height: var(--apui-type-caption-line-height);
   }
 
-  :is([data-scope='input'], [data-scope='select'])[data-part='hint'] {
+  :is(
+    [data-scope='input'],
+    [data-scope='select'],
+    [data-scope='combobox'],
+    [data-scope='date-picker']
+  ):is([data-part='hint'], [data-part='time-zone']) {
     color: var(--apui-text-muted);
   }
 
-  :is([data-scope='input'], [data-scope='select'], [data-scope='checkbox'])[data-part='error'] {
+  :is(
+    [data-scope='input'],
+    [data-scope='select'],
+    [data-scope='checkbox'],
+    [data-scope='combobox'],
+    [data-scope='date-picker']
+  )[data-part='error'] {
     display: flex;
     align-items: center;
     gap: 4px;
     color: var(--apui-color-error-text);
   }
 
-  :is([data-scope='input'], [data-scope='select'], [data-scope='checkbox'])[data-part='error']
+  :is(
+      [data-scope='input'],
+      [data-scope='select'],
+      [data-scope='checkbox'],
+      [data-scope='combobox'],
+      [data-scope='date-picker']
+    )[data-part='error']
     > svg {
     flex: none;
     inline-size: var(--apui-icon-size-sm);
@@ -51,7 +173,7 @@
    * itself is unstyled; the box takes the border, the hover edge and the
    * focus ring.
    */
-  :is(.apui-input, .apui-select) {
+  :is(.apui-input, .apui-select, .apui-combobox, .apui-date-picker) {
     --apui-_h: var(--apui-control-height-md);
     --apui-_pad: 12px;
     --apui-_fs: var(--apui-type-body-md-font-size);
@@ -63,19 +185,19 @@
     font-family: var(--apui-font-family-sans);
   }
 
-  :is(.apui-input, .apui-select)[data-size='sm'] {
+  :is(.apui-input, .apui-select, .apui-combobox, .apui-date-picker)[data-size='sm'] {
     --apui-_h: var(--apui-control-height-sm);
     --apui-_pad: 10px;
     --apui-_fs: var(--apui-type-body-sm-font-size);
   }
 
-  :is(.apui-input, .apui-select)[data-size='lg'] {
+  :is(.apui-input, .apui-select, .apui-combobox, .apui-date-picker)[data-size='lg'] {
     --apui-_h: var(--apui-control-height-lg);
     --apui-_pad: 14px;
     --apui-_fs: 15px;
   }
 
-  :is([data-scope='input'], [data-scope='select'])[data-part='box'] {
+  :is([data-scope='input'], [data-scope='select'], [data-scope='combobox'])[data-part='box'] {
     box-sizing: border-box;
     min-inline-size: 0;
     block-size: var(--apui-_h);
@@ -88,14 +210,14 @@
     transition: border-color var(--apui-motion-duration-fast) var(--apui-motion-ease-standard);
   }
 
-  :is([data-scope='input'], [data-scope='select'])[data-part='box']:is(
+  :is([data-scope='input'], [data-scope='select'], [data-scope='combobox'])[data-part='box']:is(
       :hover,
       :has([data-part='control']:hover)
     ) {
     border-color: var(--apui-border-strong);
   }
 
-  :is([data-scope='input'], [data-scope='select'])[data-part='box']:has(
+  :is([data-scope='input'], [data-scope='select'], [data-scope='combobox'])[data-part='box']:has(
       [data-part='control']:focus-visible
     ) {
     outline: var(--apui-focus-ring-width) solid transparent;
@@ -105,7 +227,7 @@
         var(--apui-focus-ring-color);
   }
 
-  :is([data-scope='input'], [data-scope='select'])[data-part='control'] {
+  :is([data-scope='input'], [data-scope='select'], [data-scope='combobox'])[data-part='control'] {
     box-sizing: border-box;
     min-inline-size: 0;
     margin: 0;
@@ -119,7 +241,7 @@
     letter-spacing: inherit;
   }
 
-  :is([data-scope='input'], [data-scope='select'])[data-part='icon'] {
+  :is([data-scope='input'], [data-scope='select'], [data-scope='combobox'])[data-part='icon'] {
     display: inline-flex;
     flex: none;
     inline-size: var(--apui-icon-size-md);
@@ -128,42 +250,240 @@
     pointer-events: none;
   }
 
-  :is([data-scope='input'], [data-scope='select'])[data-part='icon'] > svg {
+  :is([data-scope='input'], [data-scope='select'], [data-scope='combobox'])[data-part='icon']
+    > svg {
     inline-size: 100%;
     block-size: 100%;
   }
 
   /* Invalid: an error edge, plus the error text. Never color alone. */
-  :is(.apui-input, .apui-select)[data-invalid]
-    > :is([data-scope='input'], [data-scope='select'])[data-part='box'] {
+  :is(.apui-input, .apui-select, .apui-combobox)[data-invalid]
+    > :is([data-scope='input'], [data-scope='select'], [data-scope='combobox'])[data-part='box'] {
     border-color: var(--apui-color-error-border);
   }
 
   /* Disabled and read-only: the sunken surface. Never opacity alone. */
-  :is(.apui-input, .apui-select):is([data-disabled], [data-readonly])
-    > :is([data-scope='input'], [data-scope='select'])[data-part='box'] {
+  :is(.apui-input, .apui-select, .apui-combobox):is([data-disabled], [data-readonly])
+    > :is([data-scope='input'], [data-scope='select'], [data-scope='combobox'])[data-part='box'] {
     border-color: var(--apui-border-muted);
     background: var(--apui-surface-sunken);
   }
 
-  :is(.apui-input, .apui-select)[data-disabled]
-    > :is([data-scope='input'], [data-scope='select'])[data-part='box'] {
+  :is(.apui-input, .apui-select, .apui-combobox)[data-disabled]
+    > :is([data-scope='input'], [data-scope='select'], [data-scope='combobox'])[data-part='box'] {
     color: var(--apui-text-disabled);
     cursor: not-allowed;
   }
 
-  :is(.apui-input, .apui-select)[data-disabled]
-    > :is([data-scope='input'], [data-scope='select'])[data-part='label'] {
+  :is(.apui-input, .apui-select, .apui-combobox)[data-disabled]
+    > :is([data-scope='input'], [data-scope='select'], [data-scope='combobox'])[data-part='label'] {
     color: var(--apui-text-disabled);
   }
 
-  :is(.apui-input, .apui-select)[data-disabled]
-    :is([data-scope='input'], [data-scope='select'])[data-part='control'] {
+  :is(.apui-input, .apui-select, .apui-combobox)[data-disabled]
+    :is([data-scope='input'], [data-scope='select'], [data-scope='combobox'])[data-part='control'] {
     cursor: not-allowed;
   }
 
   @media (forced-colors: active) {
-    :is([data-scope='input'], [data-scope='select'])[data-part='box'] {
+    :is([data-scope='input'], [data-scope='select'], [data-scope='combobox'])[data-part='box'] {
+      border-color: CanvasText;
+    }
+  }
+
+  /*
+   * Text fields (#53): Textarea, Password, Pin and Range use the same field
+   * anatomy, and Toggle the same error. Textarea and Password draw Input's box.
+   */
+  :is(.apui-textarea, .apui-password, .apui-pin, .apui-range) {
+    --apui-_h: var(--apui-control-height-md);
+    --apui-_pad: 12px;
+    --apui-_fs: var(--apui-type-body-md-font-size);
+
+    display: grid;
+    align-content: start;
+    gap: 6px;
+    min-inline-size: 0;
+    font-family: var(--apui-font-family-sans);
+  }
+
+  .apui-password[data-size='sm'] {
+    --apui-_h: var(--apui-control-height-sm);
+    --apui-_pad: 10px;
+    --apui-_fs: var(--apui-type-body-sm-font-size);
+  }
+
+  .apui-password[data-size='lg'] {
+    --apui-_h: var(--apui-control-height-lg);
+    --apui-_pad: 14px;
+    --apui-_fs: 15px;
+  }
+
+  :is(
+    [data-scope='textarea'],
+    [data-scope='password'],
+    [data-scope='pin'],
+    [data-scope='range']
+  )[data-part='label'] {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    color: var(--apui-text-default);
+    font-size: var(--apui-type-body-sm-font-size);
+    font-weight: var(--apui-font-weight-medium);
+    line-height: var(--apui-type-body-sm-line-height);
+  }
+
+  :is([data-scope='textarea'], [data-scope='password'], [data-scope='pin'])[data-part='required'] {
+    color: var(--apui-color-error-text);
+  }
+
+  :is(
+    [data-scope='textarea'],
+    [data-scope='password'],
+    [data-scope='pin'],
+    [data-scope='range']
+  )[data-part='hint'],
+  :is(
+    [data-scope='textarea'],
+    [data-scope='password'],
+    [data-scope='pin'],
+    [data-scope='range'],
+    [data-scope='toggle']
+  )[data-part='error'] {
+    margin: 0;
+    font-size: var(--apui-type-caption-font-size);
+    line-height: var(--apui-type-caption-line-height);
+  }
+
+  :is(
+    [data-scope='textarea'],
+    [data-scope='password'],
+    [data-scope='pin'],
+    [data-scope='range']
+  )[data-part='hint'] {
+    color: var(--apui-text-muted);
+  }
+
+  :is(
+    [data-scope='textarea'],
+    [data-scope='password'],
+    [data-scope='pin'],
+    [data-scope='range'],
+    [data-scope='toggle']
+  )[data-part='error'] {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--apui-color-error-text);
+  }
+
+  :is(
+      [data-scope='textarea'],
+      [data-scope='password'],
+      [data-scope='pin'],
+      [data-scope='range'],
+      [data-scope='toggle']
+    )[data-part='error']
+    > svg {
+    flex: none;
+    inline-size: var(--apui-icon-size-sm);
+    block-size: var(--apui-icon-size-sm);
+  }
+
+  :is(.apui-textarea, .apui-password, .apui-pin, .apui-range)[data-disabled]
+    > :is(
+      [data-scope='textarea'],
+      [data-scope='password'],
+      [data-scope='pin'],
+      [data-scope='range']
+    )[data-part='label'] {
+    color: var(--apui-text-disabled);
+  }
+
+  :is([data-scope='textarea'], [data-scope='password'])[data-part='box'] {
+    box-sizing: border-box;
+    min-inline-size: 0;
+    border: var(--apui-border-width) solid var(--apui-border-default);
+    border-radius: var(--apui-input-radius);
+    background: var(--apui-surface-default);
+    color: var(--apui-text-default);
+    font-size: var(--apui-_fs);
+    line-height: var(--apui-type-body-md-line-height);
+    transition: border-color var(--apui-motion-duration-fast) var(--apui-motion-ease-standard);
+  }
+
+  :is([data-scope='textarea'], [data-scope='password'])[data-part='box']:is(
+      :hover,
+      :has([data-part='control']:hover)
+    ) {
+    border-color: var(--apui-border-strong);
+  }
+
+  :is([data-scope='textarea'], [data-scope='password'])[data-part='box']:has(
+      [data-part='control']:focus-visible
+    ) {
+    outline: var(--apui-focus-ring-width) solid transparent;
+    box-shadow:
+      0 0 0 var(--apui-focus-ring-offset) var(--apui-focus-ring-offset-color),
+      0 0 0 calc(var(--apui-focus-ring-offset) + var(--apui-focus-ring-width))
+        var(--apui-focus-ring-color);
+  }
+
+  :is([data-scope='textarea'], [data-scope='password'])[data-part='control'] {
+    box-sizing: border-box;
+    min-inline-size: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    outline: none;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    letter-spacing: inherit;
+  }
+
+  :is([data-scope='textarea'], [data-scope='password'])[data-part='control']::placeholder {
+    color: var(--apui-text-muted);
+    opacity: 1;
+  }
+
+  :is(.apui-textarea, .apui-password)[data-invalid]
+    > :is([data-scope='textarea'], [data-scope='password'])[data-part='box'] {
+    border-color: var(--apui-color-error-border);
+  }
+
+  :is(.apui-textarea, .apui-password):is([data-disabled], [data-readonly])
+    > :is([data-scope='textarea'], [data-scope='password'])[data-part='box'] {
+    border-color: var(--apui-border-muted);
+    background: var(--apui-surface-sunken);
+  }
+
+  :is(.apui-textarea, .apui-password)[data-disabled]
+    > :is([data-scope='textarea'], [data-scope='password'])[data-part='box'] {
+    color: var(--apui-text-disabled);
+    cursor: not-allowed;
+  }
+
+  :is(.apui-textarea, .apui-password)[data-disabled]
+    :is([data-scope='textarea'], [data-scope='password'])[data-part='control'] {
+    cursor: not-allowed;
+  }
+
+  :is(.apui-textarea, .apui-password)[data-disabled]
+    :is([data-scope='textarea'], [data-scope='password'])[data-part='control']::placeholder {
+    color: var(--apui-text-disabled);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :is([data-scope='textarea'], [data-scope='password'])[data-part='box'] {
+      transition: none;
+    }
+  }
+
+  @media (forced-colors: active) {
+    :is([data-scope='textarea'], [data-scope='password'])[data-part='box'] {
       border-color: CanvasText;
     }
   }

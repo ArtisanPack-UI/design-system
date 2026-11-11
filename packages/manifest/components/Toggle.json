@@ -1,0 +1,160 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "Toggle",
+  "description": "A switch for settings that take effect immediately: a native checkbox with role=switch in Checkbox's field anatomy.",
+  "status": "draft",
+  "issue": 53,
+  "rootClass": "apui-toggle",
+  "stacks": {
+    "livewire": { "name": "toggle" },
+    "react": { "name": "Toggle" },
+    "vue": { "name": "Toggle" }
+  },
+  "props": [
+    {
+      "name": "checked",
+      "type": "boolean",
+      "default": false,
+      "description": "Whether it's on. Livewire binds it with wire:model, Vue with v-model:checked. Emitted as data-state."
+    },
+    {
+      "name": "defaultChecked",
+      "type": "boolean",
+      "default": false,
+      "description": "The initial state of an uncontrolled toggle.",
+      "stacks": ["react"]
+    },
+    {
+      "name": "size",
+      "type": "enum",
+      "values": ["sm", "md", "lg"],
+      "default": "md",
+      "description": "Track size. Emitted as data-size."
+    },
+    {
+      "name": "color",
+      "type": "enum",
+      "values": [
+        "primary",
+        "secondary",
+        "accent",
+        "neutral",
+        "success",
+        "warning",
+        "error",
+        "info"
+      ],
+      "default": "primary",
+      "description": "The track color when on. Emitted as data-color."
+    },
+    {
+      "name": "label",
+      "type": "node",
+      "description": "The visible label, linked to the control. Name the setting, not the state."
+    },
+    {
+      "name": "description",
+      "type": "node",
+      "description": "Supporting text under the label, linked with aria-describedby."
+    },
+    {
+      "name": "error",
+      "type": "string",
+      "description": "Validation message. Marks it invalid and is linked with aria-describedby."
+    },
+    {
+      "name": "invalid",
+      "type": "boolean",
+      "default": false,
+      "description": "Marks it invalid without a message. Emitted as data-invalid.",
+      "a11y": "Sets aria-invalid on the control."
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": false,
+      "description": "Disables the control."
+    },
+    {
+      "name": "required",
+      "type": "boolean",
+      "default": false,
+      "description": "Marks it required.",
+      "a11y": "Sets required on the control."
+    },
+    {
+      "name": "errorField",
+      "type": "string",
+      "description": "The validation key to read from $errors. Defaults to the wire:model name.",
+      "stacks": ["livewire"]
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part, such as { track: '…', label: '…' }."
+    }
+  ],
+  "colors": ["primary", "secondary", "accent", "neutral", "success", "warning", "error", "info"],
+  "sizes": ["sm", "md", "lg"],
+  "parts": [
+    { "name": "root", "element": "div", "description": "The track, label, description and error." },
+    {
+      "name": "track",
+      "element": "span",
+      "description": "The pill. The native control covers it."
+    },
+    {
+      "name": "control",
+      "element": "input",
+      "description": "The native checkbox with role=switch, transparent over the track with a 6px larger hit area. Attributes other than class land here."
+    },
+    { "name": "thumb", "element": "span", "description": "The knob; it moves to the end when on." },
+    { "name": "label", "element": "label", "description": "The visible label, for the control." },
+    { "name": "description", "element": "p", "description": "Supporting text." },
+    { "name": "error", "element": "p", "description": "Validation message, with an icon." }
+  ],
+  "events": [
+    {
+      "name": "checked-change",
+      "description": "The toggle turned on or off.",
+      "payload": "boolean"
+    }
+  ],
+  "a11y": {
+    "keyboard": [{ "keys": "Space", "action": "Turns it on or off." }],
+    "requirements": [
+      "A native input type=checkbox with role=switch stays in the DOM over the track, so the platform handles keyboard and screen readers.",
+      "The label is linked with for/id; description and error with aria-describedby.",
+      "Off keeps a 3:1 outline (--apui-border-default) so the control is visible without color; on fills with the color.",
+      "The thumb moves toward the logical end, so it mirrors under RTL.",
+      "Thumb motion is removed under prefers-reduced-motion.",
+      "Disabled uses --apui-surface-sunken and --apui-text-disabled, never opacity alone.",
+      "Visible focus ring on the track while the control has :focus-visible.",
+      "Use Checkbox, not Toggle, in forms that need a submit."
+    ],
+    "wcag": ["1.3.1", "1.4.3", "1.4.11", "2.1.1", "2.4.7", "2.5.8", "3.3.2", "4.1.2"]
+  },
+  "tokens": [
+    "--apui-radius-full",
+    "--apui-color-primary",
+    "--apui-color-primary-foreground",
+    "--apui-surface-sunken",
+    "--apui-border-default",
+    "--apui-border-strong",
+    "--apui-border-muted",
+    "--apui-color-error-border",
+    "--apui-color-error-text",
+    "--apui-text-default",
+    "--apui-text-muted",
+    "--apui-text-disabled",
+    "--apui-focus-ring-color"
+  ],
+  "fixture": {
+    "props": { "label": "Dark mode" },
+    "parts": {
+      "description": "Follows your system setting when off.",
+      "error": "Ask your admin to turn this on."
+    },
+    "states": ["hover", "focus-visible", "checked", "disabled", "invalid"]
+  }
+}

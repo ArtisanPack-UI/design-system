@@ -1,0 +1,73 @@
+{
+  "version": 1,
+  "component": "Breadcrumbs",
+  "rootClass": "apui-breadcrumbs",
+  "stacks": [
+    "livewire",
+    "react",
+    "vue"
+  ],
+  "names": {
+    "livewire": "breadcrumbs",
+    "react": "Breadcrumbs",
+    "vue": "Breadcrumbs"
+  },
+  "cases": [
+    {
+      "id": "state=default",
+      "props": {
+        "items": [
+          {
+            "label": "Home",
+            "href": "#",
+            "icon": "house",
+            "hideLabel": true
+          },
+          {
+            "label": "Properties",
+            "href": "#"
+          },
+          {
+            "label": "Lakeview Lofts",
+            "href": "#"
+          },
+          {
+            "label": "Analytics",
+            "href": "#"
+          },
+          {
+            "label": "Visitor"
+          }
+        ]
+      },
+      "state": "default",
+      "content": null
+    }
+  ],
+  "sheets": [
+    {
+      "id": "light",
+      "theme": "light",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "dark",
+      "theme": "dark",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "high-contrast",
+      "theme": "high-contrast",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "rtl",
+      "theme": "light",
+      "density": "default",
+      "dir": "rtl"
+    }
+  ]
+}

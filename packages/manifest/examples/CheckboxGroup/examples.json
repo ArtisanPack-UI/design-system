@@ -1,0 +1,17 @@
+[
+  {
+    "id": "basic",
+    "title": "Basic with select all",
+    "description": "The value is the array of checked values. Select all shows the mixed state while some are checked."
+  },
+  {
+    "id": "columns",
+    "title": "Columns",
+    "description": "Short options laid out in two or three columns."
+  },
+  {
+    "id": "cards",
+    "title": "Cards and validation",
+    "description": "Bordered cards that are clickable anywhere. The group error is linked to the fieldset."
+  }
+]

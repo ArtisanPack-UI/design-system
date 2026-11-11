@@ -1,0 +1,49 @@
+{
+  "version": 1,
+  "component": "Form",
+  "rootClass": "apui-form",
+  "stacks": [
+    "livewire",
+    "react",
+    "vue"
+  ],
+  "names": {
+    "livewire": "form",
+    "react": "Form",
+    "vue": "Form"
+  },
+  "cases": [
+    {
+      "id": "state=default",
+      "props": {},
+      "state": "default",
+      "content": "Fields go here."
+    }
+  ],
+  "sheets": [
+    {
+      "id": "light",
+      "theme": "light",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "dark",
+      "theme": "dark",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "high-contrast",
+      "theme": "high-contrast",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "rtl",
+      "theme": "light",
+      "density": "default",
+      "dir": "rtl"
+    }
+  ]
+}

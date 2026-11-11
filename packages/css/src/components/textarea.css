@@ -1,0 +1,42 @@
+/*
+ * Textarea (#53). Root `.apui-textarea` is the field: label, box, hint and
+ * error, sharing Input's rules in field.css. The box stacks the native
+ * textarea (control) over the counter (count), which sits at the end.
+ * autoResize grows the box with its content through field-sizing; browsers
+ * without it keep the rows height and the resize handle.
+ */
+@layer apui.components {
+  [data-scope='textarea'][data-part='box'] {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-block-size: 96px;
+    padding-block: 8px;
+    padding-inline: 12px;
+    cursor: text;
+  }
+
+  [data-scope='textarea'][data-part='control'] {
+    flex: 1;
+    inline-size: 100%;
+    min-block-size: 60px;
+    resize: vertical;
+    white-space: pre-wrap;
+  }
+
+  .apui-textarea[data-auto-resize] [data-scope='textarea'][data-part='control'] {
+    field-sizing: content;
+  }
+
+  [data-scope='textarea'][data-part='count'] {
+    align-self: flex-end;
+    color: var(--apui-text-muted);
+    font-size: var(--apui-type-caption-font-size);
+    font-variant-numeric: tabular-nums;
+    line-height: var(--apui-type-caption-line-height);
+  }
+
+  .apui-textarea:is([data-disabled], [data-readonly]) [data-scope='textarea'][data-part='control'] {
+    resize: none;
+  }
+}

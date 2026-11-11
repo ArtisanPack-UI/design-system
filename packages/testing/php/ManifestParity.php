@@ -53,6 +53,13 @@ final class ManifestParity
 	public const WIDGET_EVENTS = [
 		'apuiDialog'       => [ 'open-change' ],
 		'apuiDropdownMenu' => [ 'open-change', 'select', 'checked-change' ],
+		// Its value-change is `wire:model`, found through `$wire.entangle(`.
+		'apuiCombobox'     => [ 'open-change', 'search-change', 'create' ],
+		'apuiSpotlight'    => [ 'open-change', 'select', 'search-change' ],
+		// Its value-change is `wire:model`, found through `$wire.entangle(`.
+		'apuiDatePicker'   => [ 'open-change' ],
+		// Its value-change is `wire:model`, found through `$wire.entangle(`.
+		'apuiColorPicker'  => [ 'open-change', 'format-change' ],
 	];
 
 	/**

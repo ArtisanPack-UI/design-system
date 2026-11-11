@@ -1,0 +1,480 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "Spotlight",
+  "description": "A command palette: search across pages, records and actions. A modal dialog holding a combobox whose listbox of grouped results is always open; a global shortcut (⌘K or Ctrl+K) toggles it. Arrow keys move, Enter opens, Escape closes. Replaces SpotlightSearch in React and Vue.",
+  "status": "draft",
+  "issue": 57,
+  "rootClass": "apui-spotlight",
+  "stacks": {
+    "livewire": {
+      "name": "spotlight",
+      "capabilities": [
+        "wire:model binds open both ways through $wire.entangle()",
+        "url fetches results as JSON from an endpoint as you type: the artisanpack.spotlight route by default, which runs the configured search class and the ap.livewireUiComponents.spotlightCommands filter",
+        "navigate adds wire:navigate to link items"
+      ]
+    },
+    "react": {
+      "name": "Spotlight",
+      "capabilities": ["search with onSearchChange and remote for results the page fetches"]
+    },
+    "vue": {
+      "name": "Spotlight",
+      "capabilities": ["search with search-change and remote for results the page fetches"]
+    }
+  },
+  "props": [
+    {
+      "name": "open",
+      "type": "boolean",
+      "default": false,
+      "description": "Whether it's open. Livewire binds it with wire:model, Vue with v-model:open. Emitted as data-state on every part."
+    },
+    {
+      "name": "defaultOpen",
+      "type": "boolean",
+      "default": false,
+      "description": "The initial state of an uncontrolled palette.",
+      "stacks": ["react"]
+    },
+    {
+      "name": "groups",
+      "type": "array",
+      "description": "The results, in groups: { id, label, items: [{ value, label, description, href, icon, color, shortcut, keywords, disabled }] }. A link item (href) is followed when it's chosen; value defaults to href, then label. Unless remote, items are filtered as the user types, by every word against the label, description and keywords. The matched words are marked in each label with <mark>."
+    },
+    {
+      "name": "search",
+      "type": "string",
+      "description": "The query text (controlled). Pair it with search-change, and pass the matching groups with remote to search on the server.",
+      "stacks": ["react", "vue"]
+    },
+    {
+      "name": "remote",
+      "type": "boolean",
+      "default": false,
+      "description": "The page searches: groups are the results for the query and aren't filtered here."
+    },
+    {
+      "name": "url",
+      "type": "string",
+      "description": "An endpoint that returns results as JSON for ?search=…, fetched as the user types (after a 250ms pause) and listed after the groups. Groups ({ label, items }) or a flat list of items; the 2.x shape (name, link) still reads.",
+      "stacks": ["livewire"]
+    },
+    {
+      "name": "navigate",
+      "type": "boolean",
+      "default": true,
+      "description": "Adds wire:navigate to internal link items, so they load through Livewire's SPA navigation. Off-site and `#` links load normally.",
+      "stacks": ["livewire"]
+    },
+    {
+      "name": "loading",
+      "type": "boolean",
+      "default": false,
+      "description": "Shows the loading row and marks the results busy, while the page fetches them.",
+      "a11y": "Sets aria-busy on the listbox; the results count is announced when they arrive."
+    },
+    {
+      "name": "shortcut",
+      "type": "string",
+      "default": "mod+k",
+      "description": "The global shortcut that opens and closes the palette, as modifiers and a key joined with +: mod is ⌘ on Apple platforms and Ctrl elsewhere; ctrl, meta, alt and shift are also accepted. Empty turns it off. Livewire still reads the 2.x spelling (meta.g, ctrl.k) as deprecated.",
+      "a11y": "Announced with aria-keyshortcuts on the query and the trigger."
+    },
+    {
+      "name": "recent",
+      "type": "boolean",
+      "default": false,
+      "description": "Lists the most recent choices first, in a Recent group, while the query is empty. Off by default: turning it on keeps them in the browser's localStorage, per palette id."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "default": "Search",
+      "description": "The palette's accessible name, for the panel, the query and the results. Translate it: Livewire defaults it through __( 'Search' ).",
+      "a11y": "The panel has no visible title, so this is its name."
+    },
+    {
+      "name": "placeholder",
+      "type": "string",
+      "default": "Search…",
+      "description": "The query's placeholder. Translate it."
+    },
+    {
+      "name": "searchText",
+      "type": "string",
+      "description": "The 2.x name of placeholder.",
+      "deprecated": "Use placeholder.",
+      "stacks": ["livewire"]
+    },
+    {
+      "name": "emptyLabel",
+      "type": "string",
+      "default": "No results.",
+      "description": "Shown when nothing matches. Translate it. The empty slot overrides it."
+    },
+    {
+      "name": "emptyText",
+      "type": "string",
+      "description": "An earlier name of emptyLabel.",
+      "deprecated": "Use emptyLabel.",
+      "stacks": ["livewire"]
+    },
+    {
+      "name": "noResultsText",
+      "type": "string",
+      "description": "The 2.x name of emptyLabel.",
+      "deprecated": "Use emptyLabel.",
+      "stacks": ["livewire"]
+    },
+    {
+      "name": "loadingLabel",
+      "type": "string",
+      "default": "Searching…",
+      "description": "Shown while loading. Translate it."
+    },
+    {
+      "name": "loadingText",
+      "type": "string",
+      "description": "An earlier name of loadingLabel.",
+      "deprecated": "Use loadingLabel.",
+      "stacks": ["livewire"]
+    },
+    {
+      "name": "recentLabel",
+      "type": "string",
+      "default": "Recent",
+      "description": "The Recent group's label. Translate it."
+    },
+    {
+      "name": "closeLabel",
+      "type": "string",
+      "default": "Close",
+      "description": "The Esc button's accessible name, after its visible key: \"Esc, Close\". Translate it: Livewire renders it through __( 'Esc, :label' ), with the label defaulting to __( 'Close' ).",
+      "a11y": "The button shows only the Esc key, so the name starts with it (WCAG 2.5.3) and the button sets aria-keyshortcuts=Escape."
+    },
+    {
+      "name": "navigateLabel",
+      "type": "string",
+      "default": "Navigate",
+      "description": "The footer's hint beside the arrow keys. Translate it."
+    },
+    {
+      "name": "selectLabel",
+      "type": "string",
+      "default": "Open",
+      "description": "The footer's hint beside the Enter key. Translate it."
+    },
+    {
+      "name": "trigger",
+      "type": "node",
+      "description": "Content for a trigger button that opens the palette, shown with the shortcut's keys. Without it, open the palette with the shortcut or through open."
+    },
+    {
+      "name": "footer",
+      "type": "node",
+      "description": "Replaces the footer's key hints."
+    },
+    {
+      "name": "modal",
+      "type": "boolean",
+      "default": true,
+      "description": "Traps focus, locks scroll and hides the rest of the page from assistive technology. Turn it off only to render the palette in place.",
+      "a11y": "Sets aria-modal."
+    },
+    {
+      "name": "portal",
+      "type": "boolean",
+      "default": true,
+      "description": "Renders the palette at the end of the body, above everything (x-teleport, a React portal, Vue Teleport). Off renders it in place."
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part, such as { results: '…', item: '…' }."
+    }
+  ],
+  "parts": [
+    {
+      "name": "root",
+      "element": "div",
+      "description": "The panel, carrying the root class. It is the dialog's content part, so it also carries data-part=\"content\" (D-019)."
+    },
+    {
+      "name": "content",
+      "element": "div",
+      "description": "The panel: the same element as root."
+    },
+    {
+      "name": "trigger",
+      "element": "button",
+      "description": "The button that opens the palette, when trigger is set: an outline, neutral Button with the shortcut's keys."
+    },
+    {
+      "name": "backdrop",
+      "element": "div",
+      "description": "The scrim behind the panel."
+    },
+    {
+      "name": "positioner",
+      "element": "div",
+      "description": "Fills the viewport and places the panel near the top."
+    },
+    {
+      "name": "search",
+      "element": "div",
+      "description": "The search row: icon, query and the Esc button. The combobox's control."
+    },
+    {
+      "name": "icon",
+      "element": "span",
+      "description": "The search icon before the query."
+    },
+    {
+      "name": "query",
+      "element": "input",
+      "description": "The search text: role combobox, with aria-activedescendant on the active result. The combobox's input."
+    },
+    {
+      "name": "closeTrigger",
+      "element": "button",
+      "description": "The Esc key at the end of the search row, which closes the palette."
+    },
+    {
+      "name": "results",
+      "element": "div",
+      "description": "The listbox of results. The combobox's content."
+    },
+    {
+      "name": "itemGroup",
+      "element": "div",
+      "description": "A group of results, labelled by its label."
+    },
+    {
+      "name": "itemGroupLabel",
+      "element": "div",
+      "description": "A group's label."
+    },
+    {
+      "name": "item",
+      "element": "div | a",
+      "description": "A result: role option, a link when it has href."
+    },
+    {
+      "name": "tile",
+      "element": "span",
+      "description": "An item's icon in a tinted tile."
+    },
+    {
+      "name": "itemText",
+      "element": "span",
+      "description": "An item's label, with the query's matches in <mark>."
+    },
+    {
+      "name": "itemDescription",
+      "element": "span",
+      "description": "An item's secondary text, under the label."
+    },
+    {
+      "name": "shortcut",
+      "element": "span",
+      "description": "Keys shown as a hint, one kbd each: an item's shortcut, the trigger's and the footer's."
+    },
+    {
+      "name": "itemIndicator",
+      "element": "span",
+      "description": "The Enter glyph at the end of a result, shown on the active one; it mirrors in RTL."
+    },
+    {
+      "name": "empty",
+      "element": "div",
+      "description": "Shown when nothing matches."
+    },
+    {
+      "name": "loading",
+      "element": "div",
+      "description": "Shown while loading."
+    },
+    {
+      "name": "footer",
+      "element": "div",
+      "description": "Key hints under the results."
+    }
+  ],
+  "slots": [
+    {
+      "name": "trigger",
+      "description": "Content for the trigger button."
+    },
+    {
+      "name": "empty",
+      "description": "Shown when nothing matches, instead of emptyLabel."
+    },
+    {
+      "name": "footer",
+      "description": "Replaces the footer's key hints. Livewire still reads the 2.x append slot as deprecated."
+    }
+  ],
+  "events": [
+    {
+      "name": "open-change",
+      "description": "The palette opened or closed itself: the trigger, the shortcut, Escape, the backdrop, the Esc button or a choice. Setting open doesn't fire it.",
+      "payload": "boolean"
+    },
+    {
+      "name": "select",
+      "description": "An item was chosen, by click or Enter. The payload is the item, with its value; a link item is followed too.",
+      "payload": "SpotlightResult"
+    },
+    {
+      "name": "search-change",
+      "description": "The user typed in the query, or the palette cleared it on closing. The payload is the text.",
+      "payload": "string"
+    }
+  ],
+  "a11y": {
+    "role": "dialog",
+    "element": "div",
+    "keyboard": [
+      {
+        "keys": "⌘K, Ctrl+K",
+        "action": "Anywhere on the page, opens or closes the palette (the shortcut prop)."
+      },
+      {
+        "keys": "ArrowDown, ArrowUp",
+        "action": "Move to the next or previous result across groups, wrapping, skipping disabled ones. Focus stays in the query."
+      },
+      {
+        "keys": "Home, End",
+        "action": "Move to the first or last result."
+      },
+      {
+        "keys": "Enter",
+        "action": "Opens the active result: follows its link or reports select, then closes."
+      },
+      {
+        "keys": "Escape",
+        "action": "Closes the palette and returns focus to where it was."
+      },
+      {
+        "keys": "Tab, Shift+Tab",
+        "action": "Move between the query and the Esc button; focus stays in the palette."
+      }
+    ],
+    "requirements": [
+      "A dialog named by label, holding a combobox (the query) that controls an always-open listbox; the active result is aria-activedescendant and aria-selected.",
+      "Focus moves to the query on open and returns to where it was on close.",
+      "A modal palette sets aria-modal, hides the rest of the page from assistive technology and locks scroll.",
+      "Groups are role group, labelled by their label with aria-labelledby.",
+      "The results count (\"3 results\", \"No results\") is announced politely after typing, inside the panel; the strings are translatable.",
+      "The listbox sets aria-busy while loading.",
+      "The shortcut is exposed with aria-keyshortcuts, and a single-key shortcut never fires while typing in a field.",
+      "The Esc button's accessible name contains its visible text: \"Esc, Close\", with \"Close\" translatable.",
+      "Text keeps 4.5:1 and the panel's edge 3:1 on the overlay surface in every theme.",
+      "Arrow keys keep their vertical meaning in RTL; the layout mirrors with logical properties.",
+      "Every part keeps a stable, server-rendered id in Livewire and items carry wire:key (D-015).",
+      "Matches are marked with <mark>, whose text stays in the option's accessible name; the Enter glyph is aria-hidden."
+    ],
+    "wcag": [
+      "1.3.1",
+      "1.4.3",
+      "1.4.11",
+      "2.1.1",
+      "2.1.2",
+      "2.1.4",
+      "2.4.3",
+      "2.4.7",
+      "4.1.2",
+      "4.1.3"
+    ]
+  },
+  "tokens": [
+    "--apui-spotlight-width",
+    "--apui-radius-overlay",
+    "--apui-menu-item-radius",
+    "--apui-kbd-radius",
+    "--apui-surface-overlay",
+    "--apui-surface-default",
+    "--apui-surface-raised",
+    "--apui-elevation-overlay",
+    "--apui-backdrop",
+    "--apui-z-modal",
+    "--apui-border-muted",
+    "--apui-border-default",
+    "--apui-state-hover",
+    "--apui-selected-bg",
+    "--apui-text-default",
+    "--apui-text-muted",
+    "--apui-text-disabled",
+    "--apui-color-primary-border"
+  ],
+  "fixture": {
+    "props": {
+      "open": true,
+      "modal": false,
+      "portal": false,
+      "groups": [
+        {
+          "id": "properties",
+          "label": "Properties",
+          "items": [
+            {
+              "value": "grove",
+              "label": "The Grove at Greenfield",
+              "description": "Spain, Barcelona · Draft",
+              "icon": "house",
+              "color": "primary"
+            },
+            {
+              "value": "golden-hour",
+              "label": "Golden Hour Apartments",
+              "description": "United States, Denver",
+              "icon": "house",
+              "color": "primary"
+            }
+          ]
+        },
+        {
+          "id": "pages",
+          "label": "Pages",
+          "items": [
+            {
+              "value": "reports",
+              "label": "Analytics › Reports",
+              "icon": "file-text",
+              "href": "#reports"
+            },
+            {
+              "value": "settings",
+              "label": "Settings",
+              "icon": "settings",
+              "href": "#settings"
+            }
+          ]
+        },
+        {
+          "id": "actions",
+          "label": "Actions",
+          "items": [
+            {
+              "value": "add",
+              "label": "Add property",
+              "icon": "plus",
+              "color": "success",
+              "shortcut": "⌘ N"
+            },
+            {
+              "value": "import",
+              "label": "Import listings from CSV",
+              "icon": "upload"
+            }
+          ]
+        }
+      ]
+    },
+    "parts": {
+      "trigger": "Search"
+    },
+    "states": []
+  }
+}

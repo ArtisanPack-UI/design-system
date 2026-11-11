@@ -22,6 +22,29 @@ export type ComponentRegistry = Record<string, Component | unknown>;
 
 let app: App | undefined;
 
+/** The prop names a component declares, from its object or array `props` option. */
+function declaredProps(component: Component): string[] {
+  const props = (component as { props?: unknown }).props;
+  if (Array.isArray(props)) return props.map(String);
+  return props && typeof props === 'object' ? Object.keys(props) : [];
+}
+
+/**
+ * A fixture's props as Vue binds them. The manifest's `value` is `modelValue`
+ * on a component that declares it (as the parity checks read it), so the value
+ * reaches the component instead of falling through to its root as an attribute.
+ */
+export function vueProps(
+  component: Component,
+  props: Record<string, unknown>,
+): Record<string, unknown> {
+  if (!('value' in props)) return props;
+  const declared = declaredProps(component);
+  if (!declared.includes('modelValue') || declared.includes('value')) return props;
+  const { value, ...rest } = props;
+  return { ...rest, modelValue: value };
+}
+
 /** Registers the components by their Vue name, such as `Button`. */
 export function registerVueHost(components: ComponentRegistry): void {
   window.apuiFixture = {
@@ -44,7 +67,7 @@ export function registerVueHost(components: ComponentRegistry): void {
               [
                 h(
                   component,
-                  fixtureCase.props,
+                  vueProps(component, fixtureCase.props),
                   fixtureCase.content === null ? undefined : { default: () => fixtureCase.content },
                 ),
               ],

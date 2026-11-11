@@ -1,0 +1,86 @@
+{
+  "version": 1,
+  "component": "ValidationSummary",
+  "rootClass": "apui-validation-summary",
+  "stacks": [
+    "livewire",
+    "react",
+    "vue"
+  ],
+  "names": {
+    "livewire": "validation-summary",
+    "react": "ValidationSummary",
+    "vue": "ValidationSummary"
+  },
+  "cases": [
+    {
+      "id": "state=default",
+      "props": {
+        "errors": [
+          {
+            "field": "postal-code",
+            "message": "Spanish postal codes have 5 digits."
+          },
+          {
+            "field": "photos",
+            "message": "Add at least 2 more photos."
+          },
+          {
+            "field": "terms",
+            "message": "Accept the listing terms."
+          }
+        ]
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "color=warning state=default",
+      "props": {
+        "errors": [
+          {
+            "field": "postal-code",
+            "message": "Spanish postal codes have 5 digits."
+          },
+          {
+            "field": "photos",
+            "message": "Add at least 2 more photos."
+          },
+          {
+            "field": "terms",
+            "message": "Accept the listing terms."
+          }
+        ],
+        "color": "warning"
+      },
+      "state": "default",
+      "content": null
+    }
+  ],
+  "sheets": [
+    {
+      "id": "light",
+      "theme": "light",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "dark",
+      "theme": "dark",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "high-contrast",
+      "theme": "high-contrast",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "rtl",
+      "theme": "light",
+      "density": "default",
+      "dir": "rtl"
+    }
+  ]
+}

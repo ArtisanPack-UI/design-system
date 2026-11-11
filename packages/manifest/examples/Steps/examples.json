@@ -1,0 +1,17 @@
+[
+  {
+    "id": "basic",
+    "title": "Basic",
+    "description": "Compose Steps from Step children. value is the current step, from 1: steps before it are complete and steps after it upcoming."
+  },
+  {
+    "id": "vertical",
+    "title": "Vertical with an error",
+    "description": "orientation=\"vertical\" leaves room for longer descriptions. A step's own state overrides value, here error."
+  },
+  {
+    "id": "data",
+    "title": "Steps as data, clickable",
+    "description": "steps renders the same children as composition. clickable turns completed steps' titles into buttons that report value-change, so people can go back but not skip ahead."
+  }
+]
