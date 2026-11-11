@@ -139,8 +139,10 @@ describe('combobox items', () => {
       }
       return (performance.now() - start) / 10;
     });
-    // A generous guard against quadratic work per render, not a benchmark.
-    expect(ms).toBeLessThan(60);
+    // A guard against quadratic work per render, not a benchmark. Shared CI
+    // runners measure 65 to 85 ms here; quadratic work over 500 items costs
+    // seconds.
+    expect(ms).toBeLessThan(200);
     await page.close();
   });
 });
