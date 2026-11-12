@@ -1047,6 +1047,375 @@ return [
 			],
 		],
 	],
+	'Calendar'          => [
+		'name'        => 'Calendar',
+		'description' => 'Events on a month grid, a week, a day or an agenda list, with Today, previous and next, view tabs and an optional New event button. Days, titles and event order come from one set of date rules in every stack (behavior\'s calendarModel, ported to PHP for Livewire), so the three render the same calendar. Events are buttons, or links with href, named by their title, category and full time; their soft tint is by category and never the only cue.',
+		'status'      => 'draft',
+		'issue'       => 64,
+		'rootClass'   => 'apui-calendar',
+		'stacks'      => [
+			'livewire' => [
+				'name'         => 'calendar',
+				'capabilities' => [ '<livewire:artisanpack-calendar> is a full Livewire component: it keeps view and date, re-renders on Today, previous, next, "+N more" and the view tabs, and opens a clicked event in a Dialog whose content is its internal event-modal-content child (event-view names another Livewire component, which receives the event through a load-event-modal event)', '<x-artisanpack-calendar> renders the same markup with no state of its own: its controls dispatch view-change, date-change, event-click and create as browser events for the page or a parent component to answer', 'Rendered on the server: the grid, labels and event order come from Support\\CalendarModel, a port of behavior\'s calendarModel; Alpine only adds the arrow keys', '2.x props still work: sunday-start (weekStartsOn 0, or 1 when false), and events with date, range, time, label and colorScheme; the year view and months fall back to month, and color-scheme, custom-color, weekend-highlight and config are ignored' ],
+				'differences'  => [ 'The Livewire component\'s event details are a Livewire child (event-modal-content), so they can load more data from the server; React and Vue show the event\'s time, category and description in the Dialog.' ],
+			],
+			'react'    => [
+				'name'         => 'Calendar',
+				'capabilities' => [ 'view and date are controlled with onViewChange and onDateChange, uncontrolled when unset; onEventClick and onCreate report the other events', 'renderEventDetails(event) replaces the details Dialog\'s body' ],
+			],
+			'vue'      => [
+				'name'         => 'Calendar',
+				'capabilities' => [ 'v-model:view and v-model:date bind the view and date; @event-click and @create report the other events', 'The #details="{ event }" slot replaces the details Dialog\'s body' ],
+			],
+		],
+		'props'       => [
+			[
+				'name'        => 'view',
+				'type'        => 'enum',
+				'values'      => [ 'month', 'week', 'day', 'agenda' ],
+				'default'     => 'month',
+				'description' => 'The month grid, the week as seven columns, one day, or the agenda: the month\'s events as a list of days, the accessible list alternative to the grid. Emitted as data-view.',
+			],
+			[
+				'name'        => 'date',
+				'type'        => 'string',
+				'description' => 'The date the view shows, as YYYY-MM-DD: its month, week or day. Previous and next move it by a month (agenda too), a week or a day, keeping the day of the month where it exists. Defaults to today.',
+			],
+			[
+				'name'        => 'today',
+				'type'        => 'string',
+				'description' => 'The date marked as today (YYYY-MM-DD). Defaults to the current date in timeZone; set it when the server and the browser could disagree.',
+			],
+			[
+				'name'        => 'events',
+				'type'        => 'array',
+				'description' => 'The events: { id, start, end, title, color, allDay, category, description, href }. start and end are ISO strings: a date (2026-11-24) for an all-day event, a date and time (2026-11-02T09:00) for a timed one; with Z or an offset the time is converted to timeZone. end is inclusive for dates; a timed event ending at 00:00 ends the day before. color is a soft tint (primary, secondary, accent, success, warning, error, info, neutral; primary when unset). category shows in the legend and the event\'s name. href makes the event a link. Events on a day sort all-day first, then by start time, then as given.',
+			],
+			[
+				'name'        => 'weekStartsOn',
+				'type'        => 'number',
+				'description' => 'The first day of the week, 0 (Sunday) to 6. Follows the locale unless set.',
+			],
+			[
+				'name'        => 'locale',
+				'type'        => 'string',
+				'description' => 'BCP 47 locale for the title, weekday and date names and the first day of the week. Livewire defaults to the app locale, React and Vue to en-US. Times show as 24-hour HH:mm in every locale.',
+			],
+			[
+				'name'        => 'timeZone',
+				'type'        => 'string',
+				'description' => 'The IANA time zone for today\'s date and for event times given with Z or an offset. Defaults to UTC.',
+			],
+			[
+				'name'        => 'maxEvents',
+				'type'        => 'number',
+				'default'     => 2,
+				'description' => 'How many events a month cell shows; the rest fold into a "+N more" button that opens that day.',
+			],
+			[
+				'name'        => 'creatable',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'Shows a New event Button at the end of the toolbar. It fires create with the shown date.',
+			],
+			[
+				'name'        => 'details',
+				'type'        => 'boolean',
+				'default'     => true,
+				'description' => 'Clicking an event (one without href) opens a Dialog with its details, and the events carry aria-haspopup="dialog". Turn it off to handle event-click yourself. The Livewire x-tag only dispatches event-click: the Livewire component opens the Dialog.',
+			],
+			[
+				'name'        => 'labels',
+				'type'        => 'object',
+				'default'     => [
+					'today'    => 'Today',
+					'previous' => 'Previous',
+					'next'     => 'Next',
+					'views'    => 'Calendar view',
+					'month'    => 'Month',
+					'week'     => 'Week',
+					'day'      => 'Day',
+					'agenda'   => 'Agenda',
+					'allDay'   => 'All day',
+					'more'     => '+{count} more',
+					'showMore' => 'Show {count} more events on {date}',
+					'newEvent' => 'New event',
+					'empty'    => 'No events',
+					'legend'   => 'Categories',
+				],
+				'description' => 'Built-in text: the toolbar buttons, the view tabs and their tablist\'s name (views), the all-day time, the more part\'s text and name ({count}, {date}), the agenda\'s empty state and the legend\'s name. Keys you leave out keep their defaults; Livewire translates them through __().',
+			],
+			[
+				'name'        => 'classes',
+				'type'        => 'object',
+				'description' => 'Extra classes per part, such as { cell: \'…\', event: \'…\' }.',
+			],
+		],
+		'parts'       => [
+			[
+				'name'        => 'root',
+				'element'     => 'div',
+				'description' => 'The frame around the toolbar, the body and the legend. Carries data-view.',
+			],
+			[
+				'name'        => 'toolbar',
+				'element'     => 'div',
+				'description' => 'Today, previous and next, the title, the view tabs and the New event button. Wraps on narrow screens.',
+			],
+			[
+				'name'        => 'todayTrigger',
+				'element'     => 'button',
+				'description' => 'An outline neutral sm Button that shows today (date-change with today).',
+			],
+			[
+				'name'        => 'previousTrigger',
+				'element'     => 'button',
+				'description' => 'An icon-only ghost Button named by labels.previous; its chevron mirrors in RTL.',
+			],
+			[
+				'name'        => 'nextTrigger',
+				'element'     => 'button',
+				'description' => 'An icon-only ghost Button named by labels.next; its chevron mirrors in RTL.',
+			],
+			[
+				'name'        => 'title',
+				'element'     => 'h2',
+				'description' => 'The month and year, the week\'s range or the day. It names the grid, and is a live region so moving through dates is announced.',
+			],
+			[
+				'name'        => 'viewTabs',
+				'element'     => 'div',
+				'description' => 'A segmented sm Tabs (`.apui-tabs`) whose tablist is named by labels.views. The tabs control the body: arrow keys move between them (following the text direction) and Enter or Space chooses one.',
+			],
+			[
+				'name'        => 'createTrigger',
+				'element'     => 'button',
+				'description' => 'The solid New event Button, with creatable.',
+			],
+			[
+				'name'        => 'body',
+				'element'     => 'div',
+				'description' => 'The tabpanel the view tabs control, holding the grid (or the agenda\'s empty state).',
+			],
+			[
+				'name'        => 'grid',
+				'element'     => 'div | ul',
+				'description' => 'role=grid named by the title, with one tab stop: arrow keys move between days (ArrowLeft and ArrowRight follow the text direction), Home and End to the row\'s ends. In agenda view, a list of the days with events.',
+			],
+			[
+				'name'        => 'row',
+				'element'     => 'div | li',
+				'description' => 'role=row: the weekday headers, a week (month), the week or the day. In agenda view, one day.',
+			],
+			[
+				'name'        => 'weekday',
+				'element'     => 'div | h3',
+				'description' => 'A column header (role=columnheader): the short weekday name, with the date in week and day views. In agenda view, the day\'s full date as a heading.',
+			],
+			[
+				'name'        => 'cell',
+				'element'     => 'div | ul',
+				'description' => 'A day (role=gridcell) that starts with its full date (visually hidden), with data-date; data-outside outside the month, data-today and aria-current="date" today. In agenda view, the list of the day\'s events.',
+			],
+			[
+				'name'        => 'date',
+				'element'     => 'span',
+				'description' => 'The day of the month, filled with primary today.',
+			],
+			[
+				'name'        => 'event',
+				'element'     => 'button | a',
+				'description' => 'An event: a button (aria-haspopup="dialog" with details), or a link with href, named by its time and title, then a visually hidden category and full date and time. data-color gives its soft tint.',
+			],
+			[
+				'name'        => 'eventTime',
+				'element'     => 'span',
+				'description' => 'The start time in month view; the time range or the all-day label in the other views. Empty on a multi-day event\'s later days.',
+			],
+			[
+				'name'        => 'eventTitle',
+				'element'     => 'span',
+				'description' => 'The title, cut with an ellipsis in month view.',
+			],
+			[
+				'name'        => 'more',
+				'element'     => 'button',
+				'description' => '"+N more" when a month cell has more than maxEvents; opens that day (view-change and date-change). Named by labels.showMore.',
+			],
+			[
+				'name'        => 'legend',
+				'element'     => 'ul',
+				'description' => 'The category key under the body, named by labels.legend, when any event has a category.',
+			],
+			[
+				'name'        => 'legendItem',
+				'element'     => 'li',
+				'description' => 'A category with a swatch of its tint (data-color).',
+			],
+		],
+		'slots'       => [],
+		'events'      => [
+			[
+				'name'        => 'view-change',
+				'description' => 'A view tab or "+N more" (which opens day) chose a view. The payload is the view.',
+				'payload'     => '\'month\' | \'week\' | \'day\' | \'agenda\'',
+			],
+			[
+				'name'        => 'date-change',
+				'description' => 'Today, previous, next or "+N more" moved the date. The payload is the new date, YYYY-MM-DD.',
+				'payload'     => 'string',
+			],
+			[
+				'name'        => 'event-click',
+				'description' => 'An event without href was chosen. The payload is the event as passed in.',
+				'payload'     => 'CalendarEvent',
+			],
+			[
+				'name'        => 'create',
+				'description' => 'The New event button was chosen. The payload is the shown date, YYYY-MM-DD.',
+				'payload'     => 'string',
+			],
+		],
+		'a11y'        => [
+			'keyboard'     => [
+				[
+					'keys'   => 'Tab',
+					'action' => 'Moves through Today, previous, next, the selected view tab, New event, the grid\'s day (one tab stop) and the events and "+N more" buttons inside the days.',
+				],
+				[
+					'keys'   => 'ArrowLeft, ArrowRight',
+					'action' => 'In the grid, the previous and next day; in the view tabs, the previous and next tab. They follow the text direction, so they swap under RTL.',
+				],
+				[
+					'keys'   => 'ArrowUp, ArrowDown',
+					'action' => 'In the grid, the same day of the previous and next week.',
+				],
+				[
+					'keys'   => 'Home, End',
+					'action' => 'In the grid, the start and end of the row; in the view tabs, the first and last tab.',
+				],
+				[
+					'keys'   => 'Enter, Space',
+					'action' => 'On a tab, chooses the view; on an event, opens it (its details or its link).',
+				],
+			],
+			'requirements' => [ 'The month, week and day are role=grid, named by the title, with rows, column headers and gridcells; each day starts with its full localized date (visually hidden beside the number), and today carries aria-current="date".', 'Arrow keys follow the text direction (D-004), and the previous and next chevrons mirror in RTL.', 'Each event is a button or link named by its visible time and title, then (visually hidden) its category and full date and time, never by its tint alone; the legend keeps the category key visible.', 'The agenda view is the accessible list alternative: the month\'s days with events as a list, each with its date as a heading.', 'The view tabs are a tablist named by labels.views controlling the body (role=tabpanel); the title is a polite live region.', 'Event details open in the design-system Dialog, which traps focus and returns it to the event.', 'Names come from Intl in the locale; every built-in string is translatable through labels.' ],
+			'wcag'         => [ '1.3.1', '1.4.1', '1.4.3', '1.4.11', '2.1.1', '2.4.3', '2.4.6', '2.4.7', '4.1.2', '4.1.3' ],
+		],
+		'tokens'      => [ '--apui-border-muted', '--apui-border-soft-edge-width', '--apui-border-width', '--apui-color-primary', '--apui-color-primary-border', '--apui-color-primary-foreground', '--apui-color-primary-soft', '--apui-color-primary-soft-foreground', '--apui-color-primary-text', '--apui-focus-ring-color', '--apui-focus-ring-offset', '--apui-focus-ring-offset-color', '--apui-focus-ring-width', '--apui-font-family-sans', '--apui-font-weight-medium', '--apui-font-weight-regular', '--apui-font-weight-semibold', '--apui-radius-full', '--apui-radius-lg', '--apui-radius-xs', '--apui-state-hover', '--apui-surface-default', '--apui-surface-page', '--apui-surface-sunken', '--apui-text-default', '--apui-text-muted', '--apui-type-body-lg-font-size', '--apui-type-body-lg-line-height', '--apui-type-body-md-font-size', '--apui-type-body-md-line-height', '--apui-type-body-sm-font-size', '--apui-type-body-sm-line-height', '--apui-type-caption-font-size', '--apui-type-caption-line-height' ],
+		'fixture'     => [
+			'props'  => [
+				'date'         => '2026-11-07',
+				'today'        => '2026-11-07',
+				'weekStartsOn' => 1,
+				'locale'       => 'en-US',
+				'timeZone'     => 'UTC',
+				'events'       => [
+					[
+						'id'       => 1,
+						'start'    => '2026-11-02T09:00',
+						'end'      => '2026-11-02T10:00',
+						'title'    => 'Team meeting',
+						'color'    => 'error',
+						'category' => 'Marketing',
+					],
+					[
+						'id'       => 2,
+						'start'    => '2026-11-03T10:00',
+						'end'      => '2026-11-03T12:00',
+						'title'    => 'Marketing course',
+						'color'    => 'info',
+						'category' => 'Learning',
+					],
+					[
+						'id'       => 3,
+						'start'    => '2026-11-03T13:00',
+						'title'    => 'Lunch · Edgehill Grill',
+						'color'    => 'success',
+						'category' => 'Personal',
+					],
+					[
+						'id'       => 4,
+						'start'    => '2026-11-05',
+						'title'    => 'Anna’s birthday',
+						'color'    => 'accent',
+						'category' => 'People',
+					],
+					[
+						'id'       => 5,
+						'start'    => '2026-11-09T11:00',
+						'title'    => 'Upgrade Slack plan',
+						'color'    => 'secondary',
+						'category' => 'Admin',
+					],
+					[
+						'id'       => 6,
+						'start'    => '2026-11-12T11:00',
+						'title'    => 'Viewing · Lakeview',
+						'color'    => 'primary',
+						'category' => 'Viewings',
+					],
+					[
+						'id'       => 7,
+						'start'    => '2026-11-12T16:00',
+						'title'    => 'Hubstaff broadcast',
+						'color'    => 'info',
+						'category' => 'Learning',
+					],
+					[
+						'id'       => 8,
+						'start'    => '2026-11-12T18:00',
+						'title'    => 'Board dinner',
+						'color'    => 'success',
+						'category' => 'Personal',
+					],
+					[
+						'id'       => 9,
+						'start'    => '2026-11-13T09:30',
+						'title'    => 'Meet a new intern',
+						'color'    => 'accent',
+						'category' => 'People',
+					],
+					[
+						'id'       => 10,
+						'start'    => '2026-11-17',
+						'title'    => 'Facebook campaign',
+						'color'    => 'error',
+						'category' => 'Marketing',
+					],
+					[
+						'id'       => 11,
+						'start'    => '2026-11-19T10:00',
+						'end'      => '2026-11-19T11:30',
+						'title'    => 'Design review',
+						'color'    => 'primary',
+						'category' => 'Viewings',
+					],
+					[
+						'id'       => 12,
+						'start'    => '2026-11-24',
+						'title'    => 'Open house · Grove',
+						'color'    => 'success',
+						'category' => 'Personal',
+					],
+					[
+						'id'       => 13,
+						'start'    => '2026-11-26',
+						'title'    => 'Thanksgiving',
+						'color'    => 'neutral',
+						'category' => 'Holidays',
+					],
+				],
+			],
+			'parts'  => [
+				'creatable' => true,
+				'labels'    => [
+					'legend' => 'Event categories',
+				],
+			],
+			'states' => [],
+		],
+	],
 	'Card'              => [
 		'name'        => 'Card',
 		'description' => 'The default container: a surface with an edge, plus optional media, header, body and footer parts.',
@@ -1210,6 +1579,518 @@ return [
 				'footer'  => '3 comments',
 			],
 			'states'  => [ 'hover' ],
+		],
+	],
+	'Carousel'          => [
+		'name'        => 'Carousel',
+		'description' => 'Scroll-snapped slides with previous and next buttons and position dots, on the carousel machine ImageSlider uses (D-041). perView shows several at once with the next one peeking. A title puts the buttons in a header; without one they overlay the slides.',
+		'status'      => 'draft',
+		'issue'       => 65,
+		'rootClass'   => 'apui-carousel',
+		'stacks'      => [
+			'livewire' => [
+				'name'         => 'carousel',
+				'capabilities' => [ 'wire:model binds the slide shown (index) through $wire.entangle()', '@scope(\'slide\', $slide) renders each slide\'s content, with $loop->index as its index; 2.x slides keep their image, alt, title and description keys' ],
+			],
+			'react'    => [
+				'name'         => 'Carousel',
+				'capabilities' => [ 'renderSlide(slide, index) renders each slide\'s content' ],
+			],
+			'vue'      => [
+				'name'         => 'Carousel',
+				'capabilities' => [ 'The #slide="{ slide, index }" slot renders each slide\'s content' ],
+			],
+		],
+		'props'       => [
+			[
+				'name'        => 'slides',
+				'type'        => 'array',
+				'required'    => true,
+				'description' => 'The slides, in order. By default each is a Card from { image, alt, title, description }; the slide render content draws anything else.',
+				'a11y'        => 'Every image needs alt text.',
+			],
+			[
+				'name'        => 'perView',
+				'type'        => 'number',
+				'default'     => 1,
+				'description' => 'Slides in view at once, a whole number. Above 1 the next slide peeks at the inline end, and each move shows one more slide. Emitted as --slides-per-page.',
+			],
+			[
+				'name'        => 'index',
+				'type'        => 'number',
+				'default'     => 0,
+				'description' => 'The position shown, 0-based: the slide at the start of the view. Livewire binds it with wire:model. Pair it with index-change to control it.',
+			],
+			[
+				'name'        => 'defaultIndex',
+				'type'        => 'number',
+				'default'     => 0,
+				'description' => 'The initial position of an uncontrolled carousel.',
+				'stacks'      => [ 'react' ],
+			],
+			[
+				'name'        => 'loop',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'Wraps from the last position to the first and back.',
+			],
+			[
+				'name'        => 'autoplay',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'Advances every interval ms, with a visible pause button. It pauses while the pointer or focus is on the carousel, and starts paused under reduced motion.',
+				'a11y'        => 'Autoplay always has a visible pause button (2.2.2) and never starts on its own under prefers-reduced-motion.',
+			],
+			[
+				'name'        => 'interval',
+				'type'        => 'number',
+				'default'     => 5000,
+				'description' => 'Milliseconds between slides while autoplay runs.',
+			],
+			[
+				'name'        => 'title',
+				'type'        => 'string',
+				'description' => 'A heading in the header, with the previous and next buttons beside it. It names the region unless label is set. Without it the buttons overlay the slides.',
+			],
+			[
+				'name'        => 'headingLevel',
+				'type'        => 'number',
+				'default'     => 3,
+				'description' => 'The title\'s heading level, 2 to 6.',
+			],
+			[
+				'name'        => 'label',
+				'type'        => 'string',
+				'description' => 'Names the region. Defaults to the title, else "Carousel". Translate it: Livewire defaults it through __( \'Carousel\' ).',
+				'a11y'        => 'A page with several carousels names each one.',
+			],
+			[
+				'name'        => 'previousLabel',
+				'type'        => 'string',
+				'default'     => 'Previous slide',
+				'description' => 'The previous button\'s accessible name.',
+				'a11y'        => 'The button is icon-only, so this is its only name.',
+			],
+			[
+				'name'        => 'nextLabel',
+				'type'        => 'string',
+				'default'     => 'Next slide',
+				'description' => 'The next button\'s accessible name.',
+				'a11y'        => 'The button is icon-only, so this is its only name.',
+			],
+			[
+				'name'        => 'indicatorLabel',
+				'type'        => 'string',
+				'default'     => 'Go to slide {index}',
+				'description' => 'A dot\'s accessible name. {index} is replaced; Livewire\'s __() string uses :index.',
+			],
+			[
+				'name'        => 'slideLabel',
+				'type'        => 'string',
+				'default'     => '{index} of {count}',
+				'description' => 'A slide\'s accessible name. Livewire\'s __() string uses :index and :count.',
+			],
+			[
+				'name'        => 'playLabel',
+				'type'        => 'string',
+				'default'     => 'Start slide rotation',
+				'description' => 'The autoplay button\'s name while paused.',
+			],
+			[
+				'name'        => 'pauseLabel',
+				'type'        => 'string',
+				'default'     => 'Stop slide rotation',
+				'description' => 'The autoplay button\'s name while playing.',
+			],
+			[
+				'name'        => 'classes',
+				'type'        => 'object',
+				'description' => 'Extra classes per part, such as { viewport: \'…\', item: \'…\' }.',
+			],
+		],
+		'parts'       => [
+			[
+				'name'        => 'root',
+				'element'     => 'div',
+				'description' => 'The carousel\'s region: role region with aria-roledescription carousel, named by label or the title.',
+			],
+			[
+				'name'        => 'header',
+				'element'     => 'div',
+				'description' => 'With a title: the heading, then the previous and next buttons at the inline end.',
+			],
+			[
+				'name'        => 'title',
+				'element'     => 'h2 | h3 | h4 | h5 | h6',
+				'description' => 'The header\'s heading, at headingLevel.',
+			],
+			[
+				'name'        => 'viewport',
+				'element'     => 'div',
+				'description' => 'Clips the track; the overlay buttons sit on it when there\'s no header.',
+			],
+			[
+				'name'        => 'itemGroup',
+				'element'     => 'div',
+				'description' => 'The scroll-snapping track. The spec calls it track; it keeps Zag\'s name (D-019).',
+			],
+			[
+				'name'        => 'item',
+				'element'     => 'div',
+				'description' => 'A slide: role group with aria-roledescription slide, named "2 of 6"; slides out of view are aria-hidden. The spec calls it slide.',
+			],
+			[
+				'name'        => 'prevTrigger',
+				'element'     => 'button',
+				'description' => 'Shows the previous position: an outline icon-only Button in the header, or a soft one over the viewport\'s start edge. The spec\'s nav (prev).',
+			],
+			[
+				'name'        => 'nextTrigger',
+				'element'     => 'button',
+				'description' => 'Shows the next position. The spec\'s nav (next).',
+			],
+			[
+				'name'        => 'indicatorGroup',
+				'element'     => 'div',
+				'description' => 'The row of dots under the viewport, one per position. The spec calls it dots.',
+			],
+			[
+				'name'        => 'indicator',
+				'element'     => 'button',
+				'description' => 'A dot that shows its position; aria-current and a wider primary pill mark the one shown.',
+			],
+			[
+				'name'        => 'autoplayTrigger',
+				'element'     => 'button',
+				'description' => 'Pauses and resumes autoplay, with autoplay. Always visible while autoplay is on.',
+			],
+		],
+		'slots'       => [
+			[
+				'name'        => 'slide',
+				'description' => 'Scoped render content for one slide\'s content, given the slide and its index: @scope(\'slide\', $slide) in Blade ($loop->index is the index), #slide="{ slide, index }" in Vue, renderSlide in React.',
+			],
+		],
+		'events'      => [
+			[
+				'name'        => 'index-change',
+				'description' => 'The carousel moved to another position: a button, a dot, a swipe or autoplay. Setting index doesn\'t fire it.',
+				'payload'     => 'number',
+			],
+		],
+		'a11y'        => [
+			'role'         => 'region',
+			'element'      => 'div',
+			'keyboard'     => [
+				[
+					'keys'   => 'Tab, Shift+Tab',
+					'action' => 'Move between the previous and next buttons, the track, the dots and the autoplay button.',
+				],
+				[
+					'keys'   => 'Enter, Space',
+					'action' => 'On a button or dot: shows its position, or pauses and resumes autoplay.',
+				],
+				[
+					'keys'   => 'ArrowRight, ArrowLeft',
+					'action' => 'On the dots: show the next or previous position. They follow the text direction, so in RTL ArrowLeft shows the next one.',
+				],
+				[
+					'keys'   => 'Home, End',
+					'action' => 'On the dots: show the first or last position.',
+				],
+			],
+			'requirements' => [ 'The root is a region with aria-roledescription carousel and a translatable name (label, else the title).', 'Each slide is a group with aria-roledescription slide, named "n of N"; slides out of view are hidden from assistive technology.', 'The track is a polite live region, off while autoplay runs, so moves are announced.', 'The previous and next buttons and the dots have accessible names (translatable); the dot shown carries aria-current.', 'Autoplay never runs without a visible pause button, pauses while the pointer or focus is on the carousel, and starts paused under prefers-reduced-motion (2.2.2).', 'Arrow keys follow the text direction; the previous and next icons mirror and the next slide peeks at the inline end in RTL.', 'Every part keeps a stable, server-rendered id in Livewire (D-015).' ],
+			'wcag'         => [ '1.3.1', '1.4.11', '2.1.1', '2.2.2', '2.4.3', '2.4.7', '4.1.2' ],
+		],
+		'tokens'      => [ '--apui-radius-lg', '--apui-radius-full', '--apui-border-default', '--apui-color-primary', '--apui-elevation-glass', '--apui-focus-ring-color', '--apui-focus-ring-width', '--apui-motion-duration-fast', '--apui-motion-ease-standard' ],
+		'fixture'     => [
+			'props'  => [
+				'slides'  => [
+					[
+						'image'       => 'data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20400%20300\'%20width=\'400\'%20height=\'300\'%3E%3Crect%20width=\'400\'%20height=\'300\'%20fill=\'%23e4eef6\'/%3E%3Crect%20y=\'135\'%20width=\'400\'%20height=\'165\'%20fill=\'%23c4d8e8\'/%3E%3Ccircle%20cx=\'280\'%20cy=\'96\'%20r=\'27\'%20fill=\'%23fff6e0\'/%3E%3Cpath%20d=\'M0%20186L72%20114L128%20156L200%2090L280%20165L340%20126L400%20174V300H0Z\'%20fill=\'%239db8cf\'/%3E%3Cpath%20d=\'M0%20225L100%20174L180%20216L248%20180L328%20222L400%20198V300H0Z\'%20fill=\'%236f8fab\'/%3E%3Cpath%20d=\'M0%20264Q120%20240%20220%20264T400%20258V300H0Z\'%20fill=\'%2347637e\'/%3E%3C/svg%3E',
+						'alt'         => 'Lakeview Lofts from the lake',
+						'title'       => 'Lakeview Lofts',
+						'description' => 'United States, Chicago · $250,000',
+					],
+					[
+						'image'       => 'data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20400%20300\'%20width=\'400\'%20height=\'300\'%3E%3Crect%20width=\'400\'%20height=\'300\'%20fill=\'%23cfe3e0\'/%3E%3Crect%20y=\'135\'%20width=\'400\'%20height=\'165\'%20fill=\'%23a9cbc4\'/%3E%3Ccircle%20cx=\'280\'%20cy=\'96\'%20r=\'27\'%20fill=\'%23fff6e0\'/%3E%3Cpath%20d=\'M0%20186L72%20114L128%20156L200%2090L280%20165L340%20126L400%20174V300H0Z\'%20fill=\'%235f8f7c\'/%3E%3Cpath%20d=\'M0%20225L100%20174L180%20216L248%20180L328%20222L400%20198V300H0Z\'%20fill=\'%233f6b57\'/%3E%3Cpath%20d=\'M0%20264Q120%20240%20220%20264T400%20258V300H0Z\'%20fill=\'%2324463a\'/%3E%3C/svg%3E',
+						'alt'         => 'Courtyard at Cedarwood Estates',
+						'title'       => 'Cedarwood Estates',
+						'description' => 'United States, New York · $200,000',
+					],
+					[
+						'image'       => 'data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20400%20300\'%20width=\'400\'%20height=\'300\'%3E%3Crect%20width=\'400\'%20height=\'300\'%20fill=\'%23f4e2c4\'/%3E%3Crect%20y=\'135\'%20width=\'400\'%20height=\'165\'%20fill=\'%23e7c08d\'/%3E%3Ccircle%20cx=\'280\'%20cy=\'96\'%20r=\'27\'%20fill=\'%23fff6e0\'/%3E%3Cpath%20d=\'M0%20186L72%20114L128%20156L200%2090L280%20165L340%20126L400%20174V300H0Z\'%20fill=\'%23c98f5e\'/%3E%3Cpath%20d=\'M0%20225L100%20174L180%20216L248%20180L328%20222L400%20198V300H0Z\'%20fill=\'%239c6a43\'/%3E%3Cpath%20d=\'M0%20264Q120%20240%20220%20264T400%20258V300H0Z\'%20fill=\'%236b4630\'/%3E%3C/svg%3E',
+						'alt'         => 'Rooftop terrace at Tranquil Oaks',
+						'title'       => 'Tranquil Oaks',
+						'description' => 'Canada, Toronto · $350,000',
+					],
+					[
+						'image'       => 'data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20400%20300\'%20width=\'400\'%20height=\'300\'%3E%3Crect%20width=\'400\'%20height=\'300\'%20fill=\'%23f6d9a8\'/%3E%3Crect%20y=\'135\'%20width=\'400\'%20height=\'165\'%20fill=\'%23e9b77a\'/%3E%3Ccircle%20cx=\'280\'%20cy=\'96\'%20r=\'27\'%20fill=\'%23fff6e0\'/%3E%3Cpath%20d=\'M0%20186L72%20114L128%20156L200%2090L280%20165L340%20126L400%20174V300H0Z\'%20fill=\'%238aa7c4\'/%3E%3Cpath%20d=\'M0%20225L100%20174L180%20216L248%20180L328%20222L400%20198V300H0Z\'%20fill=\'%235d7f9f\'/%3E%3Cpath%20d=\'M0%20264Q120%20240%20220%20264T400%20258V300H0Z\'%20fill=\'%2333506d\'/%3E%3C/svg%3E',
+						'alt'         => 'Sunrise over Golden Hour',
+						'title'       => 'Golden Hour',
+						'description' => 'United States, Denver · $320,000',
+					],
+				],
+				'perView' => 3,
+				'title'   => 'Featured properties',
+			],
+			'parts'  => [
+				'autoplay' => true,
+				'title'    => 'Featured properties',
+			],
+			'states' => [],
+		],
+	],
+	'Chart'             => [
+		'name'        => 'Chart',
+		'description' => 'A bar, line, area or donut chart in a Card, drawn as inline SVG from tokens: series colors --apui-chart-1…6 in fixed order, a recessive grid, and a tooltip on hover and keyboard focus of each mark. Every stack computes the same geometry, so there is no chart library. Every chart has a title, a legend for two or more series, and a data table view.',
+		'status'      => 'draft',
+		'issue'       => 63,
+		'rootClass'   => 'apui-chart',
+		'stacks'      => [
+			'livewire' => [
+				'name'         => 'chart',
+				'capabilities' => [ 'Rendered on the server: wire:poll and Livewire updates redraw it, and the tooltip (apuiChart) keeps working through the morph', 'The actions slot holds header controls, such as a range switch bound with wire:model.live', '2.x series in ApexCharts\' shape still work: [{ name, data }] or a plain array of values, with labels' ],
+			],
+			'react'    => [
+				'name'         => 'Chart',
+				'capabilities' => [ 'actions takes a node' ],
+			],
+			'vue'      => [
+				'name'         => 'Chart',
+				'capabilities' => [ 'The actions slot holds header controls' ],
+			],
+		],
+		'props'       => [
+			[
+				'name'        => 'type',
+				'type'        => 'enum',
+				'values'      => [ 'bar', 'line', 'area', 'donut' ],
+				'default'     => 'bar',
+				'description' => 'Bars from zero (one series: the first), lines, lines with a soft fill below, or a donut of the first series\' values. Emitted as data-type.',
+			],
+			[
+				'name'        => 'series',
+				'type'        => 'array',
+				'required'    => true,
+				'description' => 'The data: [{ name, data: number[] }], or a plain array of values for one series named by title. data lines up with labels. Anything that isn\'t a finite number is a gap. Series take --apui-chart-1…6 in order; keep the order stable when filters change.',
+			],
+			[
+				'name'        => 'labels',
+				'type'        => 'array',
+				'description' => 'The categories: the x-axis labels, or the donut\'s slices.',
+			],
+			[
+				'name'        => 'title',
+				'type'        => 'string',
+				'required'    => true,
+				'description' => 'The chart\'s heading, and the accessible name of its plot and table.',
+				'a11y'        => 'Every chart has a title; it names the plot (role=group) and the table.',
+			],
+			[
+				'name'        => 'description',
+				'type'        => 'string',
+				'description' => 'Supporting text under the title, such as the period or what\'s labeled.',
+			],
+			[
+				'name'        => 'actions',
+				'type'        => 'node',
+				'description' => 'Controls at the end of the header, such as Tabs that switch the range.',
+			],
+			[
+				'name'        => 'tabular',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'Shows the data as a table under the plot: a row per category and a column per series (the donut\'s value and share). The spec calls it showTable; Livewire also takes show-table.',
+				'a11y'        => 'The table view is the accessible alternative to the plot.',
+			],
+			[
+				'name'        => 'prefix',
+				'type'        => 'string',
+				'description' => 'Printed before every value on the axis, the marks and the table, such as $.',
+			],
+			[
+				'name'        => 'suffix',
+				'type'        => 'string',
+				'description' => 'Printed after every value, such as %.',
+			],
+			[
+				'name'        => 'notation',
+				'type'        => 'enum',
+				'values'      => [ 'standard', 'compact' ],
+				'default'     => 'standard',
+				'description' => 'standard prints values with thousands separators and up to two decimals (12,500); compact shortens them to k, M and B ($4.1k), the axis sharing the unit of its largest value ($0k … $10k).',
+			],
+			[
+				'name'        => 'width',
+				'type'        => 'number',
+				'default'     => 520,
+				'description' => 'The plot\'s viewBox width. The plot scales to its container; this sets the aspect ratio and how large the axis text reads. The donut is always 160.',
+			],
+			[
+				'name'        => 'height',
+				'type'        => 'number',
+				'default'     => 220,
+				'description' => 'The plot\'s viewBox height.',
+			],
+			[
+				'name'        => 'classes',
+				'type'        => 'object',
+				'description' => 'Extra classes per part, such as { plot: \'…\', tooltip: \'…\' }.',
+			],
+		],
+		'parts'       => [
+			[
+				'name'        => 'root',
+				'element'     => 'div',
+				'description' => 'The card: .apui-card.apui-chart, with data-type.',
+			],
+			[
+				'name'        => 'header',
+				'element'     => 'div',
+				'description' => 'The heading, the legend (for two or more series) and the actions.',
+			],
+			[
+				'name'        => 'title',
+				'element'     => 'h3',
+				'description' => 'The chart\'s heading.',
+			],
+			[
+				'name'        => 'description',
+				'element'     => 'p',
+				'description' => 'The supporting text.',
+			],
+			[
+				'name'        => 'actions',
+				'element'     => 'div',
+				'description' => 'The header controls.',
+			],
+			[
+				'name'        => 'legend',
+				'element'     => 'ul',
+				'description' => 'A list of the series, or the donut\'s slices with their shares. Mirrors in RTL.',
+			],
+			[
+				'name'        => 'swatch',
+				'element'     => 'span',
+				'description' => 'A legend entry\'s color, with data-series 1–6. Hidden from assistive technology.',
+			],
+			[
+				'name'        => 'body',
+				'element'     => 'div',
+				'description' => 'Holds the plot and the tooltip, and the donut\'s legend beside it.',
+			],
+			[
+				'name'        => 'plot',
+				'element'     => 'svg',
+				'description' => 'The chart: role=group, named by the title. Stays LTR in every direction (D-004).',
+			],
+			[
+				'name'        => 'grid',
+				'element'     => 'line',
+				'description' => 'A horizontal grid line at each y-axis value. Hidden from assistive technology.',
+			],
+			[
+				'name'        => 'axis',
+				'element'     => 'text',
+				'description' => 'A y-axis value or x-axis category label. Hidden from assistive technology.',
+			],
+			[
+				'name'        => 'mark',
+				'element'     => 'path | rect',
+				'description' => 'A bar, a donut slice, or a line or area chart\'s category column: focusable (tabindex=0), role=img with the category and its values as its name, data-series and data-index. Hover or focus opens the tooltip and sets data-state="active".',
+			],
+			[
+				'name'        => 'line',
+				'element'     => 'path',
+				'description' => 'A series\' line, for line and area charts, with data-series.',
+			],
+			[
+				'name'        => 'area',
+				'element'     => 'path',
+				'description' => 'The soft fill under a series\' line, for area charts.',
+			],
+			[
+				'name'        => 'point',
+				'element'     => 'g',
+				'description' => 'A category\'s crosshair and dots, shown (visibility) while its mark is active.',
+			],
+			[
+				'name'        => 'crosshair',
+				'element'     => 'line',
+				'description' => 'The dashed vertical line through the active category.',
+			],
+			[
+				'name'        => 'dot',
+				'element'     => 'circle',
+				'description' => 'A series\' value at the active category.',
+			],
+			[
+				'name'        => 'value',
+				'element'     => 'text | span',
+				'description' => 'The one labeled value (the first series\' maximum) in the plot, and each slice\'s share in the donut\'s legend.',
+			],
+			[
+				'name'        => 'tooltip',
+				'element'     => 'div',
+				'description' => 'The active mark\'s category and values, on the overlay surface. aria-hidden: the mark\'s name says the same.',
+			],
+			[
+				'name'        => 'table',
+				'element'     => 'table',
+				'description' => 'The data table view (tabular), named by the title.',
+			],
+		],
+		'slots'       => [
+			[
+				'name'        => 'actions',
+				'description' => 'Controls at the end of the header, such as Tabs.',
+			],
+		],
+		'events'      => [],
+		'a11y'        => [
+			'element'      => 'div',
+			'requirements' => [ 'Every chart has a title that names the plot (role=group) and the table, a legend for two or more series, and a table view (tabular).', 'Every mark is focusable, with its category and values as its accessible name; the tooltip opens on hover and on keyboard focus, and Escape closes it.', 'The grid, axis labels, lines, areas and the labeled value are hidden from assistive technology: the marks and the table carry the data.', 'Series colors follow --apui-chart-1…6 in fixed order. Light-mode --apui-chart-2, -4 and -6 sit under 3:1, so values are always reachable as labels, in the tooltip or in the table, never by color alone.', 'The plot stays LTR in every direction; the header and legend mirror.' ],
+			'wcag'         => [ '1.1.1', '1.3.1', '1.4.1', '1.4.11', '1.4.13', '2.1.1', '2.4.7' ],
+		],
+		'tokens'      => [ '--apui-chart-1', '--apui-chart-2', '--apui-chart-3', '--apui-chart-4', '--apui-chart-5', '--apui-chart-6', '--apui-chart-grid', '--apui-chart-axis', '--apui-surface-overlay', '--apui-elevation-overlay', '--apui-border-strong', '--apui-card-padding', '--apui-text-muted' ],
+		'fixture'     => [
+			'props' => [
+				'type'        => 'bar',
+				'title'       => 'Weekly revenue',
+				'description' => 'The Grove at Greenfield · best week labeled',
+				'labels'      => [ 'W1', 'W2', 'W3', 'W4', 'W5', 'W6', 'W7', 'W8', 'W9', 'W10' ],
+				'series'      => [
+					[
+						'name' => 'Revenue',
+						'data' => [ 4100, 6000, 8200, 10000, 4000, 8000, 4000, 8000, 6000, 4000 ],
+					],
+				],
+				'prefix'      => '$',
+				'notation'    => 'compact',
+			],
+			'parts' => [
+				'type'        => 'area',
+				'title'       => 'Analytic',
+				'description' => 'Sales estimation vs target',
+				'labels'      => [ 'Q1', 'Q2', 'Q3', 'Q4', 'Q1', 'Q2', 'Q3', 'Q4' ],
+				'series'      => [
+					[
+						'name' => 'Sales',
+						'data' => [ 600000, 1800000, 2600000, 3200000, 3600000, 4400000, 6100000, 7400000 ],
+					],
+					[
+						'name' => 'Target',
+						'data' => [ 3200000, 4400000, 3800000, 5200000, 6100000, 6600000, 7000000, 6400000 ],
+					],
+				],
+				'prefix'      => '$',
+				'notation'    => 'compact',
+				'width'       => 1000,
+				'height'      => 260,
+				'tabular'     => true,
+				'actions'     => 'Export',
+			],
 		],
 	],
 	'Checkbox'          => [
@@ -1552,6 +2433,309 @@ return [
 				'error' => 'Choose at least one.',
 			],
 			'states' => [ 'hover', 'focus-visible', 'disabled', 'invalid' ],
+		],
+	],
+	'Clipboard'         => [
+		'name'        => 'Clipboard',
+		'description' => 'Copies a value with clear confirmation: a copy button, an icon button with a confirmation tooltip, or a copy field showing the value beside its button. The label changes to Copied for the timeout and the result is announced in a live region; a failure is announced too. Every stack uses the behavior package\'s copy helper, with a fallback where the async Clipboard API is missing.',
+		'status'      => 'draft',
+		'issue'       => 65,
+		'rootClass'   => 'apui-clipboard',
+		'stacks'      => [
+			'livewire' => [
+				'name'         => 'clipboard',
+				'capabilities' => [ 'New in Livewire. Runs on the shared apuiClipboard Alpine component; a changed value from Livewire copies the new one', 'copy and error are DOM events on the root (x-on:copy, x-on:error)' ],
+			],
+			'react'    => [
+				'name'         => 'Clipboard',
+				'capabilities' => [ 'onCopy gets the value; onError the failure' ],
+			],
+			'vue'      => [
+				'name'         => 'Clipboard',
+				'capabilities' => [ 'copy gets the value; error the failure' ],
+			],
+		],
+		'props'       => [
+			[
+				'name'        => 'value',
+				'type'        => 'string',
+				'required'    => true,
+				'description' => 'What to copy. The field variant shows it.',
+			],
+			[
+				'name'        => 'timeout',
+				'type'        => 'number',
+				'default'     => 2000,
+				'description' => 'How long Copied (or the failure) shows, in ms.',
+			],
+			[
+				'name'        => 'variant',
+				'type'        => 'enum',
+				'values'      => [ 'button', 'icon', 'field' ],
+				'default'     => 'button',
+				'description' => 'An outline button with the icon and label; a ghost icon button whose confirmation shows as a tooltip below it; or the value in a read-only box joined to an outline button (the spec\'s copy field), for links, keys and IDs. Emitted as data-variant.',
+			],
+			[
+				'name'        => 'size',
+				'type'        => 'enum',
+				'values'      => [ 'xs', 'sm', 'md' ],
+				'default'     => 'sm',
+				'description' => 'The button\'s size, and the field\'s height. Use md for a field in a form. Emitted as data-size.',
+			],
+			[
+				'name'        => 'label',
+				'type'        => 'string',
+				'default'     => 'Copy',
+				'description' => 'The button\'s label; the icon button\'s accessible name. Translate it: Livewire defaults it through __( \'Copy\' ).',
+				'a11y'        => 'Name the button after what it copies when a page has several, such as "Copy share link".',
+			],
+			[
+				'name'        => 'copiedLabel',
+				'type'        => 'string',
+				'default'     => 'Copied',
+				'description' => 'The label after a copy. Translate it: Livewire defaults it through __( \'Copied\' ).',
+			],
+			[
+				'name'        => 'copiedMessage',
+				'type'        => 'string',
+				'default'     => 'Copied to clipboard',
+				'description' => 'Announced after a copy, and shown in the icon button\'s tooltip. Translate it: Livewire defaults it through __( \'Copied to clipboard\' ).',
+			],
+			[
+				'name'        => 'errorMessage',
+				'type'        => 'string',
+				'default'     => 'Couldn\'t copy. Select the text and copy it yourself.',
+				'description' => 'Announced (and shown in the icon button\'s tooltip) when the copy fails. Translate it: Livewire defaults it through __().',
+			],
+			[
+				'name'        => 'classes',
+				'type'        => 'object',
+				'description' => 'Extra classes per part, such as { button: \'…\', field: \'…\' }.',
+			],
+		],
+		'variants'    => [ 'button', 'icon', 'field' ],
+		'sizes'       => [ 'xs', 'sm', 'md' ],
+		'parts'       => [
+			[
+				'name'        => 'root',
+				'element'     => 'span | div',
+				'description' => 'The wrapper, with data-variant, data-size and data-state (idle, copied, failed): a span, or a div for the field.',
+			],
+			[
+				'name'        => 'button',
+				'element'     => 'button',
+				'description' => 'A neutral Button (outline, or ghost and icon-only for the icon variant) with the copy icon and label; a check and copiedLabel, in the success color, while copied.',
+			],
+			[
+				'name'        => 'field',
+				'element'     => 'span',
+				'description' => 'The field variant\'s read-only box, in the mono font on the sunken surface.',
+			],
+			[
+				'name'        => 'value',
+				'element'     => 'span',
+				'description' => 'The value in the field, LTR in every direction, cut with an ellipsis when long.',
+			],
+			[
+				'name'        => 'tooltip',
+				'element'     => 'span',
+				'description' => 'The role=status live region with copiedMessage or errorMessage. Hidden but announced; shown as a tooltip below the icon button.',
+			],
+		],
+		'slots'       => [],
+		'events'      => [
+			[
+				'name'        => 'copy',
+				'description' => 'The value reached the clipboard.',
+				'payload'     => 'string',
+			],
+			[
+				'name'        => 'error',
+				'description' => 'The copy failed, in both the Clipboard API and the fallback.',
+				'payload'     => 'unknown',
+			],
+		],
+		'a11y'        => [
+			'element'      => 'span',
+			'requirements' => [ 'The result is announced in a role=status live region, success or failure; never a silent copy.', 'The label changes to Copied while copied; the icon button\'s accessible name does too.', 'The value in a copy field reads LTR in every direction and stays selectable, so it can be copied by hand when copying fails.' ],
+			'wcag'         => [ '2.1.1', '4.1.2', '4.1.3' ],
+		],
+		'tokens'      => [ '--apui-control-height-xs', '--apui-control-height-sm', '--apui-control-height-md', '--apui-input-radius', '--apui-border-muted', '--apui-border-width', '--apui-surface-sunken', '--apui-surface-inverse', '--apui-text-default', '--apui-text-inverse', '--apui-font-family-mono', '--apui-tooltip-radius', '--apui-color-success-text', '--apui-z-tooltip' ],
+		'fixture'     => [
+			'props' => [
+				'value' => 'https://horizonhomes.com/l/grove-greenfield',
+			],
+			'parts' => [
+				'variant' => 'field',
+			],
+		],
+	],
+	'Code'              => [
+		'name'        => 'Code',
+		'description' => 'Read-only code: a block with a header (file name, language and a copy button), optional line numbers and highlighted lines, or inline code in running text. No syntax highlighting. The block is a labeled scroll region that doesn\'t wrap; the header mirrors in RTL, the code stays LTR. For editable code, use CodeEditor.',
+		'status'      => 'draft',
+		'issue'       => 65,
+		'rootClass'   => 'apui-code',
+		'stacks'      => [
+			'livewire' => [
+				'name'         => 'code',
+				'capabilities' => [ 'Rendered on the server; the copy button runs on the shared apuiClipboard Alpine component, reading the rendered lines back', 'The default slot holds the code when code is empty', '2.x was an Ace editor bound with wire:model: use CodeEditor for that. Its label, hint, height, theme and print-margin props are gone' ],
+			],
+			'react'    => [
+				'name'         => 'Code',
+				'capabilities' => [ 'The copy button uses the behavior package\'s useClipboard, as Clipboard does' ],
+			],
+			'vue'      => [
+				'name'         => 'Code',
+				'capabilities' => [ 'The copy button uses the behavior package\'s useClipboard, as Clipboard does' ],
+			],
+		],
+		'props'       => [
+			[
+				'name'        => 'code',
+				'type'        => 'string',
+				'description' => 'The code. Split into lines on any line ending; one final line ending doesn\'t add an empty line. Shown as text, never as HTML.',
+			],
+			[
+				'name'        => 'language',
+				'type'        => 'string',
+				'description' => 'The language, shown as a badge in the header, such as "TypeScript" or "Shell". Only a label: nothing is highlighted.',
+			],
+			[
+				'name'        => 'fileName',
+				'type'        => 'string',
+				'description' => 'The file name or a title such as "Terminal", at the start of the header in the mono font.',
+			],
+			[
+				'name'        => 'numbered',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'Shows line numbers. They aren\'t part of the text, so selecting or copying the code leaves them out. Emitted as data-numbered.',
+			],
+			[
+				'name'        => 'highlight',
+				'type'        => 'array',
+				'description' => 'Line numbers to emphasize (1-based), such as [3]. Each gets data-highlight: the selected fill and a primary bar. Highlight a few lines to make a point.',
+			],
+			[
+				'name'        => 'inline',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'Inline code in running text: a code element with no header, numbers or copy button. Emitted as data-inline.',
+			],
+			[
+				'name'        => 'copyable',
+				'type'        => 'boolean',
+				'default'     => true,
+				'description' => 'Shows the copy button in the header. It copies the code and reads "Copied" for two seconds.',
+			],
+			[
+				'name'        => 'label',
+				'type'        => 'string',
+				'description' => 'Names the scroll region. Defaults to the file name, then the language, then "Code" (Livewire through __( \'Code\' )).',
+				'a11y'        => 'The region is focusable so keyboard users can scroll it, and needs a name. Name each block when a page has several with the same file name.',
+			],
+			[
+				'name'        => 'copyLabel',
+				'type'        => 'string',
+				'default'     => 'Copy',
+				'description' => 'The copy button\'s label. Translate it: Livewire defaults it through __( \'Copy\' ).',
+			],
+			[
+				'name'        => 'copiedLabel',
+				'type'        => 'string',
+				'default'     => 'Copied',
+				'description' => 'The copy button\'s label after a copy. Translate it: Livewire defaults it through __( \'Copied\' ).',
+			],
+			[
+				'name'        => 'copiedMessage',
+				'type'        => 'string',
+				'default'     => 'Copied to clipboard',
+				'description' => 'Announced after a copy. Translate it: Livewire defaults it through __( \'Copied to clipboard\' ).',
+			],
+			[
+				'name'        => 'errorMessage',
+				'type'        => 'string',
+				'default'     => 'Couldn\'t copy. Select the text and copy it yourself.',
+				'description' => 'Announced when the copy fails. Translate it: Livewire defaults it through __().',
+			],
+			[
+				'name'        => 'classes',
+				'type'        => 'object',
+				'description' => 'Extra classes per part, such as { header: \'…\', pre: \'…\' }.',
+			],
+		],
+		'parts'       => [
+			[
+				'name'        => 'root',
+				'element'     => 'div | code',
+				'description' => 'The frame, with data-numbered; or, inline, the code element with data-inline.',
+			],
+			[
+				'name'        => 'header',
+				'element'     => 'div',
+				'description' => 'The file name, language and copy button. Mirrors in RTL. Left out when there is nothing to show.',
+			],
+			[
+				'name'        => 'file',
+				'element'     => 'span',
+				'description' => 'The file name, in the mono font, cut with an ellipsis when long.',
+			],
+			[
+				'name'        => 'language',
+				'element'     => 'span',
+				'description' => 'The language: a neutral outline Badge (sm).',
+			],
+			[
+				'name'        => 'copy',
+				'element'     => 'button',
+				'description' => 'A ghost, neutral, xs Button with the copy icon and copyLabel, with data-state (idle, copied, failed). Reads copiedLabel with a check, in the success color, while copied.',
+			],
+			[
+				'name'        => 'status',
+				'element'     => 'span',
+				'description' => 'A hidden role=status live region announcing copiedMessage or errorMessage.',
+			],
+			[
+				'name'        => 'pre',
+				'element'     => 'pre',
+				'description' => 'The code, always LTR (D-004): a focusable role=region named by label, scrolling instead of wrapping.',
+			],
+			[
+				'name'        => 'line',
+				'element'     => 'span',
+				'description' => 'One line, with data-n (its number, drawn as a ::before when numbered) and data-highlight when emphasized.',
+			],
+		],
+		'slots'       => [
+			[
+				'name'        => 'default',
+				'description' => 'The code as text, when code is empty (Livewire only: React and Vue take the code prop).',
+			],
+		],
+		'events'      => [],
+		'a11y'        => [
+			'element'      => 'div',
+			'requirements' => [ 'The block is a focusable role=region named by label, so keyboard users can scroll long lines.', 'Copying is announced in a live region (copiedMessage), and so is a failure (errorMessage); the button\'s label changes to Copied.', 'Line numbers aren\'t text: selecting and copying the code leaves them out.', 'The code stays LTR in every direction; the header mirrors.', 'Highlighted lines keep 4.5:1 for their text and numbers.' ],
+			'wcag'         => [ '1.3.1', '2.1.1', '4.1.2', '4.1.3' ],
+		],
+		'tokens'      => [ '--apui-surface-default', '--apui-surface-sunken', '--apui-border-muted', '--apui-border-width', '--apui-radius-md', '--apui-radius-xs', '--apui-text-default', '--apui-text-muted', '--apui-font-family-mono', '--apui-type-code-md-font-size', '--apui-type-code-md-line-height', '--apui-selected-bg', '--apui-selected-indicator-width', '--apui-color-primary', '--apui-color-success-text', '--apui-focus-ring-color', '--apui-focus-ring-width' ],
+		'fixture'     => [
+			'props' => [
+				'code'      => 'export function formatPrice(amount: number, currency = \'USD\') {
+  // Tabular figures line up in tables
+  return new Intl.NumberFormat(\'en-US\', {
+    style: \'currency\',
+    currency,
+    maximumFractionDigits: 0,
+  }).format(amount);
+}
+',
+				'fileName'  => 'format-price.ts',
+				'language'  => 'TypeScript',
+				'numbered'  => true,
+				'highlight' => [ 3 ],
+			],
 		],
 	],
 	'CodeEditor'        => [
@@ -5163,6 +6347,103 @@ return [
 			],
 		],
 	],
+	'Icon'              => [
+		'name'        => 'Icon',
+		'description' => 'One Lucide icon from the registry (D-017) at four sizes, or in a soft-colored tile. Decorative unless it has a label. Directional icons mirror in RTL.',
+		'status'      => 'draft',
+		'issue'       => 65,
+		'rootClass'   => 'apui-icon',
+		'stacks'      => [
+			'livewire' => [
+				'name'         => 'icon',
+				'capabilities' => [ 'Names outside the registry fall back to blade-icons, so the 2.x heroicon (o-plus) and Font Awesome (fas.user) names keep rendering, through the ap.livewireUiComponents.iconAlias filter' ],
+			],
+			'react'    => [
+				'name' => 'Icon',
+			],
+			'vue'      => [
+				'name' => 'Icon',
+			],
+		],
+		'variants'    => [ 'plain', 'tile' ],
+		'sizes'       => [ 'sm', 'md', 'lg', 'xl' ],
+		'colors'      => [ 'primary', 'secondary', 'accent', 'neutral', 'success', 'warning', 'error', 'info' ],
+		'props'       => [
+			[
+				'name'        => 'name',
+				'type'        => 'string',
+				'description' => 'A registered icon name, Lucide\'s kebab-case (house, arrow-right). The default slot (children) overrides it with your own <svg>.',
+			],
+			[
+				'name'        => 'variant',
+				'type'        => 'enum',
+				'values'      => [ 'plain', 'tile' ],
+				'default'     => 'plain',
+				'description' => 'plain is the bare glyph; tile puts it on a soft-colored rounded square (the root also gets the apui-icon-tile class). Emitted as data-variant.',
+			],
+			[
+				'name'        => 'size',
+				'type'        => 'enum',
+				'values'      => [ 'sm', 'md', 'lg', 'xl' ],
+				'default'     => 'md',
+				'description' => 'The glyph: 14, 16, 20 or 24px. A tile is 32, 40, 48 or 56px around a 16, 16, 20 or 24px glyph. Emitted as data-size.',
+			],
+			[
+				'name'        => 'color',
+				'type'        => 'enum',
+				'values'      => [ 'primary', 'secondary', 'accent', 'neutral', 'success', 'warning', 'error', 'info' ],
+				'description' => 'A plain icon takes the color\'s text tone; a tile takes its soft fill and soft foreground. Unset, a plain icon draws in currentColor and a tile is neutral. Emitted as data-color.',
+			],
+			[
+				'name'        => 'label',
+				'type'        => 'string',
+				'description' => 'The accessible name. With it the icon is role=img with aria-label; without it the icon is decorative and aria-hidden.',
+				'a11y'        => 'Label an icon that carries meaning on its own. Next to text that says the same thing, leave it decorative.',
+			],
+			[
+				'name'        => 'mirror',
+				'type'        => 'boolean',
+				'description' => 'Flips the glyph in RTL. Unset, it follows the registry: arrow-left, arrow-right, chevron-left and chevron-right (and names an app marks directional) mirror. Emitted as data-mirror.',
+			],
+			[
+				'name'        => 'classes',
+				'type'        => 'object',
+				'description' => 'Extra classes per part: { root, svg }.',
+			],
+		],
+		'parts'       => [
+			[
+				'name'        => 'root',
+				'element'     => 'span',
+				'description' => 'Sizes and colors the glyph; in the tile variant it is the tile. role=img with aria-label when labeled, else aria-hidden.',
+			],
+			[
+				'name'        => 'svg',
+				'element'     => 'svg',
+				'description' => 'The registry\'s 24×24 Lucide glyph, stroke 1.5 in currentColor. Not rendered when the default slot gives your own <svg>.',
+			],
+		],
+		'slots'       => [
+			[
+				'name'        => 'default',
+				'description' => 'Your own <svg>, drawn in place of the named icon at the same size. Keep it on a 24px grid in currentColor.',
+			],
+		],
+		'a11y'        => [
+			'role'         => 'img',
+			'element'      => 'span',
+			'requirements' => [ 'Decorative icons (no label) are aria-hidden, so screen readers skip them.', 'A labeled icon is role=img with aria-label; the svg inside stays aria-hidden.', 'Directional icons mirror under RTL; others (trends, clocks, external links) never do.', 'A plain icon draws in currentColor, so it meets the contrast of the text around it; colored icons use the color\'s text tone (4.5:1).', 'A tile\'s soft foreground meets 3:1 against its fill in every theme, and the tile gets an edge in high contrast (D-035).' ],
+			'wcag'         => [ '1.1.1', '1.4.11', '4.1.2' ],
+		],
+		'tokens'      => [ '--apui-icon-size-sm', '--apui-icon-size-md', '--apui-icon-size-lg', '--apui-radius-sm', '--apui-radius-md', '--apui-radius-lg', '--apui-color-neutral-soft', '--apui-color-neutral-soft-foreground', '--apui-color-primary-text', '--apui-color-primary-soft', '--apui-color-primary-soft-foreground', '--apui-color-primary-border', '--apui-border-soft-edge-width' ],
+		'fixture'     => [
+			'props'  => [
+				'name'  => 'house',
+				'label' => 'Home',
+			],
+			'states' => [],
+		],
+	],
 	'ImageGallery'      => [
 		'name'        => 'ImageGallery',
 		'description' => 'A grid of images that opens a lightbox: a dark dialog with the image, a counter and caption, previous and next buttons, thumbnails and arrow keys that follow the text direction. Replaces the 2.x PhotoSwipe integration.',
@@ -6370,6 +7651,101 @@ return [
 			'states' => [ 'hover', 'focus-visible', 'disabled', 'invalid', 'readonly' ],
 		],
 	],
+	'Kbd'               => [
+		'name'        => 'Kbd',
+		'description' => 'A keyboard key or shortcut, as kbd elements. keys renders a combination in the platform\'s spelling: mod is ⌘ on macOS and iOS and Ctrl elsewhere, and the other modifiers follow (⌥ / Alt, ⇧ / Shift). Symbol keys carry their name as hidden text. Without keys, the content is one key.',
+		'status'      => 'draft',
+		'issue'       => 65,
+		'rootClass'   => 'apui-kbd',
+		'stacks'      => [
+			'livewire' => [
+				'name'         => 'kbd',
+				'capabilities' => [ 'The server renders the other platforms\' keys; a small Alpine component swaps in ⌘, ⌥ and ⇧ on Apple platforms when platform is auto', '2.x content still works: <x-artisanpack-kbd>K</x-artisanpack-kbd> is one key' ],
+			],
+			'react'    => [
+				'name'         => 'Kbd',
+				'capabilities' => [ 'children is one key when keys is empty', 'The first render (and the server\'s) uses the other platforms\' keys; Apple keys show after mount' ],
+			],
+			'vue'      => [
+				'name'         => 'Kbd',
+				'capabilities' => [ 'The default slot is one key when keys is empty', 'The first render (and the server\'s) uses the other platforms\' keys; Apple keys show after mount' ],
+			],
+		],
+		'props'       => [
+			[
+				'name'        => 'keys',
+				'type'        => 'array',
+				'description' => 'The keys of a shortcut, in order, such as [\'mod\', \'shift\', \'p\']. Named keys: mod, cmd, ctrl, alt (option), shift, enter, esc, tab, space, backspace, delete and the arrows (up, down, left, right). A single character is uppercased; anything else (F5, PgUp) shows as given. Renders a combo, even for one key.',
+			],
+			[
+				'name'        => 'size',
+				'type'        => 'enum',
+				'values'      => [ 'sm', 'md' ],
+				'default'     => 'md',
+				'description' => 'md for running text, sm inside menus, tooltips and other dense rows. Emitted as data-size on every key.',
+			],
+			[
+				'name'        => 'platform',
+				'type'        => 'enum',
+				'values'      => [ 'auto', 'mac', 'other' ],
+				'default'     => 'auto',
+				'description' => 'Whose keys to show. auto checks the browser after it loads; mac and other fix it, such as when the server knows the platform.',
+			],
+			[
+				'name'        => 'labels',
+				'type'        => 'object',
+				'description' => 'The hidden names of symbol keys, by name: command, control, option, shift, enter, tab, escape, backspace, up, down, left and right. Translate them: Livewire defaults each through __( \'Command\' ) and the rest.',
+				'a11y'        => 'A symbol such as ⌘ reads as its name instead.',
+			],
+			[
+				'name'        => 'classes',
+				'type'        => 'object',
+				'description' => 'Extra classes per part, such as { combo: \'…\', key: \'…\' }.',
+			],
+		],
+		'sizes'       => [ 'sm', 'md' ],
+		'parts'       => [
+			[
+				'name'        => 'root',
+				'element'     => 'kbd',
+				'description' => 'The first key cap, or the only one.',
+			],
+			[
+				'name'        => 'combo',
+				'element'     => 'kbd',
+				'description' => 'The outer kbd around a shortcut\'s keys (`.apui-kbd-combo`), as HTML nests kbd for combinations. Keeps its order in RTL.',
+			],
+			[
+				'name'        => 'key',
+				'element'     => 'kbd',
+				'description' => 'A key cap (`.apui-kbd`), with data-size. A symbol shows hidden from assistive technology, followed by its name as hidden text.',
+			],
+		],
+		'slots'       => [
+			[
+				'name'        => 'default',
+				'description' => 'One key, when keys is empty.',
+			],
+		],
+		'events'      => [],
+		'a11y'        => [
+			'element'      => 'kbd',
+			'requirements' => [ 'Every key is a kbd element; a shortcut is a kbd of kbd elements.', 'Symbols (⌘, ⌥, ⇧, ⌃, ↵, arrows) have a text alternative read instead of the symbol.', 'The keys match the platform: ⌘ on Apple platforms, Ctrl elsewhere.', 'Not a control: never use Kbd as a button.' ],
+			'wcag'         => [ '1.1.1', '1.3.1', '1.4.3' ],
+		],
+		'tokens'      => [ '--apui-kbd-radius', '--apui-border-default', '--apui-border-width', '--apui-surface-raised', '--apui-text-default', '--apui-text-muted', '--apui-font-family-mono', '--apui-type-code-sm-font-size' ],
+		'fixture'     => [
+			'props' => [
+				'keys'     => [ 'mod', 'shift', 'enter' ],
+				'platform' => 'other',
+			],
+			'parts' => [
+				'labels' => [
+					'enter' => 'Return key',
+				],
+			],
+		],
+	],
 	'KpiCard'           => [
 		'name'        => 'KpiCard',
 		'description' => 'A headline metric in a Card: a Stat\'s label, value and change, with a sparkline of its trend beside the value and, when there is one, progress toward a target. A period control (a Select) can sit in the label row.',
@@ -6931,6 +8307,159 @@ return [
 				'delay' => 0,
 			],
 			'states' => [],
+		],
+	],
+	'Markdown'          => [
+		'name'        => 'Markdown',
+		'description' => 'Renders GitHub-flavored Markdown (tables, task lists, strikethrough, autolinks) with the shared prose styles, and optionally edits it: write and split modes add Write, Preview and Split tabs over a Textarea. Every stack writes the same HTML: Livewire with league/commonmark, React and Vue with the behavior package\'s renderMarkdown. Raw HTML is escaped and unsafe link and image URLs are dropped.',
+		'status'      => 'draft',
+		'issue'       => 65,
+		'rootClass'   => 'apui-markdown',
+		'stacks'      => [
+			'livewire' => [
+				'name'         => 'markdown',
+				'capabilities' => [ 'Rendered on the server with league/commonmark (GFM, html_input escape, allow_unsafe_links off), with no script in preview mode', 'wire:model on the component binds the source in write and split modes: it goes to the Textarea, and source defaults to the bound property. Use wire:model.live.debounce for a preview that follows typing; with a deferred wire:model, switching to Preview or Split sends the change first', '2.x EasyMDE options (config, disk, folder, label, hint and the error props) are removed' ],
+			],
+			'react'    => [
+				'name'         => 'Markdown',
+				'capabilities' => [ 'source with onSourceChange; without a handler the editor keeps its own draft', '2.x renderMarkdown is removed' ],
+			],
+			'vue'      => [
+				'name'         => 'Markdown',
+				'capabilities' => [ 'v-model:source, or source with source-change', '2.x content still works, as source' ],
+			],
+		],
+		'props'       => [
+			[
+				'name'        => 'source',
+				'type'        => 'string',
+				'description' => 'The Markdown. In write and split modes it\'s the Textarea\'s value.',
+			],
+			[
+				'name'        => 'mode',
+				'type'        => 'enum',
+				'values'      => [ 'preview', 'write', 'split' ],
+				'default'     => 'preview',
+				'description' => 'preview renders the Markdown only. write and split add Write, Preview and Split tabs over the source, opening on that tab; split shows the source beside the preview. Emitted as data-mode.',
+			],
+			[
+				'name'        => 'sanitize',
+				'type'        => 'boolean',
+				'default'     => true,
+				'description' => 'Escape raw HTML in the source. false keeps an allowlist of formatting tags (kbd, sup, details, …) with safe attributes and escapes every other tag: script-capable markup never renders. Unsafe link and image URLs are dropped either way.',
+			],
+			[
+				'name'        => 'tabsLabel',
+				'type'        => 'string',
+				'default'     => 'Markdown mode',
+				'description' => 'Names the mode tabs. Translate it: Livewire defaults it through __( \'Markdown mode\' ).',
+			],
+			[
+				'name'        => 'writeLabel',
+				'type'        => 'string',
+				'default'     => 'Write',
+				'description' => 'The Write tab. Translate it: Livewire defaults it through __( \'Write\' ).',
+			],
+			[
+				'name'        => 'previewLabel',
+				'type'        => 'string',
+				'default'     => 'Preview',
+				'description' => 'The Preview tab. Translate it: Livewire defaults it through __( \'Preview\' ).',
+			],
+			[
+				'name'        => 'splitLabel',
+				'type'        => 'string',
+				'default'     => 'Split',
+				'description' => 'The Split tab. Translate it: Livewire defaults it through __( \'Split\' ).',
+			],
+			[
+				'name'        => 'editorLabel',
+				'type'        => 'string',
+				'default'     => 'Markdown source',
+				'description' => 'Names the source Textarea. Translate it: Livewire defaults it through __( \'Markdown source\' ).',
+			],
+			[
+				'name'        => 'outputLabel',
+				'type'        => 'string',
+				'default'     => 'Rendered preview',
+				'description' => 'Names the preview region in write and split modes. Translate it: Livewire defaults it through __( \'Rendered preview\' ).',
+			],
+			[
+				'name'        => 'classes',
+				'type'        => 'object',
+				'description' => 'Extra classes per part, such as { preview: \'…\', editor: \'…\' }.',
+			],
+		],
+		'parts'       => [
+			[
+				'name'        => 'root',
+				'element'     => 'div',
+				'description' => 'The .apui-markdown root, with data-mode. In preview mode it also carries .apui-prose and holds the rendered Markdown, its line length capped at --apui-measure; in write and split modes it holds the Tabs.',
+			],
+			[
+				'name'        => 'editor',
+				'element'     => 'div',
+				'description' => 'Holds the source Textarea, in the mono font.',
+			],
+			[
+				'name'        => 'preview',
+				'element'     => 'div',
+				'description' => 'The rendered Markdown in write and split modes: an .apui-prose region named by outputLabel, on a card surface.',
+			],
+			[
+				'name'        => 'split',
+				'element'     => 'div',
+				'description' => 'The Split tab\'s two columns: the editor beside the preview, stacked on narrow screens.',
+			],
+			[
+				'name'        => 'task',
+				'element'     => 'li',
+				'description' => 'A task-list item: a disabled checkbox and the item\'s first line in a label.',
+			],
+		],
+		'slots'       => [],
+		'events'      => [
+			[
+				'name'        => 'source-change',
+				'description' => 'The source was edited in the Textarea. Setting source doesn\'t fire it.',
+				'payload'     => 'string',
+			],
+		],
+		'a11y'        => [
+			'element'      => 'div',
+			'keyboard'     => [
+				[
+					'keys'   => 'ArrowRight, ArrowLeft',
+					'action' => 'On the mode tabs: move between Write, Preview and Split, following the text direction.',
+				],
+				[
+					'keys'   => 'Tab',
+					'action' => 'From the selected tab into its panel: the Textarea, or the preview\'s links.',
+				],
+			],
+			'requirements' => [ 'Headings keep their levels and tables keep their header cells (th), so the structure reads as written.', 'Task-list checkboxes are real, disabled checkboxes, named by their item\'s text through a label.', 'Raw HTML is escaped, or with sanitize=false filtered to formatting tags; event handlers, styles and unsafe URLs never render.', 'The mode tabs are design-system Tabs named by tabsLabel; the Textarea is named by editorLabel and the preview region by outputLabel.', 'Prose text keeps 4.5:1 on every surface; links are underlined, not marked by color alone.', 'Line length is capped (--apui-measure) for readability; the text reflows at 320px.', 'Code blocks stay LTR in RTL pages; everything else mirrors.' ],
+			'wcag'         => [ '1.3.1', '1.4.1', '1.4.3', '1.4.10', '2.1.1', '4.1.2' ],
+		],
+		'tokens'      => [ '--apui-border-default', '--apui-border-muted', '--apui-border-width', '--apui-card-padding', '--apui-card-radius', '--apui-checkbox-radius', '--apui-color-primary', '--apui-color-primary-border', '--apui-color-primary-foreground', '--apui-color-primary-text', '--apui-color-warning-soft', '--apui-color-warning-soft-foreground', '--apui-focus-ring-color', '--apui-focus-ring-offset', '--apui-focus-ring-offset-color', '--apui-focus-ring-width', '--apui-font-family-mono', '--apui-font-family-sans', '--apui-font-weight-semibold', '--apui-kbd-radius', '--apui-measure', '--apui-radius-md', '--apui-radius-xs', '--apui-surface-default', '--apui-surface-sunken', '--apui-table-head-weight', '--apui-text-default', '--apui-text-muted', '--apui-type-body-md-font-size', '--apui-type-body-sm-font-size', '--apui-type-body-sm-line-height', '--apui-type-code-md-font-size', '--apui-type-code-md-line-height', '--apui-type-heading-lg-font-size', '--apui-type-heading-lg-letter-spacing', '--apui-type-heading-lg-line-height', '--apui-type-heading-md-font-size', '--apui-type-heading-md-line-height', '--apui-type-heading-sm-font-size', '--apui-type-heading-sm-line-height', '--apui-type-heading-xl-font-size', '--apui-type-heading-xl-letter-spacing', '--apui-type-heading-xl-line-height' ],
+		'fixture'     => [
+			'props' => [
+				'mode'   => 'split',
+				'source' => '## Viewing checklist
+
+Bring **photo ID** and proof of income.
+
+- [x] Confirm time with agent
+- [ ] Measure the living room
+- [ ] Ask about `heating costs`
+
+> Viewings run 30 minutes.
+
+| Unit | Rent |
+|---|---:|
+| 2B | $1,400 |
+| 4A | $1,650 |
+',
+			],
 		],
 	],
 	'Menu'              => [
@@ -11107,6 +12636,146 @@ return [
 			'states'  => [],
 		],
 	],
+	'Swap'              => [
+		'name'        => 'Swap',
+		'description' => 'A two-state toggle that swaps its on and off content, such as a sun and a moon: a native checkbox with an accessible name over the content, with an optional fade or rotate. No Claude Design spec; token-driven like Grid and Stack.',
+		'status'      => 'draft',
+		'issue'       => 65,
+		'rootClass'   => 'apui-swap',
+		'stacks'      => [
+			'livewire' => [
+				'name'         => 'swap',
+				'capabilities' => [ 'wire:model binds checked on the native checkbox (D-018)', 'The 2.x true and false slots and true-icon and false-icon props still work as on, off, on-icon and off-icon' ],
+			],
+			'react'    => [
+				'name' => 'Swap',
+			],
+			'vue'      => [
+				'name' => 'Swap',
+			],
+		],
+		'sizes'       => [ 'sm', 'md', 'lg' ],
+		'props'       => [
+			[
+				'name'        => 'checked',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'Whether it is on: the on content shows. Livewire binds it with wire:model, Vue with v-model:checked; React pairs it with onCheckedChange.',
+			],
+			[
+				'name'        => 'defaultChecked',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'The initial state of an uncontrolled swap.',
+				'stacks'      => [ 'react' ],
+			],
+			[
+				'name'        => 'label',
+				'type'        => 'string',
+				'required'    => true,
+				'description' => 'The accessible name of the checkbox, such as "Dark mode". It is not shown.',
+				'a11y'        => 'Name the setting, not the icon: "Dark mode", checked or not, rather than "Moon".',
+			],
+			[
+				'name'        => 'onIcon',
+				'type'        => 'string',
+				'default'     => 'sun',
+				'description' => 'The icon shown when on. The on slot overrides it. Livewire\'s 2.x true-icon still works.',
+			],
+			[
+				'name'        => 'offIcon',
+				'type'        => 'string',
+				'default'     => 'moon',
+				'description' => 'The icon shown when off. The off slot overrides it. Livewire\'s 2.x false-icon still works.',
+			],
+			[
+				'name'        => 'transition',
+				'type'        => 'enum',
+				'values'      => [ 'fade', 'rotate', 'none' ],
+				'default'     => 'fade',
+				'description' => 'How the content swaps: a cross-fade, a fade with a quarter turn, or at once. Reduced motion always swaps at once. Emitted as data-transition.',
+			],
+			[
+				'name'        => 'size',
+				'type'        => 'enum',
+				'values'      => [ 'sm', 'md', 'lg' ],
+				'default'     => 'md',
+				'description' => 'The square target (control heights sm, md, lg) and its icon (16, 16, 20px). Emitted as data-size.',
+			],
+			[
+				'name'        => 'disabled',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'Disables the checkbox.',
+			],
+			[
+				'name'        => 'classes',
+				'type'        => 'object',
+				'description' => 'Extra classes per part: { root, control, on, off }.',
+			],
+		],
+		'parts'       => [
+			[
+				'name'        => 'root',
+				'element'     => 'label',
+				'description' => 'The square target. It holds the checkbox and both contents in one grid cell; data-state is checked or unchecked.',
+			],
+			[
+				'name'        => 'control',
+				'element'     => 'input',
+				'description' => 'The native checkbox, transparent over the target, named by label. Attributes other than class land here.',
+			],
+			[
+				'name'        => 'on',
+				'element'     => 'span',
+				'description' => 'Shown when checked. aria-hidden: the checkbox carries the state.',
+			],
+			[
+				'name'        => 'off',
+				'element'     => 'span',
+				'description' => 'Shown when not checked. aria-hidden.',
+			],
+		],
+		'slots'       => [
+			[
+				'name'        => 'on',
+				'description' => 'Content shown when on, in place of onIcon. Livewire\'s 2.x true slot still works.',
+			],
+			[
+				'name'        => 'off',
+				'description' => 'Content shown when off, in place of offIcon. Livewire\'s 2.x false slot still works.',
+			],
+		],
+		'events'      => [
+			[
+				'name'        => 'checked-change',
+				'description' => 'The swap turned on or off.',
+				'payload'     => 'boolean',
+			],
+		],
+		'a11y'        => [
+			'element'      => 'label',
+			'keyboard'     => [
+				[
+					'keys'   => 'Space',
+					'action' => 'Turns it on or off.',
+				],
+				[
+					'keys'   => 'Tab',
+					'action' => 'Moves focus to and from it.',
+				],
+			],
+			'requirements' => [ 'A native input type=checkbox stays in the DOM over the target, so the platform handles keyboard and screen readers and the state is announced as checked or not checked.', 'The checkbox has an accessible name (label) that names the setting; the swapping content is aria-hidden.', 'The target is at least 24×24px (2.5.8) and shows a focus ring while the checkbox has :focus-visible.', 'The fade and rotate are removed under prefers-reduced-motion.', 'Disabled uses --apui-text-disabled, never opacity alone.' ],
+			'wcag'         => [ '1.3.1', '1.4.11', '2.1.1', '2.4.7', '2.5.8', '4.1.2' ],
+		],
+		'tokens'      => [ '--apui-control-height-sm', '--apui-control-height-md', '--apui-control-height-lg', '--apui-icon-size-md', '--apui-icon-size-lg', '--apui-radius-md', '--apui-text-default', '--apui-text-disabled', '--apui-state-hover', '--apui-state-pressed', '--apui-focus-ring-color', '--apui-focus-ring-width', '--apui-focus-ring-offset', '--apui-motion-duration-moderate', '--apui-motion-ease-standard' ],
+		'fixture'     => [
+			'props'  => [
+				'label' => 'Dark mode',
+			],
+			'states' => [ 'hover', 'focus-visible', 'checked', 'disabled' ],
+		],
+	],
 	'Table'             => [
 		'name'        => 'Table',
 		'description' => 'Rows of structured data in real table markup: a toolbar with a title, sortable headers, row selection with a select-all box, expandable rows, loading and empty states, and a footer with Pagination.',
@@ -11982,6 +13651,363 @@ return [
 				'error'    => 'Write at least 40 characters.',
 			],
 			'states' => [ 'hover', 'focus-visible', 'disabled', 'invalid', 'readonly' ],
+		],
+	],
+	'ThemePreview'      => [
+		'name'        => 'ThemePreview',
+		'description' => 'Selectable cards that show a live miniature of each theme or preset: a radio group whose miniatures are drawn with the real tokens, by setting data-theme and data-preset on each miniature, so they stay accurate after a rebrand. A system card shows light and dark halves. Livewire only (D-003).',
+		'status'      => 'draft',
+		'issue'       => 65,
+		'rootClass'   => 'apui-theme-preview',
+		'stacks'      => [
+			'livewire' => [
+				'name'         => 'theme-preview',
+				'capabilities' => [ 'wire:model binds the chosen option\'s value to each native radio, so .live sends it at once', 'Replaces the 2.x <livewire:theme-preview> theme builder tool, which is removed' ],
+			],
+			'react'    => false,
+			'vue'      => false,
+		],
+		'props'       => [
+			[
+				'name'        => 'options',
+				'type'        => 'array',
+				'required'    => true,
+				'description' => 'The cards: { value, label, theme, preset, disabled }. theme is light, dark, high-contrast or system (light and dark halves); without it, a value that names a theme is used, else light. preset sets data-preset on the miniature.',
+			],
+			[
+				'name'        => 'value',
+				'type'        => 'string',
+				'description' => 'The chosen option\'s value. Livewire binds it with wire:model.',
+			],
+			[
+				'name'        => 'name',
+				'type'        => 'string',
+				'description' => 'The radios\' name. Defaults to the wire:model property, else a generated one.',
+			],
+			[
+				'name'        => 'label',
+				'type'        => 'string',
+				'default'     => 'Theme',
+				'description' => 'Names the radio group. Translate it: Livewire defaults it through __().',
+			],
+			[
+				'name'        => 'classes',
+				'type'        => 'object',
+				'description' => 'Extra classes per part, such as { card: \'…\', frame: \'…\', label: \'…\' }.',
+			],
+		],
+		'parts'       => [
+			[
+				'name'        => 'root',
+				'element'     => 'div',
+				'description' => 'The radio group, named by label: a grid of cards.',
+			],
+			[
+				'name'        => 'card',
+				'element'     => 'label',
+				'description' => 'One option, also .apui-theme-card: the frame and the label. Clicking anywhere on it checks its radio.',
+			],
+			[
+				'name'        => 'frame',
+				'element'     => 'span',
+				'description' => 'The bordered 16:10 frame around the miniature; the checked card\'s frame takes the primary edge and ring.',
+			],
+			[
+				'name'        => 'miniature',
+				'element'     => 'span',
+				'description' => 'The decorative page, aria-hidden, carrying data-theme and data-preset so the real tokens draw it. A system card has two, data-half start and end.',
+			],
+			[
+				'name'        => 'sidebar',
+				'element'     => 'span',
+				'description' => 'The miniature\'s sidebar, with three lines.',
+			],
+			[
+				'name'        => 'main',
+				'element'     => 'span',
+				'description' => 'The miniature\'s content: the header tile, then the tiles.',
+			],
+			[
+				'name'        => 'tiles',
+				'element'     => 'span',
+				'description' => 'The two tiles under the header.',
+			],
+			[
+				'name'        => 'tile',
+				'element'     => 'span',
+				'description' => 'A surface in the miniature; the header tile carries data-header.',
+			],
+			[
+				'name'        => 'line',
+				'element'     => 'span',
+				'description' => 'A line of text in the miniature: data-accent for the primary color, data-strong for a figure.',
+			],
+			[
+				'name'        => 'pill',
+				'element'     => 'span',
+				'description' => 'The miniature\'s primary button.',
+			],
+			[
+				'name'        => 'label',
+				'element'     => 'span',
+				'description' => 'The radio and the option\'s name, under the frame.',
+			],
+			[
+				'name'        => 'box',
+				'element'     => 'span',
+				'description' => 'The radio\'s circle.',
+			],
+			[
+				'name'        => 'control',
+				'element'     => 'input',
+				'description' => 'The native radio, transparent over the box, carrying wire:model.',
+			],
+			[
+				'name'        => 'indicator',
+				'element'     => 'span',
+				'description' => 'The checked radio\'s dot.',
+			],
+			[
+				'name'        => 'text',
+				'element'     => 'span',
+				'description' => 'The option\'s name, the radio\'s accessible name.',
+			],
+		],
+		'events'      => [
+			[
+				'name'        => 'value-change',
+				'description' => 'Another card was chosen.',
+				'payload'     => 'string',
+			],
+		],
+		'a11y'        => [
+			'role'         => 'radiogroup',
+			'element'      => 'div',
+			'keyboard'     => [
+				[
+					'keys'   => 'Tab',
+					'action' => 'Moves to the checked card\'s radio, or the first one.',
+				],
+				[
+					'keys'   => 'ArrowRight, ArrowDown, ArrowLeft, ArrowUp',
+					'action' => 'Moves to the next or previous card and checks it (platform behavior), following the text direction.',
+				],
+				[
+					'keys'   => 'Space',
+					'action' => 'Checks the focused card.',
+				],
+			],
+			'requirements' => [ 'A role=radiogroup named by label, of native radios sharing one name, so the platform supplies roving focus and the arrow keys.', 'The miniature is decorative (aria-hidden); the label carries the name.', 'ArrowLeft and ArrowRight follow the text direction (native radios do in RTL); the System card\'s halves mirror too.', 'The checked card is shown by its frame\'s edge and ring and by the filled radio, not by color alone.', 'The focus ring shows on the frame while its radio has focus.', 'Miniatures are drawn with the real tokens, so they match the theme or preset they show.' ],
+			'wcag'         => [ '1.1.1', '1.3.1', '1.4.1', '1.4.11', '2.1.1', '2.4.7', '4.1.2' ],
+		],
+		'tokens'      => [ '--apui-radius-md', '--apui-border-default', '--apui-border-strong', '--apui-border-muted', '--apui-color-primary', '--apui-color-primary-soft', '--apui-color-primary-foreground', '--apui-surface-page', '--apui-surface-default', '--apui-text-default', '--apui-focus-ring-color', '--apui-focus-ring-offset-color' ],
+		'fixture'     => [
+			'props'  => [
+				'label'   => 'Appearance',
+				'value'   => 'dark',
+				'options' => [
+					[
+						'value' => 'light',
+						'label' => 'Light',
+					],
+					[
+						'value' => 'dark',
+						'label' => 'Dark',
+					],
+					[
+						'value' => 'high-contrast',
+						'label' => 'High contrast',
+					],
+					[
+						'value' => 'system',
+						'label' => 'System',
+					],
+				],
+			],
+			'states' => [],
+		],
+	],
+	'ThemeToggle'       => [
+		'name'        => 'ThemeToggle',
+		'description' => 'Lets people choose light, dark, high contrast or system. The choice sets data-theme on the document, the attribute the tokens switch on, persists in localStorage and is applied before first paint by a blocking head snippet, so there\'s no flash. System follows prefers-color-scheme live. Segmented is a radio group on the segmented Tabs track; icon is one button that switches light and dark; menu is a DropdownMenu of radio items.',
+		'status'      => 'draft',
+		'issue'       => 65,
+		'rootClass'   => 'apui-theme-toggle',
+		'stacks'      => [
+			'livewire' => [
+				'name'         => 'theme-toggle',
+				'capabilities' => [ 'wire:model binds the choice; without it the stored choice shows', '@apuiThemeScript in <head> applies the stored choice before first paint', 'The 2.x light and dark labels still work, as lightLabel and darkLabel' ],
+			],
+			'react'    => [
+				'name'         => 'ThemeToggle',
+				'capabilities' => [ 'ThemeScript in <head> applies the stored choice before first paint' ],
+			],
+			'vue'      => [
+				'name'         => 'ThemeToggle',
+				'capabilities' => [ 'ThemeScript in <head> applies the stored choice before first paint' ],
+			],
+		],
+		'props'       => [
+			[
+				'name'        => 'value',
+				'type'        => 'enum',
+				'values'      => [ 'light', 'dark', 'high-contrast', 'system' ],
+				'default'     => 'system',
+				'description' => 'The choice. Livewire binds it with wire:model, Vue with v-model. Without it, the stored choice shows, else system.',
+			],
+			[
+				'name'        => 'defaultValue',
+				'type'        => 'enum',
+				'values'      => [ 'light', 'dark', 'high-contrast', 'system' ],
+				'default'     => 'system',
+				'description' => 'The choice an uncontrolled toggle shows when nothing is stored.',
+				'stacks'      => [ 'react' ],
+			],
+			[
+				'name'        => 'variant',
+				'type'        => 'enum',
+				'values'      => [ 'segmented', 'icon', 'menu' ],
+				'default'     => 'segmented',
+				'description' => 'Segmented shows every choice on a track; icon is one button that switches between light and dark; menu opens the choices from a Theme button. Emitted as data-variant.',
+			],
+			[
+				'name'        => 'size',
+				'type'        => 'enum',
+				'values'      => [ 'sm', 'md' ],
+				'default'     => 'md',
+				'description' => 'The track\'s, the button\'s or the trigger\'s size. Emitted as data-size.',
+			],
+			[
+				'name'        => 'choices',
+				'type'        => 'array',
+				'description' => 'The choices segmented and menu offer, in the order light, dark, high-contrast, system. Defaults to all four.',
+				'a11y'        => 'Keep high contrast offered: don\'t hide it behind settings only.',
+			],
+			[
+				'name'        => 'iconOnly',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'Segmented shows only the icons. The names stay, visually hidden, as each radio\'s accessible name. Emitted as data-icon-only.',
+			],
+			[
+				'name'        => 'label',
+				'type'        => 'string',
+				'default'     => 'Theme',
+				'description' => 'Names the radio group and the menu, and is the menu trigger\'s text. Translate it: Livewire defaults it through __().',
+			],
+			[
+				'name'        => 'lightLabel',
+				'type'        => 'string',
+				'default'     => 'Light',
+				'description' => 'The light choice\'s name.',
+			],
+			[
+				'name'        => 'darkLabel',
+				'type'        => 'string',
+				'default'     => 'Dark',
+				'description' => 'The dark choice\'s name.',
+			],
+			[
+				'name'        => 'highContrastLabel',
+				'type'        => 'string',
+				'default'     => 'High contrast',
+				'description' => 'The high contrast choice\'s name.',
+			],
+			[
+				'name'        => 'systemLabel',
+				'type'        => 'string',
+				'default'     => 'System',
+				'description' => 'The system choice\'s name in the segmented control.',
+			],
+			[
+				'name'        => 'matchSystemLabel',
+				'type'        => 'string',
+				'default'     => 'Match system',
+				'description' => 'The system choice\'s name in the menu.',
+			],
+			[
+				'name'        => 'switchToLightLabel',
+				'type'        => 'string',
+				'default'     => 'Switch to light theme',
+				'description' => 'The icon button\'s accessible name while it switches to light.',
+			],
+			[
+				'name'        => 'switchToDarkLabel',
+				'type'        => 'string',
+				'default'     => 'Switch to dark theme',
+				'description' => 'The icon button\'s accessible name while it switches to dark.',
+			],
+			[
+				'name'        => 'persist',
+				'type'        => 'boolean',
+				'default'     => true,
+				'description' => 'Stores the choice in localStorage, where the head snippet reads it.',
+			],
+			[
+				'name'        => 'storageKey',
+				'type'        => 'string',
+				'default'     => 'apui-theme',
+				'description' => 'The localStorage key. Pass the same key to the head snippet.',
+			],
+			[
+				'name'        => 'classes',
+				'type'        => 'object',
+				'description' => 'Extra classes per part, such as { list: \'…\', option: \'…\', button: \'…\', trigger: \'…\', menu: \'…\', item: \'…\' }.',
+			],
+		],
+		'variants'    => [ 'segmented', 'icon', 'menu' ],
+		'sizes'       => [ 'sm', 'md' ],
+		'parts'       => [
+			[
+				'name'        => 'root',
+				'element'     => 'div',
+				'description' => 'Holds the control. Segmented: also .apui-tabs, holding the list (a radiogroup scoped tabs) and a role=radio trigger per choice. Icon: a ghost .apui-button. Menu: an outline .apui-button trigger and the .apui-dropdown-menu of menuitemradio items, scoped dropdown-menu (D-019).',
+			],
+		],
+		'events'      => [
+			[
+				'name'        => 'value-change',
+				'description' => 'The person chose another theme, by click, the keyboard or the icon button, in this toggle. Setting value doesn\'t fire it.',
+				'payload'     => '\'light\' | \'dark\' | \'high-contrast\' | \'system\'',
+			],
+		],
+		'a11y'        => [
+			'element'      => 'div',
+			'keyboard'     => [
+				[
+					'keys'   => 'Tab',
+					'action' => 'Segmented: moves to the checked choice, then out of the group.',
+				],
+				[
+					'keys'   => 'ArrowRight, ArrowLeft, ArrowDown, ArrowUp',
+					'action' => 'Segmented: moves to the next or previous choice and applies it, wrapping. ArrowLeft and ArrowRight follow the text direction, so in RTL ArrowLeft moves to the next choice.',
+				],
+				[
+					'keys'   => 'Home, End',
+					'action' => 'Segmented: moves to the first or last choice and applies it.',
+				],
+				[
+					'keys'   => 'Enter, Space',
+					'action' => 'Icon: switches the theme. Menu: opens the menu, then applies the focused choice.',
+				],
+				[
+					'keys'   => 'Escape',
+					'action' => 'Menu: closes it and returns focus to the trigger.',
+				],
+			],
+			'requirements' => [ 'Segmented is a role=radiogroup named by label, with a role=radio per choice, aria-checked, and only the checked one in the Tab order.', 'Every radio and menu item has its name, also when only icons show: iconOnly keeps it visually hidden.', 'The icon button\'s name says what it does (Switch to dark theme), and changes with the theme.', 'The menu\'s choices are menuitemradio with aria-checked, and the trigger shows the current choice\'s icon.', 'The choice persists and is applied before first paint, so there is no flash: put the head snippet in <head>.', 'Storage is guarded: a private window or blocked storage falls back to the default, without errors.', 'System follows prefers-color-scheme live.', 'ArrowLeft and ArrowRight follow the text direction: in RTL, ArrowLeft moves to the next choice.', 'The checked choice is shown by surface and edge, not by color alone; the focus ring shows on the focused choice.' ],
+			'wcag'         => [ '1.3.1', '1.4.1', '1.4.3', '1.4.11', '2.1.1', '2.4.3', '2.4.7', '4.1.2' ],
+		],
+		'tokens'      => [ '--apui-tabs-radius', '--apui-surface-sunken', '--apui-surface-raised', '--apui-border-muted', '--apui-control-height-sm', '--apui-control-height-md', '--apui-text-default', '--apui-text-muted', '--apui-focus-ring-color', '--apui-focus-ring-offset-color' ],
+		'fixture'     => [
+			'props'  => [
+				'value'   => 'dark',
+				'persist' => false,
+			],
+			'parts'  => [
+				'choices' => [ 'light', 'dark', 'system' ],
+			],
+			'states' => [],
 		],
 	],
 	'Timeline'          => [

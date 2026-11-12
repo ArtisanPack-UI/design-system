@@ -1,0 +1,158 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "Clipboard",
+  "description": "Copies a value with clear confirmation: a copy button, an icon button with a confirmation tooltip, or a copy field showing the value beside its button. The label changes to Copied for the timeout and the result is announced in a live region; a failure is announced too. Every stack uses the behavior package's copy helper, with a fallback where the async Clipboard API is missing.",
+  "status": "draft",
+  "issue": 65,
+  "rootClass": "apui-clipboard",
+  "stacks": {
+    "livewire": {
+      "name": "clipboard",
+      "capabilities": [
+        "New in Livewire. Runs on the shared apuiClipboard Alpine component; a changed value from Livewire copies the new one",
+        "copy and error are DOM events on the root (x-on:copy, x-on:error)"
+      ]
+    },
+    "react": {
+      "name": "Clipboard",
+      "capabilities": ["onCopy gets the value; onError the failure"]
+    },
+    "vue": {
+      "name": "Clipboard",
+      "capabilities": ["copy gets the value; error the failure"]
+    }
+  },
+  "props": [
+    {
+      "name": "value",
+      "type": "string",
+      "required": true,
+      "description": "What to copy. The field variant shows it."
+    },
+    {
+      "name": "timeout",
+      "type": "number",
+      "default": 2000,
+      "description": "How long Copied (or the failure) shows, in ms."
+    },
+    {
+      "name": "variant",
+      "type": "enum",
+      "values": ["button", "icon", "field"],
+      "default": "button",
+      "description": "An outline button with the icon and label; a ghost icon button whose confirmation shows as a tooltip below it; or the value in a read-only box joined to an outline button (the spec's copy field), for links, keys and IDs. Emitted as data-variant."
+    },
+    {
+      "name": "size",
+      "type": "enum",
+      "values": ["xs", "sm", "md"],
+      "default": "sm",
+      "description": "The button's size, and the field's height. Use md for a field in a form. Emitted as data-size."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "default": "Copy",
+      "description": "The button's label; the icon button's accessible name. Translate it: Livewire defaults it through __( 'Copy' ).",
+      "a11y": "Name the button after what it copies when a page has several, such as \"Copy share link\"."
+    },
+    {
+      "name": "copiedLabel",
+      "type": "string",
+      "default": "Copied",
+      "description": "The label after a copy. Translate it: Livewire defaults it through __( 'Copied' )."
+    },
+    {
+      "name": "copiedMessage",
+      "type": "string",
+      "default": "Copied to clipboard",
+      "description": "Announced after a copy, and shown in the icon button's tooltip. Translate it: Livewire defaults it through __( 'Copied to clipboard' )."
+    },
+    {
+      "name": "errorMessage",
+      "type": "string",
+      "default": "Couldn't copy. Select the text and copy it yourself.",
+      "description": "Announced (and shown in the icon button's tooltip) when the copy fails. Translate it: Livewire defaults it through __()."
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part, such as { button: '…', field: '…' }."
+    }
+  ],
+  "variants": ["button", "icon", "field"],
+  "sizes": ["xs", "sm", "md"],
+  "parts": [
+    {
+      "name": "root",
+      "element": "span | div",
+      "description": "The wrapper, with data-variant, data-size and data-state (idle, copied, failed): a span, or a div for the field."
+    },
+    {
+      "name": "button",
+      "element": "button",
+      "description": "A neutral Button (outline, or ghost and icon-only for the icon variant) with the copy icon and label; a check and copiedLabel, in the success color, while copied."
+    },
+    {
+      "name": "field",
+      "element": "span",
+      "description": "The field variant's read-only box, in the mono font on the sunken surface."
+    },
+    {
+      "name": "value",
+      "element": "span",
+      "description": "The value in the field, LTR in every direction, cut with an ellipsis when long."
+    },
+    {
+      "name": "tooltip",
+      "element": "span",
+      "description": "The role=status live region with copiedMessage or errorMessage. Hidden but announced; shown as a tooltip below the icon button."
+    }
+  ],
+  "slots": [],
+  "events": [
+    {
+      "name": "copy",
+      "description": "The value reached the clipboard.",
+      "payload": "string"
+    },
+    {
+      "name": "error",
+      "description": "The copy failed, in both the Clipboard API and the fallback.",
+      "payload": "unknown"
+    }
+  ],
+  "a11y": {
+    "element": "span",
+    "requirements": [
+      "The result is announced in a role=status live region, success or failure; never a silent copy.",
+      "The label changes to Copied while copied; the icon button's accessible name does too.",
+      "The value in a copy field reads LTR in every direction and stays selectable, so it can be copied by hand when copying fails."
+    ],
+    "wcag": ["2.1.1", "4.1.2", "4.1.3"]
+  },
+  "tokens": [
+    "--apui-control-height-xs",
+    "--apui-control-height-sm",
+    "--apui-control-height-md",
+    "--apui-input-radius",
+    "--apui-border-muted",
+    "--apui-border-width",
+    "--apui-surface-sunken",
+    "--apui-surface-inverse",
+    "--apui-text-default",
+    "--apui-text-inverse",
+    "--apui-font-family-mono",
+    "--apui-tooltip-radius",
+    "--apui-color-success-text",
+    "--apui-z-tooltip"
+  ],
+  "fixture": {
+    "props": {
+      "value": "https://horizonhomes.com/l/grove-greenfield"
+    },
+    "parts": {
+      "variant": "field"
+    }
+  }
+}

@@ -1,0 +1,161 @@
+/*
+ * Icon (#65). Root `span.apui-icon` sizes one glyph: data-size (sm 14, md 16,
+ * lg 20, xl 24) and data-color (the color's text tone; unset, currentColor).
+ * Part: svg (the registry's Lucide glyph, or the author's own svg). The tile
+ * variant (data-variant="tile", plus the apui-icon-tile class) sets it on a
+ * soft-colored rounded square: 32, 40, 48 or 56px, neutral unless
+ * data-color. data-mirror flips it under RTL. See design/components/Icon.
+ */
+@layer apui.components {
+  .apui-icon {
+    --apui-_icon-size: var(--apui-icon-size-md);
+
+    /* The tone a tile and a colored icon read; data-color reassigns it. */
+    --apui-_icon-soft: var(--apui-color-neutral-soft);
+    --apui-_icon-on-soft: var(--apui-color-neutral-soft-foreground);
+    --apui-_icon-edge: var(--apui-color-neutral-border);
+
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    inline-size: var(--apui-_icon-size);
+    block-size: var(--apui-_icon-size);
+    vertical-align: middle;
+  }
+
+  .apui-icon > svg {
+    display: block;
+    flex: none;
+    inline-size: var(--apui-_icon-size);
+    block-size: var(--apui-_icon-size);
+  }
+
+  .apui-icon[data-size='sm'] {
+    --apui-_icon-size: var(--apui-icon-size-sm);
+  }
+
+  .apui-icon[data-size='lg'] {
+    --apui-_icon-size: var(--apui-icon-size-lg);
+  }
+
+  .apui-icon[data-size='xl'] {
+    --apui-_icon-size: 24px;
+  }
+
+  /* Colors: a plain icon takes the text tone (4.5:1); a tile the soft pair. */
+  .apui-icon[data-color='primary'] {
+    --apui-_icon-soft: var(--apui-color-primary-soft);
+    --apui-_icon-on-soft: var(--apui-color-primary-soft-foreground);
+    --apui-_icon-edge: var(--apui-color-primary-border);
+
+    color: var(--apui-color-primary-text);
+  }
+
+  .apui-icon[data-color='secondary'] {
+    --apui-_icon-soft: var(--apui-color-secondary-soft);
+    --apui-_icon-on-soft: var(--apui-color-secondary-soft-foreground);
+    --apui-_icon-edge: var(--apui-color-secondary-border);
+
+    color: var(--apui-color-secondary-text);
+  }
+
+  .apui-icon[data-color='accent'] {
+    --apui-_icon-soft: var(--apui-color-accent-soft);
+    --apui-_icon-on-soft: var(--apui-color-accent-soft-foreground);
+    --apui-_icon-edge: var(--apui-color-accent-border);
+
+    color: var(--apui-color-accent-text);
+  }
+
+  .apui-icon[data-color='neutral'] {
+    color: var(--apui-color-neutral-text);
+  }
+
+  .apui-icon[data-color='success'] {
+    --apui-_icon-soft: var(--apui-color-success-soft);
+    --apui-_icon-on-soft: var(--apui-color-success-soft-foreground);
+    --apui-_icon-edge: var(--apui-color-success-border);
+
+    color: var(--apui-color-success-text);
+  }
+
+  .apui-icon[data-color='warning'] {
+    --apui-_icon-soft: var(--apui-color-warning-soft);
+    --apui-_icon-on-soft: var(--apui-color-warning-soft-foreground);
+    --apui-_icon-edge: var(--apui-color-warning-border);
+
+    color: var(--apui-color-warning-text);
+  }
+
+  .apui-icon[data-color='error'] {
+    --apui-_icon-soft: var(--apui-color-error-soft);
+    --apui-_icon-on-soft: var(--apui-color-error-soft-foreground);
+    --apui-_icon-edge: var(--apui-color-error-border);
+
+    color: var(--apui-color-error-text);
+  }
+
+  .apui-icon[data-color='info'] {
+    --apui-_icon-soft: var(--apui-color-info-soft);
+    --apui-_icon-on-soft: var(--apui-color-info-soft-foreground);
+    --apui-_icon-edge: var(--apui-color-info-border);
+
+    color: var(--apui-color-info-text);
+  }
+
+  /* The tile: a soft square around a 16, 16, 20 or 24px glyph. */
+  .apui-icon-tile {
+    --apui-_icon-tile: 40px;
+    --apui-_icon-size: var(--apui-icon-size-md);
+
+    box-sizing: border-box;
+    inline-size: var(--apui-_icon-tile);
+    block-size: var(--apui-_icon-tile);
+    border-radius: var(--apui-radius-md);
+    background-color: var(--apui-_icon-soft);
+    color: var(--apui-_icon-on-soft);
+
+    /*
+     * The soft edge: 0 in light and dark (the spec draws none), 1px in high
+     * contrast, where the fill alone sits too close to the page (D-035).
+     */
+    outline: var(--apui-border-soft-edge-width) solid var(--apui-_icon-edge);
+    outline-offset: calc(-1 * var(--apui-border-soft-edge-width));
+  }
+
+  .apui-icon-tile[data-color] {
+    color: var(--apui-_icon-on-soft);
+  }
+
+  .apui-icon-tile[data-size='sm'] {
+    --apui-_icon-tile: 32px;
+    --apui-_icon-size: var(--apui-icon-size-md);
+
+    border-radius: var(--apui-radius-sm);
+  }
+
+  .apui-icon-tile[data-size='lg'] {
+    --apui-_icon-tile: 48px;
+    --apui-_icon-size: var(--apui-icon-size-lg);
+
+    border-radius: var(--apui-radius-lg);
+  }
+
+  .apui-icon-tile[data-size='xl'] {
+    --apui-_icon-tile: 56px;
+    --apui-_icon-size: 24px;
+
+    border-radius: var(--apui-radius-lg);
+  }
+
+  [dir='rtl'] .apui-icon[data-mirror] > svg {
+    scale: -1 1;
+  }
+
+  @media (forced-colors: active) {
+    .apui-icon-tile {
+      outline: 1px solid CanvasText;
+    }
+  }
+}

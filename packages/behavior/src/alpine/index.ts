@@ -70,9 +70,13 @@ import { drawerComponent, popoverComponent, tooltipComponent } from './overlays'
 import { menuPlacement, type MenuAlign } from '../core/options';
 import { iconSvg } from '../icons';
 import { spotlightComponent } from './spotlight';
+import { calendarComponent } from './calendar';
 import { carouselComponent, lightboxComponent } from './images';
 import { imageLibraryComponent } from './image-library';
+import { chartComponent } from './chart';
 import { codeEditorComponent, richTextEditorComponent, signatureComponent } from './form';
+import { themeToggleComponent } from './theme';
+import { clipboardComponent, kbdComponent } from './clipboard';
 import { directionOf, type PositionOptions, zagPositioning } from '../positioning';
 
 type Alpine = AlpineGlobal.Alpine;
@@ -1026,12 +1030,17 @@ export default function apuiBehavior(Alpine: Alpine): void {
   Alpine.data('apuiToast', ((entry: ToastProps, index?: number) =>
     toastComponent(Alpine, entry, index)) as never);
   Alpine.data('apuiSpotlight', spotlightComponent as never);
+  Alpine.data('apuiCalendar', calendarComponent as never);
   Alpine.data('apuiLightbox', lightboxComponent as never);
   Alpine.data('apuiCarousel', carouselComponent as never);
   Alpine.data('apuiImageLibrary', imageLibraryComponent as never);
   Alpine.data('apuiSignature', signatureComponent as never);
   Alpine.data('apuiRichTextEditor', richTextEditorComponent as never);
   Alpine.data('apuiCodeEditor', codeEditorComponent as never);
+  Alpine.data('apuiThemeToggle', themeToggleComponent as never);
+  Alpine.data('apuiChart', chartComponent as never);
+  Alpine.data('apuiClipboard', clipboardComponent as never);
+  Alpine.data('apuiKbd', kbdComponent as never);
 
   Alpine.directive(
     'apui',

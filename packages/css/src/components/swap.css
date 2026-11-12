@@ -1,0 +1,132 @@
+/*
+ * Swap (#65). No Claude Design spec: a token-driven toggle like Grid and Stack
+ * (D-032). Root `label.apui-swap` is a square target (control heights sm, md,
+ * lg) with data-size and data-transition (fade, rotate, none); data-state
+ * mirrors the checkbox for the server render. Parts: control (the native
+ * checkbox, transparent over the target), on and off (the contents, stacked
+ * in one grid cell). The checkbox's own :checked state swaps them, so a
+ * Livewire wire:model swaps with no script.
+ */
+@layer apui.components {
+  .apui-swap {
+    --apui-_swap-size: var(--apui-control-height-md);
+    --apui-_swap-icon: var(--apui-icon-size-md);
+
+    position: relative;
+    display: inline-grid;
+    flex: none;
+    place-items: center;
+    box-sizing: border-box;
+    inline-size: var(--apui-_swap-size);
+    block-size: var(--apui-_swap-size);
+    border-radius: var(--apui-radius-md);
+    color: var(--apui-text-default);
+    vertical-align: middle;
+    cursor: pointer;
+  }
+
+  .apui-swap[data-size='sm'] {
+    --apui-_swap-size: var(--apui-control-height-sm);
+  }
+
+  .apui-swap[data-size='lg'] {
+    --apui-_swap-size: var(--apui-control-height-lg);
+    --apui-_swap-icon: var(--apui-icon-size-lg);
+  }
+
+  [data-scope='swap'][data-part='control'] {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    inline-size: 100%;
+    block-size: 100%;
+    margin: 0;
+    opacity: 0;
+    cursor: inherit;
+  }
+
+  [data-scope='swap']:is([data-part='on'], [data-part='off']) {
+    display: inline-flex;
+    grid-area: 1 / 1;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    transition:
+      opacity var(--apui-motion-duration-moderate) var(--apui-motion-ease-standard),
+      rotate var(--apui-motion-duration-moderate) var(--apui-motion-ease-standard);
+  }
+
+  [data-scope='swap']:is([data-part='on'], [data-part='off']) > svg,
+  [data-scope='swap']:is([data-part='on'], [data-part='off']) > .apui-icon > svg {
+    inline-size: var(--apui-_swap-icon);
+    block-size: var(--apui-_swap-icon);
+  }
+
+  /* Off by default; the checkbox's state swaps the contents. */
+  [data-scope='swap'][data-part='on'],
+  .apui-swap:has(> [data-part='control']:checked) > [data-scope='swap'][data-part='off'] {
+    opacity: 0;
+  }
+
+  .apui-swap:has(> [data-part='control']:checked) > [data-scope='swap'][data-part='on'] {
+    opacity: 1;
+  }
+
+  .apui-swap[data-transition='rotate'] > [data-scope='swap'][data-part='on'],
+  .apui-swap[data-transition='rotate']:has(> [data-part='control']:checked)
+    > [data-scope='swap'][data-part='off'] {
+    rotate: -90deg;
+  }
+
+  .apui-swap[data-transition='rotate']:has(> [data-part='control']:checked)
+    > [data-scope='swap'][data-part='on'] {
+    rotate: 0deg;
+  }
+
+  .apui-swap[data-transition='none'] > [data-scope='swap']:is([data-part='on'], [data-part='off']) {
+    transition: none;
+  }
+
+  /* Hover and press: the state layers Button's ghost variant uses. */
+  .apui-swap:hover,
+  .apui-swap:has(> [data-part='control']:hover) {
+    background-image: linear-gradient(var(--apui-state-hover), var(--apui-state-hover));
+  }
+
+  .apui-swap:active,
+  .apui-swap:has(> [data-part='control']:active) {
+    background-image: linear-gradient(var(--apui-state-pressed), var(--apui-state-pressed));
+  }
+
+  .apui-swap:focus-visible,
+  .apui-swap:has(> [data-part='control']:focus-visible) {
+    outline: var(--apui-focus-ring-width) solid transparent;
+    box-shadow:
+      0 0 0 var(--apui-focus-ring-offset) var(--apui-focus-ring-offset-color),
+      0 0 0 calc(var(--apui-focus-ring-offset) + var(--apui-focus-ring-width))
+        var(--apui-focus-ring-color);
+  }
+
+  /* Disabled: the disabled text color, never opacity alone. */
+  .apui-swap[data-disabled] {
+    background-image: none;
+    color: var(--apui-text-disabled);
+    cursor: not-allowed;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-scope='swap']:is([data-part='on'], [data-part='off']) {
+      transition: none;
+    }
+  }
+
+  @media (forced-colors: active) {
+    .apui-swap:has(> [data-part='control']:focus-visible) {
+      outline: 2px solid Highlight;
+    }
+
+    .apui-swap[data-disabled] {
+      color: GrayText;
+    }
+  }
+}

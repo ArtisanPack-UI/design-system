@@ -7,7 +7,7 @@ import type { Api as ZagCarouselApi } from '@zag-js/carousel';
 import type { Api as ZagDialogApi } from '@zag-js/dialog';
 import { mergeProps, normalizeProps, type PropTypes, useMachine } from '@zag-js/react';
 import type { KeyboardEvent as ReactKeyboardEvent } from 'react';
-import { useId, useMemo, useState } from 'react';
+import { useEffect, useId, useMemo, useRef, useState } from 'react';
 
 import type { Normalize } from '../core/widget';
 import { directionOf } from '../positioning';
@@ -17,6 +17,7 @@ import {
   CAROUSEL_LABELS,
   CAROUSEL_SCOPE,
   formatCarouselLabel,
+  prefersReducedMotion,
   toCarouselProps,
 } from '../widgets/carousel';
 import {
@@ -161,6 +162,16 @@ export function useCarousel(options: CarouselOptions): CarouselApi {
   const definition = useMemo(() => carouselDefinition(scope), [scope]);
   const service = useMachine(definition.machine, toCarouselProps({ ...options, dir }, id));
   const api = definition.connect(service, normalize) as unknown as ZagCarouselApi<PropTypes>;
+  // Reduced motion: autoplay starts paused; the trigger still starts it.
+  const pause = useRef(api.pause);
+  pause.current = api.pause;
+  const autoplay = Boolean(options.autoplay);
+  useEffect(() => {
+    if (!autoplay || !prefersReducedMotion()) return;
+    // The machine starts in a microtask after mount: pause once it runs.
+    const timer = setTimeout(() => pause.current(), 0);
+    return () => clearTimeout(timer);
+  }, [autoplay]);
   const count = Math.max(0, options.slideCount);
   const template = options.labels?.progress || CAROUSEL_LABELS.progress;
   return {

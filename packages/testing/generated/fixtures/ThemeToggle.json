@@ -1,0 +1,109 @@
+{
+  "version": 1,
+  "component": "ThemeToggle",
+  "rootClass": "apui-theme-toggle",
+  "stacks": [
+    "livewire",
+    "react",
+    "vue"
+  ],
+  "names": {
+    "livewire": "theme-toggle",
+    "react": "ThemeToggle",
+    "vue": "ThemeToggle"
+  },
+  "cases": [
+    {
+      "id": "variant=segmented size=sm state=default",
+      "props": {
+        "value": "dark",
+        "persist": false,
+        "variant": "segmented",
+        "size": "sm"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=segmented size=md state=default",
+      "props": {
+        "value": "dark",
+        "persist": false,
+        "variant": "segmented",
+        "size": "md"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=icon size=sm state=default",
+      "props": {
+        "value": "dark",
+        "persist": false,
+        "variant": "icon",
+        "size": "sm"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=icon size=md state=default",
+      "props": {
+        "value": "dark",
+        "persist": false,
+        "variant": "icon",
+        "size": "md"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=menu size=sm state=default",
+      "props": {
+        "value": "dark",
+        "persist": false,
+        "variant": "menu",
+        "size": "sm"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=menu size=md state=default",
+      "props": {
+        "value": "dark",
+        "persist": false,
+        "variant": "menu",
+        "size": "md"
+      },
+      "state": "default",
+      "content": null
+    }
+  ],
+  "sheets": [
+    {
+      "id": "light",
+      "theme": "light",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "dark",
+      "theme": "dark",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "high-contrast",
+      "theme": "high-contrast",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "rtl",
+      "theme": "light",
+      "density": "default",
+      "dir": "rtl"
+    }
+  ]
+}

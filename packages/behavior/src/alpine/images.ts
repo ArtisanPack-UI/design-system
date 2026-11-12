@@ -55,11 +55,13 @@ import {
   type CarouselApi,
   carouselDefinition,
   type CarouselLabels,
+  carouselSlidesPerPage,
   type CarouselProps,
   CAROUSEL_LABELS,
   CAROUSEL_SCOPE,
   carouselTranslations,
   formatCarouselLabel,
+  prefersReducedMotion,
 } from '../widgets/carousel';
 import {
   clampIndex,
@@ -363,6 +365,10 @@ export function lightboxComponent(options: LightboxAlpineOptions = {}) {
 export interface CarouselAlpineOptions {
   /** How many slides there are. */
   slideCount: number;
+  /** Slides per view, a whole number. Default 1. Above one the next slide peeks. */
+  perView?: number;
+  /** The gap between slides, a CSS length. Default `0px`. */
+  spacing?: string;
   /** Initial or entangled index: the slide shown, 0-based. */
   index?: number;
   /** Wrap from the last slide to the first. Default false. */
@@ -424,7 +430,9 @@ export function carouselComponent(options: CarouselAlpineOptions) {
         },
         dir: directionOf(el),
         slideCount: count,
-        slidesPerPage: 1,
+        slidesPerPage: carouselSlidesPerPage(options.perView),
+        slidesPerMove: 1,
+        spacing: options.spacing ?? '0px',
         loop: options.loop ?? false,
         autoplay: options.autoplay ? { delay: options.interval ?? 5000 } : false,
         allowMouseDrag: false,
@@ -441,6 +449,8 @@ export function carouselComponent(options: CarouselAlpineOptions) {
         if (this.playing !== api.isPlaying) this.playing = api.isPlaying;
       });
       widget.start();
+      // Reduced motion: autoplay starts paused; the trigger still starts it.
+      if (options.autoplay && prefersReducedMotion()) widget.api().pause();
       this.$watch('index', (value: unknown) => {
         const page = clampIndex(value, count);
         if (widget && widget.api().page !== page) widget.setProps({ page });

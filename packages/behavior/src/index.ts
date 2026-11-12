@@ -193,11 +193,14 @@ export {
 export { toColorPickerProps, type ColorPickerOptions } from './core/color-picker-options';
 export {
   defaultIcons,
+  DIRECTIONAL_ICONS,
   ICON_SHAPE_TAGS,
   ICON_SVG_ATTRIBUTES,
   isSafeIconBody,
   iconNames,
   iconSvg,
+  isDirectionalIcon,
+  registerDirectionalIcons,
   registerIcons,
   resetIcons,
   resolveIcon,
@@ -206,6 +209,37 @@ export {
 } from './icons';
 export * from './form/index';
 export * from './data/index';
+export {
+  applyTheme,
+  DARK_SCHEME_QUERY,
+  DEFAULT_THEME_CHOICE,
+  isThemeChoice,
+  nextIconTheme,
+  readThemeChoice,
+  resolveTheme,
+  storeThemeChoice,
+  systemTheme,
+  THEME_ATTRIBUTE,
+  THEME_CHANGE_EVENT,
+  THEME_CHOICES,
+  THEME_ICONS,
+  THEME_STORAGE_KEY,
+  THEME_TOGGLE_KEYS,
+  THEME_TOGGLE_LABELS,
+  themeChoiceLabel,
+  themeChoices,
+  themeScript,
+  themeToggleKey,
+  themeToggleLabels,
+  toThemeChoice,
+  watchTheme,
+  type ApplyThemeOptions,
+  type Theme,
+  type ThemeChoice,
+  type ThemeScriptOptions,
+  type ThemeToggleLabels,
+  type WatchThemeOptions,
+} from './theme';
 export {
   entryValue,
   filterGroups,
@@ -244,12 +278,16 @@ export {
 } from './widgets/spotlight';
 export {
   CAROUSEL_LABELS,
+  CAROUSEL_PEEK,
   CAROUSEL_SCOPE,
   carouselDefinition,
+  carouselPageCount,
+  carouselSlidesPerPage,
   carouselTranslations,
   formatCarouselLabel,
   IMAGE_SLIDER_SCOPE,
   imageSlider,
+  prefersReducedMotion,
   toCarouselProps,
   type CarouselApi,
   type CarouselIds,
@@ -274,3 +312,17 @@ export {
   type LightboxOptions,
   type LightboxProps,
 } from './widgets/lightbox';
+export {
+  CLIPBOARD_LABELS,
+  CLIPBOARD_SCOPE,
+  CLIPBOARD_TIMEOUT,
+  clipboardLabel,
+  clipboardMessage,
+  clipboardTimeout,
+  createClipboard,
+  writeClipboard,
+  type ClipboardController,
+  type ClipboardLabels,
+  type ClipboardOptions,
+  type ClipboardStatus,
+} from './widgets/clipboard';

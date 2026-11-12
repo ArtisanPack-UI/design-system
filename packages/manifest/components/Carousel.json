@@ -1,0 +1,282 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "Carousel",
+  "description": "Scroll-snapped slides with previous and next buttons and position dots, on the carousel machine ImageSlider uses (D-041). perView shows several at once with the next one peeking. A title puts the buttons in a header; without one they overlay the slides.",
+  "status": "draft",
+  "issue": 65,
+  "rootClass": "apui-carousel",
+  "stacks": {
+    "livewire": {
+      "name": "carousel",
+      "capabilities": [
+        "wire:model binds the slide shown (index) through $wire.entangle()",
+        "@scope('slide', $slide) renders each slide's content, with $loop->index as its index; 2.x slides keep their image, alt, title and description keys"
+      ]
+    },
+    "react": {
+      "name": "Carousel",
+      "capabilities": ["renderSlide(slide, index) renders each slide's content"]
+    },
+    "vue": {
+      "name": "Carousel",
+      "capabilities": ["The #slide=\"{ slide, index }\" slot renders each slide's content"]
+    }
+  },
+  "props": [
+    {
+      "name": "slides",
+      "type": "array",
+      "required": true,
+      "description": "The slides, in order. By default each is a Card from { image, alt, title, description }; the slide render content draws anything else.",
+      "a11y": "Every image needs alt text."
+    },
+    {
+      "name": "perView",
+      "type": "number",
+      "default": 1,
+      "description": "Slides in view at once, a whole number. Above 1 the next slide peeks at the inline end, and each move shows one more slide. Emitted as --slides-per-page."
+    },
+    {
+      "name": "index",
+      "type": "number",
+      "default": 0,
+      "description": "The position shown, 0-based: the slide at the start of the view. Livewire binds it with wire:model. Pair it with index-change to control it."
+    },
+    {
+      "name": "defaultIndex",
+      "type": "number",
+      "default": 0,
+      "description": "The initial position of an uncontrolled carousel.",
+      "stacks": ["react"]
+    },
+    {
+      "name": "loop",
+      "type": "boolean",
+      "default": false,
+      "description": "Wraps from the last position to the first and back."
+    },
+    {
+      "name": "autoplay",
+      "type": "boolean",
+      "default": false,
+      "description": "Advances every interval ms, with a visible pause button. It pauses while the pointer or focus is on the carousel, and starts paused under reduced motion.",
+      "a11y": "Autoplay always has a visible pause button (2.2.2) and never starts on its own under prefers-reduced-motion."
+    },
+    {
+      "name": "interval",
+      "type": "number",
+      "default": 5000,
+      "description": "Milliseconds between slides while autoplay runs."
+    },
+    {
+      "name": "title",
+      "type": "string",
+      "description": "A heading in the header, with the previous and next buttons beside it. It names the region unless label is set. Without it the buttons overlay the slides."
+    },
+    {
+      "name": "headingLevel",
+      "type": "number",
+      "default": 3,
+      "description": "The title's heading level, 2 to 6."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "description": "Names the region. Defaults to the title, else \"Carousel\". Translate it: Livewire defaults it through __( 'Carousel' ).",
+      "a11y": "A page with several carousels names each one."
+    },
+    {
+      "name": "previousLabel",
+      "type": "string",
+      "default": "Previous slide",
+      "description": "The previous button's accessible name.",
+      "a11y": "The button is icon-only, so this is its only name."
+    },
+    {
+      "name": "nextLabel",
+      "type": "string",
+      "default": "Next slide",
+      "description": "The next button's accessible name.",
+      "a11y": "The button is icon-only, so this is its only name."
+    },
+    {
+      "name": "indicatorLabel",
+      "type": "string",
+      "default": "Go to slide {index}",
+      "description": "A dot's accessible name. {index} is replaced; Livewire's __() string uses :index."
+    },
+    {
+      "name": "slideLabel",
+      "type": "string",
+      "default": "{index} of {count}",
+      "description": "A slide's accessible name. Livewire's __() string uses :index and :count."
+    },
+    {
+      "name": "playLabel",
+      "type": "string",
+      "default": "Start slide rotation",
+      "description": "The autoplay button's name while paused."
+    },
+    {
+      "name": "pauseLabel",
+      "type": "string",
+      "default": "Stop slide rotation",
+      "description": "The autoplay button's name while playing."
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part, such as { viewport: '…', item: '…' }."
+    }
+  ],
+  "parts": [
+    {
+      "name": "root",
+      "element": "div",
+      "description": "The carousel's region: role region with aria-roledescription carousel, named by label or the title."
+    },
+    {
+      "name": "header",
+      "element": "div",
+      "description": "With a title: the heading, then the previous and next buttons at the inline end."
+    },
+    {
+      "name": "title",
+      "element": "h2 | h3 | h4 | h5 | h6",
+      "description": "The header's heading, at headingLevel."
+    },
+    {
+      "name": "viewport",
+      "element": "div",
+      "description": "Clips the track; the overlay buttons sit on it when there's no header."
+    },
+    {
+      "name": "itemGroup",
+      "element": "div",
+      "description": "The scroll-snapping track. The spec calls it track; it keeps Zag's name (D-019)."
+    },
+    {
+      "name": "item",
+      "element": "div",
+      "description": "A slide: role group with aria-roledescription slide, named \"2 of 6\"; slides out of view are aria-hidden. The spec calls it slide."
+    },
+    {
+      "name": "prevTrigger",
+      "element": "button",
+      "description": "Shows the previous position: an outline icon-only Button in the header, or a soft one over the viewport's start edge. The spec's nav (prev)."
+    },
+    {
+      "name": "nextTrigger",
+      "element": "button",
+      "description": "Shows the next position. The spec's nav (next)."
+    },
+    {
+      "name": "indicatorGroup",
+      "element": "div",
+      "description": "The row of dots under the viewport, one per position. The spec calls it dots."
+    },
+    {
+      "name": "indicator",
+      "element": "button",
+      "description": "A dot that shows its position; aria-current and a wider primary pill mark the one shown."
+    },
+    {
+      "name": "autoplayTrigger",
+      "element": "button",
+      "description": "Pauses and resumes autoplay, with autoplay. Always visible while autoplay is on."
+    }
+  ],
+  "slots": [
+    {
+      "name": "slide",
+      "description": "Scoped render content for one slide's content, given the slide and its index: @scope('slide', $slide) in Blade ($loop->index is the index), #slide=\"{ slide, index }\" in Vue, renderSlide in React."
+    }
+  ],
+  "events": [
+    {
+      "name": "index-change",
+      "description": "The carousel moved to another position: a button, a dot, a swipe or autoplay. Setting index doesn't fire it.",
+      "payload": "number"
+    }
+  ],
+  "a11y": {
+    "role": "region",
+    "element": "div",
+    "keyboard": [
+      {
+        "keys": "Tab, Shift+Tab",
+        "action": "Move between the previous and next buttons, the track, the dots and the autoplay button."
+      },
+      {
+        "keys": "Enter, Space",
+        "action": "On a button or dot: shows its position, or pauses and resumes autoplay."
+      },
+      {
+        "keys": "ArrowRight, ArrowLeft",
+        "action": "On the dots: show the next or previous position. They follow the text direction, so in RTL ArrowLeft shows the next one."
+      },
+      {
+        "keys": "Home, End",
+        "action": "On the dots: show the first or last position."
+      }
+    ],
+    "requirements": [
+      "The root is a region with aria-roledescription carousel and a translatable name (label, else the title).",
+      "Each slide is a group with aria-roledescription slide, named \"n of N\"; slides out of view are hidden from assistive technology.",
+      "The track is a polite live region, off while autoplay runs, so moves are announced.",
+      "The previous and next buttons and the dots have accessible names (translatable); the dot shown carries aria-current.",
+      "Autoplay never runs without a visible pause button, pauses while the pointer or focus is on the carousel, and starts paused under prefers-reduced-motion (2.2.2).",
+      "Arrow keys follow the text direction; the previous and next icons mirror and the next slide peeks at the inline end in RTL.",
+      "Every part keeps a stable, server-rendered id in Livewire (D-015)."
+    ],
+    "wcag": ["1.3.1", "1.4.11", "2.1.1", "2.2.2", "2.4.3", "2.4.7", "4.1.2"]
+  },
+  "tokens": [
+    "--apui-radius-lg",
+    "--apui-radius-full",
+    "--apui-border-default",
+    "--apui-color-primary",
+    "--apui-elevation-glass",
+    "--apui-focus-ring-color",
+    "--apui-focus-ring-width",
+    "--apui-motion-duration-fast",
+    "--apui-motion-ease-standard"
+  ],
+  "fixture": {
+    "props": {
+      "slides": [
+        {
+          "image": "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20400%20300'%20width='400'%20height='300'%3E%3Crect%20width='400'%20height='300'%20fill='%23e4eef6'/%3E%3Crect%20y='135'%20width='400'%20height='165'%20fill='%23c4d8e8'/%3E%3Ccircle%20cx='280'%20cy='96'%20r='27'%20fill='%23fff6e0'/%3E%3Cpath%20d='M0%20186L72%20114L128%20156L200%2090L280%20165L340%20126L400%20174V300H0Z'%20fill='%239db8cf'/%3E%3Cpath%20d='M0%20225L100%20174L180%20216L248%20180L328%20222L400%20198V300H0Z'%20fill='%236f8fab'/%3E%3Cpath%20d='M0%20264Q120%20240%20220%20264T400%20258V300H0Z'%20fill='%2347637e'/%3E%3C/svg%3E",
+          "alt": "Lakeview Lofts from the lake",
+          "title": "Lakeview Lofts",
+          "description": "United States, Chicago · $250,000"
+        },
+        {
+          "image": "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20400%20300'%20width='400'%20height='300'%3E%3Crect%20width='400'%20height='300'%20fill='%23cfe3e0'/%3E%3Crect%20y='135'%20width='400'%20height='165'%20fill='%23a9cbc4'/%3E%3Ccircle%20cx='280'%20cy='96'%20r='27'%20fill='%23fff6e0'/%3E%3Cpath%20d='M0%20186L72%20114L128%20156L200%2090L280%20165L340%20126L400%20174V300H0Z'%20fill='%235f8f7c'/%3E%3Cpath%20d='M0%20225L100%20174L180%20216L248%20180L328%20222L400%20198V300H0Z'%20fill='%233f6b57'/%3E%3Cpath%20d='M0%20264Q120%20240%20220%20264T400%20258V300H0Z'%20fill='%2324463a'/%3E%3C/svg%3E",
+          "alt": "Courtyard at Cedarwood Estates",
+          "title": "Cedarwood Estates",
+          "description": "United States, New York · $200,000"
+        },
+        {
+          "image": "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20400%20300'%20width='400'%20height='300'%3E%3Crect%20width='400'%20height='300'%20fill='%23f4e2c4'/%3E%3Crect%20y='135'%20width='400'%20height='165'%20fill='%23e7c08d'/%3E%3Ccircle%20cx='280'%20cy='96'%20r='27'%20fill='%23fff6e0'/%3E%3Cpath%20d='M0%20186L72%20114L128%20156L200%2090L280%20165L340%20126L400%20174V300H0Z'%20fill='%23c98f5e'/%3E%3Cpath%20d='M0%20225L100%20174L180%20216L248%20180L328%20222L400%20198V300H0Z'%20fill='%239c6a43'/%3E%3Cpath%20d='M0%20264Q120%20240%20220%20264T400%20258V300H0Z'%20fill='%236b4630'/%3E%3C/svg%3E",
+          "alt": "Rooftop terrace at Tranquil Oaks",
+          "title": "Tranquil Oaks",
+          "description": "Canada, Toronto · $350,000"
+        },
+        {
+          "image": "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20400%20300'%20width='400'%20height='300'%3E%3Crect%20width='400'%20height='300'%20fill='%23f6d9a8'/%3E%3Crect%20y='135'%20width='400'%20height='165'%20fill='%23e9b77a'/%3E%3Ccircle%20cx='280'%20cy='96'%20r='27'%20fill='%23fff6e0'/%3E%3Cpath%20d='M0%20186L72%20114L128%20156L200%2090L280%20165L340%20126L400%20174V300H0Z'%20fill='%238aa7c4'/%3E%3Cpath%20d='M0%20225L100%20174L180%20216L248%20180L328%20222L400%20198V300H0Z'%20fill='%235d7f9f'/%3E%3Cpath%20d='M0%20264Q120%20240%20220%20264T400%20258V300H0Z'%20fill='%2333506d'/%3E%3C/svg%3E",
+          "alt": "Sunrise over Golden Hour",
+          "title": "Golden Hour",
+          "description": "United States, Denver · $320,000"
+        }
+      ],
+      "perView": 3,
+      "title": "Featured properties"
+    },
+    "parts": {
+      "autoplay": true,
+      "title": "Featured properties"
+    },
+    "states": []
+  }
+}

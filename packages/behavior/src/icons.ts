@@ -130,8 +130,39 @@ export function iconSvg(name: string): string {
   return `<svg ${attributes}>${body}</svg>`;
 }
 
+/**
+ * Icon names whose glyph points along the inline axis, so they mirror under
+ * RTL (D-004): the components put `data-mirror` on their part and CSS flips
+ * the `<svg>`. Icons that show a real-world direction or an object (a trend,
+ * a clock, an external link) never mirror. Livewire UI Components keeps the
+ * same list in `IconRegistry::DIRECTIONAL`. Icon's `mirror` prop overrides it
+ * for one icon; `registerDirectionalIcons` adds an app's own names.
+ */
+export const DIRECTIONAL_ICONS: readonly string[] = Object.freeze([
+  'arrow-left',
+  'arrow-right',
+  'chevron-left',
+  'chevron-right',
+]);
+
+const DIRECTIONAL_KEY = Symbol.for('artisanpack-ui.behavior.icons.directional');
+const directionalStore = globalThis as typeof globalThis & { [DIRECTIONAL_KEY]?: Set<string> };
+const directional: Set<string> = (directionalStore[DIRECTIONAL_KEY] ??= new Set(DIRECTIONAL_ICONS));
+
+/** Whether a named icon mirrors under RTL. */
+export function isDirectionalIcon(name: string | null | undefined): boolean {
+  return typeof name === 'string' && directional.has(name);
+}
+
+/** Marks registered names as directional, so they mirror under RTL like the built-in arrows. */
+export function registerDirectionalIcons(names: readonly string[]): void {
+  for (const name of names) directional.add(name);
+}
+
 /** Restores the registry to the default set. For tests. */
 export function resetIcons(): void {
   registry.clear();
   for (const [name, body] of Object.entries(defaultIcons)) registry.set(name, body);
+  directional.clear();
+  for (const name of DIRECTIONAL_ICONS) directional.add(name);
 }

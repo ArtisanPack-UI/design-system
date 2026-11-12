@@ -1,0 +1,164 @@
+/*
+ * Clipboard (#65). Root `.apui-clipboard` (the spec's `.apui-copy`; D-002
+ * names the root after the component) holds a copy button (part button, a
+ * neutral `.apui-button`) and its live region (part tooltip, role=status),
+ * with data-variant (button, icon, field), data-size (xs, sm, md) and
+ * data-state (idle, copied, failed). The field variant (the spec's
+ * `.apui-copy-field`) shows the value in a read-only box (parts field and
+ * value) joined to an outline button. While copied the button reads "Copied"
+ * in the success color. The tooltip is announced in every variant and shown
+ * only for the icon button, whose label can't change. See
+ * design/components/Clipboard.
+ */
+@layer apui.components {
+  .apui-clipboard {
+    --apui-_h: var(--apui-control-height-sm);
+
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    max-inline-size: 100%;
+    vertical-align: middle;
+  }
+
+  .apui-clipboard[data-size='xs'] {
+    --apui-_h: var(--apui-control-height-xs);
+  }
+
+  .apui-clipboard[data-size='md'] {
+    --apui-_h: var(--apui-control-height-md);
+  }
+
+  [data-scope='clipboard'][data-part='button'] {
+    flex: none;
+  }
+
+  .apui-clipboard[data-state='copied'] > [data-scope='clipboard'][data-part='button'] {
+    --apui-button-fg: var(--apui-color-success-text);
+  }
+
+  /* The copy field: the value's box and the button, joined. */
+  .apui-clipboard[data-variant='field'] {
+    display: flex;
+    inline-size: 100%;
+  }
+
+  [data-scope='clipboard'][data-part='field'] {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    box-sizing: border-box;
+    min-inline-size: 0;
+    block-size: var(--apui-_h);
+    padding-inline: 12px;
+    border: var(--apui-border-width) solid var(--apui-border-muted);
+    border-start-start-radius: var(--apui-input-radius);
+    border-end-start-radius: var(--apui-input-radius);
+    background: var(--apui-surface-sunken);
+    color: var(--apui-text-default);
+    font-family: var(--apui-font-family-mono);
+    font-size: var(--apui-type-code-md-font-size);
+    line-height: var(--apui-type-code-md-line-height);
+  }
+
+  /* Links, keys and IDs read left to right in every direction. */
+  [data-scope='clipboard'][data-part='value'] {
+    direction: ltr;
+    unicode-bidi: isolate;
+    min-inline-size: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .apui-clipboard[data-variant='field'] > [data-scope='clipboard'][data-part='button'] {
+    block-size: var(--apui-_h);
+    margin-inline-start: calc(var(--apui-border-width) * -1);
+    border-start-start-radius: 0;
+    border-end-start-radius: 0;
+  }
+
+  /* The live region: hidden, still announced. */
+  [data-scope='clipboard'][data-part='tooltip'] {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  /* The icon button's confirmation: a tooltip below it while copied or failed. */
+  .apui-clipboard[data-variant='icon']:is([data-state='copied'], [data-state='failed'])
+    > [data-scope='clipboard'][data-part='tooltip'] {
+    z-index: var(--apui-z-tooltip);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    box-sizing: border-box;
+    inline-size: max-content;
+    max-inline-size: 240px;
+    block-size: auto;
+    inset-block-start: calc(100% + 8px);
+    inset-inline: -240px;
+    margin-block: 0;
+    margin-inline: auto;
+    padding-block: 5px;
+    padding-inline: 8px;
+    overflow: visible;
+    border-radius: var(--apui-tooltip-radius);
+    background: var(--apui-surface-inverse);
+    clip-path: none;
+    color: var(--apui-text-inverse);
+    font-family: var(--apui-font-family-sans);
+    font-size: var(--apui-type-caption-font-size);
+    font-weight: var(--apui-font-weight-medium);
+    line-height: var(--apui-type-caption-line-height);
+    white-space: normal;
+  }
+
+  .apui-clipboard[data-variant='icon']:is([data-state='copied'], [data-state='failed'])
+    > [data-scope='clipboard'][data-part='tooltip']::before {
+    position: absolute;
+    inline-size: 8px;
+    block-size: 8px;
+    inset-block-start: -4px;
+    inset-inline-start: calc(50% - 4px);
+    background: var(--apui-surface-inverse);
+    content: '';
+    rotate: 45deg;
+  }
+
+  [data-scope='clipboard'][data-part='tooltip'] svg {
+    flex: none;
+    inline-size: var(--apui-icon-size-sm);
+    block-size: var(--apui-icon-size-sm);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .apui-clipboard[data-variant='icon']:is([data-state='copied'], [data-state='failed'])
+      > [data-scope='clipboard'][data-part='tooltip'] {
+      animation: apui-clipboard-enter var(--apui-motion-duration-fast) var(--apui-motion-ease-enter);
+    }
+  }
+
+  @keyframes apui-clipboard-enter {
+    from {
+      opacity: 0;
+    }
+  }
+
+  @media (forced-colors: active) {
+    [data-scope='clipboard'][data-part='field'] {
+      border-color: CanvasText;
+    }
+
+    .apui-clipboard[data-variant='icon']:is([data-state='copied'], [data-state='failed'])
+      > [data-scope='clipboard'][data-part='tooltip'] {
+      border: var(--apui-border-width) solid CanvasText;
+    }
+  }
+}

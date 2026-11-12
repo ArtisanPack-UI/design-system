@@ -42,6 +42,7 @@ function parityMatrix() {
 	const inAll = map.filter( ( entry ) => STACKS.every( ( stack ) => entry[ stack ].length ) );
 	const reactVue = map.filter( ( entry ) => ! entry.livewire.length );
 	const livewireOnly = map.filter( ( entry ) => entry.livewire.length && ! entry.react.length && ! entry.vue.length );
+	const unassigned = map.filter( ( entry ) => ! entry.issue );
 	const lines = [
 		'# Component parity matrix',
 		'',
@@ -90,12 +91,14 @@ function parityMatrix() {
 		'## Consolidation candidates',
 		'',
 		table( [ 'Component', 'Proposal' ], map.filter( ( entry ) => entry.consolidation ).map( ( entry ) => [ `**${ entry.canonical }**`, entry.consolidation ] ) ),
-		'',
-		'## Components missing from the wave issues',
-		'',
-		'These exist in React and Vue but are not listed in any wave issue, which only names Livewire components. They should be added so they are not dropped.',
-		'',
-		table( [ 'Component', 'Proposed wave' ], map.filter( ( entry ) => ! entry.issue ).map( ( entry ) => [ `**${ entry.canonical }**`, entry.wave ] ) ),
+		...( unassigned.length ? [
+			'',
+			'## Components missing from the wave issues',
+			'',
+			'These exist in React and Vue but are not listed in any wave issue, which only names Livewire components. They should be added so they are not dropped.',
+			'',
+			table( [ 'Component', 'Proposed wave' ], unassigned.map( ( entry ) => [ `**${ entry.canonical }**`, entry.wave ] ) ),
+		] : [] ),
 	);
 
 	writeDoc( 'parity-matrix.md', lines.join( '\n' ) );

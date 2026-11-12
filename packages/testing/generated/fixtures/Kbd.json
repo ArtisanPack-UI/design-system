@@ -1,0 +1,71 @@
+{
+  "version": 1,
+  "component": "Kbd",
+  "rootClass": "apui-kbd",
+  "stacks": [
+    "livewire",
+    "react",
+    "vue"
+  ],
+  "names": {
+    "livewire": "kbd",
+    "react": "Kbd",
+    "vue": "Kbd"
+  },
+  "cases": [
+    {
+      "id": "size=sm state=default",
+      "props": {
+        "keys": [
+          "mod",
+          "shift",
+          "enter"
+        ],
+        "platform": "other",
+        "size": "sm"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "size=md state=default",
+      "props": {
+        "keys": [
+          "mod",
+          "shift",
+          "enter"
+        ],
+        "platform": "other",
+        "size": "md"
+      },
+      "state": "default",
+      "content": null
+    }
+  ],
+  "sheets": [
+    {
+      "id": "light",
+      "theme": "light",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "dark",
+      "theme": "dark",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "high-contrast",
+      "theme": "high-contrast",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "rtl",
+      "theme": "light",
+      "density": "default",
+      "dir": "rtl"
+    }
+  ]
+}

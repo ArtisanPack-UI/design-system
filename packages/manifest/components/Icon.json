@@ -1,0 +1,122 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "Icon",
+  "description": "One Lucide icon from the registry (D-017) at four sizes, or in a soft-colored tile. Decorative unless it has a label. Directional icons mirror in RTL.",
+  "status": "draft",
+  "issue": 65,
+  "rootClass": "apui-icon",
+  "stacks": {
+    "livewire": {
+      "name": "icon",
+      "capabilities": [
+        "Names outside the registry fall back to blade-icons, so the 2.x heroicon (o-plus) and Font Awesome (fas.user) names keep rendering, through the ap.livewireUiComponents.iconAlias filter"
+      ]
+    },
+    "react": { "name": "Icon" },
+    "vue": { "name": "Icon" }
+  },
+  "variants": ["plain", "tile"],
+  "sizes": ["sm", "md", "lg", "xl"],
+  "colors": ["primary", "secondary", "accent", "neutral", "success", "warning", "error", "info"],
+  "props": [
+    {
+      "name": "name",
+      "type": "string",
+      "description": "A registered icon name, Lucide's kebab-case (house, arrow-right). The default slot (children) overrides it with your own <svg>."
+    },
+    {
+      "name": "variant",
+      "type": "enum",
+      "values": ["plain", "tile"],
+      "default": "plain",
+      "description": "plain is the bare glyph; tile puts it on a soft-colored rounded square (the root also gets the apui-icon-tile class). Emitted as data-variant."
+    },
+    {
+      "name": "size",
+      "type": "enum",
+      "values": ["sm", "md", "lg", "xl"],
+      "default": "md",
+      "description": "The glyph: 14, 16, 20 or 24px. A tile is 32, 40, 48 or 56px around a 16, 16, 20 or 24px glyph. Emitted as data-size."
+    },
+    {
+      "name": "color",
+      "type": "enum",
+      "values": [
+        "primary",
+        "secondary",
+        "accent",
+        "neutral",
+        "success",
+        "warning",
+        "error",
+        "info"
+      ],
+      "description": "A plain icon takes the color's text tone; a tile takes its soft fill and soft foreground. Unset, a plain icon draws in currentColor and a tile is neutral. Emitted as data-color."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "description": "The accessible name. With it the icon is role=img with aria-label; without it the icon is decorative and aria-hidden.",
+      "a11y": "Label an icon that carries meaning on its own. Next to text that says the same thing, leave it decorative."
+    },
+    {
+      "name": "mirror",
+      "type": "boolean",
+      "description": "Flips the glyph in RTL. Unset, it follows the registry: arrow-left, arrow-right, chevron-left and chevron-right (and names an app marks directional) mirror. Emitted as data-mirror."
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part: { root, svg }."
+    }
+  ],
+  "parts": [
+    {
+      "name": "root",
+      "element": "span",
+      "description": "Sizes and colors the glyph; in the tile variant it is the tile. role=img with aria-label when labeled, else aria-hidden."
+    },
+    {
+      "name": "svg",
+      "element": "svg",
+      "description": "The registry's 24×24 Lucide glyph, stroke 1.5 in currentColor. Not rendered when the default slot gives your own <svg>."
+    }
+  ],
+  "slots": [
+    {
+      "name": "default",
+      "description": "Your own <svg>, drawn in place of the named icon at the same size. Keep it on a 24px grid in currentColor."
+    }
+  ],
+  "a11y": {
+    "role": "img",
+    "element": "span",
+    "requirements": [
+      "Decorative icons (no label) are aria-hidden, so screen readers skip them.",
+      "A labeled icon is role=img with aria-label; the svg inside stays aria-hidden.",
+      "Directional icons mirror under RTL; others (trends, clocks, external links) never do.",
+      "A plain icon draws in currentColor, so it meets the contrast of the text around it; colored icons use the color's text tone (4.5:1).",
+      "A tile's soft foreground meets 3:1 against its fill in every theme, and the tile gets an edge in high contrast (D-035)."
+    ],
+    "wcag": ["1.1.1", "1.4.11", "4.1.2"]
+  },
+  "tokens": [
+    "--apui-icon-size-sm",
+    "--apui-icon-size-md",
+    "--apui-icon-size-lg",
+    "--apui-radius-sm",
+    "--apui-radius-md",
+    "--apui-radius-lg",
+    "--apui-color-neutral-soft",
+    "--apui-color-neutral-soft-foreground",
+    "--apui-color-primary-text",
+    "--apui-color-primary-soft",
+    "--apui-color-primary-soft-foreground",
+    "--apui-color-primary-border",
+    "--apui-border-soft-edge-width"
+  ],
+  "fixture": {
+    "props": { "name": "house", "label": "Home" },
+    "states": []
+  }
+}

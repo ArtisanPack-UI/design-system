@@ -1,0 +1,12 @@
+[
+  {
+    "id": "basic",
+    "title": "Button and icon button",
+    "description": "The label reads Copied for two seconds and the result is announced. The icon button shows its confirmation as a tooltip."
+  },
+  {
+    "id": "field",
+    "title": "Copy field",
+    "description": "variant=\"field\" shows the value beside its button, for links, keys and IDs. Name each button after what it copies."
+  }
+]

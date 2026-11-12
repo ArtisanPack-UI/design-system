@@ -1,0 +1,12 @@
+[
+  {
+    "id": "basic",
+    "title": "Several per view, with a header",
+    "description": "perView shows three cards with the fourth peeking. title puts a heading and the previous and next buttons in a header; the dots sit under the slides. Each slide is a Card from its image, alt, title and description."
+  },
+  {
+    "id": "custom",
+    "title": "Custom slides and autoplay",
+    "description": "Render each slide yourself with the slide render content. Without a title the buttons overlay the slides. autoplay always shows a pause button, pauses on hover and focus, and starts paused under reduced motion."
+  }
+]

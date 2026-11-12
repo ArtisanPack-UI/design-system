@@ -76,17 +76,17 @@
     { "canonical": "ImageSlider", "wave": "Data Display", "issue": 61, "livewire": ["image-slider"], "react": [], "vue": [], "consolidation": "Kept as its own component on the carousel widget that Carousel (#65) reuses (D-041).", "note": "New to React and Vue." },
     { "canonical": "ImageLibrary", "wave": "Data Display", "issue": 61, "livewire": ["image-library"], "react": [], "vue": [], "note": "Keeps the `WithMediaSync` contract; client logic is `apuiImageLibrary` (D-037).", "launchException": "Livewire only. Tied to Livewire file uploads and the WithMediaSync trait; React and Vue have media-library's MediaModal and MediaGrid." },
     { "canonical": "Table", "wave": "Data Display", "issue": 62, "livewire": ["table"], "react": ["Table"], "vue": ["Table"], "note": "One `table` scope; the root is a `div` around the `<table>`, so classes and attributes move off the table element (D-042)." },
-    { "canonical": "Chart", "wave": "Data Display", "issue": 63, "livewire": ["chart"], "react": ["Chart"], "vue": ["Chart"] },
-    { "canonical": "Calendar", "wave": "Data Display", "issue": 64, "livewire": ["calendar", "event-modal-content"], "react": ["Calendar"], "vue": ["Calendar"], "note": "Livewire's is a full Livewire component; event-modal-content is its internal child, not public API." },
+    { "canonical": "Chart", "wave": "Data Display", "issue": 63, "livewire": ["chart"], "react": ["Chart"], "vue": ["Chart"], "note": "Own SVG from shared geometry, server-rendered in Livewire (D-045, D-046); ApexCharts is dropped and `showTable` is `tabular`." },
+    { "canonical": "Calendar", "wave": "Data Display", "issue": 64, "livewire": ["calendar", "event-modal-content"], "react": ["Calendar"], "vue": ["Calendar"], "note": "Livewire keeps the stateful `<livewire:artisanpack-calendar>` (event-modal-content stays its internal child) and adds the stateless `<x-artisanpack-calendar>` it renders (D-047)." },
 
     { "canonical": "Icon", "wave": "Utility", "issue": 65, "livewire": ["icon"], "react": ["Icon"], "vue": ["Icon"] },
     { "canonical": "ThemeToggle", "wave": "Utility", "issue": 65, "livewire": ["theme-toggle"], "react": ["ThemeToggle"], "vue": ["ThemeToggle"] },
-    { "canonical": "ThemePreview", "wave": "Utility", "issue": 65, "livewire": ["theme-preview"], "react": [], "vue": [], "launchException": "Livewire only. A theming dev tool rather than a UI component; may move to the docs-site theme builder (#30)." },
+    { "canonical": "ThemePreview", "wave": "Utility", "issue": 65, "livewire": ["theme-preview"], "react": [], "vue": [], "launchException": "Livewire only. A Blade card picker; the 2.x theme builder and its route are removed, and a theme builder belongs on the docs site (#30) (D-055)." },
     { "canonical": "Markdown", "wave": "Utility", "issue": 65, "livewire": ["markdown"], "react": ["Markdown"], "vue": ["Markdown"] },
     { "canonical": "Code", "wave": "Utility", "issue": 65, "livewire": ["code"], "react": ["Code"], "vue": ["Code"] },
-    { "canonical": "Kbd", "wave": "Utility", "issue": 65, "livewire": ["kbd"], "react": [], "vue": [] },
-    { "canonical": "Swap", "wave": "Utility", "issue": 65, "livewire": ["swap"], "react": [], "vue": [] },
-    { "canonical": "Carousel", "wave": "Utility", "issue": 65, "livewire": ["carousel"], "react": ["Carousel"], "vue": ["Carousel"] },
-    { "canonical": "Clipboard", "wave": "Utility", "issue": null, "livewire": [], "react": ["Clipboard"], "vue": ["Clipboard"], "note": "Not in any wave issue. Add to Utility." }
+    { "canonical": "Kbd", "wave": "Utility", "issue": 65, "livewire": ["kbd"], "react": [], "vue": [], "note": "New to React and Vue (D-050)." },
+    { "canonical": "Swap", "wave": "Utility", "issue": 65, "livewire": ["swap"], "react": [], "vue": [], "note": "New to React and Vue; a token-driven primitive with no spec (D-052)." },
+    { "canonical": "Carousel", "wave": "Utility", "issue": 65, "livewire": ["carousel"], "react": ["Carousel"], "vue": ["Carousel"], "note": "Runs on the D-041 carousel widget (D-053)." },
+    { "canonical": "Clipboard", "wave": "Utility", "issue": 65, "livewire": [], "react": ["Clipboard"], "vue": ["Clipboard"], "note": "New to Livewire (D-050)." }
   ]
 }

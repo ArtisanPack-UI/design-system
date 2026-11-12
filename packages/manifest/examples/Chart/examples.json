@@ -1,0 +1,17 @@
+[
+  {
+    "id": "basic",
+    "title": "Bar chart",
+    "description": "A title, labels and one series. The best value is labeled; every bar is focusable and opens its tooltip on hover and focus. prefix and notation format the axis, tooltips and table."
+  },
+  {
+    "id": "series",
+    "title": "Lines and areas",
+    "description": "Two or more series get a legend in the header and take --apui-chart-1…6 in order. The actions slot holds header controls, such as Tabs that switch the range."
+  },
+  {
+    "id": "donut",
+    "title": "Donut with a data table",
+    "description": "A donut of one series' values, its legend listing each slice's share. tabular adds the data table view under the plot."
+  }
+]

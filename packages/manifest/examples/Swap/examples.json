@@ -1,0 +1,12 @@
+[
+  {
+    "id": "basic",
+    "title": "Basic",
+    "description": "A checkbox that swaps a sun for a moon. label names the setting for screen readers; it isn't shown. Bind checked with wire:model, v-model:checked or onCheckedChange."
+  },
+  {
+    "id": "custom",
+    "title": "Custom content and transitions",
+    "description": "The on and off slots replace the icons. transition is fade (the default), rotate or none; reduced motion always swaps at once."
+  }
+]
