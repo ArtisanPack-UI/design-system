@@ -37,6 +37,7 @@ import {
 } from '../core/options';
 import type { Attrs } from '../core/props';
 import type { Normalize } from '../core/widget';
+import { useDirection } from './direction';
 import { combobox, type ComboboxItem } from '../widgets/combobox';
 import { dialog } from '../widgets/dialog';
 import { dropdownMenu } from '../widgets/dropdown-menu';
@@ -59,9 +60,13 @@ export type TabsApi = ZagTabsApi<PropTypes>;
  */
 export function useTabs(options: MaybeRefOrGetter<TabsOptions> = {}): ComputedRef<TabsApi> {
   const fallback = useId();
+  const measured = useDirection(() => {
+    const current = toValue(options);
+    return { id: current.id ?? fallback, ids: (current as { ids?: unknown }).ids };
+  });
   const props = computed(() => {
     const current = toValue(options);
-    return toTabsProps(current, current.id ?? fallback);
+    return toTabsProps({ ...current, dir: current.dir ?? measured.value }, current.id ?? fallback);
   });
   const service = useMachine(tabs.machine, props);
   const api = computed(() => tabs.connect(service, normalizeProps as never) as unknown as TabsApi);
@@ -118,11 +123,16 @@ export function useColorPicker(
   );
   const machine: { service?: ReturnType<typeof useMachine> } = {};
   const reported: { text?: string; color?: never } = {};
+  const measured = useDirection(() => {
+    const current = toValue(options);
+    return { id: current.id ?? fallback, ids: (current as { ids?: unknown }).ids };
+  });
   const props = computed(() => {
     const current = toValue(options);
     return toColorPickerProps(
       {
         ...current,
+        dir: current.dir ?? measured.value,
         format: format.value,
         valueColor:
           current.value != null && current.value === reported.text ? reported.color : undefined,
@@ -183,9 +193,16 @@ export function useDatePicker(
   options: MaybeRefOrGetter<DatePickerOptions> = {},
 ): ComputedRef<DatePickerApi> {
   const fallback = useId();
+  const measured = useDirection(() => {
+    const current = toValue(options);
+    return { id: current.id ?? fallback, ids: (current as { ids?: unknown }).ids };
+  });
   const props = computed(() => {
     const current = toValue(options);
-    return toDatePickerProps(current, current.id ?? fallback);
+    return toDatePickerProps(
+      { ...current, dir: current.dir ?? measured.value },
+      current.id ?? fallback,
+    );
   });
   const service = useMachine(datePicker.machine, props);
   // A value from outside (a reset, a parent) shows its month next time it opens.
@@ -263,9 +280,16 @@ const normalize = normalizeProps as unknown as Normalize;
 /** Dialog: focus trap, Escape and outside-click dismissal, scroll lock and focus return. */
 export function useDialog(options: MaybeRefOrGetter<DialogOptions> = {}): ComputedRef<DialogApi> {
   const fallback = useId();
+  const measured = useDirection(() => {
+    const current = toValue(options);
+    return { id: current.id ?? fallback, ids: (current as { ids?: unknown }).ids };
+  });
   const props = computed(() => {
     const current = toValue(options);
-    return toDialogProps(current, current.id ?? fallback);
+    return toDialogProps(
+      { ...current, dir: current.dir ?? measured.value },
+      current.id ?? fallback,
+    );
   });
   const service = useMachine(dialog.machine, props);
   return computed(() => dialog.connect(service, normalize) as unknown as DialogApi);
@@ -293,9 +317,19 @@ export function useCombobox(options: MaybeRefOrGetter<ComboboxOptions>): Compute
     const current = toValue(options);
     return visibleItems(current, query.value, currentValue(current, local) ?? []);
   });
+  const measured = useDirection(() => {
+    const current = toValue(options);
+    return { id: current.id ?? fallback, ids: (current as { ids?: unknown }).ids };
+  });
   const props = computed(() => {
     const current = toValue(options);
-    return toComboboxProps(current, current.id ?? fallback, items.value, setQuery, local);
+    return toComboboxProps(
+      { ...current, dir: current.dir ?? measured.value },
+      current.id ?? fallback,
+      items.value,
+      setQuery,
+      local,
+    );
   });
   const service = useMachine(combobox.machine, props);
   return computed(() => {
@@ -317,9 +351,16 @@ export function useDropdownMenu(
   options: MaybeRefOrGetter<DropdownMenuOptions> = {},
 ): ComputedRef<DropdownMenuApi> {
   const fallback = useId();
+  const measured = useDirection(() => {
+    const current = toValue(options);
+    return { id: current.id ?? fallback, ids: (current as { ids?: unknown }).ids };
+  });
   const props = computed(() => {
     const current = toValue(options);
-    return toDropdownMenuProps(current, current.id ?? fallback);
+    return toDropdownMenuProps(
+      { ...current, dir: current.dir ?? measured.value },
+      current.id ?? fallback,
+    );
   });
   const service = useMachine(dropdownMenu.machine, props);
   return computed(() => dropdownMenu.connect(service, normalize) as unknown as DropdownMenuApi);
@@ -331,6 +372,8 @@ export function useDropdownMenu(
  */
 export function useToaster(options: MaybeRefOrGetter<ToastGroupOptions>): ComputedRef<ToasterApi> {
   const fallback = useId();
+  // The region is fixed to a corner of the viewport, one per placement for
+  // the page, so it follows `<html dir>`, not the element it's rendered in.
   const props = computed(() => {
     const current = toValue(options);
     return toToastGroupProps(current, current.id ?? fallback);

@@ -16,6 +16,7 @@ import { useEffect, useId, useMemo, useRef, useState } from 'react';
 import type { Attrs } from '../core/props';
 import { chosenItem, type SpotlightExtras, type SpotlightOptions } from '../core/spotlight-options';
 import type { Normalize } from '../core/widget';
+import { useDirection } from './direction';
 import {
   flattenGroups,
   isApplePlatform,
@@ -75,6 +76,7 @@ const option = (item: SpotlightEntry): SpotlightOption => ({
 export function useSpotlight(options: SpotlightOptions): SpotlightApi {
   const fallback = useId();
   const id = options.id ?? fallback;
+  const dir = useDirection(options.dir, id, options.ids);
   const shortcut = options.shortcut ?? SPOTLIGHT_DEFAULTS.shortcut;
   const showRecents = options.recent ?? false;
   const storage = recentKey(options.id ?? 'spotlight');
@@ -112,7 +114,7 @@ export function useSpotlight(options: SpotlightOptions): SpotlightApi {
       defaultOpen: options.defaultOpen,
       modal: options.modal,
       label: options.label,
-      dir: options.dir,
+      dir,
       onOpenChange: (open) => options.onOpenChange?.(open),
     }),
   );
@@ -135,7 +137,7 @@ export function useSpotlight(options: SpotlightOptions): SpotlightApi {
       inputValue: options.search,
       defaultInputValue: options.defaultSearch,
       loading: options.loading,
-      dir: options.dir,
+      dir,
       translations: options.translations,
       onInputValueChange: (inputValue, reason) => {
         setTyped(inputValue);

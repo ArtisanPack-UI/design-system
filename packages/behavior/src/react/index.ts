@@ -33,6 +33,7 @@ import {
 } from '../core/options';
 import type { Attrs } from '../core/props';
 import type { Normalize } from '../core/widget';
+import { useDirection } from './direction';
 import { combobox, type ComboboxItem } from '../widgets/combobox';
 import { dialog } from '../widgets/dialog';
 import { dropdownMenu } from '../widgets/dropdown-menu';
@@ -53,7 +54,11 @@ export type TabsApi = ZagTabsApi<PropTypes>;
  */
 export function useTabs(options: TabsOptions = {}): TabsApi {
   const fallback = useId();
-  const service = useMachine(tabs.machine, toTabsProps(options, options.id ?? fallback));
+  const dir = useDirection(options.dir, options.id ?? fallback, options.ids);
+  const service = useMachine(
+    tabs.machine,
+    toTabsProps({ ...options, dir }, options.id ?? fallback),
+  );
   const api = tabs.connect(service, normalize) as unknown as TabsApi;
   // With nothing selected, select the first enabled tab (as Alpine does), so
   // one trigger is in the Tab order; also once tabs that load late appear.
@@ -94,6 +99,7 @@ export type ColorPickerApi = CoreColorPickerApi<PropTypes>;
  */
 export function useColorPicker(options: ColorPickerOptions = {}): ColorPickerApi {
   const fallback = useId();
+  const dir = useDirection(options.dir, options.id ?? fallback, options.ids);
   const [format, setFormat] = useState<ColorTextFormat>(options.format ?? 'hex');
   useEffect(() => {
     if (options.format) setFormat(options.format);
@@ -107,6 +113,7 @@ export function useColorPicker(options: ColorPickerOptions = {}): ColorPickerApi
     toColorPickerProps(
       {
         ...options,
+        dir,
         format,
         valueColor:
           options.value != null && options.value === reported.text ? reported.color : undefined,
@@ -179,9 +186,10 @@ export type DatePickerApi = CoreDatePickerApi<PropTypes>;
  */
 export function useDatePicker(options: DatePickerOptions = {}): DatePickerApi {
   const fallback = useId();
+  const dir = useDirection(options.dir, options.id ?? fallback, options.ids);
   const service = useMachine(
     datePicker.machine,
-    toDatePickerProps(options, options.id ?? fallback),
+    toDatePickerProps({ ...options, dir }, options.id ?? fallback),
   );
   const api = datePicker.connect(service, normalize) as unknown as DatePickerApi;
   // A value from outside (a reset, a parent) shows its month next time it opens.
@@ -254,7 +262,11 @@ const normalize = normalizeProps as unknown as Normalize;
 /** Dialog: focus trap, Escape and outside-click dismissal, scroll lock and focus return. */
 export function useDialog(options: DialogOptions = {}): DialogApi {
   const fallback = useId();
-  const service = useMachine(dialog.machine, toDialogProps(options, options.id ?? fallback));
+  const dir = useDirection(options.dir, options.id ?? fallback, options.ids);
+  const service = useMachine(
+    dialog.machine,
+    toDialogProps({ ...options, dir }, options.id ?? fallback),
+  );
   return dialog.connect(service, normalize) as unknown as DialogApi;
 }
 
@@ -265,6 +277,7 @@ export function useDialog(options: DialogOptions = {}): DialogApi {
  */
 export function useCombobox(options: ComboboxOptions): ComboboxApi {
   const fallback = useId();
+  const dir = useDirection(options.dir, options.id ?? fallback, options.ids);
   // The typed text the items are filtered by; a default input value starts it.
   const [query, setQuery] = useState(options.defaultInputValue ?? '');
   // The value while uncontrolled; the machine always runs controlled.
@@ -283,7 +296,7 @@ export function useCombobox(options: ComboboxOptions): ComboboxApi {
   );
   const service = useMachine(
     combobox.machine,
-    toComboboxProps(options, options.id ?? fallback, items, setQuery, local),
+    toComboboxProps({ ...options, dir }, options.id ?? fallback, items, setQuery, local),
   );
   const api = combobox.connect(service, normalize) as unknown as ZagComboboxApi<
     PropTypes,
@@ -299,9 +312,10 @@ export function useCombobox(options: ComboboxOptions): ComboboxApi {
  */
 export function useDropdownMenu(options: DropdownMenuOptions = {}): DropdownMenuApi {
   const fallback = useId();
+  const dir = useDirection(options.dir, options.id ?? fallback, options.ids);
   const service = useMachine(
     dropdownMenu.machine,
-    toDropdownMenuProps(options, options.id ?? fallback),
+    toDropdownMenuProps({ ...options, dir }, options.id ?? fallback),
   );
   return dropdownMenu.connect(service, normalize) as unknown as DropdownMenuApi;
 }
@@ -312,6 +326,8 @@ export function useDropdownMenu(options: DropdownMenuOptions = {}): DropdownMenu
  */
 export function useToaster(options: ToastGroupOptions): ToasterApi {
   const fallback = useId();
+  // The region is fixed to a corner of the viewport, one per placement for
+  // the page, so it follows `<html dir>`, not the element it's rendered in.
   const service = useMachine(
     toastGroup.machine,
     toToastGroupProps(options, options.id ?? fallback),
