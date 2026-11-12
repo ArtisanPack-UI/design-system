@@ -1,0 +1,340 @@
+{
+  "version": 1,
+  "component": "Alert",
+  "rootClass": "apui-alert",
+  "stacks": [
+    "livewire",
+    "react",
+    "vue"
+  ],
+  "names": {
+    "livewire": "alert",
+    "react": "Alert",
+    "vue": "Alert"
+  },
+  "cases": [
+    {
+      "id": "variant=soft state=default",
+      "props": {
+        "title": "Listing published",
+        "description": "Lakeview Lofts is live and visible in search.",
+        "dismissible": true,
+        "variant": "soft"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=outline state=default",
+      "props": {
+        "title": "Listing published",
+        "description": "Lakeview Lofts is live and visible in search.",
+        "dismissible": true,
+        "variant": "outline"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=solid state=default",
+      "props": {
+        "title": "Listing published",
+        "description": "Lakeview Lofts is live and visible in search.",
+        "dismissible": true,
+        "variant": "solid"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=soft color=primary state=default",
+      "props": {
+        "title": "Listing published",
+        "description": "Lakeview Lofts is live and visible in search.",
+        "dismissible": true,
+        "variant": "soft",
+        "color": "primary"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=outline color=primary state=default",
+      "props": {
+        "title": "Listing published",
+        "description": "Lakeview Lofts is live and visible in search.",
+        "dismissible": true,
+        "variant": "outline",
+        "color": "primary"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=solid color=primary state=default",
+      "props": {
+        "title": "Listing published",
+        "description": "Lakeview Lofts is live and visible in search.",
+        "dismissible": true,
+        "variant": "solid",
+        "color": "primary"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=soft color=secondary state=default",
+      "props": {
+        "title": "Listing published",
+        "description": "Lakeview Lofts is live and visible in search.",
+        "dismissible": true,
+        "variant": "soft",
+        "color": "secondary"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=outline color=secondary state=default",
+      "props": {
+        "title": "Listing published",
+        "description": "Lakeview Lofts is live and visible in search.",
+        "dismissible": true,
+        "variant": "outline",
+        "color": "secondary"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=solid color=secondary state=default",
+      "props": {
+        "title": "Listing published",
+        "description": "Lakeview Lofts is live and visible in search.",
+        "dismissible": true,
+        "variant": "solid",
+        "color": "secondary"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=soft color=accent state=default",
+      "props": {
+        "title": "Listing published",
+        "description": "Lakeview Lofts is live and visible in search.",
+        "dismissible": true,
+        "variant": "soft",
+        "color": "accent"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=outline color=accent state=default",
+      "props": {
+        "title": "Listing published",
+        "description": "Lakeview Lofts is live and visible in search.",
+        "dismissible": true,
+        "variant": "outline",
+        "color": "accent"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=solid color=accent state=default",
+      "props": {
+        "title": "Listing published",
+        "description": "Lakeview Lofts is live and visible in search.",
+        "dismissible": true,
+        "variant": "solid",
+        "color": "accent"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=soft color=success state=default",
+      "props": {
+        "title": "Listing published",
+        "description": "Lakeview Lofts is live and visible in search.",
+        "dismissible": true,
+        "variant": "soft",
+        "color": "success"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=outline color=success state=default",
+      "props": {
+        "title": "Listing published",
+        "description": "Lakeview Lofts is live and visible in search.",
+        "dismissible": true,
+        "variant": "outline",
+        "color": "success"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=solid color=success state=default",
+      "props": {
+        "title": "Listing published",
+        "description": "Lakeview Lofts is live and visible in search.",
+        "dismissible": true,
+        "variant": "solid",
+        "color": "success"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=soft color=warning state=default",
+      "props": {
+        "title": "Listing published",
+        "description": "Lakeview Lofts is live and visible in search.",
+        "dismissible": true,
+        "variant": "soft",
+        "color": "warning"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=outline color=warning state=default",
+      "props": {
+        "title": "Listing published",
+        "description": "Lakeview Lofts is live and visible in search.",
+        "dismissible": true,
+        "variant": "outline",
+        "color": "warning"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=solid color=warning state=default",
+      "props": {
+        "title": "Listing published",
+        "description": "Lakeview Lofts is live and visible in search.",
+        "dismissible": true,
+        "variant": "solid",
+        "color": "warning"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=soft color=error state=default",
+      "props": {
+        "title": "Listing published",
+        "description": "Lakeview Lofts is live and visible in search.",
+        "dismissible": true,
+        "variant": "soft",
+        "color": "error"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=outline color=error state=default",
+      "props": {
+        "title": "Listing published",
+        "description": "Lakeview Lofts is live and visible in search.",
+        "dismissible": true,
+        "variant": "outline",
+        "color": "error"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=solid color=error state=default",
+      "props": {
+        "title": "Listing published",
+        "description": "Lakeview Lofts is live and visible in search.",
+        "dismissible": true,
+        "variant": "solid",
+        "color": "error"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=soft color=info state=default",
+      "props": {
+        "title": "Listing published",
+        "description": "Lakeview Lofts is live and visible in search.",
+        "dismissible": true,
+        "variant": "soft",
+        "color": "info"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=outline color=info state=default",
+      "props": {
+        "title": "Listing published",
+        "description": "Lakeview Lofts is live and visible in search.",
+        "dismissible": true,
+        "variant": "outline",
+        "color": "info"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=solid color=info state=default",
+      "props": {
+        "title": "Listing published",
+        "description": "Lakeview Lofts is live and visible in search.",
+        "dismissible": true,
+        "variant": "solid",
+        "color": "info"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=soft surface=glass state=default",
+      "props": {
+        "title": "Listing published",
+        "description": "Lakeview Lofts is live and visible in search.",
+        "dismissible": true,
+        "variant": "soft",
+        "surface": "glass"
+      },
+      "state": "default",
+      "content": null
+    }
+  ],
+  "sheets": [
+    {
+      "id": "light",
+      "theme": "light",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "dark",
+      "theme": "dark",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "high-contrast",
+      "theme": "high-contrast",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "rtl",
+      "theme": "light",
+      "density": "default",
+      "dir": "rtl"
+    }
+  ]
+}

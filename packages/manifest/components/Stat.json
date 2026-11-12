@@ -1,0 +1,227 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "Stat",
+  "description": "A single headline number with its label, its change and the context for it. The change is an arrow and text, never color alone. Put stats side by side with a layout component such as Grid, and emphasize at most one in a row.",
+  "status": "draft",
+  "issue": 61,
+  "rootClass": "apui-stat",
+  "stacks": {
+    "livewire": {
+      "name": "stat",
+      "capabilities": [
+        "The default slot replaces value",
+        "The icon slot replaces the named icon",
+        "2.x title, changeLabel and the trailing description still work, as label and description"
+      ]
+    },
+    "react": {
+      "name": "Stat",
+      "capabilities": ["children replace value; icon takes a name or a node"]
+    },
+    "vue": {
+      "name": "Stat",
+      "capabilities": ["The default slot replaces value; the icon slot replaces the named icon"]
+    }
+  },
+  "props": [
+    {
+      "name": "label",
+      "type": "string",
+      "description": "What the number measures, above it."
+    },
+    {
+      "name": "value",
+      "type": "string",
+      "description": "The number, already formatted (\"$348,261\", \"10.87%\"). Rendered with tabular figures."
+    },
+    {
+      "name": "unit",
+      "type": "string",
+      "description": "A unit after the value, smaller and muted (\"ms\", \"kg\")."
+    },
+    {
+      "name": "icon",
+      "type": "string",
+      "description": "A registry icon name for the tile at the end of the label row, tinted by color. Decorative."
+    },
+    {
+      "name": "delta",
+      "type": "string",
+      "description": "The change as text (\"10.9%\", \"6.2 hrs\"), shown with an arrow for trend. Takes precedence over change."
+    },
+    {
+      "name": "change",
+      "type": "number",
+      "description": "The change as a percentage. Shown as delta with one decimal and no sign (\"5.4%\"), and sets trend from its sign when trend isn't set."
+    },
+    {
+      "name": "trend",
+      "type": "enum",
+      "values": ["up", "down", "flat"],
+      "description": "The change's direction: an up or down arrow in success or error text, or a dash. Emitted as data-trend on delta.",
+      "a11y": "The arrow is decorative; upLabel, downLabel or flatLabel is read before the delta, so the direction isn't only color or shape."
+    },
+    {
+      "name": "description",
+      "type": "string",
+      "description": "Context after the delta (\"vs last month\")."
+    },
+    {
+      "name": "size",
+      "type": "enum",
+      "values": ["sm", "md", "lg"],
+      "default": "md",
+      "description": "The value's type style: stat-sm, stat-md or stat-lg. Size carries the hierarchy, never bold."
+    },
+    {
+      "name": "color",
+      "type": "enum",
+      "values": [
+        "primary",
+        "secondary",
+        "accent",
+        "neutral",
+        "success",
+        "warning",
+        "error",
+        "info"
+      ],
+      "default": "neutral",
+      "description": "Tints the icon tile and the emphasis fill. It doesn't color the value."
+    },
+    {
+      "name": "emphasis",
+      "type": "boolean",
+      "default": false,
+      "description": "A soft fill in color for the one stat that matters in a row. Emitted as data-emphasis."
+    },
+    {
+      "name": "bare",
+      "type": "boolean",
+      "default": false,
+      "description": "No container: no padding, border or fill, for a stat inside a Card. Emitted as data-bare."
+    },
+    {
+      "name": "upLabel",
+      "type": "string",
+      "default": "Increase",
+      "description": "Hidden text before an up delta. Translate it: Livewire defaults it through __( 'Increase' )."
+    },
+    {
+      "name": "downLabel",
+      "type": "string",
+      "default": "Decrease",
+      "description": "Hidden text before a down delta. Translate it: Livewire defaults it through __( 'Decrease' )."
+    },
+    {
+      "name": "flatLabel",
+      "type": "string",
+      "default": "No change",
+      "description": "Hidden text before a flat delta. Translate it: Livewire defaults it through __( 'No change' )."
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part, such as { value: '…', delta: '…' }."
+    }
+  ],
+  "sizes": ["sm", "md", "lg"],
+  "colors": ["primary", "secondary", "accent", "neutral", "success", "warning", "error", "info"],
+  "parts": [
+    {
+      "name": "root",
+      "element": "div",
+      "description": "The container, with data-size, data-color, data-emphasis and data-bare."
+    },
+    {
+      "name": "top",
+      "element": "div",
+      "description": "The label row: label at the start, icon at the end."
+    },
+    {
+      "name": "label",
+      "element": "span",
+      "description": "What the number measures."
+    },
+    {
+      "name": "icon",
+      "element": "span",
+      "description": "The tinted icon tile. Hidden from assistive technology."
+    },
+    {
+      "name": "value",
+      "element": "span",
+      "description": "The number, in tabular figures."
+    },
+    {
+      "name": "unit",
+      "element": "span",
+      "description": "The unit inside the value, smaller and muted."
+    },
+    {
+      "name": "foot",
+      "element": "span",
+      "description": "The delta and description row."
+    },
+    {
+      "name": "delta",
+      "element": "span",
+      "description": "The change: hidden direction text, an arrow and the change, with data-trend."
+    },
+    {
+      "name": "description",
+      "element": "span",
+      "description": "The context after the delta."
+    }
+  ],
+  "slots": [
+    {
+      "name": "icon",
+      "description": "Replaces the named icon in the tile."
+    }
+  ],
+  "events": [],
+  "a11y": {
+    "element": "div",
+    "requirements": [
+      "The change is visible text with an arrow, and a hidden direction label (upLabel, downLabel, flatLabel): color is never the only signal.",
+      "The value uses tabular figures; the label and description keep 4.5:1 (--apui-text-muted) on the default and emphasis fills.",
+      "Up and down deltas keep 4.5:1 in success and error text.",
+      "The icon tile is decorative and hidden from assistive technology."
+    ],
+    "wcag": ["1.3.1", "1.4.1", "1.4.3", "1.4.11"]
+  },
+  "tokens": [
+    "--apui-card-padding",
+    "--apui-card-radius",
+    "--apui-surface-default",
+    "--apui-border-muted",
+    "--apui-border-width",
+    "--apui-text-default",
+    "--apui-text-muted",
+    "--apui-color-neutral-soft",
+    "--apui-color-neutral-soft-foreground",
+    "--apui-color-success-text",
+    "--apui-color-error-text",
+    "--apui-type-stat-sm-font-size",
+    "--apui-type-stat-md-font-size",
+    "--apui-type-stat-lg-font-size",
+    "--apui-type-body-sm-font-size",
+    "--apui-type-caption-font-size",
+    "--apui-radius-md",
+    "--apui-icon-size-sm",
+    "--apui-icon-size-md"
+  ],
+  "fixture": {
+    "props": {
+      "label": "Total revenue",
+      "value": "7,415,644",
+      "icon": "wallet",
+      "change": -5.4,
+      "description": "vs last month"
+    },
+    "parts": {
+      "unit": "USD"
+    }
+  }
+}

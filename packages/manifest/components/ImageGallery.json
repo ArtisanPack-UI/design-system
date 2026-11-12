@@ -1,0 +1,344 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "ImageGallery",
+  "description": "A grid of images that opens a lightbox: a dark dialog with the image, a counter and caption, previous and next buttons, thumbnails and arrow keys that follow the text direction. Replaces the 2.x PhotoSwipe integration.",
+  "status": "draft",
+  "issue": 61,
+  "rootClass": "apui-image-gallery",
+  "stacks": {
+    "livewire": {
+      "name": "image-gallery",
+      "capabilities": [
+        "wire:model binds the lightbox's open state both ways through $wire.entangle()",
+        "Images also accept the 2.x url key for src, and plain URL strings"
+      ]
+    },
+    "react": {
+      "name": "ImageGallery"
+    },
+    "vue": {
+      "name": "ImageGallery"
+    }
+  },
+  "props": [
+    {
+      "name": "images",
+      "type": "array",
+      "required": true,
+      "description": "The images, in order: { src, alt, caption }. alt describes the image; caption is visible text under it.",
+      "a11y": "Every image needs alt text that describes it. A caption doesn't replace it."
+    },
+    {
+      "name": "columns",
+      "type": "number",
+      "default": 4,
+      "description": "How many columns the grid has. Emitted as --apui-_image-gallery-columns."
+    },
+    {
+      "name": "featured",
+      "type": "boolean",
+      "default": false,
+      "description": "The first image spans two columns and two rows. Emitted as data-featured."
+    },
+    {
+      "name": "lightbox",
+      "type": "boolean",
+      "default": true,
+      "description": "Each image is a button that opens the lightbox. Off renders a plain grid of figures."
+    },
+    {
+      "name": "open",
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the lightbox is open. Livewire binds it with wire:model, Vue with v-model:open. Emitted as data-state on the lightbox's parts."
+    },
+    {
+      "name": "defaultOpen",
+      "type": "boolean",
+      "default": false,
+      "description": "The initial state of an uncontrolled lightbox.",
+      "stacks": ["react"]
+    },
+    {
+      "name": "index",
+      "type": "number",
+      "default": 0,
+      "description": "The image the lightbox shows, 0-based. Pair it with index-change to control it."
+    },
+    {
+      "name": "defaultIndex",
+      "type": "number",
+      "default": 0,
+      "description": "The initial image of an uncontrolled lightbox.",
+      "stacks": ["react"]
+    },
+    {
+      "name": "downloadable",
+      "type": "boolean",
+      "default": false,
+      "description": "Adds a download link for the image shown to the lightbox's bar."
+    },
+    {
+      "name": "modal",
+      "type": "boolean",
+      "default": true,
+      "description": "Traps focus in the lightbox, locks scroll and hides the rest of the page from assistive technology.",
+      "a11y": "Sets aria-modal."
+    },
+    {
+      "name": "portal",
+      "type": "boolean",
+      "default": true,
+      "description": "Renders the lightbox at the end of the body (x-teleport, a React portal, Vue Teleport). Off renders it in place."
+    },
+    {
+      "name": "closeLabel",
+      "type": "string",
+      "default": "Close",
+      "description": "The lightbox's close button. Translate it: Livewire defaults it through __( 'Close' ).",
+      "a11y": "The close button is icon-only, so this is its only name."
+    },
+    {
+      "name": "previousLabel",
+      "type": "string",
+      "default": "Previous photo",
+      "description": "The previous button's accessible name.",
+      "a11y": "The button is icon-only, so this is its only name."
+    },
+    {
+      "name": "nextLabel",
+      "type": "string",
+      "default": "Next photo",
+      "description": "The next button's accessible name.",
+      "a11y": "The button is icon-only, so this is its only name."
+    },
+    {
+      "name": "downloadLabel",
+      "type": "string",
+      "default": "Download",
+      "description": "The download link's accessible name."
+    },
+    {
+      "name": "counterLabel",
+      "type": "string",
+      "default": "{index} / {count}",
+      "description": "The counter before the caption in the lightbox's title. {index} and {count} are replaced; Livewire's __() string uses :index and :count."
+    },
+    {
+      "name": "thumbsLabel",
+      "type": "string",
+      "default": "Photos",
+      "description": "Names the lightbox's thumbnail strip."
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part, such as { grid: '…', content: '…' }."
+    }
+  ],
+  "parts": [
+    {
+      "name": "root",
+      "element": "div",
+      "description": "Holds the grid and the lightbox."
+    },
+    {
+      "name": "grid",
+      "element": "div",
+      "description": "The grid of figures, in columns columns."
+    },
+    {
+      "name": "item",
+      "element": "figure",
+      "description": "One image and its caption. The featured item spans two columns and rows."
+    },
+    {
+      "name": "trigger",
+      "element": "button",
+      "description": "The button over an image that opens the lightbox on it, named by the image's alt text. Not rendered without lightbox."
+    },
+    {
+      "name": "image",
+      "element": "img",
+      "description": "An image: lazy-loaded in the grid, contained in the lightbox's stage."
+    },
+    {
+      "name": "caption",
+      "element": "figcaption",
+      "description": "The caption, over the image's foot. It shows on hover and focus, and always where there's no hover."
+    },
+    {
+      "name": "backdrop",
+      "element": "div",
+      "description": "The scrim behind the lightbox."
+    },
+    {
+      "name": "positioner",
+      "element": "div",
+      "description": "Fills the viewport and centers the lightbox."
+    },
+    {
+      "name": "content",
+      "element": "div",
+      "description": "The lightbox: a dialog panel with the .apui-lightbox class. The spec calls it lightbox; it keeps Zag's name (D-019)."
+    },
+    {
+      "name": "bar",
+      "element": "div",
+      "description": "The lightbox's top row: title, download and close."
+    },
+    {
+      "name": "title",
+      "element": "h2",
+      "description": "The counter and caption (\"3 / 6 · Evening, west façade\"): the dialog's name, announced as it changes."
+    },
+    {
+      "name": "download",
+      "element": "a",
+      "description": "A download link for the image shown, with downloadable."
+    },
+    {
+      "name": "closeTrigger",
+      "element": "button",
+      "description": "The close button: a ghost, neutral, small icon-only Button."
+    },
+    {
+      "name": "stage",
+      "element": "div",
+      "description": "The image shown, with the previous and next buttons over it."
+    },
+    {
+      "name": "prevTrigger",
+      "element": "button",
+      "description": "Shows the previous image, wrapping: a soft, neutral icon-only Button. The spec's nav (prev)."
+    },
+    {
+      "name": "nextTrigger",
+      "element": "button",
+      "description": "Shows the next image, wrapping. The spec's nav (next)."
+    },
+    {
+      "name": "thumbs",
+      "element": "div",
+      "description": "The strip of thumbnails under the stage."
+    },
+    {
+      "name": "thumb",
+      "element": "button",
+      "description": "A thumbnail that shows its image; aria-current marks the one shown."
+    }
+  ],
+  "slots": [
+    {
+      "name": "caption",
+      "description": "Rich caption content for an image, by index (Livewire: a caption key in images)."
+    }
+  ],
+  "events": [
+    {
+      "name": "open-change",
+      "description": "The lightbox opened or closed itself: an image, Escape, the backdrop or the close button. Setting open doesn't fire it.",
+      "payload": "boolean"
+    },
+    {
+      "name": "index-change",
+      "description": "The lightbox showed another image: an image, the arrow keys, the previous and next buttons or a thumbnail. Setting index doesn't fire it.",
+      "payload": "number"
+    }
+  ],
+  "a11y": {
+    "element": "div",
+    "keyboard": [
+      {
+        "keys": "Enter, Space",
+        "action": "On an image, opens the lightbox on it."
+      },
+      {
+        "keys": "ArrowRight, ArrowLeft",
+        "action": "In the lightbox: show the next or previous image, wrapping. They follow the text direction, so in RTL ArrowLeft shows the next image."
+      },
+      {
+        "keys": "Home, End",
+        "action": "In the lightbox: show the first or last image."
+      },
+      {
+        "keys": "Escape",
+        "action": "Closes the lightbox and returns focus to the image that opened it."
+      },
+      {
+        "keys": "Tab, Shift+Tab",
+        "action": "Move between the lightbox's buttons; focus stays in it while it's modal."
+      }
+    ],
+    "requirements": [
+      "Every image has alt text; a grid image's button is named by it, and the lightbox shows the same alt.",
+      "The lightbox is a dialog named by its title, the counter and caption, which is announced as it changes.",
+      "Focus moves into the lightbox on open, is trapped there while it's modal, and returns to the image that opened it.",
+      "The previous, next, close and download buttons have accessible names (translatable).",
+      "The thumbnail shown carries aria-current and a ring, not opacity alone.",
+      "Captions are text, never baked into images, and stay readable over the image's foot.",
+      "Arrow keys follow the text direction; the previous and next icons mirror in RTL.",
+      "Every part keeps a stable, server-rendered id in Livewire (D-015)."
+    ],
+    "wcag": ["1.1.1", "1.3.1", "1.4.3", "1.4.11", "2.1.1", "2.1.2", "2.4.3", "2.4.7", "4.1.2"]
+  },
+  "tokens": [
+    "--apui-radius-md",
+    "--apui-radius-lg",
+    "--apui-radius-sm",
+    "--apui-surface-sunken",
+    "--apui-backdrop",
+    "--apui-z-modal",
+    "--apui-focus-ring-color",
+    "--apui-focus-ring-offset-color",
+    "--apui-text-default",
+    "--apui-motion-duration-fast",
+    "--apui-motion-duration-moderate"
+  ],
+  "fixture": {
+    "props": {
+      "images": [
+        {
+          "src": "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20400%20300'%20width='400'%20height='300'%3E%3Crect%20width='400'%20height='300'%20fill='%23f6d9a8'/%3E%3Crect%20y='135'%20width='400'%20height='165'%20fill='%23e9b77a'/%3E%3Ccircle%20cx='280'%20cy='96'%20r='27'%20fill='%23fff6e0'/%3E%3Cpath%20d='M0%20186L72%20114L128%20156L200%2090L280%20165L340%20126L400%20174V300H0Z'%20fill='%238aa7c4'/%3E%3Cpath%20d='M0%20225L100%20174L180%20216L248%20180L328%20222L400%20198V300H0Z'%20fill='%235d7f9f'/%3E%3Cpath%20d='M0%20264Q120%20240%20220%20264T400%20258V300H0Z'%20fill='%2333506d'/%3E%3C/svg%3E",
+          "alt": "Sunrise over the ridge, seen from the east terrace",
+          "caption": "Sunrise over the ridge"
+        },
+        {
+          "src": "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20400%20300'%20width='400'%20height='300'%3E%3Crect%20width='400'%20height='300'%20fill='%23cfe3e0'/%3E%3Crect%20y='135'%20width='400'%20height='165'%20fill='%23a9cbc4'/%3E%3Ccircle%20cx='280'%20cy='96'%20r='27'%20fill='%23fff6e0'/%3E%3Cpath%20d='M0%20186L72%20114L128%20156L200%2090L280%20165L340%20126L400%20174V300H0Z'%20fill='%235f8f7c'/%3E%3Cpath%20d='M0%20225L100%20174L180%20216L248%20180L328%20222L400%20198V300H0Z'%20fill='%233f6b57'/%3E%3Cpath%20d='M0%20264Q120%20240%20220%20264T400%20258V300H0Z'%20fill='%2324463a'/%3E%3C/svg%3E",
+          "alt": "Courtyard garden with benches under the trees",
+          "caption": "Courtyard garden"
+        },
+        {
+          "src": "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20400%20300'%20width='400'%20height='300'%3E%3Crect%20width='400'%20height='300'%20fill='%23e8b49a'/%3E%3Crect%20y='135'%20width='400'%20height='165'%20fill='%23c9786a'/%3E%3Ccircle%20cx='280'%20cy='96'%20r='27'%20fill='%23fff6e0'/%3E%3Cpath%20d='M0%20186L72%20114L128%20156L200%2090L280%20165L340%20126L400%20174V300H0Z'%20fill='%236e6c8f'/%3E%3Cpath%20d='M0%20225L100%20174L180%20216L248%20180L328%20222L400%20198V300H0Z'%20fill='%234a4a6a'/%3E%3Cpath%20d='M0%20264Q120%20240%20220%20264T400%20258V300H0Z'%20fill='%232b2b45'/%3E%3C/svg%3E",
+          "alt": "The west facade at dusk",
+          "caption": "Evening, west façade"
+        },
+        {
+          "src": "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20400%20300'%20width='400'%20height='300'%3E%3Crect%20width='400'%20height='300'%20fill='%23e4eef6'/%3E%3Crect%20y='135'%20width='400'%20height='165'%20fill='%23c4d8e8'/%3E%3Ccircle%20cx='280'%20cy='96'%20r='27'%20fill='%23fff6e0'/%3E%3Cpath%20d='M0%20186L72%20114L128%20156L200%2090L280%20165L340%20126L400%20174V300H0Z'%20fill='%239db8cf'/%3E%3Cpath%20d='M0%20225L100%20174L180%20216L248%20180L328%20222L400%20198V300H0Z'%20fill='%236f8fab'/%3E%3Cpath%20d='M0%20264Q120%20240%20220%20264T400%20258V300H0Z'%20fill='%2347637e'/%3E%3C/svg%3E",
+          "alt": "Lake view from the window of unit 4A",
+          "caption": "Lake view from 4A"
+        },
+        {
+          "src": "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20400%20300'%20width='400'%20height='300'%3E%3Crect%20width='400'%20height='300'%20fill='%23f4e2c4'/%3E%3Crect%20y='135'%20width='400'%20height='165'%20fill='%23e7c08d'/%3E%3Ccircle%20cx='280'%20cy='96'%20r='27'%20fill='%23fff6e0'/%3E%3Cpath%20d='M0%20186L72%20114L128%20156L200%2090L280%20165L340%20126L400%20174V300H0Z'%20fill='%23c98f5e'/%3E%3Cpath%20d='M0%20225L100%20174L180%20216L248%20180L328%20222L400%20198V300H0Z'%20fill='%239c6a43'/%3E%3Cpath%20d='M0%20264Q120%20240%20220%20264T400%20258V300H0Z'%20fill='%236b4630'/%3E%3C/svg%3E",
+          "alt": "Rooftop terrace with lounge chairs",
+          "caption": "Rooftop terrace"
+        },
+        {
+          "src": "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20400%20300'%20width='400'%20height='300'%3E%3Crect%20width='400'%20height='300'%20fill='%231d2b44'/%3E%3Crect%20y='135'%20width='400'%20height='165'%20fill='%232c3d5c'/%3E%3Ccircle%20cx='280'%20cy='96'%20r='27'%20fill='%23fff6e0'/%3E%3Cpath%20d='M0%20186L72%20114L128%20156L200%2090L280%20165L340%20126L400%20174V300H0Z'%20fill='%233c4f72'/%3E%3Cpath%20d='M0%20225L100%20174L180%20216L248%20180L328%20222L400%20198V300H0Z'%20fill='%2325334d'/%3E%3Cpath%20d='M0%20264Q120%20240%20220%20264T400%20258V300H0Z'%20fill='%23141c2c'/%3E%3C/svg%3E",
+          "alt": "The street outside the entrance at night",
+          "caption": "Street at night"
+        }
+      ],
+      "featured": true,
+      "columns": 4,
+      "open": true,
+      "index": 2,
+      "modal": false,
+      "portal": false
+    },
+    "parts": {
+      "downloadable": true
+    },
+    "states": []
+  }
+}

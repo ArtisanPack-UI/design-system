@@ -1,0 +1,78 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "Stack",
+  "description": "A layout primitive: its children in a column or a row, with the gap from the space scale, alignment and optional wrapping. No Tailwind needed.",
+  "status": "draft",
+  "issue": 58,
+  "rootClass": "apui-stack",
+  "stacks": {
+    "livewire": { "name": "stack" },
+    "react": { "name": "Stack" },
+    "vue": { "name": "Stack" }
+  },
+  "props": [
+    {
+      "name": "orientation",
+      "type": "enum",
+      "values": ["vertical", "horizontal"],
+      "default": "vertical",
+      "description": "A column, or a row that runs in the text direction. Replaces the React and Vue direction prop (vocabulary: one prop for orientation). Emitted as data-orientation."
+    },
+    {
+      "name": "gap",
+      "type": "enum",
+      "values": ["0", "1", "2", "3", "4", "5", "6", "8", "10", "12", "16"],
+      "default": "2",
+      "description": "The space between items, a step of the space scale (2 is --apui-space-2, 8px). Emitted as data-gap."
+    },
+    {
+      "name": "align",
+      "type": "enum",
+      "values": ["start", "center", "end", "stretch", "baseline"],
+      "default": "stretch",
+      "description": "How items sit across the stack's axis (align-items). Emitted as data-align."
+    },
+    {
+      "name": "justify",
+      "type": "enum",
+      "values": ["start", "center", "end", "between", "around", "evenly"],
+      "default": "start",
+      "description": "How items and the free space share the stack's axis (justify-content); start and end follow the text direction. Emitted as data-justify."
+    },
+    {
+      "name": "wrap",
+      "type": "boolean",
+      "default": false,
+      "description": "Lets a row wrap onto more lines instead of overflowing. Emitted as data-wrap."
+    }
+  ],
+  "parts": [
+    { "name": "root", "element": "div", "description": "The stack; every child is an item." }
+  ],
+  "a11y": {
+    "element": "div",
+    "requirements": [
+      "Layout only: no role, and the reading order is the source order.",
+      "A row runs in the text direction, so it starts at the inline end in RTL.",
+      "A row that may not fit at 320px sets wrap (1.4.10)."
+    ],
+    "wcag": ["1.3.2", "1.4.10"]
+  },
+  "tokens": [
+    "--apui-space-0",
+    "--apui-space-1",
+    "--apui-space-2",
+    "--apui-space-3",
+    "--apui-space-4",
+    "--apui-space-5",
+    "--apui-space-6",
+    "--apui-space-8",
+    "--apui-space-10",
+    "--apui-space-12",
+    "--apui-space-16"
+  ],
+  "fixture": {
+    "content": "Stack item",
+    "states": []
+  }
+}

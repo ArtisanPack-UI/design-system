@@ -1,0 +1,54 @@
+{
+  "version": 1,
+  "component": "Popover",
+  "rootClass": "apui-popover",
+  "stacks": [
+    "livewire",
+    "react",
+    "vue"
+  ],
+  "names": {
+    "livewire": "popover",
+    "react": "Popover",
+    "vue": "Popover"
+  },
+  "cases": [
+    {
+      "id": "state=default",
+      "props": {
+        "open": true,
+        "portal": false,
+        "trigger": "Share",
+        "title": "Share report"
+      },
+      "state": "default",
+      "content": "Anyone on the marketing team can view it."
+    }
+  ],
+  "sheets": [
+    {
+      "id": "light",
+      "theme": "light",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "dark",
+      "theme": "dark",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "high-contrast",
+      "theme": "high-contrast",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "rtl",
+      "theme": "light",
+      "density": "default",
+      "dir": "rtl"
+    }
+  ]
+}

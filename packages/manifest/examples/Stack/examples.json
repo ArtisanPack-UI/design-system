@@ -1,0 +1,12 @@
+[
+  {
+    "id": "basic",
+    "title": "Column",
+    "description": "A vertical stack with the space-4 gap."
+  },
+  {
+    "id": "row",
+    "title": "Row",
+    "description": "A horizontal stack that pushes its items apart, centers them across the row and wraps when it runs out of room."
+  }
+]

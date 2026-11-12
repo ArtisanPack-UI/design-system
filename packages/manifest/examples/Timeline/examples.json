@@ -1,0 +1,12 @@
+[
+  {
+    "id": "basic",
+    "title": "Activity feed",
+    "description": "Compose Timeline from TimelineItem children. An item's children are its head; description is the muted body and card a sunken box, such as a comment. time is shown, datetime is machine-readable."
+  },
+  {
+    "id": "dot",
+    "title": "Dot markers, as data",
+    "description": "variant=\"dot\" draws small dots for a compact status history. items renders the same children, before any composed ones."
+  }
+]

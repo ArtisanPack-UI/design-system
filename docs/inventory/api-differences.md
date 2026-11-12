@@ -8,7 +8,7 @@ Summary of [data/api-differences.json](data/api-differences.json), the machine-r
 
 | Members | rename | missing | behavioral | remove | DaisyUI-coupled |
 |---|---|---|---|---|---|
-| 1289 | 246 | 840 | 120 | 110 | 123 |
+| 1302 | 308 | 699 | 120 | 224 | 126 |
 
 - **rename:** same concept, different name today or under the proposed vocabulary.
 - **missing:** present in another stack but not this one. HTML attributes that pass through (`disabled`, `name`, …) are not counted.
@@ -32,30 +32,30 @@ Livewire values come from docblocks and are only captured where they are listed.
 
 | Wave | Components | Members | rename | missing | behavioral | remove |
 |---|---|---|---|---|---|---|
-| Pilot | 8 | 149 | 40 | 85 | 36 | 13 |
+| Pilot | 8 | 154 | 38 | 86 | 35 | 18 |
 | Form | 21 | 380 | 85 | 117 | 20 | 54 |
-| Navigation | 8 | 165 | 64 | 154 | 8 | 12 |
-| Layout | 14 | 172 | 24 | 121 | 5 | 13 |
-| Feedback | 8 | 60 | 3 | 23 | 6 | 4 |
-| Data Display | 13 | 261 | 21 | 244 | 41 | 13 |
+| Navigation | 8 | 168 | 61 | 154 | 8 | 17 |
+| Layout | 14 | 177 | 50 | 60 | 9 | 63 |
+| Feedback | 8 | 62 | 12 | 18 | 6 | 13 |
+| Data Display | 13 | 259 | 53 | 168 | 38 | 58 |
 | Utility | 9 | 102 | 9 | 96 | 4 | 1 |
 
 ## Largest gaps
 
 | Component | Members | rename | missing | behavioral | remove |
 |---|---|---|---|---|---|
-| Table | 70 | 6 | 106 | 9 | 3 |
+| Table | 69 | 16 | 69 | 9 | 20 |
 | Menu | 35 | 12 | 43 | 0 | 4 |
 | Tabs | 41 | 27 | 22 | 1 | 4 |
-| Stat | 26 | 5 | 29 | 11 | 2 |
+| Stat | 30 | 6 | 11 | 9 | 17 |
 | Pagination | 24 | 2 | 35 | 0 | 0 |
-| Popover | 18 | 6 | 25 | 2 | 2 |
 | Calendar | 18 | 3 | 27 | 5 | 0 |
 | Card | 20 | 3 | 25 | 3 | 2 |
 | Password | 29 | 4 | 25 | 3 | 1 |
 | Spotlight | 16 | 5 | 22 | 4 | 1 |
-| Drawer | 21 | 5 | 23 | 1 | 3 |
+| Popover | 18 | 8 | 13 | 2 | 8 |
 | File | 28 | 7 | 21 | 2 | 0 |
+| Drawer | 19 | 10 | 9 | 3 | 8 |
 
 ## Pilot components
 
@@ -70,12 +70,17 @@ Livewire values come from docblocks and are only captured where they are listed.
 | `href` | `link` | `link` | `link` | livewire: rename `link` (Matches the HTML attribute.); react: rename `link` (Matches the HTML attribute.); vue: rename `link` (Matches the HTML attribute.) |
 | `navigate` | `noWireNavigate` | — | — | livewire: rename `noWireNavigate` (Inverted: a positive boolean replaces the `no*` form. Livewire-only by design.) |
 | `classes.badge` | `badgeClasses` | `badgeClasses` | `badgeClasses` | livewire: rename `badgeClasses` (Per-part override.); react: rename `badgeClasses` (Per-part override.); vue: rename `badgeClasses` (Per-part override.) |
-| `tooltip` | `tooltip` | `tooltip` | `tooltip` | livewire: rename `tooltipLeft` (Merges into `tooltip` + `tooltipPosition="bottom"`.); livewire: rename `tooltipRight` (Merges into `tooltip` + `tooltipPosition="bottom"`.); livewire: rename `tooltipBottom` (Merges into `tooltip` + `tooltipPosition="bottom"`.) |
+| `*(removed)*` | `tooltip` | — | — | livewire: remove `tooltip` (Wrap the component in `<x-artisanpack-tooltip content="…">` (#59, D-029).) |
+| `*(removed)*` | `tooltipLeft` | — | — | livewire: remove `tooltipLeft` (Wrap in `<x-artisanpack-tooltip content="…" placement="start">` (D-029).) |
+| `*(removed)*` | `tooltipRight` | — | — | livewire: remove `tooltipRight` (Wrap in `<x-artisanpack-tooltip content="…" placement="end">` (D-029).) |
+| `*(removed)*` | `tooltipBottom` | — | — | livewire: remove `tooltipBottom` (Wrap in `<x-artisanpack-tooltip content="…" placement="bottom">` (D-029).) |
 | `color` | `color` | `color` | `color` | livewire: rename `variant` (Today `variant` holds color values. Under the vocabulary it means visual treatment, so this is a meaning change and cannot be a blind rename.) |
 | `*(removed)*` | `colorAdjustment` | — | — | livewire: remove `colorAdjustment` (Per-instance color math. Theming belongs in tokens.) |
 | `size` | `size` | `size` | `size` | values differs (livewire: lg\|md\|sm\|xl\|xs, react: lg\|md\|sm\|xs, vue: lg\|md\|sm\|xs) |
 | `*(removed)*` | `uuid` | — | — | livewire: remove `uuid` (Internal wire:key plumbing; never public API.) |
-| `tooltipPosition` | `tooltipPosition` | `tooltipPosition` | `tooltipPosition` | default differs (livewire: lg:tooltip-top, react: top, vue: top) |
+| `*(removed)*` | `tooltipPosition` | — | — | livewire: remove `tooltipPosition` (Becomes the wrapping Tooltip's `placement`; `left`/`right` become `start`/`end` (D-029).) |
+| `tooltip` | — | `tooltip` | `tooltip` | livewire: missing |
+| `tooltipPosition` | — | `tooltipPosition` | `tooltipPosition` | livewire: missing |
 | `badgeColor` | — | — | `badgeColor` | livewire: missing; react: missing |
 
 ### Input
@@ -194,4 +199,4 @@ Livewire values come from docblocks and are only captured where they are listed.
 | `artisanpack-toast` | `artisanpack-toast` | — | — | react: missing; vue: missing |
 | `defaultDuration` | — | `defaultDuration` | `defaultDuration` | livewire: missing |
 | `toast` | — | `toast` | — | livewire: missing; vue: missing |
-| `dismiss` | — | `onDismiss` | `dismiss` | react: rename `onDismiss`; livewire: missing; type differs (react: function, vue: mixed) |
+| `open-change` | — | `onDismiss` | `dismiss` | react: rename `onDismiss`; vue: rename `dismiss`; type differs (react: function, vue: mixed) |

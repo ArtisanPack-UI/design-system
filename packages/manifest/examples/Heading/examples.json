@@ -1,0 +1,12 @@
+[
+  {
+    "id": "levels",
+    "title": "Level and size",
+    "description": "level is the outline, size is the look: a card title can be an h3 at size 5."
+  },
+  {
+    "id": "eyebrow",
+    "title": "Eyebrow",
+    "description": "The eyebrow gives section context above the heading, without adding a level."
+  }
+]

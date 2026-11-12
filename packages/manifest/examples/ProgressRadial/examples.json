@@ -1,0 +1,12 @@
+[
+  {
+    "id": "sizes",
+    "title": "Sizes and captions",
+    "description": "The value text scales with size. Leave the center empty on small rings with hideValue; the label still names the progressbar."
+  },
+  {
+    "id": "colors",
+    "title": "Colors and indeterminate",
+    "description": "Use a ring for a single headline percentage; to compare values, use Progress bars."
+  }
+]

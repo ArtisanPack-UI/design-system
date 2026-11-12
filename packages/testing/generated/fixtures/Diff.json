@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "component": "Diff",
+  "rootClass": "apui-diff",
+  "stacks": [
+    "livewire",
+    "react",
+    "vue"
+  ],
+  "names": {
+    "livewire": "diff",
+    "react": "Diff",
+    "vue": "Diff"
+  },
+  "cases": [
+    {
+      "id": "state=default",
+      "props": {
+        "fileName": "listings/grove-greenfield.json",
+        "oldContent": "{\n  id: 4127,\n  name: \"Grove Greenfield\",\n  beds: 3,\n  price: 220000,\n  rent: 1600,\n  currency: \"USD\",\n  available: \"2027-01-01\",\n}\n",
+        "newContent": "{\n  id: 4127,\n  name: \"Grove Greenfield\",\n  beds: 3,\n  price: 220000,\n  rent: 1650,\n  deposit: 3300,\n  currency: \"USD\",\n  available: \"2027-01-15\",\n}\n"
+      },
+      "state": "default",
+      "content": null
+    }
+  ],
+  "sheets": [
+    {
+      "id": "light",
+      "theme": "light",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "dark",
+      "theme": "dark",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "high-contrast",
+      "theme": "high-contrast",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "rtl",
+      "theme": "light",
+      "density": "default",
+      "dir": "rtl"
+    }
+  ]
+}

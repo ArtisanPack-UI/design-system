@@ -1,0 +1,101 @@
+/*
+ * StreamableContent (#60, Livewire only per D-003). Root
+ * `.apui-streamable-content` with data-state: waiting, streaming, done, error
+ * or stopped. Parts: status (a line saying what's happening, with the Stop
+ * button while streaming), content (the live region the stream writes to),
+ * caret (shown after the text while streaming) and actions. Waiting shows
+ * Skeleton text lines; the caret stops blinking under reduced motion. See
+ * design/components/StreamableContent.
+ */
+@layer apui.components {
+  .apui-streamable-content {
+    display: grid;
+    gap: 10px;
+    color: var(--apui-text-default);
+    font-family: var(--apui-font-family-sans);
+    font-size: var(--apui-type-body-md-font-size);
+    line-height: 22px;
+  }
+
+  [data-scope='streamable-content'][data-part='status'] {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-block-size: 24px;
+    color: var(--apui-text-muted);
+    font-size: var(--apui-type-caption-font-size);
+    line-height: 16px;
+  }
+
+  [data-scope='streamable-content'][data-part='status'] > svg {
+    flex: none;
+    inline-size: var(--apui-icon-size-md);
+    block-size: var(--apui-icon-size-md);
+  }
+
+  /* The Stop button sits at the end of the status line. */
+  [data-scope='streamable-content'][data-part='stop-trigger'] {
+    margin-inline-start: auto;
+  }
+
+  .apui-streamable-content[data-state='error']
+    [data-scope='streamable-content'][data-part='status'] {
+    color: var(--apui-color-error-text);
+  }
+
+  .apui-streamable-content[data-state='done']
+    [data-scope='streamable-content'][data-part='status']
+    > svg {
+    color: var(--apui-color-success-text);
+  }
+
+  [data-scope='streamable-content'][data-part='content'] {
+    min-inline-size: 0;
+    overflow-wrap: anywhere;
+  }
+
+  [data-scope='streamable-content'][data-part='content'] > :first-child {
+    margin-block-start: 0;
+  }
+
+  [data-scope='streamable-content'][data-part='content'] > :last-child {
+    margin-block-end: 0;
+  }
+
+  [data-scope='streamable-content'][data-part='caret'] {
+    display: inline-block;
+    inline-size: 7px;
+    block-size: 16px;
+    margin-inline-start: 2px;
+    border-radius: 1px;
+    background: var(--apui-text-default);
+    vertical-align: -3px;
+    animation: apui-streamable-content-blink 1s steps(1) infinite;
+  }
+
+  @keyframes apui-streamable-content-blink {
+    50% {
+      opacity: 0;
+    }
+  }
+
+  [data-scope='streamable-content'][data-part='actions'] {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-scope='streamable-content'][data-part='caret'] {
+      animation: none;
+    }
+  }
+
+  @media (forced-colors: active) {
+    [data-scope='streamable-content'][data-part='caret'] {
+      forced-color-adjust: none;
+      background: CanvasText;
+    }
+  }
+}

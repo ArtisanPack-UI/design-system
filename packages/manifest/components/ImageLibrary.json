@@ -1,0 +1,412 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "ImageLibrary",
+  "description": "A media manager: search, switch between grid and list, select one or many assets, upload, and inspect an asset in a details panel with editable alt text. Livewire only (D-003): it uploads through Livewire and syncs with the WithMediaSync trait; React and Vue use media-library's MediaModal and MediaGrid.",
+  "status": "draft",
+  "issue": 61,
+  "rootClass": "apui-image-library",
+  "stacks": {
+    "livewire": {
+      "name": "image-library",
+      "capabilities": [
+        "wire:model names the uploads property and wire:library the library collection, as the WithMediaSync trait expects: uploads, replace, crop (with Cropper.js loaded), remove and drag-to-reorder (with SortableJS loaded) call its methods",
+        "Alt text edits set <library>.<key>.alt on the component",
+        "The 2.x preview collection still works as assets, and the 2.x *Text props as the labels"
+      ]
+    },
+    "react": false,
+    "vue": false
+  },
+  "props": [
+    {
+      "name": "assets",
+      "type": "array",
+      "description": "The assets: { id, src, name, alt, size, width, height, type }. Livewire also takes a WithMediaSync library collection ({ uuid, url, … }) through preview."
+    },
+    {
+      "name": "view",
+      "type": "enum",
+      "values": ["grid", "list"],
+      "default": "grid",
+      "description": "Thumbnails in a grid, or rows with the name and metadata. The toolbar switches it. Emitted as data-view."
+    },
+    {
+      "name": "selectable",
+      "type": "enum",
+      "values": ["single", "multiple"],
+      "default": "multiple",
+      "description": "Whether one or many assets can be selected.",
+      "a11y": "Sets aria-multiselectable on the listbox."
+    },
+    {
+      "name": "accept",
+      "type": "string",
+      "default": "image/png, image/jpeg",
+      "description": "The file types uploads accept, as the file input's accept."
+    },
+    {
+      "name": "droppable",
+      "type": "boolean",
+      "default": false,
+      "description": "Files dropped on the library upload, with an overlay while they're dragged over it."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "default": "Media library",
+      "description": "Names the library's listbox. Translate it: Livewire defaults it through __()."
+    },
+    {
+      "name": "hint",
+      "type": "string",
+      "description": "Help text under the grid."
+    },
+    {
+      "name": "hideErrors",
+      "type": "boolean",
+      "default": false,
+      "description": "Hides the library's validation errors."
+    },
+    {
+      "name": "hideProgress",
+      "type": "boolean",
+      "default": false,
+      "description": "Hides the upload progress bar."
+    },
+    {
+      "name": "cropConfig",
+      "type": "object",
+      "description": "Cropper.js options for the crop dialog, merged over the defaults."
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part, such as { toolbar: '…', details: '…' }."
+    }
+  ],
+  "parts": [
+    {
+      "name": "root",
+      "element": "div",
+      "description": "The library: the main column and the details panel."
+    },
+    {
+      "name": "main",
+      "element": "div",
+      "description": "The toolbar, selection bar, progress, grid and hint."
+    },
+    {
+      "name": "toolbar",
+      "element": "div",
+      "description": "Search, the view switch and the upload button."
+    },
+    {
+      "name": "search",
+      "element": "div",
+      "description": "Holds the search Input, which filters assets by name as you type."
+    },
+    {
+      "name": "spacer",
+      "element": "span",
+      "description": "Pushes the view switch and upload to the end."
+    },
+    {
+      "name": "view",
+      "element": "div",
+      "description": "The grid and list buttons (aria-pressed)."
+    },
+    {
+      "name": "bulk",
+      "element": "div",
+      "description": "The selection bar while assets are selected: select all, the count (announced) and actions."
+    },
+    {
+      "name": "count",
+      "element": "span",
+      "description": "\"2 selected\": a polite live region."
+    },
+    {
+      "name": "progress",
+      "element": "progress",
+      "description": "Upload progress."
+    },
+    {
+      "name": "grid",
+      "element": "div",
+      "description": "The assets: role listbox, aria-multiselectable with multiple, one option in the Tab order."
+    },
+    {
+      "name": "asset",
+      "element": "div",
+      "description": "An asset: role option with aria-selected, named by its file name."
+    },
+    {
+      "name": "thumb",
+      "element": "div",
+      "description": "The asset's image, or a file icon."
+    },
+    {
+      "name": "check",
+      "element": "span",
+      "description": "The selection box over the thumbnail (decorative: the option carries the state)."
+    },
+    {
+      "name": "type",
+      "element": "span",
+      "description": "The file type badge on files that aren't images."
+    },
+    {
+      "name": "name",
+      "element": "span",
+      "description": "The file name, truncated."
+    },
+    {
+      "name": "meta",
+      "element": "span",
+      "description": "Size and dimensions."
+    },
+    {
+      "name": "empty",
+      "element": "div",
+      "description": "Shown when there are no assets, or none match the search."
+    },
+    {
+      "name": "hint",
+      "element": "p",
+      "description": "The hint."
+    },
+    {
+      "name": "error",
+      "element": "p",
+      "description": "A validation error for the library."
+    },
+    {
+      "name": "details",
+      "element": "aside",
+      "description": "The details panel for the active asset: preview, title, alt text, metadata and actions. The spec calls it the details panel."
+    },
+    {
+      "name": "preview",
+      "element": "div",
+      "description": "The active asset, contained."
+    },
+    {
+      "name": "title",
+      "element": "h3",
+      "description": "The active asset's name."
+    },
+    {
+      "name": "metadata",
+      "element": "dl",
+      "description": "Dimensions, size and type."
+    },
+    {
+      "name": "actions",
+      "element": "div",
+      "description": "Insert, replace, crop and remove."
+    },
+    {
+      "name": "dropzone",
+      "element": "div",
+      "description": "The overlay while files are dragged over a droppable library."
+    }
+  ],
+  "events": [
+    {
+      "name": "selection-change",
+      "description": "The selected assets changed. Livewire listens with x-on:selection-change or wire:model on a property through $wire.set in the listener.",
+      "payload": "string[]"
+    },
+    {
+      "name": "insert",
+      "description": "Insert was pressed with assets selected (the active one when none are).",
+      "payload": "string[]"
+    }
+  ],
+  "a11y": {
+    "element": "div",
+    "keyboard": [
+      {
+        "keys": "Tab",
+        "action": "Moves into the listbox, to the active asset, then on to the details panel."
+      },
+      {
+        "keys": "ArrowRight, ArrowLeft",
+        "action": "Move to the next or previous asset. They follow the text direction, so in RTL ArrowLeft moves to the next asset."
+      },
+      {
+        "keys": "ArrowDown, ArrowUp",
+        "action": "Move a row down or up in the grid, one asset in the list."
+      },
+      {
+        "keys": "Home, End",
+        "action": "Move to the first or last asset."
+      },
+      {
+        "keys": "Space",
+        "action": "Selects or deselects the focused asset."
+      },
+      {
+        "keys": "Ctrl+A, Cmd+A",
+        "action": "Selects every asset shown, with multiple."
+      },
+      {
+        "keys": "Escape",
+        "action": "Clears the selection."
+      }
+    ],
+    "requirements": [
+      "The grid is a listbox with aria-multiselectable; each asset is an option with aria-selected, named by its file name.",
+      "Only the active asset is in the Tab order (roving tabindex); the focus ring shows on its thumbnail.",
+      "The selection bar's count is a polite live region, so changes are announced.",
+      "Alt text is editable in the details panel and labelled; images without it are flagged there.",
+      "Removing assets asks for confirmation first.",
+      "Every icon-only button has a translatable accessible name.",
+      "Selection is shown by a ring and a checked box, not by color alone.",
+      "Arrow keys follow the text direction: in RTL ArrowLeft moves to the next asset."
+    ],
+    "wcag": [
+      "1.1.1",
+      "1.3.1",
+      "1.4.3",
+      "1.4.11",
+      "2.1.1",
+      "2.4.3",
+      "2.4.7",
+      "3.3.2",
+      "4.1.2",
+      "4.1.3"
+    ]
+  },
+  "tokens": [
+    "--apui-radius-lg",
+    "--apui-radius-md",
+    "--apui-radius-sm",
+    "--apui-border-muted",
+    "--apui-border-default",
+    "--apui-surface-default",
+    "--apui-surface-sunken",
+    "--apui-surface-raised",
+    "--apui-selected-bg",
+    "--apui-color-primary",
+    "--apui-color-primary-soft-foreground",
+    "--apui-checkbox-radius",
+    "--apui-text-default",
+    "--apui-text-muted",
+    "--apui-focus-ring-color"
+  ],
+  "fixture": {
+    "props": {
+      "assets": [
+        {
+          "id": "1",
+          "src": "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20400%20300'%20width='400'%20height='300'%3E%3Crect%20width='400'%20height='300'%20fill='%23e4eef6'/%3E%3Crect%20y='135'%20width='400'%20height='165'%20fill='%23c4d8e8'/%3E%3Ccircle%20cx='280'%20cy='96'%20r='27'%20fill='%23fff6e0'/%3E%3Cpath%20d='M0%20186L72%20114L128%20156L200%2090L280%20165L340%20126L400%20174V300H0Z'%20fill='%239db8cf'/%3E%3Cpath%20d='M0%20225L100%20174L180%20216L248%20180L328%20222L400%20198V300H0Z'%20fill='%236f8fab'/%3E%3Cpath%20d='M0%20264Q120%20240%20220%20264T400%20258V300H0Z'%20fill='%2347637e'/%3E%3C/svg%3E",
+          "name": "lakeview-exterior.jpg",
+          "alt": "The building's lake-facing exterior",
+          "size": "2.4 MB",
+          "width": 4032,
+          "height": 3024,
+          "type": "JPEG"
+        },
+        {
+          "id": "2",
+          "src": "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20400%20300'%20width='400'%20height='300'%3E%3Crect%20width='400'%20height='300'%20fill='%23cfe3e0'/%3E%3Crect%20y='135'%20width='400'%20height='165'%20fill='%23a9cbc4'/%3E%3Ccircle%20cx='280'%20cy='96'%20r='27'%20fill='%23fff6e0'/%3E%3Cpath%20d='M0%20186L72%20114L128%20156L200%2090L280%20165L340%20126L400%20174V300H0Z'%20fill='%235f8f7c'/%3E%3Cpath%20d='M0%20225L100%20174L180%20216L248%20180L328%20222L400%20198V300H0Z'%20fill='%233f6b57'/%3E%3Cpath%20d='M0%20264Q120%20240%20220%20264T400%20258V300H0Z'%20fill='%2324463a'/%3E%3C/svg%3E",
+          "name": "courtyard-garden.jpg",
+          "alt": "Shared garden courtyard with benches",
+          "size": "1.8 MB",
+          "width": 3024,
+          "height": 4032,
+          "type": "JPEG"
+        },
+        {
+          "id": "3",
+          "src": "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20400%20300'%20width='400'%20height='300'%3E%3Crect%20width='400'%20height='300'%20fill='%23e8b49a'/%3E%3Crect%20y='135'%20width='400'%20height='165'%20fill='%23c9786a'/%3E%3Ccircle%20cx='280'%20cy='96'%20r='27'%20fill='%23fff6e0'/%3E%3Cpath%20d='M0%20186L72%20114L128%20156L200%2090L280%20165L340%20126L400%20174V300H0Z'%20fill='%236e6c8f'/%3E%3Cpath%20d='M0%20225L100%20174L180%20216L248%20180L328%20222L400%20198V300H0Z'%20fill='%234a4a6a'/%3E%3Cpath%20d='M0%20264Q120%20240%20220%20264T400%20258V300H0Z'%20fill='%232b2b45'/%3E%3C/svg%3E",
+          "name": "west-facade.jpg",
+          "alt": "",
+          "size": "3.1 MB",
+          "type": "JPEG"
+        },
+        {
+          "id": "4",
+          "src": "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20400%20300'%20width='400'%20height='300'%3E%3Crect%20width='400'%20height='300'%20fill='%23f6d9a8'/%3E%3Crect%20y='135'%20width='400'%20height='165'%20fill='%23e9b77a'/%3E%3Ccircle%20cx='280'%20cy='96'%20r='27'%20fill='%23fff6e0'/%3E%3Cpath%20d='M0%20186L72%20114L128%20156L200%2090L280%20165L340%20126L400%20174V300H0Z'%20fill='%238aa7c4'/%3E%3Cpath%20d='M0%20225L100%20174L180%20216L248%20180L328%20222L400%20198V300H0Z'%20fill='%235d7f9f'/%3E%3Cpath%20d='M0%20264Q120%20240%20220%20264T400%20258V300H0Z'%20fill='%2333506d'/%3E%3C/svg%3E",
+          "name": "view-from-4a.jpg",
+          "alt": "Sunrise over the ridge from unit 4A",
+          "size": "2.2 MB",
+          "type": "JPEG"
+        },
+        {
+          "id": "5",
+          "src": "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20400%20300'%20width='400'%20height='300'%3E%3Crect%20width='400'%20height='300'%20fill='%231d2b44'/%3E%3Crect%20y='135'%20width='400'%20height='165'%20fill='%232c3d5c'/%3E%3Ccircle%20cx='280'%20cy='96'%20r='27'%20fill='%23fff6e0'/%3E%3Cpath%20d='M0%20186L72%20114L128%20156L200%2090L280%20165L340%20126L400%20174V300H0Z'%20fill='%233c4f72'/%3E%3Cpath%20d='M0%20225L100%20174L180%20216L248%20180L328%20222L400%20198V300H0Z'%20fill='%2325334d'/%3E%3Cpath%20d='M0%20264Q120%20240%20220%20264T400%20258V300H0Z'%20fill='%23141c2c'/%3E%3C/svg%3E",
+          "name": "street-night.jpg",
+          "alt": "The street at night",
+          "size": "2.9 MB",
+          "type": "JPEG"
+        },
+        {
+          "id": "6",
+          "name": "floor-plan.pdf",
+          "size": "640 KB",
+          "type": "PDF"
+        }
+      ],
+      "label": "Lakeview Lofts media"
+    },
+    "parts": {
+      "assets": [
+        {
+          "id": "1",
+          "src": "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20400%20300'%20width='400'%20height='300'%3E%3Crect%20width='400'%20height='300'%20fill='%23e4eef6'/%3E%3Crect%20y='135'%20width='400'%20height='165'%20fill='%23c4d8e8'/%3E%3Ccircle%20cx='280'%20cy='96'%20r='27'%20fill='%23fff6e0'/%3E%3Cpath%20d='M0%20186L72%20114L128%20156L200%2090L280%20165L340%20126L400%20174V300H0Z'%20fill='%239db8cf'/%3E%3Cpath%20d='M0%20225L100%20174L180%20216L248%20180L328%20222L400%20198V300H0Z'%20fill='%236f8fab'/%3E%3Cpath%20d='M0%20264Q120%20240%20220%20264T400%20258V300H0Z'%20fill='%2347637e'/%3E%3C/svg%3E",
+          "name": "lakeview-exterior.jpg",
+          "alt": "The building's lake-facing exterior",
+          "size": "2.4 MB",
+          "width": 4032,
+          "height": 3024,
+          "type": "JPEG"
+        },
+        {
+          "id": "2",
+          "src": "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20400%20300'%20width='400'%20height='300'%3E%3Crect%20width='400'%20height='300'%20fill='%23cfe3e0'/%3E%3Crect%20y='135'%20width='400'%20height='165'%20fill='%23a9cbc4'/%3E%3Ccircle%20cx='280'%20cy='96'%20r='27'%20fill='%23fff6e0'/%3E%3Cpath%20d='M0%20186L72%20114L128%20156L200%2090L280%20165L340%20126L400%20174V300H0Z'%20fill='%235f8f7c'/%3E%3Cpath%20d='M0%20225L100%20174L180%20216L248%20180L328%20222L400%20198V300H0Z'%20fill='%233f6b57'/%3E%3Cpath%20d='M0%20264Q120%20240%20220%20264T400%20258V300H0Z'%20fill='%2324463a'/%3E%3C/svg%3E",
+          "name": "courtyard-garden.jpg",
+          "alt": "Shared garden courtyard with benches",
+          "size": "1.8 MB",
+          "width": 3024,
+          "height": 4032,
+          "type": "JPEG"
+        },
+        {
+          "id": "3",
+          "src": "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20400%20300'%20width='400'%20height='300'%3E%3Crect%20width='400'%20height='300'%20fill='%23e8b49a'/%3E%3Crect%20y='135'%20width='400'%20height='165'%20fill='%23c9786a'/%3E%3Ccircle%20cx='280'%20cy='96'%20r='27'%20fill='%23fff6e0'/%3E%3Cpath%20d='M0%20186L72%20114L128%20156L200%2090L280%20165L340%20126L400%20174V300H0Z'%20fill='%236e6c8f'/%3E%3Cpath%20d='M0%20225L100%20174L180%20216L248%20180L328%20222L400%20198V300H0Z'%20fill='%234a4a6a'/%3E%3Cpath%20d='M0%20264Q120%20240%20220%20264T400%20258V300H0Z'%20fill='%232b2b45'/%3E%3C/svg%3E",
+          "name": "west-facade.jpg",
+          "alt": "",
+          "size": "3.1 MB",
+          "type": "JPEG"
+        },
+        {
+          "id": "4",
+          "src": "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20400%20300'%20width='400'%20height='300'%3E%3Crect%20width='400'%20height='300'%20fill='%23f6d9a8'/%3E%3Crect%20y='135'%20width='400'%20height='165'%20fill='%23e9b77a'/%3E%3Ccircle%20cx='280'%20cy='96'%20r='27'%20fill='%23fff6e0'/%3E%3Cpath%20d='M0%20186L72%20114L128%20156L200%2090L280%20165L340%20126L400%20174V300H0Z'%20fill='%238aa7c4'/%3E%3Cpath%20d='M0%20225L100%20174L180%20216L248%20180L328%20222L400%20198V300H0Z'%20fill='%235d7f9f'/%3E%3Cpath%20d='M0%20264Q120%20240%20220%20264T400%20258V300H0Z'%20fill='%2333506d'/%3E%3C/svg%3E",
+          "name": "view-from-4a.jpg",
+          "alt": "Sunrise over the ridge from unit 4A",
+          "size": "2.2 MB",
+          "type": "JPEG"
+        },
+        {
+          "id": "5",
+          "src": "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20400%20300'%20width='400'%20height='300'%3E%3Crect%20width='400'%20height='300'%20fill='%231d2b44'/%3E%3Crect%20y='135'%20width='400'%20height='165'%20fill='%232c3d5c'/%3E%3Ccircle%20cx='280'%20cy='96'%20r='27'%20fill='%23fff6e0'/%3E%3Cpath%20d='M0%20186L72%20114L128%20156L200%2090L280%20165L340%20126L400%20174V300H0Z'%20fill='%233c4f72'/%3E%3Cpath%20d='M0%20225L100%20174L180%20216L248%20180L328%20222L400%20198V300H0Z'%20fill='%2325334d'/%3E%3Cpath%20d='M0%20264Q120%20240%20220%20264T400%20258V300H0Z'%20fill='%23141c2c'/%3E%3C/svg%3E",
+          "name": "street-night.jpg",
+          "alt": "The street at night",
+          "size": "2.9 MB",
+          "type": "JPEG"
+        },
+        {
+          "id": "6",
+          "name": "floor-plan.pdf",
+          "size": "640 KB",
+          "type": "PDF"
+        }
+      ],
+      "droppable": true,
+      "hint": "PNG or JPEG, up to 10 MB."
+    },
+    "states": []
+  }
+}

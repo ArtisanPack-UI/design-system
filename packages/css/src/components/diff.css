@@ -1,0 +1,162 @@
+/*
+ * Diff (#61). Root `.apui-diff` with data-view (unified, split). Parts:
+ * header (icon, file, counts, actions), table, hunk (a @@ row), line (a row,
+ * data-type ctx, add or del), lineNumber, sign and code (every cell carries
+ * its side's data-type, so split rows mix them), and ins / del around changed
+ * words. Signs and counts carry the meaning in text, never color alone. The header mirrors in RTL; the table's
+ * content stays LTR (D-004). See design/components/Diff.
+ */
+@layer apui.components {
+  .apui-diff {
+    box-sizing: border-box;
+    min-inline-size: 0;
+    overflow: hidden;
+    border: var(--apui-border-width) solid var(--apui-border-muted);
+    border-radius: var(--apui-radius-md);
+    background: var(--apui-surface-default);
+    color: var(--apui-text-default);
+    font-family: var(--apui-font-family-sans);
+  }
+
+  [data-scope='diff'][data-part='header'] {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    border-block-end: var(--apui-border-width) solid var(--apui-border-muted);
+    font-size: var(--apui-type-body-sm-font-size);
+    line-height: var(--apui-type-body-sm-line-height);
+  }
+
+  [data-scope='diff'][data-part='icon'] {
+    display: inline-flex;
+    flex: none;
+    color: var(--apui-text-muted);
+  }
+
+  [data-scope='diff'][data-part='icon'] > svg {
+    inline-size: var(--apui-icon-size-md);
+    block-size: var(--apui-icon-size-md);
+  }
+
+  [data-scope='diff'][data-part='file'] {
+    min-inline-size: 0;
+    overflow-wrap: anywhere;
+    font-family: var(--apui-font-family-mono);
+    font-size: var(--apui-type-code-sm-font-size);
+  }
+
+  [data-scope='diff'][data-part='counts'] {
+    display: inline-flex;
+    gap: 8px;
+    margin-inline-start: auto;
+    font-variant-numeric: tabular-nums;
+    font-weight: var(--apui-font-weight-medium);
+  }
+
+  /* "+3" and "−2" read the same way in RTL: the sign stays before the number. */
+  [data-scope='diff'][data-part='counts'] > [data-type] {
+    direction: ltr;
+    unicode-bidi: isolate;
+  }
+
+  [data-scope='diff'][data-part='counts'] > [data-type='add'] {
+    color: var(--apui-color-success-text);
+  }
+
+  [data-scope='diff'][data-part='counts'] > [data-type='del'] {
+    color: var(--apui-color-error-text);
+  }
+
+  [data-scope='diff'][data-part='actions'] {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    gap: 4px;
+  }
+
+  /* The table is code: it stays LTR in every direction (D-004). */
+  [data-scope='diff'][data-part='table'] {
+    inline-size: 100%;
+    border-collapse: collapse;
+    direction: ltr;
+    font-family: var(--apui-font-family-mono);
+    font-size: 12.5px;
+    line-height: 20px;
+  }
+
+  [data-scope='diff'][data-part='table'] td {
+    padding: 0 8px;
+    vertical-align: top;
+  }
+
+  [data-scope='diff'][data-part='lineNumber'] {
+    inline-size: 1%;
+    background: var(--apui-surface-sunken);
+    color: var(--apui-text-muted);
+    font-variant-numeric: tabular-nums;
+    text-align: end;
+    user-select: none;
+    white-space: nowrap;
+  }
+
+  [data-scope='diff'][data-part='sign'] {
+    inline-size: 1%;
+    color: var(--apui-text-muted);
+    user-select: none;
+    white-space: pre;
+  }
+
+  [data-scope='diff'][data-part='code'] {
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+  }
+
+  .apui-diff[data-view='split'] [data-scope='diff'][data-part='code'] {
+    inline-size: 48%;
+  }
+
+  .apui-diff[data-view='split'] [data-scope='diff'][data-part='lineNumber']:not(:first-child) {
+    border-inline-start: var(--apui-border-width) solid var(--apui-border-muted);
+  }
+
+  /* Added and deleted cells: every cell of a line carries its data-type. */
+  td[data-scope='diff'][data-type='add'] {
+    background: var(--apui-color-success-soft);
+    color: var(--apui-color-success-soft-foreground);
+  }
+
+  td[data-scope='diff'][data-type='del'] {
+    background: var(--apui-color-error-soft);
+    color: var(--apui-color-error-soft-foreground);
+  }
+
+  [data-scope='diff'][data-part='hunk'] > td {
+    padding-block: 2px;
+    background: var(--apui-color-info-soft);
+    color: var(--apui-color-info-soft-foreground);
+  }
+
+  [data-scope='diff'][data-part='ins'] {
+    box-shadow: inset 0 -2px 0 var(--apui-color-success-border);
+    font-weight: var(--apui-font-weight-semibold);
+    text-decoration: none;
+  }
+
+  [data-scope='diff'][data-part='del'] {
+    font-weight: var(--apui-font-weight-semibold);
+    text-decoration: line-through;
+    text-decoration-color: var(--apui-color-error-border);
+  }
+
+  @media (forced-colors: active) {
+    [data-scope='diff'][data-part='ins'] {
+      text-decoration: underline;
+      box-shadow: none;
+    }
+
+    [data-scope='diff'][data-part='del'] {
+      text-decoration-color: CanvasText;
+    }
+  }
+}

@@ -1,0 +1,130 @@
+{
+  "version": 1,
+  "component": "Accordion",
+  "rootClass": "apui-accordion",
+  "stacks": [
+    "livewire",
+    "react",
+    "vue"
+  ],
+  "names": {
+    "livewire": "accordion",
+    "react": "Accordion",
+    "vue": "Accordion"
+  },
+  "cases": [
+    {
+      "id": "variant=default state=default",
+      "props": {
+        "value": [
+          "live"
+        ],
+        "items": [
+          {
+            "value": "live",
+            "title": "How long does a listing stay live?",
+            "content": "Listings stay live until you archive them or mark them as sold. Drafts are kept for 90 days."
+          },
+          {
+            "value": "owners",
+            "title": "Can co-owners edit a listing?",
+            "content": "Yes. Invite them from the listing's Sharing tab."
+          },
+          {
+            "value": "files",
+            "title": "Which file types can I upload?",
+            "content": "Images, PDFs and floor plans up to 20 MB each.",
+            "disabled": true
+          }
+        ],
+        "variant": "default"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=separated state=default",
+      "props": {
+        "value": [
+          "live"
+        ],
+        "items": [
+          {
+            "value": "live",
+            "title": "How long does a listing stay live?",
+            "content": "Listings stay live until you archive them or mark them as sold. Drafts are kept for 90 days."
+          },
+          {
+            "value": "owners",
+            "title": "Can co-owners edit a listing?",
+            "content": "Yes. Invite them from the listing's Sharing tab."
+          },
+          {
+            "value": "files",
+            "title": "Which file types can I upload?",
+            "content": "Images, PDFs and floor plans up to 20 MB each.",
+            "disabled": true
+          }
+        ],
+        "variant": "separated"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=flush state=default",
+      "props": {
+        "value": [
+          "live"
+        ],
+        "items": [
+          {
+            "value": "live",
+            "title": "How long does a listing stay live?",
+            "content": "Listings stay live until you archive them or mark them as sold. Drafts are kept for 90 days."
+          },
+          {
+            "value": "owners",
+            "title": "Can co-owners edit a listing?",
+            "content": "Yes. Invite them from the listing's Sharing tab."
+          },
+          {
+            "value": "files",
+            "title": "Which file types can I upload?",
+            "content": "Images, PDFs and floor plans up to 20 MB each.",
+            "disabled": true
+          }
+        ],
+        "variant": "flush"
+      },
+      "state": "default",
+      "content": null
+    }
+  ],
+  "sheets": [
+    {
+      "id": "light",
+      "theme": "light",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "dark",
+      "theme": "dark",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "high-contrast",
+      "theme": "high-contrast",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "rtl",
+      "theme": "light",
+      "density": "default",
+      "dir": "rtl"
+    }
+  ]
+}

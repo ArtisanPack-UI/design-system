@@ -1,0 +1,12 @@
+[
+  {
+    "id": "basic",
+    "title": "Breadcrumbs, title, actions and tabs",
+    "description": "The page's h1 with its description, the actions at the inline end (the primary one last) and underline tabs below."
+  },
+  {
+    "id": "meta",
+    "title": "With status meta",
+    "description": "A badge and an edited time above the title."
+  }
+]

@@ -1,0 +1,190 @@
+/*
+ * Timeline (#61). Root `ol.apui-timeline` with data-variant: icon markers
+ * (default) or small dots. Parts: item (li), marker (data-color, aria-hidden),
+ * head (the event and its time), time (a time element), body and card. The
+ * line between markers is the item's ::before, drawn from the inline start,
+ * so it mirrors in RTL. See design/components/Timeline.
+ */
+@layer apui.components {
+  .apui-timeline {
+    display: grid;
+    margin: 0;
+    padding: 0;
+    color: var(--apui-text-default);
+    font-family: var(--apui-font-family-sans);
+    list-style: none;
+  }
+
+  [data-scope='timeline'][data-part='item'] {
+    position: relative;
+    display: grid;
+    grid-template-columns: 32px minmax(0, 1fr);
+    gap: 0 12px;
+    padding-block-end: 20px;
+  }
+
+  [data-scope='timeline'][data-part='item']::before {
+    content: '';
+    position: absolute;
+    inset-block: 34px 2px;
+    inset-inline-start: 15.5px;
+    inline-size: 1px;
+    background: var(--apui-border-muted);
+  }
+
+  [data-scope='timeline'][data-part='item']:last-child {
+    padding-block-end: 0;
+  }
+
+  [data-scope='timeline'][data-part='item']:last-child::before {
+    content: none;
+  }
+
+  [data-scope='timeline'][data-part='marker'] {
+    --apui-_timeline-tone-soft: var(--apui-color-neutral-soft);
+    --apui-_timeline-tone-soft-foreground: var(--apui-color-neutral-soft-foreground);
+    --apui-_timeline-tone-solid: var(--apui-border-default);
+
+    display: grid;
+    grid-column: 1;
+    grid-row: 1 / span 3;
+    place-items: center;
+    box-sizing: border-box;
+    inline-size: 32px;
+    block-size: 32px;
+    border-radius: var(--apui-radius-full);
+    background: var(--apui-_timeline-tone-soft);
+    box-shadow: 0 0 0 3px var(--apui-focus-ring-offset-color);
+    color: var(--apui-_timeline-tone-soft-foreground);
+  }
+
+  [data-scope='timeline'][data-part='marker'] > svg {
+    inline-size: var(--apui-icon-size-md);
+    block-size: var(--apui-icon-size-md);
+  }
+
+  /* No icon: a small dot in the circle. */
+  [data-scope='timeline'][data-part='marker']:empty::after {
+    content: '';
+    inline-size: 6px;
+    block-size: 6px;
+    border-radius: var(--apui-radius-full);
+    background: currentcolor;
+  }
+
+  [data-scope='timeline'][data-part='marker'][data-color='primary'] {
+    --apui-_timeline-tone-soft: var(--apui-color-primary-soft);
+    --apui-_timeline-tone-soft-foreground: var(--apui-color-primary-soft-foreground);
+    --apui-_timeline-tone-solid: var(--apui-color-primary);
+  }
+
+  [data-scope='timeline'][data-part='marker'][data-color='secondary'] {
+    --apui-_timeline-tone-soft: var(--apui-color-secondary-soft);
+    --apui-_timeline-tone-soft-foreground: var(--apui-color-secondary-soft-foreground);
+    --apui-_timeline-tone-solid: var(--apui-color-secondary);
+  }
+
+  [data-scope='timeline'][data-part='marker'][data-color='accent'] {
+    --apui-_timeline-tone-soft: var(--apui-color-accent-soft);
+    --apui-_timeline-tone-soft-foreground: var(--apui-color-accent-soft-foreground);
+    --apui-_timeline-tone-solid: var(--apui-color-accent);
+  }
+
+  [data-scope='timeline'][data-part='marker'][data-color='neutral'] {
+    --apui-_timeline-tone-solid: var(--apui-text-muted);
+  }
+
+  [data-scope='timeline'][data-part='marker'][data-color='success'] {
+    --apui-_timeline-tone-soft: var(--apui-color-success-soft);
+    --apui-_timeline-tone-soft-foreground: var(--apui-color-success-soft-foreground);
+    --apui-_timeline-tone-solid: var(--apui-color-success);
+  }
+
+  [data-scope='timeline'][data-part='marker'][data-color='warning'] {
+    --apui-_timeline-tone-soft: var(--apui-color-warning-soft);
+    --apui-_timeline-tone-soft-foreground: var(--apui-color-warning-soft-foreground);
+    --apui-_timeline-tone-solid: var(--apui-color-warning);
+  }
+
+  [data-scope='timeline'][data-part='marker'][data-color='error'] {
+    --apui-_timeline-tone-soft: var(--apui-color-error-soft);
+    --apui-_timeline-tone-soft-foreground: var(--apui-color-error-soft-foreground);
+    --apui-_timeline-tone-solid: var(--apui-color-error);
+  }
+
+  [data-scope='timeline'][data-part='marker'][data-color='info'] {
+    --apui-_timeline-tone-soft: var(--apui-color-info-soft);
+    --apui-_timeline-tone-soft-foreground: var(--apui-color-info-soft-foreground);
+    --apui-_timeline-tone-solid: var(--apui-color-info);
+  }
+
+  /* Dot markers: compact, for status histories. Icons are decorative and left out. */
+  .apui-timeline[data-variant='dot'] [data-scope='timeline'][data-part='marker'] {
+    inline-size: 10px;
+    block-size: 10px;
+    margin: 11px;
+    background: var(--apui-_timeline-tone-solid);
+  }
+
+  .apui-timeline[data-variant='dot'] [data-scope='timeline'][data-part='marker'] > svg,
+  .apui-timeline[data-variant='dot'] [data-scope='timeline'][data-part='marker']::after {
+    display: none;
+  }
+
+  [data-scope='timeline'][data-part='head'] {
+    display: flex;
+    flex-wrap: wrap;
+    grid-column: 2;
+    align-items: baseline;
+    gap: 8px;
+    min-inline-size: 0;
+    padding-block-start: 6px;
+    font-size: var(--apui-type-body-md-font-size);
+    line-height: var(--apui-type-body-md-line-height);
+  }
+
+  [data-scope='timeline'][data-part='time'] {
+    margin-inline-start: auto;
+    color: var(--apui-text-muted);
+    font-size: var(--apui-type-caption-font-size);
+    line-height: var(--apui-type-caption-line-height);
+    white-space: nowrap;
+  }
+
+  [data-scope='timeline'][data-part='body'] {
+    grid-column: 2;
+    margin-block-start: 6px;
+    color: var(--apui-text-muted);
+    font-size: var(--apui-type-body-sm-font-size);
+    line-height: var(--apui-type-body-sm-line-height);
+  }
+
+  [data-scope='timeline'][data-part='card'] {
+    grid-column: 2;
+    margin-block-start: 8px;
+    padding: 10px 12px;
+    border-radius: var(--apui-radius-md);
+    background: var(--apui-surface-sunken);
+    color: var(--apui-text-default);
+    font-size: var(--apui-type-body-sm-font-size);
+    line-height: var(--apui-type-body-sm-line-height);
+  }
+
+  @media (forced-colors: active) {
+    [data-scope='timeline'][data-part='marker'] {
+      border: 1px solid CanvasText;
+    }
+
+    .apui-timeline[data-variant='dot'] [data-scope='timeline'][data-part='marker'] {
+      background: CanvasText;
+    }
+
+    [data-scope='timeline'][data-part='item']::before {
+      background: CanvasText;
+    }
+
+    [data-scope='timeline'][data-part='card'] {
+      border: 1px solid CanvasText;
+    }
+  }
+}

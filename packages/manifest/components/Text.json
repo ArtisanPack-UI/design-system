@@ -1,0 +1,103 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "Text",
+  "description": "Body text with a size, tone and weight, cut to one line with truncate or to a number of lines with clamp. Paragraphs keep to the reading measure.",
+  "status": "draft",
+  "issue": 58,
+  "rootClass": "apui-text",
+  "stacks": {
+    "livewire": {
+      "name": "text"
+    },
+    "react": {
+      "name": "Text"
+    },
+    "vue": {
+      "name": "Text"
+    }
+  },
+  "props": [
+    {
+      "name": "as",
+      "type": "enum",
+      "values": ["p", "span", "div"],
+      "default": "p",
+      "description": "The element: p for a paragraph, span for text inside a line, div for a block that holds other blocks."
+    },
+    {
+      "name": "size",
+      "type": "enum",
+      "values": ["xs", "sm", "md", "lg", "lead"],
+      "default": "md",
+      "description": "12/16, 13/18, 14/20, 16/24, or lead (19/28, muted unless a tone is set) for an introduction. Emitted as data-size."
+    },
+    {
+      "name": "tone",
+      "type": "enum",
+      "values": ["default", "muted", "success", "warning", "error"],
+      "default": "default",
+      "description": "Text color. Emitted as data-tone.",
+      "a11y": "Status tones are never the only signal, and muted is not for anything people must read."
+    },
+    {
+      "name": "weight",
+      "type": "enum",
+      "values": ["regular", "medium", "semibold"],
+      "default": "regular",
+      "description": "Font weight. Emitted as data-weight."
+    },
+    {
+      "name": "truncate",
+      "type": "boolean",
+      "default": false,
+      "description": "Cuts to one line with an ellipsis. Emitted as data-truncate.",
+      "a11y": "Plain-text content is copied to the title attribute, so the full value stays available."
+    },
+    {
+      "name": "clamp",
+      "type": "number",
+      "description": "Cuts after this many lines. Emitted as data-clamp, with the count in --apui-text-clamp."
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes for the root: { root: '…' }."
+    }
+  ],
+  "parts": [
+    {
+      "name": "root",
+      "element": "p | span | div",
+      "description": "The text."
+    }
+  ],
+  "slots": [],
+  "events": [],
+  "a11y": {
+    "element": "p",
+    "requirements": [
+      "Keeps 4.5:1 in every tone and theme; muted is --apui-text-muted.",
+      "Status tones (success, warning, error) are never the only signal: the words carry the meaning.",
+      "Truncated and clamped text keeps its full value in the title attribute when it is plain text; otherwise give it one, or a tooltip.",
+      "Paragraphs keep to --apui-measure."
+    ],
+    "wcag": ["1.4.1", "1.4.3"]
+  },
+  "tokens": [
+    "--apui-text-default",
+    "--apui-text-muted",
+    "--apui-color-success-text",
+    "--apui-color-warning-text",
+    "--apui-color-error-text",
+    "--apui-measure",
+    "--apui-type-body-md-font-size",
+    "--apui-type-body-sm-font-size",
+    "--apui-type-body-lg-font-size",
+    "--apui-type-caption-font-size",
+    "--apui-font-weight-medium",
+    "--apui-font-weight-semibold"
+  ],
+  "fixture": {
+    "content": "Twenty-four bright apartments around a garden courtyard."
+  }
+}

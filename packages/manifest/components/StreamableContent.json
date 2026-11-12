@@ -1,0 +1,137 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "StreamableContent",
+  "description": "Content that arrives over time, such as a generated summary, with waiting, streaming, done, error and stopped states. Livewire streams into it with wire:stream; Stop is always available while streaming, and partial content stays when a stream fails.",
+  "status": "draft",
+  "issue": 60,
+  "rootClass": "apui-streamable-content",
+  "stacks": {
+    "livewire": {
+      "name": "streamable-content",
+      "capabilities": ["wire:stream (Livewire 4; Livewire 3 renders the content statically)"],
+      "differences": [
+        "Livewire only (D-003): built on wire:stream. React and Vue would need a different transport, and nothing downstream asks for one.",
+        "The 2.x props tag, prose, placeholder and showCursor are gone: the state draws the status, the caret and the waiting skeleton."
+      ]
+    },
+    "react": false,
+    "vue": false
+  },
+  "props": [
+    {
+      "name": "target",
+      "type": "string",
+      "required": true,
+      "description": "The wire:stream target the component streams to with $this->stream( to: … )."
+    },
+    {
+      "name": "state",
+      "type": "enum",
+      "values": ["waiting", "streaming", "done", "error", "stopped"],
+      "default": "streaming",
+      "description": "Where the stream is. Emitted as data-state. Waiting shows skeleton lines until the first words; streaming shows the caret and Stop; error and stopped keep the partial content."
+    },
+    {
+      "name": "status",
+      "type": "string",
+      "description": "The status line's text. Defaults to the state's, translated: Waiting for a response…, Writing…, Done, The response was interrupted. or Stopped."
+    },
+    {
+      "name": "stopLabel",
+      "type": "string",
+      "default": "Stop",
+      "description": "The Stop button's text. Translate it: defaults through __( 'Stop' )."
+    },
+    {
+      "name": "actions",
+      "type": "node",
+      "description": "Buttons under the content, such as Copy and Regenerate when done, or Continue after an error."
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part, such as { status: '…', content: '…' }."
+    }
+  ],
+  "parts": [
+    {
+      "name": "root",
+      "element": "div",
+      "description": "The streamed block."
+    },
+    {
+      "name": "status",
+      "element": "div",
+      "description": "A line saying what's happening (role=status), with the state's icon or indicator."
+    },
+    {
+      "name": "stopTrigger",
+      "element": "button",
+      "description": "The Stop button at the end of the status line, while streaming. Dispatches stop."
+    },
+    {
+      "name": "content",
+      "element": "div",
+      "description": "The live region (aria-live=polite, aria-busy while waiting or streaming) that wire:stream writes to."
+    },
+    {
+      "name": "caret",
+      "element": "span",
+      "description": "The blinking caret after the text while streaming, hidden from assistive technology."
+    },
+    {
+      "name": "actions",
+      "element": "div",
+      "description": "The action buttons."
+    }
+  ],
+  "slots": [
+    {
+      "name": "status",
+      "description": "Rich status text."
+    },
+    {
+      "name": "actions",
+      "description": "The action buttons."
+    }
+  ],
+  "events": [
+    {
+      "name": "stop",
+      "description": "The Stop button was pressed: wire:stop=\"cancel\" or x-on:stop."
+    }
+  ],
+  "a11y": {
+    "element": "div",
+    "keyboard": [
+      {
+        "keys": "Tab",
+        "action": "Reaches Stop while streaming, then the actions."
+      }
+    ],
+    "requirements": [
+      "The content is aria-live=polite and aria-busy while waiting or streaming, so it isn't re-announced token by token; the status line is role=status.",
+      "Stop is always available while streaming.",
+      "Partial content stays when a stream fails, with an action to continue.",
+      "The caret is aria-hidden and stops blinking under reduced motion; no sparkle icons or gradients."
+    ],
+    "wcag": ["1.3.1", "2.1.1", "2.2.2", "4.1.3"]
+  },
+  "tokens": [
+    "--apui-text-default",
+    "--apui-text-muted",
+    "--apui-color-error-text",
+    "--apui-color-success-text"
+  ],
+  "fixture": {
+    "content": "Revenue grew 10.9% month over month, led by Lakeview Lofts and Golden Hour Apartments.",
+    "props": {
+      "target": "summary",
+      "status": "Writing summary…"
+    },
+    "parts": {
+      "actions": "Copy"
+    },
+    "states": []
+  }
+}

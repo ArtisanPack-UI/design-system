@@ -11050,6 +11050,22 @@
           }
         },
         {
+          "name": "border/soft-edge-width",
+          "type": "FLOAT",
+          "description": "Edge drawn around soft-tinted status surfaces (soft Badge, soft Alert) so the tint is not the only boundary. 0 in light and dark, where the spec draws none; 1px in high-contrast, where the fill alone sits too close to the page. Paint it with the tone border color.\nCSS: --apui-border-soft-edge-width",
+          "scopes": [
+            "STROKE_FLOAT"
+          ],
+          "codeSyntax": {
+            "WEB": "var(--apui-border-soft-edge-width)"
+          },
+          "values": {
+            "Light": 0,
+            "Dark": 0,
+            "High contrast": 1
+          }
+        },
+        {
           "name": "focus-ring/color",
           "type": "COLOR",
           "description": "Focus ring color: 3:1 or better against every surface. Drawn as a 2px ring outside a 2px gap of --apui-focus-ring-offset-color.\nCSS: --apui-focus-ring-color",

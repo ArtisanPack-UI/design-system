@@ -1,0 +1,99 @@
+/*
+ * Stack (#58), a layout primitive. Root `.apui-stack` with data-orientation
+ * (vertical · horizontal), data-gap (a step of the space scale), data-align
+ * (align-items), data-justify (justify-content) and data-wrap. A horizontal
+ * stack runs in the text direction. No spec in design/: built from the tokens
+ * (wave #58 decision).
+ */
+@layer apui.components {
+  .apui-stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--apui-space-2);
+    min-inline-size: 0;
+  }
+
+  .apui-stack[data-orientation='horizontal'] {
+    flex-direction: row;
+  }
+
+  .apui-stack[data-wrap] {
+    flex-wrap: wrap;
+  }
+
+  .apui-stack[data-gap='0'] {
+    gap: var(--apui-space-0);
+  }
+
+  .apui-stack[data-gap='1'] {
+    gap: var(--apui-space-1);
+  }
+
+  .apui-stack[data-gap='3'] {
+    gap: var(--apui-space-3);
+  }
+
+  .apui-stack[data-gap='4'] {
+    gap: var(--apui-space-4);
+  }
+
+  .apui-stack[data-gap='5'] {
+    gap: var(--apui-space-5);
+  }
+
+  .apui-stack[data-gap='6'] {
+    gap: var(--apui-space-6);
+  }
+
+  .apui-stack[data-gap='8'] {
+    gap: var(--apui-space-8);
+  }
+
+  .apui-stack[data-gap='10'] {
+    gap: var(--apui-space-10);
+  }
+
+  .apui-stack[data-gap='12'] {
+    gap: var(--apui-space-12);
+  }
+
+  .apui-stack[data-gap='16'] {
+    gap: var(--apui-space-16);
+  }
+
+  .apui-stack[data-align='start'] {
+    align-items: flex-start;
+  }
+
+  .apui-stack[data-align='center'] {
+    align-items: center;
+  }
+
+  .apui-stack[data-align='end'] {
+    align-items: flex-end;
+  }
+
+  .apui-stack[data-align='baseline'] {
+    align-items: baseline;
+  }
+
+  .apui-stack[data-justify='center'] {
+    justify-content: center;
+  }
+
+  .apui-stack[data-justify='end'] {
+    justify-content: flex-end;
+  }
+
+  .apui-stack[data-justify='between'] {
+    justify-content: space-between;
+  }
+
+  .apui-stack[data-justify='around'] {
+    justify-content: space-around;
+  }
+
+  .apui-stack[data-justify='evenly'] {
+    justify-content: space-evenly;
+  }
+}

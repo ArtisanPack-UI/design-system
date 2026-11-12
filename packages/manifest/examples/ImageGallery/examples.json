@@ -1,0 +1,12 @@
+[
+  {
+    "id": "basic",
+    "title": "Basic",
+    "description": "A grid of images with captions. Each opens the lightbox, where the arrow keys, the previous and next buttons and the thumbnails move between them."
+  },
+  {
+    "id": "featured",
+    "title": "Featured",
+    "description": "featured makes the first image span two columns and rows; downloadable adds a download link to the lightbox. The labels are props, so apps translate them."
+  }
+]

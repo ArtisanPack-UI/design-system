@@ -1,0 +1,12 @@
+[
+  {
+    "id": "sidebar",
+    "title": "Sidebar account menu",
+    "description": "The trigger shows the avatar, name and role. Workspaces switch on workspace-change and the theme on theme-change; Log out is always last."
+  },
+  {
+    "id": "compact",
+    "title": "Compact trigger",
+    "description": "compact shows only the avatar, for a top bar, and the name stays its accessible name. align end keeps the menu on screen at the end of a bar."
+  }
+]

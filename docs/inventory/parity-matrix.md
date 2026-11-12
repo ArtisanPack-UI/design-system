@@ -72,49 +72,49 @@ React and Vue match each other almost everywhere; the only exports that differ a
 
 | Canonical | Issue | Livewire | React | Vue | Notes |
 |---|---|---|---|---|---|
-| **Accordion** | #58 | `accordion` | `Accordion` | `Accordion` |  |
-| **Collapse** | #58 | `collapse` | `Collapse` | `Collapse` |  |
-| **Drawer** | #58 | `drawer` | `Drawer` | `Drawer` |  |
-| **Popover** | #58 | `popover` | `Popover` | `Popover` |  |
-| **PageHeader** | #58 | `header` | — | — | header → page-header. It is a titled section header, not a site header. |
-| **AppShell** | #58 | `main` | `Sidebar` | `Sidebar` | main → app-shell; Sidebar is a part of it. Livewire `main` composes sidebar + content + footer. React and Vue only have the sidebar piece, with no page frame. |
-| **Divider** | #58 | `separator` | `Divider` | `Divider` | separator → divider (Blade tag only). Livewire's version carries a `progress` loading bar and `target`; the other stacks are a plain rule. |
-| **Grid** | #58 | `widget-grid` | `Grid` | `Grid` | WidgetGrid is a columned dashboard grid. Treated as the same primitive; the wave issue lists only the Livewire name. |
-| **Stack** | **none** | — | `Stack` | `Stack` | Not in any wave issue. Decide whether layout primitives stay in the system now that Tailwind is optional. |
-| **Heading** | #58 | `heading` `subheading` | — | — |  |
-| **Text** | #58 | `text` | — | — |  |
-| **ListItem** | #58 | `list-item` | — | — |  |
-| **UserMenu** | #58 | `profile` | — | — | profile → user-menu. It is an avatar dropdown, not a profile page. |
-| **Tooltip** | #59 | — | `Tooltip` | `Tooltip` | Livewire has no component: 5 components carry tooltip props and apply raw DaisyUI classes. New first-class component per #59. |
+| **Accordion** | #58 | `accordion` | `Accordion` | `Accordion` | Engine widget on `@zag-js/accordion` (D-030). Children are `accordion-item` / `AccordionItem`, with `items` as the data convenience; React and Vue `Collapse` children become `AccordionItem`. |
+| **Collapse** | #58 | `collapse` | `Collapse` | `Collapse` | Engine widget on `@zag-js/collapsible`, rescoped `collapse` (D-030). `variant="read-more"` clamps the text. |
+| **Drawer** | #58 | `drawer` | `Drawer` | `Drawer` | Rebuilt on the dialog machine, rescoped `drawer` (D-029). `side` is `end` (the new default) · `start` · `bottom` (the spec's sheet); 2.x `right`, `subtitle` and `actions` are deprecated. |
+| **Popover** | #58 | `popover` | `Popover` | `Popover` | Opens on click as a non-modal dialog, with a CSS-drawn arrow and the author's control as trigger (D-029). 2.x `position` and the `content` slot are deprecated. |
+| **PageHeader** | #58 | `header` | — | — | header → page-header. It is a titled section header, not a site header. Ships in all three stacks; `subtitle` becomes `description`. |
+| **AppShell** | #58 | `main` | `Sidebar` | `Sidebar` | main → app-shell; Sidebar is a part of it. Livewire `main` composes sidebar + content + footer. React and Vue only had the sidebar piece, with no page frame. 3.0 ships AppShell in all three stacks with a Menu in its `sidebar` slot (D-031); `main` and `Sidebar` stay as deprecated aliases. |
+| **Divider** | #58 | `separator` | `Divider` | `Divider` | separator → divider (Blade tag only). Livewire's version carried a `progress` loading bar and `target`; 3.0 drops them (D-033) and `vertical` becomes `orientation`. |
+| **Grid** | #58 | `widget-grid` | `Grid` `StatGroup` | `Grid` | `cols` becomes `columns`; React and Vue's `colsSm` to `colsXl`, `gapX` and `gapY` are dropped for `minItemWidth`. |
+| **Stack** | #58 | — | `Stack` | `Stack` | Token-driven primitive in every stack (D-032); new to Livewire as `stack`. `direction` becomes `orientation`, kept deprecated. |
+| **Heading** | #58 | `heading` | — | — | `level` and `size` are separate (D-043); new to React and Vue. |
+| **Text** | #58 | `text` `subheading` | — | — | New to React and Vue. |
+| **ListItem** | #58 | `list-item` | — | — | Rows live in a List container (`list` / `List`, D-043), which owns `variant`; new to React and Vue. |
+| **UserMenu** | #58 | `profile` | — | — | profile → user-menu. It is an avatar dropdown, not a profile page. New to React and Vue. |
+| **Tooltip** | #59 | — | `Tooltip` | `Tooltip` | Livewire had no component: 5 components carried tooltip props and applied raw DaisyUI classes. 3.0 adds Livewire `tooltip` (#59, D-029); the props and `class="tooltip" data-tip` become a wrapping Tooltip. |
 
 ## Feedback
 
 | Canonical | Issue | Livewire | React | Vue | Notes |
 |---|---|---|---|---|---|
-| **Alert** | #60 | `alert` | `Alert` | `Alert` |  |
-| **Loading** | #60 | `loading` | `Loading` | `Loading` |  |
-| **Progress** | #60 | `progress` | `Progress` | `Progress` |  |
-| **ProgressRadial** | #60 | `progress-radial` | — | — |  |
-| **StreamableContent** | #60 | `streamable-content` | — | — |  |
-| **Skeleton** | **none** | — | `Skeleton` | `Skeleton` | Not in any wave issue. Add to Feedback. |
-| **EmptyState** | **none** | — | `EmptyState` | `EmptyState` | Not in any wave issue, though the component-usage rules already recommend it to Livewire users. Add to Feedback. |
-| **ErrorState** | **none** | — | `ErrorDisplay` | `ErrorDisplay` | ErrorDisplay → ErrorState, pairing with EmptyState. Not in any wave issue. Add to Feedback. |
+| **Alert** | #60 | `alert` | `Alert` | `Alert` | Dismisses itself (D-034): React and Vue `visible` and `onDismiss` become the built-in dismissal and `open-change`. |
+| **Loading** | #60 | `loading` | `Loading` | `Loading` | One root with `role="status"`, `variant` `spinner` · `dots` (D-034). |
+| **Progress** | #60 | `progress` | `Progress` | `Progress` | `segmented` and `valueText` are new; React `showValue` is dropped (D-034). |
+| **ProgressRadial** | #60 | `progress-radial` | — | — | New to React and Vue. |
+| **StreamableContent** | #60 | `streamable-content` | — | — | Built as the D-003 exception (D-037); 2.x `tag`, `prose`, `placeholder` and `showCursor` are removed. |
+| **Skeleton** | #60 | — | `Skeleton` | `Skeleton` | New to Livewire as `skeleton`. React `circle` becomes `shape="circle"`. |
+| **EmptyState** | #60 | — | `EmptyState` | `EmptyState` | New to Livewire as `empty-state` (D-036). React and Vue `heading`/`headingAs` become `title`/`headingLevel`. |
+| **ErrorState** | #60 | — | `ErrorDisplay` | `ErrorDisplay` | ErrorDisplay → ErrorState, pairing with EmptyState. New to Livewire as `error-state` (D-036). `ErrorDisplay` stays as a deprecated alias in React and Vue. |
 
 ## Data Display
 
 | Canonical | Issue | Livewire | React | Vue | Notes |
 |---|---|---|---|---|---|
-| **Avatar** | #61 | `avatar` | `Avatar` | `Avatar` |  |
-| **Badge** | #61 | `badge` | `Badge` | `Badge` |  |
-| **Stat** | #61 | `stat` | `Stat` `StatGroup` | `Stat` | StatGroup exists in React only. |
-| **KpiCard** | #61 | `kpi-card` | — | — |  |
-| **Sparkline** | #61 | `sparkline` | `Sparkline` | `Sparkline` |  |
-| **Timeline** | #61 | `timeline-item` | `Timeline` | `Timeline` | Livewire has only the item, composed by hand; React and Vue are data-driven (`items`). |
-| **Diff** | #61 | `diff` | `Diff` | `Diff` |  |
-| **ImageGallery** | #61 | `image-gallery` | — | — |  |
-| **ImageSlider** | #61 | `image-slider` | — | — |  |
-| **ImageLibrary** | #61 | `image-library` | — | — |  |
-| **Table** | #62 | `table` | `Table` | `Table` |  |
+| **Avatar** | #61 | `avatar` | `Avatar` | `Avatar` | Initials take a stable color from the name (D-044); groups are `avatar-group` / `AvatarGroup`, new in every stack. |
+| **Badge** | #61 | `badge` | `Badge` | `Badge` | Soft badges get their high-contrast edge from `--apui-border-soft-edge-width` (D-035). |
+| **Stat** | #61 | `stat` | `Stat` | `Stat` | React-only `StatGroup` is dropped and mapped to Grid: a row of stats is a Grid (D-039). |
+| **KpiCard** | #61 | `kpi-card` | — | — | New to React and Vue. |
+| **Sparkline** | #61 | `sparkline` | `Sparkline` | `Sparkline` | Server-rendered SVG from shared geometry (D-038); `type` becomes `variant`. |
+| **Timeline** | #61 | `timeline-item` | `Timeline` | `Timeline` | Livewire has only the item, composed by hand; React and Vue are data-driven (`items`). 3.0 adds a Livewire `timeline` parent and `TimelineItem` in React and Vue; composition is the base (D-040). |
+| **Diff** | #61 | `diff` | `Diff` | `Diff` | Shared diff helpers, no diff library (D-038). `old`/`new` and Vue `before`/`after` become `oldContent`/`newContent`. |
+| **ImageGallery** | #61 | `image-gallery` | — | — | Built-in lightbox on the dialog machine (D-041); new to React and Vue. |
+| **ImageSlider** | #61 | `image-slider` | — | — | New to React and Vue. |
+| **ImageLibrary** | #61 | `image-library` | — | — | Keeps the `WithMediaSync` contract; client logic is `apuiImageLibrary` (D-037). |
+| **Table** | #62 | `table` | `Table` | `Table` | One `table` scope; the root is a `div` around the `<table>`, so classes and attributes move off the table element (D-042). |
 | **Chart** | #63 | `chart` | `Chart` | `Chart` |  |
 | **Calendar** | #64 | `calendar` `event-modal-content` | `Calendar` | `Calendar` | Livewire's is a full Livewire component; event-modal-content is its internal child, not public API. |
 
@@ -155,11 +155,12 @@ The other Livewire-only components need React and Vue ports, unless a consolidat
 | **DateTime** | Consolidated into DatePicker `time` mode (D-021); Livewire `datetime` is a deprecated alias. |
 | **RadioGroup** | `radio` and `radio-group` overlap almost entirely (only `inline` vs `horizontal` differ). `group` is the same options API rendered as a joined button group, which becomes a `variant`. |
 | **Menu** | Menu* are one family, with composition as the base; see vocabulary.md, 'Data-driven vs compositional'. |
-| **Heading** | Subheading → Heading with a `level` or `size`. |
-| **UserMenu** | Candidate to become an Avatar + DropdownMenu recipe in the docs rather than a component. |
-| **ProgressRadial** | Candidate for Progress with `variant="radial"`. |
-| **KpiCard** | Overlaps Stat (`change`, `sparklineData`). Candidate for a Stat `surface`/layout option. |
-| **ImageSlider** | Overlaps Carousel. Candidate for a Carousel image mode. |
+| **Grid** | WidgetGrid and React's StatGroup → Grid, one token-driven primitive in every stack (D-032, D-039). Livewire `widget-grid` is a deprecated alias of `grid`. |
+| **Text** | Livewire `subheading` → Text `size="lead"` (D-043); it was a paragraph, not a heading. `subheading` is a deprecated alias. |
+| **UserMenu** | Resolved as a component that composes DropdownMenu and Avatar (D-044), not a docs recipe. Livewire `profile` is a deprecated alias. |
+| **ProgressRadial** | Kept as its own component, not a Progress variant (D-034). |
+| **KpiCard** | Kept as its own component built from Stat, with one `stat` object (D-039). |
+| **ImageSlider** | Kept as its own component on the carousel widget that Carousel (#65) reuses (D-041). |
 
 ## Components missing from the wave issues
 
@@ -167,8 +168,4 @@ These exist in React and Vue but are not listed in any wave issue, which only na
 
 | Component | Proposed wave |
 |---|---|
-| **Stack** | Layout |
-| **Skeleton** | Feedback |
-| **EmptyState** | Feedback |
-| **ErrorState** | Feedback |
 | **Clipboard** | Utility |

@@ -1,0 +1,139 @@
+{
+  "version": 1,
+  "component": "ErrorState",
+  "rootClass": "apui-error-state",
+  "stacks": [
+    "livewire",
+    "react",
+    "vue"
+  ],
+  "names": {
+    "livewire": "error-state",
+    "react": "ErrorState",
+    "vue": "ErrorState"
+  },
+  "cases": [
+    {
+      "id": "variant=request size=sm state=default",
+      "props": {
+        "title": "Couldn't load transactions",
+        "description": "The payments service didn't respond. Your data is safe; try again in a moment.",
+        "code": "Error 503 · req_8f2c91",
+        "variant": "request",
+        "size": "sm"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=request size=md state=default",
+      "props": {
+        "title": "Couldn't load transactions",
+        "description": "The payments service didn't respond. Your data is safe; try again in a moment.",
+        "code": "Error 503 · req_8f2c91",
+        "variant": "request",
+        "size": "md"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=offline size=sm state=default",
+      "props": {
+        "title": "Couldn't load transactions",
+        "description": "The payments service didn't respond. Your data is safe; try again in a moment.",
+        "code": "Error 503 · req_8f2c91",
+        "variant": "offline",
+        "size": "sm"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=offline size=md state=default",
+      "props": {
+        "title": "Couldn't load transactions",
+        "description": "The payments service didn't respond. Your data is safe; try again in a moment.",
+        "code": "Error 503 · req_8f2c91",
+        "variant": "offline",
+        "size": "md"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=not-found size=sm state=default",
+      "props": {
+        "title": "Couldn't load transactions",
+        "description": "The payments service didn't respond. Your data is safe; try again in a moment.",
+        "code": "Error 503 · req_8f2c91",
+        "variant": "not-found",
+        "size": "sm"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=not-found size=md state=default",
+      "props": {
+        "title": "Couldn't load transactions",
+        "description": "The payments service didn't respond. Your data is safe; try again in a moment.",
+        "code": "Error 503 · req_8f2c91",
+        "variant": "not-found",
+        "size": "md"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=forbidden size=sm state=default",
+      "props": {
+        "title": "Couldn't load transactions",
+        "description": "The payments service didn't respond. Your data is safe; try again in a moment.",
+        "code": "Error 503 · req_8f2c91",
+        "variant": "forbidden",
+        "size": "sm"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=forbidden size=md state=default",
+      "props": {
+        "title": "Couldn't load transactions",
+        "description": "The payments service didn't respond. Your data is safe; try again in a moment.",
+        "code": "Error 503 · req_8f2c91",
+        "variant": "forbidden",
+        "size": "md"
+      },
+      "state": "default",
+      "content": null
+    }
+  ],
+  "sheets": [
+    {
+      "id": "light",
+      "theme": "light",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "dark",
+      "theme": "dark",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "high-contrast",
+      "theme": "high-contrast",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "rtl",
+      "theme": "light",
+      "density": "default",
+      "dir": "rtl"
+    }
+  ]
+}

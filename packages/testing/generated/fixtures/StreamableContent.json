@@ -1,0 +1,48 @@
+{
+  "version": 1,
+  "component": "StreamableContent",
+  "rootClass": "apui-streamable-content",
+  "stacks": [
+    "livewire"
+  ],
+  "names": {
+    "livewire": "streamable-content"
+  },
+  "cases": [
+    {
+      "id": "state=default",
+      "props": {
+        "target": "summary",
+        "status": "Writing summary…"
+      },
+      "state": "default",
+      "content": "Revenue grew 10.9% month over month, led by Lakeview Lofts and Golden Hour Apartments."
+    }
+  ],
+  "sheets": [
+    {
+      "id": "light",
+      "theme": "light",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "dark",
+      "theme": "dark",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "high-contrast",
+      "theme": "high-contrast",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "rtl",
+      "theme": "light",
+      "density": "default",
+      "dir": "rtl"
+    }
+  ]
+}

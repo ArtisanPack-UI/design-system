@@ -1,0 +1,12 @@
+[
+  {
+    "id": "request",
+    "title": "Failed request",
+    "description": "Say what failed and what's safe, give a reference people can quote, and offer a way to recover. It's announced (role=alert) when it replaces content."
+  },
+  {
+    "id": "not-found",
+    "title": "Full-page errors",
+    "description": "not-found shows 404 in place of an icon. On a page that replaces the whole view, use a level-1 heading and focusTitle so focus lands on the title."
+  }
+]

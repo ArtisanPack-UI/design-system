@@ -1,0 +1,12 @@
+[
+  {
+    "id": "basic",
+    "title": "Basic",
+    "description": "A label, a value and its change. change is a percentage: it shows with one decimal and an arrow, and sets the trend from its sign."
+  },
+  {
+    "id": "row",
+    "title": "A row, one emphasized",
+    "description": "Lay stats out with Grid. color tints the icon tile; emphasis fills the one stat that matters. A delta that isn't a percentage takes delta and trend."
+  }
+]

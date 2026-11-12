@@ -1,0 +1,127 @@
+/*
+ * Collapse (#58) on Zag's collapsible machine, rescoped collapse. Root
+ * `.apui-collapse` with data-variant (section · read-more) and data-state.
+ * Parts: trigger (aria-expanded), icon (Zag's indicator), content (the
+ * spec's panel) and, in a read-more, fade. A closed section's content is
+ * hidden; a closed read-more's is clamped by the machine to
+ * --apui-collapse-clamp-height (64px), so its text stays readable to
+ * assistive technology. See design/components/Collapse.
+ */
+@layer apui.components {
+  .apui-collapse {
+    color: var(--apui-text-default);
+    font-family: var(--apui-font-family-sans);
+  }
+
+  [data-scope='collapse'][data-part='trigger'] {
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: var(--apui-radius-xs);
+    background: none;
+    color: var(--apui-color-primary-text);
+    font: inherit;
+    font-size: var(--apui-type-body-md-font-size);
+    font-weight: var(--apui-font-weight-medium);
+    line-height: var(--apui-type-body-md-line-height);
+    cursor: pointer;
+    outline: none;
+  }
+
+  [data-scope='collapse'][data-part='trigger']:hover:not([data-disabled]) {
+    text-decoration-line: underline;
+    text-underline-offset: 3px;
+  }
+
+  [data-scope='collapse'][data-part='trigger']:focus-visible {
+    outline: var(--apui-focus-ring-width) solid transparent;
+    box-shadow:
+      0 0 0 var(--apui-focus-ring-offset) var(--apui-focus-ring-offset-color),
+      0 0 0 calc(var(--apui-focus-ring-offset) + var(--apui-focus-ring-width))
+        var(--apui-focus-ring-color);
+  }
+
+  [data-scope='collapse'][data-part='trigger']:is(:disabled, [data-disabled]) {
+    color: var(--apui-text-disabled);
+    cursor: not-allowed;
+  }
+
+  [data-scope='collapse'][data-part='icon'] {
+    display: inline-flex;
+    flex: none;
+    transition: rotate var(--apui-motion-duration-fast) var(--apui-motion-ease-standard);
+  }
+
+  [data-scope='collapse'][data-part='icon'] > svg {
+    inline-size: var(--apui-icon-size-sm);
+    block-size: var(--apui-icon-size-sm);
+  }
+
+  [data-scope='collapse'][data-part='trigger'][aria-expanded='true']
+    [data-scope='collapse'][data-part='icon'] {
+    rotate: 180deg;
+  }
+
+  .apui-collapse[data-variant='section'] [data-scope='collapse'][data-part='content'] {
+    margin-block-start: 12px;
+  }
+
+  .apui-collapse[data-variant='read-more'] {
+    display: grid;
+    gap: 8px;
+    justify-items: start;
+  }
+
+  .apui-collapse[data-variant='read-more'] [data-scope='collapse'][data-part='content'] {
+    position: relative;
+    justify-self: stretch;
+    color: var(--apui-text-default);
+    font-size: var(--apui-type-body-md-font-size);
+    line-height: var(--apui-type-body-md-line-height);
+  }
+
+  [data-scope='collapse'][data-part='fade'] {
+    position: absolute;
+    inset-inline: 0;
+    inset-block-end: 0;
+    block-size: 32px;
+    background: linear-gradient(
+      to bottom,
+      transparent,
+      var(--apui-collapse-fade-to, var(--apui-surface-default))
+    );
+    pointer-events: none;
+  }
+
+  .apui-collapse[data-state='open'] [data-scope='collapse'][data-part='fade'] {
+    visibility: hidden;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-scope='collapse'][data-part='icon'] {
+      transition: none;
+    }
+  }
+
+  @media (forced-colors: active) {
+    [data-scope='collapse'][data-part='trigger'] {
+      color: LinkText;
+    }
+
+    [data-scope='collapse'][data-part='trigger']:focus-visible {
+      outline: var(--apui-focus-ring-width) solid Highlight;
+    }
+
+    [data-scope='collapse'][data-part='trigger']:is(:disabled, [data-disabled]) {
+      color: GrayText;
+    }
+
+    [data-scope='collapse'][data-part='fade'] {
+      visibility: hidden;
+    }
+  }
+}

@@ -1,0 +1,12 @@
+[
+  {
+    "id": "sizes-and-tones",
+    "title": "Size, tone and weight",
+    "description": "lead introduces a page; muted is for supporting text people can skip. Status tones always say the status in words."
+  },
+  {
+    "id": "truncate",
+    "title": "Truncate and clamp",
+    "description": "truncate cuts one line and keeps the full text in title; clamp cuts after a number of lines."
+  }
+]

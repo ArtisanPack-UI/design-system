@@ -1,0 +1,135 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "PageHeader",
+  "description": "The title block at the top of a page: breadcrumbs, then the title with its description and meta beside the actions, then tabs. Replaces Livewire's header.",
+  "status": "draft",
+  "issue": 58,
+  "rootClass": "apui-page-header",
+  "stacks": {
+    "livewire": {
+      "name": "page-header",
+      "capabilities": [
+        "Slots: breadcrumbs, meta, actions and tabs; title and description also take slots"
+      ]
+    },
+    "react": { "name": "PageHeader" },
+    "vue": {
+      "name": "PageHeader",
+      "capabilities": ["Slots: title, description, breadcrumbs, meta, actions and tabs"]
+    }
+  },
+  "props": [
+    { "name": "title", "type": "node", "description": "The page's title." },
+    {
+      "name": "description",
+      "type": "node",
+      "description": "Supporting text under the title, kept to the reading measure."
+    },
+    {
+      "name": "level",
+      "type": "number",
+      "default": 1,
+      "description": "The title's heading level. The page's h1 by default; lower it when the header heads a section.",
+      "a11y": "One h1 per page: the page header's title."
+    },
+    {
+      "name": "breadcrumbs",
+      "type": "node",
+      "description": "Breadcrumbs above the title, usually a Breadcrumbs."
+    },
+    {
+      "name": "meta",
+      "type": "node",
+      "description": "Status above the title, such as a badge and an edited time."
+    },
+    {
+      "name": "actions",
+      "type": "node",
+      "description": "Buttons at the inline end of the title row, the primary one last. Keep to three; overflow into a DropdownMenu."
+    },
+    {
+      "name": "tabs",
+      "type": "node",
+      "description": "Tabs under the title row, usually Tabs with variant underline."
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part, such as { title: '…', actions: '…' }."
+    }
+  ],
+  "parts": [
+    {
+      "name": "root",
+      "element": "div",
+      "description": "Stacks the breadcrumbs, the row and the tabs."
+    },
+    { "name": "breadcrumbs", "element": "div", "description": "Holds the breadcrumbs." },
+    {
+      "name": "row",
+      "element": "div",
+      "description": "The title block and the actions, side by side; the actions wrap under the title when there's no room."
+    },
+    { "name": "meta", "element": "div", "description": "Status above the title." },
+    {
+      "name": "title",
+      "element": "h1 | h2 | h3 | h4 | h5 | h6",
+      "description": "The title, at level (h1 by default), in the heading-xl type style."
+    },
+    {
+      "name": "description",
+      "element": "p",
+      "description": "Supporting text, muted, no wider than the reading measure."
+    },
+    {
+      "name": "actions",
+      "element": "div",
+      "description": "The buttons at the inline end of the row."
+    },
+    { "name": "tabs", "element": "div", "description": "Holds the tabs under the row." }
+  ],
+  "slots": [
+    { "name": "title", "description": "The title, when it needs markup." },
+    { "name": "description", "description": "The description, when it needs markup." },
+    { "name": "breadcrumbs", "description": "The breadcrumbs." },
+    { "name": "meta", "description": "Status above the title." },
+    { "name": "actions", "description": "The buttons." },
+    { "name": "tabs", "description": "The tabs." }
+  ],
+  "a11y": {
+    "element": "div",
+    "requirements": [
+      "The title is the page's h1 unless level says otherwise; keep one h1 per page.",
+      "The description is plain text after the heading, so it's read in order.",
+      "Actions keep the order they're read in: the primary action last, at the inline end.",
+      "The row wraps rather than overflowing at 320px (reflow)."
+    ],
+    "wcag": ["1.3.1", "1.3.2", "1.4.3", "1.4.10", "2.4.6"]
+  },
+  "tokens": [
+    "--apui-type-heading-xl-font-family",
+    "--apui-type-heading-xl-font-size",
+    "--apui-type-heading-xl-line-height",
+    "--apui-type-heading-xl-font-weight",
+    "--apui-type-heading-xl-letter-spacing",
+    "--apui-type-body-md-font-size",
+    "--apui-type-body-md-line-height",
+    "--apui-text-default",
+    "--apui-text-muted",
+    "--apui-measure",
+    "--apui-space-2",
+    "--apui-space-4"
+  ],
+  "fixture": {
+    "props": {
+      "title": "Dashboard",
+      "description": "Income, profit and transactions across all stores.",
+      "meta": "Edited 20 min ago",
+      "actions": "Share"
+    },
+    "parts": {
+      "breadcrumbs": "Apexify / Dashboard",
+      "tabs": "Overview"
+    }
+  }
+}

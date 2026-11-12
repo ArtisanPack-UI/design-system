@@ -48,6 +48,77 @@ import { onMounted, onUpdated } from 'vue';
 
 export type { TabsActivationMode, TabsIds, TabsOptions, TabsOrientation } from '../widgets/tabs';
 
+import type { Api as ZagAccordionApi } from '@zag-js/accordion';
+import type { Api as ZagCollapsibleApi } from '@zag-js/collapsible';
+import { accordion, type AccordionOptions, toAccordionProps } from '../widgets/accordion';
+import { collapse, type CollapseOptions, toCollapseProps } from '../widgets/collapse';
+
+export type { AccordionIds, AccordionOptions } from '../widgets/accordion';
+export type { CollapseIds, CollapseOptions, CollapseVariant } from '../widgets/collapse';
+
+/** The accordion's API with Vue props for each part. */
+export type AccordionApi = ZagAccordionApi<PropTypes>;
+
+/**
+ * Accordion: triggers in headings that open and close their panels, one at
+ * a time or several with `multiple`. Options are an object, a ref or a
+ * getter, so `value` can follow `v-model`. Items are
+ * `getItemProps({ value })`, triggers `getItemTriggerProps({ value, disabled })`
+ * (rendered as `trigger`), chevrons `getItemIndicatorProps` (`chevron`) and
+ * panels `getItemContentProps` (`content`).
+ */
+export function useAccordion(
+  options: MaybeRefOrGetter<AccordionOptions> = {},
+): ComputedRef<AccordionApi> {
+  const fallback = useId();
+  const measured = useDirection(() => {
+    const current = toValue(options);
+    return { id: current.id ?? fallback, ids: current.ids };
+  });
+  const props = computed(() => {
+    const current = toValue(options);
+    return toAccordionProps(
+      { ...current, dir: current.dir ?? measured.value },
+      current.id ?? fallback,
+    );
+  });
+  const service = useMachine(accordion.machine, props);
+  return computed(
+    () => accordion.connect(service, normalizeProps as never) as unknown as AccordionApi,
+  );
+}
+
+/** The collapse's API with Vue props for each part. */
+export type CollapseApi = ZagCollapsibleApi<PropTypes>;
+
+/**
+ * Collapse: a trigger that shows and hides one region, or clamps it with
+ * `variant: 'read-more'`. Options are an object, a ref or a getter, so
+ * `open` can follow `v-model:open`. Parts are `getRootProps`,
+ * `getTriggerProps`, `getIndicatorProps` (rendered as `icon`) and
+ * `getContentProps`.
+ */
+export function useCollapse(
+  options: MaybeRefOrGetter<CollapseOptions> = {},
+): ComputedRef<CollapseApi> {
+  const fallback = useId();
+  const measured = useDirection(() => {
+    const current = toValue(options);
+    return { id: current.id ?? fallback, ids: current.ids };
+  });
+  const props = computed(() => {
+    const current = toValue(options);
+    return toCollapseProps(
+      { ...current, dir: current.dir ?? measured.value },
+      current.id ?? fallback,
+    );
+  });
+  const service = useMachine(collapse.machine, props);
+  return computed(
+    () => collapse.connect(service, normalizeProps as never) as unknown as CollapseApi,
+  );
+}
+
 /** The tabs' API with Vue props for each part. */
 export type TabsApi = ZagTabsApi<PropTypes>;
 
@@ -409,3 +480,34 @@ export type {
   SpotlightEntry,
   SpotlightResultGroup,
 } from '../widgets/spotlight';
+export {
+  tooltipKeys,
+  useDrawer,
+  usePopover,
+  useTooltip,
+  type DrawerApi,
+  type DrawerOptions,
+  type DrawerSide,
+  type OverlayPlacement,
+  type PopoverApi,
+  type PopoverIds,
+  type PopoverOptions,
+  type TooltipApi,
+  type TooltipIds,
+  type TooltipOptions,
+} from './overlays';
+
+export { useCarousel, useLightbox, type CarouselApi, type LightboxApi } from './images';
+export {
+  CAROUSEL_LABELS,
+  formatCarouselLabel,
+  type CarouselLabels,
+  type CarouselOptions,
+} from '../widgets/carousel';
+export {
+  LIGHTBOX_LABELS,
+  lightboxCounter,
+  lightboxLabels,
+  type LightboxLabels,
+  type LightboxOptions,
+} from '../widgets/lightbox';

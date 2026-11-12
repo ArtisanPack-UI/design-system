@@ -1,0 +1,192 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "ErrorState",
+  "description": "Explains what failed, what's safe and how to recover, in place of content that couldn't load: an icon tile or a large status number, a title, a description, a reference code people can quote and recovery actions. Pairs with EmptyState; it isn't ValidationSummary, which lists form errors.",
+  "status": "draft",
+  "issue": 60,
+  "rootClass": "apui-error-state",
+  "stacks": {
+    "livewire": {
+      "name": "error-state"
+    },
+    "react": {
+      "name": "ErrorState",
+      "differences": [
+        "ErrorDisplay stays as a deprecated alias (title, message, icon, onRetry, retryLabel)."
+      ]
+    },
+    "vue": {
+      "name": "ErrorState",
+      "differences": [
+        "ErrorDisplay stays as a deprecated alias (title, message, icon, retry event, retryLabel)."
+      ]
+    }
+  },
+  "props": [
+    {
+      "name": "variant",
+      "type": "enum",
+      "values": ["request", "offline", "not-found", "forbidden"],
+      "default": "request",
+      "description": "What failed: a request, the connection, a missing page or missing access. Picks the tile's tint and default icon (server-crash, wifi-off, lock); not-found shows the numeral 404 instead. Emitted as data-variant."
+    },
+    {
+      "name": "size",
+      "type": "enum",
+      "values": ["sm", "md"],
+      "default": "md",
+      "description": "md for a page or card; sm for a panel. Emitted as data-size."
+    },
+    {
+      "name": "align",
+      "type": "enum",
+      "values": ["center", "start"],
+      "default": "center",
+      "description": "Centered, or aligned to the start in the reading direction. Emitted as data-align."
+    },
+    {
+      "name": "icon",
+      "type": "string",
+      "description": "An icon name from the registry. Defaults to the variant's. A slot or node overrides it; set explicitly, it shows beside a numeral too."
+    },
+    {
+      "name": "numeral",
+      "type": "string",
+      "description": "A large status number, such as 404 or 503, in place of the default icon. not-found defaults to 404."
+    },
+    {
+      "name": "title",
+      "type": "node",
+      "description": "What failed, as a heading. Don't blame the person."
+    },
+    {
+      "name": "description",
+      "type": "node",
+      "description": "What's safe and what to do. The default slot (children) fills it too."
+    },
+    {
+      "name": "code",
+      "type": "string",
+      "description": "A reference people can quote to support, such as Error 503 · req_8f2c91."
+    },
+    {
+      "name": "actions",
+      "type": "node",
+      "description": "Recovery buttons, such as Try again."
+    },
+    {
+      "name": "headingLevel",
+      "type": "number",
+      "default": 3,
+      "description": "The title's heading level, 2 to 6. Use 1 for a full-page error."
+    },
+    {
+      "name": "focusTitle",
+      "type": "boolean",
+      "default": false,
+      "description": "Moves focus to the title when it renders (tabindex=-1), for a full-page error that replaces the page."
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part, such as { title: '…', code: '…' }."
+    }
+  ],
+  "variants": ["request", "offline", "not-found", "forbidden"],
+  "sizes": ["sm", "md"],
+  "parts": [
+    {
+      "name": "root",
+      "element": "div",
+      "description": "The error state (role=alert), so an error that replaces content is announced."
+    },
+    {
+      "name": "icon",
+      "element": "span",
+      "description": "The icon tile, tinted by the variant, hidden from assistive technology."
+    },
+    {
+      "name": "numeral",
+      "element": "span",
+      "description": "The large status number."
+    },
+    {
+      "name": "title",
+      "element": "h1|h2|h3|h4|h5|h6",
+      "description": "The heading, at headingLevel."
+    },
+    {
+      "name": "description",
+      "element": "div",
+      "description": "What's safe and what to do."
+    },
+    {
+      "name": "code",
+      "element": "span",
+      "description": "The reference for support, in the mono font."
+    },
+    {
+      "name": "actions",
+      "element": "div",
+      "description": "The recovery buttons."
+    }
+  ],
+  "slots": [
+    {
+      "name": "icon",
+      "description": "Overrides the icon."
+    },
+    {
+      "name": "title",
+      "description": "Rich title content."
+    },
+    {
+      "name": "description",
+      "description": "Rich description. The default slot fills it too."
+    },
+    {
+      "name": "actions",
+      "description": "The recovery buttons."
+    }
+  ],
+  "events": [],
+  "a11y": {
+    "role": "alert",
+    "element": "div",
+    "keyboard": [
+      {
+        "keys": "Tab",
+        "action": "Moves through the recovery actions; with focusTitle, focus starts on the title."
+      }
+    ],
+    "requirements": [
+      "role=alert, so an error that replaces content is announced.",
+      "On a full-page error, focus moves to the title (focusTitle), which shows the focus ring.",
+      "The title is a heading at the right level; the icon is decorative (aria-hidden).",
+      "Say what failed and what's safe, include a reference code people can quote, and don't blame the person."
+    ],
+    "wcag": ["1.3.1", "1.4.3", "2.4.3", "2.4.6", "2.4.7", "4.1.3"]
+  },
+  "tokens": [
+    "--apui-color-error-soft",
+    "--apui-color-error-soft-foreground",
+    "--apui-color-warning-soft",
+    "--apui-surface-sunken",
+    "--apui-text-default",
+    "--apui-text-muted",
+    "--apui-font-family-mono",
+    "--apui-radius-lg"
+  ],
+  "fixture": {
+    "props": {
+      "title": "Couldn't load transactions",
+      "description": "The payments service didn't respond. Your data is safe; try again in a moment.",
+      "code": "Error 503 · req_8f2c91"
+    },
+    "parts": {
+      "icon": "circle-alert",
+      "numeral": "503",
+      "actions": "Try again"
+    }
+  }
+}

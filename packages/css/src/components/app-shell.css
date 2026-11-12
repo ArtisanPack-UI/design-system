@@ -1,0 +1,240 @@
+/*
+ * AppShell (#58). Root `.apui-app-shell` is the frame: a grid of the sidebar
+ * and the main column on the page surface, with data-collapsed and
+ * data-collapsible. Parts, scoped app-shell: skip-link, sidebar (the aside
+ * island) with brand and footer (holding collapse-trigger), main (the main
+ * landmark: the header, usually a Navbar island, then content). The
+ * navigation is a Menu in the sidebar; collapsed, its items show only their
+ * icons and keep their labels for screen readers. Logical properties put the
+ * sidebar at the inline end in RTL; on a narrow viewport the islands stack.
+ * See design/components/AppShell.
+ */
+@layer apui.components {
+  .apui-app-shell {
+    position: relative;
+    display: grid;
+    grid-template-columns: var(--apui-sidebar-width) minmax(0, 1fr);
+    gap: var(--apui-shell-gutter);
+    min-block-size: 100%;
+    padding: var(--apui-shell-gutter);
+    background: var(--apui-surface-page);
+    color: var(--apui-text-default);
+    font-family: var(--apui-font-family-sans);
+  }
+
+  .apui-app-shell[data-collapsed] {
+    grid-template-columns: var(--apui-sidebar-width-collapsed, 64px) minmax(0, 1fr);
+  }
+
+  /* Hidden until focused, then shown at the frame's inline start. */
+  [data-scope='app-shell'][data-part='skip-link'] {
+    position: absolute;
+    inset-block-start: var(--apui-shell-gutter);
+    inset-inline-start: var(--apui-shell-gutter);
+    z-index: var(--apui-z-sticky);
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  [data-scope='app-shell'][data-part='skip-link']:focus {
+    display: inline-flex;
+    align-items: center;
+    inline-size: auto;
+    block-size: var(--apui-control-height-sm);
+    padding-inline: 12px;
+    overflow: visible;
+    clip-path: none;
+    border-radius: var(--apui-radius-full);
+    background: var(--apui-surface-default);
+    color: var(--apui-text-default);
+    font-size: var(--apui-type-body-md-font-size);
+    font-weight: var(--apui-font-weight-medium);
+    text-decoration: none;
+    outline: var(--apui-focus-ring-width) solid transparent;
+    box-shadow:
+      0 0 0 var(--apui-focus-ring-offset) var(--apui-focus-ring-offset-color),
+      0 0 0 calc(var(--apui-focus-ring-offset) + var(--apui-focus-ring-width))
+        var(--apui-focus-ring-color);
+  }
+
+  [data-scope='app-shell'][data-part='sidebar'] {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-inline-size: 0;
+    padding: 12px;
+    border: var(--apui-border-width) solid var(--apui-border-muted);
+    border-radius: var(--apui-radius-lg);
+    background: var(--apui-surface-default);
+  }
+
+  [data-scope='app-shell'][data-part='brand'] {
+    display: flex;
+    flex: none;
+    align-items: center;
+    gap: 8px;
+    min-inline-size: 0;
+    padding-block: 4px 12px;
+    padding-inline: 8px;
+    overflow: hidden;
+    font-size: 15px;
+    font-weight: var(--apui-font-weight-semibold);
+    white-space: nowrap;
+  }
+
+  [data-scope='app-shell'][data-part='footer'] {
+    display: flex;
+    flex: none;
+    align-items: center;
+    gap: 10px;
+    min-inline-size: 0;
+    margin-block-start: auto;
+    padding: 8px;
+    padding-block-start: 12px;
+    border-block-start: var(--apui-border-width) solid var(--apui-border-muted);
+  }
+
+  [data-scope='app-shell'][data-part='collapse-trigger'] {
+    box-sizing: border-box;
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    inline-size: var(--apui-control-height-sm);
+    block-size: var(--apui-control-height-sm);
+    margin: 0;
+    margin-inline-start: auto;
+    padding: 0;
+    border: 0;
+    border-radius: var(--apui-radius-full);
+    background: none;
+    color: var(--apui-text-muted);
+    cursor: pointer;
+    outline: none;
+  }
+
+  [data-scope='app-shell'][data-part='collapse-trigger']:hover {
+    background: var(--apui-state-hover);
+    color: var(--apui-text-default);
+  }
+
+  [data-scope='app-shell'][data-part='collapse-trigger']:focus-visible {
+    outline: var(--apui-focus-ring-width) solid transparent;
+    box-shadow:
+      0 0 0 var(--apui-focus-ring-offset) var(--apui-focus-ring-offset-color),
+      0 0 0 calc(var(--apui-focus-ring-offset) + var(--apui-focus-ring-width))
+        var(--apui-focus-ring-color);
+  }
+
+  [data-scope='app-shell'][data-part='collapse-trigger'] > svg {
+    inline-size: var(--apui-icon-size-md);
+    block-size: var(--apui-icon-size-md);
+    transition: rotate var(--apui-motion-duration-fast) var(--apui-motion-ease-standard);
+  }
+
+  [dir='rtl'] [data-scope='app-shell'][data-part='collapse-trigger'] > svg {
+    scale: -1 1;
+  }
+
+  [data-scope='app-shell'][data-part='collapse-trigger'][aria-pressed='true'] > svg {
+    rotate: 180deg;
+  }
+
+  [data-scope='app-shell'][data-part='main'] {
+    display: grid;
+    gap: var(--apui-shell-gutter);
+    align-content: start;
+    min-inline-size: 0;
+    outline: none;
+  }
+
+  [data-scope='app-shell'][data-part='content'] {
+    display: grid;
+    gap: var(--apui-panel-gap);
+    align-content: start;
+    min-inline-size: 0;
+  }
+
+  /* Collapsed: the sidebar's Menu shows its icons; the labels stay in the accessibility tree. */
+  .apui-app-shell[data-collapsed] [data-scope='app-shell'][data-part='sidebar'] {
+    align-items: center;
+  }
+
+  .apui-app-shell[data-collapsed] [data-scope='app-shell'][data-part='brand'] {
+    justify-content: center;
+    inline-size: 100%;
+    padding-inline: 0;
+  }
+
+  .apui-app-shell[data-collapsed] [data-scope='app-shell'][data-part='footer'] {
+    flex-direction: column;
+    inline-size: 100%;
+    padding-inline: 0;
+    overflow: hidden;
+  }
+
+  .apui-app-shell[data-collapsed] [data-scope='app-shell'][data-part='collapse-trigger'] {
+    margin-inline-start: 0;
+  }
+
+  .apui-app-shell[data-collapsed] [data-scope='app-shell'][data-part='sidebar'] .apui-menu {
+    inline-size: 100%;
+  }
+
+  .apui-app-shell[data-collapsed]
+    [data-scope='app-shell'][data-part='sidebar']
+    [data-scope='menu'][data-part='item'] {
+    justify-content: center;
+    padding-inline: 0;
+  }
+
+  .apui-app-shell[data-collapsed]
+    [data-scope='app-shell'][data-part='sidebar']
+    :is(
+      [data-scope='menu'][data-part='item-text'],
+      [data-scope='menu'][data-part='badge'],
+      [data-scope='menu'][data-part='chevron'],
+      [data-scope='menu'][data-part='title']
+    ) {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  /* Narrow viewports: the islands stack, the sidebar above the main column. */
+  @media (width < 48rem) {
+    .apui-app-shell,
+    .apui-app-shell[data-collapsed] {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-scope='app-shell'][data-part='collapse-trigger'] > svg {
+      transition: none;
+    }
+  }
+
+  @media (forced-colors: active) {
+    [data-scope='app-shell'][data-part='sidebar'],
+    [data-scope='app-shell'][data-part='footer'] {
+      border-color: CanvasText;
+    }
+
+    :is(
+      [data-scope='app-shell'][data-part='skip-link'],
+      [data-scope='app-shell'][data-part='collapse-trigger']
+    ):focus-visible {
+      outline: var(--apui-focus-ring-width) solid Highlight;
+    }
+  }
+}

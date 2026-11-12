@@ -1,0 +1,244 @@
+/*
+ * Drawer (#58). Root `.apui-drawer` is the panel, the dialog machine's
+ * content part (D-019), with data-side, data-size and data-surface. Parts,
+ * scoped drawer: trigger, backdrop (the spec's scrim), positioner, header
+ * (title, description, close-trigger), body, footer, and the bottom sheet's
+ * handle. The side is logical (D-004): `end` is on the right in LTR and on
+ * the left in RTL. `bottom` is the spec's sheet. The machine sets hidden on
+ * the closed parts; the rules below keep it working where they set display.
+ * See design/components/Drawer.
+ */
+@layer apui.components {
+  [data-scope='drawer'][data-part='backdrop'] {
+    position: fixed;
+    inset: 0;
+    z-index: var(--apui-z-modal);
+    background: var(--apui-backdrop);
+  }
+
+  [data-scope='drawer'][data-part='positioner'] {
+    position: fixed;
+    inset: 0;
+    z-index: var(--apui-z-modal);
+    display: flex;
+    justify-content: flex-end;
+    pointer-events: none;
+  }
+
+  [data-scope='drawer'][data-part='positioner'][data-side='start'] {
+    justify-content: flex-start;
+  }
+
+  [data-scope='drawer'][data-part='positioner'][data-side='bottom'] {
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  :is([data-scope='drawer'][data-part='positioner'], .apui-drawer)[hidden],
+  [data-scope='drawer'][data-part='backdrop'][hidden] {
+    display: none;
+  }
+
+  .apui-drawer {
+    --apui-_drawer-enter: 100%;
+
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    box-sizing: border-box;
+    inline-size: min(var(--apui-drawer-width), 100%);
+    block-size: 100%;
+    max-block-size: 100dvh;
+    border-inline-start: var(--apui-border-width) solid var(--apui-border-muted);
+    border-start-start-radius: var(--apui-drawer-radius);
+    border-end-start-radius: var(--apui-drawer-radius);
+    background: var(--apui-surface-overlay);
+    box-shadow: var(--apui-elevation-overlay);
+    color: var(--apui-text-default);
+    font-family: var(--apui-font-family-sans);
+    font-size: var(--apui-type-body-md-font-size);
+    line-height: var(--apui-type-body-md-line-height);
+    outline: none;
+    pointer-events: auto;
+
+    /* Buttons inside ring against the panel, not the page. */
+    --apui-focus-ring-offset-color: var(--apui-surface-overlay);
+  }
+
+  .apui-drawer[data-size='sm'] {
+    inline-size: min(320px, 100%);
+  }
+
+  .apui-drawer[data-size='lg'] {
+    inline-size: min(560px, 100%);
+  }
+
+  .apui-drawer[data-side='start'] {
+    --apui-_drawer-enter: -100%;
+
+    border-inline-start: 0;
+    border-inline-end: var(--apui-border-width) solid var(--apui-border-muted);
+    border-radius: 0;
+    border-start-end-radius: var(--apui-drawer-radius);
+    border-end-end-radius: var(--apui-drawer-radius);
+  }
+
+  /* The slide follows the reading direction: end comes in from the right in LTR. */
+  .apui-drawer:dir(rtl) {
+    --apui-_drawer-enter: -100%;
+  }
+
+  .apui-drawer[data-side='start']:dir(rtl) {
+    --apui-_drawer-enter: 100%;
+  }
+
+  /* The bottom sheet: full width, rounded top corners, a handle. */
+  .apui-drawer[data-side='bottom'] {
+    inline-size: 100%;
+    block-size: auto;
+    max-block-size: min(85dvh, 100%);
+    border: var(--apui-border-width) solid var(--apui-border-muted);
+    border-block-end: 0;
+    border-radius: 0;
+    border-start-start-radius: var(--apui-drawer-radius);
+    border-start-end-radius: var(--apui-drawer-radius);
+    grid-template-rows: auto auto minmax(0, 1fr) auto;
+  }
+
+  [data-scope='drawer'][data-part='handle'] {
+    justify-self: center;
+    inline-size: 36px;
+    block-size: 4px;
+    margin-block-start: 8px;
+    border-radius: var(--apui-radius-full);
+    background: var(--apui-border-default);
+  }
+
+  .apui-drawer[data-state='open'] {
+    animation: apui-drawer-enter var(--apui-motion-duration-moderate) var(--apui-motion-ease-enter);
+  }
+
+  .apui-drawer[data-side='bottom'][data-state='open'] {
+    animation-name: apui-drawer-rise;
+  }
+
+  [data-scope='drawer'][data-part='backdrop'][data-state='open'] {
+    animation: apui-drawer-fade var(--apui-motion-duration-moderate) var(--apui-motion-ease-enter);
+  }
+
+  @keyframes apui-drawer-enter {
+    from {
+      transform: translateX(var(--apui-_drawer-enter));
+    }
+  }
+
+  @keyframes apui-drawer-rise {
+    from {
+      transform: translateY(100%);
+    }
+  }
+
+  @keyframes apui-drawer-fade {
+    from {
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .apui-drawer[data-state='open'],
+    [data-scope='drawer'][data-part='backdrop'][data-state='open'] {
+      animation: none;
+    }
+  }
+
+  /* Glass is a surface (D-006). */
+  .apui-drawer[data-surface='glass'] {
+    --apui-text-muted: var(--apui-text-muted-glass);
+    --apui-focus-ring-offset-color: transparent;
+
+    border-color: var(--apui-surface-glass-border);
+    background: var(--apui-surface-glass);
+    box-shadow: var(--apui-elevation-glass);
+    backdrop-filter: blur(var(--apui-surface-glass-blur))
+      saturate(var(--apui-surface-glass-saturation));
+  }
+
+  @supports not (backdrop-filter: blur(1px)) {
+    .apui-drawer[data-surface='glass'] {
+      border-color: var(--apui-border-muted);
+      background: var(--apui-surface-overlay);
+    }
+  }
+
+  @media (prefers-reduced-transparency: reduce) {
+    .apui-drawer[data-surface='glass'] {
+      border-color: var(--apui-border-muted);
+      background: var(--apui-surface-overlay);
+      backdrop-filter: none;
+    }
+  }
+
+  /* Header: title and description, the close button at the end. */
+  [data-scope='drawer'][data-part='header'] {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: 12px;
+    align-items: start;
+    padding-block: 20px 16px;
+    padding-inline: 24px 16px;
+    border-block-end: var(--apui-border-width) solid var(--apui-border-muted);
+  }
+
+  [data-scope='drawer'][data-part='title'] {
+    grid-column: 1;
+    margin: 0;
+    font-size: var(--apui-type-heading-md-font-size);
+    font-weight: var(--apui-font-weight-semibold);
+    line-height: var(--apui-type-heading-md-line-height);
+  }
+
+  [data-scope='drawer'][data-part='description'] {
+    grid-column: 1;
+    margin: 2px 0 0;
+    color: var(--apui-text-muted);
+    font-size: var(--apui-type-body-sm-font-size);
+    line-height: var(--apui-type-body-sm-line-height);
+  }
+
+  [data-scope='drawer'][data-part='close-trigger'] {
+    grid-row: 1;
+    grid-column: 2;
+    margin-block-start: -2px;
+  }
+
+  [data-scope='drawer'][data-part='body'] {
+    display: grid;
+    align-content: start;
+    gap: var(--apui-field-gap);
+    padding: 20px 24px;
+    overflow: auto;
+  }
+
+  [data-scope='drawer'][data-part='footer'] {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 8px;
+    padding: 16px 24px;
+    border-block-start: var(--apui-border-width) solid var(--apui-border-muted);
+  }
+
+  @media (forced-colors: active) {
+    .apui-drawer {
+      border-color: CanvasText;
+    }
+
+    .apui-drawer[data-surface='glass'] {
+      background: Canvas;
+      backdrop-filter: none;
+    }
+
+    [data-scope='drawer'][data-part='handle'] {
+      background: CanvasText;
+    }
+  }
+}

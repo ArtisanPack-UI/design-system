@@ -1,0 +1,125 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "Loading",
+  "description": "Shows that work is in progress: a spinner or three dots, inline with a label or as an overlay over the region that is loading. It waits a moment before showing, so fast loads don't flash.",
+  "status": "draft",
+  "issue": 60,
+  "rootClass": "apui-loading",
+  "stacks": {
+    "livewire": {
+      "name": "loading"
+    },
+    "react": {
+      "name": "Loading"
+    },
+    "vue": {
+      "name": "Loading"
+    }
+  },
+  "props": [
+    {
+      "name": "variant",
+      "type": "enum",
+      "values": ["spinner", "dots"],
+      "default": "spinner",
+      "description": "The indicator: a spinning ring or three pulsing dots. Emitted as data-variant."
+    },
+    {
+      "name": "size",
+      "type": "enum",
+      "values": ["xs", "sm", "md", "lg", "xl"],
+      "default": "md",
+      "description": "The indicator's size. Emitted as data-size."
+    },
+    {
+      "name": "color",
+      "type": "enum",
+      "values": [
+        "primary",
+        "secondary",
+        "accent",
+        "neutral",
+        "success",
+        "warning",
+        "error",
+        "info"
+      ],
+      "default": "primary",
+      "description": "Tints the indicator. Emitted as data-color."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "default": "Loading",
+      "description": "What's loading, for screen readers: rendered visually hidden when there's no visible text. The default slot (children) shows visible text instead. Translate it: Livewire defaults it through __( 'Loading' ).",
+      "a11y": "The status region's text, so it's announced."
+    },
+    {
+      "name": "overlay",
+      "type": "boolean",
+      "default": false,
+      "description": "Covers the nearest positioned ancestor on the glass surface, centered. Emitted as data-overlay. Set aria-busy on the region it covers."
+    },
+    {
+      "name": "delay",
+      "type": "number",
+      "default": 300,
+      "description": "Milliseconds to wait before showing, so fast loads don't flash. Written inline as --apui-_delay; the root stays in the markup (and the live region in place) meanwhile."
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part, such as { indicator: '…', label: '…' }."
+    }
+  ],
+  "variants": ["spinner", "dots"],
+  "sizes": ["xs", "sm", "md", "lg", "xl"],
+  "colors": ["primary", "secondary", "accent", "neutral", "success", "warning", "error", "info"],
+  "parts": [
+    {
+      "name": "root",
+      "element": "span",
+      "description": "The status region (role=status)."
+    },
+    {
+      "name": "indicator",
+      "element": "span",
+      "description": "The spinner ring, or the dots (three spans). Hidden from assistive technology."
+    },
+    {
+      "name": "label",
+      "element": "span",
+      "description": "Visible text from the default slot, or the label, visually hidden."
+    }
+  ],
+  "slots": [
+    {
+      "name": "label",
+      "description": "Visible text beside the indicator, such as Saving changes…; the default slot."
+    }
+  ],
+  "events": [],
+  "a11y": {
+    "role": "status",
+    "element": "span",
+    "requirements": [
+      "role=status with a text label (visible, or visually hidden \"Loading\", translatable); the indicator is aria-hidden.",
+      "An overlay leaves aria-busy=true to the region it covers.",
+      "The spinner slows and the dots stop under reduced motion.",
+      "The indicator keeps 3:1 against its surface in forced colors."
+    ],
+    "wcag": ["1.3.1", "2.2.2", "4.1.3"]
+  },
+  "tokens": [
+    "--apui-color-primary",
+    "--apui-surface-sunken",
+    "--apui-surface-glass",
+    "--apui-text-muted"
+  ],
+  "fixture": {
+    "props": {
+      "delay": 0
+    },
+    "states": []
+  }
+}

@@ -1,0 +1,316 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "UserMenu",
+  "description": "The account menu: an avatar button that opens a DropdownMenu with the person's identity, a workspace switcher, a theme control, your items and Log out, which always comes last. Composed from Avatar and DropdownMenu, on the same menu machine.",
+  "status": "draft",
+  "issue": 58,
+  "rootClass": "apui-user-menu",
+  "stacks": {
+    "livewire": {
+      "name": "user-menu",
+      "capabilities": [
+        "Children: dropdown-menu-item, dropdown-menu-group and dropdown-menu-separator, after items",
+        "profile stays as a deprecated alias",
+        "logoutAction posts the log out item to a URL with the CSRF token"
+      ]
+    },
+    "react": {
+      "name": "UserMenu",
+      "capabilities": [
+        "Children: DropdownMenuItem, DropdownMenuGroup and DropdownMenuSeparator, after items"
+      ]
+    },
+    "vue": {
+      "name": "UserMenu",
+      "capabilities": [
+        "Children: DropdownMenuItem, DropdownMenuGroup and DropdownMenuSeparator, after items"
+      ]
+    }
+  },
+  "props": [
+    {
+      "name": "user",
+      "type": "object",
+      "required": true,
+      "description": "Who is signed in: { name, email, avatar, role, status }. avatar is an image URL; role is the line under the name in the trigger, such as \"Admin · Apexify\"; status is online, away or offline."
+    },
+    {
+      "name": "workspaces",
+      "type": "array",
+      "description": "Workspaces to switch between: { id, name }. Two or more render a Workspace group of radio items."
+    },
+    {
+      "name": "workspace",
+      "type": "string",
+      "description": "The current workspace's id, checked in the group."
+    },
+    {
+      "name": "hideTheme",
+      "type": "boolean",
+      "default": false,
+      "description": "Hides the theme control (light, dark and system radio items), for apps with one theme."
+    },
+    {
+      "name": "theme",
+      "type": "enum",
+      "values": ["light", "dark", "system"],
+      "default": "system",
+      "description": "The checked theme. Setting the theme on the page stays yours, on theme-change."
+    },
+    {
+      "name": "items",
+      "type": "array",
+      "description": "Menu items between the theme control and Log out, as DropdownMenu items data: { value, label, icon, shortcut, disabled }, separators and groups."
+    },
+    {
+      "name": "compact",
+      "type": "boolean",
+      "default": false,
+      "description": "Shows only the avatar in the trigger, for a top bar. The trigger keeps the name as its accessible name."
+    },
+    {
+      "name": "open",
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the menu is open. Emitted as data-state on its parts."
+    },
+    {
+      "name": "defaultOpen",
+      "type": "boolean",
+      "default": false,
+      "description": "The initial state of an uncontrolled menu.",
+      "stacks": ["react"]
+    },
+    {
+      "name": "align",
+      "type": "enum",
+      "values": ["start", "center", "end"],
+      "default": "start",
+      "description": "Which of the menu's edges lines up with the trigger's. Logical: follows the text direction."
+    },
+    {
+      "name": "surface",
+      "type": "enum",
+      "values": ["overlay", "glass"],
+      "default": "overlay",
+      "description": "The menu's surface. Emitted as data-surface."
+    },
+    {
+      "name": "portal",
+      "type": "boolean",
+      "default": true,
+      "description": "Renders the menu at the end of the body. Off renders it in place."
+    },
+    {
+      "name": "workspaceLabel",
+      "type": "string",
+      "default": "Workspace",
+      "description": "The workspace group's label. Translate it: Livewire defaults it through __( 'Workspace' )."
+    },
+    {
+      "name": "themeLabel",
+      "type": "string",
+      "default": "Theme",
+      "description": "The theme group's label. Translate it: Livewire defaults it through __( 'Theme' )."
+    },
+    {
+      "name": "themeLabels",
+      "type": "object",
+      "default": {
+        "light": "Light",
+        "dark": "Dark",
+        "system": "System"
+      },
+      "description": "The theme options' names, read by screen readers: { light, dark, system }. Translate them: Livewire defaults them through __()."
+    },
+    {
+      "name": "logoutLabel",
+      "type": "string",
+      "default": "Log out",
+      "description": "The last item's label. Translate it: Livewire defaults it through __( 'Log out' )."
+    },
+    {
+      "name": "logoutAction",
+      "type": "string",
+      "description": "A URL the Log out item posts to, with the CSRF token, such as route( 'logout' ). Without it, Log out reports select with the value logout.",
+      "stacks": ["livewire"]
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part, the menu's included, such as { trigger: '…', item: '…' }."
+    }
+  ],
+  "parts": [
+    {
+      "name": "root",
+      "element": "div",
+      "description": "The menu panel: .apui-dropdown-menu.apui-user-menu, the machine's content part."
+    },
+    {
+      "name": "trigger",
+      "element": "button",
+      "description": "The avatar button that opens the menu."
+    },
+    {
+      "name": "avatar",
+      "element": "span",
+      "description": "The Avatar, in the trigger and in the header."
+    },
+    {
+      "name": "identity",
+      "element": "span",
+      "description": "The name and the role or email, beside an avatar."
+    },
+    {
+      "name": "name",
+      "element": "span",
+      "description": "The person's name."
+    },
+    {
+      "name": "role",
+      "element": "span",
+      "description": "The line under the name in the trigger."
+    },
+    {
+      "name": "indicator",
+      "element": "span",
+      "description": "The up-down chevron at the end of the trigger."
+    },
+    {
+      "name": "header",
+      "element": "div",
+      "description": "The identity at the top of the menu: avatar, name and email."
+    },
+    {
+      "name": "email",
+      "element": "span",
+      "description": "The email in the header."
+    },
+    {
+      "name": "theme",
+      "element": "div",
+      "description": "The theme control's group."
+    },
+    {
+      "name": "themeOptions",
+      "element": "div",
+      "description": "The light, dark and system radio items, as a segmented row."
+    }
+  ],
+  "slots": [
+    {
+      "name": "trigger",
+      "description": "Replaces the trigger's content (avatar, name and role)."
+    }
+  ],
+  "events": [
+    {
+      "name": "open-change",
+      "description": "The menu opened or closed itself.",
+      "payload": "boolean"
+    },
+    {
+      "name": "select",
+      "description": "An item was chosen, by click or Enter. The payload is its value; Log out reports logout.",
+      "payload": "string"
+    },
+    {
+      "name": "workspace-change",
+      "description": "A workspace was chosen. The payload is its id; checking it stays yours, through workspace.",
+      "payload": "string"
+    },
+    {
+      "name": "theme-change",
+      "description": "A theme was chosen. The payload is light, dark or system; applying it stays yours.",
+      "payload": "'light' | 'dark' | 'system'"
+    }
+  ],
+  "a11y": {
+    "role": "menu",
+    "element": "div",
+    "keyboard": [
+      {
+        "keys": "Enter, Space, ArrowDown",
+        "action": "On the trigger, opens the menu on the first item."
+      },
+      {
+        "keys": "ArrowDown, ArrowUp",
+        "action": "Move through the items, the workspace and theme options included."
+      },
+      {
+        "keys": "Enter, Space",
+        "action": "Chooses the item; a workspace or theme option is checked."
+      },
+      {
+        "keys": "Escape",
+        "action": "Closes the menu and returns focus to the trigger."
+      }
+    ],
+    "requirements": [
+      "The trigger is a button with aria-haspopup=menu, aria-expanded and the person's name as its accessible name, also when compact.",
+      "Workspace and theme options are menuitemradio in labelled groups, with aria-checked.",
+      "The theme options show icons; their names stay in the accessibility tree.",
+      "Log out is always the last item, after a separator.",
+      "The avatars inside are decorative: the trigger and the header already say the name.",
+      "Everything DropdownMenu requires: focus moves in on open and back to the trigger on close, stable ids in Livewire."
+    ],
+    "wcag": ["1.3.1", "1.4.1", "1.4.3", "2.1.1", "2.4.3", "2.4.7", "4.1.2"]
+  },
+  "tokens": [
+    "--apui-button-radius",
+    "--apui-state-hover",
+    "--apui-text-default",
+    "--apui-text-muted",
+    "--apui-tabs-radius",
+    "--apui-surface-sunken",
+    "--apui-surface-raised",
+    "--apui-border-muted",
+    "--apui-focus-ring-color",
+    "--apui-focus-ring-offset-color"
+  ],
+  "fixture": {
+    "props": {
+      "open": true,
+      "portal": false,
+      "user": {
+        "name": "Olivia Rhye",
+        "email": "olivia@company.com",
+        "role": "Admin · Apexify",
+        "status": "online"
+      },
+      "workspaces": [
+        {
+          "id": "apexify",
+          "name": "Apexify"
+        },
+        {
+          "id": "horizon",
+          "name": "Horizon Homes"
+        }
+      ],
+      "workspace": "apexify",
+      "theme": "dark",
+      "items": [
+        {
+          "value": "profile",
+          "label": "Profile",
+          "icon": "user"
+        },
+        {
+          "value": "settings",
+          "label": "Settings",
+          "icon": "settings"
+        }
+      ]
+    },
+    "states": [],
+    "parts": {
+      "themeLabels": {
+        "light": "Day",
+        "dark": "Night",
+        "system": "Auto"
+      }
+    }
+  }
+}

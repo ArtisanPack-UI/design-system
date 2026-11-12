@@ -1,0 +1,51 @@
+{
+  "version": 1,
+  "component": "Grid",
+  "rootClass": "apui-grid",
+  "stacks": [
+    "livewire",
+    "react",
+    "vue"
+  ],
+  "names": {
+    "livewire": "grid",
+    "react": "Grid",
+    "vue": "Grid"
+  },
+  "cases": [
+    {
+      "id": "state=default",
+      "props": {
+        "columns": 3
+      },
+      "state": "default",
+      "content": "Grid item"
+    }
+  ],
+  "sheets": [
+    {
+      "id": "light",
+      "theme": "light",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "dark",
+      "theme": "dark",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "high-contrast",
+      "theme": "high-contrast",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "rtl",
+      "theme": "light",
+      "density": "default",
+      "dir": "rtl"
+    }
+  ]
+}

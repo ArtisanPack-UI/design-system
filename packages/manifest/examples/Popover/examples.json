@@ -1,0 +1,12 @@
+[
+  {
+    "id": "basic",
+    "title": "Below a trigger",
+    "description": "Text in trigger renders an outline Button. The panel is a labelled, non-modal dialog: focus moves in, Escape and an outside click close it."
+  },
+  {
+    "id": "info",
+    "title": "Above an info button",
+    "description": "An element in the trigger slot becomes the trigger itself, here an icon-only button with its own name."
+  }
+]

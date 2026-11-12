@@ -1,0 +1,197 @@
+/*
+ * Badge (#61). Root `.apui-badge`: a small, non-interactive label for a
+ * status, category or count. data-variant (solid, soft, outline, ghost),
+ * data-color and data-size (sm, md, lg). Parts: dot, icon, label. The text is
+ * always there; the dot and the icon are decorative. See design/components/Badge.
+ */
+@layer apui.components {
+  .apui-badge {
+    --apui-_h: 20px;
+    --apui-_px: 8px;
+    --apui-_fs: var(--apui-type-caption-font-size);
+    --apui-_ic: 12px;
+
+    /* The tone every variant reads; data-color reassigns it. Neutral by default. */
+    --apui-_solid: var(--apui-color-neutral);
+    --apui-_solid-border: transparent;
+    --apui-_on-solid: var(--apui-color-neutral-foreground);
+    --apui-_soft: var(--apui-color-neutral-soft);
+    --apui-_on-soft: var(--apui-color-neutral-soft-foreground);
+    --apui-_tone-border: var(--apui-color-neutral-border);
+    --apui-_tone-text: var(--apui-color-neutral-text);
+
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    box-sizing: border-box;
+    block-size: var(--apui-_h);
+    max-inline-size: 100%;
+    padding-inline: var(--apui-_px);
+    border: var(--apui-border-width) solid transparent;
+    border-radius: var(--apui-badge-radius);
+    background-color: var(--apui-_soft);
+    color: var(--apui-_on-soft);
+    font-family: var(--apui-font-family-sans);
+    font-size: var(--apui-_fs);
+    font-weight: var(--apui-font-weight-medium);
+    line-height: 16px;
+    vertical-align: middle;
+    white-space: nowrap;
+  }
+
+  /* Sizes */
+  .apui-badge[data-size='sm'] {
+    --apui-_h: 18px;
+    --apui-_px: 6px;
+    --apui-_fs: 11px;
+  }
+
+  .apui-badge[data-size='lg'] {
+    --apui-_h: 24px;
+    --apui-_px: 10px;
+    --apui-_fs: var(--apui-type-body-sm-font-size);
+    --apui-_ic: 14px;
+  }
+
+  /* Colors: reassign the tone. */
+  .apui-badge[data-color='primary'] {
+    --apui-_solid: var(--apui-color-primary);
+    --apui-_on-solid: var(--apui-color-primary-foreground);
+    --apui-_soft: var(--apui-color-primary-soft);
+    --apui-_on-soft: var(--apui-color-primary-soft-foreground);
+    --apui-_tone-border: var(--apui-color-primary-border);
+    --apui-_tone-text: var(--apui-color-primary-text);
+  }
+
+  .apui-badge[data-color='secondary'] {
+    --apui-_solid: var(--apui-color-secondary);
+    --apui-_on-solid: var(--apui-color-secondary-foreground);
+    --apui-_soft: var(--apui-color-secondary-soft);
+    --apui-_on-soft: var(--apui-color-secondary-soft-foreground);
+    --apui-_tone-border: var(--apui-color-secondary-border);
+    --apui-_tone-text: var(--apui-color-secondary-text);
+  }
+
+  /* Accent and warning fills are light, so solid badges keep an edge. */
+  .apui-badge[data-color='accent'] {
+    --apui-_solid: var(--apui-color-accent);
+    --apui-_solid-border: var(--apui-color-accent-border);
+    --apui-_on-solid: var(--apui-color-accent-foreground);
+    --apui-_soft: var(--apui-color-accent-soft);
+    --apui-_on-soft: var(--apui-color-accent-soft-foreground);
+    --apui-_tone-border: var(--apui-color-accent-border);
+    --apui-_tone-text: var(--apui-color-accent-text);
+  }
+
+  .apui-badge[data-color='success'] {
+    --apui-_solid: var(--apui-color-success);
+    --apui-_on-solid: var(--apui-color-success-foreground);
+    --apui-_soft: var(--apui-color-success-soft);
+    --apui-_on-soft: var(--apui-color-success-soft-foreground);
+    --apui-_tone-border: var(--apui-color-success-border);
+    --apui-_tone-text: var(--apui-color-success-text);
+  }
+
+  .apui-badge[data-color='warning'] {
+    --apui-_solid: var(--apui-color-warning);
+    --apui-_solid-border: var(--apui-color-warning-border);
+    --apui-_on-solid: var(--apui-color-warning-foreground);
+    --apui-_soft: var(--apui-color-warning-soft);
+    --apui-_on-soft: var(--apui-color-warning-soft-foreground);
+    --apui-_tone-border: var(--apui-color-warning-border);
+    --apui-_tone-text: var(--apui-color-warning-text);
+  }
+
+  .apui-badge[data-color='error'] {
+    --apui-_solid: var(--apui-color-error);
+    --apui-_on-solid: var(--apui-color-error-foreground);
+    --apui-_soft: var(--apui-color-error-soft);
+    --apui-_on-soft: var(--apui-color-error-soft-foreground);
+    --apui-_tone-border: var(--apui-color-error-border);
+    --apui-_tone-text: var(--apui-color-error-text);
+  }
+
+  .apui-badge[data-color='info'] {
+    --apui-_solid: var(--apui-color-info);
+    --apui-_on-solid: var(--apui-color-info-foreground);
+    --apui-_soft: var(--apui-color-info-soft);
+    --apui-_on-soft: var(--apui-color-info-soft-foreground);
+    --apui-_tone-border: var(--apui-color-info-border);
+    --apui-_tone-text: var(--apui-color-info-text);
+  }
+
+  /* Variants. soft is the default. */
+  .apui-badge[data-variant='solid'] {
+    border-color: var(--apui-_solid-border);
+    background-color: var(--apui-_solid);
+    color: var(--apui-_on-solid);
+  }
+
+  .apui-badge[data-variant='outline'] {
+    border-color: var(--apui-_tone-border);
+    background-color: transparent;
+    color: var(--apui-_tone-text);
+  }
+
+  .apui-badge[data-variant='ghost'] {
+    padding-inline: 0;
+    background-color: transparent;
+    color: var(--apui-text-default);
+  }
+
+  /*
+   * Soft badges get an edge from --apui-border-soft-edge-width: 0 in light and
+   * dark (the spec draws none), 1px in high contrast, where the fill alone sits
+   * too close to the page. The outline lies over the transparent border.
+   */
+  .apui-badge:not([data-variant='solid'], [data-variant='outline'], [data-variant='ghost']) {
+    outline: var(--apui-border-soft-edge-width) solid var(--apui-_tone-border);
+    outline-offset: calc(-1 * var(--apui-border-width));
+  }
+
+  /* Parts */
+  [data-scope='badge'][data-part='dot'] {
+    flex: none;
+    inline-size: 6px;
+    block-size: 6px;
+    border-radius: var(--apui-radius-full);
+    background-color: currentcolor;
+  }
+
+  .apui-badge[data-variant='ghost'] [data-scope='badge'][data-part='dot'] {
+    background-color: var(--apui-_solid);
+  }
+
+  [data-scope='badge'][data-part='icon'] {
+    display: inline-flex;
+    flex: none;
+    inline-size: var(--apui-_ic);
+    block-size: var(--apui-_ic);
+  }
+
+  [data-scope='badge'][data-part='icon'] > svg {
+    inline-size: 100%;
+    block-size: 100%;
+  }
+
+  [dir='rtl'] [data-scope='badge'][data-part='icon'][data-mirror] > svg {
+    scale: -1 1;
+  }
+
+  [data-scope='badge'][data-part='label'] {
+    min-inline-size: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  @media (forced-colors: active) {
+    .apui-badge {
+      border-color: CanvasText;
+    }
+
+    [data-scope='badge'][data-part='dot'],
+    .apui-badge[data-variant='ghost'] [data-scope='badge'][data-part='dot'] {
+      background-color: CanvasText;
+    }
+  }
+}

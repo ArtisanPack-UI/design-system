@@ -1,0 +1,122 @@
+{
+  "version": 1,
+  "component": "UserMenu",
+  "rootClass": "apui-user-menu",
+  "stacks": [
+    "livewire",
+    "react",
+    "vue"
+  ],
+  "names": {
+    "livewire": "user-menu",
+    "react": "UserMenu",
+    "vue": "UserMenu"
+  },
+  "cases": [
+    {
+      "id": "state=default",
+      "props": {
+        "open": true,
+        "portal": false,
+        "user": {
+          "name": "Olivia Rhye",
+          "email": "olivia@company.com",
+          "role": "Admin · Apexify",
+          "status": "online"
+        },
+        "workspaces": [
+          {
+            "id": "apexify",
+            "name": "Apexify"
+          },
+          {
+            "id": "horizon",
+            "name": "Horizon Homes"
+          }
+        ],
+        "workspace": "apexify",
+        "theme": "dark",
+        "items": [
+          {
+            "value": "profile",
+            "label": "Profile",
+            "icon": "user"
+          },
+          {
+            "value": "settings",
+            "label": "Settings",
+            "icon": "settings"
+          }
+        ]
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "surface=glass state=default",
+      "props": {
+        "open": true,
+        "portal": false,
+        "user": {
+          "name": "Olivia Rhye",
+          "email": "olivia@company.com",
+          "role": "Admin · Apexify",
+          "status": "online"
+        },
+        "workspaces": [
+          {
+            "id": "apexify",
+            "name": "Apexify"
+          },
+          {
+            "id": "horizon",
+            "name": "Horizon Homes"
+          }
+        ],
+        "workspace": "apexify",
+        "theme": "dark",
+        "items": [
+          {
+            "value": "profile",
+            "label": "Profile",
+            "icon": "user"
+          },
+          {
+            "value": "settings",
+            "label": "Settings",
+            "icon": "settings"
+          }
+        ],
+        "surface": "glass"
+      },
+      "state": "default",
+      "content": null
+    }
+  ],
+  "sheets": [
+    {
+      "id": "light",
+      "theme": "light",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "dark",
+      "theme": "dark",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "high-contrast",
+      "theme": "high-contrast",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "rtl",
+      "theme": "light",
+      "density": "default",
+      "dir": "rtl"
+    }
+  ]
+}

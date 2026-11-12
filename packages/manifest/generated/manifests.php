@@ -7,6 +7,752 @@
  */
 
 return [
+	'Accordion'         => [
+		'name'        => 'Accordion',
+		'description' => 'Stacked sections that expand and collapse: each item is a heading holding a button that shows or hides its panel. One item open at a time, or several with multiple.',
+		'status'      => 'draft',
+		'issue'       => 58,
+		'rootClass'   => 'apui-accordion',
+		'stacks'      => [
+			'livewire' => [
+				'name'         => 'accordion',
+				'capabilities' => [ 'Children: accordion-item, each rendering its heading, trigger and panel; items renders the same children from data', 'wire:model binds the open items\' values' ],
+			],
+			'react'    => [
+				'name'         => 'Accordion',
+				'capabilities' => [ 'Children: AccordionItem, each rendering its heading, trigger and panel; items renders the same children from data' ],
+			],
+			'vue'      => [
+				'name'         => 'Accordion',
+				'capabilities' => [ 'Children: AccordionItem, each rendering its heading, trigger and panel; items renders the same children from data' ],
+			],
+		],
+		'props'       => [
+			[
+				'name'        => 'value',
+				'type'        => 'array',
+				'description' => 'The open items\' values. Livewire binds it with wire:model, Vue with v-model. Setting it doesn\'t fire value-change.',
+			],
+			[
+				'name'        => 'defaultValue',
+				'type'        => 'array',
+				'description' => 'The items open at first in an uncontrolled accordion. The spec\'s defaultOpen.',
+				'stacks'      => [ 'react' ],
+			],
+			[
+				'name'        => 'items',
+				'type'        => 'array',
+				'description' => 'The items as data, rendering the same children as composition: { value, title, content, disabled }.',
+			],
+			[
+				'name'        => 'multiple',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'Lets several items be open at once. Off, opening an item closes the others. The spec\'s type: single · multiple. Emitted as data-multiple.',
+			],
+			[
+				'name'        => 'collapsible',
+				'type'        => 'boolean',
+				'default'     => true,
+				'description' => 'Lets the open item of a single accordion close, leaving none open. Emitted as data-collapsible.',
+			],
+			[
+				'name'        => 'variant',
+				'type'        => 'enum',
+				'values'      => [ 'default', 'separated', 'flush' ],
+				'default'     => 'default',
+				'description' => 'Default is one container with edges between items, separated gives each item its own container, and flush drops the container for use inside a card or page. Emitted as data-variant.',
+			],
+			[
+				'name'        => 'headingLevel',
+				'type'        => 'number',
+				'default'     => 3,
+				'description' => 'The level of each item\'s heading, h2 to h6, so the accordion fits the page\'s outline.',
+				'a11y'        => 'Pick the level below the heading the accordion sits under.',
+			],
+			[
+				'name'        => 'disabled',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'Disables every item: the triggers can\'t be focused or toggled. An item can also be disabled on its own.',
+			],
+			[
+				'name'        => 'classes',
+				'type'        => 'object',
+				'description' => 'Extra classes per part, such as { item: \'…\', trigger: \'…\' }.',
+			],
+		],
+		'variants'    => [ 'default', 'separated', 'flush' ],
+		'parts'       => [
+			[
+				'name'        => 'root',
+				'element'     => 'div',
+				'description' => 'Holds the items.',
+			],
+			[
+				'name'        => 'item',
+				'element'     => 'div',
+				'description' => 'One section: its title and its panel. data-state is open or closed.',
+			],
+			[
+				'name'        => 'title',
+				'element'     => 'h2 | h3 | h4 | h5 | h6',
+				'description' => 'The heading around the trigger, at headingLevel. The spec calls it heading; title is the vocabulary\'s name.',
+			],
+			[
+				'name'        => 'trigger',
+				'element'     => 'button',
+				'description' => 'The button that toggles the item: aria-expanded, and aria-controls its panel. Zag\'s itemTrigger, named as the spec does.',
+			],
+			[
+				'name'        => 'chevron',
+				'element'     => 'span',
+				'description' => 'The chevron at the trigger\'s end. It points down and turns up while the item is open. Zag\'s itemIndicator.',
+			],
+			[
+				'name'        => 'content',
+				'element'     => 'div',
+				'description' => 'The item\'s panel: role region, labelled by its trigger and hidden while closed. The spec calls it panel; Zag\'s itemContent, named content as in Tabs (D-019).',
+			],
+		],
+		'events'      => [
+			[
+				'name'        => 'value-change',
+				'description' => 'An item opened or closed, by click or the keyboard. Setting value doesn\'t fire it.',
+				'payload'     => 'string[]',
+			],
+		],
+		'a11y'        => [
+			'element'      => 'div',
+			'keyboard'     => [
+				[
+					'keys'   => 'Enter, Space',
+					'action' => 'Opens or closes the focused item.',
+				],
+				[
+					'keys'   => 'Tab, Shift+Tab',
+					'action' => 'Moves through the triggers and into an open panel\'s content.',
+				],
+				[
+					'keys'   => 'ArrowDown, ArrowUp',
+					'action' => 'Moves to the next or previous trigger, skipping disabled items.',
+				],
+				[
+					'keys'   => 'Home, End',
+					'action' => 'Moves to the first or last trigger.',
+				],
+			],
+			'requirements' => [ 'Each trigger is a button inside a heading (headingLevel), with aria-expanded and aria-controls pointing at its panel.', 'Each panel is role=region, labelled by its trigger, and hidden while its item is closed.', 'Disabled items set disabled on the trigger and are skipped by the arrow keys.', 'The chevron is aria-hidden; the open state is in aria-expanded, not in the icon alone.', 'Don\'t hide required form fields in collapsed items.', 'The focus ring shows on the focused trigger, inset so the container doesn\'t clip it.', 'Every part keeps a stable, server-rendered id in Livewire (D-015).' ],
+			'wcag'         => [ '1.3.1', '1.4.3', '1.4.11', '2.1.1', '2.4.3', '2.4.6', '2.4.7', '4.1.2' ],
+		],
+		'tokens'      => [ '--apui-radius-lg', '--apui-border-width', '--apui-border-muted', '--apui-surface-default', '--apui-panel-padding', '--apui-state-hover', '--apui-text-default', '--apui-text-muted', '--apui-text-disabled', '--apui-motion-duration-fast', '--apui-motion-ease-standard', '--apui-focus-ring-color' ],
+		'fixture'     => [
+			'props'  => [
+				'value' => [ 'live' ],
+				'items' => [
+					[
+						'value'   => 'live',
+						'title'   => 'How long does a listing stay live?',
+						'content' => 'Listings stay live until you archive them or mark them as sold. Drafts are kept for 90 days.',
+					],
+					[
+						'value'   => 'owners',
+						'title'   => 'Can co-owners edit a listing?',
+						'content' => 'Yes. Invite them from the listing\'s Sharing tab.',
+					],
+					[
+						'value'    => 'files',
+						'title'    => 'Which file types can I upload?',
+						'content'  => 'Images, PDFs and floor plans up to 20 MB each.',
+						'disabled' => true,
+					],
+				],
+			],
+			'states' => [],
+		],
+	],
+	'Alert'             => [
+		'name'        => 'Alert',
+		'description' => 'An inline message about the state of a page or section: what happened and what to do next. The tint and the status icon carry the meaning, so it never relies on color alone. A dismissible alert hides itself when its close button is pressed.',
+		'status'      => 'draft',
+		'issue'       => 60,
+		'rootClass'   => 'apui-alert',
+		'stacks'      => [
+			'livewire' => [
+				'name' => 'alert',
+			],
+			'react'    => [
+				'name' => 'Alert',
+			],
+			'vue'      => [
+				'name' => 'Alert',
+			],
+		],
+		'props'       => [
+			[
+				'name'        => 'title',
+				'type'        => 'node',
+				'description' => 'The headline: what happened.',
+			],
+			[
+				'name'        => 'description',
+				'type'        => 'node',
+				'description' => 'Supporting text: what to do next. The default slot (children) fills it too.',
+			],
+			[
+				'name'        => 'color',
+				'type'        => 'enum',
+				'values'      => [ 'primary', 'secondary', 'accent', 'neutral', 'success', 'warning', 'error', 'info' ],
+				'default'     => 'neutral',
+				'description' => 'The status. Emitted as data-color. error makes the alert role=alert.',
+				'a11y'        => 'error sets role=alert, announced at once; every other color is role=status.',
+			],
+			[
+				'name'        => 'variant',
+				'type'        => 'enum',
+				'values'      => [ 'soft', 'outline', 'solid' ],
+				'default'     => 'soft',
+				'description' => 'soft tints the background; outline suits dense forms; solid is for page-level failures that block work. Emitted as data-variant.',
+			],
+			[
+				'name'        => 'surface',
+				'type'        => 'enum',
+				'values'      => [ 'default', 'glass' ],
+				'default'     => 'default',
+				'description' => 'The alert\'s surface. Emitted as data-surface. Glass keeps default text and tints only the icon; it falls back to the raised surface under reduced transparency and in high contrast.',
+			],
+			[
+				'name'        => 'icon',
+				'type'        => 'string',
+				'description' => 'An icon name from the registry. Defaults to the color\'s status icon: circle-check, triangle-alert, circle-alert or info. A slot or node overrides it.',
+			],
+			[
+				'name'        => 'actions',
+				'type'        => 'node',
+				'description' => 'Buttons under the text, such as Upgrade or Update card.',
+			],
+			[
+				'name'        => 'dismissible',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'Adds a close button. Pressing it hides the alert (the hidden attribute) and reports open-change.',
+			],
+			[
+				'name'        => 'closeLabel',
+				'type'        => 'string',
+				'default'     => 'Dismiss',
+				'description' => 'The close button\'s accessible name. Translate it: Livewire defaults it through __( \'Dismiss\' ).',
+				'a11y'        => 'The close button is icon-only, so this is its only name.',
+			],
+			[
+				'name'        => 'classes',
+				'type'        => 'object',
+				'description' => 'Extra classes per part, such as { title: \'…\', actions: \'…\' }.',
+			],
+		],
+		'variants'    => [ 'soft', 'outline', 'solid' ],
+		'colors'      => [ 'primary', 'secondary', 'accent', 'neutral', 'success', 'warning', 'error', 'info' ],
+		'parts'       => [
+			[
+				'name'        => 'root',
+				'element'     => 'div',
+				'description' => 'The alert: role=status, or role=alert for errors.',
+			],
+			[
+				'name'        => 'icon',
+				'element'     => 'span',
+				'description' => 'The status icon, hidden from assistive technology.',
+			],
+			[
+				'name'        => 'title',
+				'element'     => 'p',
+				'description' => 'The headline.',
+			],
+			[
+				'name'        => 'description',
+				'element'     => 'div',
+				'description' => 'Supporting text. A div, so it can hold a list or links.',
+			],
+			[
+				'name'        => 'actions',
+				'element'     => 'div',
+				'description' => 'The action buttons.',
+			],
+			[
+				'name'        => 'closeTrigger',
+				'element'     => 'button',
+				'description' => 'The close button: a ghost, neutral, extra-small icon-only Button in the alert\'s text color.',
+			],
+		],
+		'slots'       => [
+			[
+				'name'        => 'icon',
+				'description' => 'Overrides the icon.',
+			],
+			[
+				'name'        => 'title',
+				'description' => 'Rich headline content.',
+			],
+			[
+				'name'        => 'description',
+				'description' => 'Rich supporting text. The default slot fills it too.',
+			],
+			[
+				'name'        => 'actions',
+				'description' => 'The action buttons.',
+			],
+		],
+		'events'      => [
+			[
+				'name'        => 'open-change',
+				'description' => 'The close button was pressed. The alert hides itself; the payload is false.',
+				'payload'     => 'boolean',
+			],
+		],
+		'a11y'        => [
+			'role'         => 'status',
+			'roles'        => [ 'alert' ],
+			'element'      => 'div',
+			'keyboard'     => [
+				[
+					'keys'   => 'Tab',
+					'action' => 'Moves through the actions and the close button.',
+				],
+				[
+					'keys'   => 'Enter / Space',
+					'action' => 'On the close button, dismisses the alert.',
+				],
+			],
+			'requirements' => [ 'role=alert for errors, role=status otherwise, so a blocking failure is announced at once and the rest politely.', 'Meaning is carried by the icon and the title, not by color alone; the icon is decorative (aria-hidden).', 'The close button has an accessible name (translatable, "Dismiss").', 'Text keeps 4.5:1 on the soft, outline, solid and glass treatments in every theme; in high contrast the soft alert carries an edge.', 'No colored side border; status comes from the tint and the icon.', 'The icon, the actions and the close button sit at the start and end in the reading direction, and mirror in RTL.' ],
+			'wcag'         => [ '1.3.1', '1.4.1', '1.4.3', '1.4.11', '2.1.1', '2.4.7', '4.1.2', '4.1.3' ],
+		],
+		'tokens'      => [ '--apui-alert-radius', '--apui-color-primary-soft', '--apui-color-primary-soft-foreground', '--apui-color-primary-border', '--apui-color-primary-text', '--apui-color-primary', '--apui-color-primary-foreground', '--apui-surface-default', '--apui-surface-glass', '--apui-surface-glass-border', '--apui-border-muted', '--apui-text-default', '--apui-text-muted', '--apui-text-muted-glass', '--apui-elevation-glass' ],
+		'fixture'     => [
+			'props'  => [
+				'title'       => 'Listing published',
+				'description' => 'Lakeview Lofts is live and visible in search.',
+				'dismissible' => true,
+			],
+			'parts'  => [
+				'actions' => 'Update card',
+			],
+			'states' => [],
+		],
+	],
+	'AppShell'          => [
+		'name'        => 'AppShell',
+		'description' => 'The application frame: a sidebar and a main column (an optional top bar, then the content) as islands separated by a gutter. The sidebar holds a brand, the navigation (a Menu) and a footer, and can collapse to icons. Replaces Livewire\'s main and the React and Vue Sidebar.',
+		'status'      => 'draft',
+		'issue'       => 58,
+		'rootClass'   => 'apui-app-shell',
+		'stacks'      => [
+			'livewire' => [
+				'name'         => 'app-shell',
+				'capabilities' => [ 'Slots: brand, sidebar, header and footer; the default slot is the content', 'wire:model binds collapsed; without it, the collapsed state is kept in the session (the 2.x toggle route)' ],
+			],
+			'react'    => [
+				'name' => 'AppShell',
+			],
+			'vue'      => [
+				'name'         => 'AppShell',
+				'capabilities' => [ 'Slots: brand, sidebar, header and footer; the default slot is the content' ],
+			],
+		],
+		'props'       => [
+			[
+				'name'        => 'collapsed',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'Shrinks the sidebar to its icons: a Menu inside shows icon-only items, their labels kept for screen readers. Emitted as data-collapsed. Livewire binds it with wire:model.',
+			],
+			[
+				'name'        => 'collapsible',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'Adds the button at the foot of the sidebar that collapses and expands it. Emitted as data-collapsible.',
+			],
+			[
+				'name'        => 'sidebarWidth',
+				'type'        => 'string',
+				'description' => 'The expanded sidebar\'s width, any CSS length. Sets --apui-sidebar-width on the root (default 248px).',
+			],
+			[
+				'name'        => 'gutter',
+				'type'        => 'string',
+				'description' => 'The space around and between the islands, any CSS length. Sets --apui-shell-gutter on the root (default 12px).',
+			],
+			[
+				'name'        => 'brand',
+				'type'        => 'node',
+				'description' => 'The brand at the top of the sidebar: a logo or mark and the product name, usually a link home.',
+			],
+			[
+				'name'        => 'sidebar',
+				'type'        => 'node',
+				'description' => 'The sidebar\'s navigation, usually a Menu: 5 to 8 top-level items, the rest under section titles.',
+			],
+			[
+				'name'        => 'header',
+				'type'        => 'node',
+				'description' => 'The bar at the top of the main column, usually a Navbar with layout island.',
+			],
+			[
+				'name'        => 'footer',
+				'type'        => 'node',
+				'description' => 'The foot of the sidebar: the signed-in account and its actions.',
+			],
+			[
+				'name'        => 'label',
+				'type'        => 'string',
+				'default'     => 'Sidebar',
+				'description' => 'Names the sidebar\'s complementary landmark. Livewire translates the default with __().',
+			],
+			[
+				'name'        => 'skipLabel',
+				'type'        => 'string',
+				'default'     => 'Skip to main content',
+				'description' => 'The skip link\'s text. Livewire translates the default with __().',
+			],
+			[
+				'name'        => 'collapseLabel',
+				'type'        => 'string',
+				'default'     => 'Collapse sidebar',
+				'description' => 'Names the collapse button, which is aria-pressed while the sidebar is collapsed. Livewire translates the default with __().',
+			],
+			[
+				'name'        => 'classes',
+				'type'        => 'object',
+				'description' => 'Extra classes per part, such as { sidebar: \'…\', content: \'…\' }.',
+			],
+		],
+		'parts'       => [
+			[
+				'name'        => 'root',
+				'element'     => 'div',
+				'description' => 'The frame: a grid of the sidebar and the main column on the page surface.',
+			],
+			[
+				'name'        => 'skipLink',
+				'element'     => 'a',
+				'description' => 'The first focusable element: a link to the main column, hidden until focused.',
+			],
+			[
+				'name'        => 'sidebar',
+				'element'     => 'aside',
+				'description' => 'The sidebar island, a complementary landmark named with label. It moves to the inline end in RTL.',
+			],
+			[
+				'name'        => 'brand',
+				'element'     => 'div',
+				'description' => 'The brand at the top of the sidebar.',
+			],
+			[
+				'name'        => 'footer',
+				'element'     => 'div',
+				'description' => 'The foot of the sidebar, separated by an edge: the account, and the collapse button.',
+			],
+			[
+				'name'        => 'collapseTrigger',
+				'element'     => 'button',
+				'description' => 'Collapses and expands the sidebar: aria-pressed while collapsed, named with collapseLabel. Its icon mirrors in RTL.',
+			],
+			[
+				'name'        => 'main',
+				'element'     => 'main',
+				'description' => 'The main landmark, the skip link\'s target: the header, then the content.',
+			],
+			[
+				'name'        => 'content',
+				'element'     => 'div',
+				'description' => 'The page\'s content under the header: a column of panels with the panel gap.',
+			],
+		],
+		'slots'       => [
+			[
+				'name'        => 'brand',
+				'description' => 'The brand at the top of the sidebar.',
+			],
+			[
+				'name'        => 'sidebar',
+				'description' => 'The navigation, usually a Menu.',
+			],
+			[
+				'name'        => 'header',
+				'description' => 'The top bar of the main column.',
+			],
+			[
+				'name'        => 'footer',
+				'description' => 'The foot of the sidebar.',
+			],
+		],
+		'events'      => [
+			[
+				'name'        => 'collapsed-change',
+				'description' => 'The collapse button collapsed or expanded the sidebar. Setting collapsed doesn\'t fire it.',
+				'payload'     => 'boolean',
+			],
+		],
+		'a11y'        => [
+			'element'      => 'div',
+			'keyboard'     => [
+				[
+					'keys'   => 'Tab',
+					'action' => 'The skip link comes first and shows while focused; Enter on it moves focus to the main landmark.',
+				],
+				[
+					'keys'   => 'Enter, Space',
+					'action' => 'On the collapse button: collapses or expands the sidebar.',
+				],
+			],
+			'requirements' => [ 'The sidebar is an aside (complementary landmark) named with label; the content is a main landmark.', 'A skip link to the main landmark is the first focusable element.', 'The current navigation item uses aria-current=page (Menu).', 'Collapsed, the sidebar\'s Menu items show only their icons; their labels stay in the accessibility tree.', 'The collapse button is aria-pressed while collapsed, and named with collapseLabel.', 'Layout uses logical properties, so the sidebar sits at the inline end in RTL; on a narrow viewport the islands stack.', 'Keep 5 to 8 top-level items; group the rest under section titles.' ],
+			'wcag'         => [ '1.3.1', '1.3.2', '1.4.10', '1.4.11', '2.1.1', '2.4.1', '2.4.3', '2.4.7', '4.1.2' ],
+		],
+		'tokens'      => [ '--apui-sidebar-width', '--apui-sidebar-width-collapsed', '--apui-shell-gutter', '--apui-panel-gap', '--apui-radius-lg', '--apui-border-width', '--apui-border-muted', '--apui-surface-page', '--apui-surface-default', '--apui-selected-bg', '--apui-state-hover', '--apui-control-height-sm', '--apui-text-default', '--apui-text-muted', '--apui-focus-ring-color' ],
+		'fixture'     => [
+			'content' => 'Page content',
+			'props'   => [
+				'brand'       => 'Apexify',
+				'sidebar'     => 'Navigation',
+				'header'      => 'Top bar',
+				'footer'      => 'Olivia Rhye',
+				'collapsible' => true,
+			],
+			'states'  => [],
+		],
+	],
+	'Avatar'            => [
+		'name'        => 'Avatar',
+		'description' => 'A person or organization as an image, initials or an icon. Without an image it shows the initials of name in a color picked from a stable hash of the name; without a name, an icon. An image sits over the initials, so a broken image falls back to them.',
+		'status'      => 'draft',
+		'issue'       => 61,
+		'rootClass'   => 'apui-avatar',
+		'stacks'      => [
+			'livewire' => [
+				'name'         => 'avatar',
+				'capabilities' => [ 'Group: avatar-group overlaps a row of avatars, from avatar children or avatars data with max', 'The 2.x image and placeholder attributes still map to src and name, deprecated' ],
+			],
+			'react'    => [
+				'name'         => 'Avatar',
+				'capabilities' => [ 'Group: AvatarGroup overlaps a row of avatars, from Avatar children or avatars data with max' ],
+			],
+			'vue'      => [
+				'name'         => 'Avatar',
+				'capabilities' => [ 'Group: AvatarGroup overlaps a row of avatars, from Avatar children or avatars data with max' ],
+			],
+		],
+		'props'       => [
+			[
+				'name'        => 'name',
+				'type'        => 'string',
+				'description' => 'The person\'s or organization\'s full name. It gives the initials (first and last word), the accessible name and the hashed color.',
+				'a11y'        => 'Names the role=img root. Without name or alt the avatar is decorative and aria-hidden.',
+			],
+			[
+				'name'        => 'src',
+				'type'        => 'string',
+				'description' => 'The image URL. Only relative, http, https and data:image URLs are used. It covers the initials, which show through when it fails to load.',
+			],
+			[
+				'name'        => 'alt',
+				'type'        => 'string',
+				'description' => 'The accessible name when it should differ from name, such as "Apexify logo".',
+			],
+			[
+				'name'        => 'initials',
+				'type'        => 'string',
+				'description' => 'Overrides the initials taken from name, such as "+4" for an overflow avatar.',
+			],
+			[
+				'name'        => 'icon',
+				'type'        => 'string',
+				'description' => 'Icon name shown instead of initials, resolved through the icon registry. Without a name or initials the avatar shows user.',
+			],
+			[
+				'name'        => 'size',
+				'type'        => 'enum',
+				'values'      => [ 'xs', 'sm', 'md', 'lg', 'xl' ],
+				'default'     => 'md',
+				'description' => 'Matches the control heights: 24, 28, 36, 44 or 52px. Emitted as data-size.',
+			],
+			[
+				'name'        => 'shape',
+				'type'        => 'enum',
+				'values'      => [ 'circle', 'square' ],
+				'default'     => 'circle',
+				'description' => 'circle for people, square for organizations and workspaces. Emitted as data-shape.',
+			],
+			[
+				'name'        => 'color',
+				'type'        => 'enum',
+				'values'      => [ 'primary', 'secondary', 'accent', 'neutral', 'success', 'warning', 'error', 'info' ],
+				'description' => 'The initials\' tone. Defaults to a color picked from a stable hash of name (sum of its code points over primary, secondary, accent, success, warning, error and info), and neutral without a name. Emitted as data-color.',
+			],
+			[
+				'name'        => 'status',
+				'type'        => 'enum',
+				'values'      => [ 'online', 'away', 'offline' ],
+				'description' => 'A presence dot at the end corner. Emitted on the status part as data-status.',
+				'a11y'        => 'Also announced in the accessible name through statusLabel, so color is not the only signal.',
+			],
+			[
+				'name'        => 'statusLabel',
+				'type'        => 'string',
+				'description' => 'The words for the status, added to the accessible name: "Olivia Rhye (Online)". Defaults to Online, Away or Offline; translate it. Livewire defaults it through __().',
+			],
+			[
+				'name'        => 'classes',
+				'type'        => 'object',
+				'description' => 'Extra classes per part, such as { image: \'…\' }.',
+			],
+		],
+		'sizes'       => [ 'xs', 'sm', 'md', 'lg', 'xl' ],
+		'colors'      => [ 'primary', 'secondary', 'accent', 'neutral', 'success', 'warning', 'error', 'info' ],
+		'parts'       => [
+			[
+				'name'        => 'root',
+				'element'     => 'span',
+				'description' => 'The avatar, role=img with the person\'s name.',
+			],
+			[
+				'name'        => 'image',
+				'element'     => 'img',
+				'description' => 'The image, over the initials. Decorative (alt=""): the root carries the name.',
+			],
+			[
+				'name'        => 'initials',
+				'element'     => 'span',
+				'description' => 'Up to two letters from name, or initials. Decorative.',
+			],
+			[
+				'name'        => 'status',
+				'element'     => 'span',
+				'description' => 'The presence dot. Decorative; the status is in the accessible name.',
+			],
+		],
+		'slots'       => [],
+		'events'      => [],
+		'a11y'        => [
+			'role'         => 'img',
+			'element'      => 'span',
+			'requirements' => [ 'The root is role=img named by alt or name, plus the status in words; the image, initials, icon and dot inside it are decorative.', 'Without a name or alt the avatar is decorative: aria-hidden, no role.', 'Initials keep 4.5:1 on their soft fill in every theme.', 'Status is announced in text (statusLabel), never by color alone; the dot has a 2px ring in the surface color.', 'In a group each avatar is ringed in the surface color (--apui-focus-ring-offset-color).', 'In forced colors the avatar keeps an edge and the dot is CanvasText.' ],
+			'wcag'         => [ '1.1.1', '1.4.1', '1.4.3', '1.4.11', '4.1.2' ],
+		],
+		'tokens'      => [ '--apui-avatar-radius', '--apui-control-height-xs', '--apui-control-height-sm', '--apui-control-height-md', '--apui-control-height-lg', '--apui-control-height-xl', '--apui-color-neutral-soft', '--apui-color-neutral-soft-foreground', '--apui-color-success', '--apui-color-warning', '--apui-text-subtle', '--apui-focus-ring-offset-color', '--apui-radius-sm', '--apui-font-weight-medium' ],
+		'fixture'     => [
+			'props' => [
+				'name'   => 'Olivia Rhye',
+				'status' => 'online',
+			],
+			'parts' => [
+				'src' => 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 8 8\'%3E%3Crect width=\'8\' height=\'8\' fill=\'%2394a3b8\'/%3E%3Ccircle cx=\'4\' cy=\'3\' r=\'1.6\' fill=\'%23e2e8f0\'/%3E%3C/svg%3E',
+			],
+		],
+	],
+	'Badge'             => [
+		'name'        => 'Badge',
+		'description' => 'A small, non-interactive label for a status, category or count. The text is always there; a dot or an icon can lead it.',
+		'status'      => 'draft',
+		'issue'       => 61,
+		'rootClass'   => 'apui-badge',
+		'stacks'      => [
+			'livewire' => [
+				'name'         => 'badge',
+				'capabilities' => [ 'The 2.x value attribute still renders as the label, deprecated: use the slot' ],
+			],
+			'react'    => [
+				'name' => 'Badge',
+			],
+			'vue'      => [
+				'name' => 'Badge',
+			],
+		],
+		'props'       => [
+			[
+				'name'        => 'variant',
+				'type'        => 'enum',
+				'values'      => [ 'solid', 'soft', 'outline', 'ghost' ],
+				'default'     => 'soft',
+				'description' => 'Visual treatment. ghost drops the fill and padding, for a dot and a word in running text. Emitted as data-variant.',
+			],
+			[
+				'name'        => 'color',
+				'type'        => 'enum',
+				'values'      => [ 'primary', 'secondary', 'accent', 'neutral', 'success', 'warning', 'error', 'info' ],
+				'default'     => 'neutral',
+				'description' => 'Semantic color. Use the same color for the same status everywhere. Emitted as data-color.',
+				'a11y'        => 'Color is never the only signal: the label says the status.',
+			],
+			[
+				'name'        => 'size',
+				'type'        => 'enum',
+				'values'      => [ 'sm', 'md', 'lg' ],
+				'default'     => 'md',
+				'description' => 'Height: 18, 20 or 24px. Emitted as data-size.',
+			],
+			[
+				'name'        => 'dot',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'A small decorative dot before the label, in the badge\'s color.',
+				'a11y'        => 'Decorative: aria-hidden.',
+			],
+			[
+				'name'        => 'leadingIcon',
+				'type'        => 'string',
+				'description' => 'Icon name before the label, resolved through the icon registry. Arrows mirror in RTL. A slot or node overrides it.',
+			],
+			[
+				'name'        => 'classes',
+				'type'        => 'object',
+				'description' => 'Extra classes per part, such as { label: \'…\' }.',
+			],
+		],
+		'variants'    => [ 'solid', 'soft', 'outline', 'ghost' ],
+		'sizes'       => [ 'sm', 'md', 'lg' ],
+		'colors'      => [ 'primary', 'secondary', 'accent', 'neutral', 'success', 'warning', 'error', 'info' ],
+		'parts'       => [
+			[
+				'name'        => 'root',
+				'element'     => 'span',
+				'description' => 'The badge.',
+			],
+			[
+				'name'        => 'dot',
+				'element'     => 'span',
+				'description' => 'The status dot. Decorative.',
+			],
+			[
+				'name'        => 'icon',
+				'element'     => 'span',
+				'description' => 'The leading icon. Decorative.',
+			],
+			[
+				'name'        => 'label',
+				'element'     => 'span',
+				'description' => 'The text.',
+			],
+		],
+		'slots'       => [
+			[
+				'name'        => 'icon',
+				'description' => 'Overrides the leading icon.',
+			],
+		],
+		'events'      => [],
+		'a11y'        => [
+			'element'      => 'span',
+			'requirements' => [ 'Not interactive: a badge is never a button or a link. Use a Button or a filter chip for that.', 'The label is always present; the dot and the icon are aria-hidden.', 'Soft and solid badges keep 4.5:1 text on their fill in every theme; outline and ghost on the surface.', 'In high contrast, soft badges gain an edge in the tone\'s border color.', 'In forced colors the badge keeps an edge and the dot uses CanvasText.' ],
+			'wcag'         => [ '1.3.1', '1.4.1', '1.4.3', '1.4.11' ],
+		],
+		'tokens'      => [ '--apui-badge-radius', '--apui-color-neutral-soft', '--apui-color-neutral-soft-foreground', '--apui-color-neutral', '--apui-color-neutral-foreground', '--apui-color-neutral-border', '--apui-color-neutral-text', '--apui-type-caption-font-size', '--apui-type-body-sm-font-size', '--apui-font-weight-medium', '--apui-text-default', '--apui-radius-full' ],
+		'fixture'     => [
+			'content' => 'Active',
+			'parts'   => [
+				'dot'         => true,
+				'leadingIcon' => 'check',
+			],
+		],
+	],
 	'Breadcrumbs'       => [
 		'name'        => 'Breadcrumbs',
 		'description' => 'Shows where the current page sits in the hierarchy: a trail of links ending in the current page. Compose it from item children, or pass the same levels as items. Long trails collapse their middle behind an overflow button that reveals it.',
@@ -1170,6 +1916,129 @@ return [
 				'tabsLabel'   => 'Files',
 			],
 			'states' => [ 'hover', 'focus-visible', 'disabled', 'invalid', 'readonly' ],
+		],
+	],
+	'Collapse'          => [
+		'name'        => 'Collapse',
+		'description' => 'A single disclosure: a button that shows and hides one region, such as advanced settings, or a read-more that clamps long text behind a fade.',
+		'status'      => 'draft',
+		'issue'       => 58,
+		'rootClass'   => 'apui-collapse',
+		'stacks'      => [
+			'livewire' => [
+				'name'         => 'collapse',
+				'capabilities' => [ 'Slots: trigger replaces label; the deprecated heading and content slots still render', 'wire:model binds open' ],
+			],
+			'react'    => [
+				'name' => 'Collapse',
+			],
+			'vue'      => [
+				'name'         => 'Collapse',
+				'capabilities' => [ 'Slots: trigger replaces label' ],
+			],
+		],
+		'props'       => [
+			[
+				'name'        => 'open',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'Whether the region shows. Livewire binds it with wire:model, Vue with v-model:open. Setting it doesn\'t fire open-change.',
+			],
+			[
+				'name'        => 'defaultOpen',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'Whether an uncontrolled collapse starts open.',
+				'stacks'      => [ 'react' ],
+			],
+			[
+				'name'        => 'variant',
+				'type'        => 'enum',
+				'values'      => [ 'section', 'read-more' ],
+				'default'     => 'section',
+				'description' => 'Section hides the region while closed. Read-more shows its first lines behind a fade and puts the trigger after them. Emitted as data-variant.',
+			],
+			[
+				'name'        => 'label',
+				'type'        => 'node',
+				'description' => 'The trigger\'s text: say what will appear (Advanced settings). Read-more defaults it to Read more; Livewire translates the default with __().',
+			],
+			[
+				'name'        => 'openLabel',
+				'type'        => 'string',
+				'description' => 'The trigger\'s text while open, when it should change. Read-more defaults it to Show less; Livewire translates the default with __().',
+			],
+			[
+				'name'        => 'disabled',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'The trigger can\'t be focused or toggled.',
+			],
+			[
+				'name'        => 'classes',
+				'type'        => 'object',
+				'description' => 'Extra classes per part, such as { trigger: \'…\', content: \'…\' }.',
+			],
+		],
+		'variants'    => [ 'section', 'read-more' ],
+		'parts'       => [
+			[
+				'name'        => 'root',
+				'element'     => 'div',
+				'description' => 'Holds the trigger and the region. data-state is open or closed.',
+			],
+			[
+				'name'        => 'trigger',
+				'element'     => 'button',
+				'description' => 'The button: aria-expanded, and aria-controls the region. Before the region in a section, after it in a read-more.',
+			],
+			[
+				'name'        => 'icon',
+				'element'     => 'span',
+				'description' => 'The chevron at the trigger\'s end; it turns up while open. Zag\'s indicator.',
+			],
+			[
+				'name'        => 'content',
+				'element'     => 'div',
+				'description' => 'The region. A section\'s is hidden while closed; a read-more\'s is clamped to --apui-collapse-clamp-height. The spec calls it panel; it keeps Zag\'s name (D-019).',
+			],
+			[
+				'name'        => 'fade',
+				'element'     => 'span',
+				'description' => 'Read-more only: the gradient over the clamped text\'s last line, hidden while open. aria-hidden.',
+			],
+		],
+		'events'      => [
+			[
+				'name'        => 'open-change',
+				'description' => 'The region opened or closed from the trigger. Setting open doesn\'t fire it.',
+				'payload'     => 'boolean',
+			],
+		],
+		'a11y'        => [
+			'element'      => 'div',
+			'keyboard'     => [
+				[
+					'keys'   => 'Enter, Space',
+					'action' => 'Opens or closes the region.',
+				],
+				[
+					'keys'   => 'Tab',
+					'action' => 'Moves from the trigger into the open region.',
+				],
+			],
+			'requirements' => [ 'The trigger is a button with aria-expanded and aria-controls; a section\'s region follows it in the DOM.', 'A closed section\'s region is hidden; a closed read-more\'s text stays in the accessibility tree, only clamped visually.', 'The fade is decorative and aria-hidden.', 'The trigger\'s text says what will appear, and the chevron is aria-hidden.', 'Don\'t clamp text that holds the main point.', 'The focus ring shows on the trigger.' ],
+			'wcag'         => [ '1.3.1', '1.4.3', '2.1.1', '2.4.6', '2.4.7', '4.1.2' ],
+		],
+		'tokens'      => [ '--apui-collapse-clamp-height', '--apui-color-primary-text', '--apui-text-disabled', '--apui-surface-default', '--apui-radius-xs', '--apui-motion-duration-fast', '--apui-motion-ease-standard', '--apui-focus-ring-color' ],
+		'fixture'     => [
+			'content' => 'Twenty-four bright apartments around a shared garden courtyard, five minutes from the tram. Most units face south with private balconies. The building was renovated in 2024 with new windows, heat pumps and a rooftop terrace.',
+			'props'   => [
+				'label' => 'Advanced settings',
+			],
+			'parts'   => [
+				'variant' => 'read-more',
+			],
 		],
 	],
 	'ColorPicker'       => [
@@ -2665,6 +3534,519 @@ return [
 			'states'  => [],
 		],
 	],
+	'Diff'              => [
+		'name'        => 'Diff',
+		'description' => 'Shows the changes between two versions of a text, unified or side by side, with hunks of context around each change and the changed words marked. Every stack computes the same diff, so there is no diff library and no script. The header mirrors in RTL; the code stays LTR.',
+		'status'      => 'draft',
+		'issue'       => 61,
+		'rootClass'   => 'apui-diff',
+		'stacks'      => [
+			'livewire' => [
+				'name'         => 'diff',
+				'capabilities' => [ 'Rendered on the server, with no script', 'The actions slot holds header controls, such as a Clipboard or a view switch bound with wire:model.live', '2.x old and new still work, as oldContent and newContent' ],
+			],
+			'react'    => [
+				'name'         => 'Diff',
+				'capabilities' => [ 'actions takes a node' ],
+			],
+			'vue'      => [
+				'name'         => 'Diff',
+				'capabilities' => [ 'The actions slot holds header controls' ],
+			],
+		],
+		'props'       => [
+			[
+				'name'        => 'oldContent',
+				'type'        => 'string',
+				'description' => 'The earlier version.',
+			],
+			[
+				'name'        => 'newContent',
+				'type'        => 'string',
+				'description' => 'The later version.',
+			],
+			[
+				'name'        => 'fileName',
+				'type'        => 'string',
+				'description' => 'What changed, at the start of the header: a file path or "Version 3 → Version 4".',
+			],
+			[
+				'name'        => 'view',
+				'type'        => 'enum',
+				'values'      => [ 'unified', 'split' ],
+				'default'     => 'unified',
+				'description' => 'One column with both line numbers, or the old version beside the new one, deletions paired with additions. Emitted as data-view.',
+			],
+			[
+				'name'        => 'wordLevel',
+				'type'        => 'boolean',
+				'default'     => true,
+				'description' => 'Marks the changed words inside a changed line, in ins and del, when the old and new line share some words. Best for short edits.',
+			],
+			[
+				'name'        => 'context',
+				'type'        => 'number',
+				'default'     => 3,
+				'description' => 'Unchanged lines kept around each change. Changes further apart than twice this start a new hunk.',
+			],
+			[
+				'name'        => 'countsLabel',
+				'type'        => 'string',
+				'default'     => '{additions} additions, {deletions} deletions',
+				'description' => 'The counts\' text for assistive technology; {additions} and {deletions} are filled in. Translate it: Livewire defaults it through __( \'{additions} additions, {deletions} deletions\' ).',
+			],
+			[
+				'name'        => 'emptyLabel',
+				'type'        => 'string',
+				'default'     => 'No changes',
+				'description' => 'Shown in the table when the versions are the same. Translate it: Livewire defaults it through __( \'No changes\' ).',
+			],
+			[
+				'name'        => 'actions',
+				'type'        => 'node',
+				'description' => 'Controls at the end of the header, such as a copy button or a Tabs view switch.',
+			],
+			[
+				'name'        => 'classes',
+				'type'        => 'object',
+				'description' => 'Extra classes per part, such as { header: \'…\', code: \'…\' }.',
+			],
+		],
+		'parts'       => [
+			[
+				'name'        => 'root',
+				'element'     => 'div',
+				'description' => 'The frame, with data-view.',
+			],
+			[
+				'name'        => 'header',
+				'element'     => 'div',
+				'description' => 'The icon, file name, counts and actions. Mirrors in RTL.',
+			],
+			[
+				'name'        => 'icon',
+				'element'     => 'span',
+				'description' => 'A compare icon. Hidden from assistive technology.',
+			],
+			[
+				'name'        => 'file',
+				'element'     => 'span',
+				'description' => 'The file name, in the mono font.',
+			],
+			[
+				'name'        => 'counts',
+				'element'     => 'span',
+				'description' => '+additions and −deletions in success and error text, with countsLabel as hidden text.',
+			],
+			[
+				'name'        => 'actions',
+				'element'     => 'div',
+				'description' => 'The header controls.',
+			],
+			[
+				'name'        => 'table',
+				'element'     => 'table',
+				'description' => 'The lines. Always LTR (D-004).',
+			],
+			[
+				'name'        => 'hunk',
+				'element'     => 'tr',
+				'description' => 'A hunk header (@@ -a,b +c,d @@), or emptyLabel when nothing changed.',
+			],
+			[
+				'name'        => 'line',
+				'element'     => 'tr',
+				'description' => 'A line, with data-type ctx, add or del (unified), or a row pairing the old and new sides (split).',
+			],
+			[
+				'name'        => 'lineNumber',
+				'element'     => 'td',
+				'description' => 'A line number: old and new in unified, one per side in split. Not selectable.',
+			],
+			[
+				'name'        => 'sign',
+				'element'     => 'td',
+				'description' => '+, − or a space, so additions and deletions read without color. Not selectable.',
+			],
+			[
+				'name'        => 'code',
+				'element'     => 'td',
+				'description' => 'The line\'s text, wrapping long lines. Every cell carries its side\'s data-type.',
+			],
+			[
+				'name'        => 'ins',
+				'element'     => 'ins',
+				'description' => 'An added word: semibold with a success underline.',
+			],
+			[
+				'name'        => 'del',
+				'element'     => 'del',
+				'description' => 'A deleted word: semibold and struck through.',
+			],
+		],
+		'slots'       => [
+			[
+				'name'        => 'actions',
+				'description' => 'Controls at the end of the header.',
+			],
+		],
+		'events'      => [],
+		'a11y'        => [
+			'element'      => 'div',
+			'requirements' => [ 'Every changed line has a + or − sign in text, and changed words are ins and del elements: color is never the only signal.', 'The counts are read as words (countsLabel); the visible +3 −2 is hidden from assistive technology.', 'The code stays LTR in every direction; the header around it mirrors.', 'Soft add and delete fills keep 4.5:1 for their text; line numbers keep 4.5:1 (--apui-text-muted).' ],
+			'wcag'         => [ '1.3.1', '1.4.1', '1.4.3' ],
+		],
+		'tokens'      => [ '--apui-surface-default', '--apui-surface-sunken', '--apui-border-muted', '--apui-border-width', '--apui-radius-md', '--apui-text-default', '--apui-text-muted', '--apui-font-family-mono', '--apui-color-success-soft', '--apui-color-success-soft-foreground', '--apui-color-success-text', '--apui-color-success-border', '--apui-color-error-soft', '--apui-color-error-soft-foreground', '--apui-color-error-text', '--apui-color-error-border', '--apui-color-info-soft', '--apui-color-info-soft-foreground' ],
+		'fixture'     => [
+			'props' => [
+				'fileName'   => 'listings/grove-greenfield.json',
+				'oldContent' => '{
+  id: 4127,
+  name: "Grove Greenfield",
+  beds: 3,
+  price: 220000,
+  rent: 1600,
+  currency: "USD",
+  available: "2027-01-01",
+}
+',
+				'newContent' => '{
+  id: 4127,
+  name: "Grove Greenfield",
+  beds: 3,
+  price: 220000,
+  rent: 1650,
+  deposit: 3300,
+  currency: "USD",
+  available: "2027-01-15",
+}
+',
+			],
+			'parts' => [
+				'actions' => 'Copy',
+			],
+		],
+	],
+	'Divider'           => [
+		'name'        => 'Divider',
+		'description' => 'Separates content with a muted rule: horizontal, vertical or with a label in the middle. Prefer spacing; add a divider only when groups blur together. Replaces Livewire\'s separator.',
+		'status'      => 'draft',
+		'issue'       => 58,
+		'rootClass'   => 'apui-divider',
+		'stacks'      => [
+			'livewire' => [
+				'name'         => 'divider',
+				'capabilities' => [ 'The default slot is the label' ],
+			],
+			'react'    => [
+				'name'         => 'Divider',
+				'capabilities' => [ 'Children are the label' ],
+			],
+			'vue'      => [
+				'name'         => 'Divider',
+				'capabilities' => [ 'The default slot is the label' ],
+			],
+		],
+		'props'       => [
+			[
+				'name'        => 'orientation',
+				'type'        => 'enum',
+				'values'      => [ 'horizontal', 'vertical' ],
+				'default'     => 'horizontal',
+				'description' => 'A rule across the inline axis, or a vertical one between items in a row, such as a toolbar. Emitted as data-orientation.',
+			],
+			[
+				'name'        => 'label',
+				'type'        => 'node',
+				'description' => 'Text in the middle of the rule, such as or continue with.',
+			],
+			[
+				'name'        => 'align',
+				'type'        => 'enum',
+				'values'      => [ 'start', 'center', 'end' ],
+				'default'     => 'center',
+				'description' => 'Where a label sits along the rule. Emitted as data-align.',
+			],
+			[
+				'name'        => 'strength',
+				'type'        => 'enum',
+				'values'      => [ 'subtle', 'strong' ],
+				'default'     => 'subtle',
+				'description' => 'Subtle uses the muted border, strong the default border. Emitted as data-strength.',
+			],
+			[
+				'name'        => 'decorative',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'Hides the divider from assistive technology, for rules that only decorate. Emitted as data-decorative.',
+			],
+			[
+				'name'        => 'classes',
+				'type'        => 'object',
+				'description' => 'Extra classes per part, such as { label: \'…\' }.',
+			],
+		],
+		'parts'       => [
+			[
+				'name'        => 'root',
+				'element'     => 'hr | div',
+				'description' => 'An hr for a plain horizontal rule; a div with role separator and aria-orientation for a vertical or labelled one, labelled by its label.',
+			],
+			[
+				'name'        => 'label',
+				'element'     => 'span',
+				'description' => 'The label, with a rule on each side.',
+			],
+		],
+		'a11y'        => [
+			'element'      => 'hr',
+			'role'         => 'separator',
+			'requirements' => [ 'role=separator (an hr\'s own role), with aria-orientation on a vertical one.', 'A labelled divider is named by its label (aria-labelledby), since a separator\'s children are presentational.', 'A decorative divider is aria-hidden (role none on an hr).', 'The rule meets 3:1 against its surface only with strength strong; subtle rules are decorative contrast, like edges.' ],
+			'wcag'         => [ '1.3.1', '1.4.3', '4.1.2' ],
+		],
+		'tokens'      => [ '--apui-border-width', '--apui-border-muted', '--apui-border-default', '--apui-text-muted', '--apui-type-caption-font-size', '--apui-type-caption-line-height' ],
+		'fixture'     => [
+			'props'  => [
+				'label' => 'or continue with',
+			],
+			'parts'  => [
+				'label' => 'or continue with',
+			],
+			'states' => [],
+		],
+	],
+	'Drawer'            => [
+		'name'        => 'Drawer',
+		'description' => 'A panel that slides in from an edge for filters, details or secondary tasks. Built on the dialog machine: a modal drawer traps focus, locks scroll and hides the page behind it from assistive technology; Escape, the close button and the backdrop close it, and focus returns to the trigger. The side follows the reading direction. The bottom side is the spec\'s sheet.',
+		'status'      => 'draft',
+		'issue'       => 58,
+		'rootClass'   => 'apui-drawer',
+		'stacks'      => [
+			'livewire' => [
+				'name'         => 'drawer',
+				'capabilities' => [ 'wire:model binds open both ways through $wire.entangle()' ],
+			],
+			'react'    => [
+				'name' => 'Drawer',
+			],
+			'vue'      => [
+				'name' => 'Drawer',
+			],
+		],
+		'props'       => [
+			[
+				'name'        => 'open',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'Whether it\'s open. Livewire binds it with wire:model, Vue with v-model:open. Emitted as data-state on every part.',
+			],
+			[
+				'name'        => 'defaultOpen',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'The initial state of an uncontrolled drawer.',
+				'stacks'      => [ 'react' ],
+			],
+			[
+				'name'        => 'side',
+				'type'        => 'enum',
+				'values'      => [ 'end', 'start', 'bottom' ],
+				'default'     => 'end',
+				'description' => 'The edge it slides in from. end is on the right in LTR and on the left in RTL; bottom is a full-width sheet with a handle. Emitted as data-side on the panel and the positioner.',
+			],
+			[
+				'name'        => 'size',
+				'type'        => 'enum',
+				'values'      => [ 'sm', 'md', 'lg' ],
+				'default'     => 'md',
+				'description' => 'The panel\'s width at the start or end side: 320px, --apui-drawer-width (400px) or 560px, never wider than the viewport. A bottom sheet is full width. Emitted as data-size.',
+			],
+			[
+				'name'        => 'surface',
+				'type'        => 'enum',
+				'values'      => [ 'overlay', 'glass' ],
+				'default'     => 'overlay',
+				'description' => 'The panel\'s surface. Emitted as data-surface. Glass falls back to the overlay surface under reduced transparency and in high contrast.',
+			],
+			[
+				'name'        => 'title',
+				'type'        => 'node',
+				'description' => 'The heading, linked to the panel with aria-labelledby.',
+				'a11y'        => 'Every drawer needs a title; it is the panel\'s accessible name.',
+			],
+			[
+				'name'        => 'description',
+				'type'        => 'node',
+				'description' => 'Supporting text under the title, linked with aria-describedby.',
+			],
+			[
+				'name'        => 'footer',
+				'type'        => 'node',
+				'description' => 'The actions row. Put the primary action here.',
+			],
+			[
+				'name'        => 'trigger',
+				'type'        => 'node',
+				'description' => 'Content for a trigger button that opens the drawer. Without it, open the drawer through open.',
+			],
+			[
+				'name'        => 'modal',
+				'type'        => 'boolean',
+				'default'     => true,
+				'description' => 'Traps focus, locks scroll and hides the rest of the page from assistive technology. Turn it off for a drawer that leaves the page usable.',
+				'a11y'        => 'Sets aria-modal.',
+			],
+			[
+				'name'        => 'portal',
+				'type'        => 'boolean',
+				'default'     => true,
+				'description' => 'Renders the drawer at the end of the body, above everything (x-teleport, a React portal, Vue Teleport). Off renders it in place.',
+			],
+			[
+				'name'        => 'hideClose',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'Hides the close button in the header. Escape still closes the drawer.',
+			],
+			[
+				'name'        => 'closeLabel',
+				'type'        => 'string',
+				'default'     => 'Close',
+				'description' => 'The close button\'s accessible name. Translate it: Livewire defaults it through __( \'Close\' ).',
+				'a11y'        => 'The close button is icon-only, so this is its only name.',
+			],
+			[
+				'name'        => 'classes',
+				'type'        => 'object',
+				'description' => 'Extra classes per part, such as { header: \'…\', body: \'…\' }.',
+			],
+		],
+		'sizes'       => [ 'sm', 'md', 'lg' ],
+		'parts'       => [
+			[
+				'name'        => 'root',
+				'element'     => 'aside',
+				'description' => 'The panel, carrying the root class. It is the dialog machine\'s content part, so it also carries data-part="content" (D-019).',
+			],
+			[
+				'name'        => 'content',
+				'element'     => 'aside',
+				'description' => 'The panel: the same element as root.',
+			],
+			[
+				'name'        => 'trigger',
+				'element'     => 'button',
+				'description' => 'The button that opens the drawer, when trigger is set.',
+			],
+			[
+				'name'        => 'backdrop',
+				'element'     => 'div',
+				'description' => 'The scrim behind the panel.',
+			],
+			[
+				'name'        => 'positioner',
+				'element'     => 'div',
+				'description' => 'Fills the viewport and holds the panel against its side.',
+			],
+			[
+				'name'        => 'handle',
+				'element'     => 'div',
+				'description' => 'The bottom sheet\'s grab handle. Decorative.',
+			],
+			[
+				'name'        => 'header',
+				'element'     => 'div',
+				'description' => 'Title, description and close button.',
+			],
+			[
+				'name'        => 'title',
+				'element'     => 'h2',
+				'description' => 'The heading.',
+			],
+			[
+				'name'        => 'description',
+				'element'     => 'p',
+				'description' => 'Supporting text.',
+			],
+			[
+				'name'        => 'closeTrigger',
+				'element'     => 'button',
+				'description' => 'The close button: a ghost, neutral, small icon-only Button.',
+			],
+			[
+				'name'        => 'body',
+				'element'     => 'div',
+				'description' => 'The default slot. Scrolls when it\'s taller than the panel.',
+			],
+			[
+				'name'        => 'footer',
+				'element'     => 'div',
+				'description' => 'The actions row.',
+			],
+		],
+		'slots'       => [
+			[
+				'name'        => 'trigger',
+				'description' => 'Content for the trigger button.',
+			],
+			[
+				'name'        => 'title',
+				'description' => 'Rich title content, rendered inside the heading.',
+			],
+			[
+				'name'        => 'description',
+				'description' => 'Rich supporting text.',
+			],
+			[
+				'name'        => 'footer',
+				'description' => 'The actions row.',
+			],
+		],
+		'events'      => [
+			[
+				'name'        => 'open-change',
+				'description' => 'The drawer opened or closed itself: the trigger, Escape, the backdrop or the close button. Setting open doesn\'t fire it.',
+				'payload'     => 'boolean',
+			],
+		],
+		'a11y'        => [
+			'role'         => 'dialog',
+			'element'      => 'aside',
+			'keyboard'     => [
+				[
+					'keys'   => 'Tab, Shift+Tab',
+					'action' => 'Move between the controls inside; focus stays in a modal drawer.',
+				],
+				[
+					'keys'   => 'Escape',
+					'action' => 'Closes the drawer and returns focus to the trigger.',
+				],
+				[
+					'keys'   => 'Enter, Space',
+					'action' => 'On the trigger, opens the drawer.',
+				],
+			],
+			'requirements' => [ 'Focus moves into the drawer on open and is trapped there while it\'s modal; it returns to the trigger on close.', 'The title is linked with aria-labelledby and the description with aria-describedby.', 'A modal drawer sets aria-modal, hides everything else from assistive technology and locks page scroll.', 'The side follows the reading direction: end is on the right in LTR and on the left in RTL, and the slide-in comes from that edge.', 'The close button has an accessible name (translatable, "Close").', 'Text keeps 4.5:1 and the panel\'s edge 3:1 on the overlay surface in every theme, glass included.', 'The slide-in animation is off under prefers-reduced-motion.', 'Every part keeps a stable, server-rendered id in Livewire, so morphs never replace the panel (D-015).', 'Don\'t open a drawer from a drawer.' ],
+			'wcag'         => [ '1.3.1', '1.3.2', '1.4.3', '1.4.11', '2.1.1', '2.1.2', '2.4.3', '2.4.7', '4.1.2' ],
+		],
+		'tokens'      => [ '--apui-drawer-width', '--apui-drawer-radius', '--apui-surface-overlay', '--apui-surface-glass', '--apui-surface-glass-border', '--apui-surface-glass-blur', '--apui-surface-glass-saturation', '--apui-elevation-overlay', '--apui-elevation-glass', '--apui-backdrop', '--apui-z-modal', '--apui-border-muted', '--apui-border-default', '--apui-text-default', '--apui-text-muted', '--apui-text-muted-glass', '--apui-field-gap' ],
+		'fixture'     => [
+			'content' => '218 properties match these filters.',
+			'props'   => [
+				'open'        => true,
+				'modal'       => false,
+				'portal'      => false,
+				'title'       => 'Filters',
+				'description' => 'Narrow the listings.',
+				'footer'      => 'Show results',
+			],
+			'parts'   => [
+				'trigger' => 'Filters',
+				'side'    => 'bottom',
+			],
+			'states'  => [],
+		],
+	],
 	'DropdownMenu'      => [
 		'name'        => 'DropdownMenu',
 		'description' => 'A list of actions or options anchored to a trigger button: action, checkbox and radio items, in groups with labels. Arrow keys move, typeahead jumps, Escape closes. Replaces Dropdown.',
@@ -2911,6 +4293,314 @@ return [
 				],
 			],
 			'states' => [],
+		],
+	],
+	'EmptyState'        => [
+		'name'        => 'EmptyState',
+		'description' => 'Explains why there\'s nothing here and what to do next: an icon tile, a title, a description and usually one primary action.',
+		'status'      => 'draft',
+		'issue'       => 60,
+		'rootClass'   => 'apui-empty-state',
+		'stacks'      => [
+			'livewire' => [
+				'name' => 'empty-state',
+			],
+			'react'    => [
+				'name' => 'EmptyState',
+			],
+			'vue'      => [
+				'name' => 'EmptyState',
+			],
+		],
+		'props'       => [
+			[
+				'name'        => 'variant',
+				'type'        => 'enum',
+				'values'      => [ 'first-use', 'no-results', 'cleared' ],
+				'default'     => 'first-use',
+				'description' => 'Why it\'s empty: nothing created yet, a search or filter matched nothing, or everything is done. Picks the tile\'s tint and default icon. Emitted as data-variant.',
+			],
+			[
+				'name'        => 'size',
+				'type'        => 'enum',
+				'values'      => [ 'sm', 'md' ],
+				'default'     => 'md',
+				'description' => 'md for a page or card; sm for a panel. Emitted as data-size.',
+			],
+			[
+				'name'        => 'align',
+				'type'        => 'enum',
+				'values'      => [ 'center', 'start' ],
+				'default'     => 'center',
+				'description' => 'Centered, or aligned to the start in the reading direction. Emitted as data-align.',
+			],
+			[
+				'name'        => 'icon',
+				'type'        => 'string',
+				'description' => 'An icon name from the registry. Defaults to the variant\'s: inbox, search-x or circle-check. A slot or node overrides it.',
+			],
+			[
+				'name'        => 'title',
+				'type'        => 'node',
+				'description' => 'Why it\'s empty, as a heading.',
+			],
+			[
+				'name'        => 'description',
+				'type'        => 'node',
+				'description' => 'What to do next. The default slot (children) fills it too.',
+			],
+			[
+				'name'        => 'actions',
+				'type'        => 'node',
+				'description' => 'The buttons: one primary action, maybe a secondary one.',
+			],
+			[
+				'name'        => 'headingLevel',
+				'type'        => 'number',
+				'default'     => 3,
+				'description' => 'The title\'s heading level, 2 to 6, to fit the container\'s outline.',
+			],
+			[
+				'name'        => 'classes',
+				'type'        => 'object',
+				'description' => 'Extra classes per part, such as { title: \'…\', actions: \'…\' }.',
+			],
+		],
+		'variants'    => [ 'first-use', 'no-results', 'cleared' ],
+		'sizes'       => [ 'sm', 'md' ],
+		'parts'       => [
+			[
+				'name'        => 'root',
+				'element'     => 'div',
+				'description' => 'The empty state.',
+			],
+			[
+				'name'        => 'icon',
+				'element'     => 'span',
+				'description' => 'The icon tile, tinted by the variant, hidden from assistive technology.',
+			],
+			[
+				'name'        => 'title',
+				'element'     => 'h2|h3|h4|h5|h6',
+				'description' => 'The heading, at headingLevel.',
+			],
+			[
+				'name'        => 'description',
+				'element'     => 'div',
+				'description' => 'What to do next.',
+			],
+			[
+				'name'        => 'actions',
+				'element'     => 'div',
+				'description' => 'The action buttons.',
+			],
+		],
+		'slots'       => [
+			[
+				'name'        => 'icon',
+				'description' => 'Overrides the icon.',
+			],
+			[
+				'name'        => 'title',
+				'description' => 'Rich title content.',
+			],
+			[
+				'name'        => 'description',
+				'description' => 'Rich description. The default slot fills it too.',
+			],
+			[
+				'name'        => 'actions',
+				'description' => 'The action buttons.',
+			],
+		],
+		'events'      => [],
+		'a11y'        => [
+			'element'      => 'div',
+			'requirements' => [ 'The title is a heading at the right level for its container (headingLevel).', 'The icon is decorative (aria-hidden); the title and description carry the meaning.', 'Text keeps 4.5:1 and the tile is decorative, in every theme.' ],
+			'wcag'         => [ '1.1.1', '1.3.1', '1.4.3', '2.4.6' ],
+		],
+		'tokens'      => [ '--apui-color-primary-soft', '--apui-color-primary-soft-foreground', '--apui-color-neutral-soft', '--apui-color-success-soft', '--apui-text-default', '--apui-text-muted', '--apui-radius-lg' ],
+		'fixture'     => [
+			'props' => [
+				'title'       => 'No properties yet',
+				'description' => 'Add your first property to start tracking visits, offers and revenue.',
+			],
+			'parts' => [
+				'actions' => 'Add property',
+			],
+		],
+	],
+	'ErrorState'        => [
+		'name'        => 'ErrorState',
+		'description' => 'Explains what failed, what\'s safe and how to recover, in place of content that couldn\'t load: an icon tile or a large status number, a title, a description, a reference code people can quote and recovery actions. Pairs with EmptyState; it isn\'t ValidationSummary, which lists form errors.',
+		'status'      => 'draft',
+		'issue'       => 60,
+		'rootClass'   => 'apui-error-state',
+		'stacks'      => [
+			'livewire' => [
+				'name' => 'error-state',
+			],
+			'react'    => [
+				'name'        => 'ErrorState',
+				'differences' => [ 'ErrorDisplay stays as a deprecated alias (title, message, icon, onRetry, retryLabel).' ],
+			],
+			'vue'      => [
+				'name'        => 'ErrorState',
+				'differences' => [ 'ErrorDisplay stays as a deprecated alias (title, message, icon, retry event, retryLabel).' ],
+			],
+		],
+		'props'       => [
+			[
+				'name'        => 'variant',
+				'type'        => 'enum',
+				'values'      => [ 'request', 'offline', 'not-found', 'forbidden' ],
+				'default'     => 'request',
+				'description' => 'What failed: a request, the connection, a missing page or missing access. Picks the tile\'s tint and default icon (server-crash, wifi-off, lock); not-found shows the numeral 404 instead. Emitted as data-variant.',
+			],
+			[
+				'name'        => 'size',
+				'type'        => 'enum',
+				'values'      => [ 'sm', 'md' ],
+				'default'     => 'md',
+				'description' => 'md for a page or card; sm for a panel. Emitted as data-size.',
+			],
+			[
+				'name'        => 'align',
+				'type'        => 'enum',
+				'values'      => [ 'center', 'start' ],
+				'default'     => 'center',
+				'description' => 'Centered, or aligned to the start in the reading direction. Emitted as data-align.',
+			],
+			[
+				'name'        => 'icon',
+				'type'        => 'string',
+				'description' => 'An icon name from the registry. Defaults to the variant\'s. A slot or node overrides it; set explicitly, it shows beside a numeral too.',
+			],
+			[
+				'name'        => 'numeral',
+				'type'        => 'string',
+				'description' => 'A large status number, such as 404 or 503, in place of the default icon. not-found defaults to 404.',
+			],
+			[
+				'name'        => 'title',
+				'type'        => 'node',
+				'description' => 'What failed, as a heading. Don\'t blame the person.',
+			],
+			[
+				'name'        => 'description',
+				'type'        => 'node',
+				'description' => 'What\'s safe and what to do. The default slot (children) fills it too.',
+			],
+			[
+				'name'        => 'code',
+				'type'        => 'string',
+				'description' => 'A reference people can quote to support, such as Error 503 · req_8f2c91.',
+			],
+			[
+				'name'        => 'actions',
+				'type'        => 'node',
+				'description' => 'Recovery buttons, such as Try again.',
+			],
+			[
+				'name'        => 'headingLevel',
+				'type'        => 'number',
+				'default'     => 3,
+				'description' => 'The title\'s heading level, 2 to 6. Use 1 for a full-page error.',
+			],
+			[
+				'name'        => 'focusTitle',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'Moves focus to the title when it renders (tabindex=-1), for a full-page error that replaces the page.',
+			],
+			[
+				'name'        => 'classes',
+				'type'        => 'object',
+				'description' => 'Extra classes per part, such as { title: \'…\', code: \'…\' }.',
+			],
+		],
+		'variants'    => [ 'request', 'offline', 'not-found', 'forbidden' ],
+		'sizes'       => [ 'sm', 'md' ],
+		'parts'       => [
+			[
+				'name'        => 'root',
+				'element'     => 'div',
+				'description' => 'The error state (role=alert), so an error that replaces content is announced.',
+			],
+			[
+				'name'        => 'icon',
+				'element'     => 'span',
+				'description' => 'The icon tile, tinted by the variant, hidden from assistive technology.',
+			],
+			[
+				'name'        => 'numeral',
+				'element'     => 'span',
+				'description' => 'The large status number.',
+			],
+			[
+				'name'        => 'title',
+				'element'     => 'h1|h2|h3|h4|h5|h6',
+				'description' => 'The heading, at headingLevel.',
+			],
+			[
+				'name'        => 'description',
+				'element'     => 'div',
+				'description' => 'What\'s safe and what to do.',
+			],
+			[
+				'name'        => 'code',
+				'element'     => 'span',
+				'description' => 'The reference for support, in the mono font.',
+			],
+			[
+				'name'        => 'actions',
+				'element'     => 'div',
+				'description' => 'The recovery buttons.',
+			],
+		],
+		'slots'       => [
+			[
+				'name'        => 'icon',
+				'description' => 'Overrides the icon.',
+			],
+			[
+				'name'        => 'title',
+				'description' => 'Rich title content.',
+			],
+			[
+				'name'        => 'description',
+				'description' => 'Rich description. The default slot fills it too.',
+			],
+			[
+				'name'        => 'actions',
+				'description' => 'The recovery buttons.',
+			],
+		],
+		'events'      => [],
+		'a11y'        => [
+			'role'         => 'alert',
+			'element'      => 'div',
+			'keyboard'     => [
+				[
+					'keys'   => 'Tab',
+					'action' => 'Moves through the recovery actions; with focusTitle, focus starts on the title.',
+				],
+			],
+			'requirements' => [ 'role=alert, so an error that replaces content is announced.', 'On a full-page error, focus moves to the title (focusTitle), which shows the focus ring.', 'The title is a heading at the right level; the icon is decorative (aria-hidden).', 'Say what failed and what\'s safe, include a reference code people can quote, and don\'t blame the person.' ],
+			'wcag'         => [ '1.3.1', '1.4.3', '2.4.3', '2.4.6', '2.4.7', '4.1.3' ],
+		],
+		'tokens'      => [ '--apui-color-error-soft', '--apui-color-error-soft-foreground', '--apui-color-warning-soft', '--apui-surface-sunken', '--apui-text-default', '--apui-text-muted', '--apui-font-family-mono', '--apui-radius-lg' ],
+		'fixture'     => [
+			'props' => [
+				'title'       => 'Couldn\'t load transactions',
+				'description' => 'The payments service didn\'t respond. Your data is safe; try again in a moment.',
+				'code'        => 'Error 503 · req_8f2c91',
+			],
+			'parts' => [
+				'icon'    => 'circle-alert',
+				'numeral' => '503',
+				'actions' => 'Try again',
+			],
 		],
 	],
 	'Fieldset'          => [
@@ -3324,6 +5014,1131 @@ return [
 			'states'  => [],
 		],
 	],
+	'Grid'              => [
+		'name'        => 'Grid',
+		'description' => 'A layout primitive: its children in equal columns, with the gap from the space scale. With minItemWidth the columns drop as the grid narrows, so a dashboard reflows to one column on a phone. No Tailwind needed. Replaces Livewire\'s widget-grid.',
+		'status'      => 'draft',
+		'issue'       => 58,
+		'rootClass'   => 'apui-grid',
+		'stacks'      => [
+			'livewire' => [
+				'name' => 'grid',
+			],
+			'react'    => [
+				'name' => 'Grid',
+			],
+			'vue'      => [
+				'name' => 'Grid',
+			],
+		],
+		'props'       => [
+			[
+				'name'        => 'columns',
+				'type'        => 'number',
+				'default'     => 1,
+				'description' => 'The number of columns, 1 to 12; the most there are when minItemWidth is set. Emitted as data-columns.',
+			],
+			[
+				'name'        => 'minItemWidth',
+				'type'        => 'string',
+				'description' => 'The narrowest a column may get, any CSS length (16rem). The grid shows fewer columns rather than narrower ones, down to one. Sets --apui-grid-min-item-width on the root.',
+				'a11y'        => 'Set it for content that must reflow at 320px.',
+			],
+			[
+				'name'        => 'gap',
+				'type'        => 'enum',
+				'values'      => [ '0', '1', '2', '3', '4', '5', '6', '8', '10', '12', '16' ],
+				'default'     => '4',
+				'description' => 'The space between rows and columns, a step of the space scale (4 is --apui-space-4, 16px). Emitted as data-gap.',
+			],
+			[
+				'name'        => 'align',
+				'type'        => 'enum',
+				'values'      => [ 'start', 'center', 'end', 'stretch' ],
+				'default'     => 'stretch',
+				'description' => 'How items sit in their row along the block axis (align-items). Emitted as data-align.',
+			],
+			[
+				'name'        => 'justify',
+				'type'        => 'enum',
+				'values'      => [ 'start', 'center', 'end', 'stretch' ],
+				'default'     => 'stretch',
+				'description' => 'How items sit in their column along the inline axis (justify-items), which follows the text direction. Emitted as data-justify.',
+			],
+		],
+		'parts'       => [
+			[
+				'name'        => 'root',
+				'element'     => 'div',
+				'description' => 'The grid; every child is an item.',
+			],
+		],
+		'a11y'        => [
+			'element'      => 'div',
+			'requirements' => [ 'Layout only: no role, and the reading order is the source order, which the columns keep.', 'Columns run in the text direction, so they start at the inline end in RTL.', 'With minItemWidth the grid reflows to one column at narrow widths (1.4.10).' ],
+			'wcag'         => [ '1.3.2', '1.4.10' ],
+		],
+		'tokens'      => [ '--apui-space-0', '--apui-space-1', '--apui-space-2', '--apui-space-3', '--apui-space-4', '--apui-space-5', '--apui-space-6', '--apui-space-8', '--apui-space-10', '--apui-space-12', '--apui-space-16', '--apui-grid-min-item-width' ],
+		'fixture'     => [
+			'content' => 'Grid item',
+			'props'   => [
+				'columns' => 3,
+			],
+			'states'  => [],
+		],
+	],
+	'Heading'           => [
+		'name'        => 'Heading',
+		'description' => 'A title from the type scale. level sets the semantic h1–h6 and size the visual size, so the outline stays right whatever the design calls for. An optional eyebrow labels the section above it.',
+		'status'      => 'draft',
+		'issue'       => 58,
+		'rootClass'   => 'apui-heading',
+		'stacks'      => [
+			'livewire' => [
+				'name'         => 'heading',
+				'capabilities' => [ 'subheading stays as a deprecated alias of text with size lead: it was a paragraph, not a heading' ],
+			],
+			'react'    => [
+				'name' => 'Heading',
+			],
+			'vue'      => [
+				'name' => 'Heading',
+			],
+		],
+		'props'       => [
+			[
+				'name'        => 'level',
+				'type'        => 'enum',
+				'values'      => [ '1', '2', '3', '4', '5', '6' ],
+				'default'     => '2',
+				'description' => 'The semantic level: renders h1–h6. Emitted as data-level.',
+				'a11y'        => 'Keep one h1 per page and don\'t skip levels.',
+			],
+			[
+				'name'        => 'size',
+				'type'        => 'enum',
+				'values'      => [ '1', '2', '3', '4', '5', '6' ],
+				'description' => 'The visual size, 1 (34/40) to 6 (14/20). Defaults to level. Emitted as data-size.',
+			],
+			[
+				'name'        => 'eyebrow',
+				'type'        => 'string',
+				'description' => 'A short uppercase label for section context, rendered just before the heading. Not a second heading.',
+			],
+			[
+				'name'        => 'classes',
+				'type'        => 'object',
+				'description' => 'Extra classes per part, such as { eyebrow: \'…\' }.',
+			],
+		],
+		'parts'       => [
+			[
+				'name'        => 'root',
+				'element'     => 'h1 | h2 | h3 | h4 | h5 | h6',
+				'description' => 'The heading.',
+			],
+			[
+				'name'        => 'eyebrow',
+				'element'     => 'p',
+				'description' => 'The section label, a sibling just before the heading.',
+			],
+		],
+		'slots'       => [
+			[
+				'name'        => 'eyebrow',
+				'description' => 'Rich eyebrow content.',
+			],
+		],
+		'events'      => [],
+		'a11y'        => [
+			'element'      => 'h2',
+			'requirements' => [ 'A native heading element at level; size only changes how it looks.', 'Keep one h1 per page and don\'t skip levels.', 'The eyebrow is a paragraph before the heading, so it never adds a level to the outline.', 'Weight is 600 at most; text keeps 4.5:1 (--apui-text-default, eyebrow --apui-text-muted).' ],
+			'wcag'         => [ '1.3.1', '1.4.3', '2.4.6' ],
+		],
+		'tokens'      => [ '--apui-text-default', '--apui-text-muted', '--apui-font-weight-semibold', '--apui-type-display-lg-font-size', '--apui-type-heading-xl-font-size', '--apui-type-heading-lg-font-size', '--apui-type-heading-md-font-size', '--apui-type-heading-sm-font-size', '--apui-type-body-md-font-size', '--apui-type-eyebrow-font-size' ],
+		'fixture'     => [
+			'content' => 'Every property, one calm place',
+			'parts'   => [
+				'eyebrow' => 'Portfolio',
+			],
+		],
+	],
+	'ImageGallery'      => [
+		'name'        => 'ImageGallery',
+		'description' => 'A grid of images that opens a lightbox: a dark dialog with the image, a counter and caption, previous and next buttons, thumbnails and arrow keys that follow the text direction. Replaces the 2.x PhotoSwipe integration.',
+		'status'      => 'draft',
+		'issue'       => 61,
+		'rootClass'   => 'apui-image-gallery',
+		'stacks'      => [
+			'livewire' => [
+				'name'         => 'image-gallery',
+				'capabilities' => [ 'wire:model binds the lightbox\'s open state both ways through $wire.entangle()', 'Images also accept the 2.x url key for src, and plain URL strings' ],
+			],
+			'react'    => [
+				'name' => 'ImageGallery',
+			],
+			'vue'      => [
+				'name' => 'ImageGallery',
+			],
+		],
+		'props'       => [
+			[
+				'name'        => 'images',
+				'type'        => 'array',
+				'required'    => true,
+				'description' => 'The images, in order: { src, alt, caption }. alt describes the image; caption is visible text under it.',
+				'a11y'        => 'Every image needs alt text that describes it. A caption doesn\'t replace it.',
+			],
+			[
+				'name'        => 'columns',
+				'type'        => 'number',
+				'default'     => 4,
+				'description' => 'How many columns the grid has. Emitted as --apui-_image-gallery-columns.',
+			],
+			[
+				'name'        => 'featured',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'The first image spans two columns and two rows. Emitted as data-featured.',
+			],
+			[
+				'name'        => 'lightbox',
+				'type'        => 'boolean',
+				'default'     => true,
+				'description' => 'Each image is a button that opens the lightbox. Off renders a plain grid of figures.',
+			],
+			[
+				'name'        => 'open',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'Whether the lightbox is open. Livewire binds it with wire:model, Vue with v-model:open. Emitted as data-state on the lightbox\'s parts.',
+			],
+			[
+				'name'        => 'defaultOpen',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'The initial state of an uncontrolled lightbox.',
+				'stacks'      => [ 'react' ],
+			],
+			[
+				'name'        => 'index',
+				'type'        => 'number',
+				'default'     => 0,
+				'description' => 'The image the lightbox shows, 0-based. Pair it with index-change to control it.',
+			],
+			[
+				'name'        => 'defaultIndex',
+				'type'        => 'number',
+				'default'     => 0,
+				'description' => 'The initial image of an uncontrolled lightbox.',
+				'stacks'      => [ 'react' ],
+			],
+			[
+				'name'        => 'downloadable',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'Adds a download link for the image shown to the lightbox\'s bar.',
+			],
+			[
+				'name'        => 'modal',
+				'type'        => 'boolean',
+				'default'     => true,
+				'description' => 'Traps focus in the lightbox, locks scroll and hides the rest of the page from assistive technology.',
+				'a11y'        => 'Sets aria-modal.',
+			],
+			[
+				'name'        => 'portal',
+				'type'        => 'boolean',
+				'default'     => true,
+				'description' => 'Renders the lightbox at the end of the body (x-teleport, a React portal, Vue Teleport). Off renders it in place.',
+			],
+			[
+				'name'        => 'closeLabel',
+				'type'        => 'string',
+				'default'     => 'Close',
+				'description' => 'The lightbox\'s close button. Translate it: Livewire defaults it through __( \'Close\' ).',
+				'a11y'        => 'The close button is icon-only, so this is its only name.',
+			],
+			[
+				'name'        => 'previousLabel',
+				'type'        => 'string',
+				'default'     => 'Previous photo',
+				'description' => 'The previous button\'s accessible name.',
+				'a11y'        => 'The button is icon-only, so this is its only name.',
+			],
+			[
+				'name'        => 'nextLabel',
+				'type'        => 'string',
+				'default'     => 'Next photo',
+				'description' => 'The next button\'s accessible name.',
+				'a11y'        => 'The button is icon-only, so this is its only name.',
+			],
+			[
+				'name'        => 'downloadLabel',
+				'type'        => 'string',
+				'default'     => 'Download',
+				'description' => 'The download link\'s accessible name.',
+			],
+			[
+				'name'        => 'counterLabel',
+				'type'        => 'string',
+				'default'     => '{index} / {count}',
+				'description' => 'The counter before the caption in the lightbox\'s title. {index} and {count} are replaced; Livewire\'s __() string uses :index and :count.',
+			],
+			[
+				'name'        => 'thumbsLabel',
+				'type'        => 'string',
+				'default'     => 'Photos',
+				'description' => 'Names the lightbox\'s thumbnail strip.',
+			],
+			[
+				'name'        => 'classes',
+				'type'        => 'object',
+				'description' => 'Extra classes per part, such as { grid: \'…\', content: \'…\' }.',
+			],
+		],
+		'parts'       => [
+			[
+				'name'        => 'root',
+				'element'     => 'div',
+				'description' => 'Holds the grid and the lightbox.',
+			],
+			[
+				'name'        => 'grid',
+				'element'     => 'div',
+				'description' => 'The grid of figures, in columns columns.',
+			],
+			[
+				'name'        => 'item',
+				'element'     => 'figure',
+				'description' => 'One image and its caption. The featured item spans two columns and rows.',
+			],
+			[
+				'name'        => 'trigger',
+				'element'     => 'button',
+				'description' => 'The button over an image that opens the lightbox on it, named by the image\'s alt text. Not rendered without lightbox.',
+			],
+			[
+				'name'        => 'image',
+				'element'     => 'img',
+				'description' => 'An image: lazy-loaded in the grid, contained in the lightbox\'s stage.',
+			],
+			[
+				'name'        => 'caption',
+				'element'     => 'figcaption',
+				'description' => 'The caption, over the image\'s foot. It shows on hover and focus, and always where there\'s no hover.',
+			],
+			[
+				'name'        => 'backdrop',
+				'element'     => 'div',
+				'description' => 'The scrim behind the lightbox.',
+			],
+			[
+				'name'        => 'positioner',
+				'element'     => 'div',
+				'description' => 'Fills the viewport and centers the lightbox.',
+			],
+			[
+				'name'        => 'content',
+				'element'     => 'div',
+				'description' => 'The lightbox: a dialog panel with the .apui-lightbox class. The spec calls it lightbox; it keeps Zag\'s name (D-019).',
+			],
+			[
+				'name'        => 'bar',
+				'element'     => 'div',
+				'description' => 'The lightbox\'s top row: title, download and close.',
+			],
+			[
+				'name'        => 'title',
+				'element'     => 'h2',
+				'description' => 'The counter and caption ("3 / 6 · Evening, west façade"): the dialog\'s name, announced as it changes.',
+			],
+			[
+				'name'        => 'download',
+				'element'     => 'a',
+				'description' => 'A download link for the image shown, with downloadable.',
+			],
+			[
+				'name'        => 'closeTrigger',
+				'element'     => 'button',
+				'description' => 'The close button: a ghost, neutral, small icon-only Button.',
+			],
+			[
+				'name'        => 'stage',
+				'element'     => 'div',
+				'description' => 'The image shown, with the previous and next buttons over it.',
+			],
+			[
+				'name'        => 'prevTrigger',
+				'element'     => 'button',
+				'description' => 'Shows the previous image, wrapping: a soft, neutral icon-only Button. The spec\'s nav (prev).',
+			],
+			[
+				'name'        => 'nextTrigger',
+				'element'     => 'button',
+				'description' => 'Shows the next image, wrapping. The spec\'s nav (next).',
+			],
+			[
+				'name'        => 'thumbs',
+				'element'     => 'div',
+				'description' => 'The strip of thumbnails under the stage.',
+			],
+			[
+				'name'        => 'thumb',
+				'element'     => 'button',
+				'description' => 'A thumbnail that shows its image; aria-current marks the one shown.',
+			],
+		],
+		'slots'       => [
+			[
+				'name'        => 'caption',
+				'description' => 'Rich caption content for an image, by index (Livewire: a caption key in images).',
+			],
+		],
+		'events'      => [
+			[
+				'name'        => 'open-change',
+				'description' => 'The lightbox opened or closed itself: an image, Escape, the backdrop or the close button. Setting open doesn\'t fire it.',
+				'payload'     => 'boolean',
+			],
+			[
+				'name'        => 'index-change',
+				'description' => 'The lightbox showed another image: an image, the arrow keys, the previous and next buttons or a thumbnail. Setting index doesn\'t fire it.',
+				'payload'     => 'number',
+			],
+		],
+		'a11y'        => [
+			'element'      => 'div',
+			'keyboard'     => [
+				[
+					'keys'   => 'Enter, Space',
+					'action' => 'On an image, opens the lightbox on it.',
+				],
+				[
+					'keys'   => 'ArrowRight, ArrowLeft',
+					'action' => 'In the lightbox: show the next or previous image, wrapping. They follow the text direction, so in RTL ArrowLeft shows the next image.',
+				],
+				[
+					'keys'   => 'Home, End',
+					'action' => 'In the lightbox: show the first or last image.',
+				],
+				[
+					'keys'   => 'Escape',
+					'action' => 'Closes the lightbox and returns focus to the image that opened it.',
+				],
+				[
+					'keys'   => 'Tab, Shift+Tab',
+					'action' => 'Move between the lightbox\'s buttons; focus stays in it while it\'s modal.',
+				],
+			],
+			'requirements' => [ 'Every image has alt text; a grid image\'s button is named by it, and the lightbox shows the same alt.', 'The lightbox is a dialog named by its title, the counter and caption, which is announced as it changes.', 'Focus moves into the lightbox on open, is trapped there while it\'s modal, and returns to the image that opened it.', 'The previous, next, close and download buttons have accessible names (translatable).', 'The thumbnail shown carries aria-current and a ring, not opacity alone.', 'Captions are text, never baked into images, and stay readable over the image\'s foot.', 'Arrow keys follow the text direction; the previous and next icons mirror in RTL.', 'Every part keeps a stable, server-rendered id in Livewire (D-015).' ],
+			'wcag'         => [ '1.1.1', '1.3.1', '1.4.3', '1.4.11', '2.1.1', '2.1.2', '2.4.3', '2.4.7', '4.1.2' ],
+		],
+		'tokens'      => [ '--apui-radius-md', '--apui-radius-lg', '--apui-radius-sm', '--apui-surface-sunken', '--apui-backdrop', '--apui-z-modal', '--apui-focus-ring-color', '--apui-focus-ring-offset-color', '--apui-text-default', '--apui-motion-duration-fast', '--apui-motion-duration-moderate' ],
+		'fixture'     => [
+			'props'  => [
+				'images'   => [
+					[
+						'src'     => 'data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20400%20300\'%20width=\'400\'%20height=\'300\'%3E%3Crect%20width=\'400\'%20height=\'300\'%20fill=\'%23f6d9a8\'/%3E%3Crect%20y=\'135\'%20width=\'400\'%20height=\'165\'%20fill=\'%23e9b77a\'/%3E%3Ccircle%20cx=\'280\'%20cy=\'96\'%20r=\'27\'%20fill=\'%23fff6e0\'/%3E%3Cpath%20d=\'M0%20186L72%20114L128%20156L200%2090L280%20165L340%20126L400%20174V300H0Z\'%20fill=\'%238aa7c4\'/%3E%3Cpath%20d=\'M0%20225L100%20174L180%20216L248%20180L328%20222L400%20198V300H0Z\'%20fill=\'%235d7f9f\'/%3E%3Cpath%20d=\'M0%20264Q120%20240%20220%20264T400%20258V300H0Z\'%20fill=\'%2333506d\'/%3E%3C/svg%3E',
+						'alt'     => 'Sunrise over the ridge, seen from the east terrace',
+						'caption' => 'Sunrise over the ridge',
+					],
+					[
+						'src'     => 'data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20400%20300\'%20width=\'400\'%20height=\'300\'%3E%3Crect%20width=\'400\'%20height=\'300\'%20fill=\'%23cfe3e0\'/%3E%3Crect%20y=\'135\'%20width=\'400\'%20height=\'165\'%20fill=\'%23a9cbc4\'/%3E%3Ccircle%20cx=\'280\'%20cy=\'96\'%20r=\'27\'%20fill=\'%23fff6e0\'/%3E%3Cpath%20d=\'M0%20186L72%20114L128%20156L200%2090L280%20165L340%20126L400%20174V300H0Z\'%20fill=\'%235f8f7c\'/%3E%3Cpath%20d=\'M0%20225L100%20174L180%20216L248%20180L328%20222L400%20198V300H0Z\'%20fill=\'%233f6b57\'/%3E%3Cpath%20d=\'M0%20264Q120%20240%20220%20264T400%20258V300H0Z\'%20fill=\'%2324463a\'/%3E%3C/svg%3E',
+						'alt'     => 'Courtyard garden with benches under the trees',
+						'caption' => 'Courtyard garden',
+					],
+					[
+						'src'     => 'data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20400%20300\'%20width=\'400\'%20height=\'300\'%3E%3Crect%20width=\'400\'%20height=\'300\'%20fill=\'%23e8b49a\'/%3E%3Crect%20y=\'135\'%20width=\'400\'%20height=\'165\'%20fill=\'%23c9786a\'/%3E%3Ccircle%20cx=\'280\'%20cy=\'96\'%20r=\'27\'%20fill=\'%23fff6e0\'/%3E%3Cpath%20d=\'M0%20186L72%20114L128%20156L200%2090L280%20165L340%20126L400%20174V300H0Z\'%20fill=\'%236e6c8f\'/%3E%3Cpath%20d=\'M0%20225L100%20174L180%20216L248%20180L328%20222L400%20198V300H0Z\'%20fill=\'%234a4a6a\'/%3E%3Cpath%20d=\'M0%20264Q120%20240%20220%20264T400%20258V300H0Z\'%20fill=\'%232b2b45\'/%3E%3C/svg%3E',
+						'alt'     => 'The west facade at dusk',
+						'caption' => 'Evening, west façade',
+					],
+					[
+						'src'     => 'data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20400%20300\'%20width=\'400\'%20height=\'300\'%3E%3Crect%20width=\'400\'%20height=\'300\'%20fill=\'%23e4eef6\'/%3E%3Crect%20y=\'135\'%20width=\'400\'%20height=\'165\'%20fill=\'%23c4d8e8\'/%3E%3Ccircle%20cx=\'280\'%20cy=\'96\'%20r=\'27\'%20fill=\'%23fff6e0\'/%3E%3Cpath%20d=\'M0%20186L72%20114L128%20156L200%2090L280%20165L340%20126L400%20174V300H0Z\'%20fill=\'%239db8cf\'/%3E%3Cpath%20d=\'M0%20225L100%20174L180%20216L248%20180L328%20222L400%20198V300H0Z\'%20fill=\'%236f8fab\'/%3E%3Cpath%20d=\'M0%20264Q120%20240%20220%20264T400%20258V300H0Z\'%20fill=\'%2347637e\'/%3E%3C/svg%3E',
+						'alt'     => 'Lake view from the window of unit 4A',
+						'caption' => 'Lake view from 4A',
+					],
+					[
+						'src'     => 'data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20400%20300\'%20width=\'400\'%20height=\'300\'%3E%3Crect%20width=\'400\'%20height=\'300\'%20fill=\'%23f4e2c4\'/%3E%3Crect%20y=\'135\'%20width=\'400\'%20height=\'165\'%20fill=\'%23e7c08d\'/%3E%3Ccircle%20cx=\'280\'%20cy=\'96\'%20r=\'27\'%20fill=\'%23fff6e0\'/%3E%3Cpath%20d=\'M0%20186L72%20114L128%20156L200%2090L280%20165L340%20126L400%20174V300H0Z\'%20fill=\'%23c98f5e\'/%3E%3Cpath%20d=\'M0%20225L100%20174L180%20216L248%20180L328%20222L400%20198V300H0Z\'%20fill=\'%239c6a43\'/%3E%3Cpath%20d=\'M0%20264Q120%20240%20220%20264T400%20258V300H0Z\'%20fill=\'%236b4630\'/%3E%3C/svg%3E',
+						'alt'     => 'Rooftop terrace with lounge chairs',
+						'caption' => 'Rooftop terrace',
+					],
+					[
+						'src'     => 'data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20400%20300\'%20width=\'400\'%20height=\'300\'%3E%3Crect%20width=\'400\'%20height=\'300\'%20fill=\'%231d2b44\'/%3E%3Crect%20y=\'135\'%20width=\'400\'%20height=\'165\'%20fill=\'%232c3d5c\'/%3E%3Ccircle%20cx=\'280\'%20cy=\'96\'%20r=\'27\'%20fill=\'%23fff6e0\'/%3E%3Cpath%20d=\'M0%20186L72%20114L128%20156L200%2090L280%20165L340%20126L400%20174V300H0Z\'%20fill=\'%233c4f72\'/%3E%3Cpath%20d=\'M0%20225L100%20174L180%20216L248%20180L328%20222L400%20198V300H0Z\'%20fill=\'%2325334d\'/%3E%3Cpath%20d=\'M0%20264Q120%20240%20220%20264T400%20258V300H0Z\'%20fill=\'%23141c2c\'/%3E%3C/svg%3E',
+						'alt'     => 'The street outside the entrance at night',
+						'caption' => 'Street at night',
+					],
+				],
+				'featured' => true,
+				'columns'  => 4,
+				'open'     => true,
+				'index'    => 2,
+				'modal'    => false,
+				'portal'   => false,
+			],
+			'parts'  => [
+				'downloadable' => true,
+			],
+			'states' => [],
+		],
+	],
+	'ImageLibrary'      => [
+		'name'        => 'ImageLibrary',
+		'description' => 'A media manager: search, switch between grid and list, select one or many assets, upload, and inspect an asset in a details panel with editable alt text. Livewire only (D-003): it uploads through Livewire and syncs with the WithMediaSync trait; React and Vue use media-library\'s MediaModal and MediaGrid.',
+		'status'      => 'draft',
+		'issue'       => 61,
+		'rootClass'   => 'apui-image-library',
+		'stacks'      => [
+			'livewire' => [
+				'name'         => 'image-library',
+				'capabilities' => [ 'wire:model names the uploads property and wire:library the library collection, as the WithMediaSync trait expects: uploads, replace, crop (with Cropper.js loaded), remove and drag-to-reorder (with SortableJS loaded) call its methods', 'Alt text edits set <library>.<key>.alt on the component', 'The 2.x preview collection still works as assets, and the 2.x *Text props as the labels' ],
+			],
+			'react'    => false,
+			'vue'      => false,
+		],
+		'props'       => [
+			[
+				'name'        => 'assets',
+				'type'        => 'array',
+				'description' => 'The assets: { id, src, name, alt, size, width, height, type }. Livewire also takes a WithMediaSync library collection ({ uuid, url, … }) through preview.',
+			],
+			[
+				'name'        => 'view',
+				'type'        => 'enum',
+				'values'      => [ 'grid', 'list' ],
+				'default'     => 'grid',
+				'description' => 'Thumbnails in a grid, or rows with the name and metadata. The toolbar switches it. Emitted as data-view.',
+			],
+			[
+				'name'        => 'selectable',
+				'type'        => 'enum',
+				'values'      => [ 'single', 'multiple' ],
+				'default'     => 'multiple',
+				'description' => 'Whether one or many assets can be selected.',
+				'a11y'        => 'Sets aria-multiselectable on the listbox.',
+			],
+			[
+				'name'        => 'accept',
+				'type'        => 'string',
+				'default'     => 'image/png, image/jpeg',
+				'description' => 'The file types uploads accept, as the file input\'s accept.',
+			],
+			[
+				'name'        => 'droppable',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'Files dropped on the library upload, with an overlay while they\'re dragged over it.',
+			],
+			[
+				'name'        => 'label',
+				'type'        => 'string',
+				'default'     => 'Media library',
+				'description' => 'Names the library\'s listbox. Translate it: Livewire defaults it through __().',
+			],
+			[
+				'name'        => 'hint',
+				'type'        => 'string',
+				'description' => 'Help text under the grid.',
+			],
+			[
+				'name'        => 'hideErrors',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'Hides the library\'s validation errors.',
+			],
+			[
+				'name'        => 'hideProgress',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'Hides the upload progress bar.',
+			],
+			[
+				'name'        => 'cropConfig',
+				'type'        => 'object',
+				'description' => 'Cropper.js options for the crop dialog, merged over the defaults.',
+			],
+			[
+				'name'        => 'classes',
+				'type'        => 'object',
+				'description' => 'Extra classes per part, such as { toolbar: \'…\', details: \'…\' }.',
+			],
+		],
+		'parts'       => [
+			[
+				'name'        => 'root',
+				'element'     => 'div',
+				'description' => 'The library: the main column and the details panel.',
+			],
+			[
+				'name'        => 'main',
+				'element'     => 'div',
+				'description' => 'The toolbar, selection bar, progress, grid and hint.',
+			],
+			[
+				'name'        => 'toolbar',
+				'element'     => 'div',
+				'description' => 'Search, the view switch and the upload button.',
+			],
+			[
+				'name'        => 'search',
+				'element'     => 'div',
+				'description' => 'Holds the search Input, which filters assets by name as you type.',
+			],
+			[
+				'name'        => 'spacer',
+				'element'     => 'span',
+				'description' => 'Pushes the view switch and upload to the end.',
+			],
+			[
+				'name'        => 'view',
+				'element'     => 'div',
+				'description' => 'The grid and list buttons (aria-pressed).',
+			],
+			[
+				'name'        => 'bulk',
+				'element'     => 'div',
+				'description' => 'The selection bar while assets are selected: select all, the count (announced) and actions.',
+			],
+			[
+				'name'        => 'count',
+				'element'     => 'span',
+				'description' => '"2 selected": a polite live region.',
+			],
+			[
+				'name'        => 'progress',
+				'element'     => 'progress',
+				'description' => 'Upload progress.',
+			],
+			[
+				'name'        => 'grid',
+				'element'     => 'div',
+				'description' => 'The assets: role listbox, aria-multiselectable with multiple, one option in the Tab order.',
+			],
+			[
+				'name'        => 'asset',
+				'element'     => 'div',
+				'description' => 'An asset: role option with aria-selected, named by its file name.',
+			],
+			[
+				'name'        => 'thumb',
+				'element'     => 'div',
+				'description' => 'The asset\'s image, or a file icon.',
+			],
+			[
+				'name'        => 'check',
+				'element'     => 'span',
+				'description' => 'The selection box over the thumbnail (decorative: the option carries the state).',
+			],
+			[
+				'name'        => 'type',
+				'element'     => 'span',
+				'description' => 'The file type badge on files that aren\'t images.',
+			],
+			[
+				'name'        => 'name',
+				'element'     => 'span',
+				'description' => 'The file name, truncated.',
+			],
+			[
+				'name'        => 'meta',
+				'element'     => 'span',
+				'description' => 'Size and dimensions.',
+			],
+			[
+				'name'        => 'empty',
+				'element'     => 'div',
+				'description' => 'Shown when there are no assets, or none match the search.',
+			],
+			[
+				'name'        => 'hint',
+				'element'     => 'p',
+				'description' => 'The hint.',
+			],
+			[
+				'name'        => 'error',
+				'element'     => 'p',
+				'description' => 'A validation error for the library.',
+			],
+			[
+				'name'        => 'details',
+				'element'     => 'aside',
+				'description' => 'The details panel for the active asset: preview, title, alt text, metadata and actions. The spec calls it the details panel.',
+			],
+			[
+				'name'        => 'preview',
+				'element'     => 'div',
+				'description' => 'The active asset, contained.',
+			],
+			[
+				'name'        => 'title',
+				'element'     => 'h3',
+				'description' => 'The active asset\'s name.',
+			],
+			[
+				'name'        => 'metadata',
+				'element'     => 'dl',
+				'description' => 'Dimensions, size and type.',
+			],
+			[
+				'name'        => 'actions',
+				'element'     => 'div',
+				'description' => 'Insert, replace, crop and remove.',
+			],
+			[
+				'name'        => 'dropzone',
+				'element'     => 'div',
+				'description' => 'The overlay while files are dragged over a droppable library.',
+			],
+		],
+		'events'      => [
+			[
+				'name'        => 'selection-change',
+				'description' => 'The selected assets changed. Livewire listens with x-on:selection-change or wire:model on a property through $wire.set in the listener.',
+				'payload'     => 'string[]',
+			],
+			[
+				'name'        => 'insert',
+				'description' => 'Insert was pressed with assets selected (the active one when none are).',
+				'payload'     => 'string[]',
+			],
+		],
+		'a11y'        => [
+			'element'      => 'div',
+			'keyboard'     => [
+				[
+					'keys'   => 'Tab',
+					'action' => 'Moves into the listbox, to the active asset, then on to the details panel.',
+				],
+				[
+					'keys'   => 'ArrowRight, ArrowLeft',
+					'action' => 'Move to the next or previous asset. They follow the text direction, so in RTL ArrowLeft moves to the next asset.',
+				],
+				[
+					'keys'   => 'ArrowDown, ArrowUp',
+					'action' => 'Move a row down or up in the grid, one asset in the list.',
+				],
+				[
+					'keys'   => 'Home, End',
+					'action' => 'Move to the first or last asset.',
+				],
+				[
+					'keys'   => 'Space',
+					'action' => 'Selects or deselects the focused asset.',
+				],
+				[
+					'keys'   => 'Ctrl+A, Cmd+A',
+					'action' => 'Selects every asset shown, with multiple.',
+				],
+				[
+					'keys'   => 'Escape',
+					'action' => 'Clears the selection.',
+				],
+			],
+			'requirements' => [ 'The grid is a listbox with aria-multiselectable; each asset is an option with aria-selected, named by its file name.', 'Only the active asset is in the Tab order (roving tabindex); the focus ring shows on its thumbnail.', 'The selection bar\'s count is a polite live region, so changes are announced.', 'Alt text is editable in the details panel and labelled; images without it are flagged there.', 'Removing assets asks for confirmation first.', 'Every icon-only button has a translatable accessible name.', 'Selection is shown by a ring and a checked box, not by color alone.', 'Arrow keys follow the text direction: in RTL ArrowLeft moves to the next asset.' ],
+			'wcag'         => [ '1.1.1', '1.3.1', '1.4.3', '1.4.11', '2.1.1', '2.4.3', '2.4.7', '3.3.2', '4.1.2', '4.1.3' ],
+		],
+		'tokens'      => [ '--apui-radius-lg', '--apui-radius-md', '--apui-radius-sm', '--apui-border-muted', '--apui-border-default', '--apui-surface-default', '--apui-surface-sunken', '--apui-surface-raised', '--apui-selected-bg', '--apui-color-primary', '--apui-color-primary-soft-foreground', '--apui-checkbox-radius', '--apui-text-default', '--apui-text-muted', '--apui-focus-ring-color' ],
+		'fixture'     => [
+			'props'  => [
+				'assets' => [
+					[
+						'id'     => '1',
+						'src'    => 'data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20400%20300\'%20width=\'400\'%20height=\'300\'%3E%3Crect%20width=\'400\'%20height=\'300\'%20fill=\'%23e4eef6\'/%3E%3Crect%20y=\'135\'%20width=\'400\'%20height=\'165\'%20fill=\'%23c4d8e8\'/%3E%3Ccircle%20cx=\'280\'%20cy=\'96\'%20r=\'27\'%20fill=\'%23fff6e0\'/%3E%3Cpath%20d=\'M0%20186L72%20114L128%20156L200%2090L280%20165L340%20126L400%20174V300H0Z\'%20fill=\'%239db8cf\'/%3E%3Cpath%20d=\'M0%20225L100%20174L180%20216L248%20180L328%20222L400%20198V300H0Z\'%20fill=\'%236f8fab\'/%3E%3Cpath%20d=\'M0%20264Q120%20240%20220%20264T400%20258V300H0Z\'%20fill=\'%2347637e\'/%3E%3C/svg%3E',
+						'name'   => 'lakeview-exterior.jpg',
+						'alt'    => 'The building\'s lake-facing exterior',
+						'size'   => '2.4 MB',
+						'width'  => 4032,
+						'height' => 3024,
+						'type'   => 'JPEG',
+					],
+					[
+						'id'     => '2',
+						'src'    => 'data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20400%20300\'%20width=\'400\'%20height=\'300\'%3E%3Crect%20width=\'400\'%20height=\'300\'%20fill=\'%23cfe3e0\'/%3E%3Crect%20y=\'135\'%20width=\'400\'%20height=\'165\'%20fill=\'%23a9cbc4\'/%3E%3Ccircle%20cx=\'280\'%20cy=\'96\'%20r=\'27\'%20fill=\'%23fff6e0\'/%3E%3Cpath%20d=\'M0%20186L72%20114L128%20156L200%2090L280%20165L340%20126L400%20174V300H0Z\'%20fill=\'%235f8f7c\'/%3E%3Cpath%20d=\'M0%20225L100%20174L180%20216L248%20180L328%20222L400%20198V300H0Z\'%20fill=\'%233f6b57\'/%3E%3Cpath%20d=\'M0%20264Q120%20240%20220%20264T400%20258V300H0Z\'%20fill=\'%2324463a\'/%3E%3C/svg%3E',
+						'name'   => 'courtyard-garden.jpg',
+						'alt'    => 'Shared garden courtyard with benches',
+						'size'   => '1.8 MB',
+						'width'  => 3024,
+						'height' => 4032,
+						'type'   => 'JPEG',
+					],
+					[
+						'id'   => '3',
+						'src'  => 'data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20400%20300\'%20width=\'400\'%20height=\'300\'%3E%3Crect%20width=\'400\'%20height=\'300\'%20fill=\'%23e8b49a\'/%3E%3Crect%20y=\'135\'%20width=\'400\'%20height=\'165\'%20fill=\'%23c9786a\'/%3E%3Ccircle%20cx=\'280\'%20cy=\'96\'%20r=\'27\'%20fill=\'%23fff6e0\'/%3E%3Cpath%20d=\'M0%20186L72%20114L128%20156L200%2090L280%20165L340%20126L400%20174V300H0Z\'%20fill=\'%236e6c8f\'/%3E%3Cpath%20d=\'M0%20225L100%20174L180%20216L248%20180L328%20222L400%20198V300H0Z\'%20fill=\'%234a4a6a\'/%3E%3Cpath%20d=\'M0%20264Q120%20240%20220%20264T400%20258V300H0Z\'%20fill=\'%232b2b45\'/%3E%3C/svg%3E',
+						'name' => 'west-facade.jpg',
+						'alt'  => '',
+						'size' => '3.1 MB',
+						'type' => 'JPEG',
+					],
+					[
+						'id'   => '4',
+						'src'  => 'data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20400%20300\'%20width=\'400\'%20height=\'300\'%3E%3Crect%20width=\'400\'%20height=\'300\'%20fill=\'%23f6d9a8\'/%3E%3Crect%20y=\'135\'%20width=\'400\'%20height=\'165\'%20fill=\'%23e9b77a\'/%3E%3Ccircle%20cx=\'280\'%20cy=\'96\'%20r=\'27\'%20fill=\'%23fff6e0\'/%3E%3Cpath%20d=\'M0%20186L72%20114L128%20156L200%2090L280%20165L340%20126L400%20174V300H0Z\'%20fill=\'%238aa7c4\'/%3E%3Cpath%20d=\'M0%20225L100%20174L180%20216L248%20180L328%20222L400%20198V300H0Z\'%20fill=\'%235d7f9f\'/%3E%3Cpath%20d=\'M0%20264Q120%20240%20220%20264T400%20258V300H0Z\'%20fill=\'%2333506d\'/%3E%3C/svg%3E',
+						'name' => 'view-from-4a.jpg',
+						'alt'  => 'Sunrise over the ridge from unit 4A',
+						'size' => '2.2 MB',
+						'type' => 'JPEG',
+					],
+					[
+						'id'   => '5',
+						'src'  => 'data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20400%20300\'%20width=\'400\'%20height=\'300\'%3E%3Crect%20width=\'400\'%20height=\'300\'%20fill=\'%231d2b44\'/%3E%3Crect%20y=\'135\'%20width=\'400\'%20height=\'165\'%20fill=\'%232c3d5c\'/%3E%3Ccircle%20cx=\'280\'%20cy=\'96\'%20r=\'27\'%20fill=\'%23fff6e0\'/%3E%3Cpath%20d=\'M0%20186L72%20114L128%20156L200%2090L280%20165L340%20126L400%20174V300H0Z\'%20fill=\'%233c4f72\'/%3E%3Cpath%20d=\'M0%20225L100%20174L180%20216L248%20180L328%20222L400%20198V300H0Z\'%20fill=\'%2325334d\'/%3E%3Cpath%20d=\'M0%20264Q120%20240%20220%20264T400%20258V300H0Z\'%20fill=\'%23141c2c\'/%3E%3C/svg%3E',
+						'name' => 'street-night.jpg',
+						'alt'  => 'The street at night',
+						'size' => '2.9 MB',
+						'type' => 'JPEG',
+					],
+					[
+						'id'   => '6',
+						'name' => 'floor-plan.pdf',
+						'size' => '640 KB',
+						'type' => 'PDF',
+					],
+				],
+				'label'  => 'Lakeview Lofts media',
+			],
+			'parts'  => [
+				'assets'    => [
+					[
+						'id'     => '1',
+						'src'    => 'data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20400%20300\'%20width=\'400\'%20height=\'300\'%3E%3Crect%20width=\'400\'%20height=\'300\'%20fill=\'%23e4eef6\'/%3E%3Crect%20y=\'135\'%20width=\'400\'%20height=\'165\'%20fill=\'%23c4d8e8\'/%3E%3Ccircle%20cx=\'280\'%20cy=\'96\'%20r=\'27\'%20fill=\'%23fff6e0\'/%3E%3Cpath%20d=\'M0%20186L72%20114L128%20156L200%2090L280%20165L340%20126L400%20174V300H0Z\'%20fill=\'%239db8cf\'/%3E%3Cpath%20d=\'M0%20225L100%20174L180%20216L248%20180L328%20222L400%20198V300H0Z\'%20fill=\'%236f8fab\'/%3E%3Cpath%20d=\'M0%20264Q120%20240%20220%20264T400%20258V300H0Z\'%20fill=\'%2347637e\'/%3E%3C/svg%3E',
+						'name'   => 'lakeview-exterior.jpg',
+						'alt'    => 'The building\'s lake-facing exterior',
+						'size'   => '2.4 MB',
+						'width'  => 4032,
+						'height' => 3024,
+						'type'   => 'JPEG',
+					],
+					[
+						'id'     => '2',
+						'src'    => 'data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20400%20300\'%20width=\'400\'%20height=\'300\'%3E%3Crect%20width=\'400\'%20height=\'300\'%20fill=\'%23cfe3e0\'/%3E%3Crect%20y=\'135\'%20width=\'400\'%20height=\'165\'%20fill=\'%23a9cbc4\'/%3E%3Ccircle%20cx=\'280\'%20cy=\'96\'%20r=\'27\'%20fill=\'%23fff6e0\'/%3E%3Cpath%20d=\'M0%20186L72%20114L128%20156L200%2090L280%20165L340%20126L400%20174V300H0Z\'%20fill=\'%235f8f7c\'/%3E%3Cpath%20d=\'M0%20225L100%20174L180%20216L248%20180L328%20222L400%20198V300H0Z\'%20fill=\'%233f6b57\'/%3E%3Cpath%20d=\'M0%20264Q120%20240%20220%20264T400%20258V300H0Z\'%20fill=\'%2324463a\'/%3E%3C/svg%3E',
+						'name'   => 'courtyard-garden.jpg',
+						'alt'    => 'Shared garden courtyard with benches',
+						'size'   => '1.8 MB',
+						'width'  => 3024,
+						'height' => 4032,
+						'type'   => 'JPEG',
+					],
+					[
+						'id'   => '3',
+						'src'  => 'data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20400%20300\'%20width=\'400\'%20height=\'300\'%3E%3Crect%20width=\'400\'%20height=\'300\'%20fill=\'%23e8b49a\'/%3E%3Crect%20y=\'135\'%20width=\'400\'%20height=\'165\'%20fill=\'%23c9786a\'/%3E%3Ccircle%20cx=\'280\'%20cy=\'96\'%20r=\'27\'%20fill=\'%23fff6e0\'/%3E%3Cpath%20d=\'M0%20186L72%20114L128%20156L200%2090L280%20165L340%20126L400%20174V300H0Z\'%20fill=\'%236e6c8f\'/%3E%3Cpath%20d=\'M0%20225L100%20174L180%20216L248%20180L328%20222L400%20198V300H0Z\'%20fill=\'%234a4a6a\'/%3E%3Cpath%20d=\'M0%20264Q120%20240%20220%20264T400%20258V300H0Z\'%20fill=\'%232b2b45\'/%3E%3C/svg%3E',
+						'name' => 'west-facade.jpg',
+						'alt'  => '',
+						'size' => '3.1 MB',
+						'type' => 'JPEG',
+					],
+					[
+						'id'   => '4',
+						'src'  => 'data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20400%20300\'%20width=\'400\'%20height=\'300\'%3E%3Crect%20width=\'400\'%20height=\'300\'%20fill=\'%23f6d9a8\'/%3E%3Crect%20y=\'135\'%20width=\'400\'%20height=\'165\'%20fill=\'%23e9b77a\'/%3E%3Ccircle%20cx=\'280\'%20cy=\'96\'%20r=\'27\'%20fill=\'%23fff6e0\'/%3E%3Cpath%20d=\'M0%20186L72%20114L128%20156L200%2090L280%20165L340%20126L400%20174V300H0Z\'%20fill=\'%238aa7c4\'/%3E%3Cpath%20d=\'M0%20225L100%20174L180%20216L248%20180L328%20222L400%20198V300H0Z\'%20fill=\'%235d7f9f\'/%3E%3Cpath%20d=\'M0%20264Q120%20240%20220%20264T400%20258V300H0Z\'%20fill=\'%2333506d\'/%3E%3C/svg%3E',
+						'name' => 'view-from-4a.jpg',
+						'alt'  => 'Sunrise over the ridge from unit 4A',
+						'size' => '2.2 MB',
+						'type' => 'JPEG',
+					],
+					[
+						'id'   => '5',
+						'src'  => 'data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20400%20300\'%20width=\'400\'%20height=\'300\'%3E%3Crect%20width=\'400\'%20height=\'300\'%20fill=\'%231d2b44\'/%3E%3Crect%20y=\'135\'%20width=\'400\'%20height=\'165\'%20fill=\'%232c3d5c\'/%3E%3Ccircle%20cx=\'280\'%20cy=\'96\'%20r=\'27\'%20fill=\'%23fff6e0\'/%3E%3Cpath%20d=\'M0%20186L72%20114L128%20156L200%2090L280%20165L340%20126L400%20174V300H0Z\'%20fill=\'%233c4f72\'/%3E%3Cpath%20d=\'M0%20225L100%20174L180%20216L248%20180L328%20222L400%20198V300H0Z\'%20fill=\'%2325334d\'/%3E%3Cpath%20d=\'M0%20264Q120%20240%20220%20264T400%20258V300H0Z\'%20fill=\'%23141c2c\'/%3E%3C/svg%3E',
+						'name' => 'street-night.jpg',
+						'alt'  => 'The street at night',
+						'size' => '2.9 MB',
+						'type' => 'JPEG',
+					],
+					[
+						'id'   => '6',
+						'name' => 'floor-plan.pdf',
+						'size' => '640 KB',
+						'type' => 'PDF',
+					],
+				],
+				'droppable' => true,
+				'hint'      => 'PNG or JPEG, up to 10 MB.',
+			],
+			'states' => [],
+		],
+	],
+	'ImageSlider'       => [
+		'name'        => 'ImageSlider',
+		'description' => 'One large image per view with a glass caption, a counter, previous and next buttons, dots and optional thumbnails, on the carousel machine. Arrow keys on the dots follow the text direction.',
+		'status'      => 'draft',
+		'issue'       => 61,
+		'rootClass'   => 'apui-image-slider',
+		'stacks'      => [
+			'livewire' => [
+				'name'         => 'image-slider',
+				'capabilities' => [ 'wire:model binds the slide shown (index) through $wire.entangle()', 'Images also accept the 2.x url key for src, and plain URL strings' ],
+			],
+			'react'    => [
+				'name' => 'ImageSlider',
+			],
+			'vue'      => [
+				'name' => 'ImageSlider',
+			],
+		],
+		'props'       => [
+			[
+				'name'        => 'images',
+				'type'        => 'array',
+				'required'    => true,
+				'description' => 'The slides, in order: { src, alt, caption, description }. The caption is the glass card\'s title.',
+				'a11y'        => 'Every image needs alt text. Captions are text, never baked into the image.',
+			],
+			[
+				'name'        => 'aspectRatio',
+				'type'        => 'string',
+				'default'     => '21 / 9',
+				'description' => 'The frame\'s aspect ratio, as CSS takes it ("16 / 9"). Livewire also takes the 2.x "16:9". Emitted as --apui-_image-slider-ratio.',
+			],
+			[
+				'name'        => 'index',
+				'type'        => 'number',
+				'default'     => 0,
+				'description' => 'The slide shown, 0-based. Livewire binds it with wire:model. Pair it with index-change to control it.',
+			],
+			[
+				'name'        => 'defaultIndex',
+				'type'        => 'number',
+				'default'     => 0,
+				'description' => 'The initial slide of an uncontrolled slider.',
+				'stacks'      => [ 'react' ],
+			],
+			[
+				'name'        => 'loop',
+				'type'        => 'boolean',
+				'default'     => true,
+				'description' => 'Wraps from the last slide to the first and back.',
+			],
+			[
+				'name'        => 'autoplay',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'Advances every interval ms, with a pause button. It pauses while the pointer or focus is on the slider.',
+				'a11y'        => 'Autoplay always has a visible pause button (2.2.2).',
+			],
+			[
+				'name'        => 'interval',
+				'type'        => 'number',
+				'default'     => 5000,
+				'description' => 'Milliseconds between slides while autoplay runs.',
+			],
+			[
+				'name'        => 'thumbnails',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'Shows a strip of thumbnails under the frame.',
+			],
+			[
+				'name'        => 'label',
+				'type'        => 'string',
+				'default'     => 'Photos',
+				'description' => 'Names the slider region. Translate it: Livewire defaults it through __( \'Photos\' ).',
+				'a11y'        => 'A page with several sliders names each one.',
+			],
+			[
+				'name'        => 'previousLabel',
+				'type'        => 'string',
+				'default'     => 'Previous photo',
+				'description' => 'The previous button\'s accessible name.',
+				'a11y'        => 'The button is icon-only, so this is its only name.',
+			],
+			[
+				'name'        => 'nextLabel',
+				'type'        => 'string',
+				'default'     => 'Next photo',
+				'description' => 'The next button\'s accessible name.',
+				'a11y'        => 'The button is icon-only, so this is its only name.',
+			],
+			[
+				'name'        => 'indicatorLabel',
+				'type'        => 'string',
+				'default'     => 'Photo {index}',
+				'description' => 'A dot\'s accessible name. {index} is replaced; Livewire\'s __() string uses :index.',
+			],
+			[
+				'name'        => 'slideLabel',
+				'type'        => 'string',
+				'default'     => '{index} of {count}',
+				'description' => 'A slide\'s accessible name. Livewire\'s __() string uses :index and :count.',
+			],
+			[
+				'name'        => 'counterLabel',
+				'type'        => 'string',
+				'default'     => '{index} / {count}',
+				'description' => 'The counter text. Livewire\'s __() string uses :index and :count.',
+			],
+			[
+				'name'        => 'playLabel',
+				'type'        => 'string',
+				'default'     => 'Start slide rotation',
+				'description' => 'The autoplay button\'s name while paused.',
+			],
+			[
+				'name'        => 'pauseLabel',
+				'type'        => 'string',
+				'default'     => 'Stop slide rotation',
+				'description' => 'The autoplay button\'s name while playing.',
+			],
+			[
+				'name'        => 'classes',
+				'type'        => 'object',
+				'description' => 'Extra classes per part, such as { viewport: \'…\', caption: \'…\' }.',
+			],
+		],
+		'parts'       => [
+			[
+				'name'        => 'root',
+				'element'     => 'div',
+				'description' => 'The carousel\'s region: role region with aria-roledescription carousel, named by label.',
+			],
+			[
+				'name'        => 'viewport',
+				'element'     => 'div',
+				'description' => 'The rounded frame at aspectRatio, holding the track and the overlays.',
+			],
+			[
+				'name'        => 'itemGroup',
+				'element'     => 'div',
+				'description' => 'The scroll-snapping track.',
+			],
+			[
+				'name'        => 'item',
+				'element'     => 'div',
+				'description' => 'A slide: role group with aria-roledescription slide, named "2 of 6"; slides out of view are aria-hidden.',
+			],
+			[
+				'name'        => 'image',
+				'element'     => 'img',
+				'description' => 'A slide\'s image, covering the frame.',
+			],
+			[
+				'name'        => 'caption',
+				'element'     => 'div',
+				'description' => 'The glass card at the frame\'s start foot, with the slide\'s title and description.',
+			],
+			[
+				'name'        => 'title',
+				'element'     => 'p',
+				'description' => 'The caption\'s title.',
+			],
+			[
+				'name'        => 'description',
+				'element'     => 'p',
+				'description' => 'The caption\'s supporting text.',
+			],
+			[
+				'name'        => 'progressText',
+				'element'     => 'span',
+				'description' => 'The glass counter ("2 / 6") at the top end. The spec calls it counter; it keeps Zag\'s name (D-019).',
+			],
+			[
+				'name'        => 'prevTrigger',
+				'element'     => 'button',
+				'description' => 'Shows the previous slide: a soft, neutral icon-only Button. The spec\'s nav (prev).',
+			],
+			[
+				'name'        => 'nextTrigger',
+				'element'     => 'button',
+				'description' => 'Shows the next slide. The spec\'s nav (next).',
+			],
+			[
+				'name'        => 'indicatorGroup',
+				'element'     => 'div',
+				'description' => 'The glass row of dots at the foot\'s end. The spec calls it dots.',
+			],
+			[
+				'name'        => 'indicator',
+				'element'     => 'button',
+				'description' => 'A dot that shows its slide; aria-current and a wider primary pill mark the one shown.',
+			],
+			[
+				'name'        => 'autoplayTrigger',
+				'element'     => 'button',
+				'description' => 'Pauses and resumes autoplay, with autoplay.',
+			],
+			[
+				'name'        => 'thumbs',
+				'element'     => 'div',
+				'description' => 'The strip of thumbnails under the frame, with thumbnails.',
+			],
+			[
+				'name'        => 'thumb',
+				'element'     => 'button',
+				'description' => 'A thumbnail that shows its slide; aria-current marks the one shown.',
+			],
+		],
+		'events'      => [
+			[
+				'name'        => 'index-change',
+				'description' => 'The slider moved to another slide: a button, a dot, a thumbnail, a swipe or autoplay. Setting index doesn\'t fire it.',
+				'payload'     => 'number',
+			],
+		],
+		'a11y'        => [
+			'role'         => 'region',
+			'element'      => 'div',
+			'keyboard'     => [
+				[
+					'keys'   => 'Tab, Shift+Tab',
+					'action' => 'Move between the previous and next buttons, the dots and the thumbnails.',
+				],
+				[
+					'keys'   => 'Enter, Space',
+					'action' => 'On a button, dot or thumbnail: shows its slide.',
+				],
+				[
+					'keys'   => 'ArrowRight, ArrowLeft',
+					'action' => 'On the dots: show the next or previous slide. They follow the text direction, so in RTL ArrowLeft shows the next slide.',
+				],
+				[
+					'keys'   => 'Home, End',
+					'action' => 'On the dots: show the first or last slide.',
+				],
+			],
+			'requirements' => [ 'The root is a region with aria-roledescription carousel and a translatable name.', 'Each slide is a group with aria-roledescription slide, named by its position; slides out of view are hidden from assistive technology.', 'The track is a polite live region, off while autoplay runs, so moves are announced.', 'Every image has alt text; captions are text over a glass card, never baked into the image.', 'The previous and next buttons and the dots have accessible names (translatable); the dot shown carries aria-current.', 'Autoplay has a pause button and stops while the pointer or focus is on the slider (2.2.2).', 'Arrow keys follow the text direction; the previous and next icons mirror in RTL.', 'Glass falls back to the raised surface under reduced transparency and in high contrast.', 'Every part keeps a stable, server-rendered id in Livewire (D-015).' ],
+			'wcag'         => [ '1.1.1', '1.3.1', '1.4.3', '1.4.11', '2.1.1', '2.2.2', '2.4.3', '2.4.7', '4.1.2' ],
+		],
+		'tokens'      => [ '--apui-radius-lg', '--apui-radius-sm', '--apui-radius-full', '--apui-surface-sunken', '--apui-surface-glass', '--apui-surface-glass-border', '--apui-surface-glass-blur', '--apui-surface-glass-saturation', '--apui-elevation-glass', '--apui-surface-raised', '--apui-border-default', '--apui-color-primary', '--apui-text-default', '--apui-text-muted-glass', '--apui-focus-ring-color' ],
+		'fixture'     => [
+			'props'  => [
+				'images'      => [
+					[
+						'src'         => 'data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20400%20300\'%20width=\'400\'%20height=\'300\'%3E%3Crect%20width=\'400\'%20height=\'300\'%20fill=\'%23e4eef6\'/%3E%3Crect%20y=\'135\'%20width=\'400\'%20height=\'165\'%20fill=\'%23c4d8e8\'/%3E%3Ccircle%20cx=\'280\'%20cy=\'96\'%20r=\'27\'%20fill=\'%23fff6e0\'/%3E%3Cpath%20d=\'M0%20186L72%20114L128%20156L200%2090L280%20165L340%20126L400%20174V300H0Z\'%20fill=\'%239db8cf\'/%3E%3Cpath%20d=\'M0%20225L100%20174L180%20216L248%20180L328%20222L400%20198V300H0Z\'%20fill=\'%236f8fab\'/%3E%3Cpath%20d=\'M0%20264Q120%20240%20220%20264T400%20258V300H0Z\'%20fill=\'%2347637e\'/%3E%3C/svg%3E',
+						'alt'         => 'Lake view from the window of unit 4A',
+						'caption'     => 'Lake view from 4A',
+						'description' => 'South-facing, 11th floor · Lakeview Lofts, Chicago',
+					],
+					[
+						'src'     => 'data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20400%20300\'%20width=\'400\'%20height=\'300\'%3E%3Crect%20width=\'400\'%20height=\'300\'%20fill=\'%23f6d9a8\'/%3E%3Crect%20y=\'135\'%20width=\'400\'%20height=\'165\'%20fill=\'%23e9b77a\'/%3E%3Ccircle%20cx=\'280\'%20cy=\'96\'%20r=\'27\'%20fill=\'%23fff6e0\'/%3E%3Cpath%20d=\'M0%20186L72%20114L128%20156L200%2090L280%20165L340%20126L400%20174V300H0Z\'%20fill=\'%238aa7c4\'/%3E%3Cpath%20d=\'M0%20225L100%20174L180%20216L248%20180L328%20222L400%20198V300H0Z\'%20fill=\'%235d7f9f\'/%3E%3Cpath%20d=\'M0%20264Q120%20240%20220%20264T400%20258V300H0Z\'%20fill=\'%2333506d\'/%3E%3C/svg%3E',
+						'alt'     => 'Sunrise over the ridge, seen from the east terrace',
+						'caption' => 'Sunrise over the ridge',
+					],
+					[
+						'src'     => 'data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20400%20300\'%20width=\'400\'%20height=\'300\'%3E%3Crect%20width=\'400\'%20height=\'300\'%20fill=\'%23cfe3e0\'/%3E%3Crect%20y=\'135\'%20width=\'400\'%20height=\'165\'%20fill=\'%23a9cbc4\'/%3E%3Ccircle%20cx=\'280\'%20cy=\'96\'%20r=\'27\'%20fill=\'%23fff6e0\'/%3E%3Cpath%20d=\'M0%20186L72%20114L128%20156L200%2090L280%20165L340%20126L400%20174V300H0Z\'%20fill=\'%235f8f7c\'/%3E%3Cpath%20d=\'M0%20225L100%20174L180%20216L248%20180L328%20222L400%20198V300H0Z\'%20fill=\'%233f6b57\'/%3E%3Cpath%20d=\'M0%20264Q120%20240%20220%20264T400%20258V300H0Z\'%20fill=\'%2324463a\'/%3E%3C/svg%3E',
+						'alt'     => 'Courtyard garden with benches under the trees',
+						'caption' => 'Courtyard garden',
+					],
+					[
+						'src' => 'data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20400%20300\'%20width=\'400\'%20height=\'300\'%3E%3Crect%20width=\'400\'%20height=\'300\'%20fill=\'%23e8b49a\'/%3E%3Crect%20y=\'135\'%20width=\'400\'%20height=\'165\'%20fill=\'%23c9786a\'/%3E%3Ccircle%20cx=\'280\'%20cy=\'96\'%20r=\'27\'%20fill=\'%23fff6e0\'/%3E%3Cpath%20d=\'M0%20186L72%20114L128%20156L200%2090L280%20165L340%20126L400%20174V300H0Z\'%20fill=\'%236e6c8f\'/%3E%3Cpath%20d=\'M0%20225L100%20174L180%20216L248%20180L328%20222L400%20198V300H0Z\'%20fill=\'%234a4a6a\'/%3E%3Cpath%20d=\'M0%20264Q120%20240%20220%20264T400%20258V300H0Z\'%20fill=\'%232b2b45\'/%3E%3C/svg%3E',
+						'alt' => 'The west facade at dusk',
+					],
+					[
+						'src'     => 'data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20400%20300\'%20width=\'400\'%20height=\'300\'%3E%3Crect%20width=\'400\'%20height=\'300\'%20fill=\'%23f4e2c4\'/%3E%3Crect%20y=\'135\'%20width=\'400\'%20height=\'165\'%20fill=\'%23e7c08d\'/%3E%3Ccircle%20cx=\'280\'%20cy=\'96\'%20r=\'27\'%20fill=\'%23fff6e0\'/%3E%3Cpath%20d=\'M0%20186L72%20114L128%20156L200%2090L280%20165L340%20126L400%20174V300H0Z\'%20fill=\'%23c98f5e\'/%3E%3Cpath%20d=\'M0%20225L100%20174L180%20216L248%20180L328%20222L400%20198V300H0Z\'%20fill=\'%239c6a43\'/%3E%3Cpath%20d=\'M0%20264Q120%20240%20220%20264T400%20258V300H0Z\'%20fill=\'%236b4630\'/%3E%3C/svg%3E',
+						'alt'     => 'Rooftop terrace with lounge chairs',
+						'caption' => 'Rooftop terrace',
+					],
+					[
+						'src'     => 'data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20400%20300\'%20width=\'400\'%20height=\'300\'%3E%3Crect%20width=\'400\'%20height=\'300\'%20fill=\'%231d2b44\'/%3E%3Crect%20y=\'135\'%20width=\'400\'%20height=\'165\'%20fill=\'%232c3d5c\'/%3E%3Ccircle%20cx=\'280\'%20cy=\'96\'%20r=\'27\'%20fill=\'%23fff6e0\'/%3E%3Cpath%20d=\'M0%20186L72%20114L128%20156L200%2090L280%20165L340%20126L400%20174V300H0Z\'%20fill=\'%233c4f72\'/%3E%3Cpath%20d=\'M0%20225L100%20174L180%20216L248%20180L328%20222L400%20198V300H0Z\'%20fill=\'%2325334d\'/%3E%3Cpath%20d=\'M0%20264Q120%20240%20220%20264T400%20258V300H0Z\'%20fill=\'%23141c2c\'/%3E%3C/svg%3E',
+						'alt'     => 'The street outside the entrance at night',
+						'caption' => 'Street at night',
+					],
+				],
+				'thumbnails'  => true,
+				'aspectRatio' => '21 / 9',
+				'label'       => 'Lakeview Lofts photos',
+			],
+			'parts'  => [
+				'autoplay'   => true,
+				'thumbnails' => true,
+			],
+			'states' => [],
+		],
+	],
 	'Input'             => [
 		'name'        => 'Input',
 		'description' => 'Single-line text entry with a visible label, hint and error. It anchors the field anatomy (root, label, control, hint, error) every form component reuses.',
@@ -3555,6 +6370,185 @@ return [
 			'states' => [ 'hover', 'focus-visible', 'disabled', 'invalid', 'readonly' ],
 		],
 	],
+	'KpiCard'           => [
+		'name'        => 'KpiCard',
+		'description' => 'A headline metric in a Card: a Stat\'s label, value and change, with a sparkline of its trend beside the value and, when there is one, progress toward a target. A period control (a Select) can sit in the label row.',
+		'status'      => 'draft',
+		'issue'       => 61,
+		'rootClass'   => 'apui-kpi-card',
+		'stacks'      => [
+			'livewire' => [
+				'name'         => 'kpi-card',
+				'capabilities' => [ 'The period slot holds a control, such as a Select bound with wire:model.live', '2.x title, value, icon, change, changeLabel and sparkline-data still work, mapped onto stat and sparkline' ],
+			],
+			'react'    => [
+				'name'         => 'KpiCard',
+				'capabilities' => [ 'period takes a node, such as a Select' ],
+			],
+			'vue'      => [
+				'name'         => 'KpiCard',
+				'capabilities' => [ 'The period slot holds a control, such as a Select with v-model' ],
+			],
+		],
+		'props'       => [
+			[
+				'name'        => 'stat',
+				'type'        => 'object',
+				'description' => 'The metric, with Stat\'s props: { label, value, unit, icon, color, delta, change, trend, description, upLabel, downLabel, flatLabel }. color tints the icon tile and the target bar, and is emitted as data-color on the root.',
+			],
+			[
+				'name'        => 'sparkline',
+				'type'        => 'array',
+				'description' => 'The metric\'s recent values, drawn as an area Sparkline beside the value. Use one scale for the cards in a row. Omit it and the value takes the row.',
+			],
+			[
+				'name'        => 'sparklineLabel',
+				'type'        => 'string',
+				'default'     => 'Trend from {first} to {latest}',
+				'description' => 'The sparkline\'s accessible label; {first}, {latest}, {min}, {max} and {count} are filled in. Translate it: Livewire defaults it through __( \'Trend from {first} to {latest}\' ).',
+			],
+			[
+				'name'        => 'target',
+				'type'        => 'object',
+				'description' => 'Progress toward a goal: { value, max, label }. max defaults to 100; label names the goal ("Goal $25,000") and the bar. Show a target only when one exists.',
+			],
+			[
+				'name'        => 'targetLabel',
+				'type'        => 'string',
+				'default'     => '{percent}% of goal',
+				'description' => 'The text at the end of the target row; {percent}, {value} and {max} are filled in. Translate it: Livewire defaults it through __( \'{percent}% of goal\' ).',
+			],
+			[
+				'name'        => 'period',
+				'type'        => 'node',
+				'description' => 'A control for the period, such as a Select, in the label row before the icon.',
+			],
+			[
+				'name'        => 'classes',
+				'type'        => 'object',
+				'description' => 'Extra classes per part, such as { value: \'…\', sparkline: \'…\' }.',
+			],
+		],
+		'parts'       => [
+			[
+				'name'        => 'root',
+				'element'     => 'div',
+				'description' => 'The card: .apui-card.apui-kpi-card, with data-color from stat.',
+			],
+			[
+				'name'        => 'top',
+				'element'     => 'div',
+				'description' => 'The label row: label, period and icon.',
+			],
+			[
+				'name'        => 'label',
+				'element'     => 'span',
+				'description' => 'What the metric measures.',
+			],
+			[
+				'name'        => 'period',
+				'element'     => 'div',
+				'description' => 'The period control.',
+			],
+			[
+				'name'        => 'icon',
+				'element'     => 'span',
+				'description' => 'The tinted icon tile. Hidden from assistive technology.',
+			],
+			[
+				'name'        => 'row',
+				'element'     => 'div',
+				'description' => 'The summary beside the sparkline, aligned to their bottoms.',
+			],
+			[
+				'name'        => 'summary',
+				'element'     => 'div',
+				'description' => 'The value and the foot.',
+			],
+			[
+				'name'        => 'value',
+				'element'     => 'span',
+				'description' => 'The number, in tabular figures.',
+			],
+			[
+				'name'        => 'unit',
+				'element'     => 'span',
+				'description' => 'The unit inside the value.',
+			],
+			[
+				'name'        => 'foot',
+				'element'     => 'span',
+				'description' => 'The delta and description.',
+			],
+			[
+				'name'        => 'delta',
+				'element'     => 'span',
+				'description' => 'The change: hidden direction text, an arrow and the change, with data-trend.',
+			],
+			[
+				'name'        => 'description',
+				'element'     => 'span',
+				'description' => 'The context after the delta.',
+			],
+			[
+				'name'        => 'sparkline',
+				'element'     => 'svg',
+				'description' => 'The trend: a Sparkline (.apui-sparkline, role=img) with a label stating the first and latest values.',
+			],
+			[
+				'name'        => 'target',
+				'element'     => 'div',
+				'description' => 'Progress toward the goal: a small Progress, then targetText.',
+			],
+			[
+				'name'        => 'targetText',
+				'element'     => 'div',
+				'description' => 'The goal\'s label at the start and targetLabel at the end.',
+			],
+		],
+		'slots'       => [
+			[
+				'name'        => 'period',
+				'description' => 'The period control, such as a Select.',
+			],
+		],
+		'events'      => [],
+		'a11y'        => [
+			'element'      => 'div',
+			'requirements' => [ 'The sparkline is role=img with a label that states its first and latest values; the target bar is a labeled progressbar with its percentage as text beside it.', 'The change follows Stat: visible text with an arrow and a hidden direction label, never color alone.', 'The icon tile is decorative and hidden from assistive technology.', 'Muted text keeps 4.5:1 on the card; the sparkline and bar keep 3:1.' ],
+			'wcag'         => [ '1.1.1', '1.3.1', '1.4.1', '1.4.3', '1.4.11' ],
+		],
+		'tokens'      => [ '--apui-card-padding', '--apui-card-radius', '--apui-surface-default', '--apui-border-muted', '--apui-text-muted', '--apui-type-stat-md-font-size', '--apui-type-caption-font-size', '--apui-color-success-text', '--apui-color-error-text', '--apui-chart-1' ],
+		'fixture'     => [
+			'props' => [
+				'stat'      => [
+					'label'       => 'Profit',
+					'value'       => '$15,708.98',
+					'icon'        => 'trending-up',
+					'color'       => 'success',
+					'change'      => 8.1,
+					'description' => 'vs last month',
+				],
+				'sparkline' => [ 2, 4, 2, 6, 8, 6, 10, 12, 14 ],
+				'target'    => [
+					'value' => 62,
+					'label' => 'Goal $25,000',
+				],
+			],
+			'parts' => [
+				'stat'   => [
+					'label'       => 'Profit',
+					'value'       => '15,708.98',
+					'unit'        => 'USD',
+					'icon'        => 'trending-up',
+					'color'       => 'success',
+					'change'      => 8.1,
+					'description' => 'vs last month',
+				],
+				'period' => 'This month',
+			],
+		],
+	],
 	'Link'              => [
 		'name'        => 'Link',
 		'description' => 'Navigates somewhere. Inline links are always underlined; standalone links drop the underline until hover. Without href it renders a button styled as a link, for an action that reads as one.',
@@ -3679,6 +6673,264 @@ return [
 				'leadingIcon'  => 'download',
 				'trailingIcon' => 'arrow-right',
 			],
+		],
+	],
+	'ListItem'          => [
+		'name'        => 'ListItem',
+		'description' => 'A row with leading, title, description and trailing parts. Set href or interactive and the title becomes a link or a button that covers the row, so the whole row is one target. Rows go in a List, whose variant frames them (bordered) or rules them (divided).',
+		'status'      => 'draft',
+		'issue'       => 58,
+		'rootClass'   => 'apui-list-item',
+		'stacks'      => [
+			'livewire' => [
+				'name'         => 'list-item',
+				'capabilities' => [ 'Container: list (variant plain, bordered or divided); list-item children render as li', 'navigate adds wire:navigate to an internal href', 'The 2.x item, value, sub-value, avatar and link attributes still fill the row, deprecated' ],
+			],
+			'react'    => [
+				'name'         => 'ListItem',
+				'capabilities' => [ 'Container: List (variant plain, bordered or divided); ListItem children render as li' ],
+			],
+			'vue'      => [
+				'name'         => 'ListItem',
+				'capabilities' => [ 'Container: List (variant plain, bordered or divided); ListItem children render as li' ],
+			],
+		],
+		'props'       => [
+			[
+				'name'        => 'title',
+				'type'        => 'string',
+				'description' => 'The row\'s main text. The title slot overrides it.',
+			],
+			[
+				'name'        => 'description',
+				'type'        => 'string',
+				'description' => 'Secondary text under the title. The description slot overrides it.',
+			],
+			[
+				'name'        => 'href',
+				'type'        => 'string',
+				'description' => 'Makes the title a link that covers the row. Only relative, http, https, mailto, tel and sms URLs are used.',
+			],
+			[
+				'name'        => 'interactive',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'Without href, makes the title a button that covers the row, for a click handler on the row. Emitted as data-interactive; href sets it too.',
+			],
+			[
+				'name'        => 'selected',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'Marks the current or chosen row. Emitted as data-selected.',
+				'a11y'        => 'The row\'s link or button gets aria-current="true".',
+			],
+			[
+				'name'        => 'disabled',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'Dims the row; its link or button is disabled. Emitted as data-disabled.',
+				'a11y'        => 'A disabled link loses its href and gets aria-disabled.',
+			],
+			[
+				'name'        => 'leadingIcon',
+				'type'        => 'string',
+				'description' => 'Icon name in the leading part, resolved through the icon registry. The leading slot overrides it, for an avatar or a thumbnail.',
+			],
+			[
+				'name'        => 'trailing',
+				'type'        => 'string',
+				'description' => 'Short text at the end, such as a time or an amount. The trailing slot overrides it, for a badge or an action.',
+			],
+			[
+				'name'        => 'navigate',
+				'type'        => 'boolean',
+				'default'     => true,
+				'description' => 'Adds wire:navigate to an internal href, so Livewire swaps the page in without a full reload.',
+				'stacks'      => [ 'livewire' ],
+			],
+			[
+				'name'        => 'classes',
+				'type'        => 'object',
+				'description' => 'Extra classes per part, such as { title: \'…\' }.',
+			],
+		],
+		'parts'       => [
+			[
+				'name'        => 'root',
+				'element'     => 'li | div',
+				'description' => 'The row: an li inside a List, a div on its own.',
+			],
+			[
+				'name'        => 'leading',
+				'element'     => 'span',
+				'description' => 'An icon, avatar or thumbnail at the start.',
+			],
+			[
+				'name'        => 'title',
+				'element'     => 'span | a | button',
+				'description' => 'The main text; a link or a button covering the row when it\'s interactive.',
+			],
+			[
+				'name'        => 'description',
+				'element'     => 'span',
+				'description' => 'Secondary text under the title.',
+			],
+			[
+				'name'        => 'trailing',
+				'element'     => 'span',
+				'description' => 'Short content at the end, above the row\'s link so its controls stay clickable.',
+			],
+		],
+		'slots'       => [
+			[
+				'name'        => 'leading',
+				'description' => 'Leading content, such as an avatar or a thumbnail.',
+			],
+			[
+				'name'        => 'title',
+				'description' => 'Rich title content.',
+			],
+			[
+				'name'        => 'description',
+				'description' => 'Rich description content.',
+			],
+			[
+				'name'        => 'trailing',
+				'description' => 'Trailing content, such as a badge or an icon button. Keep it short, and keep to one primary action per row.',
+			],
+		],
+		'events'      => [],
+		'a11y'        => [
+			'element'      => 'div',
+			'keyboard'     => [
+				[
+					'keys'   => 'Tab',
+					'action' => 'Moves to the row\'s link or button, then to any controls in trailing.',
+				],
+				[
+					'keys'   => 'Enter',
+					'action' => 'Follows the row\'s link or activates its button.',
+				],
+			],
+			'requirements' => [ 'Interactive rows are links (href) or buttons (interactive), never a clickable li; the control covers the row.', 'Selection sets aria-current="true" on the row\'s link or button.', 'Rows in a List are li elements of a ul.', 'The focus ring is drawn inside the row, so rows in a list don\'t overlap it.', 'Title text keeps 4.5:1; the description is --apui-text-muted.', 'Disabled rows set aria-disabled, use --apui-text-disabled, and their link or button is disabled.' ],
+			'wcag'         => [ '1.3.1', '1.4.3', '2.1.1', '2.4.4', '2.4.7', '4.1.2' ],
+		],
+		'tokens'      => [ '--apui-row-height', '--apui-cell-padding-x', '--apui-text-default', '--apui-text-muted', '--apui-text-disabled', '--apui-state-hover', '--apui-selected-bg', '--apui-border-muted', '--apui-surface-default', '--apui-radius-lg', '--apui-focus-ring-color', '--apui-focus-ring-offset-color' ],
+		'fixture'     => [
+			'props' => [
+				'title'       => 'Olivia Rhye',
+				'description' => 'olivia@company.com',
+				'interactive' => true,
+			],
+			'parts' => [
+				'leadingIcon' => 'mail',
+				'trailing'    => '2m',
+			],
+		],
+	],
+	'Loading'           => [
+		'name'        => 'Loading',
+		'description' => 'Shows that work is in progress: a spinner or three dots, inline with a label or as an overlay over the region that is loading. It waits a moment before showing, so fast loads don\'t flash.',
+		'status'      => 'draft',
+		'issue'       => 60,
+		'rootClass'   => 'apui-loading',
+		'stacks'      => [
+			'livewire' => [
+				'name' => 'loading',
+			],
+			'react'    => [
+				'name' => 'Loading',
+			],
+			'vue'      => [
+				'name' => 'Loading',
+			],
+		],
+		'props'       => [
+			[
+				'name'        => 'variant',
+				'type'        => 'enum',
+				'values'      => [ 'spinner', 'dots' ],
+				'default'     => 'spinner',
+				'description' => 'The indicator: a spinning ring or three pulsing dots. Emitted as data-variant.',
+			],
+			[
+				'name'        => 'size',
+				'type'        => 'enum',
+				'values'      => [ 'xs', 'sm', 'md', 'lg', 'xl' ],
+				'default'     => 'md',
+				'description' => 'The indicator\'s size. Emitted as data-size.',
+			],
+			[
+				'name'        => 'color',
+				'type'        => 'enum',
+				'values'      => [ 'primary', 'secondary', 'accent', 'neutral', 'success', 'warning', 'error', 'info' ],
+				'default'     => 'primary',
+				'description' => 'Tints the indicator. Emitted as data-color.',
+			],
+			[
+				'name'        => 'label',
+				'type'        => 'string',
+				'default'     => 'Loading',
+				'description' => 'What\'s loading, for screen readers: rendered visually hidden when there\'s no visible text. The default slot (children) shows visible text instead. Translate it: Livewire defaults it through __( \'Loading\' ).',
+				'a11y'        => 'The status region\'s text, so it\'s announced.',
+			],
+			[
+				'name'        => 'overlay',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'Covers the nearest positioned ancestor on the glass surface, centered. Emitted as data-overlay. Set aria-busy on the region it covers.',
+			],
+			[
+				'name'        => 'delay',
+				'type'        => 'number',
+				'default'     => 300,
+				'description' => 'Milliseconds to wait before showing, so fast loads don\'t flash. Written inline as --apui-_delay; the root stays in the markup (and the live region in place) meanwhile.',
+			],
+			[
+				'name'        => 'classes',
+				'type'        => 'object',
+				'description' => 'Extra classes per part, such as { indicator: \'…\', label: \'…\' }.',
+			],
+		],
+		'variants'    => [ 'spinner', 'dots' ],
+		'sizes'       => [ 'xs', 'sm', 'md', 'lg', 'xl' ],
+		'colors'      => [ 'primary', 'secondary', 'accent', 'neutral', 'success', 'warning', 'error', 'info' ],
+		'parts'       => [
+			[
+				'name'        => 'root',
+				'element'     => 'span',
+				'description' => 'The status region (role=status).',
+			],
+			[
+				'name'        => 'indicator',
+				'element'     => 'span',
+				'description' => 'The spinner ring, or the dots (three spans). Hidden from assistive technology.',
+			],
+			[
+				'name'        => 'label',
+				'element'     => 'span',
+				'description' => 'Visible text from the default slot, or the label, visually hidden.',
+			],
+		],
+		'slots'       => [
+			[
+				'name'        => 'label',
+				'description' => 'Visible text beside the indicator, such as Saving changes…; the default slot.',
+			],
+		],
+		'events'      => [],
+		'a11y'        => [
+			'role'         => 'status',
+			'element'      => 'span',
+			'requirements' => [ 'role=status with a text label (visible, or visually hidden "Loading", translatable); the indicator is aria-hidden.', 'An overlay leaves aria-busy=true to the region it covers.', 'The spinner slows and the dots stop under reduced motion.', 'The indicator keeps 3:1 against its surface in forced colors.' ],
+			'wcag'         => [ '1.3.1', '2.2.2', '4.1.3' ],
+		],
+		'tokens'      => [ '--apui-color-primary', '--apui-surface-sunken', '--apui-surface-glass', '--apui-text-muted' ],
+		'fixture'     => [
+			'props'  => [
+				'delay' => 0,
+			],
+			'states' => [],
 		],
 	],
 	'Menu'              => [
@@ -4022,6 +7274,156 @@ return [
 				'actions' => 'Sign in',
 			],
 			'states' => [],
+		],
+	],
+	'PageHeader'        => [
+		'name'        => 'PageHeader',
+		'description' => 'The title block at the top of a page: breadcrumbs, then the title with its description and meta beside the actions, then tabs. Replaces Livewire\'s header.',
+		'status'      => 'draft',
+		'issue'       => 58,
+		'rootClass'   => 'apui-page-header',
+		'stacks'      => [
+			'livewire' => [
+				'name'         => 'page-header',
+				'capabilities' => [ 'Slots: breadcrumbs, meta, actions and tabs; title and description also take slots' ],
+			],
+			'react'    => [
+				'name' => 'PageHeader',
+			],
+			'vue'      => [
+				'name'         => 'PageHeader',
+				'capabilities' => [ 'Slots: title, description, breadcrumbs, meta, actions and tabs' ],
+			],
+		],
+		'props'       => [
+			[
+				'name'        => 'title',
+				'type'        => 'node',
+				'description' => 'The page\'s title.',
+			],
+			[
+				'name'        => 'description',
+				'type'        => 'node',
+				'description' => 'Supporting text under the title, kept to the reading measure.',
+			],
+			[
+				'name'        => 'level',
+				'type'        => 'number',
+				'default'     => 1,
+				'description' => 'The title\'s heading level. The page\'s h1 by default; lower it when the header heads a section.',
+				'a11y'        => 'One h1 per page: the page header\'s title.',
+			],
+			[
+				'name'        => 'breadcrumbs',
+				'type'        => 'node',
+				'description' => 'Breadcrumbs above the title, usually a Breadcrumbs.',
+			],
+			[
+				'name'        => 'meta',
+				'type'        => 'node',
+				'description' => 'Status above the title, such as a badge and an edited time.',
+			],
+			[
+				'name'        => 'actions',
+				'type'        => 'node',
+				'description' => 'Buttons at the inline end of the title row, the primary one last. Keep to three; overflow into a DropdownMenu.',
+			],
+			[
+				'name'        => 'tabs',
+				'type'        => 'node',
+				'description' => 'Tabs under the title row, usually Tabs with variant underline.',
+			],
+			[
+				'name'        => 'classes',
+				'type'        => 'object',
+				'description' => 'Extra classes per part, such as { title: \'…\', actions: \'…\' }.',
+			],
+		],
+		'parts'       => [
+			[
+				'name'        => 'root',
+				'element'     => 'div',
+				'description' => 'Stacks the breadcrumbs, the row and the tabs.',
+			],
+			[
+				'name'        => 'breadcrumbs',
+				'element'     => 'div',
+				'description' => 'Holds the breadcrumbs.',
+			],
+			[
+				'name'        => 'row',
+				'element'     => 'div',
+				'description' => 'The title block and the actions, side by side; the actions wrap under the title when there\'s no room.',
+			],
+			[
+				'name'        => 'meta',
+				'element'     => 'div',
+				'description' => 'Status above the title.',
+			],
+			[
+				'name'        => 'title',
+				'element'     => 'h1 | h2 | h3 | h4 | h5 | h6',
+				'description' => 'The title, at level (h1 by default), in the heading-xl type style.',
+			],
+			[
+				'name'        => 'description',
+				'element'     => 'p',
+				'description' => 'Supporting text, muted, no wider than the reading measure.',
+			],
+			[
+				'name'        => 'actions',
+				'element'     => 'div',
+				'description' => 'The buttons at the inline end of the row.',
+			],
+			[
+				'name'        => 'tabs',
+				'element'     => 'div',
+				'description' => 'Holds the tabs under the row.',
+			],
+		],
+		'slots'       => [
+			[
+				'name'        => 'title',
+				'description' => 'The title, when it needs markup.',
+			],
+			[
+				'name'        => 'description',
+				'description' => 'The description, when it needs markup.',
+			],
+			[
+				'name'        => 'breadcrumbs',
+				'description' => 'The breadcrumbs.',
+			],
+			[
+				'name'        => 'meta',
+				'description' => 'Status above the title.',
+			],
+			[
+				'name'        => 'actions',
+				'description' => 'The buttons.',
+			],
+			[
+				'name'        => 'tabs',
+				'description' => 'The tabs.',
+			],
+		],
+		'a11y'        => [
+			'element'      => 'div',
+			'requirements' => [ 'The title is the page\'s h1 unless level says otherwise; keep one h1 per page.', 'The description is plain text after the heading, so it\'s read in order.', 'Actions keep the order they\'re read in: the primary action last, at the inline end.', 'The row wraps rather than overflowing at 320px (reflow).' ],
+			'wcag'         => [ '1.3.1', '1.3.2', '1.4.3', '1.4.10', '2.4.6' ],
+		],
+		'tokens'      => [ '--apui-type-heading-xl-font-family', '--apui-type-heading-xl-font-size', '--apui-type-heading-xl-line-height', '--apui-type-heading-xl-font-weight', '--apui-type-heading-xl-letter-spacing', '--apui-type-body-md-font-size', '--apui-type-body-md-line-height', '--apui-text-default', '--apui-text-muted', '--apui-measure', '--apui-space-2', '--apui-space-4' ],
+		'fixture'     => [
+			'props' => [
+				'title'       => 'Dashboard',
+				'description' => 'Income, profit and transactions across all stores.',
+				'meta'        => 'Edited 20 min ago',
+				'actions'     => 'Share',
+			],
+			'parts' => [
+				'breadcrumbs' => 'Apexify / Dashboard',
+				'tabs'        => 'Overview',
+			],
 		],
 	],
 	'Pagination'        => [
@@ -4644,6 +8046,430 @@ return [
 				'error'    => 'That code has expired. We sent a new one.',
 			],
 			'states' => [ 'hover', 'focus-visible', 'disabled', 'invalid' ],
+		],
+	],
+	'Popover'           => [
+		'name'        => 'Popover',
+		'description' => 'An anchored, non-modal panel with interactive content, for a short task tied to one control. A role=dialog panel: focus moves in when it opens and returns to the trigger when it closes; Escape and an outside click close it. The panel flips to the other side when there\'s no room, and start and end follow the reading direction.',
+		'status'      => 'draft',
+		'issue'       => 58,
+		'rootClass'   => 'apui-popover',
+		'stacks'      => [
+			'livewire' => [
+				'name'         => 'popover',
+				'capabilities' => [ 'wire:model binds open both ways through $wire.entangle()' ],
+			],
+			'react'    => [
+				'name' => 'Popover',
+			],
+			'vue'      => [
+				'name' => 'Popover',
+			],
+		],
+		'props'       => [
+			[
+				'name'        => 'open',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'Whether it\'s open. Livewire binds it with wire:model, Vue with v-model:open. Emitted as data-state on the trigger and the panel.',
+			],
+			[
+				'name'        => 'defaultOpen',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'The initial state of an uncontrolled popover.',
+				'stacks'      => [ 'react' ],
+			],
+			[
+				'name'        => 'placement',
+				'type'        => 'enum',
+				'values'      => [ 'top', 'bottom', 'start', 'end' ],
+				'default'     => 'bottom',
+				'description' => 'The trigger\'s side the panel sits on, lined up with the trigger\'s start edge. start and end follow the reading direction. Emitted as data-placement; the side the machine settled on, after flipping, is data-side.',
+			],
+			[
+				'name'        => 'arrow',
+				'type'        => 'boolean',
+				'default'     => true,
+				'description' => 'Draws the arrow that points at the trigger.',
+			],
+			[
+				'name'        => 'title',
+				'type'        => 'node',
+				'description' => 'The heading, linked to the panel with aria-labelledby.',
+				'a11y'        => 'The panel\'s accessible name. Without a title, give the popover an aria-label.',
+			],
+			[
+				'name'        => 'actions',
+				'type'        => 'node',
+				'description' => 'A row of actions at the end of the panel.',
+			],
+			[
+				'name'        => 'trigger',
+				'type'        => 'node',
+				'description' => 'The control that opens it. Text renders an outline Button; an element (a Button, an icon button) becomes the trigger itself.',
+			],
+			[
+				'name'        => 'portal',
+				'type'        => 'boolean',
+				'default'     => true,
+				'description' => 'Renders the panel at the end of the body, above everything (x-teleport, a React portal, Vue Teleport). Off renders it in place. Tab past the last control returns after the trigger either way.',
+			],
+			[
+				'name'        => 'classes',
+				'type'        => 'object',
+				'description' => 'Extra classes per part, such as { title: \'…\', body: \'…\' }.',
+			],
+		],
+		'parts'       => [
+			[
+				'name'        => 'root',
+				'element'     => 'div',
+				'description' => 'The panel, carrying the root class. It is Zag\'s content part, so it also carries data-part="content" (D-019).',
+			],
+			[
+				'name'        => 'content',
+				'element'     => 'div',
+				'description' => 'The panel: the same element as root.',
+			],
+			[
+				'name'        => 'trigger',
+				'element'     => 'button',
+				'description' => 'The control that opens the panel.',
+			],
+			[
+				'name'        => 'positioner',
+				'element'     => 'div',
+				'description' => 'Places the panel against the trigger.',
+			],
+			[
+				'name'        => 'arrow',
+				'element'     => 'span',
+				'description' => 'Points at the trigger. Decorative.',
+			],
+			[
+				'name'        => 'title',
+				'element'     => 'h3',
+				'description' => 'The heading.',
+			],
+			[
+				'name'        => 'body',
+				'element'     => 'div',
+				'description' => 'The default slot.',
+			],
+			[
+				'name'        => 'actions',
+				'element'     => 'div',
+				'description' => 'The actions row.',
+			],
+		],
+		'slots'       => [
+			[
+				'name'        => 'trigger',
+				'description' => 'The trigger: text for a Button, or the element to use as the trigger.',
+			],
+			[
+				'name'        => 'title',
+				'description' => 'Rich title content, rendered inside the heading.',
+			],
+			[
+				'name'        => 'actions',
+				'description' => 'The actions row.',
+			],
+		],
+		'events'      => [
+			[
+				'name'        => 'open-change',
+				'description' => 'The popover opened or closed itself: the trigger, Escape or an outside click. Setting open doesn\'t fire it.',
+				'payload'     => 'boolean',
+			],
+		],
+		'a11y'        => [
+			'role'         => 'dialog',
+			'element'      => 'div',
+			'keyboard'     => [
+				[
+					'keys'   => 'Enter, Space',
+					'action' => 'On the trigger, opens or closes the popover; focus moves to its first control.',
+				],
+				[
+					'keys'   => 'Tab, Shift+Tab',
+					'action' => 'Move between the controls inside; past the last one, focus moves on after the trigger and the popover closes.',
+				],
+				[
+					'keys'   => 'Escape',
+					'action' => 'Closes the popover and returns focus to the trigger.',
+				],
+			],
+			'requirements' => [ 'The panel is role=dialog, labelled by its title (or an aria-label), and isn\'t modal: the page stays usable.', 'The trigger has aria-haspopup=dialog, aria-expanded and aria-controls.', 'Focus moves into the panel when it opens and returns to the trigger on Escape.', 'start and end follow the reading direction, and the panel flips to stay in the viewport.', 'Text keeps 4.5:1 and the panel\'s edge 3:1 on the overlay surface in every theme.', 'Every part keeps a stable, server-rendered id in Livewire, so morphs never replace the panel (D-015).', 'Keep it to a short task: don\'t put a long form in a popover.' ],
+			'wcag'         => [ '1.3.1', '1.4.3', '1.4.11', '1.4.13', '2.1.1', '2.4.3', '2.4.7', '4.1.2' ],
+		],
+		'tokens'      => [ '--apui-popover-radius', '--apui-surface-overlay', '--apui-elevation-overlay', '--apui-z-overlay', '--apui-border-muted', '--apui-text-default' ],
+		'fixture'     => [
+			'content' => 'Anyone on the marketing team can view it.',
+			'props'   => [
+				'open'    => true,
+				'portal'  => false,
+				'trigger' => 'Share',
+				'title'   => 'Share report',
+			],
+			'parts'   => [
+				'actions' => 'Copy link',
+			],
+			'states'  => [],
+		],
+	],
+	'Progress'          => [
+		'name'        => 'Progress',
+		'description' => 'Linear progress: determinate, indeterminate or segmented into steps, with an optional label and value above the track.',
+		'status'      => 'draft',
+		'issue'       => 60,
+		'rootClass'   => 'apui-progress',
+		'stacks'      => [
+			'livewire' => [
+				'name' => 'progress',
+			],
+			'react'    => [
+				'name' => 'Progress',
+			],
+			'vue'      => [
+				'name' => 'Progress',
+			],
+		],
+		'props'       => [
+			[
+				'name'        => 'value',
+				'type'        => 'number',
+				'default'     => 0,
+				'description' => 'The progress, from 0 to max. Clamped. Ignored while indeterminate.',
+			],
+			[
+				'name'        => 'max',
+				'type'        => 'number',
+				'default'     => 100,
+				'description' => 'The value at completion. With segmented, the number of segments.',
+			],
+			[
+				'name'        => 'indeterminate',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'Progress is happening but its amount isn\'t known: a short bar slides along the track. Emitted as data-indeterminate; aria-valuenow is left out.',
+				'a11y'        => 'No aria-valuenow, so assistive technology reports it as indeterminate.',
+			],
+			[
+				'name'        => 'segmented',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'Splits the track into max segments, value of them done (data-done), for a few discrete steps. Emitted as data-segmented.',
+			],
+			[
+				'name'        => 'size',
+				'type'        => 'enum',
+				'values'      => [ 'sm', 'md', 'lg' ],
+				'default'     => 'md',
+				'description' => 'The track\'s height: 4, 6 or 10px. Emitted as data-size.',
+			],
+			[
+				'name'        => 'color',
+				'type'        => 'enum',
+				'values'      => [ 'primary', 'secondary', 'accent', 'neutral', 'success', 'warning', 'error', 'info' ],
+				'default'     => 'primary',
+				'description' => 'The bar\'s color. Emitted as data-color. Use error only when something is wrong.',
+			],
+			[
+				'name'        => 'label',
+				'type'        => 'string',
+				'description' => 'What\'s progressing, shown above the track and naming the progressbar (aria-labelledby). Without it, name the progressbar with aria-label.',
+			],
+			[
+				'name'        => 'valueText',
+				'type'        => 'string',
+				'description' => 'The value in words, such as 8 of 12: shown at the end of the head and read as aria-valuetext. Without it, a labelled bar shows the percentage.',
+			],
+			[
+				'name'        => 'classes',
+				'type'        => 'object',
+				'description' => 'Extra classes per part, such as { label: \'…\', bar: \'…\' }.',
+			],
+		],
+		'sizes'       => [ 'sm', 'md', 'lg' ],
+		'colors'      => [ 'primary', 'secondary', 'accent', 'neutral', 'success', 'warning', 'error', 'info' ],
+		'parts'       => [
+			[
+				'name'        => 'root',
+				'element'     => 'div',
+				'description' => 'The progressbar (role=progressbar) with aria-valuemin, aria-valuemax and aria-valuenow.',
+			],
+			[
+				'name'        => 'head',
+				'element'     => 'div',
+				'description' => 'The label and the value, above the track.',
+			],
+			[
+				'name'        => 'label',
+				'element'     => 'span',
+				'description' => 'What\'s progressing.',
+			],
+			[
+				'name'        => 'value',
+				'element'     => 'span',
+				'description' => 'The value: valueText, or the percentage.',
+			],
+			[
+				'name'        => 'track',
+				'element'     => 'div',
+				'description' => 'The track, with a 1px edge so it shows at 3:1. Segmented, it lays out the segments.',
+			],
+			[
+				'name'        => 'bar',
+				'element'     => 'div',
+				'description' => 'The filled part, its width written inline as --apui-_v. Segmented, one bar per segment, the done ones marked data-done.',
+			],
+		],
+		'slots'       => [],
+		'events'      => [],
+		'a11y'        => [
+			'role'         => 'progressbar',
+			'element'      => 'div',
+			'requirements' => [ 'role=progressbar with aria-valuemin=0, aria-valuemax and aria-valuenow; aria-valuenow is left out while indeterminate.', 'Named by its label (aria-labelledby) or by aria-label; valueText is read as aria-valuetext.', 'The track has an edge so it\'s visible at 3:1 on every surface.', 'The bar fills, and the indeterminate bar slides, in the reading direction; the animation stops under reduced motion.' ],
+			'wcag'         => [ '1.1.1', '1.3.1', '1.4.11', '2.2.2', '4.1.2' ],
+		],
+		'tokens'      => [ '--apui-progress-height', '--apui-color-primary', '--apui-surface-sunken', '--apui-border-muted', '--apui-text-default', '--apui-text-muted' ],
+		'fixture'     => [
+			'props' => [
+				'value'     => 64,
+				'label'     => 'Uploading 12 photos',
+				'valueText' => '8 of 12',
+			],
+		],
+	],
+	'ProgressRadial'    => [
+		'name'        => 'ProgressRadial',
+		'description' => 'Circular progress with the value in the center, built from Progress: for a single headline percentage.',
+		'status'      => 'draft',
+		'issue'       => 60,
+		'rootClass'   => 'apui-progress-radial',
+		'stacks'      => [
+			'livewire' => [
+				'name' => 'progress-radial',
+			],
+			'react'    => [
+				'name' => 'ProgressRadial',
+			],
+			'vue'      => [
+				'name' => 'ProgressRadial',
+			],
+		],
+		'props'       => [
+			[
+				'name'        => 'value',
+				'type'        => 'number',
+				'default'     => 0,
+				'description' => 'The progress, from 0 to max. Clamped. Ignored while indeterminate.',
+			],
+			[
+				'name'        => 'max',
+				'type'        => 'number',
+				'default'     => 100,
+				'description' => 'The value at completion.',
+			],
+			[
+				'name'        => 'indeterminate',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'Progress is happening but its amount isn\'t known: a quarter arc spins. Emitted as data-indeterminate; aria-valuenow is left out.',
+				'a11y'        => 'No aria-valuenow, so assistive technology reports it as indeterminate.',
+			],
+			[
+				'name'        => 'size',
+				'type'        => 'number',
+				'default'     => 64,
+				'description' => 'The ring\'s diameter in px, written inline as --apui-_s. The value text scales with it.',
+			],
+			[
+				'name'        => 'thickness',
+				'type'        => 'number',
+				'default'     => 6,
+				'description' => 'The ring\'s stroke width in px.',
+			],
+			[
+				'name'        => 'color',
+				'type'        => 'enum',
+				'values'      => [ 'primary', 'secondary', 'accent', 'neutral', 'success', 'warning', 'error', 'info' ],
+				'default'     => 'primary',
+				'description' => 'The bar\'s color. Emitted as data-color.',
+			],
+			[
+				'name'        => 'label',
+				'type'        => 'string',
+				'description' => 'A caption under the value, such as complete, which also names the progressbar (aria-labelledby). Without it, name the progressbar with aria-label.',
+			],
+			[
+				'name'        => 'valueText',
+				'type'        => 'string',
+				'description' => 'The value in words, shown in the center and read as aria-valuetext. Without it, the center shows the percentage.',
+			],
+			[
+				'name'        => 'hideValue',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'Leaves the center empty, for small rings; the label still names the progressbar (aria-label).',
+			],
+			[
+				'name'        => 'classes',
+				'type'        => 'object',
+				'description' => 'Extra classes per part, such as { value: \'…\', bar: \'…\' }.',
+			],
+		],
+		'colors'      => [ 'primary', 'secondary', 'accent', 'neutral', 'success', 'warning', 'error', 'info' ],
+		'parts'       => [
+			[
+				'name'        => 'root',
+				'element'     => 'span',
+				'description' => 'The progressbar (role=progressbar) with aria-valuemin, aria-valuemax and aria-valuenow.',
+			],
+			[
+				'name'        => 'svg',
+				'element'     => 'svg',
+				'description' => 'The ring, rotated to start at the top and mirrored in RTL.',
+			],
+			[
+				'name'        => 'track',
+				'element'     => 'circle',
+				'description' => 'The unfilled ring.',
+			],
+			[
+				'name'        => 'bar',
+				'element'     => 'circle',
+				'description' => 'The filled arc: its stroke-dashoffset is the value.',
+			],
+			[
+				'name'        => 'value',
+				'element'     => 'span',
+				'description' => 'The value in the center: valueText, or the percentage.',
+			],
+			[
+				'name'        => 'label',
+				'element'     => 'span',
+				'description' => 'The caption under the value.',
+			],
+		],
+		'slots'       => [],
+		'events'      => [],
+		'a11y'        => [
+			'role'         => 'progressbar',
+			'element'      => 'span',
+			'requirements' => [ 'Same semantics as Progress: role=progressbar with aria-valuemin=0, aria-valuemax and aria-valuenow (left out while indeterminate), named by its label or aria-label.', 'The ring fills in the reading direction: clockwise in LTR, counterclockwise in RTL.', 'The spin slows under reduced motion.' ],
+			'wcag'         => [ '1.1.1', '1.3.1', '1.4.11', '2.2.2', '4.1.2' ],
+		],
+		'tokens'      => [ '--apui-color-primary', '--apui-surface-sunken', '--apui-text-default', '--apui-text-muted' ],
+		'fixture'     => [
+			'props' => [
+				'value'     => 68,
+				'size'      => 80,
+				'thickness' => 7,
+				'label'     => 'complete',
+			],
 		],
 	],
 	'RadioGroup'        => [
@@ -6154,6 +9980,167 @@ return [
 			'states' => [ 'disabled', 'invalid' ],
 		],
 	],
+	'Skeleton'          => [
+		'name'        => 'Skeleton',
+		'description' => 'A placeholder shape that matches the layout while content loads: a block, a line of text or a circle. Skeletons are hidden from assistive technology; the container that is loading sets aria-busy.',
+		'status'      => 'draft',
+		'issue'       => 60,
+		'rootClass'   => 'apui-skeleton',
+		'stacks'      => [
+			'livewire' => [
+				'name' => 'skeleton',
+			],
+			'react'    => [
+				'name' => 'Skeleton',
+			],
+			'vue'      => [
+				'name' => 'Skeleton',
+			],
+		],
+		'props'       => [
+			[
+				'name'        => 'shape',
+				'type'        => 'enum',
+				'values'      => [ 'block', 'text', 'circle' ],
+				'default'     => 'block',
+				'description' => 'block (a rounded rectangle), text (a 10px line with line spacing) or circle. Emitted as data-shape.',
+			],
+			[
+				'name'        => 'width',
+				'type'        => 'string',
+				'description' => 'A CSS length, such as 60% or 40px, written inline. React and Vue also take a number of px.',
+			],
+			[
+				'name'        => 'height',
+				'type'        => 'string',
+				'description' => 'A CSS length, written inline. A text line keeps its own height unless this is set.',
+			],
+		],
+		'parts'       => [
+			[
+				'name'        => 'root',
+				'element'     => 'span',
+				'description' => 'The shape (aria-hidden=true), with a shimmer that stops under reduced motion.',
+			],
+		],
+		'slots'       => [],
+		'events'      => [],
+		'a11y'        => [
+			'element'      => 'span',
+			'requirements' => [ 'Skeletons are aria-hidden; the container that is loading sets aria-busy=true and drops it when the content arrives.', 'The shimmer moves in the reading direction and stops under reduced motion.', 'Don\'t show skeletons for more than a few seconds; switch to a status.' ],
+			'wcag'         => [ '1.3.1', '2.2.2', '4.1.2' ],
+		],
+		'tokens'      => [ '--apui-surface-sunken', '--apui-state-hover', '--apui-radius-sm' ],
+		'fixture'     => [
+			'props' => [
+				'width'  => '240px',
+				'height' => '24px',
+			],
+		],
+	],
+	'Sparkline'         => [
+		'name'        => 'Sparkline',
+		'description' => 'A word-sized trend with no axes: a line, an area or bars, drawn as inline SVG. Every stack computes the same coordinates, so there is no chart library and no script. It\'s an image with a label stating the first and latest values; put the values themselves in a table or tooltip nearby.',
+		'status'      => 'draft',
+		'issue'       => 61,
+		'rootClass'   => 'apui-sparkline',
+		'stacks'      => [
+			'livewire' => [
+				'name'         => 'sparkline',
+				'capabilities' => [ 'Rendered on the server: wire:poll and Livewire updates redraw it with no script', '2.x type still works, as variant' ],
+			],
+			'react'    => [
+				'name' => 'Sparkline',
+			],
+			'vue'      => [
+				'name' => 'Sparkline',
+			],
+		],
+		'props'       => [
+			[
+				'name'        => 'data',
+				'type'        => 'array',
+				'required'    => true,
+				'description' => 'The values, oldest first. Anything that isn\'t a finite number is skipped. Values that cross zero draw a dashed baseline at zero.',
+			],
+			[
+				'name'        => 'variant',
+				'type'        => 'enum',
+				'values'      => [ 'line', 'area', 'bar' ],
+				'default'     => 'line',
+				'description' => 'A line with a dot on the latest value, the same with a soft fill below, or one bar per value (rect parts with data-part="bar"). The spec calls it kind. Emitted as data-variant.',
+			],
+			[
+				'name'        => 'width',
+				'type'        => 'number',
+				'default'     => 96,
+				'description' => 'The width in px. Give sparklines in one column the same size and scale.',
+			],
+			[
+				'name'        => 'height',
+				'type'        => 'number',
+				'default'     => 28,
+				'description' => 'The height in px.',
+			],
+			[
+				'name'        => 'label',
+				'type'        => 'string',
+				'default'     => 'Trend from {first} to {latest}',
+				'description' => 'The accessible label; {first}, {latest}, {min}, {max} and {count} are filled in from data. Translate it: Livewire defaults it through __( \'Trend from {first} to {latest}\' ).',
+				'a11y'        => 'Names the image, so the trend reads as its first and latest values.',
+			],
+			[
+				'name'        => 'classes',
+				'type'        => 'object',
+				'description' => 'Extra classes per part, such as { line: \'…\', dot: \'…\' }.',
+			],
+		],
+		'variants'    => [ 'line', 'area', 'bar' ],
+		'parts'       => [
+			[
+				'name'        => 'root',
+				'element'     => 'svg',
+				'description' => 'The image: role=img, the label, and a viewBox of width × height. Its plot stays LTR in every direction (D-004).',
+			],
+			[
+				'name'        => 'area',
+				'element'     => 'path',
+				'description' => 'The fill below the line, for the area variant.',
+			],
+			[
+				'name'        => 'line',
+				'element'     => 'path',
+				'description' => 'The trend line, for the line and area variants.',
+			],
+			[
+				'name'        => 'dot',
+				'element'     => 'circle',
+				'description' => 'The latest value, for the line and area variants.',
+			],
+			[
+				'name'        => 'baseline',
+				'element'     => 'line',
+				'description' => 'A dashed line at zero, when the values cross it.',
+			],
+		],
+		'events'      => [],
+		'a11y'        => [
+			'role'         => 'img',
+			'element'      => 'svg',
+			'requirements' => [ 'role=img with a label that states the first and latest values, so the trend isn\'t only visual.', 'The values themselves are available nearby, in a table or tooltip.', 'One color for the whole trend, never up or down: the number beside it says that.', 'The line, dot and bars keep 3:1 against the surface (--apui-chart-1).' ],
+			'wcag'         => [ '1.1.1', '1.4.1', '1.4.11' ],
+		],
+		'tokens'      => [ '--apui-chart-1', '--apui-chart-grid', '--apui-focus-ring-offset-color' ],
+		'fixture'     => [
+			'props' => [
+				'data' => [ 2, 4, 3, 7, 6, 9, 12, 11, 14 ],
+			],
+			'parts' => [
+				'variant' => 'area',
+				'data'    => [ -2, 4, 3, -1, 6, 9, 12, 11, 14 ],
+			],
+		],
+	],
 	'Spotlight'         => [
 		'name'        => 'Spotlight',
 		'description' => 'A command palette: search across pages, records and actions. A modal dialog holding a combobox whose listbox of grouped results is always open; a global shortcut (⌘K or Ctrl+K) toggles it. Arrow keys move, Enter opens, Escape closes. Replaces SpotlightSearch in React and Vue.',
@@ -6586,6 +10573,265 @@ return [
 			'states' => [],
 		],
 	],
+	'Stack'             => [
+		'name'        => 'Stack',
+		'description' => 'A layout primitive: its children in a column or a row, with the gap from the space scale, alignment and optional wrapping. No Tailwind needed.',
+		'status'      => 'draft',
+		'issue'       => 58,
+		'rootClass'   => 'apui-stack',
+		'stacks'      => [
+			'livewire' => [
+				'name' => 'stack',
+			],
+			'react'    => [
+				'name' => 'Stack',
+			],
+			'vue'      => [
+				'name' => 'Stack',
+			],
+		],
+		'props'       => [
+			[
+				'name'        => 'orientation',
+				'type'        => 'enum',
+				'values'      => [ 'vertical', 'horizontal' ],
+				'default'     => 'vertical',
+				'description' => 'A column, or a row that runs in the text direction. Replaces the React and Vue direction prop (vocabulary: one prop for orientation). Emitted as data-orientation.',
+			],
+			[
+				'name'        => 'gap',
+				'type'        => 'enum',
+				'values'      => [ '0', '1', '2', '3', '4', '5', '6', '8', '10', '12', '16' ],
+				'default'     => '2',
+				'description' => 'The space between items, a step of the space scale (2 is --apui-space-2, 8px). Emitted as data-gap.',
+			],
+			[
+				'name'        => 'align',
+				'type'        => 'enum',
+				'values'      => [ 'start', 'center', 'end', 'stretch', 'baseline' ],
+				'default'     => 'stretch',
+				'description' => 'How items sit across the stack\'s axis (align-items). Emitted as data-align.',
+			],
+			[
+				'name'        => 'justify',
+				'type'        => 'enum',
+				'values'      => [ 'start', 'center', 'end', 'between', 'around', 'evenly' ],
+				'default'     => 'start',
+				'description' => 'How items and the free space share the stack\'s axis (justify-content); start and end follow the text direction. Emitted as data-justify.',
+			],
+			[
+				'name'        => 'wrap',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'Lets a row wrap onto more lines instead of overflowing. Emitted as data-wrap.',
+			],
+		],
+		'parts'       => [
+			[
+				'name'        => 'root',
+				'element'     => 'div',
+				'description' => 'The stack; every child is an item.',
+			],
+		],
+		'a11y'        => [
+			'element'      => 'div',
+			'requirements' => [ 'Layout only: no role, and the reading order is the source order.', 'A row runs in the text direction, so it starts at the inline end in RTL.', 'A row that may not fit at 320px sets wrap (1.4.10).' ],
+			'wcag'         => [ '1.3.2', '1.4.10' ],
+		],
+		'tokens'      => [ '--apui-space-0', '--apui-space-1', '--apui-space-2', '--apui-space-3', '--apui-space-4', '--apui-space-5', '--apui-space-6', '--apui-space-8', '--apui-space-10', '--apui-space-12', '--apui-space-16' ],
+		'fixture'     => [
+			'content' => 'Stack item',
+			'states'  => [],
+		],
+	],
+	'Stat'              => [
+		'name'        => 'Stat',
+		'description' => 'A single headline number with its label, its change and the context for it. The change is an arrow and text, never color alone. Put stats side by side with a layout component such as Grid, and emphasize at most one in a row.',
+		'status'      => 'draft',
+		'issue'       => 61,
+		'rootClass'   => 'apui-stat',
+		'stacks'      => [
+			'livewire' => [
+				'name'         => 'stat',
+				'capabilities' => [ 'The default slot replaces value', 'The icon slot replaces the named icon', '2.x title, changeLabel and the trailing description still work, as label and description' ],
+			],
+			'react'    => [
+				'name'         => 'Stat',
+				'capabilities' => [ 'children replace value; icon takes a name or a node' ],
+			],
+			'vue'      => [
+				'name'         => 'Stat',
+				'capabilities' => [ 'The default slot replaces value; the icon slot replaces the named icon' ],
+			],
+		],
+		'props'       => [
+			[
+				'name'        => 'label',
+				'type'        => 'string',
+				'description' => 'What the number measures, above it.',
+			],
+			[
+				'name'        => 'value',
+				'type'        => 'string',
+				'description' => 'The number, already formatted ("$348,261", "10.87%"). Rendered with tabular figures.',
+			],
+			[
+				'name'        => 'unit',
+				'type'        => 'string',
+				'description' => 'A unit after the value, smaller and muted ("ms", "kg").',
+			],
+			[
+				'name'        => 'icon',
+				'type'        => 'string',
+				'description' => 'A registry icon name for the tile at the end of the label row, tinted by color. Decorative.',
+			],
+			[
+				'name'        => 'delta',
+				'type'        => 'string',
+				'description' => 'The change as text ("10.9%", "6.2 hrs"), shown with an arrow for trend. Takes precedence over change.',
+			],
+			[
+				'name'        => 'change',
+				'type'        => 'number',
+				'description' => 'The change as a percentage. Shown as delta with one decimal and no sign ("5.4%"), and sets trend from its sign when trend isn\'t set.',
+			],
+			[
+				'name'        => 'trend',
+				'type'        => 'enum',
+				'values'      => [ 'up', 'down', 'flat' ],
+				'description' => 'The change\'s direction: an up or down arrow in success or error text, or a dash. Emitted as data-trend on delta.',
+				'a11y'        => 'The arrow is decorative; upLabel, downLabel or flatLabel is read before the delta, so the direction isn\'t only color or shape.',
+			],
+			[
+				'name'        => 'description',
+				'type'        => 'string',
+				'description' => 'Context after the delta ("vs last month").',
+			],
+			[
+				'name'        => 'size',
+				'type'        => 'enum',
+				'values'      => [ 'sm', 'md', 'lg' ],
+				'default'     => 'md',
+				'description' => 'The value\'s type style: stat-sm, stat-md or stat-lg. Size carries the hierarchy, never bold.',
+			],
+			[
+				'name'        => 'color',
+				'type'        => 'enum',
+				'values'      => [ 'primary', 'secondary', 'accent', 'neutral', 'success', 'warning', 'error', 'info' ],
+				'default'     => 'neutral',
+				'description' => 'Tints the icon tile and the emphasis fill. It doesn\'t color the value.',
+			],
+			[
+				'name'        => 'emphasis',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'A soft fill in color for the one stat that matters in a row. Emitted as data-emphasis.',
+			],
+			[
+				'name'        => 'bare',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'No container: no padding, border or fill, for a stat inside a Card. Emitted as data-bare.',
+			],
+			[
+				'name'        => 'upLabel',
+				'type'        => 'string',
+				'default'     => 'Increase',
+				'description' => 'Hidden text before an up delta. Translate it: Livewire defaults it through __( \'Increase\' ).',
+			],
+			[
+				'name'        => 'downLabel',
+				'type'        => 'string',
+				'default'     => 'Decrease',
+				'description' => 'Hidden text before a down delta. Translate it: Livewire defaults it through __( \'Decrease\' ).',
+			],
+			[
+				'name'        => 'flatLabel',
+				'type'        => 'string',
+				'default'     => 'No change',
+				'description' => 'Hidden text before a flat delta. Translate it: Livewire defaults it through __( \'No change\' ).',
+			],
+			[
+				'name'        => 'classes',
+				'type'        => 'object',
+				'description' => 'Extra classes per part, such as { value: \'…\', delta: \'…\' }.',
+			],
+		],
+		'sizes'       => [ 'sm', 'md', 'lg' ],
+		'colors'      => [ 'primary', 'secondary', 'accent', 'neutral', 'success', 'warning', 'error', 'info' ],
+		'parts'       => [
+			[
+				'name'        => 'root',
+				'element'     => 'div',
+				'description' => 'The container, with data-size, data-color, data-emphasis and data-bare.',
+			],
+			[
+				'name'        => 'top',
+				'element'     => 'div',
+				'description' => 'The label row: label at the start, icon at the end.',
+			],
+			[
+				'name'        => 'label',
+				'element'     => 'span',
+				'description' => 'What the number measures.',
+			],
+			[
+				'name'        => 'icon',
+				'element'     => 'span',
+				'description' => 'The tinted icon tile. Hidden from assistive technology.',
+			],
+			[
+				'name'        => 'value',
+				'element'     => 'span',
+				'description' => 'The number, in tabular figures.',
+			],
+			[
+				'name'        => 'unit',
+				'element'     => 'span',
+				'description' => 'The unit inside the value, smaller and muted.',
+			],
+			[
+				'name'        => 'foot',
+				'element'     => 'span',
+				'description' => 'The delta and description row.',
+			],
+			[
+				'name'        => 'delta',
+				'element'     => 'span',
+				'description' => 'The change: hidden direction text, an arrow and the change, with data-trend.',
+			],
+			[
+				'name'        => 'description',
+				'element'     => 'span',
+				'description' => 'The context after the delta.',
+			],
+		],
+		'slots'       => [
+			[
+				'name'        => 'icon',
+				'description' => 'Replaces the named icon in the tile.',
+			],
+		],
+		'events'      => [],
+		'a11y'        => [
+			'element'      => 'div',
+			'requirements' => [ 'The change is visible text with an arrow, and a hidden direction label (upLabel, downLabel, flatLabel): color is never the only signal.', 'The value uses tabular figures; the label and description keep 4.5:1 (--apui-text-muted) on the default and emphasis fills.', 'Up and down deltas keep 4.5:1 in success and error text.', 'The icon tile is decorative and hidden from assistive technology.' ],
+			'wcag'         => [ '1.3.1', '1.4.1', '1.4.3', '1.4.11' ],
+		],
+		'tokens'      => [ '--apui-card-padding', '--apui-card-radius', '--apui-surface-default', '--apui-border-muted', '--apui-border-width', '--apui-text-default', '--apui-text-muted', '--apui-color-neutral-soft', '--apui-color-neutral-soft-foreground', '--apui-color-success-text', '--apui-color-error-text', '--apui-type-stat-sm-font-size', '--apui-type-stat-md-font-size', '--apui-type-stat-lg-font-size', '--apui-type-body-sm-font-size', '--apui-type-caption-font-size', '--apui-radius-md', '--apui-icon-size-sm', '--apui-icon-size-md' ],
+		'fixture'     => [
+			'props' => [
+				'label'       => 'Total revenue',
+				'value'       => '7,415,644',
+				'icon'        => 'wallet',
+				'change'      => -5.4,
+				'description' => 'vs last month',
+			],
+			'parts' => [
+				'unit' => 'USD',
+			],
+		],
+	],
 	'Steps'             => [
 		'name'        => 'Steps',
 		'description' => 'Shows progress through a sequence: an ordered list of steps, each complete, current, upcoming or in error. Compose it from Step children, or pass the same structure as steps.',
@@ -6736,6 +10982,560 @@ return [
 					],
 				],
 			],
+		],
+	],
+	'StreamableContent' => [
+		'name'        => 'StreamableContent',
+		'description' => 'Content that arrives over time, such as a generated summary, with waiting, streaming, done, error and stopped states. Livewire streams into it with wire:stream; Stop is always available while streaming, and partial content stays when a stream fails.',
+		'status'      => 'draft',
+		'issue'       => 60,
+		'rootClass'   => 'apui-streamable-content',
+		'stacks'      => [
+			'livewire' => [
+				'name'         => 'streamable-content',
+				'capabilities' => [ 'wire:stream (Livewire 4; Livewire 3 renders the content statically)' ],
+				'differences'  => [ 'Livewire only (D-003): built on wire:stream. React and Vue would need a different transport, and nothing downstream asks for one.', 'The 2.x props tag, prose, placeholder and showCursor are gone: the state draws the status, the caret and the waiting skeleton.' ],
+			],
+			'react'    => false,
+			'vue'      => false,
+		],
+		'props'       => [
+			[
+				'name'        => 'target',
+				'type'        => 'string',
+				'required'    => true,
+				'description' => 'The wire:stream target the component streams to with $this->stream( to: … ).',
+			],
+			[
+				'name'        => 'state',
+				'type'        => 'enum',
+				'values'      => [ 'waiting', 'streaming', 'done', 'error', 'stopped' ],
+				'default'     => 'streaming',
+				'description' => 'Where the stream is. Emitted as data-state. Waiting shows skeleton lines until the first words; streaming shows the caret and Stop; error and stopped keep the partial content.',
+			],
+			[
+				'name'        => 'status',
+				'type'        => 'string',
+				'description' => 'The status line\'s text. Defaults to the state\'s, translated: Waiting for a response…, Writing…, Done, The response was interrupted. or Stopped.',
+			],
+			[
+				'name'        => 'stopLabel',
+				'type'        => 'string',
+				'default'     => 'Stop',
+				'description' => 'The Stop button\'s text. Translate it: defaults through __( \'Stop\' ).',
+			],
+			[
+				'name'        => 'actions',
+				'type'        => 'node',
+				'description' => 'Buttons under the content, such as Copy and Regenerate when done, or Continue after an error.',
+			],
+			[
+				'name'        => 'classes',
+				'type'        => 'object',
+				'description' => 'Extra classes per part, such as { status: \'…\', content: \'…\' }.',
+			],
+		],
+		'parts'       => [
+			[
+				'name'        => 'root',
+				'element'     => 'div',
+				'description' => 'The streamed block.',
+			],
+			[
+				'name'        => 'status',
+				'element'     => 'div',
+				'description' => 'A line saying what\'s happening (role=status), with the state\'s icon or indicator.',
+			],
+			[
+				'name'        => 'stopTrigger',
+				'element'     => 'button',
+				'description' => 'The Stop button at the end of the status line, while streaming. Dispatches stop.',
+			],
+			[
+				'name'        => 'content',
+				'element'     => 'div',
+				'description' => 'The live region (aria-live=polite, aria-busy while waiting or streaming) that wire:stream writes to.',
+			],
+			[
+				'name'        => 'caret',
+				'element'     => 'span',
+				'description' => 'The blinking caret after the text while streaming, hidden from assistive technology.',
+			],
+			[
+				'name'        => 'actions',
+				'element'     => 'div',
+				'description' => 'The action buttons.',
+			],
+		],
+		'slots'       => [
+			[
+				'name'        => 'status',
+				'description' => 'Rich status text.',
+			],
+			[
+				'name'        => 'actions',
+				'description' => 'The action buttons.',
+			],
+		],
+		'events'      => [
+			[
+				'name'        => 'stop',
+				'description' => 'The Stop button was pressed: wire:stop="cancel" or x-on:stop.',
+			],
+		],
+		'a11y'        => [
+			'element'      => 'div',
+			'keyboard'     => [
+				[
+					'keys'   => 'Tab',
+					'action' => 'Reaches Stop while streaming, then the actions.',
+				],
+			],
+			'requirements' => [ 'The content is aria-live=polite and aria-busy while waiting or streaming, so it isn\'t re-announced token by token; the status line is role=status.', 'Stop is always available while streaming.', 'Partial content stays when a stream fails, with an action to continue.', 'The caret is aria-hidden and stops blinking under reduced motion; no sparkle icons or gradients.' ],
+			'wcag'         => [ '1.3.1', '2.1.1', '2.2.2', '4.1.3' ],
+		],
+		'tokens'      => [ '--apui-text-default', '--apui-text-muted', '--apui-color-error-text', '--apui-color-success-text' ],
+		'fixture'     => [
+			'content' => 'Revenue grew 10.9% month over month, led by Lakeview Lofts and Golden Hour Apartments.',
+			'props'   => [
+				'target' => 'summary',
+				'status' => 'Writing summary…',
+			],
+			'parts'   => [
+				'actions' => 'Copy',
+			],
+			'states'  => [],
+		],
+	],
+	'Table'             => [
+		'name'        => 'Table',
+		'description' => 'Rows of structured data in real table markup: a toolbar with a title, sortable headers, row selection with a select-all box, expandable rows, loading and empty states, and a footer with Pagination.',
+		'status'      => 'draft',
+		'issue'       => 62,
+		'rootClass'   => 'apui-table',
+		'stacks'      => [
+			'livewire' => [
+				'name'         => 'table',
+				'capabilities' => [ 'wire:model binds the selected keys (value) through $wire.entangle()', 'rows takes an array, a Collection or a Laravel paginator; paginated (2.x with-pagination) renders Pagination from the paginator, and per-page names the Livewire property a "Rows per page" Select binds', 'Clicking a sortable header sets the component\'s sortBy property ({ column, direction }) when sort-by is given, as 2.x did, and dispatches sort-change', 'Cell content through @scope(\'cell_<key>\', $row), header content through @scope(\'header_<key>\', $header), row actions through @scope(\'actions\', $row) and expanded content through @scope(\'expansion\', $row); a dotted key such as user.name becomes cell_user___name', '2.x attributes keep working: compact (density), no-headers (hideHeaders), selectable-key, expandable-key, expandable-condition, link (row links with {key} tokens), row-decoration and cell-decoration (classes from closures), the drag-and-drop sortable, sort-group and sort-handle, and infinite-scroll with has-more-pages (Livewire 4)' ],
+				'differences'  => [ 'Expansion rows render for every expandable row and toggle with Alpine; React and Vue render only the expanded ones.', 'Without selectable, wire:model on an expandable table binds the expanded keys, as 2.x did.' ],
+			],
+			'react'    => [
+				'name'         => 'Table',
+				'capabilities' => [ 'Cell content through renderCell(row, column, index), or a column\'s render(value, row, index); header content through renderHeader(column); row actions through renderActions(row, index); expanded content through renderExpansion(row, index)' ],
+			],
+			'vue'      => [
+				'name'         => 'Table',
+				'capabilities' => [ 'v-model binds the selected keys, v-model:expanded the expanded keys and v-model:sort-by the sort', 'Cell content through #cell-<key>="{ row, value, column, index }" or #cell for every column; header content through #header-<key>="{ column }"; row actions through #actions="{ row, index }"; expanded content through #expansion="{ row, index }"' ],
+			],
+		],
+		'props'       => [
+			[
+				'name'        => 'headers',
+				'type'        => 'array',
+				'required'    => true,
+				'description' => 'The columns, in order: { key, label, sortable, numeric, hidden, secondary, class }. key is a dot path into each row. sortable makes the header a sort button (Livewire 2.x: every header sorts once sortBy is set, unless sortable is false). numeric end-aligns the column with tabular figures. secondary is a second dot path, shown muted under the value. Livewire also takes format (a closure or [\'currency\', \'2.,\', \'$\'] / [\'date\', \'M j, Y\']), sortBy (the column to sort by) and disableLink.',
+			],
+			[
+				'name'        => 'rows',
+				'type'        => 'array',
+				'required'    => true,
+				'description' => 'The rows: arrays or objects. Livewire also takes a Collection or a paginator.',
+			],
+			[
+				'name'        => 'keyBy',
+				'type'        => 'string',
+				'default'     => 'id',
+				'description' => 'The dot path to each row\'s unique key, used for selection, expansion and list keys.',
+			],
+			[
+				'name'        => 'title',
+				'type'        => 'node',
+				'description' => 'The title at the start of the toolbar. It names the table unless label is set.',
+				'a11y'        => 'The table\'s accessible name comes from title (aria-labelledby) or label (aria-label); give every table one.',
+			],
+			[
+				'name'        => 'label',
+				'type'        => 'string',
+				'description' => 'The table\'s accessible name when it has no visible title, or a different one. Translate it.',
+			],
+			[
+				'name'        => 'density',
+				'type'        => 'enum',
+				'values'      => [ 'compact', 'default', 'comfortable' ],
+				'description' => 'Row height, cell padding and type size, as data-density on the root. Unset, the table follows the page\'s density. Use compact for operational screens and comfortable for browsing.',
+			],
+			[
+				'name'        => 'surface',
+				'type'        => 'enum',
+				'values'      => [ 'default', 'glass' ],
+				'default'     => 'default',
+				'description' => 'glass puts the table on a translucent surface; the header row turns transparent.',
+			],
+			[
+				'name'        => 'stickyHeader',
+				'type'        => 'boolean',
+				'default'     => true,
+				'description' => 'Keeps the header row in view while the rows scroll. The scroll part needs a height for it to matter: set --apui-table-max-block-size on the root.',
+			],
+			[
+				'name'        => 'hideHeaders',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'Hides the header row visually. Screen readers still announce the column names. Livewire 2.x\'s no-headers still works.',
+			],
+			[
+				'name'        => 'selectable',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'Adds a checkbox to every row and a select-all box to the header. The select-all box is mixed while some rows of the page are selected.',
+				'a11y'        => 'Row boxes are named by selectRowLabel and selected rows carry aria-selected="true".',
+			],
+			[
+				'name'        => 'value',
+				'type'        => 'array',
+				'description' => 'The selected rows\' keys. Select all adds or removes the keys of the rows on screen, keeping any others.',
+			],
+			[
+				'name'        => 'expandable',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'Adds a button to each row that shows the expansion content in a full-width row under it.',
+			],
+			[
+				'name'        => 'expanded',
+				'type'        => 'array',
+				'description' => 'The expanded rows\' keys.',
+			],
+			[
+				'name'        => 'sortBy',
+				'type'        => 'object',
+				'description' => 'The current sort: { column, direction }, direction "asc" or "desc". The sorted header carries aria-sort; the table never sorts rows itself, so sort them where they come from on sort-change.',
+			],
+			[
+				'name'        => 'loading',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'Shows skeleton rows in place of the rows and sets aria-busy on the root.',
+				'a11y'        => 'The root carries aria-busy="true"; the skeleton rows are aria-hidden.',
+			],
+			[
+				'name'        => 'emptyText',
+				'type'        => 'string',
+				'default'     => 'No records found.',
+				'description' => 'The EmptyState title shown in a full-width row when there are no rows. Translate it: Livewire defaults it through __( \'No records found.\' ). The empty slot replaces the whole state.',
+			],
+			[
+				'name'        => 'toolbar',
+				'type'        => 'node',
+				'description' => 'Content after the title in the toolbar, such as a search Input and Buttons.',
+			],
+			[
+				'name'        => 'footer',
+				'type'        => 'node',
+				'description' => 'Content at the start of the footer, such as "1 selected · 4 of 128". Pagination sits at its end.',
+			],
+			[
+				'name'        => 'pagination',
+				'type'        => 'object',
+				'description' => 'Pagination\'s props ({ page, total, perPage, pageCount, siblings, summary, labels }), rendered at the end of the footer. React and Vue take its page-change handler there too (onPageChange).',
+			],
+			[
+				'name'        => 'paginated',
+				'type'        => 'boolean',
+				'default'     => false,
+				'stacks'      => [ 'livewire' ],
+				'description' => 'Renders Pagination from the paginator in rows (2.x: with-pagination). Inside a component using WithPagination, the pages call gotoPage() without a reload.',
+			],
+			[
+				'name'        => 'perPage',
+				'type'        => 'string',
+				'stacks'      => [ 'livewire' ],
+				'description' => 'With paginated, the Livewire property a "Rows per page" Select in the footer binds (wire:model.live).',
+			],
+			[
+				'name'        => 'perPageValues',
+				'type'        => 'array',
+				'default'     => [ 10, 20, 50, 100 ],
+				'stacks'      => [ 'livewire' ],
+				'description' => 'The "Rows per page" options.',
+			],
+			[
+				'name'        => 'selectAllLabel',
+				'type'        => 'string',
+				'default'     => 'Select all',
+				'description' => 'The select-all box\'s accessible name. Translate it: Livewire defaults it through __( \'Select all\' ).',
+			],
+			[
+				'name'        => 'selectRowLabel',
+				'type'        => 'string',
+				'default'     => 'Select {row}',
+				'description' => 'Each row box\'s accessible name; {row} is the row\'s first column. Translate it: Livewire defaults it through __( \'Select {row}\' ).',
+			],
+			[
+				'name'        => 'sortLabel',
+				'type'        => 'string',
+				'default'     => 'Sort by {column}',
+				'description' => 'Each sort button\'s accessible name; {column} is the column\'s label. aria-sort on the header announces the current order. Translate it: Livewire defaults it through __( \'Sort by {column}\' ).',
+			],
+			[
+				'name'        => 'expandLabel',
+				'type'        => 'string',
+				'default'     => 'Show details for {row}',
+				'description' => 'Each expand button\'s accessible name; {row} is the row\'s first column. aria-expanded announces whether it is open. Translate it: Livewire defaults it through __( \'Show details for {row}\' ).',
+			],
+			[
+				'name'        => 'actionsLabel',
+				'type'        => 'string',
+				'default'     => 'Actions',
+				'description' => 'The row-actions column\'s header, for screen readers only. Translate it: Livewire defaults it through __( \'Actions\' ).',
+			],
+			[
+				'name'        => 'classes',
+				'type'        => 'object',
+				'description' => 'Extra classes per part, such as { headCell: \'…\', cell: \'…\' }.',
+			],
+		],
+		'parts'       => [
+			[
+				'name'        => 'root',
+				'element'     => 'div',
+				'description' => 'The frame: surface, border and radius around the toolbar, the grid and the footer.',
+			],
+			[
+				'name'        => 'toolbar',
+				'element'     => 'div',
+				'description' => 'The row above the grid holding the title and the toolbar content. Only renders with one of them.',
+			],
+			[
+				'name'        => 'title',
+				'element'     => 'h3',
+				'description' => 'The table\'s title; it names the table.',
+			],
+			[
+				'name'        => 'scroll',
+				'element'     => 'div',
+				'description' => 'Scrolls the grid sideways on narrow screens, and down past --apui-table-max-block-size.',
+			],
+			[
+				'name'        => 'table',
+				'element'     => 'table',
+				'description' => 'The native table.',
+			],
+			[
+				'name'        => 'headCell',
+				'element'     => 'th',
+				'description' => 'A column header (scope="col"). A sortable one carries aria-sort and holds the sort button.',
+			],
+			[
+				'name'        => 'sort',
+				'element'     => 'button',
+				'description' => 'The sort button inside a sortable header: the label, then an icon for the current order.',
+			],
+			[
+				'name'        => 'row',
+				'element'     => 'tr',
+				'description' => 'A body row. With selectable, it carries aria-selected.',
+			],
+			[
+				'name'        => 'cell',
+				'element'     => 'td',
+				'description' => 'A body cell. Numeric columns carry data-numeric.',
+			],
+			[
+				'name'        => 'select',
+				'element'     => 'th | td',
+				'description' => 'The checkbox column: the select-all box in the header, a row\'s box in each row. Holds a Checkbox.',
+			],
+			[
+				'name'        => 'expandTrigger',
+				'element'     => 'button',
+				'description' => 'Shows or hides a row\'s expansion. Icon-only, named by expandLabel, with aria-expanded and aria-controls. Its chevron turns down when open and mirrors in RTL.',
+			],
+			[
+				'name'        => 'expansion',
+				'element'     => 'tr',
+				'description' => 'The full-width row under an expanded row, holding the expansion content.',
+			],
+			[
+				'name'        => 'primary',
+				'element'     => 'span',
+				'description' => 'A cell\'s main value when its column has secondary.',
+			],
+			[
+				'name'        => 'secondary',
+				'element'     => 'span',
+				'description' => 'The muted second line under primary.',
+			],
+			[
+				'name'        => 'footer',
+				'element'     => 'div',
+				'description' => 'The row under the grid: the footer content at the start, Pagination at the end.',
+			],
+		],
+		'slots'       => [
+			[
+				'name'        => 'toolbar',
+				'description' => 'Content after the title in the toolbar.',
+			],
+			[
+				'name'        => 'footer',
+				'description' => 'Content at the start of the footer. In Livewire, a footer slot that holds table rows (<tr>) still renders in a <tfoot>, as in 2.x.',
+			],
+			[
+				'name'        => 'empty',
+				'description' => 'Replaces the empty state, such as an EmptyState with an action.',
+			],
+			[
+				'name'        => 'cell',
+				'scoped'      => true,
+				'parameters'  => [ 'row', 'column', 'index' ],
+				'description' => 'A column\'s cell content, given the row. Blade @scope(\'cell_<key>\', $row), Vue #cell-<key>, React renderCell.',
+			],
+			[
+				'name'        => 'header',
+				'scoped'      => true,
+				'parameters'  => [ 'column' ],
+				'description' => 'A column\'s header content, given the column. Blade @scope(\'header_<key>\', $header), Vue #header-<key>, React renderHeader.',
+			],
+			[
+				'name'        => 'actions',
+				'scoped'      => true,
+				'parameters'  => [ 'row', 'index' ],
+				'description' => 'Row actions in a last, end-aligned column, given the row. Blade @scope(\'actions\', $row), Vue #actions, React renderActions.',
+			],
+			[
+				'name'        => 'expansion',
+				'scoped'      => true,
+				'parameters'  => [ 'row', 'index' ],
+				'description' => 'An expanded row\'s content, given the row. Blade @scope(\'expansion\', $row), Vue #expansion, React renderExpansion.',
+			],
+		],
+		'events'      => [
+			[
+				'name'        => 'value-change',
+				'description' => 'The selection changed, by a row box or select all. The payload is the selected keys. Setting value doesn\'t fire it.',
+				'payload'     => 'Array<string | number>',
+			],
+			[
+				'name'        => 'sort-change',
+				'description' => 'A sortable header was chosen. The payload is the next sort: ascending first, then toggling. Livewire dispatches it as a browser event with { column, direction } in $event.detail.',
+				'payload'     => '{ column: string; direction: \'asc\' | \'desc\' }',
+			],
+			[
+				'name'        => 'expanded-change',
+				'description' => 'A row was expanded or collapsed. The payload is the expanded keys.',
+				'payload'     => 'Array<string | number>',
+			],
+			[
+				'name'        => 'row-click',
+				'description' => 'A row was clicked outside its links, buttons and boxes. The payload is the row. In Livewire it fires only when something listens on the table (x-on:row-click, @row-click or wire:row-click).',
+				'payload'     => 'row',
+			],
+		],
+		'a11y'        => [
+			'keyboard'     => [
+				[
+					'keys'   => 'Tab',
+					'action' => 'Moves through the select-all box, the sort buttons, then each row\'s box, expand button and the links and buttons in its cells.',
+				],
+				[
+					'keys'   => 'Enter / Space',
+					'action' => 'On a sort button, sorts by that column (ascending, then toggling); on an expand button, shows or hides the row\'s expansion.',
+				],
+				[
+					'keys'   => 'Space',
+					'action' => 'On a checkbox, selects or clears the row, or every row on screen for select all.',
+				],
+			],
+			'requirements' => [ 'Real table markup: a table with thead and tbody, header cells with scope="col".', 'The table is named by its title (aria-labelledby) or label (aria-label).', 'A sortable header carries aria-sort (ascending, descending or none) and holds a button named by sortLabel; the icon is decorative.', 'Row boxes are named by selectRowLabel and selected rows carry aria-selected="true"; the select-all box is named by selectAllLabel and is mixed (indeterminate) while some rows are selected.', 'Expand buttons are named by expandLabel and carry aria-expanded and aria-controls; the chevron mirrors in RTL.', 'While loading, the root carries aria-busy="true" and the skeleton rows are aria-hidden.', 'Focus is visible on every control; a focused cell uses an inset ring so it never overlaps its neighbors.', 'Numbers end-align with tabular figures; status uses a Badge, never a whole-row color.' ],
+			'wcag'         => [ '1.3.1', '1.3.2', '1.4.3', '1.4.11', '2.1.1', '2.4.6', '2.4.7', '4.1.2' ],
+		],
+		'tokens'      => [ '--apui-border-muted', '--apui-border-width', '--apui-cell-padding-x', '--apui-control-height-xs', '--apui-elevation-glass', '--apui-focus-ring-color', '--apui-focus-ring-offset', '--apui-focus-ring-offset-color', '--apui-focus-ring-width', '--apui-font-family-sans', '--apui-font-weight-medium', '--apui-font-weight-semibold', '--apui-icon-size-md', '--apui-icon-size-sm', '--apui-motion-duration-fast', '--apui-motion-ease-standard', '--apui-radius-xs', '--apui-row-height', '--apui-selected-bg', '--apui-state-hover', '--apui-surface-default', '--apui-surface-glass', '--apui-surface-glass-blur', '--apui-surface-glass-border', '--apui-surface-glass-saturation', '--apui-surface-raised', '--apui-surface-sunken', '--apui-table-head-weight', '--apui-table-radius', '--apui-text-default', '--apui-text-muted', '--apui-text-muted-glass', '--apui-type-body-lg-font-size', '--apui-type-body-lg-line-height', '--apui-type-body-md-font-size', '--apui-type-body-md-line-height', '--apui-type-body-sm-font-size', '--apui-type-body-sm-line-height', '--apui-type-caption-font-size', '--apui-type-caption-line-height', '--apui-table-max-block-size' ],
+		'fixture'     => [
+			'props'  => [
+				'title'      => 'Transaction history',
+				'headers'    => [
+					[
+						'key'       => 'symbol',
+						'label'     => 'Product name',
+						'secondary' => 'company',
+						'sortable'  => true,
+					],
+					[
+						'key'     => 'amount',
+						'label'   => 'Order amount',
+						'numeric' => true,
+					],
+					[
+						'key'      => 'date',
+						'label'    => 'Date',
+						'sortable' => true,
+					],
+					[
+						'key'   => 'status',
+						'label' => 'Status',
+					],
+					[
+						'key'   => 'owner',
+						'label' => 'Executed by',
+					],
+				],
+				'rows'       => [
+					[
+						'id'      => 1,
+						'symbol'  => 'TSLA',
+						'company' => 'Tesla, Inc.',
+						'amount'  => '$30,021.23',
+						'date'    => 'Dec 13, 2023',
+						'status'  => 'Processing',
+						'owner'   => 'Olivia Rhye',
+					],
+					[
+						'id'      => 2,
+						'symbol'  => 'MTCH',
+						'company' => 'Match Group, Inc.',
+						'amount'  => '$10,045.00',
+						'date'    => 'Dec 13, 2023',
+						'status'  => 'Success',
+						'owner'   => 'Phoenix Baker',
+					],
+					[
+						'id'      => 3,
+						'symbol'  => 'DDOG',
+						'company' => 'Datadog Inc.',
+						'amount'  => '$40,132.16',
+						'date'    => 'Dec 13, 2023',
+						'status'  => 'Success',
+						'owner'   => 'Lana Steiner',
+					],
+					[
+						'id'      => 4,
+						'symbol'  => 'ARKG',
+						'company' => 'ARK Genomic Revolution ETF',
+						'amount'  => '$22,665.12',
+						'date'    => 'Dec 28, 2023',
+						'status'  => 'Declined',
+						'owner'   => 'Demi Wilkinson',
+					],
+				],
+				'selectable' => true,
+				'expandable' => true,
+				'value'      => [ 2 ],
+				'sortBy'     => [
+					'column'    => 'date',
+					'direction' => 'desc',
+				],
+				'footer'     => '1 selected · 4 of 128 transactions',
+				'pagination' => [
+					'page'    => 3,
+					'total'   => 128,
+					'perPage' => 4,
+				],
+			],
+			'parts'  => [
+				'expanded' => [ 1 ],
+			],
+			'states' => [ 'loading' ],
 		],
 	],
 	'Tabs'              => [
@@ -6913,6 +11713,90 @@ return [
 				],
 			],
 			'states' => [],
+		],
+	],
+	'Text'              => [
+		'name'        => 'Text',
+		'description' => 'Body text with a size, tone and weight, cut to one line with truncate or to a number of lines with clamp. Paragraphs keep to the reading measure.',
+		'status'      => 'draft',
+		'issue'       => 58,
+		'rootClass'   => 'apui-text',
+		'stacks'      => [
+			'livewire' => [
+				'name' => 'text',
+			],
+			'react'    => [
+				'name' => 'Text',
+			],
+			'vue'      => [
+				'name' => 'Text',
+			],
+		],
+		'props'       => [
+			[
+				'name'        => 'as',
+				'type'        => 'enum',
+				'values'      => [ 'p', 'span', 'div' ],
+				'default'     => 'p',
+				'description' => 'The element: p for a paragraph, span for text inside a line, div for a block that holds other blocks.',
+			],
+			[
+				'name'        => 'size',
+				'type'        => 'enum',
+				'values'      => [ 'xs', 'sm', 'md', 'lg', 'lead' ],
+				'default'     => 'md',
+				'description' => '12/16, 13/18, 14/20, 16/24, or lead (19/28, muted unless a tone is set) for an introduction. Emitted as data-size.',
+			],
+			[
+				'name'        => 'tone',
+				'type'        => 'enum',
+				'values'      => [ 'default', 'muted', 'success', 'warning', 'error' ],
+				'default'     => 'default',
+				'description' => 'Text color. Emitted as data-tone.',
+				'a11y'        => 'Status tones are never the only signal, and muted is not for anything people must read.',
+			],
+			[
+				'name'        => 'weight',
+				'type'        => 'enum',
+				'values'      => [ 'regular', 'medium', 'semibold' ],
+				'default'     => 'regular',
+				'description' => 'Font weight. Emitted as data-weight.',
+			],
+			[
+				'name'        => 'truncate',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'Cuts to one line with an ellipsis. Emitted as data-truncate.',
+				'a11y'        => 'Plain-text content is copied to the title attribute, so the full value stays available.',
+			],
+			[
+				'name'        => 'clamp',
+				'type'        => 'number',
+				'description' => 'Cuts after this many lines. Emitted as data-clamp, with the count in --apui-text-clamp.',
+			],
+			[
+				'name'        => 'classes',
+				'type'        => 'object',
+				'description' => 'Extra classes for the root: { root: \'…\' }.',
+			],
+		],
+		'parts'       => [
+			[
+				'name'        => 'root',
+				'element'     => 'p | span | div',
+				'description' => 'The text.',
+			],
+		],
+		'slots'       => [],
+		'events'      => [],
+		'a11y'        => [
+			'element'      => 'p',
+			'requirements' => [ 'Keeps 4.5:1 in every tone and theme; muted is --apui-text-muted.', 'Status tones (success, warning, error) are never the only signal: the words carry the meaning.', 'Truncated and clamped text keeps its full value in the title attribute when it is plain text; otherwise give it one, or a tooltip.', 'Paragraphs keep to --apui-measure.' ],
+			'wcag'         => [ '1.4.1', '1.4.3' ],
+		],
+		'tokens'      => [ '--apui-text-default', '--apui-text-muted', '--apui-color-success-text', '--apui-color-warning-text', '--apui-color-error-text', '--apui-measure', '--apui-type-body-md-font-size', '--apui-type-body-sm-font-size', '--apui-type-body-lg-font-size', '--apui-type-caption-font-size', '--apui-font-weight-medium', '--apui-font-weight-semibold' ],
+		'fixture'     => [
+			'content' => 'Twenty-four bright apartments around a garden courtyard.',
 		],
 	],
 	'Textarea'          => [
@@ -7098,6 +11982,130 @@ return [
 				'error'    => 'Write at least 40 characters.',
 			],
 			'states' => [ 'hover', 'focus-visible', 'disabled', 'invalid', 'readonly' ],
+		],
+	],
+	'Timeline'          => [
+		'name'        => 'Timeline',
+		'description' => 'Events in order, newest or oldest first, each with an icon or dot marker, a head, a time and optional body text or a card. Compose it from TimelineItem children, or pass the same events as items. For steps still to come, use Steps.',
+		'status'      => 'draft',
+		'issue'       => 61,
+		'rootClass'   => 'apui-timeline',
+		'stacks'      => [
+			'livewire' => [
+				'name'         => 'timeline',
+				'capabilities' => [ 'Children: timeline-item; items renders the same children, before them', 'A timeline-item\'s default slot is its head; its card slot holds rich card content', 'A 2.x timeline-item\'s subtitle still works, as time; first, last and pending are ignored' ],
+			],
+			'react'    => [
+				'name'         => 'Timeline',
+				'capabilities' => [ 'Children: TimelineItem, after items; children of an item are its head' ],
+			],
+			'vue'      => [
+				'name'         => 'Timeline',
+				'capabilities' => [ 'Children: TimelineItem, after items; an item\'s default slot is its head' ],
+			],
+		],
+		'props'       => [
+			[
+				'name'        => 'items',
+				'type'        => 'array',
+				'description' => 'The events as data, rendering the same children as composition: { title, time, datetime, icon, color, description, card }. title is the head; time the visible time, with datetime as its machine-readable value; icon a registry name; color tints the marker; description the muted body; card a sunken box, such as a comment.',
+			],
+			[
+				'name'        => 'variant',
+				'type'        => 'enum',
+				'values'      => [ 'icon', 'dot' ],
+				'default'     => 'icon',
+				'description' => 'Icon markers in a soft circle, or small dots for a compact status history. Dots leave the icons out. Emitted as data-variant.',
+			],
+			[
+				'name'        => 'label',
+				'type'        => 'string',
+				'description' => 'The list\'s accessible name, such as "Activity".',
+			],
+			[
+				'name'        => 'classes',
+				'type'        => 'object',
+				'description' => 'Extra classes per part, its items\' included, such as { marker: \'…\', time: \'…\' }.',
+			],
+		],
+		'variants'    => [ 'icon', 'dot' ],
+		'parts'       => [
+			[
+				'name'        => 'root',
+				'element'     => 'ol',
+				'description' => 'The ordered list of events. It is the spec\'s list part.',
+			],
+			[
+				'name'        => 'item',
+				'element'     => 'li',
+				'description' => 'One event. The line to the next marker is drawn from the inline start, so it mirrors in RTL.',
+			],
+			[
+				'name'        => 'marker',
+				'element'     => 'span',
+				'description' => 'The icon in a soft circle, or a dot, with data-color. Hidden from assistive technology.',
+			],
+			[
+				'name'        => 'head',
+				'element'     => 'div',
+				'description' => 'What happened, then the time at the end.',
+			],
+			[
+				'name'        => 'time',
+				'element'     => 'time',
+				'description' => 'When it happened, with datetime when given.',
+			],
+			[
+				'name'        => 'body',
+				'element'     => 'div',
+				'description' => 'Muted detail under the head.',
+			],
+			[
+				'name'        => 'card',
+				'element'     => 'div',
+				'description' => 'A sunken box under the head, such as a comment.',
+			],
+		],
+		'events'      => [],
+		'a11y'        => [
+			'element'      => 'ol',
+			'requirements' => [ 'An ordered list, so the count and position are announced.', 'Times use time elements, with datetime for the machine-readable value.', 'Markers are decorative and hidden: what happened is in the head, never only in an icon or color.', 'Times and body text keep 4.5:1 (--apui-text-muted).' ],
+			'wcag'         => [ '1.3.1', '1.4.1', '1.4.3' ],
+		],
+		'tokens'      => [ '--apui-text-default', '--apui-text-muted', '--apui-border-muted', '--apui-border-default', '--apui-surface-sunken', '--apui-color-neutral-soft', '--apui-color-neutral-soft-foreground', '--apui-focus-ring-offset-color', '--apui-radius-full', '--apui-radius-md', '--apui-type-body-md-font-size', '--apui-type-body-sm-font-size', '--apui-type-caption-font-size', '--apui-icon-size-md' ],
+		'fixture'     => [
+			'props' => [
+				'items' => [
+					[
+						'title'       => 'Offer accepted on Lakeview Lofts',
+						'time'        => '2h ago',
+						'datetime'    => '2026-11-12T08:00',
+						'icon'        => 'circle-check',
+						'color'       => 'success',
+						'description' => 'Phoenix Baker accepted $248,000.',
+					],
+					[
+						'title' => 'Olivia Rhye commented',
+						'time'  => '5h ago',
+						'icon'  => 'message-square',
+						'card'  => 'Can we move the viewing to Thursday at 11:00?',
+					],
+					[
+						'title'    => 'Payment declined for ARKG',
+						'time'     => 'Dec 28',
+						'datetime' => '2026-12-28',
+						'icon'     => 'circle-alert',
+						'color'    => 'error',
+					],
+					[
+						'title'    => 'Listing published',
+						'time'     => 'Dec 13',
+						'datetime' => '2026-12-13',
+						'icon'     => 'house',
+						'color'    => 'primary',
+					],
+				],
+			],
 		],
 	],
 	'Toast'             => [
@@ -7432,6 +12440,453 @@ return [
 				'error'       => 'Ask your admin to turn this on.',
 			],
 			'states' => [ 'hover', 'focus-visible', 'checked', 'disabled', 'invalid' ],
+		],
+	],
+	'Tooltip'           => [
+		'name'        => 'Tooltip',
+		'description' => 'A short label shown on hover and keyboard focus. The trigger is the author\'s own control: the tooltip describes it with aria-describedby while it shows. It waits delay before showing on hover, shows at once on focus, stays while the pointer is on it and closes on Escape. Never put links or buttons in a tooltip; use Popover.',
+		'status'      => 'draft',
+		'issue'       => 59,
+		'rootClass'   => 'apui-tooltip',
+		'stacks'      => [
+			'livewire' => [
+				'name'         => 'tooltip',
+				'capabilities' => [ 'wire:model binds open both ways through $wire.entangle()', 'The first element in the default slot becomes the trigger; text is wrapped in a focusable span' ],
+			],
+			'react'    => [
+				'name' => 'Tooltip',
+			],
+			'vue'      => [
+				'name' => 'Tooltip',
+			],
+		],
+		'props'       => [
+			[
+				'name'        => 'content',
+				'type'        => 'string',
+				'required'    => true,
+				'description' => 'The label. Keep it short; it describes the trigger, it doesn\'t name it.',
+				'a11y'        => 'Linked to the trigger with aria-describedby while it shows. Never the only name of an icon button: give the button its own aria-label.',
+			],
+			[
+				'name'        => 'placement',
+				'type'        => 'enum',
+				'values'      => [ 'top', 'bottom', 'start', 'end' ],
+				'default'     => 'top',
+				'description' => 'The trigger\'s side the label sits on, centered. start and end follow the reading direction. Emitted as data-placement; the side the machine settled on, after flipping, is data-side.',
+			],
+			[
+				'name'        => 'delay',
+				'type'        => 'number',
+				'default'     => 400,
+				'description' => 'Milliseconds the pointer rests on the trigger before the label shows. Keyboard focus shows it at once.',
+			],
+			[
+				'name'        => 'size',
+				'type'        => 'enum',
+				'values'      => [ 'md', 'lg' ],
+				'default'     => 'md',
+				'description' => 'md is a one-line label; lg is for a sentence or two, at body size. Emitted as data-size.',
+			],
+			[
+				'name'        => 'shortcut',
+				'type'        => 'string',
+				'description' => 'A keyboard shortcut shown after the label, as keys joined with + (⌘+K). Each key is a kbd part.',
+			],
+			[
+				'name'        => 'open',
+				'type'        => 'boolean',
+				'description' => 'Controls the label: true shows it, false hides it, whatever the pointer and focus do. Leave it out to let hover and focus show it. Livewire binds it with wire:model, Vue with v-model:open. Emitted as data-state.',
+			],
+			[
+				'name'        => 'defaultOpen',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'The initial state of an uncontrolled tooltip.',
+				'stacks'      => [ 'react' ],
+			],
+			[
+				'name'        => 'disabled',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'Never shows the label. Emitted as data-disabled on the label.',
+			],
+			[
+				'name'        => 'portal',
+				'type'        => 'boolean',
+				'default'     => true,
+				'description' => 'Renders the label at the end of the body, above everything (x-teleport, a React portal, Vue Teleport). Off renders it in place.',
+			],
+			[
+				'name'        => 'classes',
+				'type'        => 'object',
+				'description' => 'Extra classes per part, such as { root: \'…\', kbd: \'…\' }.',
+			],
+		],
+		'sizes'       => [ 'md', 'lg' ],
+		'parts'       => [
+			[
+				'name'        => 'root',
+				'element'     => 'div',
+				'description' => 'The label, carrying the root class. It is Zag\'s content part, so it also carries data-part="content" (D-019).',
+			],
+			[
+				'name'        => 'content',
+				'element'     => 'div',
+				'description' => 'The label: the same element as root.',
+			],
+			[
+				'name'        => 'trigger',
+				'element'     => 'button',
+				'description' => 'The author\'s control, which the label describes.',
+			],
+			[
+				'name'        => 'positioner',
+				'element'     => 'div',
+				'description' => 'Places the label against the trigger.',
+			],
+			[
+				'name'        => 'arrow',
+				'element'     => 'span',
+				'description' => 'Points at the trigger. Decorative.',
+			],
+			[
+				'name'        => 'kbd',
+				'element'     => 'kbd',
+				'description' => 'One key of the shortcut.',
+			],
+		],
+		'slots'       => [
+			[
+				'name'        => 'content',
+				'description' => 'Rich label content (text and inline formatting only), in place of the content prop.',
+			],
+		],
+		'events'      => [
+			[
+				'name'        => 'open-change',
+				'description' => 'The label showed or hid itself: hover, focus, blur or Escape. Setting open doesn\'t fire it.',
+				'payload'     => 'boolean',
+			],
+		],
+		'a11y'        => [
+			'role'         => 'tooltip',
+			'element'      => 'div',
+			'keyboard'     => [
+				[
+					'keys'   => 'Tab',
+					'action' => 'Focusing the trigger shows the label at once.',
+				],
+				[
+					'keys'   => 'Escape',
+					'action' => 'Hides the label; focus stays on the trigger.',
+				],
+			],
+			'requirements' => [ 'Shown on hover and keyboard focus; dismissible with Escape without moving focus or the pointer; hoverable, so the pointer can move onto it (WCAG 1.4.13).', 'The label is role=tooltip and is linked to the trigger with aria-describedby while it shows.', 'Never the only name of an icon button: the button keeps its own aria-label.', 'No links, buttons or other interactive content in the label; use Popover.', 'Text keeps 4.5:1 on the inverse surface in every theme, and the label has a visible edge in forced colors.', 'start and end follow the reading direction, and the label flips to stay in the viewport.', 'Every part keeps a stable, server-rendered id in Livewire, so morphs never replace the label (D-015).' ],
+			'wcag'         => [ '1.3.1', '1.4.3', '1.4.13', '2.1.1', '4.1.2' ],
+		],
+		'tokens'      => [ '--apui-tooltip-radius', '--apui-kbd-radius', '--apui-surface-inverse', '--apui-text-inverse', '--apui-z-tooltip' ],
+		'fixture'     => [
+			'content' => 'Archive',
+			'props'   => [
+				'open'      => true,
+				'portal'    => false,
+				'placement' => 'bottom',
+				'content'   => 'Archive this listing',
+			],
+			'parts'   => [
+				'shortcut' => 'E',
+			],
+			'states'  => [],
+		],
+	],
+	'UserMenu'          => [
+		'name'        => 'UserMenu',
+		'description' => 'The account menu: an avatar button that opens a DropdownMenu with the person\'s identity, a workspace switcher, a theme control, your items and Log out, which always comes last. Composed from Avatar and DropdownMenu, on the same menu machine.',
+		'status'      => 'draft',
+		'issue'       => 58,
+		'rootClass'   => 'apui-user-menu',
+		'stacks'      => [
+			'livewire' => [
+				'name'         => 'user-menu',
+				'capabilities' => [ 'Children: dropdown-menu-item, dropdown-menu-group and dropdown-menu-separator, after items', 'profile stays as a deprecated alias', 'logoutAction posts the log out item to a URL with the CSRF token' ],
+			],
+			'react'    => [
+				'name'         => 'UserMenu',
+				'capabilities' => [ 'Children: DropdownMenuItem, DropdownMenuGroup and DropdownMenuSeparator, after items' ],
+			],
+			'vue'      => [
+				'name'         => 'UserMenu',
+				'capabilities' => [ 'Children: DropdownMenuItem, DropdownMenuGroup and DropdownMenuSeparator, after items' ],
+			],
+		],
+		'props'       => [
+			[
+				'name'        => 'user',
+				'type'        => 'object',
+				'required'    => true,
+				'description' => 'Who is signed in: { name, email, avatar, role, status }. avatar is an image URL; role is the line under the name in the trigger, such as "Admin · Apexify"; status is online, away or offline.',
+			],
+			[
+				'name'        => 'workspaces',
+				'type'        => 'array',
+				'description' => 'Workspaces to switch between: { id, name }. Two or more render a Workspace group of radio items.',
+			],
+			[
+				'name'        => 'workspace',
+				'type'        => 'string',
+				'description' => 'The current workspace\'s id, checked in the group.',
+			],
+			[
+				'name'        => 'hideTheme',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'Hides the theme control (light, dark and system radio items), for apps with one theme.',
+			],
+			[
+				'name'        => 'theme',
+				'type'        => 'enum',
+				'values'      => [ 'light', 'dark', 'system' ],
+				'default'     => 'system',
+				'description' => 'The checked theme. Setting the theme on the page stays yours, on theme-change.',
+			],
+			[
+				'name'        => 'items',
+				'type'        => 'array',
+				'description' => 'Menu items between the theme control and Log out, as DropdownMenu items data: { value, label, icon, shortcut, disabled }, separators and groups.',
+			],
+			[
+				'name'        => 'compact',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'Shows only the avatar in the trigger, for a top bar. The trigger keeps the name as its accessible name.',
+			],
+			[
+				'name'        => 'open',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'Whether the menu is open. Emitted as data-state on its parts.',
+			],
+			[
+				'name'        => 'defaultOpen',
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => 'The initial state of an uncontrolled menu.',
+				'stacks'      => [ 'react' ],
+			],
+			[
+				'name'        => 'align',
+				'type'        => 'enum',
+				'values'      => [ 'start', 'center', 'end' ],
+				'default'     => 'start',
+				'description' => 'Which of the menu\'s edges lines up with the trigger\'s. Logical: follows the text direction.',
+			],
+			[
+				'name'        => 'surface',
+				'type'        => 'enum',
+				'values'      => [ 'overlay', 'glass' ],
+				'default'     => 'overlay',
+				'description' => 'The menu\'s surface. Emitted as data-surface.',
+			],
+			[
+				'name'        => 'portal',
+				'type'        => 'boolean',
+				'default'     => true,
+				'description' => 'Renders the menu at the end of the body. Off renders it in place.',
+			],
+			[
+				'name'        => 'workspaceLabel',
+				'type'        => 'string',
+				'default'     => 'Workspace',
+				'description' => 'The workspace group\'s label. Translate it: Livewire defaults it through __( \'Workspace\' ).',
+			],
+			[
+				'name'        => 'themeLabel',
+				'type'        => 'string',
+				'default'     => 'Theme',
+				'description' => 'The theme group\'s label. Translate it: Livewire defaults it through __( \'Theme\' ).',
+			],
+			[
+				'name'        => 'themeLabels',
+				'type'        => 'object',
+				'default'     => [
+					'light'  => 'Light',
+					'dark'   => 'Dark',
+					'system' => 'System',
+				],
+				'description' => 'The theme options\' names, read by screen readers: { light, dark, system }. Translate them: Livewire defaults them through __().',
+			],
+			[
+				'name'        => 'logoutLabel',
+				'type'        => 'string',
+				'default'     => 'Log out',
+				'description' => 'The last item\'s label. Translate it: Livewire defaults it through __( \'Log out\' ).',
+			],
+			[
+				'name'        => 'logoutAction',
+				'type'        => 'string',
+				'description' => 'A URL the Log out item posts to, with the CSRF token, such as route( \'logout\' ). Without it, Log out reports select with the value logout.',
+				'stacks'      => [ 'livewire' ],
+			],
+			[
+				'name'        => 'classes',
+				'type'        => 'object',
+				'description' => 'Extra classes per part, the menu\'s included, such as { trigger: \'…\', item: \'…\' }.',
+			],
+		],
+		'parts'       => [
+			[
+				'name'        => 'root',
+				'element'     => 'div',
+				'description' => 'The menu panel: .apui-dropdown-menu.apui-user-menu, the machine\'s content part.',
+			],
+			[
+				'name'        => 'trigger',
+				'element'     => 'button',
+				'description' => 'The avatar button that opens the menu.',
+			],
+			[
+				'name'        => 'avatar',
+				'element'     => 'span',
+				'description' => 'The Avatar, in the trigger and in the header.',
+			],
+			[
+				'name'        => 'identity',
+				'element'     => 'span',
+				'description' => 'The name and the role or email, beside an avatar.',
+			],
+			[
+				'name'        => 'name',
+				'element'     => 'span',
+				'description' => 'The person\'s name.',
+			],
+			[
+				'name'        => 'role',
+				'element'     => 'span',
+				'description' => 'The line under the name in the trigger.',
+			],
+			[
+				'name'        => 'indicator',
+				'element'     => 'span',
+				'description' => 'The up-down chevron at the end of the trigger.',
+			],
+			[
+				'name'        => 'header',
+				'element'     => 'div',
+				'description' => 'The identity at the top of the menu: avatar, name and email.',
+			],
+			[
+				'name'        => 'email',
+				'element'     => 'span',
+				'description' => 'The email in the header.',
+			],
+			[
+				'name'        => 'theme',
+				'element'     => 'div',
+				'description' => 'The theme control\'s group.',
+			],
+			[
+				'name'        => 'themeOptions',
+				'element'     => 'div',
+				'description' => 'The light, dark and system radio items, as a segmented row.',
+			],
+		],
+		'slots'       => [
+			[
+				'name'        => 'trigger',
+				'description' => 'Replaces the trigger\'s content (avatar, name and role).',
+			],
+		],
+		'events'      => [
+			[
+				'name'        => 'open-change',
+				'description' => 'The menu opened or closed itself.',
+				'payload'     => 'boolean',
+			],
+			[
+				'name'        => 'select',
+				'description' => 'An item was chosen, by click or Enter. The payload is its value; Log out reports logout.',
+				'payload'     => 'string',
+			],
+			[
+				'name'        => 'workspace-change',
+				'description' => 'A workspace was chosen. The payload is its id; checking it stays yours, through workspace.',
+				'payload'     => 'string',
+			],
+			[
+				'name'        => 'theme-change',
+				'description' => 'A theme was chosen. The payload is light, dark or system; applying it stays yours.',
+				'payload'     => '\'light\' | \'dark\' | \'system\'',
+			],
+		],
+		'a11y'        => [
+			'role'         => 'menu',
+			'element'      => 'div',
+			'keyboard'     => [
+				[
+					'keys'   => 'Enter, Space, ArrowDown',
+					'action' => 'On the trigger, opens the menu on the first item.',
+				],
+				[
+					'keys'   => 'ArrowDown, ArrowUp',
+					'action' => 'Move through the items, the workspace and theme options included.',
+				],
+				[
+					'keys'   => 'Enter, Space',
+					'action' => 'Chooses the item; a workspace or theme option is checked.',
+				],
+				[
+					'keys'   => 'Escape',
+					'action' => 'Closes the menu and returns focus to the trigger.',
+				],
+			],
+			'requirements' => [ 'The trigger is a button with aria-haspopup=menu, aria-expanded and the person\'s name as its accessible name, also when compact.', 'Workspace and theme options are menuitemradio in labelled groups, with aria-checked.', 'The theme options show icons; their names stay in the accessibility tree.', 'Log out is always the last item, after a separator.', 'The avatars inside are decorative: the trigger and the header already say the name.', 'Everything DropdownMenu requires: focus moves in on open and back to the trigger on close, stable ids in Livewire.' ],
+			'wcag'         => [ '1.3.1', '1.4.1', '1.4.3', '2.1.1', '2.4.3', '2.4.7', '4.1.2' ],
+		],
+		'tokens'      => [ '--apui-button-radius', '--apui-state-hover', '--apui-text-default', '--apui-text-muted', '--apui-tabs-radius', '--apui-surface-sunken', '--apui-surface-raised', '--apui-border-muted', '--apui-focus-ring-color', '--apui-focus-ring-offset-color' ],
+		'fixture'     => [
+			'props'  => [
+				'open'       => true,
+				'portal'     => false,
+				'user'       => [
+					'name'   => 'Olivia Rhye',
+					'email'  => 'olivia@company.com',
+					'role'   => 'Admin · Apexify',
+					'status' => 'online',
+				],
+				'workspaces' => [
+					[
+						'id'   => 'apexify',
+						'name' => 'Apexify',
+					],
+					[
+						'id'   => 'horizon',
+						'name' => 'Horizon Homes',
+					],
+				],
+				'workspace'  => 'apexify',
+				'theme'      => 'dark',
+				'items'      => [
+					[
+						'value' => 'profile',
+						'label' => 'Profile',
+						'icon'  => 'user',
+					],
+					[
+						'value' => 'settings',
+						'label' => 'Settings',
+						'icon'  => 'settings',
+					],
+				],
+			],
+			'states' => [],
+			'parts'  => [
+				'themeLabels' => [
+					'light'  => 'Day',
+					'dark'   => 'Night',
+					'system' => 'Auto',
+				],
+			],
 		],
 	],
 	'ValidationSummary' => [

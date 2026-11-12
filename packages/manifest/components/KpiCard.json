@@ -1,0 +1,196 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "KpiCard",
+  "description": "A headline metric in a Card: a Stat's label, value and change, with a sparkline of its trend beside the value and, when there is one, progress toward a target. A period control (a Select) can sit in the label row.",
+  "status": "draft",
+  "issue": 61,
+  "rootClass": "apui-kpi-card",
+  "stacks": {
+    "livewire": {
+      "name": "kpi-card",
+      "capabilities": [
+        "The period slot holds a control, such as a Select bound with wire:model.live",
+        "2.x title, value, icon, change, changeLabel and sparkline-data still work, mapped onto stat and sparkline"
+      ]
+    },
+    "react": {
+      "name": "KpiCard",
+      "capabilities": ["period takes a node, such as a Select"]
+    },
+    "vue": {
+      "name": "KpiCard",
+      "capabilities": ["The period slot holds a control, such as a Select with v-model"]
+    }
+  },
+  "props": [
+    {
+      "name": "stat",
+      "type": "object",
+      "description": "The metric, with Stat's props: { label, value, unit, icon, color, delta, change, trend, description, upLabel, downLabel, flatLabel }. color tints the icon tile and the target bar, and is emitted as data-color on the root."
+    },
+    {
+      "name": "sparkline",
+      "type": "array",
+      "description": "The metric's recent values, drawn as an area Sparkline beside the value. Use one scale for the cards in a row. Omit it and the value takes the row."
+    },
+    {
+      "name": "sparklineLabel",
+      "type": "string",
+      "default": "Trend from {first} to {latest}",
+      "description": "The sparkline's accessible label; {first}, {latest}, {min}, {max} and {count} are filled in. Translate it: Livewire defaults it through __( 'Trend from {first} to {latest}' )."
+    },
+    {
+      "name": "target",
+      "type": "object",
+      "description": "Progress toward a goal: { value, max, label }. max defaults to 100; label names the goal (\"Goal $25,000\") and the bar. Show a target only when one exists."
+    },
+    {
+      "name": "targetLabel",
+      "type": "string",
+      "default": "{percent}% of goal",
+      "description": "The text at the end of the target row; {percent}, {value} and {max} are filled in. Translate it: Livewire defaults it through __( '{percent}% of goal' )."
+    },
+    {
+      "name": "period",
+      "type": "node",
+      "description": "A control for the period, such as a Select, in the label row before the icon."
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part, such as { value: '…', sparkline: '…' }."
+    }
+  ],
+  "parts": [
+    {
+      "name": "root",
+      "element": "div",
+      "description": "The card: .apui-card.apui-kpi-card, with data-color from stat."
+    },
+    {
+      "name": "top",
+      "element": "div",
+      "description": "The label row: label, period and icon."
+    },
+    {
+      "name": "label",
+      "element": "span",
+      "description": "What the metric measures."
+    },
+    {
+      "name": "period",
+      "element": "div",
+      "description": "The period control."
+    },
+    {
+      "name": "icon",
+      "element": "span",
+      "description": "The tinted icon tile. Hidden from assistive technology."
+    },
+    {
+      "name": "row",
+      "element": "div",
+      "description": "The summary beside the sparkline, aligned to their bottoms."
+    },
+    {
+      "name": "summary",
+      "element": "div",
+      "description": "The value and the foot."
+    },
+    {
+      "name": "value",
+      "element": "span",
+      "description": "The number, in tabular figures."
+    },
+    {
+      "name": "unit",
+      "element": "span",
+      "description": "The unit inside the value."
+    },
+    {
+      "name": "foot",
+      "element": "span",
+      "description": "The delta and description."
+    },
+    {
+      "name": "delta",
+      "element": "span",
+      "description": "The change: hidden direction text, an arrow and the change, with data-trend."
+    },
+    {
+      "name": "description",
+      "element": "span",
+      "description": "The context after the delta."
+    },
+    {
+      "name": "sparkline",
+      "element": "svg",
+      "description": "The trend: a Sparkline (.apui-sparkline, role=img) with a label stating the first and latest values."
+    },
+    {
+      "name": "target",
+      "element": "div",
+      "description": "Progress toward the goal: a small Progress, then targetText."
+    },
+    {
+      "name": "targetText",
+      "element": "div",
+      "description": "The goal's label at the start and targetLabel at the end."
+    }
+  ],
+  "slots": [
+    {
+      "name": "period",
+      "description": "The period control, such as a Select."
+    }
+  ],
+  "events": [],
+  "a11y": {
+    "element": "div",
+    "requirements": [
+      "The sparkline is role=img with a label that states its first and latest values; the target bar is a labeled progressbar with its percentage as text beside it.",
+      "The change follows Stat: visible text with an arrow and a hidden direction label, never color alone.",
+      "The icon tile is decorative and hidden from assistive technology.",
+      "Muted text keeps 4.5:1 on the card; the sparkline and bar keep 3:1."
+    ],
+    "wcag": ["1.1.1", "1.3.1", "1.4.1", "1.4.3", "1.4.11"]
+  },
+  "tokens": [
+    "--apui-card-padding",
+    "--apui-card-radius",
+    "--apui-surface-default",
+    "--apui-border-muted",
+    "--apui-text-muted",
+    "--apui-type-stat-md-font-size",
+    "--apui-type-caption-font-size",
+    "--apui-color-success-text",
+    "--apui-color-error-text",
+    "--apui-chart-1"
+  ],
+  "fixture": {
+    "props": {
+      "stat": {
+        "label": "Profit",
+        "value": "$15,708.98",
+        "icon": "trending-up",
+        "color": "success",
+        "change": 8.1,
+        "description": "vs last month"
+      },
+      "sparkline": [2, 4, 2, 6, 8, 6, 10, 12, 14],
+      "target": { "value": 62, "label": "Goal $25,000" }
+    },
+    "parts": {
+      "stat": {
+        "label": "Profit",
+        "value": "15,708.98",
+        "unit": "USD",
+        "icon": "trending-up",
+        "color": "success",
+        "change": 8.1,
+        "description": "vs last month"
+      },
+      "period": "This month"
+    }
+  }
+}

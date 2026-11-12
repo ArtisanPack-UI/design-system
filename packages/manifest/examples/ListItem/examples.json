@@ -1,0 +1,12 @@
+[
+  {
+    "id": "people",
+    "title": "People",
+    "description": "Rows in a bordered List. href makes the row one link; trailing holds a badge or a short action."
+  },
+  {
+    "id": "notifications",
+    "title": "Notifications",
+    "description": "A divided List with icons and times. interactive makes the row a button for a click handler; selected marks the current one."
+  }
+]

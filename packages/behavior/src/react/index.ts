@@ -43,6 +43,53 @@ import { firstEnabledTab, tabs, type TabsOptions, toTabsProps } from '../widgets
 
 export type { TabsActivationMode, TabsIds, TabsOptions, TabsOrientation } from '../widgets/tabs';
 
+import type { Api as ZagAccordionApi } from '@zag-js/accordion';
+import type { Api as ZagCollapsibleApi } from '@zag-js/collapsible';
+import { accordion, type AccordionOptions, toAccordionProps } from '../widgets/accordion';
+import { collapse, type CollapseOptions, toCollapseProps } from '../widgets/collapse';
+
+export type { AccordionIds, AccordionOptions } from '../widgets/accordion';
+export type { CollapseIds, CollapseOptions, CollapseVariant } from '../widgets/collapse';
+
+/** The accordion's API with React props for each part. */
+export type AccordionApi = ZagAccordionApi<PropTypes>;
+
+/**
+ * Accordion: triggers in headings that open and close their panels, one at
+ * a time or several with `multiple`; ArrowDown and ArrowUp move between
+ * triggers. Items are `getItemProps({ value })`, triggers
+ * `getItemTriggerProps({ value, disabled })` (rendered as `trigger`),
+ * chevrons `getItemIndicatorProps` (`chevron`) and panels
+ * `getItemContentProps` (`content`).
+ */
+export function useAccordion(options: AccordionOptions = {}): AccordionApi {
+  const fallback = useId();
+  const dir = useDirection(options.dir, options.id ?? fallback, options.ids);
+  const service = useMachine(
+    accordion.machine,
+    toAccordionProps({ ...options, dir }, options.id ?? fallback),
+  );
+  return accordion.connect(service, normalize) as unknown as AccordionApi;
+}
+
+/** The collapse's API with React props for each part. */
+export type CollapseApi = ZagCollapsibleApi<PropTypes>;
+
+/**
+ * Collapse: a trigger that shows and hides one region, or clamps it with
+ * `variant: 'read-more'`. Parts are `getRootProps`, `getTriggerProps`,
+ * `getIndicatorProps` (rendered as `icon`) and `getContentProps`.
+ */
+export function useCollapse(options: CollapseOptions = {}): CollapseApi {
+  const fallback = useId();
+  const dir = useDirection(options.dir, options.id ?? fallback, options.ids);
+  const service = useMachine(
+    collapse.machine,
+    toCollapseProps({ ...options, dir }, options.id ?? fallback),
+  );
+  return collapse.connect(service, normalize) as unknown as CollapseApi;
+}
+
 /** The tabs' API with React props for each part. */
 export type TabsApi = ZagTabsApi<PropTypes>;
 
@@ -354,3 +401,34 @@ export type {
   SpotlightEntry,
   SpotlightResultGroup,
 } from '../widgets/spotlight';
+export {
+  tooltipKeys,
+  useDrawer,
+  usePopover,
+  useTooltip,
+  type DrawerApi,
+  type DrawerOptions,
+  type DrawerSide,
+  type OverlayPlacement,
+  type PopoverApi,
+  type PopoverIds,
+  type PopoverOptions,
+  type TooltipApi,
+  type TooltipIds,
+  type TooltipOptions,
+} from './overlays';
+
+export { useCarousel, useLightbox, type CarouselApi, type LightboxApi } from './images';
+export {
+  CAROUSEL_LABELS,
+  formatCarouselLabel,
+  type CarouselLabels,
+  type CarouselOptions,
+} from '../widgets/carousel';
+export {
+  LIGHTBOX_LABELS,
+  lightboxCounter,
+  lightboxLabels,
+  type LightboxLabels,
+  type LightboxOptions,
+} from '../widgets/lightbox';

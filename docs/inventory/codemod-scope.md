@@ -17,9 +17,9 @@ Sizes the migration for Phase 6 (tooling) and Phase 7 (dogfood). Scans every pac
 | Blade component usages | 1888 |
 | React component usages | 491 |
 | Vue component usages | 495 |
-| Usages of a renamed component | 119 |
-| Attributes needing a rename | 418 |
-| Attributes that are removed (glass tints, `uuid`, … have no downstream use) | 19 |
+| Usages of a renamed component | 122 |
+| Attributes needing a rename | 542 |
+| Attributes that are removed (glass tints, `uuid`, … have no downstream use) | 134 |
 | Raw DaisyUI component classes | 1916 |
 | Ambiguous DaisyUI-named classes | 1087 |
 | DaisyUI-only theme utilities (`bg-base-*`, `*-content`) | 999 |
@@ -33,19 +33,19 @@ Sorted by component usages plus raw classes, which suggests a dogfood order. "At
 | Package | Ref | In plan | Blade files | Blade uses | React uses | Vue uses | Attr. | DaisyUI files | Component classes | Theme utilities | Theme vars | Depends on daisyui |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
 | forms | `security/153-154-157-choice-validation-builder-auth-file-privacy` | yes | 37 | 214 | 181 | 182 | 15 | 117 | 921 | 339 | 0 | — |
-| ecommerce-admin-livewire | `main` | yes | 100 | 810 | 0 | 0 | 270 | 54 | 104 | 65 | 0 | yes |
-| media-library | `main` | yes | 10 | 247 | 92 | 92 | 55 | 21 | 68 | 81 | 0 | — |
-| ecommerce-storefront-livewire | `fix/1.0-release-readiness` | **no** | 58 | 212 | 0 | 0 | 77 | 55 | 201 | 127 | 43 | yes |
-| seo | `main` | yes | 7 | 134 | 91 | 99 | 1 | 20 | 3 | 95 | 0 | — |
-| analytics | `main` | yes | 13 | 98 | 53 | 53 | 5 | 28 | 87 | 139 | 0 | — |
+| ecommerce-admin-livewire | `main` | yes | 100 | 810 | 0 | 0 | 361 | 54 | 104 | 65 | 0 | yes |
+| media-library | `main` | yes | 10 | 247 | 92 | 92 | 81 | 21 | 68 | 81 | 0 | — |
+| ecommerce-storefront-livewire | `fix/1.0-release-readiness` | **no** | 58 | 212 | 0 | 0 | 87 | 55 | 201 | 127 | 43 | yes |
+| seo | `main` | yes | 7 | 134 | 91 | 99 | 20 | 20 | 3 | 95 | 0 | — |
+| analytics | `main` | yes | 13 | 98 | 53 | 53 | 70 | 28 | 87 | 139 | 0 | — |
 | bookings | `main` | **no** | 0 | 0 | 0 | 0 | 0 | 19 | 216 | 25 | 0 | — |
 | privacy | `release/1.x` | **no** | 1 | 1 | 0 | 0 | 0 | 17 | 147 | 44 | 0 | — |
-| pagespeed-insights | `origin/main` | yes | 5 | 51 | 34 | 34 | 0 | 2 | 15 | 0 | 4 | — |
+| pagespeed-insights | `origin/main` | yes | 5 | 51 | 34 | 34 | 19 | 2 | 15 | 0 | 4 | — |
 | react-starter-kit | `main` | yes | 0 | 0 | 34 | 0 | 0 | 14 | 66 | 37 | 1 | yes |
 | vue-starter-kit | `main` | yes | 0 | 0 | 0 | 35 | 0 | 15 | 65 | 38 | 1 | yes |
-| livewire-starter-kit | `main` | yes | 14 | 76 | 0 | 0 | 14 | 11 | 12 | 4 | 66 | yes |
-| ai | `main` | yes | 3 | 32 | 0 | 0 | 0 | 6 | 1 | 5 | 0 | — |
-| security | `release/2.1` | yes | 1 | 12 | 0 | 0 | 0 | 1 | 4 | 0 | 0 | — |
+| livewire-starter-kit | `main` | yes | 14 | 76 | 0 | 0 | 15 | 11 | 12 | 4 | 66 | yes |
+| ai | `main` | yes | 3 | 32 | 0 | 0 | 4 | 6 | 1 | 5 | 0 | — |
+| security | `release/2.1` | yes | 1 | 12 | 0 | 0 | 4 | 1 | 4 | 0 | 0 | — |
 | visual-editor | `main` | **no** | 0 | 0 | 6 | 0 | 0 | 1 | 2 | 0 | 137 | yes |
 | security-analytics | `main` | **no** | 0 | 0 | 0 | 0 | 0 | 1 | 4 | 0 | 0 | — |
 | icons | `main` | **no** | 1 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | — |
@@ -79,7 +79,8 @@ Planned packages with no UI usage at this snapshot: none.
 | `radio → radio-group` | 11 |
 | `dropdown → dropdown-menu` | 8 |
 | `choices-offline → combobox` | 5 |
-| `subheading → heading` | 5 |
+| `subheading → text` | 5 |
+| `StatGroup → Grid` | 3 |
 | `nav → navbar` | 3 |
 | `choices → combobox` | 2 |
 | `main → app-shell` | 2 |
@@ -92,32 +93,50 @@ Planned packages with no UI usage at this snapshot: none.
 | Attribute | Usages |
 |---|---|
 | `variant (rename)` | 272 |
+| `title (rename)` | 72 |
 | `link (rename)` | 65 |
+| `separator (remove)` | 39 |
 | `noWireNavigate (rename)` | 38 |
+| `right (rename)` | 17 |
+| `closeOnEscape (remove)` | 14 |
+| `tooltip (remove)` | 13 |
+| `withCloseButton (remove)` | 12 |
+| `subtitle (rename)` | 10 |
+| `columns (rename)` | 7 |
 | `searchable (remove)` | 7 |
 | `noResultText (rename)` | 7 |
+| `animate (remove)` | 7 |
+| `changeLabel (rename)` | 6 |
 | `boxClass (rename)` | 6 |
 | `activeTab (rename)` | 5 |
+| `striped (remove)` | 5 |
+| `emptyMessage (rename)` | 5 |
 | `omitError (rename)` | 5 |
-| `right (rename)` | 4 |
+| `cols (rename)` | 4 |
+| `colsLg (remove)` | 4 |
+| `type (rename)` | 4 |
 | `single (remove)` | 4 |
 | `inline (rename)` | 4 |
+| `name (remove)` | 3 |
+| `sparklineData (remove)` | 2 |
+| `sparklineType (remove)` | 2 |
 | `horizontal (rename)` | 2 |
 | `searchFunction (rename)` | 2 |
-| `optionValue (remove)` | 2 |
-| `optionLabel (remove)` | 2 |
-| `optionSubLabel (remove)` | 2 |
-| `valuesAsString (remove)` | 2 |
-| `tooltipBottom (rename)` | 1 |
-| `badgeClasses (rename)` | 1 |
-| `searchText (rename)` | 1 |
-| `noResultsText (rename)` | 1 |
-| `stepsColor (rename)` | 1 |
-| `stepperClasses (rename)` | 1 |
-| `selected (rename)` | 1 |
-| `tooltipLeft (rename)` | 1 |
 
 `variant` on Button is the largest single rule and cannot be a blind rename: `variant="primary"` must become `color`, while `variant="ghost"` stays `variant`. The rule has to inspect the value. `horizontal` and `inline` also rewrite to an `orientation` value rather than a new name.
+
+### Raw class rewrites
+
+Raw DaisyUI classes that become a component, from the `classes` rules in [data/api-aliases.json](data/api-aliases.json). Uses count the matching component classes at this snapshot.
+
+| Class | Becomes | Uses | Note |
+|---|---|---|---|
+| `tooltip + data-tip` | `<x-artisanpack-tooltip content="…">` | 0 | Wrap the element; `data-tip` becomes `content` (#59, D-029). |
+| `tooltip-(top\|bottom)` | `placement="$1"` | 0 | On the wrapping Tooltip. |
+| `tooltip-left` | `placement="start"` | 0 | Logical placement (D-029). |
+| `tooltip-right` | `placement="end"` | 0 | Logical placement (D-029). |
+| `tooltip-open` | `:open="true"` | 0 |  |
+| `tooltip-(primary\|secondary\|accent\|neutral\|success\|warning\|error\|info)` | removed | 0 | Tooltips use the inverse surface. |
 
 ## What needs a report, not a rewrite
 

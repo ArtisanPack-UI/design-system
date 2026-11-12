@@ -1,0 +1,149 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "Timeline",
+  "description": "Events in order, newest or oldest first, each with an icon or dot marker, a head, a time and optional body text or a card. Compose it from TimelineItem children, or pass the same events as items. For steps still to come, use Steps.",
+  "status": "draft",
+  "issue": 61,
+  "rootClass": "apui-timeline",
+  "stacks": {
+    "livewire": {
+      "name": "timeline",
+      "capabilities": [
+        "Children: timeline-item; items renders the same children, before them",
+        "A timeline-item's default slot is its head; its card slot holds rich card content",
+        "A 2.x timeline-item's subtitle still works, as time; first, last and pending are ignored"
+      ]
+    },
+    "react": {
+      "name": "Timeline",
+      "capabilities": ["Children: TimelineItem, after items; children of an item are its head"]
+    },
+    "vue": {
+      "name": "Timeline",
+      "capabilities": ["Children: TimelineItem, after items; an item's default slot is its head"]
+    }
+  },
+  "props": [
+    {
+      "name": "items",
+      "type": "array",
+      "description": "The events as data, rendering the same children as composition: { title, time, datetime, icon, color, description, card }. title is the head; time the visible time, with datetime as its machine-readable value; icon a registry name; color tints the marker; description the muted body; card a sunken box, such as a comment."
+    },
+    {
+      "name": "variant",
+      "type": "enum",
+      "values": ["icon", "dot"],
+      "default": "icon",
+      "description": "Icon markers in a soft circle, or small dots for a compact status history. Dots leave the icons out. Emitted as data-variant."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "description": "The list's accessible name, such as \"Activity\"."
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part, its items' included, such as { marker: '…', time: '…' }."
+    }
+  ],
+  "variants": ["icon", "dot"],
+  "parts": [
+    {
+      "name": "root",
+      "element": "ol",
+      "description": "The ordered list of events. It is the spec's list part."
+    },
+    {
+      "name": "item",
+      "element": "li",
+      "description": "One event. The line to the next marker is drawn from the inline start, so it mirrors in RTL."
+    },
+    {
+      "name": "marker",
+      "element": "span",
+      "description": "The icon in a soft circle, or a dot, with data-color. Hidden from assistive technology."
+    },
+    {
+      "name": "head",
+      "element": "div",
+      "description": "What happened, then the time at the end."
+    },
+    {
+      "name": "time",
+      "element": "time",
+      "description": "When it happened, with datetime when given."
+    },
+    {
+      "name": "body",
+      "element": "div",
+      "description": "Muted detail under the head."
+    },
+    {
+      "name": "card",
+      "element": "div",
+      "description": "A sunken box under the head, such as a comment."
+    }
+  ],
+  "events": [],
+  "a11y": {
+    "element": "ol",
+    "requirements": [
+      "An ordered list, so the count and position are announced.",
+      "Times use time elements, with datetime for the machine-readable value.",
+      "Markers are decorative and hidden: what happened is in the head, never only in an icon or color.",
+      "Times and body text keep 4.5:1 (--apui-text-muted)."
+    ],
+    "wcag": ["1.3.1", "1.4.1", "1.4.3"]
+  },
+  "tokens": [
+    "--apui-text-default",
+    "--apui-text-muted",
+    "--apui-border-muted",
+    "--apui-border-default",
+    "--apui-surface-sunken",
+    "--apui-color-neutral-soft",
+    "--apui-color-neutral-soft-foreground",
+    "--apui-focus-ring-offset-color",
+    "--apui-radius-full",
+    "--apui-radius-md",
+    "--apui-type-body-md-font-size",
+    "--apui-type-body-sm-font-size",
+    "--apui-type-caption-font-size",
+    "--apui-icon-size-md"
+  ],
+  "fixture": {
+    "props": {
+      "items": [
+        {
+          "title": "Offer accepted on Lakeview Lofts",
+          "time": "2h ago",
+          "datetime": "2026-11-12T08:00",
+          "icon": "circle-check",
+          "color": "success",
+          "description": "Phoenix Baker accepted $248,000."
+        },
+        {
+          "title": "Olivia Rhye commented",
+          "time": "5h ago",
+          "icon": "message-square",
+          "card": "Can we move the viewing to Thursday at 11:00?"
+        },
+        {
+          "title": "Payment declined for ARKG",
+          "time": "Dec 28",
+          "datetime": "2026-12-28",
+          "icon": "circle-alert",
+          "color": "error"
+        },
+        {
+          "title": "Listing published",
+          "time": "Dec 13",
+          "datetime": "2026-12-13",
+          "icon": "house",
+          "color": "primary"
+        }
+      ]
+    }
+  }
+}
