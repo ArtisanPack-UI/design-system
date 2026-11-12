@@ -1,0 +1,168 @@
+/*
+ * EmptyState and ErrorState (#60). Roots `.apui-empty-state` and
+ * `.apui-error-state` share one layout, with data-variant, data-size (sm, md)
+ * and data-align (center, start). Parts, scoped empty-state or error-state:
+ * icon (a tinted tile), numeral (ErrorState's large status number), title
+ * (a heading), description, code (ErrorState's reference for support) and
+ * actions. The variant picks the tile's tint. See design/components/EmptyState
+ * and design/components/ErrorState.
+ */
+@layer apui.components {
+  .apui-empty-state,
+  .apui-error-state {
+    --apui-_tile: var(--apui-color-neutral-soft);
+    --apui-_on-tile: var(--apui-color-neutral-soft-foreground);
+
+    display: grid;
+    gap: 6px;
+    justify-items: center;
+    padding-block: 40px;
+    padding-inline: 24px;
+    font-family: var(--apui-font-family-sans);
+    text-align: center;
+  }
+
+  .apui-empty-state[data-variant='first-use'] {
+    --apui-_tile: var(--apui-color-primary-soft);
+    --apui-_on-tile: var(--apui-color-primary-soft-foreground);
+  }
+
+  .apui-empty-state[data-variant='cleared'] {
+    --apui-_tile: var(--apui-color-success-soft);
+    --apui-_on-tile: var(--apui-color-success-soft-foreground);
+  }
+
+  .apui-error-state:is([data-variant='request'], [data-variant='forbidden']) {
+    --apui-_tile: var(--apui-color-error-soft);
+    --apui-_on-tile: var(--apui-color-error-soft-foreground);
+  }
+
+  .apui-error-state[data-variant='offline'] {
+    --apui-_tile: var(--apui-color-warning-soft);
+    --apui-_on-tile: var(--apui-color-warning-soft-foreground);
+  }
+
+  :is(.apui-empty-state, .apui-error-state)[data-size='sm'] {
+    padding-block: 20px;
+    padding-inline: 16px;
+  }
+
+  :is(.apui-empty-state, .apui-error-state)[data-align='start'] {
+    justify-items: start;
+    text-align: start;
+  }
+
+  [data-scope='empty-state'][data-part='icon'],
+  [data-scope='error-state'][data-part='icon'] {
+    display: inline-grid;
+    flex: none;
+    place-items: center;
+    inline-size: 48px;
+    block-size: 48px;
+    border-radius: var(--apui-radius-lg);
+    background: var(--apui-_tile);
+    color: var(--apui-_on-tile);
+  }
+
+  :is([data-scope='empty-state'], [data-scope='error-state'])[data-part='icon'] > svg {
+    inline-size: var(--apui-icon-size-lg);
+    block-size: var(--apui-icon-size-lg);
+  }
+
+  :is(.apui-empty-state, .apui-error-state)[data-size='sm']
+    :is([data-scope='empty-state'], [data-scope='error-state'])[data-part='icon'] {
+    inline-size: 40px;
+    block-size: 40px;
+    border-radius: var(--apui-radius-md);
+  }
+
+  :is(.apui-empty-state, .apui-error-state)[data-size='sm']
+    :is([data-scope='empty-state'], [data-scope='error-state'])[data-part='icon']
+    > svg {
+    inline-size: var(--apui-icon-size-md);
+    block-size: var(--apui-icon-size-md);
+  }
+
+  [data-scope='error-state'][data-part='numeral'] {
+    color: var(--apui-text-default);
+    font-size: 96px;
+    font-variant-numeric: tabular-nums;
+    font-weight: var(--apui-font-weight-semibold);
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+
+  :is([data-scope='empty-state'], [data-scope='error-state'])[data-part='title'] {
+    margin: 8px 0 0;
+    color: var(--apui-text-default);
+    font-size: var(--apui-type-heading-sm-font-size);
+    font-weight: var(--apui-font-weight-semibold);
+    line-height: var(--apui-type-heading-sm-line-height);
+  }
+
+  /* A title focused on a full-page error shows the ring. */
+  [data-scope='error-state'][data-part='title']:focus-visible {
+    border-radius: var(--apui-radius-xs);
+    outline: var(--apui-focus-ring-width) solid transparent;
+    box-shadow:
+      0 0 0 var(--apui-focus-ring-offset) var(--apui-focus-ring-offset-color),
+      0 0 0 calc(var(--apui-focus-ring-offset) + var(--apui-focus-ring-width))
+        var(--apui-focus-ring-color);
+  }
+
+  :is([data-scope='empty-state'], [data-scope='error-state'])[data-part='description'] {
+    max-inline-size: 44ch;
+    margin: 0;
+    color: var(--apui-text-muted);
+    font-size: var(--apui-type-body-md-font-size);
+    line-height: 20px;
+  }
+
+  :is(.apui-empty-state, .apui-error-state)[data-size='sm']
+    :is([data-scope='empty-state'], [data-scope='error-state'])[data-part='title'] {
+    margin-block-start: 4px;
+    font-size: var(--apui-type-body-md-font-size);
+    line-height: 20px;
+  }
+
+  :is(.apui-empty-state, .apui-error-state)[data-size='sm']
+    :is([data-scope='empty-state'], [data-scope='error-state'])[data-part='description'] {
+    font-size: var(--apui-type-body-sm-font-size);
+    line-height: var(--apui-type-body-sm-line-height);
+  }
+
+  [data-scope='error-state'][data-part='code'] {
+    margin-block-start: 6px;
+    padding-block: 2px;
+    padding-inline: 8px;
+    border-radius: var(--apui-radius-xs);
+    background: var(--apui-surface-sunken);
+    color: var(--apui-text-muted);
+    font-family: var(--apui-font-family-mono);
+    font-size: var(--apui-type-caption-font-size);
+    line-height: 18px;
+  }
+
+  :is([data-scope='empty-state'], [data-scope='error-state'])[data-part='actions'] {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin-block-start: 12px;
+  }
+
+  :is(.apui-empty-state, .apui-error-state)[data-align='start']
+    :is([data-scope='empty-state'], [data-scope='error-state'])[data-part='actions'] {
+    justify-content: start;
+  }
+
+  @media (forced-colors: active) {
+    :is([data-scope='empty-state'], [data-scope='error-state'])[data-part='icon'] {
+      border: 1px solid CanvasText;
+    }
+
+    [data-scope='error-state'][data-part='code'] {
+      border: 1px solid CanvasText;
+    }
+  }
+}

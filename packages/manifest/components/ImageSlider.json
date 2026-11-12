@@ -1,0 +1,316 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "ImageSlider",
+  "description": "One large image per view with a glass caption, a counter, previous and next buttons, dots and optional thumbnails, on the carousel machine. Arrow keys on the dots follow the text direction.",
+  "status": "draft",
+  "issue": 61,
+  "rootClass": "apui-image-slider",
+  "stacks": {
+    "livewire": {
+      "name": "image-slider",
+      "capabilities": [
+        "wire:model binds the slide shown (index) through $wire.entangle()",
+        "Images also accept the 2.x url key for src, and plain URL strings"
+      ]
+    },
+    "react": {
+      "name": "ImageSlider"
+    },
+    "vue": {
+      "name": "ImageSlider"
+    }
+  },
+  "props": [
+    {
+      "name": "images",
+      "type": "array",
+      "required": true,
+      "description": "The slides, in order: { src, alt, caption, description }. The caption is the glass card's title.",
+      "a11y": "Every image needs alt text. Captions are text, never baked into the image."
+    },
+    {
+      "name": "aspectRatio",
+      "type": "string",
+      "default": "21 / 9",
+      "description": "The frame's aspect ratio, as CSS takes it (\"16 / 9\"). Livewire also takes the 2.x \"16:9\". Emitted as --apui-_image-slider-ratio."
+    },
+    {
+      "name": "index",
+      "type": "number",
+      "default": 0,
+      "description": "The slide shown, 0-based. Livewire binds it with wire:model. Pair it with index-change to control it."
+    },
+    {
+      "name": "defaultIndex",
+      "type": "number",
+      "default": 0,
+      "description": "The initial slide of an uncontrolled slider.",
+      "stacks": ["react"]
+    },
+    {
+      "name": "loop",
+      "type": "boolean",
+      "default": true,
+      "description": "Wraps from the last slide to the first and back."
+    },
+    {
+      "name": "autoplay",
+      "type": "boolean",
+      "default": false,
+      "description": "Advances every interval ms, with a pause button. It pauses while the pointer or focus is on the slider.",
+      "a11y": "Autoplay always has a visible pause button (2.2.2)."
+    },
+    {
+      "name": "interval",
+      "type": "number",
+      "default": 5000,
+      "description": "Milliseconds between slides while autoplay runs."
+    },
+    {
+      "name": "thumbnails",
+      "type": "boolean",
+      "default": false,
+      "description": "Shows a strip of thumbnails under the frame."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "default": "Photos",
+      "description": "Names the slider region. Translate it: Livewire defaults it through __( 'Photos' ).",
+      "a11y": "A page with several sliders names each one."
+    },
+    {
+      "name": "previousLabel",
+      "type": "string",
+      "default": "Previous photo",
+      "description": "The previous button's accessible name.",
+      "a11y": "The button is icon-only, so this is its only name."
+    },
+    {
+      "name": "nextLabel",
+      "type": "string",
+      "default": "Next photo",
+      "description": "The next button's accessible name.",
+      "a11y": "The button is icon-only, so this is its only name."
+    },
+    {
+      "name": "indicatorLabel",
+      "type": "string",
+      "default": "Photo {index}",
+      "description": "A dot's accessible name. {index} is replaced; Livewire's __() string uses :index."
+    },
+    {
+      "name": "slideLabel",
+      "type": "string",
+      "default": "{index} of {count}",
+      "description": "A slide's accessible name. Livewire's __() string uses :index and :count."
+    },
+    {
+      "name": "counterLabel",
+      "type": "string",
+      "default": "{index} / {count}",
+      "description": "The counter text. Livewire's __() string uses :index and :count."
+    },
+    {
+      "name": "playLabel",
+      "type": "string",
+      "default": "Start slide rotation",
+      "description": "The autoplay button's name while paused."
+    },
+    {
+      "name": "pauseLabel",
+      "type": "string",
+      "default": "Stop slide rotation",
+      "description": "The autoplay button's name while playing."
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part, such as { viewport: '…', caption: '…' }."
+    }
+  ],
+  "parts": [
+    {
+      "name": "root",
+      "element": "div",
+      "description": "The carousel's region: role region with aria-roledescription carousel, named by label."
+    },
+    {
+      "name": "viewport",
+      "element": "div",
+      "description": "The rounded frame at aspectRatio, holding the track and the overlays."
+    },
+    {
+      "name": "itemGroup",
+      "element": "div",
+      "description": "The scroll-snapping track."
+    },
+    {
+      "name": "item",
+      "element": "div",
+      "description": "A slide: role group with aria-roledescription slide, named \"2 of 6\"; slides out of view are aria-hidden."
+    },
+    {
+      "name": "image",
+      "element": "img",
+      "description": "A slide's image, covering the frame."
+    },
+    {
+      "name": "caption",
+      "element": "div",
+      "description": "The glass card at the frame's start foot, with the slide's title and description."
+    },
+    {
+      "name": "title",
+      "element": "p",
+      "description": "The caption's title."
+    },
+    {
+      "name": "description",
+      "element": "p",
+      "description": "The caption's supporting text."
+    },
+    {
+      "name": "progressText",
+      "element": "span",
+      "description": "The glass counter (\"2 / 6\") at the top end. The spec calls it counter; it keeps Zag's name (D-019)."
+    },
+    {
+      "name": "prevTrigger",
+      "element": "button",
+      "description": "Shows the previous slide: a soft, neutral icon-only Button. The spec's nav (prev)."
+    },
+    {
+      "name": "nextTrigger",
+      "element": "button",
+      "description": "Shows the next slide. The spec's nav (next)."
+    },
+    {
+      "name": "indicatorGroup",
+      "element": "div",
+      "description": "The glass row of dots at the foot's end. The spec calls it dots."
+    },
+    {
+      "name": "indicator",
+      "element": "button",
+      "description": "A dot that shows its slide; aria-current and a wider primary pill mark the one shown."
+    },
+    {
+      "name": "autoplayTrigger",
+      "element": "button",
+      "description": "Pauses and resumes autoplay, with autoplay."
+    },
+    {
+      "name": "thumbs",
+      "element": "div",
+      "description": "The strip of thumbnails under the frame, with thumbnails."
+    },
+    {
+      "name": "thumb",
+      "element": "button",
+      "description": "A thumbnail that shows its slide; aria-current marks the one shown."
+    }
+  ],
+  "events": [
+    {
+      "name": "index-change",
+      "description": "The slider moved to another slide: a button, a dot, a thumbnail, a swipe or autoplay. Setting index doesn't fire it.",
+      "payload": "number"
+    }
+  ],
+  "a11y": {
+    "role": "region",
+    "element": "div",
+    "keyboard": [
+      {
+        "keys": "Tab, Shift+Tab",
+        "action": "Move between the previous and next buttons, the dots and the thumbnails."
+      },
+      {
+        "keys": "Enter, Space",
+        "action": "On a button, dot or thumbnail: shows its slide."
+      },
+      {
+        "keys": "ArrowRight, ArrowLeft",
+        "action": "On the dots: show the next or previous slide. They follow the text direction, so in RTL ArrowLeft shows the next slide."
+      },
+      {
+        "keys": "Home, End",
+        "action": "On the dots: show the first or last slide."
+      }
+    ],
+    "requirements": [
+      "The root is a region with aria-roledescription carousel and a translatable name.",
+      "Each slide is a group with aria-roledescription slide, named by its position; slides out of view are hidden from assistive technology.",
+      "The track is a polite live region, off while autoplay runs, so moves are announced.",
+      "Every image has alt text; captions are text over a glass card, never baked into the image.",
+      "The previous and next buttons and the dots have accessible names (translatable); the dot shown carries aria-current.",
+      "Autoplay has a pause button and stops while the pointer or focus is on the slider (2.2.2).",
+      "Arrow keys follow the text direction; the previous and next icons mirror in RTL.",
+      "Glass falls back to the raised surface under reduced transparency and in high contrast.",
+      "Every part keeps a stable, server-rendered id in Livewire (D-015)."
+    ],
+    "wcag": ["1.1.1", "1.3.1", "1.4.3", "1.4.11", "2.1.1", "2.2.2", "2.4.3", "2.4.7", "4.1.2"]
+  },
+  "tokens": [
+    "--apui-radius-lg",
+    "--apui-radius-sm",
+    "--apui-radius-full",
+    "--apui-surface-sunken",
+    "--apui-surface-glass",
+    "--apui-surface-glass-border",
+    "--apui-surface-glass-blur",
+    "--apui-surface-glass-saturation",
+    "--apui-elevation-glass",
+    "--apui-surface-raised",
+    "--apui-border-default",
+    "--apui-color-primary",
+    "--apui-text-default",
+    "--apui-text-muted-glass",
+    "--apui-focus-ring-color"
+  ],
+  "fixture": {
+    "props": {
+      "images": [
+        {
+          "src": "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20400%20300'%20width='400'%20height='300'%3E%3Crect%20width='400'%20height='300'%20fill='%23e4eef6'/%3E%3Crect%20y='135'%20width='400'%20height='165'%20fill='%23c4d8e8'/%3E%3Ccircle%20cx='280'%20cy='96'%20r='27'%20fill='%23fff6e0'/%3E%3Cpath%20d='M0%20186L72%20114L128%20156L200%2090L280%20165L340%20126L400%20174V300H0Z'%20fill='%239db8cf'/%3E%3Cpath%20d='M0%20225L100%20174L180%20216L248%20180L328%20222L400%20198V300H0Z'%20fill='%236f8fab'/%3E%3Cpath%20d='M0%20264Q120%20240%20220%20264T400%20258V300H0Z'%20fill='%2347637e'/%3E%3C/svg%3E",
+          "alt": "Lake view from the window of unit 4A",
+          "caption": "Lake view from 4A",
+          "description": "South-facing, 11th floor · Lakeview Lofts, Chicago"
+        },
+        {
+          "src": "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20400%20300'%20width='400'%20height='300'%3E%3Crect%20width='400'%20height='300'%20fill='%23f6d9a8'/%3E%3Crect%20y='135'%20width='400'%20height='165'%20fill='%23e9b77a'/%3E%3Ccircle%20cx='280'%20cy='96'%20r='27'%20fill='%23fff6e0'/%3E%3Cpath%20d='M0%20186L72%20114L128%20156L200%2090L280%20165L340%20126L400%20174V300H0Z'%20fill='%238aa7c4'/%3E%3Cpath%20d='M0%20225L100%20174L180%20216L248%20180L328%20222L400%20198V300H0Z'%20fill='%235d7f9f'/%3E%3Cpath%20d='M0%20264Q120%20240%20220%20264T400%20258V300H0Z'%20fill='%2333506d'/%3E%3C/svg%3E",
+          "alt": "Sunrise over the ridge, seen from the east terrace",
+          "caption": "Sunrise over the ridge"
+        },
+        {
+          "src": "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20400%20300'%20width='400'%20height='300'%3E%3Crect%20width='400'%20height='300'%20fill='%23cfe3e0'/%3E%3Crect%20y='135'%20width='400'%20height='165'%20fill='%23a9cbc4'/%3E%3Ccircle%20cx='280'%20cy='96'%20r='27'%20fill='%23fff6e0'/%3E%3Cpath%20d='M0%20186L72%20114L128%20156L200%2090L280%20165L340%20126L400%20174V300H0Z'%20fill='%235f8f7c'/%3E%3Cpath%20d='M0%20225L100%20174L180%20216L248%20180L328%20222L400%20198V300H0Z'%20fill='%233f6b57'/%3E%3Cpath%20d='M0%20264Q120%20240%20220%20264T400%20258V300H0Z'%20fill='%2324463a'/%3E%3C/svg%3E",
+          "alt": "Courtyard garden with benches under the trees",
+          "caption": "Courtyard garden"
+        },
+        {
+          "src": "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20400%20300'%20width='400'%20height='300'%3E%3Crect%20width='400'%20height='300'%20fill='%23e8b49a'/%3E%3Crect%20y='135'%20width='400'%20height='165'%20fill='%23c9786a'/%3E%3Ccircle%20cx='280'%20cy='96'%20r='27'%20fill='%23fff6e0'/%3E%3Cpath%20d='M0%20186L72%20114L128%20156L200%2090L280%20165L340%20126L400%20174V300H0Z'%20fill='%236e6c8f'/%3E%3Cpath%20d='M0%20225L100%20174L180%20216L248%20180L328%20222L400%20198V300H0Z'%20fill='%234a4a6a'/%3E%3Cpath%20d='M0%20264Q120%20240%20220%20264T400%20258V300H0Z'%20fill='%232b2b45'/%3E%3C/svg%3E",
+          "alt": "The west facade at dusk"
+        },
+        {
+          "src": "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20400%20300'%20width='400'%20height='300'%3E%3Crect%20width='400'%20height='300'%20fill='%23f4e2c4'/%3E%3Crect%20y='135'%20width='400'%20height='165'%20fill='%23e7c08d'/%3E%3Ccircle%20cx='280'%20cy='96'%20r='27'%20fill='%23fff6e0'/%3E%3Cpath%20d='M0%20186L72%20114L128%20156L200%2090L280%20165L340%20126L400%20174V300H0Z'%20fill='%23c98f5e'/%3E%3Cpath%20d='M0%20225L100%20174L180%20216L248%20180L328%20222L400%20198V300H0Z'%20fill='%239c6a43'/%3E%3Cpath%20d='M0%20264Q120%20240%20220%20264T400%20258V300H0Z'%20fill='%236b4630'/%3E%3C/svg%3E",
+          "alt": "Rooftop terrace with lounge chairs",
+          "caption": "Rooftop terrace"
+        },
+        {
+          "src": "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20400%20300'%20width='400'%20height='300'%3E%3Crect%20width='400'%20height='300'%20fill='%231d2b44'/%3E%3Crect%20y='135'%20width='400'%20height='165'%20fill='%232c3d5c'/%3E%3Ccircle%20cx='280'%20cy='96'%20r='27'%20fill='%23fff6e0'/%3E%3Cpath%20d='M0%20186L72%20114L128%20156L200%2090L280%20165L340%20126L400%20174V300H0Z'%20fill='%233c4f72'/%3E%3Cpath%20d='M0%20225L100%20174L180%20216L248%20180L328%20222L400%20198V300H0Z'%20fill='%2325334d'/%3E%3Cpath%20d='M0%20264Q120%20240%20220%20264T400%20258V300H0Z'%20fill='%23141c2c'/%3E%3C/svg%3E",
+          "alt": "The street outside the entrance at night",
+          "caption": "Street at night"
+        }
+      ],
+      "thumbnails": true,
+      "aspectRatio": "21 / 9",
+      "label": "Lakeview Lofts photos"
+    },
+    "parts": {
+      "autoplay": true,
+      "thumbnails": true
+    },
+    "states": []
+  }
+}

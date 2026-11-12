@@ -1,0 +1,12 @@
+[
+  {
+    "id": "basic",
+    "title": "Equal columns",
+    "description": "Three columns with the space-6 gap."
+  },
+  {
+    "id": "responsive",
+    "title": "Reflowing dashboard",
+    "description": "Up to four columns that never get narrower than 16rem, so the grid drops to two and then one column as it narrows."
+  }
+]

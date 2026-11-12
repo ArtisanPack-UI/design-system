@@ -25,6 +25,38 @@ export {
 } from './positioning';
 export { dialog, type DialogApi, type DialogProps } from './widgets/dialog';
 export {
+  DRAWER_SCOPE,
+  drawer,
+  type DrawerApi,
+  type DrawerProps,
+  type DrawerSide,
+} from './widgets/drawer';
+export {
+  POPOVER_GUTTER,
+  POPOVER_SCOPE,
+  popover,
+  popoverPlacement,
+  toPopoverProps,
+  type OverlayPlacement,
+  type PopoverApi,
+  type PopoverIds,
+  type PopoverOptions,
+  type PopoverProps,
+} from './widgets/popover';
+export {
+  TOOLTIP_DELAY,
+  TOOLTIP_GUTTER,
+  TOOLTIP_SCOPE,
+  tooltip,
+  tooltipKeys,
+  tooltipPlacement,
+  toTooltipProps,
+  type TooltipApi,
+  type TooltipIds,
+  type TooltipOptions,
+  type TooltipProps,
+} from './widgets/tooltip';
+export {
   TABS_SCOPE,
   tabs,
   firstEnabledTab,
@@ -37,6 +69,29 @@ export {
   type TabsOrientation,
   type TabsProps,
 } from './widgets/tabs';
+export {
+  ACCORDION_PARTS,
+  ACCORDION_SCOPE,
+  accordion,
+  toAccordionProps,
+  toOpenItems,
+  type AccordionApi,
+  type AccordionIds,
+  type AccordionOptions,
+  type AccordionProps,
+} from './widgets/accordion';
+export {
+  COLLAPSE_CLAMP_HEIGHT,
+  COLLAPSE_PARTS,
+  COLLAPSE_SCOPE,
+  collapse,
+  toCollapseProps,
+  type CollapseApi,
+  type CollapseIds,
+  type CollapseOptions,
+  type CollapseProps,
+  type CollapseVariant,
+} from './widgets/collapse';
 export {
   DROPDOWN_MENU_SCOPE,
   dropdownMenu,
@@ -150,6 +205,7 @@ export {
   UnsafeIconError,
 } from './icons';
 export * from './form/index';
+export * from './data/index';
 export {
   entryValue,
   filterGroups,
@@ -186,3 +242,35 @@ export {
   type SpotlightResultGroup,
   type SpotlightTranslations,
 } from './widgets/spotlight';
+export {
+  CAROUSEL_LABELS,
+  CAROUSEL_SCOPE,
+  carouselDefinition,
+  carouselTranslations,
+  formatCarouselLabel,
+  IMAGE_SLIDER_SCOPE,
+  imageSlider,
+  toCarouselProps,
+  type CarouselApi,
+  type CarouselIds,
+  type CarouselLabels,
+  type CarouselOptions,
+  type CarouselProps,
+} from './widgets/carousel';
+export {
+  clampIndex,
+  IMAGE_GALLERY_SCOPE,
+  LIGHTBOX_LABELS,
+  lightbox,
+  lightboxCounter,
+  lightboxDefinition,
+  lightboxKey,
+  lightboxLabels,
+  lightboxStep,
+  toLightboxProps,
+  type LightboxApi,
+  type LightboxLabels,
+  type LightboxMove,
+  type LightboxOptions,
+  type LightboxProps,
+} from './widgets/lightbox';

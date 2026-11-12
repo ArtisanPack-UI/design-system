@@ -1,0 +1,69 @@
+/*
+ * PageHeader (#58). Root `.apui-page-header` stacks breadcrumbs, the row and
+ * tabs. Parts, scoped page-header: breadcrumbs, row (the title block and the
+ * actions, which wrap under it when there's no room), meta, title (the h1 by
+ * default, heading-xl), description (muted, to the reading measure), actions
+ * and tabs. See design/components/PageHeader.
+ */
+@layer apui.components {
+  .apui-page-header {
+    display: grid;
+    gap: var(--apui-space-2);
+    color: var(--apui-text-default);
+    font-family: var(--apui-font-family-sans);
+  }
+
+  [data-scope='page-header'][data-part='row'] {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--apui-space-4);
+  }
+
+  [data-scope='page-header'][data-part='row'] > :first-child {
+    min-inline-size: 0;
+  }
+
+  [data-scope='page-header'][data-part='meta'] {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--apui-space-2);
+    margin-block-end: 6px;
+    color: var(--apui-text-muted);
+    font-size: var(--apui-type-caption-font-size);
+    line-height: var(--apui-type-caption-line-height);
+  }
+
+  [data-scope='page-header'][data-part='title'] {
+    margin: 0;
+    color: var(--apui-text-default);
+    font-family: var(--apui-type-heading-xl-font-family);
+    font-size: var(--apui-type-heading-xl-font-size);
+    font-weight: var(--apui-type-heading-xl-font-weight);
+    line-height: var(--apui-type-heading-xl-line-height);
+    letter-spacing: var(--apui-type-heading-xl-letter-spacing);
+    overflow-wrap: anywhere;
+  }
+
+  [data-scope='page-header'][data-part='description'] {
+    max-inline-size: var(--apui-measure);
+    margin: 0;
+    margin-block-start: 4px;
+    color: var(--apui-text-muted);
+    font-size: var(--apui-type-body-md-font-size);
+    line-height: var(--apui-type-body-md-line-height);
+  }
+
+  [data-scope='page-header'][data-part='actions'] {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--apui-space-2);
+  }
+
+  [data-scope='page-header'][data-part='tabs'] {
+    min-inline-size: 0;
+  }
+}

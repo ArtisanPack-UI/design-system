@@ -34,7 +34,8 @@ Livewire's `color` accepts Tailwind names and hex values, resolved by `ColorGene
 | Booleans are positive adjectives or `hide*` | `hideError`, `collapsible` | `noIcon`, `withoutArrows`, `omitError` |
 | Controlled selection | `value`, `defaultValue` | `selected`, `activeTab`, `defaultTab` |
 | Controlled visibility | `open` | Stack-specific names |
-| Tooltip position is one prop | `tooltip` + `tooltipPosition` | `tooltipLeft`, `tooltipRight`, `tooltipBottom` |
+| Placement is one logical prop (D-029) | `placement`: `top` · `bottom` · `start` · `end` | `position`, `tooltipPosition`, `left`, `right` |
+| A tooltip is a component, not a prop (#59, D-029) | Wrap the control in Tooltip with `content` + `placement` | `tooltip`, `tooltipPosition`, `tooltipLeft`, `tooltipRight`, `tooltipBottom`, React `tip`, Vue `text`, DaisyUI `class="tooltip" data-tip` |
 
 Today's Livewire API uses `no*`, `with*`, `without*`, `hide*`, `show*` and `has*` booleans interchangeably: compare `noIcon`, `withArrows`, `withoutArrows`, `hideProgress` and `showValue`. `hide*` is the one exception to "positive" because the default of showing something is what most components want.
 
@@ -102,6 +103,7 @@ One concept name, spelled the way each stack expects.
 - Tense is present: `complete`, not `completed`. Livewire's Pin uses `completed` and React uses `onComplete`.
 - Bare `onChange` stays the native DOM event in React. Today some components use it for value changes.
 - Close is not a separate event. `onClose` (React), `close` (Livewire) and `update:open` (Vue) all become `open-change`.
+- What a gallery or slider shows is `index` with `index-change`, not `value`: nothing is being chosen (D-041).
 
 ## Data-driven vs compositional
 
@@ -109,7 +111,7 @@ Today Menu, Tabs, Steps and Timeline are compositional in Livewire (`<x-artisanp
 
 **Decision: support both, with composition as the base.** Composition is the only form that handles arbitrary content in a Blade slot, and it maps directly onto parts. Add the data prop as a convenience that renders the same children. All 26 downstream `tab` and 26 `menu-item` usages then keep working with their names unchanged.
 
-Children are named `{parent}-item` or the singular form. New names follow that rule: `DropdownMenu` + `DropdownMenuItem`.
+Children are named `{parent}-item` or the singular form. New names follow that rule: `DropdownMenu` + `DropdownMenuItem`, `Accordion` + `AccordionItem` (D-030), `Timeline` + `TimelineItem` (D-040). A container that frames a row is named for the collection: `List` + `ListItem` (D-043), `AvatarGroup` + `Avatar` (D-044).
 
 ## Component names
 
@@ -130,6 +132,10 @@ Names describe what the component is, and the same word never means two things. 
 | `main` | AppShell | `main` is an HTML element name |
 | `separator` | Divider | Matches React and Vue |
 | `profile` | UserMenu | It is an avatar dropdown, not a profile |
+| `widget-grid` | Grid | One layout primitive in every stack (D-032) |
+| `subheading` | Text `size="lead"` | It was a paragraph, not a heading (D-043) |
+| React `StatGroup` | Grid | A row of stats is a grid (D-039) |
+| React/Vue `Sidebar` | AppShell (`sidebar` slot) | The sidebar is a part of the frame (D-031) |
 | `colorpicker` | ColorPicker | Blade tag becomes `color-picker`, matching the other stacks |
 
 Blade tags are the kebab-case form: `<x-artisanpack-dropdown-menu>`.
@@ -140,19 +146,21 @@ Blade tags are the kebab-case form: `<x-artisanpack-dropdown-menu>`.
 |---|---|---|
 | `choices` + `choices-offline` | Combobox with local filtering and `remote` mode | Accepted (#54, D-020) |
 | `radio` + `radio-group` + `group` | RadioGroup; `group` is `variant="segmented"` | Accepted (#53, D-025) |
-| `heading` + `subheading` | Heading with `level` / `size` | Proposed |
+| `heading` + `subheading` | Heading with separate `level` and `size`; `subheading` is Text `size="lead"` | Accepted (#58, D-043) |
 | `menu*` | Menu family | Accepted (#56, D-023) |
 | `step` + `steps`, `tab` + `tabs` | Keep as parent and child | Accepted (#56, D-023) |
 | `tags` | Combobox `multiple` + `allowCreate` | Accepted (#54, D-020) |
 | `select-group` | Select with option groups | Accepted (#53, D-025) |
 | `datetime` | DatePicker `time` mode | Accepted (#55, D-021) |
-| `progress-radial` | Progress `variant="radial"` | Open |
-| `kpi-card` | Stat layout option | Open |
-| `image-slider` | Carousel image mode | Open |
-| `profile` | Docs recipe: Avatar + DropdownMenu | Open |
-| `widget-grid` | Grid | Open |
+| `progress-radial` | Progress `variant="radial"` | Declined: stays its own component, new to React and Vue (#60, D-034) |
+| `kpi-card` | Stat layout option | Declined: its own component built from Stat (#61, D-039) |
+| `image-slider` | Carousel image mode | Declined: its own component on the carousel widget Carousel reuses (#61, D-041) |
+| `profile` | Docs recipe: Avatar + DropdownMenu | Declined: UserMenu is a component composing DropdownMenu and Avatar (#58, D-044) |
+| `widget-grid` | Grid | Accepted (#58, D-032) |
+| `StatGroup` | Grid | Accepted (#61, D-039) |
+| `ErrorDisplay` | ErrorState | Accepted (#60, D-036) |
 
-"Open" items need a look at each component's spec before merging. They are the natural place to reduce the 25 Livewire-only components that would otherwise need React and Vue ports.
+No consolidation is open. The declined ones ship as their own components in all three stacks.
 
 ## Decisions
 

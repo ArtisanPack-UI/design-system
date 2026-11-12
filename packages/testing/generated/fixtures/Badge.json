@@ -1,0 +1,431 @@
+{
+  "version": 1,
+  "component": "Badge",
+  "rootClass": "apui-badge",
+  "stacks": [
+    "livewire",
+    "react",
+    "vue"
+  ],
+  "names": {
+    "livewire": "badge",
+    "react": "Badge",
+    "vue": "Badge"
+  },
+  "cases": [
+    {
+      "id": "variant=solid size=sm state=default",
+      "props": {
+        "variant": "solid",
+        "size": "sm"
+      },
+      "state": "default",
+      "content": "Active"
+    },
+    {
+      "id": "variant=solid size=md state=default",
+      "props": {
+        "variant": "solid",
+        "size": "md"
+      },
+      "state": "default",
+      "content": "Active"
+    },
+    {
+      "id": "variant=solid size=lg state=default",
+      "props": {
+        "variant": "solid",
+        "size": "lg"
+      },
+      "state": "default",
+      "content": "Active"
+    },
+    {
+      "id": "variant=soft size=sm state=default",
+      "props": {
+        "variant": "soft",
+        "size": "sm"
+      },
+      "state": "default",
+      "content": "Active"
+    },
+    {
+      "id": "variant=soft size=md state=default",
+      "props": {
+        "variant": "soft",
+        "size": "md"
+      },
+      "state": "default",
+      "content": "Active"
+    },
+    {
+      "id": "variant=soft size=lg state=default",
+      "props": {
+        "variant": "soft",
+        "size": "lg"
+      },
+      "state": "default",
+      "content": "Active"
+    },
+    {
+      "id": "variant=outline size=sm state=default",
+      "props": {
+        "variant": "outline",
+        "size": "sm"
+      },
+      "state": "default",
+      "content": "Active"
+    },
+    {
+      "id": "variant=outline size=md state=default",
+      "props": {
+        "variant": "outline",
+        "size": "md"
+      },
+      "state": "default",
+      "content": "Active"
+    },
+    {
+      "id": "variant=outline size=lg state=default",
+      "props": {
+        "variant": "outline",
+        "size": "lg"
+      },
+      "state": "default",
+      "content": "Active"
+    },
+    {
+      "id": "variant=ghost size=sm state=default",
+      "props": {
+        "variant": "ghost",
+        "size": "sm"
+      },
+      "state": "default",
+      "content": "Active"
+    },
+    {
+      "id": "variant=ghost size=md state=default",
+      "props": {
+        "variant": "ghost",
+        "size": "md"
+      },
+      "state": "default",
+      "content": "Active"
+    },
+    {
+      "id": "variant=ghost size=lg state=default",
+      "props": {
+        "variant": "ghost",
+        "size": "lg"
+      },
+      "state": "default",
+      "content": "Active"
+    },
+    {
+      "id": "variant=solid size=md color=primary state=default",
+      "props": {
+        "variant": "solid",
+        "size": "md",
+        "color": "primary"
+      },
+      "state": "default",
+      "content": "Active"
+    },
+    {
+      "id": "variant=soft size=md color=primary state=default",
+      "props": {
+        "variant": "soft",
+        "size": "md",
+        "color": "primary"
+      },
+      "state": "default",
+      "content": "Active"
+    },
+    {
+      "id": "variant=outline size=md color=primary state=default",
+      "props": {
+        "variant": "outline",
+        "size": "md",
+        "color": "primary"
+      },
+      "state": "default",
+      "content": "Active"
+    },
+    {
+      "id": "variant=ghost size=md color=primary state=default",
+      "props": {
+        "variant": "ghost",
+        "size": "md",
+        "color": "primary"
+      },
+      "state": "default",
+      "content": "Active"
+    },
+    {
+      "id": "variant=solid size=md color=secondary state=default",
+      "props": {
+        "variant": "solid",
+        "size": "md",
+        "color": "secondary"
+      },
+      "state": "default",
+      "content": "Active"
+    },
+    {
+      "id": "variant=soft size=md color=secondary state=default",
+      "props": {
+        "variant": "soft",
+        "size": "md",
+        "color": "secondary"
+      },
+      "state": "default",
+      "content": "Active"
+    },
+    {
+      "id": "variant=outline size=md color=secondary state=default",
+      "props": {
+        "variant": "outline",
+        "size": "md",
+        "color": "secondary"
+      },
+      "state": "default",
+      "content": "Active"
+    },
+    {
+      "id": "variant=ghost size=md color=secondary state=default",
+      "props": {
+        "variant": "ghost",
+        "size": "md",
+        "color": "secondary"
+      },
+      "state": "default",
+      "content": "Active"
+    },
+    {
+      "id": "variant=solid size=md color=accent state=default",
+      "props": {
+        "variant": "solid",
+        "size": "md",
+        "color": "accent"
+      },
+      "state": "default",
+      "content": "Active"
+    },
+    {
+      "id": "variant=soft size=md color=accent state=default",
+      "props": {
+        "variant": "soft",
+        "size": "md",
+        "color": "accent"
+      },
+      "state": "default",
+      "content": "Active"
+    },
+    {
+      "id": "variant=outline size=md color=accent state=default",
+      "props": {
+        "variant": "outline",
+        "size": "md",
+        "color": "accent"
+      },
+      "state": "default",
+      "content": "Active"
+    },
+    {
+      "id": "variant=ghost size=md color=accent state=default",
+      "props": {
+        "variant": "ghost",
+        "size": "md",
+        "color": "accent"
+      },
+      "state": "default",
+      "content": "Active"
+    },
+    {
+      "id": "variant=solid size=md color=success state=default",
+      "props": {
+        "variant": "solid",
+        "size": "md",
+        "color": "success"
+      },
+      "state": "default",
+      "content": "Active"
+    },
+    {
+      "id": "variant=soft size=md color=success state=default",
+      "props": {
+        "variant": "soft",
+        "size": "md",
+        "color": "success"
+      },
+      "state": "default",
+      "content": "Active"
+    },
+    {
+      "id": "variant=outline size=md color=success state=default",
+      "props": {
+        "variant": "outline",
+        "size": "md",
+        "color": "success"
+      },
+      "state": "default",
+      "content": "Active"
+    },
+    {
+      "id": "variant=ghost size=md color=success state=default",
+      "props": {
+        "variant": "ghost",
+        "size": "md",
+        "color": "success"
+      },
+      "state": "default",
+      "content": "Active"
+    },
+    {
+      "id": "variant=solid size=md color=warning state=default",
+      "props": {
+        "variant": "solid",
+        "size": "md",
+        "color": "warning"
+      },
+      "state": "default",
+      "content": "Active"
+    },
+    {
+      "id": "variant=soft size=md color=warning state=default",
+      "props": {
+        "variant": "soft",
+        "size": "md",
+        "color": "warning"
+      },
+      "state": "default",
+      "content": "Active"
+    },
+    {
+      "id": "variant=outline size=md color=warning state=default",
+      "props": {
+        "variant": "outline",
+        "size": "md",
+        "color": "warning"
+      },
+      "state": "default",
+      "content": "Active"
+    },
+    {
+      "id": "variant=ghost size=md color=warning state=default",
+      "props": {
+        "variant": "ghost",
+        "size": "md",
+        "color": "warning"
+      },
+      "state": "default",
+      "content": "Active"
+    },
+    {
+      "id": "variant=solid size=md color=error state=default",
+      "props": {
+        "variant": "solid",
+        "size": "md",
+        "color": "error"
+      },
+      "state": "default",
+      "content": "Active"
+    },
+    {
+      "id": "variant=soft size=md color=error state=default",
+      "props": {
+        "variant": "soft",
+        "size": "md",
+        "color": "error"
+      },
+      "state": "default",
+      "content": "Active"
+    },
+    {
+      "id": "variant=outline size=md color=error state=default",
+      "props": {
+        "variant": "outline",
+        "size": "md",
+        "color": "error"
+      },
+      "state": "default",
+      "content": "Active"
+    },
+    {
+      "id": "variant=ghost size=md color=error state=default",
+      "props": {
+        "variant": "ghost",
+        "size": "md",
+        "color": "error"
+      },
+      "state": "default",
+      "content": "Active"
+    },
+    {
+      "id": "variant=solid size=md color=info state=default",
+      "props": {
+        "variant": "solid",
+        "size": "md",
+        "color": "info"
+      },
+      "state": "default",
+      "content": "Active"
+    },
+    {
+      "id": "variant=soft size=md color=info state=default",
+      "props": {
+        "variant": "soft",
+        "size": "md",
+        "color": "info"
+      },
+      "state": "default",
+      "content": "Active"
+    },
+    {
+      "id": "variant=outline size=md color=info state=default",
+      "props": {
+        "variant": "outline",
+        "size": "md",
+        "color": "info"
+      },
+      "state": "default",
+      "content": "Active"
+    },
+    {
+      "id": "variant=ghost size=md color=info state=default",
+      "props": {
+        "variant": "ghost",
+        "size": "md",
+        "color": "info"
+      },
+      "state": "default",
+      "content": "Active"
+    }
+  ],
+  "sheets": [
+    {
+      "id": "light",
+      "theme": "light",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "dark",
+      "theme": "dark",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "high-contrast",
+      "theme": "high-contrast",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "rtl",
+      "theme": "light",
+      "density": "default",
+      "dir": "rtl"
+    }
+  ]
+}

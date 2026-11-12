@@ -1,0 +1,191 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "AppShell",
+  "description": "The application frame: a sidebar and a main column (an optional top bar, then the content) as islands separated by a gutter. The sidebar holds a brand, the navigation (a Menu) and a footer, and can collapse to icons. Replaces Livewire's main and the React and Vue Sidebar.",
+  "status": "draft",
+  "issue": 58,
+  "rootClass": "apui-app-shell",
+  "stacks": {
+    "livewire": {
+      "name": "app-shell",
+      "capabilities": [
+        "Slots: brand, sidebar, header and footer; the default slot is the content",
+        "wire:model binds collapsed; without it, the collapsed state is kept in the session (the 2.x toggle route)"
+      ]
+    },
+    "react": { "name": "AppShell" },
+    "vue": {
+      "name": "AppShell",
+      "capabilities": ["Slots: brand, sidebar, header and footer; the default slot is the content"]
+    }
+  },
+  "props": [
+    {
+      "name": "collapsed",
+      "type": "boolean",
+      "default": false,
+      "description": "Shrinks the sidebar to its icons: a Menu inside shows icon-only items, their labels kept for screen readers. Emitted as data-collapsed. Livewire binds it with wire:model."
+    },
+    {
+      "name": "collapsible",
+      "type": "boolean",
+      "default": false,
+      "description": "Adds the button at the foot of the sidebar that collapses and expands it. Emitted as data-collapsible."
+    },
+    {
+      "name": "sidebarWidth",
+      "type": "string",
+      "description": "The expanded sidebar's width, any CSS length. Sets --apui-sidebar-width on the root (default 248px)."
+    },
+    {
+      "name": "gutter",
+      "type": "string",
+      "description": "The space around and between the islands, any CSS length. Sets --apui-shell-gutter on the root (default 12px)."
+    },
+    {
+      "name": "brand",
+      "type": "node",
+      "description": "The brand at the top of the sidebar: a logo or mark and the product name, usually a link home."
+    },
+    {
+      "name": "sidebar",
+      "type": "node",
+      "description": "The sidebar's navigation, usually a Menu: 5 to 8 top-level items, the rest under section titles."
+    },
+    {
+      "name": "header",
+      "type": "node",
+      "description": "The bar at the top of the main column, usually a Navbar with layout island."
+    },
+    {
+      "name": "footer",
+      "type": "node",
+      "description": "The foot of the sidebar: the signed-in account and its actions."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "default": "Sidebar",
+      "description": "Names the sidebar's complementary landmark. Livewire translates the default with __()."
+    },
+    {
+      "name": "skipLabel",
+      "type": "string",
+      "default": "Skip to main content",
+      "description": "The skip link's text. Livewire translates the default with __()."
+    },
+    {
+      "name": "collapseLabel",
+      "type": "string",
+      "default": "Collapse sidebar",
+      "description": "Names the collapse button, which is aria-pressed while the sidebar is collapsed. Livewire translates the default with __()."
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part, such as { sidebar: '…', content: '…' }."
+    }
+  ],
+  "parts": [
+    {
+      "name": "root",
+      "element": "div",
+      "description": "The frame: a grid of the sidebar and the main column on the page surface."
+    },
+    {
+      "name": "skipLink",
+      "element": "a",
+      "description": "The first focusable element: a link to the main column, hidden until focused."
+    },
+    {
+      "name": "sidebar",
+      "element": "aside",
+      "description": "The sidebar island, a complementary landmark named with label. It moves to the inline end in RTL."
+    },
+    { "name": "brand", "element": "div", "description": "The brand at the top of the sidebar." },
+    {
+      "name": "footer",
+      "element": "div",
+      "description": "The foot of the sidebar, separated by an edge: the account, and the collapse button."
+    },
+    {
+      "name": "collapseTrigger",
+      "element": "button",
+      "description": "Collapses and expands the sidebar: aria-pressed while collapsed, named with collapseLabel. Its icon mirrors in RTL."
+    },
+    {
+      "name": "main",
+      "element": "main",
+      "description": "The main landmark, the skip link's target: the header, then the content."
+    },
+    {
+      "name": "content",
+      "element": "div",
+      "description": "The page's content under the header: a column of panels with the panel gap."
+    }
+  ],
+  "slots": [
+    { "name": "brand", "description": "The brand at the top of the sidebar." },
+    { "name": "sidebar", "description": "The navigation, usually a Menu." },
+    { "name": "header", "description": "The top bar of the main column." },
+    { "name": "footer", "description": "The foot of the sidebar." }
+  ],
+  "events": [
+    {
+      "name": "collapsed-change",
+      "description": "The collapse button collapsed or expanded the sidebar. Setting collapsed doesn't fire it.",
+      "payload": "boolean"
+    }
+  ],
+  "a11y": {
+    "element": "div",
+    "keyboard": [
+      {
+        "keys": "Tab",
+        "action": "The skip link comes first and shows while focused; Enter on it moves focus to the main landmark."
+      },
+      {
+        "keys": "Enter, Space",
+        "action": "On the collapse button: collapses or expands the sidebar."
+      }
+    ],
+    "requirements": [
+      "The sidebar is an aside (complementary landmark) named with label; the content is a main landmark.",
+      "A skip link to the main landmark is the first focusable element.",
+      "The current navigation item uses aria-current=page (Menu).",
+      "Collapsed, the sidebar's Menu items show only their icons; their labels stay in the accessibility tree.",
+      "The collapse button is aria-pressed while collapsed, and named with collapseLabel.",
+      "Layout uses logical properties, so the sidebar sits at the inline end in RTL; on a narrow viewport the islands stack.",
+      "Keep 5 to 8 top-level items; group the rest under section titles."
+    ],
+    "wcag": ["1.3.1", "1.3.2", "1.4.10", "1.4.11", "2.1.1", "2.4.1", "2.4.3", "2.4.7", "4.1.2"]
+  },
+  "tokens": [
+    "--apui-sidebar-width",
+    "--apui-sidebar-width-collapsed",
+    "--apui-shell-gutter",
+    "--apui-panel-gap",
+    "--apui-radius-lg",
+    "--apui-border-width",
+    "--apui-border-muted",
+    "--apui-surface-page",
+    "--apui-surface-default",
+    "--apui-selected-bg",
+    "--apui-state-hover",
+    "--apui-control-height-sm",
+    "--apui-text-default",
+    "--apui-text-muted",
+    "--apui-focus-ring-color"
+  ],
+  "fixture": {
+    "content": "Page content",
+    "props": {
+      "brand": "Apexify",
+      "sidebar": "Navigation",
+      "header": "Top bar",
+      "footer": "Olivia Rhye",
+      "collapsible": true
+    },
+    "states": []
+  }
+}

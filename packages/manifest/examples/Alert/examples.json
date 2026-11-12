@@ -1,0 +1,12 @@
+[
+  {
+    "id": "colors",
+    "title": "Status colors",
+    "description": "The tint and the status icon say what happened; the title and description say what to do. Errors are announced at once (role=alert), everything else politely."
+  },
+  {
+    "id": "variants",
+    "title": "Outline, solid and dismissible",
+    "description": "Outline suits dense forms; solid is for page-level failures that block work. A dismissible alert hides itself and reports open-change."
+  }
+]

@@ -1,0 +1,85 @@
+{
+  "version": 1,
+  "component": "ImageSlider",
+  "rootClass": "apui-image-slider",
+  "stacks": [
+    "livewire",
+    "react",
+    "vue"
+  ],
+  "names": {
+    "livewire": "image-slider",
+    "react": "ImageSlider",
+    "vue": "ImageSlider"
+  },
+  "cases": [
+    {
+      "id": "state=default",
+      "props": {
+        "images": [
+          {
+            "src": "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20400%20300'%20width='400'%20height='300'%3E%3Crect%20width='400'%20height='300'%20fill='%23e4eef6'/%3E%3Crect%20y='135'%20width='400'%20height='165'%20fill='%23c4d8e8'/%3E%3Ccircle%20cx='280'%20cy='96'%20r='27'%20fill='%23fff6e0'/%3E%3Cpath%20d='M0%20186L72%20114L128%20156L200%2090L280%20165L340%20126L400%20174V300H0Z'%20fill='%239db8cf'/%3E%3Cpath%20d='M0%20225L100%20174L180%20216L248%20180L328%20222L400%20198V300H0Z'%20fill='%236f8fab'/%3E%3Cpath%20d='M0%20264Q120%20240%20220%20264T400%20258V300H0Z'%20fill='%2347637e'/%3E%3C/svg%3E",
+            "alt": "Lake view from the window of unit 4A",
+            "caption": "Lake view from 4A",
+            "description": "South-facing, 11th floor · Lakeview Lofts, Chicago"
+          },
+          {
+            "src": "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20400%20300'%20width='400'%20height='300'%3E%3Crect%20width='400'%20height='300'%20fill='%23f6d9a8'/%3E%3Crect%20y='135'%20width='400'%20height='165'%20fill='%23e9b77a'/%3E%3Ccircle%20cx='280'%20cy='96'%20r='27'%20fill='%23fff6e0'/%3E%3Cpath%20d='M0%20186L72%20114L128%20156L200%2090L280%20165L340%20126L400%20174V300H0Z'%20fill='%238aa7c4'/%3E%3Cpath%20d='M0%20225L100%20174L180%20216L248%20180L328%20222L400%20198V300H0Z'%20fill='%235d7f9f'/%3E%3Cpath%20d='M0%20264Q120%20240%20220%20264T400%20258V300H0Z'%20fill='%2333506d'/%3E%3C/svg%3E",
+            "alt": "Sunrise over the ridge, seen from the east terrace",
+            "caption": "Sunrise over the ridge"
+          },
+          {
+            "src": "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20400%20300'%20width='400'%20height='300'%3E%3Crect%20width='400'%20height='300'%20fill='%23cfe3e0'/%3E%3Crect%20y='135'%20width='400'%20height='165'%20fill='%23a9cbc4'/%3E%3Ccircle%20cx='280'%20cy='96'%20r='27'%20fill='%23fff6e0'/%3E%3Cpath%20d='M0%20186L72%20114L128%20156L200%2090L280%20165L340%20126L400%20174V300H0Z'%20fill='%235f8f7c'/%3E%3Cpath%20d='M0%20225L100%20174L180%20216L248%20180L328%20222L400%20198V300H0Z'%20fill='%233f6b57'/%3E%3Cpath%20d='M0%20264Q120%20240%20220%20264T400%20258V300H0Z'%20fill='%2324463a'/%3E%3C/svg%3E",
+            "alt": "Courtyard garden with benches under the trees",
+            "caption": "Courtyard garden"
+          },
+          {
+            "src": "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20400%20300'%20width='400'%20height='300'%3E%3Crect%20width='400'%20height='300'%20fill='%23e8b49a'/%3E%3Crect%20y='135'%20width='400'%20height='165'%20fill='%23c9786a'/%3E%3Ccircle%20cx='280'%20cy='96'%20r='27'%20fill='%23fff6e0'/%3E%3Cpath%20d='M0%20186L72%20114L128%20156L200%2090L280%20165L340%20126L400%20174V300H0Z'%20fill='%236e6c8f'/%3E%3Cpath%20d='M0%20225L100%20174L180%20216L248%20180L328%20222L400%20198V300H0Z'%20fill='%234a4a6a'/%3E%3Cpath%20d='M0%20264Q120%20240%20220%20264T400%20258V300H0Z'%20fill='%232b2b45'/%3E%3C/svg%3E",
+            "alt": "The west facade at dusk"
+          },
+          {
+            "src": "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20400%20300'%20width='400'%20height='300'%3E%3Crect%20width='400'%20height='300'%20fill='%23f4e2c4'/%3E%3Crect%20y='135'%20width='400'%20height='165'%20fill='%23e7c08d'/%3E%3Ccircle%20cx='280'%20cy='96'%20r='27'%20fill='%23fff6e0'/%3E%3Cpath%20d='M0%20186L72%20114L128%20156L200%2090L280%20165L340%20126L400%20174V300H0Z'%20fill='%23c98f5e'/%3E%3Cpath%20d='M0%20225L100%20174L180%20216L248%20180L328%20222L400%20198V300H0Z'%20fill='%239c6a43'/%3E%3Cpath%20d='M0%20264Q120%20240%20220%20264T400%20258V300H0Z'%20fill='%236b4630'/%3E%3C/svg%3E",
+            "alt": "Rooftop terrace with lounge chairs",
+            "caption": "Rooftop terrace"
+          },
+          {
+            "src": "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20400%20300'%20width='400'%20height='300'%3E%3Crect%20width='400'%20height='300'%20fill='%231d2b44'/%3E%3Crect%20y='135'%20width='400'%20height='165'%20fill='%232c3d5c'/%3E%3Ccircle%20cx='280'%20cy='96'%20r='27'%20fill='%23fff6e0'/%3E%3Cpath%20d='M0%20186L72%20114L128%20156L200%2090L280%20165L340%20126L400%20174V300H0Z'%20fill='%233c4f72'/%3E%3Cpath%20d='M0%20225L100%20174L180%20216L248%20180L328%20222L400%20198V300H0Z'%20fill='%2325334d'/%3E%3Cpath%20d='M0%20264Q120%20240%20220%20264T400%20258V300H0Z'%20fill='%23141c2c'/%3E%3C/svg%3E",
+            "alt": "The street outside the entrance at night",
+            "caption": "Street at night"
+          }
+        ],
+        "thumbnails": true,
+        "aspectRatio": "21 / 9",
+        "label": "Lakeview Lofts photos"
+      },
+      "state": "default",
+      "content": null
+    }
+  ],
+  "sheets": [
+    {
+      "id": "light",
+      "theme": "light",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "dark",
+      "theme": "dark",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "high-contrast",
+      "theme": "high-contrast",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "rtl",
+      "theme": "light",
+      "density": "default",
+      "dir": "rtl"
+    }
+  ]
+}

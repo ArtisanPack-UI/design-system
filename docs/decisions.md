@@ -32,6 +32,22 @@ Decisions that shape the design system. To change one, add a new entry that supe
 | [D-026](#d-026-colorpicker-is-an-engine-widget) | ColorPicker is an engine widget | #53 | 2026-11-11 |
 | [D-027](#d-027-a-field-with-several-controls-binds-through-x-modelable) | A field with several controls binds through `x-modelable` | #53 | 2026-11-11 |
 | [D-028](#d-028-form-helpers-that-arent-machines-live-in-behaviorform) | Form helpers that aren't machines live in `behavior/form` | #53 | 2026-11-11 |
+| [D-029](#d-029-drawer-popover-and-tooltip-draw-their-own-arrow-and-take-the-authors-control-as-the-trigger) | Drawer, Popover and Tooltip draw their own arrow and take the author's control as the trigger | #58, #59 | 2026-11-12 |
+| [D-030](#d-030-accordion-and-collapse-are-engine-widgets) | Accordion and Collapse are engine widgets | #58 | 2026-11-12 |
+| [D-031](#d-031-appshells-navigation-is-a-menu) | AppShell's navigation is a Menu | #58 | 2026-11-12 |
+| [D-032](#d-032-grid-and-stack-are-token-driven-layout-primitives-in-every-stack) | Grid and Stack are token-driven layout primitives in every stack | #58 | 2026-11-12 |
+| [D-033](#d-033-divider-replaces-separator) | Divider replaces `separator` | #58 | 2026-11-12 |
+| [D-034](#d-034-loading-progress-progressradial-and-alert) | Loading, Progress, ProgressRadial and Alert | #60 | 2026-11-12 |
+| [D-035](#d-035-soft-status-surfaces-get-their-high-contrast-edge-from-a-theme-token) | Soft status surfaces get their high-contrast edge from a theme token | #60, #61 | 2026-11-12 |
+| [D-036](#d-036-emptystate-and-errorstate-share-one-anatomy) | EmptyState and ErrorState share one anatomy | #60 | 2026-11-12 |
+| [D-037](#d-037-the-livewire-only-components-as-built-streamablecontent-and-imagelibrary) | The Livewire-only components as built: StreamableContent and ImageLibrary | #60, #61 | 2026-11-12 |
+| [D-038](#d-038-data-display-helpers-live-in-behaviordata) | Data-display helpers live in `behavior/data` | #61 | 2026-11-12 |
+| [D-039](#d-039-stat-and-kpicard-statgroup-is-dropped) | Stat and KpiCard; StatGroup is dropped | #61 | 2026-11-12 |
+| [D-040](#d-040-timeline-follows-the-composition-rule) | Timeline follows the composition rule | #61 | 2026-11-12 |
+| [D-041](#d-041-imageslider-is-a-carousel-widget-imagegallerys-lightbox-is-a-dialog) | ImageSlider is a carousel widget; ImageGallery's lightbox is a dialog | #61 | 2026-11-12 |
+| [D-042](#d-042-table-has-one-table-scope) | Table has one `table` scope | #62 | 2026-11-12 |
+| [D-043](#d-043-heading-and-text-listitem-lives-in-a-list) | Heading and Text; ListItem lives in a List | #58 | 2026-11-12 |
+| [D-044](#d-044-usermenu-composes-dropdownmenu-avatar-colors-initials-by-name) | UserMenu composes DropdownMenu; Avatar colors initials by name | #58, #61 | 2026-11-12 |
 
 ## D-001: No separate brand
 
@@ -75,6 +91,8 @@ Signature is **not** an exception, though #8 named it as a candidate. `forms` al
 - The manifest records which stacks a component ships in, and any per-stack capability differences (#26).
 - The parity tests and visual regression run only for those stacks (#39, #41).
 - An exception is not a removal. These components still get rebuilt on the design system in the stacks they ship in.
+
+**Extended by [D-037](#d-037-the-livewire-only-components-as-built-streamablecontent-and-imagelibrary):** StreamableContent and ImageLibrary as built.
 
 ## D-004: RTL is a launch requirement
 
@@ -276,6 +294,8 @@ The package tests repeat these in Chromium with Alpine's morph plugin, plus RTL 
 
 **Why.** Zag passed every requirement on both Livewire versions with one build, and the problems the spike hit were in the adapter, not the machines: each has a fix that is now tested. Zag supplies the hard parts (focus trap, dismissal layers, `aria-hidden`, typeahead, collections, positioning) for all three stacks from one definition, which in-house machines would have to rebuild and keep at parity. Floating UI is already inside Zag's positioning, so using it directly for the rest adds nothing new.
 
+**Extended by [D-030](#d-030-accordion-and-collapse-are-engine-widgets) and [D-041](#d-041-imageslider-is-a-carousel-widget-imagegallerys-lightbox-is-a-dialog):** Accordion, Collapse and the carousel join the engine widgets.
+
 ## D-016: The quality gates ship as `@artisanpack-ui/testing`, plus a Composer kit
 
 **Decision.**
@@ -383,6 +403,8 @@ The package tests repeat these in Chromium with Alpine's morph plugin, plus RTL 
 
 **Why.** A navigation list read as an application menu makes screen readers announce menu semantics and swallow arrow keys, which is the wrong model for links. Tabs is the one navigation widget with the roving focus and selection a machine is for.
 
+**Extended by [D-031](#d-031-appshells-navigation-is-a-menu) and [D-040](#d-040-timeline-follows-the-composition-rule):** AppShell's navigation is a Menu, and Timeline follows the composition rule.
+
 ## D-024: Router links plug into navigation items without a component prop
 
 **Decision.**
@@ -437,3 +459,182 @@ The package tests repeat these in Chromium with Alpine's morph plugin, plus RTL 
 - CodeEditor is a textarea with code keys (indent, outdent, line numbers); it has no syntax highlighting, and its content stays LTR (D-004).
 
 **Why.** Three hand-written copies of a signature pad and a sanitizer are where the stacks drifted before. One tested implementation in the package every stack already loads keeps them identical, which the cross-stack gate checks pixel for pixel.
+
+**Extended by [D-037](#d-037-the-livewire-only-components-as-built-streamablecontent-and-imagelibrary) and [D-038](#d-038-data-display-helpers-live-in-behaviordata):** ImageLibrary's client logic, and the data-display helpers in `behavior/data`.
+
+## D-029: Drawer, Popover and Tooltip draw their own arrow and take the author's control as the trigger
+
+**Decision.**
+
+- **Drawer runs Zag's dialog machine, rescoped `drawer`** (as DropdownMenu is, D-019). Its parts are `trigger`, `backdrop` (spec scrim), `positioner`, `content` (the root `.apui-drawer`, D-019), `title`, `description`, `closeTrigger`, `handle`, `header`, `body` and `footer`. `side` is `end` (default) · `start` · `bottom`, written as `data-side`. `bottom` is the spec's sheet: the same root with a `handle` part, not a separate `.apui-sheet`. Drawer and Popover use Dialog's `open` semantics.
+- **Popover and Tooltip keep Zag's names and scopes.** Popover: `trigger`, `positioner`, `content` (root), `arrow`, `title`, `body`, `actions`; it opens on click as a non-modal dialog. Tooltip: `trigger`, `positioner`, `content` (root), `arrow`, `kbd`.
+- **`placement` is one logical prop**: `top` · `bottom` · `start` · `end`, written as `data-placement`; the side the machine settles on after flipping is Zag's `data-side`. Popover aligns to `<side>-start`; Tooltip is centered. The gutter is 8px for Tooltip and 10px for Popover.
+- **The arrow is drawn by CSS, not placed by the machine.** The `arrow` part is `display: contents` and a `::before` square draws it: centered on the trigger for Tooltip, and offset from the panel's start edge for Popover (24px, or 16px from the top on a side placement). Popover's `arrow` prop turns it off.
+- **The trigger is the author's own control.** React clones its child, Vue clones the slot's vnode and Livewire puts the trigger attributes on the first element in the slot (`TriggerElement`), keeping its `id` and classes and joining `aria-describedby`. Text on its own is wrapped: in a `span` with `tabindex="0"` for Tooltip, and in an outline Button for Popover.
+- **Tooltip** takes `content` (React's `tip` and Vue's `text` are renamed), `placement`, `delay` (400ms on hover, none on focus), `size` (`md` · `lg`) and `shortcut` (keys joined by `+`, each in a `kbd` part). `open` is tri-state: unset is uncontrolled, `true` or `false` forces it, and `wire:model` or `v-model:open` binds it. It stays open while the pointer is on it and closes on Escape (WCAG 1.4.13), and only one shows at a time.
+- **Tooltip props on other components are gone.** Livewire's `tooltip`, `tooltipLeft`, `tooltipRight`, `tooltipBottom` and `tooltipPosition` (Button, Stat and others) become a `<x-artisanpack-tooltip>` around the component, and the raw DaisyUI `class="tooltip" data-tip="…"` becomes `<x-artisanpack-tooltip content="…">`. The upgrade rules map them.
+
+**Why.** A machine-placed arrow can't match the Livewire server render, and the CSS tests ban the `!important` that overriding its inline styles would need. Wrapping the trigger in an element of our own would nest interactive controls and move `aria-describedby` off the control people focus. A tooltip prop on every component would repeat the trigger logic in each of them.
+
+## D-030: Accordion and Collapse are engine widgets
+
+**Decision.**
+
+- Accordion and Collapse join D-015's engine widgets, on `@zag-js/accordion` and `@zag-js/collapsible`.
+- **Accordion keeps the spec's part names** through `repart()` (D-020): Zag's `itemTrigger`, `itemIndicator` and `itemContent` render as `trigger`, `chevron` and `content`, beside `item` and `title`; Zag finds triggers by `data-controls`, not by part. The spec's `heading` is the vocabulary's `title`, rendered at `headingLevel`. The spec's `type` is the `multiple` boolean, `collapsible` lets the last open item close, and `value` is the array of open items (`defaultValue` is React's uncontrolled form). `variant` is `default` · `separated` · `flush`.
+- Accordion's children are `accordion-item` / `AccordionItem` (the vocabulary's `{parent}-item` rule), with `items` as the data convenience. React and Vue `Collapse` children of an Accordion become `AccordionItem`.
+- **Collapse runs the collapsible machine rescoped `collapse`**, its `indicator` rendered as `icon`. Its parts are `trigger`, `icon`, `content` and `fade`; the trigger text is `label` (`openLabel` while open). `variant` is `section` · `read-more`. Read-more clamps through the machine's `collapsedHeight` (`--apui-collapse-clamp-height`, 64px), so the hidden text stays in the accessibility tree.
+
+**Why.** The machines give the ARIA, ids and arrow keys in all three stacks from one definition. Keeping the spec's part names keeps the spec's CSS on the parts it draws.
+
+## D-031: AppShell's navigation is a Menu
+
+**Decision.**
+
+- AppShell is the page frame: its parts are `skipLink`, `sidebar`, `brand`, `footer`, `collapseTrigger`, `main` and `content`, and its slots `brand`, `sidebar`, `header` and `footer`.
+- **The spec's navigation section, item and badge are Menu's title, item and badge** (D-023), placed in the `sidebar` slot. AppShell draws no navigation of its own.
+- `collapsed` shrinks the sidebar and its Menu to icons; `collapsible` adds a `collapseTrigger` button with `aria-pressed` and a `collapsed-change` event. `sidebarWidth` and `gutter` size the frame; `skipLabel` and `collapseLabel` are translatable.
+- Livewire `main` and React/Vue `Sidebar` stay as deprecated aliases.
+- There's no mobile drawer at 1.0: below 48rem the sidebar stacks above the content. A drawer mode is a follow-up.
+
+**Why.** Menu already draws the spec's pills, current page and disclosure sub-menus. A second navigation list inside AppShell would duplicate it in three stacks.
+
+## D-032: Grid and Stack are token-driven layout primitives in every stack
+
+**Decision.**
+
+- Grid and Stack ship in all three stacks as minimal primitives with no spec of their own. Livewire gets `grid` and `stack`; `widget-grid` is a deprecated alias of `grid`.
+- **Grid:** `columns` (1 to 12, `data-columns`), or `minItemWidth` (`--apui-grid-min-item-width`) for as many columns as fit; `gap`; `align` and `justify`. React and Vue's `cols`, `colsSm` to `colsXl`, `gapX` and `gapY` are dropped: responsive columns come from `minItemWidth`.
+- **Stack:** `orientation` (`vertical` · `horizontal`, replacing `direction`, which is kept deprecated), `gap`, `align`, `justify` and `wrap`.
+- `gap` takes a space-scale step (`0` to `16`, `data-gap`) in both, so a gap means the same `--apui-space-*` value everywhere.
+
+**Why.** Tailwind is optional (D-011), so an app without it still needs a grid and a stack, and the system's own compositions (a row of Stats, an EmptyState's actions) need one gap scale with one spelling.
+
+## D-033: Divider replaces `separator`
+
+**Decision.**
+
+- Livewire's `separator` becomes `divider`, kept as a deprecated alias; `vertical` becomes `orientation`.
+- A plain horizontal Divider is an `<hr>`. A vertical or labelled one is a `div` with `role="separator"`, named by its `label`. `decorative` hides it from assistive technology. `align` (`start` · `center` · `end`) places the label (React and Vue's `labelPosition`); `strength` is `subtle` · `strong`.
+- The 2.x loading bar (`progress`, `target`) is dropped: that's Progress's job. `color` and `image` are dropped.
+
+**Why.** A rule that doubles as a loading indicator has two roles in one element. Progress already announces loading properly.
+
+## D-034: Loading, Progress, ProgressRadial and Alert
+
+**Decision.**
+
+- **Loading** has one root `.apui-loading` with `role="status"`, one `indicator` part and a `label` (default "Loading", visually hidden). `variant` is `spinner` · `dots`; `overlay` (`data-overlay`) covers the nearest positioned ancestor; `delay` (300ms, through a private custom property) keeps quick loads from flashing a spinner.
+- **Progress** puts `role="progressbar"` and `aria-value*` on the root (no `aria-valuenow` while `indeterminate`), named by `label` (`aria-labelledby`) or `aria-label`. `segmented` renders `max` `bar` parts with `data-done` instead of a separate segments part; `valueText` replaces the shown and announced value. React's `showValue` is dropped.
+- **ProgressRadial stays its own component**, not a Progress variant. `size` and `thickness` are numbers in pixels; the ring mirrors in RTL; it takes `label`, `valueText`, `hideValue`, `indeterminate` and `max`. It's new to React and Vue.
+- **Alert dismisses itself.** It has no `open` prop: `dismissible` adds a `closeTrigger` (the spec's close, labelled by `closeLabel`, default "Dismiss") that hides the alert and emits `open-change` with `false`. The root is `role="alert"` for `color="error"` and `role="status"` otherwise. `surface` is `default` · `glass`. React and Vue's `visible` and `onDismiss` become the built-in dismissal and `onOpenChange`; Livewire's `shadow`, glass tints and `colorAdjustment` are dropped.
+- Alert, EmptyState and ErrorState fill `description` from the default slot.
+
+**Why.** One root class per component, as the manifest requires, and the parity gate renders every part at once, so a Loading with two indicator elements or a Progress with a separate segments part couldn't be compared. A radial ring has its own anatomy (an SVG track and bar) and sizing, which a Progress variant would only hide behind conditionals.
+
+## D-035: Soft status surfaces get their high-contrast edge from a theme token
+
+**Decision.**
+
+- A new semantic theme token, `border.soft-edge-width` (`--apui-border-soft-edge-width`), is `0` in light and dark and `1px` in high contrast.
+- Soft Badge and soft, non-glass Alert keep the spec's transparent border and draw `outline: var(--apui-border-soft-edge-width) solid <tone border>` with `outline-offset: calc(-1 * var(--apui-border-width))`, so the outline lies over the border. Light and dark match the spec, with no edge.
+- No component CSS reads `data-theme`. Other soft-tinted surfaces use the same token.
+
+**Why.** In high contrast a soft tint alone sits too close to the page to mark the component's edge. A `[data-theme='high-contrast']` rule in a component would break the convention that themes only reassign tokens, and wouldn't follow a theme switched on a subtree or a preset. A theme-mode token keeps the difference where every other theme difference lives.
+
+## D-036: EmptyState and ErrorState share one anatomy
+
+**Decision.**
+
+- EmptyState and ErrorState have their own roots (`.apui-empty-state`, `.apui-error-state`) and scopes, and share one stylesheet. Parts: `icon`, `title`, `description`, `actions`, plus ErrorState's `numeral` (404 on `not-found`) and `code`.
+- `headingLevel` (1 to 6, default 3) sets the title's heading. EmptyState `variant` is `first-use` · `no-results` · `cleared`; ErrorState's is `request` · `offline` · `not-found` · `forbidden`.
+- ErrorState is `role="alert"`; `focusTitle` moves focus to the title when it renders in place of content.
+- React and Vue `ErrorDisplay` stays as a deprecated alias of ErrorState. React and Vue EmptyState's `heading` and `headingAs` become `title` and `headingLevel`. Skeleton, EmptyState and ErrorState are new to Livewire.
+
+**Why.** The two differ in tone and role, not in layout, and they pair in the vocabulary. A heading level prop keeps the outline right wherever the state renders.
+
+## D-037: The Livewire-only components as built: StreamableContent and ImageLibrary
+
+**Decision.**
+
+- **StreamableContent** ships in Livewire only (D-003): its manifest marks React and Vue `false` and gives the reason under the Livewire stack's differences. Its parts are `status` (`role="status"`), `stopTrigger` (dispatches `stop`), `content` (`aria-live="polite"`, `aria-busy` while streaming), `caret` and `actions`; `state` is `waiting` · `streaming` · `done` · `error` · `stopped`. The 2.x `tag`, `prose`, `placeholder` and `showCursor` are removed.
+- **ImageLibrary** ships in Livewire only and keeps 2.x's `WithMediaSync` contract, so existing pages work: `wire:model` names the uploads, `wire:library` the collection, and upload, replace, remove, reorder and `refreshMediaSources` still call the trait. Crop runs Cropper.js inside the design system's Dialog; alt text edits `library.<key>.alt`. It has no dependency on `media-library`.
+- ImageLibrary's client logic is `apuiImageLibrary` in `@artisanpack-ui/behavior` (as D-028's helpers are). It emits `selection-change` and `insert`, not `value-change`, because `wire:model` already names the uploads. `withDragDrop` becomes `droppable`, `dragDropClass` becomes `classes.dropzone`, and `preview` becomes `assets`.
+
+**Why.** Both are tied to Livewire transports (`wire:stream`, Livewire uploads), as D-003 records. Building them as the exceptions they are, with manifests that say so, keeps the gates honest about what ships where.
+
+## D-038: Data-display helpers live in `behavior/data`
+
+**Decision.**
+
+- Sparkline and Diff have no machine. Their logic lives once in `@artisanpack-ui/behavior`'s `src/data` (`sparklineGeometry`, `sparklineLabel`, `diffText`, `splitRows`, `wordDiff`), used directly by React and Vue. This extends D-028 to data display.
+- Livewire ports them to PHP (`SparklineGeometry`, `DiffBuilder`) with the same formulas and tie-breaking, and renders the SVG and the diff table on the server, so `wire:poll` redraws them with no script.
+- No stack loads a chart or diff library: Livewire's ApexCharts sparkline and diff2html are gone.
+- **Sparkline** takes `data`, `variant` (`line` · `area` · `bar`; 2.x `type` and the spec's `kind`), `width`, `height` and `label`. **Diff** takes `oldContent` and `newContent` (Livewire `old`/`new`, Vue `before`/`after`), `view` (`unified` · `split`), `wordLevel` and `context`, renders hunks with word-level `ins` and `del`, and keeps its code LTR (D-004) while the header mirrors. Copy and view toggles go in the `actions` slot; they aren't built in.
+
+**Why.** Pixel parity across stacks needs one geometry, and a server-rendered Livewire SVG is the only way a polled component redraws without client code. One tested implementation in the package every stack loads keeps them identical.
+
+## D-039: Stat and KpiCard; StatGroup is dropped
+
+**Decision.**
+
+- **Stat** takes `label` (2.x `title`), `value`, `unit`, `icon`, `delta`, `change`, `trend` (`up` · `down` · `flat`), `description` (2.x `changeLabel`), `size`, `color`, `emphasis` and `bare`. `change` as a percentage sets `trend` when it's unset. The delta's direction is hidden text from `upLabel`, `downLabel` and `flatLabel`, and its arrows don't mirror in RTL. Stat's tooltip, layout, glass, sparkline and count-up props are dropped.
+- **KpiCard is its own component built from Stat**, not a Stat option: the root is `.apui-card.apui-kpi-card`, its stat comes in one `stat` object, and it composes Sparkline (`area`) and a small Progress for `target`. The spec's `trend: number[]` is `sparkline`, because `trend` is a direction on Stat. 2.x's flat props move into `stat`, and `sparklineData` becomes `sparkline`.
+- **StatGroup is dropped**: a row of stats is a Grid (D-032). React's `StatGroup` is removed with no alias.
+
+**Why.** A KPI card is a card with a stat, a chart and a target, which a Stat layout option would only reach through a pile of conditionals; building it from Stat keeps one stat anatomy. A group component added nothing a Grid doesn't do.
+
+## D-040: Timeline follows the composition rule
+
+**Decision.**
+
+- Timeline follows D-023: composition is the base and `items` a convenience. Livewire gets a `timeline` parent for its 2.x `timeline-item`; React and Vue add `TimelineItem` (Vue's data type becomes `TimelineItemData`).
+- Items are `li` elements with `marker`, `head`, `time` (2.x `subtitle`), `body` and `card` parts. Markers are decorative. `variant` is `icon` · `dot`; `dot` drops the icons.
+- React and Vue's `vertical`, `compact`, `snap` and `pending` are removed.
+
+**Why.** Livewire had only the item, composed by hand into whatever list the author wrote, which axe rejects when it isn't a list.
+
+## D-041: ImageSlider is a carousel widget; ImageGallery's lightbox is a dialog
+
+**Decision.**
+
+- **ImageSlider** runs a carousel widget on `@zag-js/carousel`, added to D-015's list. `carouselDefinition(scope)` is rescoped per component, so Carousel (#65) reuses it. It keeps Zag's parts: the dots are `indicatorGroup` and `indicator` (with `aria-current`), the counter is `progressText`, the arrows `prevTrigger` and `nextTrigger`, plus `viewport`, `itemGroup`, `item` and `autoplayTrigger`. Autoplay pauses on hover and focus. 2.x `autoPlay` and `autoPlayInterval` become `autoplay` and `interval`.
+- **ImageGallery's lightbox** is Zag's dialog machine rescoped `image-gallery`: `backdrop`, `positioner`, `content` (`.apui-lightbox`), `title`, `trigger`, `image`, `prevTrigger`, `nextTrigger`, `thumbs`, `thumb` and `download`, with the shown image as adapter state. `lightbox` (2.x `enableLightbox`) is on by default. The PhotoSwipe hook is removed; ImageSlider has no lightbox.
+- The shown image or slide is `index`, with `index-change`, not `value`: nothing is being chosen.
+- Livewire renders the carousel's layout styles on the server, so the slider lays out before Alpine runs.
+- ImageGallery and ImageSlider ship in all three stacks; React and Vue get `useLightbox` and `useCarousel`.
+
+**Why.** A slider is a carousel, and one widget for both keeps their keyboard and announcements identical. A lightbox is a modal dialog, which D-019's machine already covers. D-019 keeps Zag's names.
+
+## D-042: Table has one `table` scope
+
+**Decision.**
+
+- Table's parts carry one `data-scope="table"`, replacing the spec's `table-grid` scope and `.apui-table-grid` class. The manifest names parts in camelCase (`headCell`, `expandTrigger`), the markup in kebab-case, as D-019 does.
+- The root is a `div` around the `<table>`, so classes and attributes move off the `<table>` element.
+- `density` is `compact` · `default` · `comfortable`; compact steps the type down to `body-sm` through a `[data-density='compact']` rule, since density has no type token. `--apui-table-max-block-size` bounds the scroll area for `stickyHeader`.
+- The empty row isn't a manifest part (`td[data-empty]`): the fixture can't render rows and the empty state at once. Empty always shows the empty state.
+- Selection is `value` with `value-change`, sorting `sortBy` (`{ column, direction }`) with `sort-change`, expansion `expanded` with `expanded-change`; `selectable` and `expandable` combine. Livewire keeps `paginated`, `perPage` and `perPageValues`. Livewire's virtual scroll, export toolbar and events, `striped`, `noHover`, `containerClass` and header glass are removed; React and Vue keep their 2.x names as deprecated aliases.
+
+**Why.** Parity reads parts by the component's own scope, as with D-025's radios. A second scope for the grid would hide its parts from the gate.
+
+## D-043: Heading and Text; ListItem lives in a List
+
+**Decision.**
+
+- **Heading's `level` and `size` are separate.** `level` (1 to 6, default 2; 2.x defaulted to 1) sets the element, `size` the look and defaults to the level; both are data attributes. `eyebrow` renders as a sibling `<p>`, not inside the heading.
+- **Subheading is Text with `size="lead"`.** Livewire `subheading` is a deprecated alias: 2.x rendered a paragraph, not a heading. Text takes `as`, `size`, `tone`, `weight`, `truncate` and `clamp`.
+- **ListItem is a row in a List.** In a List (`.apui-list`, Livewire `list`, React and Vue `List`) it's an `li`; on its own a `div`. `variant` (`plain` · `bordered` · `divided`) and `ordered` belong to the List.
+- `href` or `interactive` turns the title into a stretched link or button, so the row is one target while `trailing` stays clickable. `selected` sets `data-selected` and `aria-current`; `disabled` sets `aria-disabled` on the row. 2.x `link` becomes `href`; `item`, `value`, `subValue` and `avatar` still fill the row, deprecated.
+
+**Why.** One `h1` per page and a correct outline need the level to be independent of the look. The spec frames rows in `.apui-list[data-variant]`; an `li` outside a list fails axe, a clickable `li` isn't operable by keyboard, and `aria-selected` isn't valid on an `li`.
+
+## D-044: UserMenu composes DropdownMenu; Avatar colors initials by name
+
+**Decision.**
+
+- **UserMenu is a DropdownMenu** (D-019): the panel is `.apui-dropdown-menu.apui-user-menu`, and its trigger shows an Avatar. The workspace and theme pickers are radio items with prefixed values (`workspace:<id>`, `theme:<theme>`), reported as `workspace-change` and `theme-change`; other items fire `select`, Log out with the value `logout`. `hideTheme` replaces `showTheme` (no `show*` booleans). `logoutAction` is Livewire's: Log out posts to it through a hidden form with the CSRF token. Livewire `profile` is a deprecated alias.
+- **Avatar's initials color is a stable hash of `name`**: the sum of its code points mod 7, over `primary`, `secondary`, `accent`, `success`, `warning`, `error` and `info`. Without a name it's neutral; `color` overrides the hash. Initials are the first letters of the first and last words.
+- The status joins the accessible name ("Name (Online)") through a translatable `statusLabel`. The image layers over the initials, so a failed image falls back with no script. 2.x `image` and `placeholder` become `src` and `name`. Avatar groups are `avatar-group` / `AvatarGroup`.
+
+**Why.** A user menu is a dropdown menu with a richer header; composing it reuses DropdownMenu's machine and keyboard. A hash gives the same person the same color in every stack and on every render, with no stored state.

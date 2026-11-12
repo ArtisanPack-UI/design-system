@@ -60,6 +60,17 @@ final class ManifestParity
 		'apuiDatePicker'   => [ 'open-change' ],
 		// Its value-change is `wire:model`, found through `$wire.entangle(`.
 		'apuiColorPicker'  => [ 'open-change', 'format-change' ],
+		'apuiDrawer'       => [ 'open-change' ],
+		'apuiPopover'      => [ 'open-change' ],
+		'apuiTooltip'      => [ 'open-change' ],
+		// Its open-change is also `wire:model` through `$wire.entangle(`.
+		'apuiCollapse'     => [ 'open-change' ],
+		// ImageGallery's lightbox: its open is `wire:model`, found through `$wire.entangle(`.
+		'apuiLightbox'     => [ 'open-change', 'index-change' ],
+		// ImageSlider's carousel.
+		'apuiCarousel'     => [ 'index-change' ],
+		// ImageLibrary's client state (Livewire only, D-003).
+		'apuiImageLibrary' => [ 'selection-change', 'insert' ],
 	];
 
 	/**

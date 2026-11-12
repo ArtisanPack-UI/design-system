@@ -11,14 +11,14 @@ Part of the [ArtisanPack UI Design System](../../README.md).
 | Export                                      | What it is                                                                                                                                                                                                                                                                                                                                          |
 | ------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `@artisanpack-ui/behavior`                  | The adapter interface (`createWidget`, `WidgetDefinition`), widget definitions (`dialog`, `combobox`, `dropdownMenu`, `toast`, `toastGroup`), the toaster (`createToaster`, `staticToastParts`), positioning (`position`, `toPlacement`, `zagPositioning`) and morph support (`keepClientState`)                                                    |
-| `@artisanpack-ui/behavior/alpine`           | The Alpine plugin: `apuiDialog`, `apuiCombobox`, `apuiDropdownMenu`, `apuiTabs`, `apuiToaster`, `apuiToast` and the `x-apui:<part>` directive                                                                                                                                                                                                                   |
-| `@artisanpack-ui/behavior/react`            | React hooks: `useDialog`, `useCombobox`, `useDropdownMenu`, `useTabs`, `useToaster`, `useToast`                                                                                                                                                                                                                                                                |
-| `@artisanpack-ui/behavior/vue`              | Vue composables: `useDialog`, `useCombobox`, `useDropdownMenu`, `useTabs`, `useToaster`, `useToast`                                                                                                                                                                                                                                                            |
+| `@artisanpack-ui/behavior/alpine`           | The Alpine plugin: `apuiDialog`, `apuiCombobox`, `apuiDropdownMenu`, `apuiTabs`, `apuiAccordion`, `apuiCollapse`, `apuiDrawer`, `apuiPopover`, `apuiTooltip`, `apuiToaster`, `apuiToast` and the `x-apui:<part>` directive                                                                                                                                                                                                                   |
+| `@artisanpack-ui/behavior/react`            | React hooks: `useDialog`, `useCombobox`, `useDropdownMenu`, `useTabs`, `useAccordion`, `useCollapse`, `useDrawer`, `usePopover`, `useTooltip`, `useToaster`, `useToast`                                                                                                                                                                                                                                                                |
+| `@artisanpack-ui/behavior/vue`              | Vue composables: `useDialog`, `useCombobox`, `useDropdownMenu`, `useTabs`, `useAccordion`, `useCollapse`, `useDrawer`, `usePopover`, `useTooltip`, `useToaster`, `useToast`                                                                                                                                                                                                                                                            |
 | `@artisanpack-ui/behavior/icons`            | The icon registry every stack resolves string icon names against: `resolveIcon`, `iconSvg`, `registerIcons` (trusted static SVG shapes only; anything else throws `UnsafeIconError`, see `isSafeIconBody`), with a default Lucide set ([D-017](../../docs/decisions.md#d-017-icon-names-resolve-against-one-lucide-set-shipped-by-behavior))        |
 | `@artisanpack-ui/behavior/icons.json`       | The default set as JSON (`icons/lucide.json`), which Livewire UI Components copies into PHP along with its license notice (`icons/LICENSE-lucide.txt`)                                                                                                                                                                                              |
 | `@artisanpack-ui/behavior/alpine.global.js` | The same plugin as one classic script that registers itself on `alpine:init`, for pages without a bundler ([D-014](../../docs/decisions.md#d-014-without-a-bundler-use-the-prebuilt-composer-asset-no-official-cdn-build-at-10)). About 63 KB gzipped with Dialog, Combobox, DropdownMenu and the toast stack; `ApuiBehavior.toast()` shows a toast |
 
-Engine widgets only: DropdownMenu (the navigation Menu is links plus a disclosure per sub-menu, so it needs no widget), Combobox and Choices, Popover, Tooltip, Dialog, Modal and Drawer, Tabs, DatePicker, the Toast stack and Spotlight. Simple components stay native in each stack, Select included ([D-018](../../docs/decisions.md#d-018-form-fields-share-one-anatomy-and-route-attributes-to-the-native-control)).
+Engine widgets only: Accordion and Collapse, DropdownMenu (the navigation Menu is links plus a disclosure per sub-menu, so it needs no widget), Combobox and Choices, Popover, Tooltip, Dialog, Modal and Drawer, Tabs, DatePicker, the Toast stack and Spotlight. Simple components stay native in each stack, Select included ([D-018](../../docs/decisions.md#d-018-form-fields-share-one-anatomy-and-route-attributes-to-the-native-control)).
 
 ## Alpine and Livewire
 
@@ -119,6 +119,27 @@ A DropdownMenu's parts are scoped `dropdown-menu`, apart from the navigation Men
 Tabs (#56) keep Zag's parts and scope (`tabs`); the spec's panel is the `content` part. Triggers and panels are named per value, so their authored ids are kept per value. `value` is plain state, entangled with Livewire, and a selection dispatches `value-change`; with no value, the first enabled tab is selected. The arrow keys follow `orientation` and the direction the root computes to, so ArrowLeft moves to the next tab in RTL. `activationMode: 'manual'` moves focus only, and Enter or Space selects.
 
 ```blade
+<div id="faq" x-data="apuiAccordion({ value: $wire.entangle('open') })" x-apui:root class="apui-accordion">
+    <div id="faq-item-live" x-apui:item="{ value: 'live' }">
+        <h3 data-scope="accordion" data-part="title">
+            <button id="faq-trigger-live" x-apui:item-trigger="{ value: 'live' }">
+                How long does a listing stay live?
+                <span x-apui:item-indicator="{ value: 'live' }">…</span>
+            </button>
+        </h3>
+        <div id="faq-content-live" x-apui:item-content="{ value: 'live' }">…</div>
+    </div>
+</div>
+
+<div id="advanced" x-data="apuiCollapse({ open: $wire.entangle('advanced') })" x-apui:root class="apui-collapse">
+    <button id="advanced-trigger" x-apui:trigger>Advanced settings <span x-apui:indicator>…</span></button>
+    <div id="advanced-content" x-apui:content>…</div>
+</div>
+```
+
+Accordion and Collapse (#58) run Zag's accordion and collapsible machines. The directives keep the machines' names, but the parts render the spec's: the accordion's `item-trigger`, `item-indicator` and `item-content` are `trigger`, `chevron` and `content` (`ACCORDION_PARTS`), and the collapsible's parts are scoped `collapse`, its `indicator` rendered as `icon` (`COLLAPSE_PARTS`). The accordion's `value` is the open items; one opens at a time unless `multiple`, and `collapsible: false` keeps the open one open. A single accordion entangled with a string (or null) writes back a string. ArrowDown and ArrowUp move between triggers. A collapse's `open` is plain state; `variant: 'read-more'` passes the machine `collapsedHeight` (`--apui-collapse-clamp-height`, 64px), so the closed region stays rendered, clamped and readable. They dispatch `value-change` and `open-change`; React and Vue use `useAccordion` and `useCollapse`.
+
+```blade
 <div x-data="apuiToaster({ label: @js(__('Notifications')) })" wire:ignore>
     <div x-apui:group>
         <template x-for="(entry, index) in toasts" :key="entry.id">
@@ -166,6 +187,19 @@ The toaster renders the page's toasts, newest first. A `toast` browser event add
 
 Spotlight (#57) composes two machines instead of adding one: the dialog is the overlay and the combobox is the search, its listbox always open while the dialog is. Both scope their parts `spotlight`; their names collide (each has a `trigger`, `positioner` and `content`), so the dialog keeps Zag's and the combobox's take the spec's: `search` (Zag's control), `query` (input) and `results` (content). Items are filtered by every word of the query against their label, description and keywords; the active result is `aria-activedescendant` and `aria-selected`. The global shortcut (`mod+k`: ⌘K on Apple platforms, Ctrl+K elsewhere) toggles it. Choosing an item dispatches `select` (`{ value, item }`) and closes it, following a link item; typing dispatches `search-change`. With `remote` the server filters; with `url` the component fetches JSON for `?search=…` and renders it through `clientGroups('remote')` in an `x-for`, as it does recent choices (`clientGroups('recent')`, kept in `localStorage`). React and Vue use `useSpotlight({ groups, … })`, which returns the visible `groups` and a `get<Part>Props()` per part.
 
+```blade
+<span id="edit-tip" x-data="apuiTooltip({ placement: 'top' })" style="display: contents">
+    <button id="edit" x-apui:trigger aria-label="Edit">…</button>
+    <div id="edit-tip-positioner" x-apui:positioner>
+        <div id="edit-tip-content" x-apui:content class="apui-tooltip">
+            <span id="edit-tip-arrow" x-apui:arrow></span>Edit
+        </div>
+    </div>
+</span>
+```
+
+Drawer, Popover and Tooltip (#58, #59). `apuiDrawer` is `apuiDialog` with its parts scoped `drawer` (`rescope()`, as DropdownMenu does); the side is the panel's CSS. `apuiPopover` runs Zag's popover machine: a non-modal `role=dialog` that moves focus in, returns it to the trigger and closes on Escape or an outside click. `apuiTooltip` runs Zag's tooltip machine: it shows on hover after `delay` (400ms) and at once on keyboard focus, describes the trigger with `aria-describedby`, stays while the pointer is on it (`interactive`, WCAG 1.4.13) and closes on Escape; one shows at a time. The trigger is the author's own control. Without `open` a tooltip keeps its own state; with it, it shows exactly that (a forced tooltip), and `bound: true` makes an entangled `open` take its changes. Both take a logical `placement` (`start` and `end` follow the text direction) and write it on the panel as `data-placement`; the machine writes the side it settled on as `data-side`. The stylesheet draws the arrow on a box-less `arrow` part, so the machine's inline arrow position never shows, and the gap leaves room for it (`POPOVER_GUTTER`, `TOOLTIP_GUTTER`). React and Vue use `useDrawer`, `usePopover` and `useTooltip`.
+
 ### DatePicker
 
 `apuiDatePicker` (`useDatePicker` in React and Vue) is DatePicker and, with `time`, DateTime (#55), on Zag's date-picker machine. `value` is an ISO string (`2026-11-12`, `2026-11-12T11:00` in time mode) or an array of two with `mode: 'range'`, so `$wire.entangle()` binds it like any value; `open` is plain state too. The month (`table`, `table-row`, `table-cell`, `table-cell-trigger`) renders from the component's `weeks` and `weekDays` with `x-for`, so keep the positioner `wire:ignore`: its client-rendered cells keep the machine's ids, and the adapter doesn't ask them for server ids. The field's parts follow the shared anatomy: Zag's `control` and `input` are `x-apui:box` and `x-apui:control` (`DATE_PICKER_PARTS`). The time list (`x-apui:time-list`, `x-apui:time-option="{ value: '11:00' }"`) is a listbox the definition adds on top of the machine. Options: `mode`, `time`, `step`, `locale` (Intl month and weekday names), `timeZone`, `min`, `max`, `disabledDates`, `weekStartsOn`, `format` (`dd.MM.yyyy`; the locale's numeric pattern by default), `disabled`, `readOnly`, `required`, `invalid`, `placeholder`, `labels` (`trigger`, `previous`, `next`, `calendar`) and `timeLabel`. Arrow keys follow the text direction.
@@ -186,6 +220,10 @@ What the adapter handles for you:
 ## Form editors (not Zag)
 
 Signature, RichTextEditor and CodeEditor (#53) have no machine to coordinate, so they ship as plain helpers from `@artisanpack-ui/behavior` that every stack drives the same way: `SignaturePad` (pointer drawing, undo, clear, typed and uploaded signatures as one PNG data URL), `RichTextSurface` with `resolveToolbar`, `sanitizeRichText`, `htmlToMarkdown` and `markdownToHtml` (the built-in contentEditable engine), `codeEditorKeydown` with `caretPosition`, `gutterLines` and `severityByLine` (Tab indents; Escape, then Tab, leaves), and `rovingKeydown` for their toolbars and tabs (arrows follow the text direction). The Alpine plugin registers `apuiSignature`, `apuiRichTextEditor` (TinyMCE inline under the design-system toolbar when the page loads it, else the built-in engine) and `apuiCodeEditor`; React and Vue components use the helpers directly. The helpers and the Alpine components take the built-in strings as one `translations` object (`definedLabels` drops unset ones); the components expose them as one `*Label` prop per string (D-019).
+
+## Data-display helpers (not Zag)
+
+Sparkline and Diff (#61, D-038) draw from plain functions in `src/data`, so no stack needs a chart or diff library: `sparklineGeometry` (the line, area and bar paths for a series in a box) and `sparklineLabel` (its text alternative), and `diffText`, `splitRows` and `wordDiff` (line hunks with context, side-by-side rows, word-level changes). React and Vue call them while rendering. Livewire renders on the server with PHP ports in livewire-ui-components (`Support\SparklineGeometry`, `Support\DiffBuilder`) that use the same formulas and tie-breaking and are tested against the same expectations, so `wire:poll` redraws them and all three stacks match pixel for pixel.
 
 ## React and Vue
 

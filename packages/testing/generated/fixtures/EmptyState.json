@@ -1,0 +1,109 @@
+{
+  "version": 1,
+  "component": "EmptyState",
+  "rootClass": "apui-empty-state",
+  "stacks": [
+    "livewire",
+    "react",
+    "vue"
+  ],
+  "names": {
+    "livewire": "empty-state",
+    "react": "EmptyState",
+    "vue": "EmptyState"
+  },
+  "cases": [
+    {
+      "id": "variant=first-use size=sm state=default",
+      "props": {
+        "title": "No properties yet",
+        "description": "Add your first property to start tracking visits, offers and revenue.",
+        "variant": "first-use",
+        "size": "sm"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=first-use size=md state=default",
+      "props": {
+        "title": "No properties yet",
+        "description": "Add your first property to start tracking visits, offers and revenue.",
+        "variant": "first-use",
+        "size": "md"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=no-results size=sm state=default",
+      "props": {
+        "title": "No properties yet",
+        "description": "Add your first property to start tracking visits, offers and revenue.",
+        "variant": "no-results",
+        "size": "sm"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=no-results size=md state=default",
+      "props": {
+        "title": "No properties yet",
+        "description": "Add your first property to start tracking visits, offers and revenue.",
+        "variant": "no-results",
+        "size": "md"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=cleared size=sm state=default",
+      "props": {
+        "title": "No properties yet",
+        "description": "Add your first property to start tracking visits, offers and revenue.",
+        "variant": "cleared",
+        "size": "sm"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=cleared size=md state=default",
+      "props": {
+        "title": "No properties yet",
+        "description": "Add your first property to start tracking visits, offers and revenue.",
+        "variant": "cleared",
+        "size": "md"
+      },
+      "state": "default",
+      "content": null
+    }
+  ],
+  "sheets": [
+    {
+      "id": "light",
+      "theme": "light",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "dark",
+      "theme": "dark",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "high-contrast",
+      "theme": "high-contrast",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "rtl",
+      "theme": "light",
+      "density": "default",
+      "dir": "rtl"
+    }
+  ]
+}

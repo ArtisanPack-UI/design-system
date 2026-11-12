@@ -1,0 +1,49 @@
+{
+  "version": 1,
+  "component": "Heading",
+  "rootClass": "apui-heading",
+  "stacks": [
+    "livewire",
+    "react",
+    "vue"
+  ],
+  "names": {
+    "livewire": "heading",
+    "react": "Heading",
+    "vue": "Heading"
+  },
+  "cases": [
+    {
+      "id": "state=default",
+      "props": {},
+      "state": "default",
+      "content": "Every property, one calm place"
+    }
+  ],
+  "sheets": [
+    {
+      "id": "light",
+      "theme": "light",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "dark",
+      "theme": "dark",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "high-contrast",
+      "theme": "high-contrast",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "rtl",
+      "theme": "light",
+      "density": "default",
+      "dir": "rtl"
+    }
+  ]
+}

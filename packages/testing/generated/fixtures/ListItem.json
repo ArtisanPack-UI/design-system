@@ -1,0 +1,75 @@
+{
+  "version": 1,
+  "component": "ListItem",
+  "rootClass": "apui-list-item",
+  "stacks": [
+    "livewire",
+    "react",
+    "vue"
+  ],
+  "names": {
+    "livewire": "list-item",
+    "react": "ListItem",
+    "vue": "ListItem"
+  },
+  "cases": [
+    {
+      "id": "state=default",
+      "props": {
+        "title": "Olivia Rhye",
+        "description": "olivia@company.com",
+        "interactive": true
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "state=disabled",
+      "props": {
+        "title": "Olivia Rhye",
+        "description": "olivia@company.com",
+        "interactive": true,
+        "disabled": true
+      },
+      "state": "disabled",
+      "content": null
+    },
+    {
+      "id": "state=selected",
+      "props": {
+        "title": "Olivia Rhye",
+        "description": "olivia@company.com",
+        "interactive": true,
+        "selected": true
+      },
+      "state": "selected",
+      "content": null
+    }
+  ],
+  "sheets": [
+    {
+      "id": "light",
+      "theme": "light",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "dark",
+      "theme": "dark",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "high-contrast",
+      "theme": "high-contrast",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "rtl",
+      "theme": "light",
+      "density": "default",
+      "dir": "rtl"
+    }
+  ]
+}

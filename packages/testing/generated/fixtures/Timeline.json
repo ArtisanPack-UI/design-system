@@ -1,0 +1,119 @@
+{
+  "version": 1,
+  "component": "Timeline",
+  "rootClass": "apui-timeline",
+  "stacks": [
+    "livewire",
+    "react",
+    "vue"
+  ],
+  "names": {
+    "livewire": "timeline",
+    "react": "Timeline",
+    "vue": "Timeline"
+  },
+  "cases": [
+    {
+      "id": "variant=icon state=default",
+      "props": {
+        "items": [
+          {
+            "title": "Offer accepted on Lakeview Lofts",
+            "time": "2h ago",
+            "datetime": "2026-11-12T08:00",
+            "icon": "circle-check",
+            "color": "success",
+            "description": "Phoenix Baker accepted $248,000."
+          },
+          {
+            "title": "Olivia Rhye commented",
+            "time": "5h ago",
+            "icon": "message-square",
+            "card": "Can we move the viewing to Thursday at 11:00?"
+          },
+          {
+            "title": "Payment declined for ARKG",
+            "time": "Dec 28",
+            "datetime": "2026-12-28",
+            "icon": "circle-alert",
+            "color": "error"
+          },
+          {
+            "title": "Listing published",
+            "time": "Dec 13",
+            "datetime": "2026-12-13",
+            "icon": "house",
+            "color": "primary"
+          }
+        ],
+        "variant": "icon"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=dot state=default",
+      "props": {
+        "items": [
+          {
+            "title": "Offer accepted on Lakeview Lofts",
+            "time": "2h ago",
+            "datetime": "2026-11-12T08:00",
+            "icon": "circle-check",
+            "color": "success",
+            "description": "Phoenix Baker accepted $248,000."
+          },
+          {
+            "title": "Olivia Rhye commented",
+            "time": "5h ago",
+            "icon": "message-square",
+            "card": "Can we move the viewing to Thursday at 11:00?"
+          },
+          {
+            "title": "Payment declined for ARKG",
+            "time": "Dec 28",
+            "datetime": "2026-12-28",
+            "icon": "circle-alert",
+            "color": "error"
+          },
+          {
+            "title": "Listing published",
+            "time": "Dec 13",
+            "datetime": "2026-12-13",
+            "icon": "house",
+            "color": "primary"
+          }
+        ],
+        "variant": "dot"
+      },
+      "state": "default",
+      "content": null
+    }
+  ],
+  "sheets": [
+    {
+      "id": "light",
+      "theme": "light",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "dark",
+      "theme": "dark",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "high-contrast",
+      "theme": "high-contrast",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "rtl",
+      "theme": "light",
+      "density": "default",
+      "dir": "rtl"
+    }
+  ]
+}

@@ -1,0 +1,176 @@
+/*
+ * Popover (#58). Root `.apui-popover` is the panel, Zag's content part
+ * (D-019), with data-placement (the requested side: top, bottom, start or
+ * end) and, once the machine has positioned it, data-side (the physical side
+ * it settled on, after flipping). Parts, scoped popover: trigger, positioner,
+ * arrow, title, body and actions. The arrow is drawn by this stylesheet where
+ * the spec draws it, so it's the same with or without the machine. See
+ * design/components/Popover.
+ */
+@layer apui.components {
+  [data-scope='popover'][data-part='positioner'] {
+    z-index: var(--apui-z-overlay);
+  }
+
+  .apui-popover {
+    --apui-_popover-arrow: 12px;
+
+    position: relative;
+    display: grid;
+    gap: 10px;
+    box-sizing: border-box;
+    inline-size: min(300px, calc(100vw - 16px));
+    padding: 16px;
+    border: var(--apui-border-width) solid var(--apui-border-muted);
+    border-radius: var(--apui-popover-radius);
+    background: var(--apui-surface-overlay);
+    box-shadow: var(--apui-elevation-overlay);
+    color: var(--apui-text-default);
+    font-family: var(--apui-font-family-sans);
+    font-size: var(--apui-type-body-md-font-size);
+    line-height: var(--apui-type-body-md-line-height);
+    outline: none;
+
+    /* Controls inside ring against the panel, not the page. */
+    --apui-focus-ring-offset-color: var(--apui-surface-overlay);
+  }
+
+  .apui-popover[hidden] {
+    display: none;
+  }
+
+  .apui-popover[data-state='open'] {
+    animation: apui-popover-enter var(--apui-motion-duration-fast) var(--apui-motion-ease-enter);
+  }
+
+  @keyframes apui-popover-enter {
+    from {
+      opacity: 0;
+      transform: scale(0.98);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .apui-popover[data-state='open'] {
+      animation: none;
+    }
+  }
+
+  [data-scope='popover'][data-part='title'] {
+    margin: 0;
+    font-size: var(--apui-type-body-md-font-size);
+    font-weight: var(--apui-font-weight-semibold);
+    line-height: var(--apui-type-body-md-line-height);
+  }
+
+  [data-scope='popover'][data-part='body'] {
+    display: grid;
+    gap: 10px;
+  }
+
+  [data-scope='popover'][data-part='actions'] {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+
+  /*
+   * The arrow: a square turned to a point, drawn with the panel's surface and
+   * the two borders that face out, on the edge that faces the trigger: 24px
+   * from the panel's start on the top and bottom sides, 16px from its top on
+   * the start and end sides, as the spec draws it. The part itself has no
+   * box: the machine writes an inline position on it (to follow the
+   * trigger's center), which a box-less element ignores, so the arrow looks
+   * the same with or without the machine, in server markup and in every
+   * stack. Its ::before is the square, with its physical top and left
+   * borders before it's turned; turns are physical too. The side is the
+   * machine's data-side once it has positioned the panel (after flipping),
+   * else the requested data-placement; data-side is physical and
+   * data-placement logical (end is the right in LTR).
+   */
+  [data-scope='popover'][data-part='arrow'] {
+    display: contents;
+  }
+
+  [data-scope='popover'][data-part='arrow']::before {
+    --apui-_popover-arrow-edge: calc(var(--apui-_popover-arrow) / -2 - var(--apui-border-width));
+
+    position: absolute;
+    box-sizing: border-box;
+    inline-size: var(--apui-_popover-arrow);
+    block-size: var(--apui-_popover-arrow);
+    border: var(--apui-border-width) solid var(--apui-border-muted);
+    border-inline-end: 0;
+    border-block-end: 0;
+    background: var(--apui-surface-overlay);
+    content: '';
+    rotate: 45deg;
+    pointer-events: none;
+  }
+
+  .apui-popover:dir(rtl) [data-scope='popover'][data-part='arrow']::before {
+    border-inline-start: 0;
+    border-inline-end: var(--apui-border-width) solid var(--apui-border-muted);
+  }
+
+  .apui-popover:is([data-side='bottom'], :not([data-side])[data-placement='bottom'])
+    [data-scope='popover'][data-part='arrow']::before {
+    inset-block-start: var(--apui-_popover-arrow-edge);
+    inset-inline-start: 24px;
+  }
+
+  .apui-popover:is([data-side='top'], :not([data-side])[data-placement='top'])
+    [data-scope='popover'][data-part='arrow']::before {
+    inset-block-end: var(--apui-_popover-arrow-edge);
+    inset-inline-start: 24px;
+    rotate: 225deg;
+  }
+
+  .apui-popover:is(
+      [data-side='right']:dir(ltr),
+      [data-side='left']:dir(rtl),
+      :not([data-side])[data-placement='end']
+    )
+    [data-scope='popover'][data-part='arrow']::before {
+    inset-block-start: 16px;
+    inset-inline-start: var(--apui-_popover-arrow-edge);
+  }
+
+  .apui-popover:is(
+      [data-side='left']:dir(ltr),
+      [data-side='right']:dir(rtl),
+      :not([data-side])[data-placement='start']
+    )
+    [data-scope='popover'][data-part='arrow']::before {
+    inset-block-start: 16px;
+    inset-inline-end: var(--apui-_popover-arrow-edge);
+  }
+
+  /* The trigger is on the panel's left: the arrow points left. */
+  .apui-popover:is(
+      [data-side='right'],
+      :not([data-side])[data-placement='end']:dir(ltr),
+      :not([data-side])[data-placement='start']:dir(rtl)
+    )
+    [data-scope='popover'][data-part='arrow']::before {
+    rotate: 315deg;
+  }
+
+  /* The trigger is on the panel's right: the arrow points right. */
+  .apui-popover:is(
+      [data-side='left'],
+      :not([data-side])[data-placement='start']:dir(ltr),
+      :not([data-side])[data-placement='end']:dir(rtl)
+    )
+    [data-scope='popover'][data-part='arrow']::before {
+    rotate: 135deg;
+  }
+
+  @media (forced-colors: active) {
+    .apui-popover,
+    [data-scope='popover'][data-part='arrow']::before {
+      border-color: CanvasText;
+    }
+  }
+}

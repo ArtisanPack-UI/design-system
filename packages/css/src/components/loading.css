@@ -1,0 +1,193 @@
+/*
+ * Loading (#60). Root `.apui-loading`, role=status: an indicator part (a
+ * spinner ring, or three dots with data-variant="dots") and a label part,
+ * visible text or the visually hidden "Loading". data-size xs to xl and
+ * data-color tint the indicator. data-overlay covers the nearest positioned
+ * ancestor on the glass surface; the region it covers sets aria-busy.
+ *
+ * The root stays hidden for --apui-_delay (written inline from `delay`), so
+ * fast loads don't flash. The spinner slows and the dots stop under reduced
+ * motion. See design/components/Loading.
+ */
+@layer apui.components {
+  .apui-loading {
+    --apui-_tone: var(--apui-color-primary);
+    --apui-_spinner: 20px;
+    --apui-_ring: 2px;
+    --apui-_dot: 6px;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--apui-text-muted);
+    font-family: var(--apui-font-family-sans);
+    font-size: var(--apui-type-body-md-font-size);
+    line-height: var(--apui-type-body-md-line-height);
+    vertical-align: middle;
+    animation: apui-loading-delay 1ms linear var(--apui-_delay, 0ms) backwards;
+  }
+
+  @keyframes apui-loading-delay {
+    from {
+      visibility: hidden;
+    }
+  }
+
+  .apui-loading[data-size='xs'] {
+    --apui-_spinner: 12px;
+    --apui-_ring: 1.5px;
+    --apui-_dot: 4px;
+  }
+
+  .apui-loading[data-size='sm'] {
+    --apui-_spinner: 16px;
+    --apui-_dot: 5px;
+  }
+
+  .apui-loading[data-size='lg'] {
+    --apui-_spinner: 28px;
+    --apui-_ring: 2.5px;
+    --apui-_dot: 8px;
+  }
+
+  .apui-loading[data-size='xl'] {
+    --apui-_spinner: 40px;
+    --apui-_ring: 3px;
+    --apui-_dot: 10px;
+  }
+
+  .apui-loading[data-color='secondary'] {
+    --apui-_tone: var(--apui-color-secondary);
+  }
+
+  .apui-loading[data-color='accent'] {
+    --apui-_tone: var(--apui-color-accent);
+  }
+
+  .apui-loading[data-color='neutral'] {
+    --apui-_tone: var(--apui-color-neutral);
+  }
+
+  .apui-loading[data-color='success'] {
+    --apui-_tone: var(--apui-color-success);
+  }
+
+  .apui-loading[data-color='warning'] {
+    --apui-_tone: var(--apui-color-warning);
+  }
+
+  .apui-loading[data-color='error'] {
+    --apui-_tone: var(--apui-color-error);
+  }
+
+  .apui-loading[data-color='info'] {
+    --apui-_tone: var(--apui-color-info);
+  }
+
+  /* Spinner: a ring with one tinted edge. */
+  [data-scope='loading'][data-part='indicator'] {
+    flex: none;
+    box-sizing: border-box;
+    inline-size: var(--apui-_spinner);
+    block-size: var(--apui-_spinner);
+    border: var(--apui-_ring) solid var(--apui-surface-sunken);
+    border-block-start-color: var(--apui-_tone);
+    border-radius: 9999px;
+    animation: apui-loading-spin 0.8s linear infinite;
+  }
+
+  @keyframes apui-loading-spin {
+    to {
+      rotate: 1turn;
+    }
+  }
+
+  /* Dots: three pulses in a row. */
+  .apui-loading[data-variant='dots'] [data-scope='loading'][data-part='indicator'] {
+    display: inline-flex;
+    align-items: center;
+    gap: calc(var(--apui-_dot) * 0.67);
+    inline-size: auto;
+    block-size: auto;
+    border: 0;
+    border-radius: 0;
+    animation: none;
+  }
+
+  .apui-loading[data-variant='dots'] [data-scope='loading'][data-part='indicator'] > span {
+    inline-size: var(--apui-_dot);
+    block-size: var(--apui-_dot);
+    border-radius: 9999px;
+    background: var(--apui-_tone);
+    animation: apui-loading-dot 1.2s ease-in-out infinite;
+  }
+
+  .apui-loading[data-variant='dots']
+    [data-scope='loading'][data-part='indicator']
+    > span:nth-child(2) {
+    animation-delay: 0.15s;
+  }
+
+  .apui-loading[data-variant='dots']
+    [data-scope='loading'][data-part='indicator']
+    > span:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+
+  @keyframes apui-loading-dot {
+    0%,
+    80%,
+    100% {
+      opacity: 0.25;
+      scale: 0.8;
+    }
+
+    40% {
+      opacity: 1;
+      scale: 1;
+    }
+  }
+
+  /* Overlay: covers the region that is loading, on the glass surface. */
+  .apui-loading[data-overlay] {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: grid;
+    place-items: center;
+    align-content: center;
+    gap: 12px;
+    border-radius: inherit;
+    background: var(--apui-surface-glass);
+    font-size: var(--apui-type-body-sm-font-size);
+    line-height: var(--apui-type-body-sm-line-height);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-scope='loading'][data-part='indicator'] {
+      animation-duration: 2.4s;
+    }
+
+    .apui-loading[data-variant='dots'] [data-scope='loading'][data-part='indicator'] > span {
+      animation: none;
+      opacity: 0.6;
+    }
+  }
+
+  @media (forced-colors: active) {
+    [data-scope='loading'][data-part='indicator'] {
+      forced-color-adjust: none;
+      border-color: GrayText;
+      border-block-start-color: CanvasText;
+    }
+
+    .apui-loading[data-variant='dots'] [data-scope='loading'][data-part='indicator'] > span {
+      forced-color-adjust: none;
+      background: CanvasText;
+    }
+
+    .apui-loading[data-overlay] {
+      background: Canvas;
+    }
+  }
+}

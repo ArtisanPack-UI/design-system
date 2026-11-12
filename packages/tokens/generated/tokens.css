@@ -331,6 +331,7 @@
     --apui-border-muted: var(--apui-gray-150);
     --apui-border-default: var(--apui-gray-500);
     --apui-border-strong: var(--apui-gray-700);
+    --apui-border-soft-edge-width: 0;
     --apui-focus-ring-color: var(--apui-steel-600);
     --apui-focus-ring-offset-color: var(--apui-surface-default);
     --apui-state-hover: oklch(20% 0.01 250 / 0.05);
@@ -431,6 +432,7 @@
     --apui-border-muted: var(--apui-gray-850);
     --apui-border-default: var(--apui-gray-500);
     --apui-border-strong: var(--apui-gray-300);
+    --apui-border-soft-edge-width: 0;
     --apui-focus-ring-color: var(--apui-steel-300);
     --apui-focus-ring-offset-color: var(--apui-surface-default);
     --apui-state-hover: oklch(100% 0 0 / 0.06);
@@ -531,6 +533,7 @@
     --apui-border-muted: var(--apui-gray-700);
     --apui-border-default: var(--apui-gray-1000);
     --apui-border-strong: var(--apui-gray-1000);
+    --apui-border-soft-edge-width: 1px;
     --apui-focus-ring-color: var(--apui-steel-800);
     --apui-focus-ring-offset-color: var(--apui-surface-default);
     --apui-state-hover: oklch(0% 0 0 / 0.08);

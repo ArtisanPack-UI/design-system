@@ -1,0 +1,79 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "Grid",
+  "description": "A layout primitive: its children in equal columns, with the gap from the space scale. With minItemWidth the columns drop as the grid narrows, so a dashboard reflows to one column on a phone. No Tailwind needed. Replaces Livewire's widget-grid.",
+  "status": "draft",
+  "issue": 58,
+  "rootClass": "apui-grid",
+  "stacks": {
+    "livewire": { "name": "grid" },
+    "react": { "name": "Grid" },
+    "vue": { "name": "Grid" }
+  },
+  "props": [
+    {
+      "name": "columns",
+      "type": "number",
+      "default": 1,
+      "description": "The number of columns, 1 to 12; the most there are when minItemWidth is set. Emitted as data-columns."
+    },
+    {
+      "name": "minItemWidth",
+      "type": "string",
+      "description": "The narrowest a column may get, any CSS length (16rem). The grid shows fewer columns rather than narrower ones, down to one. Sets --apui-grid-min-item-width on the root.",
+      "a11y": "Set it for content that must reflow at 320px."
+    },
+    {
+      "name": "gap",
+      "type": "enum",
+      "values": ["0", "1", "2", "3", "4", "5", "6", "8", "10", "12", "16"],
+      "default": "4",
+      "description": "The space between rows and columns, a step of the space scale (4 is --apui-space-4, 16px). Emitted as data-gap."
+    },
+    {
+      "name": "align",
+      "type": "enum",
+      "values": ["start", "center", "end", "stretch"],
+      "default": "stretch",
+      "description": "How items sit in their row along the block axis (align-items). Emitted as data-align."
+    },
+    {
+      "name": "justify",
+      "type": "enum",
+      "values": ["start", "center", "end", "stretch"],
+      "default": "stretch",
+      "description": "How items sit in their column along the inline axis (justify-items), which follows the text direction. Emitted as data-justify."
+    }
+  ],
+  "parts": [
+    { "name": "root", "element": "div", "description": "The grid; every child is an item." }
+  ],
+  "a11y": {
+    "element": "div",
+    "requirements": [
+      "Layout only: no role, and the reading order is the source order, which the columns keep.",
+      "Columns run in the text direction, so they start at the inline end in RTL.",
+      "With minItemWidth the grid reflows to one column at narrow widths (1.4.10)."
+    ],
+    "wcag": ["1.3.2", "1.4.10"]
+  },
+  "tokens": [
+    "--apui-space-0",
+    "--apui-space-1",
+    "--apui-space-2",
+    "--apui-space-3",
+    "--apui-space-4",
+    "--apui-space-5",
+    "--apui-space-6",
+    "--apui-space-8",
+    "--apui-space-10",
+    "--apui-space-12",
+    "--apui-space-16",
+    "--apui-grid-min-item-width"
+  ],
+  "fixture": {
+    "content": "Grid item",
+    "props": { "columns": 3 },
+    "states": []
+  }
+}

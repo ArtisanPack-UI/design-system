@@ -65,9 +65,13 @@ import {
 import { datePickerComponent } from './date-picker';
 import { colorPickerComponent } from './color-picker';
 import { tabsComponent } from './tabs';
+import { accordionComponent, collapseComponent } from './disclosure';
+import { drawerComponent, popoverComponent, tooltipComponent } from './overlays';
 import { menuPlacement, type MenuAlign } from '../core/options';
 import { iconSvg } from '../icons';
 import { spotlightComponent } from './spotlight';
+import { carouselComponent, lightboxComponent } from './images';
+import { imageLibraryComponent } from './image-library';
 import { codeEditorComponent, richTextEditorComponent, signatureComponent } from './form';
 import { directionOf, type PositionOptions, zagPositioning } from '../positioning';
 
@@ -1012,11 +1016,19 @@ export default function apuiBehavior(Alpine: Alpine): void {
   Alpine.data('apuiCombobox', comboboxComponent as never);
   Alpine.data('apuiDropdownMenu', dropdownMenuComponent as never);
   Alpine.data('apuiTabs', tabsComponent as never);
+  Alpine.data('apuiAccordion', accordionComponent as never);
+  Alpine.data('apuiCollapse', collapseComponent as never);
+  Alpine.data('apuiDrawer', drawerComponent as never);
+  Alpine.data('apuiPopover', popoverComponent as never);
+  Alpine.data('apuiTooltip', tooltipComponent as never);
   Alpine.data('apuiToaster', ((options?: ToasterAlpineOptions) =>
     toasterComponent(Alpine, options)) as never);
   Alpine.data('apuiToast', ((entry: ToastProps, index?: number) =>
     toastComponent(Alpine, entry, index)) as never);
   Alpine.data('apuiSpotlight', spotlightComponent as never);
+  Alpine.data('apuiLightbox', lightboxComponent as never);
+  Alpine.data('apuiCarousel', carouselComponent as never);
+  Alpine.data('apuiImageLibrary', imageLibraryComponent as never);
   Alpine.data('apuiSignature', signatureComponent as never);
   Alpine.data('apuiRichTextEditor', richTextEditorComponent as never);
   Alpine.data('apuiCodeEditor', codeEditorComponent as never);

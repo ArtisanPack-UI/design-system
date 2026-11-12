@@ -1,0 +1,12 @@
+[
+  {
+    "id": "basic",
+    "title": "Unified, with word-level changes",
+    "description": "Both line numbers, a + or − sign on every change, and the changed words marked. Hunks keep context lines around each change."
+  },
+  {
+    "id": "split",
+    "title": "Split, with a header control",
+    "description": "view=\"split\" pairs each deletion with its addition. The actions slot holds header controls, such as a view switch."
+  }
+]

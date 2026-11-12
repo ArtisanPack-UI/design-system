@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "component": "AppShell",
+  "rootClass": "apui-app-shell",
+  "stacks": [
+    "livewire",
+    "react",
+    "vue"
+  ],
+  "names": {
+    "livewire": "app-shell",
+    "react": "AppShell",
+    "vue": "AppShell"
+  },
+  "cases": [
+    {
+      "id": "state=default",
+      "props": {
+        "brand": "Apexify",
+        "sidebar": "Navigation",
+        "header": "Top bar",
+        "footer": "Olivia Rhye",
+        "collapsible": true
+      },
+      "state": "default",
+      "content": "Page content"
+    }
+  ],
+  "sheets": [
+    {
+      "id": "light",
+      "theme": "light",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "dark",
+      "theme": "dark",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "high-contrast",
+      "theme": "high-contrast",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "rtl",
+      "theme": "light",
+      "density": "default",
+      "dir": "rtl"
+    }
+  ]
+}

@@ -1,0 +1,195 @@
+/*
+ * Stat (#61). Root `.apui-stat` with data-size (sm, md, lg), data-color (the
+ * icon tile and the emphasis fill), data-emphasis and data-bare. Parts: top
+ * (label and icon), label, icon, value, unit, foot (delta and description),
+ * delta (data-trend up, down or flat: an arrow and text, never color alone)
+ * and description. KpiCard is built from Stat: the rules for the parts they
+ * share cover the kpi-card scope too, so the two never drift.
+ * See design/components/Stat.
+ */
+@layer apui.components {
+  .apui-stat,
+  .apui-kpi-card {
+    --apui-_stat-tone-soft: var(--apui-color-neutral-soft);
+    --apui-_stat-tone-soft-foreground: var(--apui-color-neutral-soft-foreground);
+  }
+
+  :is(.apui-stat, .apui-kpi-card)[data-color='primary'] {
+    --apui-_stat-tone-soft: var(--apui-color-primary-soft);
+    --apui-_stat-tone-soft-foreground: var(--apui-color-primary-soft-foreground);
+  }
+
+  :is(.apui-stat, .apui-kpi-card)[data-color='secondary'] {
+    --apui-_stat-tone-soft: var(--apui-color-secondary-soft);
+    --apui-_stat-tone-soft-foreground: var(--apui-color-secondary-soft-foreground);
+  }
+
+  :is(.apui-stat, .apui-kpi-card)[data-color='accent'] {
+    --apui-_stat-tone-soft: var(--apui-color-accent-soft);
+    --apui-_stat-tone-soft-foreground: var(--apui-color-accent-soft-foreground);
+  }
+
+  :is(.apui-stat, .apui-kpi-card)[data-color='success'] {
+    --apui-_stat-tone-soft: var(--apui-color-success-soft);
+    --apui-_stat-tone-soft-foreground: var(--apui-color-success-soft-foreground);
+  }
+
+  :is(.apui-stat, .apui-kpi-card)[data-color='warning'] {
+    --apui-_stat-tone-soft: var(--apui-color-warning-soft);
+    --apui-_stat-tone-soft-foreground: var(--apui-color-warning-soft-foreground);
+  }
+
+  :is(.apui-stat, .apui-kpi-card)[data-color='error'] {
+    --apui-_stat-tone-soft: var(--apui-color-error-soft);
+    --apui-_stat-tone-soft-foreground: var(--apui-color-error-soft-foreground);
+  }
+
+  :is(.apui-stat, .apui-kpi-card)[data-color='info'] {
+    --apui-_stat-tone-soft: var(--apui-color-info-soft);
+    --apui-_stat-tone-soft-foreground: var(--apui-color-info-soft-foreground);
+  }
+
+  .apui-stat {
+    display: grid;
+    align-content: start;
+    gap: 4px;
+    box-sizing: border-box;
+    min-inline-size: 0;
+    padding: var(--apui-card-padding);
+    border: var(--apui-border-width) solid var(--apui-border-muted);
+    border-radius: var(--apui-card-radius);
+    background: var(--apui-surface-default);
+    color: var(--apui-text-default);
+    font-family: var(--apui-font-family-sans);
+  }
+
+  .apui-stat[data-bare] {
+    padding: 0;
+    border: 0;
+    background: none;
+  }
+
+  /* Parts, shared with KpiCard */
+  :is([data-scope='stat'], [data-scope='kpi-card'])[data-part='top'] {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-block-end: 4px;
+  }
+
+  :is([data-scope='stat'], [data-scope='kpi-card'])[data-part='label'] {
+    min-inline-size: 0;
+    color: var(--apui-text-muted);
+    font-size: var(--apui-type-body-sm-font-size);
+    font-weight: var(--apui-font-weight-medium);
+    line-height: var(--apui-type-body-sm-line-height);
+  }
+
+  :is([data-scope='stat'], [data-scope='kpi-card'])[data-part='icon'] {
+    display: grid;
+    flex: none;
+    place-items: center;
+    inline-size: 32px;
+    block-size: 32px;
+    border-radius: var(--apui-radius-md);
+    background: var(--apui-_stat-tone-soft);
+    color: var(--apui-_stat-tone-soft-foreground);
+  }
+
+  :is([data-scope='stat'], [data-scope='kpi-card'])[data-part='icon'] > svg {
+    inline-size: var(--apui-icon-size-md);
+    block-size: var(--apui-icon-size-md);
+  }
+
+  :is([data-scope='stat'], [data-scope='kpi-card'])[data-part='value'] {
+    min-inline-size: 0;
+    font-size: var(--apui-type-stat-md-font-size);
+    font-variant-numeric: tabular-nums;
+    font-weight: var(--apui-type-stat-md-font-weight);
+    letter-spacing: var(--apui-type-stat-md-letter-spacing);
+    line-height: var(--apui-type-stat-md-line-height);
+    overflow-wrap: anywhere;
+  }
+
+  .apui-stat[data-size='lg'] > [data-scope='stat'][data-part='value'],
+  .apui-kpi-card[data-size='lg'] [data-scope='kpi-card'][data-part='value'] {
+    font-size: var(--apui-type-stat-lg-font-size);
+    letter-spacing: var(--apui-type-stat-lg-letter-spacing);
+    line-height: var(--apui-type-stat-lg-line-height);
+  }
+
+  .apui-stat[data-size='sm'] > [data-scope='stat'][data-part='value'],
+  .apui-kpi-card[data-size='sm'] [data-scope='kpi-card'][data-part='value'] {
+    font-size: var(--apui-type-stat-sm-font-size);
+    letter-spacing: var(--apui-type-stat-sm-letter-spacing);
+    line-height: var(--apui-type-stat-sm-line-height);
+  }
+
+  :is([data-scope='stat'], [data-scope='kpi-card'])[data-part='unit'] {
+    margin-inline-start: 2px;
+    color: var(--apui-text-muted);
+    font-size: 0.55em;
+    font-weight: var(--apui-font-weight-medium);
+    letter-spacing: 0;
+  }
+
+  :is([data-scope='stat'], [data-scope='kpi-card'])[data-part='foot'] {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    color: var(--apui-text-muted);
+    font-size: var(--apui-type-caption-font-size);
+    line-height: var(--apui-type-caption-line-height);
+  }
+
+  :is([data-scope='stat'], [data-scope='kpi-card'])[data-part='delta'] {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    font-variant-numeric: tabular-nums;
+    font-weight: var(--apui-font-weight-medium);
+  }
+
+  :is([data-scope='stat'], [data-scope='kpi-card'])[data-part='delta'][data-trend='up'] {
+    color: var(--apui-color-success-text);
+  }
+
+  :is([data-scope='stat'], [data-scope='kpi-card'])[data-part='delta'][data-trend='down'] {
+    color: var(--apui-color-error-text);
+  }
+
+  :is([data-scope='stat'], [data-scope='kpi-card'])[data-part='delta'] > svg {
+    flex: none;
+    inline-size: var(--apui-icon-size-sm);
+    block-size: var(--apui-icon-size-sm);
+  }
+
+  /* Emphasis: a soft fill in the stat's color, for the one stat that matters. */
+  .apui-stat[data-emphasis] {
+    border-color: transparent;
+    background: var(--apui-_stat-tone-soft);
+  }
+
+  .apui-stat[data-emphasis]
+    > :is([data-scope='stat'][data-part='foot'], [data-scope='stat'][data-part='top'])
+    > [data-scope='stat']:is([data-part='label'], [data-part='description']),
+  .apui-stat[data-emphasis] > [data-scope='stat'][data-part='foot'] {
+    color: var(--apui-_stat-tone-soft-foreground);
+  }
+
+  .apui-stat[data-emphasis] > [data-scope='stat'][data-part='top'] > [data-part='icon'] {
+    background: var(--apui-surface-default);
+  }
+
+  @media (forced-colors: active) {
+    .apui-stat[data-emphasis] {
+      border-color: CanvasText;
+    }
+
+    :is([data-scope='stat'], [data-scope='kpi-card'])[data-part='icon'] {
+      border: 1px solid CanvasText;
+    }
+  }
+}

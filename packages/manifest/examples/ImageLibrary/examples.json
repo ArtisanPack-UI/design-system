@@ -1,0 +1,12 @@
+[
+  {
+    "id": "basic",
+    "title": "With WithMediaSync",
+    "description": "wire:model names the uploads property and wire:library the library collection, as the WithMediaSync trait expects. Upload, replace, crop and remove call the trait; alt text edits set library.<key>.alt."
+  },
+  {
+    "id": "picker",
+    "title": "Single selection",
+    "description": "selectable=\"single\" picks one asset; insert reports it. Without wire:model the library is read-only: no upload, replace or remove."
+  }
+]

@@ -1,0 +1,100 @@
+{
+  "version": 1,
+  "component": "Drawer",
+  "rootClass": "apui-drawer",
+  "stacks": [
+    "livewire",
+    "react",
+    "vue"
+  ],
+  "names": {
+    "livewire": "drawer",
+    "react": "Drawer",
+    "vue": "Drawer"
+  },
+  "cases": [
+    {
+      "id": "size=sm state=default",
+      "props": {
+        "open": true,
+        "modal": false,
+        "portal": false,
+        "title": "Filters",
+        "description": "Narrow the listings.",
+        "footer": "Show results",
+        "size": "sm"
+      },
+      "state": "default",
+      "content": "218 properties match these filters."
+    },
+    {
+      "id": "size=md state=default",
+      "props": {
+        "open": true,
+        "modal": false,
+        "portal": false,
+        "title": "Filters",
+        "description": "Narrow the listings.",
+        "footer": "Show results",
+        "size": "md"
+      },
+      "state": "default",
+      "content": "218 properties match these filters."
+    },
+    {
+      "id": "size=lg state=default",
+      "props": {
+        "open": true,
+        "modal": false,
+        "portal": false,
+        "title": "Filters",
+        "description": "Narrow the listings.",
+        "footer": "Show results",
+        "size": "lg"
+      },
+      "state": "default",
+      "content": "218 properties match these filters."
+    },
+    {
+      "id": "size=md surface=glass state=default",
+      "props": {
+        "open": true,
+        "modal": false,
+        "portal": false,
+        "title": "Filters",
+        "description": "Narrow the listings.",
+        "footer": "Show results",
+        "size": "md",
+        "surface": "glass"
+      },
+      "state": "default",
+      "content": "218 properties match these filters."
+    }
+  ],
+  "sheets": [
+    {
+      "id": "light",
+      "theme": "light",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "dark",
+      "theme": "dark",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "high-contrast",
+      "theme": "high-contrast",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "rtl",
+      "theme": "light",
+      "density": "default",
+      "dir": "rtl"
+    }
+  ]
+}

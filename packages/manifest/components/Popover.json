@@ -1,0 +1,187 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "Popover",
+  "description": "An anchored, non-modal panel with interactive content, for a short task tied to one control. A role=dialog panel: focus moves in when it opens and returns to the trigger when it closes; Escape and an outside click close it. The panel flips to the other side when there's no room, and start and end follow the reading direction.",
+  "status": "draft",
+  "issue": 58,
+  "rootClass": "apui-popover",
+  "stacks": {
+    "livewire": {
+      "name": "popover",
+      "capabilities": ["wire:model binds open both ways through $wire.entangle()"]
+    },
+    "react": {
+      "name": "Popover"
+    },
+    "vue": {
+      "name": "Popover"
+    }
+  },
+  "props": [
+    {
+      "name": "open",
+      "type": "boolean",
+      "default": false,
+      "description": "Whether it's open. Livewire binds it with wire:model, Vue with v-model:open. Emitted as data-state on the trigger and the panel."
+    },
+    {
+      "name": "defaultOpen",
+      "type": "boolean",
+      "default": false,
+      "description": "The initial state of an uncontrolled popover.",
+      "stacks": ["react"]
+    },
+    {
+      "name": "placement",
+      "type": "enum",
+      "values": ["top", "bottom", "start", "end"],
+      "default": "bottom",
+      "description": "The trigger's side the panel sits on, lined up with the trigger's start edge. start and end follow the reading direction. Emitted as data-placement; the side the machine settled on, after flipping, is data-side."
+    },
+    {
+      "name": "arrow",
+      "type": "boolean",
+      "default": true,
+      "description": "Draws the arrow that points at the trigger."
+    },
+    {
+      "name": "title",
+      "type": "node",
+      "description": "The heading, linked to the panel with aria-labelledby.",
+      "a11y": "The panel's accessible name. Without a title, give the popover an aria-label."
+    },
+    {
+      "name": "actions",
+      "type": "node",
+      "description": "A row of actions at the end of the panel."
+    },
+    {
+      "name": "trigger",
+      "type": "node",
+      "description": "The control that opens it. Text renders an outline Button; an element (a Button, an icon button) becomes the trigger itself."
+    },
+    {
+      "name": "portal",
+      "type": "boolean",
+      "default": true,
+      "description": "Renders the panel at the end of the body, above everything (x-teleport, a React portal, Vue Teleport). Off renders it in place. Tab past the last control returns after the trigger either way."
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part, such as { title: '…', body: '…' }."
+    }
+  ],
+  "parts": [
+    {
+      "name": "root",
+      "element": "div",
+      "description": "The panel, carrying the root class. It is Zag's content part, so it also carries data-part=\"content\" (D-019)."
+    },
+    {
+      "name": "content",
+      "element": "div",
+      "description": "The panel: the same element as root."
+    },
+    {
+      "name": "trigger",
+      "element": "button",
+      "description": "The control that opens the panel."
+    },
+    {
+      "name": "positioner",
+      "element": "div",
+      "description": "Places the panel against the trigger."
+    },
+    {
+      "name": "arrow",
+      "element": "span",
+      "description": "Points at the trigger. Decorative."
+    },
+    {
+      "name": "title",
+      "element": "h3",
+      "description": "The heading."
+    },
+    {
+      "name": "body",
+      "element": "div",
+      "description": "The default slot."
+    },
+    {
+      "name": "actions",
+      "element": "div",
+      "description": "The actions row."
+    }
+  ],
+  "slots": [
+    {
+      "name": "trigger",
+      "description": "The trigger: text for a Button, or the element to use as the trigger."
+    },
+    {
+      "name": "title",
+      "description": "Rich title content, rendered inside the heading."
+    },
+    {
+      "name": "actions",
+      "description": "The actions row."
+    }
+  ],
+  "events": [
+    {
+      "name": "open-change",
+      "description": "The popover opened or closed itself: the trigger, Escape or an outside click. Setting open doesn't fire it.",
+      "payload": "boolean"
+    }
+  ],
+  "a11y": {
+    "role": "dialog",
+    "element": "div",
+    "keyboard": [
+      {
+        "keys": "Enter, Space",
+        "action": "On the trigger, opens or closes the popover; focus moves to its first control."
+      },
+      {
+        "keys": "Tab, Shift+Tab",
+        "action": "Move between the controls inside; past the last one, focus moves on after the trigger and the popover closes."
+      },
+      {
+        "keys": "Escape",
+        "action": "Closes the popover and returns focus to the trigger."
+      }
+    ],
+    "requirements": [
+      "The panel is role=dialog, labelled by its title (or an aria-label), and isn't modal: the page stays usable.",
+      "The trigger has aria-haspopup=dialog, aria-expanded and aria-controls.",
+      "Focus moves into the panel when it opens and returns to the trigger on Escape.",
+      "start and end follow the reading direction, and the panel flips to stay in the viewport.",
+      "Text keeps 4.5:1 and the panel's edge 3:1 on the overlay surface in every theme.",
+      "Every part keeps a stable, server-rendered id in Livewire, so morphs never replace the panel (D-015).",
+      "Keep it to a short task: don't put a long form in a popover."
+    ],
+    "wcag": ["1.3.1", "1.4.3", "1.4.11", "1.4.13", "2.1.1", "2.4.3", "2.4.7", "4.1.2"]
+  },
+  "tokens": [
+    "--apui-popover-radius",
+    "--apui-surface-overlay",
+    "--apui-elevation-overlay",
+    "--apui-z-overlay",
+    "--apui-border-muted",
+    "--apui-text-default"
+  ],
+  "fixture": {
+    "content": "Anyone on the marketing team can view it.",
+    "props": {
+      "open": true,
+      "portal": false,
+      "trigger": "Share",
+      "title": "Share report"
+    },
+    "parts": {
+      "actions": "Copy link"
+    },
+    "states": []
+  }
+}

@@ -1,0 +1,497 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "Table",
+  "description": "Rows of structured data in real table markup: a toolbar with a title, sortable headers, row selection with a select-all box, expandable rows, loading and empty states, and a footer with Pagination.",
+  "status": "draft",
+  "issue": 62,
+  "rootClass": "apui-table",
+  "stacks": {
+    "livewire": {
+      "name": "table",
+      "capabilities": [
+        "wire:model binds the selected keys (value) through $wire.entangle()",
+        "rows takes an array, a Collection or a Laravel paginator; paginated (2.x with-pagination) renders Pagination from the paginator, and per-page names the Livewire property a \"Rows per page\" Select binds",
+        "Clicking a sortable header sets the component's sortBy property ({ column, direction }) when sort-by is given, as 2.x did, and dispatches sort-change",
+        "Cell content through @scope('cell_<key>', $row), header content through @scope('header_<key>', $header), row actions through @scope('actions', $row) and expanded content through @scope('expansion', $row); a dotted key such as user.name becomes cell_user___name",
+        "2.x attributes keep working: compact (density), no-headers (hideHeaders), selectable-key, expandable-key, expandable-condition, link (row links with {key} tokens), row-decoration and cell-decoration (classes from closures), the drag-and-drop sortable, sort-group and sort-handle, and infinite-scroll with has-more-pages (Livewire 4)"
+      ],
+      "differences": [
+        "Expansion rows render for every expandable row and toggle with Alpine; React and Vue render only the expanded ones.",
+        "Without selectable, wire:model on an expandable table binds the expanded keys, as 2.x did."
+      ]
+    },
+    "react": {
+      "name": "Table",
+      "capabilities": [
+        "Cell content through renderCell(row, column, index), or a column's render(value, row, index); header content through renderHeader(column); row actions through renderActions(row, index); expanded content through renderExpansion(row, index)"
+      ]
+    },
+    "vue": {
+      "name": "Table",
+      "capabilities": [
+        "v-model binds the selected keys, v-model:expanded the expanded keys and v-model:sort-by the sort",
+        "Cell content through #cell-<key>=\"{ row, value, column, index }\" or #cell for every column; header content through #header-<key>=\"{ column }\"; row actions through #actions=\"{ row, index }\"; expanded content through #expansion=\"{ row, index }\""
+      ]
+    }
+  },
+  "props": [
+    {
+      "name": "headers",
+      "type": "array",
+      "required": true,
+      "description": "The columns, in order: { key, label, sortable, numeric, hidden, secondary, class }. key is a dot path into each row. sortable makes the header a sort button (Livewire 2.x: every header sorts once sortBy is set, unless sortable is false). numeric end-aligns the column with tabular figures. secondary is a second dot path, shown muted under the value. Livewire also takes format (a closure or ['currency', '2.,', '$'] / ['date', 'M j, Y']), sortBy (the column to sort by) and disableLink."
+    },
+    {
+      "name": "rows",
+      "type": "array",
+      "required": true,
+      "description": "The rows: arrays or objects. Livewire also takes a Collection or a paginator."
+    },
+    {
+      "name": "keyBy",
+      "type": "string",
+      "default": "id",
+      "description": "The dot path to each row's unique key, used for selection, expansion and list keys."
+    },
+    {
+      "name": "title",
+      "type": "node",
+      "description": "The title at the start of the toolbar. It names the table unless label is set.",
+      "a11y": "The table's accessible name comes from title (aria-labelledby) or label (aria-label); give every table one."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "description": "The table's accessible name when it has no visible title, or a different one. Translate it."
+    },
+    {
+      "name": "density",
+      "type": "enum",
+      "values": ["compact", "default", "comfortable"],
+      "description": "Row height, cell padding and type size, as data-density on the root. Unset, the table follows the page's density. Use compact for operational screens and comfortable for browsing."
+    },
+    {
+      "name": "surface",
+      "type": "enum",
+      "values": ["default", "glass"],
+      "default": "default",
+      "description": "glass puts the table on a translucent surface; the header row turns transparent."
+    },
+    {
+      "name": "stickyHeader",
+      "type": "boolean",
+      "default": true,
+      "description": "Keeps the header row in view while the rows scroll. The scroll part needs a height for it to matter: set --apui-table-max-block-size on the root."
+    },
+    {
+      "name": "hideHeaders",
+      "type": "boolean",
+      "default": false,
+      "description": "Hides the header row visually. Screen readers still announce the column names. Livewire 2.x's no-headers still works."
+    },
+    {
+      "name": "selectable",
+      "type": "boolean",
+      "default": false,
+      "description": "Adds a checkbox to every row and a select-all box to the header. The select-all box is mixed while some rows of the page are selected.",
+      "a11y": "Row boxes are named by selectRowLabel and selected rows carry aria-selected=\"true\"."
+    },
+    {
+      "name": "value",
+      "type": "array",
+      "description": "The selected rows' keys. Select all adds or removes the keys of the rows on screen, keeping any others."
+    },
+    {
+      "name": "expandable",
+      "type": "boolean",
+      "default": false,
+      "description": "Adds a button to each row that shows the expansion content in a full-width row under it."
+    },
+    {
+      "name": "expanded",
+      "type": "array",
+      "description": "The expanded rows' keys."
+    },
+    {
+      "name": "sortBy",
+      "type": "object",
+      "description": "The current sort: { column, direction }, direction \"asc\" or \"desc\". The sorted header carries aria-sort; the table never sorts rows itself, so sort them where they come from on sort-change."
+    },
+    {
+      "name": "loading",
+      "type": "boolean",
+      "default": false,
+      "description": "Shows skeleton rows in place of the rows and sets aria-busy on the root.",
+      "a11y": "The root carries aria-busy=\"true\"; the skeleton rows are aria-hidden."
+    },
+    {
+      "name": "emptyText",
+      "type": "string",
+      "default": "No records found.",
+      "description": "The EmptyState title shown in a full-width row when there are no rows. Translate it: Livewire defaults it through __( 'No records found.' ). The empty slot replaces the whole state."
+    },
+    {
+      "name": "toolbar",
+      "type": "node",
+      "description": "Content after the title in the toolbar, such as a search Input and Buttons."
+    },
+    {
+      "name": "footer",
+      "type": "node",
+      "description": "Content at the start of the footer, such as \"1 selected · 4 of 128\". Pagination sits at its end."
+    },
+    {
+      "name": "pagination",
+      "type": "object",
+      "description": "Pagination's props ({ page, total, perPage, pageCount, siblings, summary, labels }), rendered at the end of the footer. React and Vue take its page-change handler there too (onPageChange)."
+    },
+    {
+      "name": "paginated",
+      "type": "boolean",
+      "default": false,
+      "stacks": ["livewire"],
+      "description": "Renders Pagination from the paginator in rows (2.x: with-pagination). Inside a component using WithPagination, the pages call gotoPage() without a reload."
+    },
+    {
+      "name": "perPage",
+      "type": "string",
+      "stacks": ["livewire"],
+      "description": "With paginated, the Livewire property a \"Rows per page\" Select in the footer binds (wire:model.live)."
+    },
+    {
+      "name": "perPageValues",
+      "type": "array",
+      "default": [10, 20, 50, 100],
+      "stacks": ["livewire"],
+      "description": "The \"Rows per page\" options."
+    },
+    {
+      "name": "selectAllLabel",
+      "type": "string",
+      "default": "Select all",
+      "description": "The select-all box's accessible name. Translate it: Livewire defaults it through __( 'Select all' )."
+    },
+    {
+      "name": "selectRowLabel",
+      "type": "string",
+      "default": "Select {row}",
+      "description": "Each row box's accessible name; {row} is the row's first column. Translate it: Livewire defaults it through __( 'Select {row}' )."
+    },
+    {
+      "name": "sortLabel",
+      "type": "string",
+      "default": "Sort by {column}",
+      "description": "Each sort button's accessible name; {column} is the column's label. aria-sort on the header announces the current order. Translate it: Livewire defaults it through __( 'Sort by {column}' )."
+    },
+    {
+      "name": "expandLabel",
+      "type": "string",
+      "default": "Show details for {row}",
+      "description": "Each expand button's accessible name; {row} is the row's first column. aria-expanded announces whether it is open. Translate it: Livewire defaults it through __( 'Show details for {row}' )."
+    },
+    {
+      "name": "actionsLabel",
+      "type": "string",
+      "default": "Actions",
+      "description": "The row-actions column's header, for screen readers only. Translate it: Livewire defaults it through __( 'Actions' )."
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part, such as { headCell: '…', cell: '…' }."
+    }
+  ],
+  "parts": [
+    {
+      "name": "root",
+      "element": "div",
+      "description": "The frame: surface, border and radius around the toolbar, the grid and the footer."
+    },
+    {
+      "name": "toolbar",
+      "element": "div",
+      "description": "The row above the grid holding the title and the toolbar content. Only renders with one of them."
+    },
+    {
+      "name": "title",
+      "element": "h3",
+      "description": "The table's title; it names the table."
+    },
+    {
+      "name": "scroll",
+      "element": "div",
+      "description": "Scrolls the grid sideways on narrow screens, and down past --apui-table-max-block-size."
+    },
+    {
+      "name": "table",
+      "element": "table",
+      "description": "The native table."
+    },
+    {
+      "name": "headCell",
+      "element": "th",
+      "description": "A column header (scope=\"col\"). A sortable one carries aria-sort and holds the sort button."
+    },
+    {
+      "name": "sort",
+      "element": "button",
+      "description": "The sort button inside a sortable header: the label, then an icon for the current order."
+    },
+    {
+      "name": "row",
+      "element": "tr",
+      "description": "A body row. With selectable, it carries aria-selected."
+    },
+    {
+      "name": "cell",
+      "element": "td",
+      "description": "A body cell. Numeric columns carry data-numeric."
+    },
+    {
+      "name": "select",
+      "element": "th | td",
+      "description": "The checkbox column: the select-all box in the header, a row's box in each row. Holds a Checkbox."
+    },
+    {
+      "name": "expandTrigger",
+      "element": "button",
+      "description": "Shows or hides a row's expansion. Icon-only, named by expandLabel, with aria-expanded and aria-controls. Its chevron turns down when open and mirrors in RTL."
+    },
+    {
+      "name": "expansion",
+      "element": "tr",
+      "description": "The full-width row under an expanded row, holding the expansion content."
+    },
+    {
+      "name": "primary",
+      "element": "span",
+      "description": "A cell's main value when its column has secondary."
+    },
+    {
+      "name": "secondary",
+      "element": "span",
+      "description": "The muted second line under primary."
+    },
+    {
+      "name": "footer",
+      "element": "div",
+      "description": "The row under the grid: the footer content at the start, Pagination at the end."
+    }
+  ],
+  "slots": [
+    {
+      "name": "toolbar",
+      "description": "Content after the title in the toolbar."
+    },
+    {
+      "name": "footer",
+      "description": "Content at the start of the footer. In Livewire, a footer slot that holds table rows (<tr>) still renders in a <tfoot>, as in 2.x."
+    },
+    {
+      "name": "empty",
+      "description": "Replaces the empty state, such as an EmptyState with an action."
+    },
+    {
+      "name": "cell",
+      "scoped": true,
+      "parameters": ["row", "column", "index"],
+      "description": "A column's cell content, given the row. Blade @scope('cell_<key>', $row), Vue #cell-<key>, React renderCell."
+    },
+    {
+      "name": "header",
+      "scoped": true,
+      "parameters": ["column"],
+      "description": "A column's header content, given the column. Blade @scope('header_<key>', $header), Vue #header-<key>, React renderHeader."
+    },
+    {
+      "name": "actions",
+      "scoped": true,
+      "parameters": ["row", "index"],
+      "description": "Row actions in a last, end-aligned column, given the row. Blade @scope('actions', $row), Vue #actions, React renderActions."
+    },
+    {
+      "name": "expansion",
+      "scoped": true,
+      "parameters": ["row", "index"],
+      "description": "An expanded row's content, given the row. Blade @scope('expansion', $row), Vue #expansion, React renderExpansion."
+    }
+  ],
+  "events": [
+    {
+      "name": "value-change",
+      "description": "The selection changed, by a row box or select all. The payload is the selected keys. Setting value doesn't fire it.",
+      "payload": "Array<string | number>"
+    },
+    {
+      "name": "sort-change",
+      "description": "A sortable header was chosen. The payload is the next sort: ascending first, then toggling. Livewire dispatches it as a browser event with { column, direction } in $event.detail.",
+      "payload": "{ column: string; direction: 'asc' | 'desc' }"
+    },
+    {
+      "name": "expanded-change",
+      "description": "A row was expanded or collapsed. The payload is the expanded keys.",
+      "payload": "Array<string | number>"
+    },
+    {
+      "name": "row-click",
+      "description": "A row was clicked outside its links, buttons and boxes. The payload is the row. In Livewire it fires only when something listens on the table (x-on:row-click, @row-click or wire:row-click).",
+      "payload": "row"
+    }
+  ],
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Tab",
+        "action": "Moves through the select-all box, the sort buttons, then each row's box, expand button and the links and buttons in its cells."
+      },
+      {
+        "keys": "Enter / Space",
+        "action": "On a sort button, sorts by that column (ascending, then toggling); on an expand button, shows or hides the row's expansion."
+      },
+      {
+        "keys": "Space",
+        "action": "On a checkbox, selects or clears the row, or every row on screen for select all."
+      }
+    ],
+    "requirements": [
+      "Real table markup: a table with thead and tbody, header cells with scope=\"col\".",
+      "The table is named by its title (aria-labelledby) or label (aria-label).",
+      "A sortable header carries aria-sort (ascending, descending or none) and holds a button named by sortLabel; the icon is decorative.",
+      "Row boxes are named by selectRowLabel and selected rows carry aria-selected=\"true\"; the select-all box is named by selectAllLabel and is mixed (indeterminate) while some rows are selected.",
+      "Expand buttons are named by expandLabel and carry aria-expanded and aria-controls; the chevron mirrors in RTL.",
+      "While loading, the root carries aria-busy=\"true\" and the skeleton rows are aria-hidden.",
+      "Focus is visible on every control; a focused cell uses an inset ring so it never overlaps its neighbors.",
+      "Numbers end-align with tabular figures; status uses a Badge, never a whole-row color."
+    ],
+    "wcag": ["1.3.1", "1.3.2", "1.4.3", "1.4.11", "2.1.1", "2.4.6", "2.4.7", "4.1.2"]
+  },
+  "tokens": [
+    "--apui-border-muted",
+    "--apui-border-width",
+    "--apui-cell-padding-x",
+    "--apui-control-height-xs",
+    "--apui-elevation-glass",
+    "--apui-focus-ring-color",
+    "--apui-focus-ring-offset",
+    "--apui-focus-ring-offset-color",
+    "--apui-focus-ring-width",
+    "--apui-font-family-sans",
+    "--apui-font-weight-medium",
+    "--apui-font-weight-semibold",
+    "--apui-icon-size-md",
+    "--apui-icon-size-sm",
+    "--apui-motion-duration-fast",
+    "--apui-motion-ease-standard",
+    "--apui-radius-xs",
+    "--apui-row-height",
+    "--apui-selected-bg",
+    "--apui-state-hover",
+    "--apui-surface-default",
+    "--apui-surface-glass",
+    "--apui-surface-glass-blur",
+    "--apui-surface-glass-border",
+    "--apui-surface-glass-saturation",
+    "--apui-surface-raised",
+    "--apui-surface-sunken",
+    "--apui-table-head-weight",
+    "--apui-table-radius",
+    "--apui-text-default",
+    "--apui-text-muted",
+    "--apui-text-muted-glass",
+    "--apui-type-body-lg-font-size",
+    "--apui-type-body-lg-line-height",
+    "--apui-type-body-md-font-size",
+    "--apui-type-body-md-line-height",
+    "--apui-type-body-sm-font-size",
+    "--apui-type-body-sm-line-height",
+    "--apui-type-caption-font-size",
+    "--apui-type-caption-line-height",
+    "--apui-table-max-block-size"
+  ],
+  "fixture": {
+    "props": {
+      "title": "Transaction history",
+      "headers": [
+        {
+          "key": "symbol",
+          "label": "Product name",
+          "secondary": "company",
+          "sortable": true
+        },
+        {
+          "key": "amount",
+          "label": "Order amount",
+          "numeric": true
+        },
+        {
+          "key": "date",
+          "label": "Date",
+          "sortable": true
+        },
+        {
+          "key": "status",
+          "label": "Status"
+        },
+        {
+          "key": "owner",
+          "label": "Executed by"
+        }
+      ],
+      "rows": [
+        {
+          "id": 1,
+          "symbol": "TSLA",
+          "company": "Tesla, Inc.",
+          "amount": "$30,021.23",
+          "date": "Dec 13, 2023",
+          "status": "Processing",
+          "owner": "Olivia Rhye"
+        },
+        {
+          "id": 2,
+          "symbol": "MTCH",
+          "company": "Match Group, Inc.",
+          "amount": "$10,045.00",
+          "date": "Dec 13, 2023",
+          "status": "Success",
+          "owner": "Phoenix Baker"
+        },
+        {
+          "id": 3,
+          "symbol": "DDOG",
+          "company": "Datadog Inc.",
+          "amount": "$40,132.16",
+          "date": "Dec 13, 2023",
+          "status": "Success",
+          "owner": "Lana Steiner"
+        },
+        {
+          "id": 4,
+          "symbol": "ARKG",
+          "company": "ARK Genomic Revolution ETF",
+          "amount": "$22,665.12",
+          "date": "Dec 28, 2023",
+          "status": "Declined",
+          "owner": "Demi Wilkinson"
+        }
+      ],
+      "selectable": true,
+      "expandable": true,
+      "value": [2],
+      "sortBy": {
+        "column": "date",
+        "direction": "desc"
+      },
+      "footer": "1 selected · 4 of 128 transactions",
+      "pagination": {
+        "page": 3,
+        "total": 128,
+        "perPage": 4
+      }
+    },
+    "parts": {
+      "expanded": [1]
+    },
+    "states": ["loading"]
+  }
+}

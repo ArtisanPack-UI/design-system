@@ -1,0 +1,63 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "Skeleton",
+  "description": "A placeholder shape that matches the layout while content loads: a block, a line of text or a circle. Skeletons are hidden from assistive technology; the container that is loading sets aria-busy.",
+  "status": "draft",
+  "issue": 60,
+  "rootClass": "apui-skeleton",
+  "stacks": {
+    "livewire": {
+      "name": "skeleton"
+    },
+    "react": {
+      "name": "Skeleton"
+    },
+    "vue": {
+      "name": "Skeleton"
+    }
+  },
+  "props": [
+    {
+      "name": "shape",
+      "type": "enum",
+      "values": ["block", "text", "circle"],
+      "default": "block",
+      "description": "block (a rounded rectangle), text (a 10px line with line spacing) or circle. Emitted as data-shape."
+    },
+    {
+      "name": "width",
+      "type": "string",
+      "description": "A CSS length, such as 60% or 40px, written inline. React and Vue also take a number of px."
+    },
+    {
+      "name": "height",
+      "type": "string",
+      "description": "A CSS length, written inline. A text line keeps its own height unless this is set."
+    }
+  ],
+  "parts": [
+    {
+      "name": "root",
+      "element": "span",
+      "description": "The shape (aria-hidden=true), with a shimmer that stops under reduced motion."
+    }
+  ],
+  "slots": [],
+  "events": [],
+  "a11y": {
+    "element": "span",
+    "requirements": [
+      "Skeletons are aria-hidden; the container that is loading sets aria-busy=true and drops it when the content arrives.",
+      "The shimmer moves in the reading direction and stops under reduced motion.",
+      "Don't show skeletons for more than a few seconds; switch to a status."
+    ],
+    "wcag": ["1.3.1", "2.2.2", "4.1.2"]
+  },
+  "tokens": ["--apui-surface-sunken", "--apui-state-hover", "--apui-radius-sm"],
+  "fixture": {
+    "props": {
+      "width": "240px",
+      "height": "24px"
+    }
+  }
+}

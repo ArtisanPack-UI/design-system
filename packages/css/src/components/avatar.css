@@ -1,0 +1,166 @@
+/*
+ * Avatar (#61). Root `.apui-avatar`: a person or organization as an image,
+ * initials or an icon, with data-size (xs…xl, the control heights),
+ * data-shape (circle, square) and data-color (the initials' tone). Parts:
+ * image, initials, status; without initials an icon shows instead. The root is role=img named after the person,
+ * so the parts are decorative. The image sits over the initials, so a broken
+ * image shows them instead.
+ *
+ * `.apui-avatar-group` overlaps a row of avatars, each ringed in the surface
+ * color. See design/components/Avatar.
+ */
+@layer apui.components {
+  .apui-avatar {
+    --apui-_s: var(--apui-control-height-md);
+    --apui-_soft: var(--apui-color-neutral-soft);
+    --apui-_on-soft: var(--apui-color-neutral-soft-foreground);
+
+    position: relative;
+    display: inline-grid;
+    flex: none;
+    place-items: center;
+    box-sizing: border-box;
+    inline-size: var(--apui-_s);
+    block-size: var(--apui-_s);
+    border-radius: var(--apui-avatar-radius);
+    background-color: var(--apui-_soft);
+    color: var(--apui-_on-soft);
+    font-family: var(--apui-font-family-sans);
+    font-size: calc(var(--apui-_s) * 0.38);
+    font-weight: var(--apui-font-weight-medium);
+    line-height: 1;
+    vertical-align: middle;
+    user-select: none;
+  }
+
+  /* Sizes match the control heights, so an avatar lines up with a button. */
+  .apui-avatar[data-size='xs'] {
+    --apui-_s: var(--apui-control-height-xs);
+  }
+
+  .apui-avatar[data-size='sm'] {
+    --apui-_s: var(--apui-control-height-sm);
+  }
+
+  .apui-avatar[data-size='lg'] {
+    --apui-_s: var(--apui-control-height-lg);
+  }
+
+  .apui-avatar[data-size='xl'] {
+    --apui-_s: var(--apui-control-height-xl);
+  }
+
+  .apui-avatar[data-shape='square'] {
+    border-radius: var(--apui-radius-sm);
+  }
+
+  /* Colors: the initials' tone. */
+  .apui-avatar[data-color='primary'] {
+    --apui-_soft: var(--apui-color-primary-soft);
+    --apui-_on-soft: var(--apui-color-primary-soft-foreground);
+  }
+
+  .apui-avatar[data-color='secondary'] {
+    --apui-_soft: var(--apui-color-secondary-soft);
+    --apui-_on-soft: var(--apui-color-secondary-soft-foreground);
+  }
+
+  .apui-avatar[data-color='accent'] {
+    --apui-_soft: var(--apui-color-accent-soft);
+    --apui-_on-soft: var(--apui-color-accent-soft-foreground);
+  }
+
+  .apui-avatar[data-color='success'] {
+    --apui-_soft: var(--apui-color-success-soft);
+    --apui-_on-soft: var(--apui-color-success-soft-foreground);
+  }
+
+  .apui-avatar[data-color='warning'] {
+    --apui-_soft: var(--apui-color-warning-soft);
+    --apui-_on-soft: var(--apui-color-warning-soft-foreground);
+  }
+
+  .apui-avatar[data-color='error'] {
+    --apui-_soft: var(--apui-color-error-soft);
+    --apui-_on-soft: var(--apui-color-error-soft-foreground);
+  }
+
+  .apui-avatar[data-color='info'] {
+    --apui-_soft: var(--apui-color-info-soft);
+    --apui-_on-soft: var(--apui-color-info-soft-foreground);
+  }
+
+  /* Parts. Initials, icon and image share the one grid cell. */
+  .apui-avatar > :is([data-scope='avatar'], svg) {
+    grid-area: 1 / 1;
+  }
+
+  [data-scope='avatar'][data-part='initials'] {
+    letter-spacing: 0;
+    white-space: nowrap;
+  }
+
+  /* Without initials, an icon: decorative, like everything inside the root. */
+  .apui-avatar > svg {
+    inline-size: calc(var(--apui-_s) * 0.55);
+    block-size: calc(var(--apui-_s) * 0.55);
+  }
+
+  [data-scope='avatar'][data-part='image'] {
+    display: block;
+    inline-size: 100%;
+    block-size: 100%;
+    border-radius: inherit;
+    object-fit: cover;
+  }
+
+  [data-scope='avatar'][data-part='status'] {
+    position: absolute;
+    inset-block-end: 0;
+    inset-inline-end: 0;
+    box-sizing: border-box;
+    inline-size: max(8px, calc(var(--apui-_s) * 0.28));
+    block-size: max(8px, calc(var(--apui-_s) * 0.28));
+    border-radius: var(--apui-radius-full);
+    background-color: var(--apui-color-success);
+    box-shadow: 0 0 0 2px var(--apui-focus-ring-offset-color);
+  }
+
+  [data-scope='avatar'][data-part='status'][data-status='away'] {
+    background-color: var(--apui-color-warning);
+  }
+
+  [data-scope='avatar'][data-part='status'][data-status='offline'] {
+    background-color: var(--apui-text-subtle);
+  }
+
+  /* Group: overlapping avatars, each ringed in the surface they sit on. */
+  .apui-avatar-group {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .apui-avatar-group > .apui-avatar {
+    box-shadow: 0 0 0 2px var(--apui-focus-ring-offset-color);
+  }
+
+  .apui-avatar-group > .apui-avatar + .apui-avatar {
+    margin-inline-start: calc(var(--apui-_s) * -0.25);
+  }
+
+  @media (forced-colors: active) {
+    .apui-avatar {
+      border: 1px solid CanvasText;
+    }
+
+    [data-scope='avatar'][data-part='status'] {
+      border: 2px solid Canvas;
+      background-color: CanvasText;
+    }
+
+    [data-scope='avatar'][data-part='status'][data-status='offline'] {
+      background-color: Canvas;
+      box-shadow: 0 0 0 2px CanvasText;
+    }
+  }
+}

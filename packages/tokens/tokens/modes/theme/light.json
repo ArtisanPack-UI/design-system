@@ -82,6 +82,14 @@
     "strong": {
       "$value": "{gray.700}",
       "$description": "Hover outline on controls, selected row edge, active tab underline."
+    },
+    "soft-edge-width": {
+      "$type": "dimension",
+      "$value": {
+        "value": 0,
+        "unit": "px"
+      },
+      "$description": "Edge drawn around soft-tinted status surfaces (soft Badge, soft Alert) so the tint is not the only boundary. 0 in light and dark, where the spec draws none; 1px in high-contrast, where the fill alone sits too close to the page. Paint it with the tone border color."
     }
   },
   "focus-ring": {

@@ -1,0 +1,148 @@
+/*
+ * Accordion (#58) on Zag's accordion machine. Root `.apui-accordion` with
+ * data-variant (default · separated · flush). Parts, scoped accordion: item
+ * (data-state open or closed), title (the h2–h6 around the trigger), trigger
+ * (aria-expanded), chevron and content (the spec's panel, hidden while
+ * closed). Zag's itemTrigger, itemIndicator and itemContent render as
+ * trigger, chevron and content. See design/components/Accordion.
+ */
+@layer apui.components {
+  .apui-accordion {
+    overflow: hidden;
+    border: var(--apui-border-width) solid var(--apui-border-muted);
+    border-radius: var(--apui-radius-lg);
+    background: var(--apui-surface-default);
+    color: var(--apui-text-default);
+    font-family: var(--apui-font-family-sans);
+  }
+
+  [data-scope='accordion'][data-part='item'] + [data-scope='accordion'][data-part='item'] {
+    border-block-start: var(--apui-border-width) solid var(--apui-border-muted);
+  }
+
+  [data-scope='accordion'][data-part='title'] {
+    margin: 0;
+    font: inherit;
+  }
+
+  [data-scope='accordion'][data-part='trigger'] {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    inline-size: 100%;
+    margin: 0;
+    padding-block: 14px;
+    padding-inline: var(--apui-panel-padding);
+    border: 0;
+    border-radius: 0;
+    background: none;
+    color: var(--apui-text-default);
+    font: inherit;
+    font-size: var(--apui-type-body-md-font-size);
+    font-weight: var(--apui-font-weight-medium);
+    line-height: var(--apui-type-body-md-line-height);
+    text-align: start;
+    cursor: pointer;
+    outline: none;
+  }
+
+  [data-scope='accordion'][data-part='trigger']:hover:not(:disabled) {
+    background: var(--apui-state-hover);
+  }
+
+  /* Inset, so the container's overflow doesn't clip it. */
+  [data-scope='accordion'][data-part='trigger']:focus-visible {
+    outline: var(--apui-focus-ring-width) solid transparent;
+    box-shadow: inset 0 0 0 var(--apui-focus-ring-width) var(--apui-focus-ring-color);
+  }
+
+  [data-scope='accordion'][data-part='trigger']:disabled {
+    color: var(--apui-text-disabled);
+    cursor: not-allowed;
+  }
+
+  [data-scope='accordion'][data-part='chevron'] {
+    display: inline-flex;
+    flex: none;
+    margin-inline-start: auto;
+    color: var(--apui-text-muted);
+    transition: rotate var(--apui-motion-duration-fast) var(--apui-motion-ease-standard);
+  }
+
+  [data-scope='accordion'][data-part='chevron'] > svg {
+    inline-size: var(--apui-icon-size-md);
+    block-size: var(--apui-icon-size-md);
+  }
+
+  [data-scope='accordion'][data-part='trigger'][aria-expanded='true']
+    [data-scope='accordion'][data-part='chevron'] {
+    rotate: 180deg;
+  }
+
+  [data-scope='accordion'][data-part='trigger']:disabled
+    [data-scope='accordion'][data-part='chevron'] {
+    color: inherit;
+  }
+
+  [data-scope='accordion'][data-part='content'] {
+    padding-block: 0 16px;
+    padding-inline: var(--apui-panel-padding);
+    color: var(--apui-text-muted);
+    font-size: var(--apui-type-body-md-font-size);
+    line-height: var(--apui-type-body-md-line-height);
+  }
+
+  .apui-accordion[data-variant='separated'] {
+    display: grid;
+    gap: 8px;
+    overflow: visible;
+    border: 0;
+    border-radius: 0;
+    background: none;
+  }
+
+  .apui-accordion[data-variant='separated'] [data-scope='accordion'][data-part='item'] {
+    overflow: hidden;
+    border: var(--apui-border-width) solid var(--apui-border-muted);
+    border-radius: var(--apui-radius-lg);
+    background: var(--apui-surface-default);
+  }
+
+  .apui-accordion[data-variant='flush'] {
+    border: 0;
+    border-radius: 0;
+    background: none;
+  }
+
+  .apui-accordion[data-variant='flush']
+    :is(
+      [data-scope='accordion'][data-part='trigger'],
+      [data-scope='accordion'][data-part='content']
+    ) {
+    padding-inline: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-scope='accordion'][data-part='chevron'] {
+      transition: none;
+    }
+  }
+
+  @media (forced-colors: active) {
+    .apui-accordion,
+    .apui-accordion[data-variant='separated'] [data-scope='accordion'][data-part='item'],
+    [data-scope='accordion'][data-part='item'] + [data-scope='accordion'][data-part='item'] {
+      border-color: CanvasText;
+    }
+
+    [data-scope='accordion'][data-part='trigger']:focus-visible {
+      outline: var(--apui-focus-ring-width) solid Highlight;
+      outline-offset: calc(-1 * var(--apui-focus-ring-width));
+    }
+
+    [data-scope='accordion'][data-part='trigger']:disabled {
+      color: GrayText;
+    }
+  }
+}

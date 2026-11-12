@@ -1,0 +1,261 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "Drawer",
+  "description": "A panel that slides in from an edge for filters, details or secondary tasks. Built on the dialog machine: a modal drawer traps focus, locks scroll and hides the page behind it from assistive technology; Escape, the close button and the backdrop close it, and focus returns to the trigger. The side follows the reading direction. The bottom side is the spec's sheet.",
+  "status": "draft",
+  "issue": 58,
+  "rootClass": "apui-drawer",
+  "stacks": {
+    "livewire": {
+      "name": "drawer",
+      "capabilities": ["wire:model binds open both ways through $wire.entangle()"]
+    },
+    "react": {
+      "name": "Drawer"
+    },
+    "vue": {
+      "name": "Drawer"
+    }
+  },
+  "props": [
+    {
+      "name": "open",
+      "type": "boolean",
+      "default": false,
+      "description": "Whether it's open. Livewire binds it with wire:model, Vue with v-model:open. Emitted as data-state on every part."
+    },
+    {
+      "name": "defaultOpen",
+      "type": "boolean",
+      "default": false,
+      "description": "The initial state of an uncontrolled drawer.",
+      "stacks": ["react"]
+    },
+    {
+      "name": "side",
+      "type": "enum",
+      "values": ["end", "start", "bottom"],
+      "default": "end",
+      "description": "The edge it slides in from. end is on the right in LTR and on the left in RTL; bottom is a full-width sheet with a handle. Emitted as data-side on the panel and the positioner."
+    },
+    {
+      "name": "size",
+      "type": "enum",
+      "values": ["sm", "md", "lg"],
+      "default": "md",
+      "description": "The panel's width at the start or end side: 320px, --apui-drawer-width (400px) or 560px, never wider than the viewport. A bottom sheet is full width. Emitted as data-size."
+    },
+    {
+      "name": "surface",
+      "type": "enum",
+      "values": ["overlay", "glass"],
+      "default": "overlay",
+      "description": "The panel's surface. Emitted as data-surface. Glass falls back to the overlay surface under reduced transparency and in high contrast."
+    },
+    {
+      "name": "title",
+      "type": "node",
+      "description": "The heading, linked to the panel with aria-labelledby.",
+      "a11y": "Every drawer needs a title; it is the panel's accessible name."
+    },
+    {
+      "name": "description",
+      "type": "node",
+      "description": "Supporting text under the title, linked with aria-describedby."
+    },
+    {
+      "name": "footer",
+      "type": "node",
+      "description": "The actions row. Put the primary action here."
+    },
+    {
+      "name": "trigger",
+      "type": "node",
+      "description": "Content for a trigger button that opens the drawer. Without it, open the drawer through open."
+    },
+    {
+      "name": "modal",
+      "type": "boolean",
+      "default": true,
+      "description": "Traps focus, locks scroll and hides the rest of the page from assistive technology. Turn it off for a drawer that leaves the page usable.",
+      "a11y": "Sets aria-modal."
+    },
+    {
+      "name": "portal",
+      "type": "boolean",
+      "default": true,
+      "description": "Renders the drawer at the end of the body, above everything (x-teleport, a React portal, Vue Teleport). Off renders it in place."
+    },
+    {
+      "name": "hideClose",
+      "type": "boolean",
+      "default": false,
+      "description": "Hides the close button in the header. Escape still closes the drawer."
+    },
+    {
+      "name": "closeLabel",
+      "type": "string",
+      "default": "Close",
+      "description": "The close button's accessible name. Translate it: Livewire defaults it through __( 'Close' ).",
+      "a11y": "The close button is icon-only, so this is its only name."
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part, such as { header: '…', body: '…' }."
+    }
+  ],
+  "sizes": ["sm", "md", "lg"],
+  "parts": [
+    {
+      "name": "root",
+      "element": "aside",
+      "description": "The panel, carrying the root class. It is the dialog machine's content part, so it also carries data-part=\"content\" (D-019)."
+    },
+    {
+      "name": "content",
+      "element": "aside",
+      "description": "The panel: the same element as root."
+    },
+    {
+      "name": "trigger",
+      "element": "button",
+      "description": "The button that opens the drawer, when trigger is set."
+    },
+    {
+      "name": "backdrop",
+      "element": "div",
+      "description": "The scrim behind the panel."
+    },
+    {
+      "name": "positioner",
+      "element": "div",
+      "description": "Fills the viewport and holds the panel against its side."
+    },
+    {
+      "name": "handle",
+      "element": "div",
+      "description": "The bottom sheet's grab handle. Decorative."
+    },
+    {
+      "name": "header",
+      "element": "div",
+      "description": "Title, description and close button."
+    },
+    {
+      "name": "title",
+      "element": "h2",
+      "description": "The heading."
+    },
+    {
+      "name": "description",
+      "element": "p",
+      "description": "Supporting text."
+    },
+    {
+      "name": "closeTrigger",
+      "element": "button",
+      "description": "The close button: a ghost, neutral, small icon-only Button."
+    },
+    {
+      "name": "body",
+      "element": "div",
+      "description": "The default slot. Scrolls when it's taller than the panel."
+    },
+    {
+      "name": "footer",
+      "element": "div",
+      "description": "The actions row."
+    }
+  ],
+  "slots": [
+    {
+      "name": "trigger",
+      "description": "Content for the trigger button."
+    },
+    {
+      "name": "title",
+      "description": "Rich title content, rendered inside the heading."
+    },
+    {
+      "name": "description",
+      "description": "Rich supporting text."
+    },
+    {
+      "name": "footer",
+      "description": "The actions row."
+    }
+  ],
+  "events": [
+    {
+      "name": "open-change",
+      "description": "The drawer opened or closed itself: the trigger, Escape, the backdrop or the close button. Setting open doesn't fire it.",
+      "payload": "boolean"
+    }
+  ],
+  "a11y": {
+    "role": "dialog",
+    "element": "aside",
+    "keyboard": [
+      {
+        "keys": "Tab, Shift+Tab",
+        "action": "Move between the controls inside; focus stays in a modal drawer."
+      },
+      {
+        "keys": "Escape",
+        "action": "Closes the drawer and returns focus to the trigger."
+      },
+      {
+        "keys": "Enter, Space",
+        "action": "On the trigger, opens the drawer."
+      }
+    ],
+    "requirements": [
+      "Focus moves into the drawer on open and is trapped there while it's modal; it returns to the trigger on close.",
+      "The title is linked with aria-labelledby and the description with aria-describedby.",
+      "A modal drawer sets aria-modal, hides everything else from assistive technology and locks page scroll.",
+      "The side follows the reading direction: end is on the right in LTR and on the left in RTL, and the slide-in comes from that edge.",
+      "The close button has an accessible name (translatable, \"Close\").",
+      "Text keeps 4.5:1 and the panel's edge 3:1 on the overlay surface in every theme, glass included.",
+      "The slide-in animation is off under prefers-reduced-motion.",
+      "Every part keeps a stable, server-rendered id in Livewire, so morphs never replace the panel (D-015).",
+      "Don't open a drawer from a drawer."
+    ],
+    "wcag": ["1.3.1", "1.3.2", "1.4.3", "1.4.11", "2.1.1", "2.1.2", "2.4.3", "2.4.7", "4.1.2"]
+  },
+  "tokens": [
+    "--apui-drawer-width",
+    "--apui-drawer-radius",
+    "--apui-surface-overlay",
+    "--apui-surface-glass",
+    "--apui-surface-glass-border",
+    "--apui-surface-glass-blur",
+    "--apui-surface-glass-saturation",
+    "--apui-elevation-overlay",
+    "--apui-elevation-glass",
+    "--apui-backdrop",
+    "--apui-z-modal",
+    "--apui-border-muted",
+    "--apui-border-default",
+    "--apui-text-default",
+    "--apui-text-muted",
+    "--apui-text-muted-glass",
+    "--apui-field-gap"
+  ],
+  "fixture": {
+    "content": "218 properties match these filters.",
+    "props": {
+      "open": true,
+      "modal": false,
+      "portal": false,
+      "title": "Filters",
+      "description": "Narrow the listings.",
+      "footer": "Show results"
+    },
+    "parts": {
+      "trigger": "Filters",
+      "side": "bottom"
+    },
+    "states": []
+  }
+}

@@ -1,0 +1,98 @@
+/*
+ * Divider (#58). Root `.apui-divider`: an hr for a plain horizontal rule, or
+ * a div with role separator for a vertical or labelled one. data-orientation
+ * (horizontal · vertical), data-strength (subtle · strong) and, with a
+ * label, data-align (start · center · end). The label part sits between two
+ * rules drawn by the root. See design/components/Divider.
+ */
+@layer apui.components {
+  .apui-divider {
+    --apui-_rule: var(--apui-border-muted);
+
+    flex: none;
+    align-self: stretch;
+    block-size: var(--apui-border-width);
+
+    /*
+     * The rule has no content width. A floor keeps it drawn where its parent
+     * shrinks to fit (an inline-flex row, a fit-content cell); in block and
+     * column layouts it still spans the parent.
+     */
+    min-inline-size: 48px;
+    margin: 0;
+    border: 0;
+    background: var(--apui-_rule);
+    color: var(--apui-text-muted);
+  }
+
+  .apui-divider[data-strength='strong'] {
+    --apui-_rule: var(--apui-border-default);
+  }
+
+  .apui-divider[data-orientation='vertical'] {
+    inline-size: var(--apui-border-width);
+    min-inline-size: 0;
+    block-size: auto;
+    min-block-size: 20px;
+  }
+
+  /* Labelled: the root lays out two rules around the label. */
+  .apui-divider:has(> [data-scope='divider'][data-part='label']) {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    block-size: auto;
+    background: none;
+    font-family: var(--apui-font-family-sans);
+    font-size: var(--apui-type-caption-font-size);
+    line-height: var(--apui-type-caption-line-height);
+  }
+
+  .apui-divider:has(> [data-scope='divider'][data-part='label'])::before,
+  .apui-divider:has(> [data-scope='divider'][data-part='label'])::after {
+    content: '';
+    flex: 1;
+    min-inline-size: 24px;
+    block-size: var(--apui-border-width);
+    background: var(--apui-_rule);
+  }
+
+  .apui-divider[data-align='start']:has(> [data-scope='divider'][data-part='label'])::before,
+  .apui-divider[data-align='end']:has(> [data-scope='divider'][data-part='label'])::after {
+    flex: 0 0 16px;
+    min-inline-size: 0;
+  }
+
+  .apui-divider[data-orientation='vertical']:has(> [data-scope='divider'][data-part='label']) {
+    flex-direction: column;
+    inline-size: auto;
+  }
+
+  .apui-divider[data-orientation='vertical']:has(
+      > [data-scope='divider'][data-part='label']
+    )::before,
+  .apui-divider[data-orientation='vertical']:has(
+      > [data-scope='divider'][data-part='label']
+    )::after {
+    inline-size: var(--apui-border-width);
+    min-inline-size: 0;
+    block-size: auto;
+    min-block-size: 8px;
+  }
+
+  [data-scope='divider'][data-part='label'] {
+    flex: none;
+  }
+
+  @media (forced-colors: active) {
+    .apui-divider,
+    .apui-divider::before,
+    .apui-divider::after {
+      background: CanvasText;
+    }
+
+    .apui-divider:has(> [data-scope='divider'][data-part='label']) {
+      background: none;
+    }
+  }
+}

@@ -1,0 +1,64 @@
+/*
+ * Skeleton (#60). Root `.apui-skeleton`: one placeholder shape, hidden from
+ * assistive technology (aria-hidden). data-shape is block (default), text (a
+ * 10px line with its own line spacing) or circle; width and height come
+ * inline. The container that is loading sets aria-busy. The shimmer moves in
+ * the reading direction and stops under reduced motion. See
+ * design/components/Skeleton.
+ */
+@layer apui.components {
+  .apui-skeleton {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    border-radius: var(--apui-radius-sm);
+    background: var(--apui-surface-sunken);
+  }
+
+  .apui-skeleton::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, var(--apui-state-hover), transparent);
+    translate: -100% 0;
+    animation: apui-skeleton-shimmer 1.6s ease-in-out infinite;
+  }
+
+  .apui-skeleton:dir(rtl)::after {
+    animation-direction: reverse;
+  }
+
+  @keyframes apui-skeleton-shimmer {
+    to {
+      translate: 100% 0;
+    }
+  }
+
+  .apui-skeleton[data-shape='text'] {
+    block-size: 10px;
+    margin-block: 5px;
+    border-radius: 9999px;
+  }
+
+  .apui-skeleton[data-shape='circle'] {
+    border-radius: 9999px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .apui-skeleton::after {
+      animation: none;
+      opacity: 0;
+    }
+  }
+
+  @media (forced-colors: active) {
+    .apui-skeleton {
+      forced-color-adjust: none;
+      background: GrayText;
+    }
+
+    .apui-skeleton::after {
+      display: none;
+    }
+  }
+}
