@@ -29,6 +29,8 @@ describe('upgrade guides', () => {
       expect(text).toContain(heading);
     }
     expect(text).toContain('security fixes only for 12 months');
+    // Plain YAML title: the docs site's importer reads it verbatim, quotes included.
+    expect(text).toMatch(/^---\ntitle: Upgrading [^"\n]+\nmenu_order: [1-3]\n---\n\n# Upgrading /);
     expect(text).toContain("@import '@artisanpack-ui/css';");
     expect(text).toContain("@import 'tailwindcss';");
     expect(text).toContain('data-preset');
