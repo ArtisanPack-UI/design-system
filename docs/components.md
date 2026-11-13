@@ -5,7 +5,7 @@ menu_order: 6
 
 # Components
 
-Every component exists in all three stacks, with the same props, parts, events and keyboard behavior. Each component's page has a tab per stack (Blade, React and Vue) with live examples, and tables of its props, parts, slots and events.
+Every component has the same props, parts, events and keyboard behavior in each stack it ships in. All but three ship in all three stacks; ImageLibrary, StreamableContent and ThemePreview are Livewire-only. Each component's page has a tab per stack (Blade, React and Vue) with live examples, and tables of its props, parts, slots and events.
 
 | Stack | Tag or import |
 |---|---|
@@ -88,7 +88,7 @@ Names follow each stack's conventions: `leadingIcon` in React and Vue is `leadin
 | [Progress](components/progress) | Linear progress: determinate, indeterminate or segmented into steps, with an optional label and value above the track. |
 | [ProgressRadial](components/progress-radial) | Circular progress with the value in the center, built from Progress: for a single headline percentage. |
 | [Skeleton](components/skeleton) | A placeholder shape that matches the layout while content loads: a block, a line of text or a circle. |
-| [StreamableContent](components/streamable-content) | Content that arrives over time, such as a generated summary, with waiting, streaming, done, error and stopped states. |
+| [StreamableContent](components/streamable-content) | Content that arrives over time, such as a generated summary, with waiting, streaming, done, error and stopped states. (Livewire only) |
 | [EmptyState](components/empty-state) | Explains why there's nothing here and what to do next: an icon tile, a title, a description and usually one primary action. |
 | [ErrorState](components/error-state) | Explains what failed, what's safe and how to recover, in place of content that couldn't load: an icon tile or a large status number, a title, a description, a reference code people can quote and recovery actions. |
 
@@ -137,7 +137,7 @@ Names follow each stack's conventions: `leadingIcon` in React and Vue is `leadin
 | Component | Description |
 |---|---|
 | [ImageGallery](components/image-gallery) | A grid of images that opens a lightbox: a dark dialog with the image, a counter and caption, previous and next buttons, thumbnails and arrow keys that follow the text direction. |
-| [ImageLibrary](components/image-library) | A media manager: search, switch between grid and list, select one or many assets, upload, and inspect an asset in a details panel with editable alt text. |
+| [ImageLibrary](components/image-library) | A media manager: search, switch between grid and list, select one or many assets, upload, and inspect an asset in a details panel with editable alt text. (Livewire only) |
 | [Carousel](components/carousel) | Scroll-snapped slides with previous and next buttons and position dots, on the carousel machine ImageSlider uses. |
 | [ImageSlider](components/image-slider) | One large image per view with a glass caption, a counter, previous and next buttons, dots and optional thumbnails, on the carousel machine. |
 
@@ -146,7 +146,7 @@ Names follow each stack's conventions: `leadingIcon` in React and Vue is `leadin
 | Component | Description |
 |---|---|
 | [ThemeToggle](components/theme-toggle) | Lets people choose light, dark, high contrast or system. |
-| [ThemePreview](components/theme-preview) | Selectable cards that show a live miniature of each theme or preset: a radio group whose miniatures are drawn with the real tokens, by setting data-theme and data-preset on each miniature, so they stay accurate after a rebrand. |
+| [ThemePreview](components/theme-preview) | Selectable cards that show a live miniature of each theme or preset: a radio group whose miniatures are drawn with the real tokens, by setting data-theme and data-preset on each miniature, so they stay accurate after a rebrand. (Livewire only) |
 
 ## Shared conventions
 
