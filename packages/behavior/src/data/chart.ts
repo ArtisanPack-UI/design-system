@@ -189,12 +189,11 @@ const fixed = (value: number, digits = 1): string => {
 };
 
 /**
- * 10 to a whole power, dividing for negative powers (engines round `**` on
- * those differently). Parsed from `1e…`, the nearest double for any power,
- * as PHP's port parses it.
+ * 10 to a whole power, parsed from `1e…` (engines round `**` differently):
+ * the nearest double for any power, subnormal ones included, as PHP's port
+ * parses it.
  */
-const pow10 = (exponent: number): number =>
-  exponent >= 0 ? Number(`1e${exponent}`) : 1 / Number(`1e${-exponent}`);
+const pow10 = (exponent: number): number => Number(`1e${exponent}`);
 
 /** The power of ten at or below a positive number. */
 function exponentOf(value: number): number {
@@ -233,10 +232,8 @@ export function chartTicks(min: number, max: number): number[] {
   const low = Math.min(0, axisValue(min));
   let high = Math.max(0, axisValue(max));
   if (high === low) high = low + 1;
-  const step = Math.max(
-    CHART_MIN_STEP,
-    niceNumber(niceNumber(high - low, false) / TICK_COUNT, true),
-  );
+  const range = Math.max(CHART_MIN_STEP, high - low);
+  const step = Math.max(CHART_MIN_STEP, niceNumber(niceNumber(range, false) / TICK_COUNT, true));
   const digits = Math.max(0, -exponentOf(step));
   const start = roundTo(Math.floor(low / step) * step, digits);
   const end = roundTo(Math.ceil(high / step) * step, digits);
