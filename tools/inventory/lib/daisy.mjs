@@ -6,7 +6,7 @@
  */
 
 /** Component roots whose bare name and `root-*` modifiers are DaisyUI-only. */
-const HIGH_CONFIDENCE_ROOTS = [
+export const HIGH_CONFIDENCE_ROOTS = [
 	'alert', 'avatar', 'badge', 'breadcrumbs', 'btn', 'card', 'carousel', 'chat', 'checkbox',
 	'countdown', 'divider', 'dock', 'drawer', 'dropdown', 'fieldset', 'file-input', 'indicator',
 	'join', 'kbd', 'loading', 'mask', 'mockup', 'modal', 'navbar', 'progress', 'radial-progress',
@@ -18,28 +18,28 @@ const HIGH_CONFIDENCE_ROOTS = [
  * Names that are also Tailwind utilities, HTML-ish hook classes, or common custom
  * class names. Reported separately so the upgrade command warns instead of rewrites.
  */
-const AMBIGUOUS_ROOTS = [
+export const AMBIGUOUS_ROOTS = [
 	'collapse', 'diff', 'filter', 'footer', 'hero', 'input', 'label', 'link', 'list', 'menu',
 	'range', 'select', 'stack', 'status', 'table',
 ];
 
 /** Tailwind utilities that merely share a prefix with an ambiguous root. */
-const TAILWIND_LOOKALIKES = /^(table-(auto|fixed|caption|cell|column|footer-group|header-group|row|row-group)|list-(none|disc|decimal|inside|outside|image-none)|select-(none|text|all|auto)|filter-none|stack-trace|footer-.*)$/;
+export const TAILWIND_LOOKALIKES = /^(table-(auto|fixed|caption|cell|column|footer-group|header-group|row|row-group)|list-(none|disc|decimal|inside|outside|image-none)|select-(none|text|all|auto)|filter-none|stack-trace|footer-.*)$/;
 
 const STATEFUL_VARIANT = /^(?:[a-z0-9-]+:)*!?/;
 
 const SEMANTIC_NAMES = 'primary|secondary|accent|neutral|info|success|warning|error';
 
 /** `bg-base-200`, `text-base-content/60`, `border-base-300`, … have no token equivalent yet. */
-const THEME_BASE_UTILITY = /^(?:bg|text|border|ring|outline|divide|fill|stroke|from|via|to|shadow|placeholder|decoration|accent|caret)-base-(?:100|200|300|content)(?:\/\d+)?$/;
+export const THEME_BASE_UTILITY = /^(?:bg|text|border|ring|outline|divide|fill|stroke|from|via|to|shadow|placeholder|decoration|accent|caret)-base-(?:100|200|300|content)(?:\/\d+)?$/;
 
 /** `text-primary-content` is a DaisyUI-only pairing. */
-const THEME_CONTENT_UTILITY = new RegExp( `^(?:bg|text|border|ring|outline|fill|stroke)-(?:${ SEMANTIC_NAMES })-content(?:/\\d+)?$` );
+export const THEME_CONTENT_UTILITY = new RegExp( `^(?:bg|text|border|ring|outline|fill|stroke)-(?:${ SEMANTIC_NAMES })-content(?:/\\d+)?$` );
 
 /** `bg-primary` survives via the optional Tailwind preset, so it is low priority. */
-const THEME_SEMANTIC_UTILITY = new RegExp( `^(?:bg|text|border|ring|outline|fill|stroke|divide)-(?:${ SEMANTIC_NAMES })(?:/\\d+)?$` );
+export const THEME_SEMANTIC_UTILITY = new RegExp( `^(?:bg|text|border|ring|outline|fill|stroke|divide)-(?:${ SEMANTIC_NAMES })(?:/\\d+)?$` );
 
-const THEME_VARIABLE = new RegExp(
+export const THEME_VARIABLE = new RegExp(
 	[
 		`--color-(?:base-(?:100|200|300|content)|(?:${ SEMANTIC_NAMES })(?:-content)?)`,
 		'--radius-(?:selector|field|box)',
@@ -50,7 +50,7 @@ const THEME_VARIABLE = new RegExp(
 	'g',
 );
 
-const CONFIG_REFERENCE = /@plugin\s+["']daisyui(?:\/theme)?["']|["']daisyui["']\s*:|require\(\s*["']daisyui["']\s*\)|\bdata-theme\s*=/g;
+export const CONFIG_REFERENCE = /@plugin\s+["']daisyui(?:\/theme)?["']|["']daisyui["']\s*:|require\(\s*["']daisyui["']\s*\)|\bdata-theme\s*=/g;
 
 function matchesRoot( name, roots ) {
 	return roots.some( ( root ) => name === root || name.startsWith( `${ root }-` ) );

@@ -13,6 +13,7 @@ Phase 0 and Phase 1 are complete. The [inventory](docs/inventory/README.md) reco
 | [`@artisanpack-ui/behavior`](packages/behavior) | Shared interaction engine with Alpine, React and Vue adapters | Scaffold |
 | [`@artisanpack-ui/manifest`](packages/manifest) | Per-component JSON manifest, docs examples and docs tables | Scaffold |
 | [`@artisanpack-ui/testing`](packages/testing) | Quality gates: cross-stack visual regression, axe and API parity | Gate harness built; first component in the pilot (#44) |
+| [`@artisanpack-ui/codemods`](packages/codemods) | Upgrade rules, the React and Vue codemods and the [upgrade guides](docs/upgrade/README.md) | Built for the 1.0 majors (#67 to #70) |
 
 The repo root is also a Composer package, `artisanpack-ui/design-system`, with the PHP side of the manifest and the gates ([D-016](docs/decisions.md#d-016-the-quality-gates-ship-as-artisanpack-uitesting-plus-a-composer-kit)).
 

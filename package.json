@@ -10,6 +10,7 @@
     "packages/behavior",
     "packages/manifest",
     "packages/testing",
+    "packages/codemods",
     "apps/playground"
   ],
   "engines": {

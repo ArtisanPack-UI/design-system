@@ -35,6 +35,8 @@ jobs:
         run: npm run format:check
       - name: Component manifests
         run: npm run build --workspace @artisanpack-ui/manifest && npm run validate --workspace @artisanpack-ui/manifest
+      - name: Upgrade rules and guides
+        run: npm run rules:check --workspace @artisanpack-ui/codemods && npm run guides:check --workspace @artisanpack-ui/codemods
 
   type-check:
     name: Type check

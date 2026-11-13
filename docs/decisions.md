@@ -59,6 +59,7 @@ Decisions that shape the design system. To change one, add a new entry that supe
 | [D-053](#d-053-carousel-runs-on-the-d-041-carousel-widget) | Carousel runs on the D-041 carousel widget | #65 | 2026-11-12 |
 | [D-054](#d-054-theme-choice-lives-in-behavior-and-applies-before-first-paint) | Theme choice lives in `behavior` and applies before first paint | #65 | 2026-11-12 |
 | [D-055](#d-055-themepreview-is-a-blade-card-picker) | ThemePreview is a Blade card picker | #65 | 2026-11-12 |
+| [D-056](#d-056-upgrade-rules-are-generated-and-every-stack-applies-the-same-ones) | Upgrade rules are generated, and every stack applies the same ones | #67 to #70 | 2026-11-12 |
 
 ## D-001: No separate brand
 
@@ -778,3 +779,19 @@ The package tests repeat these in Chromium with Alpine's morph plugin, plus RTL 
 **Decision.** ThemePreview stays Livewire-only (D-003) but is now a Blade component, `<x-artisanpack-theme-preview>`: `.apui-theme-card` native radios (with `wire:model` on each input, so it needs no Alpine) whose miniatures carry `data-theme` and `data-preset` and render with the real tokens; a System card shows light and dark halves. It takes `options` (`{value, label, theme?, preset?}`) and `value`. The 2.x `<livewire:theme-preview>` theme builder and its `/artisanpack/theme-preview` route are removed. This replaces D-003's description of ThemePreview as a theming dev tool. Where a theme builder lives in 3.x (artisanpackui.dev, the docs site's builder in #30, or the package) is open in ArtisanPack-UI/livewire-ui-components#142.
 
 **Why.** The spec defines ThemePreview as selectable cards. Miniatures drawn from tokens stay correct after a rebrand, where screenshots would go stale.
+
+## D-056: Upgrade rules are generated, and every stack applies the same ones
+
+**Decision.**
+
+- `@artisanpack-ui/codemods` (`packages/codemods`) holds the migration tooling: the upgrade rules, the React and Vue codemods (`npx @artisanpack-ui/codemods react|vue`) and the generator for the upgrade guides in `docs/upgrade/`.
+- **The rules are a diff, not a hand-written list.** "Before" is the Phase 0 catalogue of each stack's 2.x API (`docs/inventory/data/api-<stack>.json`), "after" is the manifest. `component-map.json` and `api-aliases.json` pair the names; `rules/curated.json` adds what names can't say (a value to write, an attribute to add, a note). The build rejects a rule whose target prop or value the manifest doesn't have, and turns a 2.x member with no rule and no place in the manifest into a `manual` rule.
+- **One rule set, three appliers.** `generated/upgrade-rules.json` covers all stacks. The Livewire half ships as `generated/upgrade-rules.php`, which Livewire UI Components copies with its asset build; `php artisan artisanpack:upgrade-ui` lives there (#67) and applies the rules with a PHP twin of `planAttribute()`. The guides' tables are generated from the same file.
+- **Automatic only when the tool can decide.** Rule kinds are `rename`, `value`, `split`, `invert`, `part-class`, `remove`, `manual`, and for Blade `wrap` (tooltip attributes become a wrapping Tooltip, D-029) and `content` (`label` becomes the default slot). A removed flag is deleted; a removed attribute that carried a value is left and reported. Button `variant` is a `split`: a literal color moves to `color`, a literal variant stays, anything dynamic is reported. Renamed events are rewritten and marked for review, because their payloads changed.
+- **Raw DaisyUI classes are reported, never rewritten**, with file, line and column, from the Phase 0 scanner's lists. `bg-primary` and the other semantic utilities aren't reported: the Tailwind preset keeps them (D-011).
+- **Tags the rules don't name are left alone**, so `<x-artisanpack-ec-*>` and other package-owned tags are safe. React and Vue only touch what a file imports from the package; Vue's `--global` opts unimported tags in.
+- **The codemods edit by offset** (TypeScript's parser and `@vue/compiler-sfc`, written through `magic-string`), not by reprinting an AST, so formatting and comments survive. They are jscodeshift-style in use, without the jscodeshift dependency, which can't parse Vue templates.
+- Vue binds the manifest's `value` as `modelValue`, so a Vue rule that targets `value` writes `modelValue`.
+- Child components the manifests don't describe (`menu-item`, `tab`, `step`, `timeline-item`) keep their names; their rules aren't checked against the parent's manifest. Livewire UI Components checks every Livewire rule against its registered tags and constructor arguments instead.
+
+**Why.** The Phase 0 scan found about 530 usages a codemod can rewrite and 4,000 class and theme references it can't. Generating the rules from the manifest keeps the tools, the guides and the components in agreement, and the manifest check stops a rule from writing an API that doesn't exist. Reporting what can't be decided is safer than a rewrite that looks right and isn't.

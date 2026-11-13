@@ -4,7 +4,7 @@ Per-component JSON manifest for ArtisanPack UI: the API contract the parity test
 
 > **Not published yet.** The first release is tracked in #81.
 
-Each component has one JSON file in [`components/`](components) describing its props, variants, sizes, colors, parts, slots, events, accessibility requirements, the tokens it reads, and which stacks it ships in ([D-003](../../docs/decisions.md#d-003-full-parity-at-launch-with-four-exceptions)). Names follow the [unified vocabulary](../../docs/inventory/vocabulary.md). The manifest drives the parity tests (#41), the docs tables, the codemods and the upgrade guides.
+Each component has one JSON file in [`components/`](components) describing its props, variants, sizes, colors, parts, slots, events, accessibility requirements, the tokens it reads, and which stacks it ships in ([D-003](../../docs/decisions.md#d-003-full-parity-at-launch-with-four-exceptions)). Names follow the [unified vocabulary](../../docs/inventory/vocabulary.md). The manifest drives the parity tests (#41), the docs tables, the codemods and the upgrade guides ([`@artisanpack-ui/codemods`](../codemods/README.md)).
 
 ## Schema
 
