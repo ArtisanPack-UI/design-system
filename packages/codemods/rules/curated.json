@@ -1,0 +1,4805 @@
+{
+  "$comment": "Curated. What the names in docs/inventory/data can't say about the move to the next major. `components` overrides a 2.x component by stack: `canonical` (its manifest, when component-map.json's has none), `to` (its new name), `keep` (the name stands), `children` (its props belong to a child the manifest doesn't describe, so they aren't checked against it), `manual` with `note` (reported wherever it is used), `add` (attributes the new component needs). `props` lists member rules by manifest name (`*` for every component that has the member); they win over the rules derived from api-aliases.json. `kind: keep` means the member carries over. `evidence` says where the rule comes from. Run `npm run rules` after editing.",
+  "components": {
+    "livewire": {
+      "tags": {
+        "canonical": "Combobox",
+        "add": [
+          {
+            "name": "multiple"
+          },
+          {
+            "name": "allowCreate"
+          }
+        ],
+        "note": "Tags is a Combobox with `multiple` and `allow-create` (D-020)."
+      },
+      "select-group": {
+        "canonical": "Select",
+        "note": "Pass the groups to Select as `{ label, options }` entries (D-025)."
+      },
+      "datetime": {
+        "canonical": "DatePicker",
+        "note": "Add `time` for a date and time (D-021)."
+      },
+      "choices": {
+        "add": [
+          {
+            "name": "multiple",
+            "unless": "single"
+          }
+        ],
+        "note": "Choices was multiple by default; Combobox is single (D-020)."
+      },
+      "choices-offline": {
+        "add": [
+          {
+            "name": "multiple",
+            "unless": "single"
+          }
+        ],
+        "note": "Choices was multiple by default; Combobox is single (D-020)."
+      },
+      "subheading": {
+        "add": [
+          {
+            "name": "size",
+            "value": "lead"
+          }
+        ],
+        "note": "Subheading is Text with `size=\"lead\"` (D-043)."
+      },
+      "group": {
+        "add": [
+          {
+            "name": "variant",
+            "value": "segmented"
+          }
+        ],
+        "note": "Group is RadioGroup with `variant=\"segmented\"` (D-025)."
+      },
+      "menu-item": {
+        "keep": true,
+        "children": true
+      },
+      "menu-sub": {
+        "keep": true,
+        "children": true
+      },
+      "menu-title": {
+        "keep": true,
+        "children": true
+      },
+      "menu-separator": {
+        "keep": true,
+        "children": true
+      },
+      "tab": {
+        "keep": true,
+        "children": true
+      },
+      "step": {
+        "keep": true,
+        "children": true
+      },
+      "timeline-item": {
+        "keep": true,
+        "children": true
+      },
+      "event-modal-content": {
+        "keep": true,
+        "children": true
+      },
+      "drawer": {
+        "add": [
+          {
+            "name": "side",
+            "value": "start",
+            "unless": "right"
+          }
+        ],
+        "note": "The default side moved from start to end (D-029)."
+      }
+    },
+    "react": {
+      "DropdownItem": {
+        "keep": true,
+        "manual": true,
+        "note": "Use `DropdownMenuItem`, which needs a `value`; the menu reports the choice through `onSelect`."
+      },
+      "ToastProvider": {
+        "keep": true,
+        "manual": true,
+        "note": "Render one `<Toaster />` instead of wrapping the app, and create toasts with `toast.create()`."
+      },
+      "ToastMessage": {
+        "keep": true,
+        "manual": true,
+        "note": "Use `Toast`, which takes `title`, `description` and `color` instead of a `toast` object."
+      },
+      "Sidebar": {
+        "keep": true,
+        "manual": true,
+        "note": "Use `AppShell`, the whole page frame, with a `Menu` in its `sidebar` slot (D-031)."
+      }
+    },
+    "vue": {
+      "DropdownItem": {
+        "keep": true,
+        "manual": true,
+        "note": "Use `DropdownMenuItem`, which needs a `value`; the menu reports the choice through `select`."
+      },
+      "ToastProvider": {
+        "keep": true,
+        "manual": true,
+        "note": "Render one `Toaster` instead of wrapping the app, and create toasts with `toast.create()`."
+      },
+      "ToastMessage": {
+        "keep": true,
+        "manual": true,
+        "note": "Use `Toast`; timed toasts come from `toast.create()` and render in a `Toaster`."
+      },
+      "Sidebar": {
+        "keep": true,
+        "manual": true,
+        "note": "Use `AppShell`, the whole page frame, with a `Menu` in its `sidebar` slot (D-031)."
+      }
+    }
+  },
+  "props": {
+    "Avatar": [
+      {
+        "stack": "livewire",
+        "component": "avatar",
+        "from": "subtitle",
+        "kind": "manual",
+        "note": "Gone: lay out a name beside the avatar with a ListItem, or use UserMenu.",
+        "evidence": "docs/components/avatar.md:56; resources/views/components/avatar.blade.php:14 (stripped)"
+      },
+      {
+        "stack": "react",
+        "component": "Avatar",
+        "from": "ring",
+        "kind": "remove",
+        "note": "Avatar has no ring in 2.0.",
+        "evidence": "packages/react/src/components/data/Avatar/Avatar.tsx:79-102 (no ring prop)"
+      },
+      {
+        "stack": "react",
+        "component": "Avatar",
+        "from": "online",
+        "kind": "value",
+        "to": "status",
+        "value": "online",
+        "evidence": "packages/react/src/components/data/Avatar/Avatar.tsx:35,97 (AvatarStatus 'online'|'away'|'offline')"
+      },
+      {
+        "stack": "react",
+        "component": "Avatar",
+        "from": "offline",
+        "kind": "value",
+        "to": "status",
+        "value": "offline",
+        "evidence": "packages/react/src/components/data/Avatar/Avatar.tsx:35,97"
+      },
+      {
+        "stack": "react",
+        "component": "Avatar",
+        "from": "subtitle",
+        "kind": "manual",
+        "note": "Avatar no longer renders a title or subtitle. Render the text beside it, for example in a `ListItem` (`title`, `description`, `leading`).",
+        "evidence": "packages/react/src/components/data/Avatar/Avatar.tsx:79-102 (no title/subtitle); layout/ListItem/ListItem.tsx:63-77"
+      },
+      {
+        "stack": "vue",
+        "component": "Avatar",
+        "from": "online",
+        "kind": "value",
+        "to": "status",
+        "value": "online",
+        "evidence": "packages/vue/src/components/display/Avatar/types.ts:18-19,45-46 (status: online|away|offline)"
+      },
+      {
+        "stack": "vue",
+        "component": "Avatar",
+        "from": "offline",
+        "kind": "value",
+        "to": "status",
+        "value": "offline",
+        "evidence": "packages/vue/src/components/display/Avatar/types.ts:18-19,45-46 (status: online|away|offline)"
+      },
+      {
+        "stack": "vue",
+        "component": "Avatar",
+        "from": "ring",
+        "kind": "manual",
+        "note": "Removed: Avatar has no ring. Delete it, or draw the ring with your own class on the avatar.",
+        "evidence": "packages/vue/src/components/display/Avatar/types.ts:28-51 (no ring prop); manifest Avatar.json props"
+      }
+    ],
+    "Breadcrumbs": [
+      {
+        "stack": "livewire",
+        "component": "breadcrumbs",
+        "from": "separator",
+        "kind": "manual",
+        "note": "Gone: the separator is always a chevron; remove it and style it through `classes`.",
+        "evidence": "docs/components/breadcrumbs.md:71; resources/views/components/breadcrumbs.blade.php:16"
+      },
+      {
+        "stack": "vue",
+        "component": "Breadcrumbs",
+        "from": "item",
+        "group": "slots",
+        "kind": "manual",
+        "note": "The `item` slot is gone. Use the scoped `link` slot (`{ item, href, attrs }`, bind `attrs`) to render a router link, or compose `BreadcrumbsItem` children.",
+        "evidence": "packages/vue/src/components/navigation/Breadcrumbs/Breadcrumbs.vue:35-40 (defineSlots: default, link)"
+      }
+    ],
+    "Button": [
+      {
+        "stack": "livewire",
+        "component": "button",
+        "from": "iconRight",
+        "kind": "rename",
+        "to": "trailingIcon",
+        "evidence": "src/View/Components/Button.php:49,62 (\"Icon name after the label\"); same rename documented for Link in docs/components/link.md:62. Icon names are now registry (Lucide) names."
+      },
+      {
+        "stack": "livewire",
+        "component": "button",
+        "from": "spinner",
+        "kind": "manual",
+        "note": "Gone: set the boolean `loading` prop to show the spinner; there is no `wire:target` shortcut.",
+        "evidence": "src/View/Components/Button.php:45,57 (loading is a bool); manifest Button.json has no spinner prop"
+      },
+      {
+        "stack": "livewire",
+        "component": "button",
+        "from": "external",
+        "kind": "manual",
+        "note": "Gone: add `target=\"_blank\"` and `rel=\"noopener\"` to the button yourself.",
+        "evidence": "src/View/Components/Button.php:53-65 (no external prop; every attribute lands on the root, line 28)"
+      },
+      {
+        "stack": "livewire",
+        "component": "button",
+        "from": "responsive",
+        "kind": "remove",
+        "note": "Gone: the label no longer hides on small screens; use `icon-only` for an icon button.",
+        "evidence": "src/View/Components/Button.php:53-65; manifest Button.json props"
+      },
+      {
+        "stack": "livewire",
+        "component": "button",
+        "from": "badge",
+        "kind": "manual",
+        "note": "Gone: render a Badge inside the button's slot or beside it.",
+        "evidence": "src/View/Components/Button.php:53-65; manifest Button.json props"
+      },
+      {
+        "stack": "react",
+        "component": "Button",
+        "from": "label",
+        "kind": "manual",
+        "note": "Pass the text as children instead of `label`.",
+        "evidence": "packages/react/src/components/form/Button/Button.tsx:47-84 (no label prop; label is the children part)"
+      },
+      {
+        "stack": "react",
+        "component": "Button",
+        "from": "external",
+        "kind": "manual",
+        "note": "Set `target=\"_blank\"` and `rel=\"noopener noreferrer\"` alongside `href`.",
+        "evidence": "packages/react/src/components/form/Button/Button.tsx:50 (picks target, rel from anchor attributes; no external prop)"
+      },
+      {
+        "stack": "react",
+        "component": "Button",
+        "from": "badge",
+        "kind": "manual",
+        "note": "Render a `Badge` inside the button's children.",
+        "evidence": "packages/react/src/components/form/Button/Button.tsx:47-84 (no badge prop)"
+      },
+      {
+        "stack": "react",
+        "component": "Button",
+        "from": "responsive",
+        "kind": "remove",
+        "note": "The label is no longer hidden on small screens; use `iconOnly` with an `aria-label` for an icon-only button.",
+        "evidence": "packages/react/src/components/form/Button/Button.tsx:57-58 (no responsive prop)"
+      },
+      {
+        "stack": "react",
+        "component": "Button",
+        "from": "tooltip",
+        "kind": "manual",
+        "note": "Wrap the button in `<Tooltip content=\"…\">`.",
+        "evidence": "decisions.md D-029 (tooltip props on other components are gone); packages/react/src/components/form/Button/Button.tsx:47-84"
+      },
+      {
+        "stack": "react",
+        "component": "Button",
+        "from": "tooltipPosition",
+        "kind": "manual",
+        "note": "Set `placement` on the wrapping `Tooltip` (logical values such as `top`, `bottom`, `start`, `end`).",
+        "evidence": "decisions.md D-029; .changeset/layout-feedback-data-display-waves.md (Tooltip: `content`, logical `placement`)"
+      },
+      {
+        "stack": "react",
+        "component": "Button",
+        "from": "iconRight",
+        "kind": "rename",
+        "to": "iconEnd",
+        "evidence": "packages/react/src/components/form/Button/Button.tsx:78-79 (iconEnd: trailing icon node)"
+      },
+      {
+        "stack": "vue",
+        "component": "Button",
+        "from": "label",
+        "kind": "manual",
+        "note": "Move the text into the default slot: `<Button>Save</Button>`.",
+        "evidence": "packages/vue/src/components/form/Button/types.ts:24-27 (default slot is the label; no label prop)"
+      },
+      {
+        "stack": "vue",
+        "component": "Button",
+        "from": "external",
+        "kind": "manual",
+        "note": "Removed. Pass `target=\"_blank\"` and `rel=\"noopener noreferrer\"` as attributes; they go to the anchor that `href` renders.",
+        "evidence": "packages/vue/src/components/form/Button/types.ts:24-27,42-43 (all other attributes go to the root)"
+      },
+      {
+        "stack": "vue",
+        "component": "Button",
+        "from": "badge",
+        "kind": "manual",
+        "note": "Removed. Put a `Badge` inside the button's default slot.",
+        "evidence": "packages/vue/src/components/form/Button/types.ts:29-52 (no badge prop); manifest Button.json props"
+      },
+      {
+        "stack": "vue",
+        "component": "Button",
+        "from": "badgeColor",
+        "kind": "manual",
+        "note": "Removed with `badge`. Set `color` on the `Badge` you put in the default slot.",
+        "evidence": "packages/vue/src/components/form/Button/types.ts:29-52 (no badgeColor prop)"
+      },
+      {
+        "stack": "vue",
+        "component": "Button",
+        "from": "responsive",
+        "kind": "manual",
+        "note": "Removed. Hide the label at small widths with your own responsive class on the slot content, or use `iconOnly` with an `aria-label`.",
+        "evidence": "packages/vue/src/components/form/Button/types.ts:36-37 (iconOnly); no responsive prop"
+      },
+      {
+        "stack": "vue",
+        "component": "Button",
+        "from": "tooltip",
+        "kind": "manual",
+        "note": "Removed. Wrap the button in `<Tooltip content=\"…\">`.",
+        "evidence": "decisions.md D-029 (tooltip props on other components are gone); packages/vue/src/components/form/Button/types.ts:29-52"
+      },
+      {
+        "stack": "vue",
+        "component": "Button",
+        "from": "tooltipPosition",
+        "kind": "manual",
+        "note": "Removed. Set `placement` (`top`, `bottom`, `start`, `end`) on the `Tooltip` you wrap the button in; `left` is `start` and `right` is `end`.",
+        "evidence": "decisions.md D-029 (placement is one logical prop: top|bottom|start|end)"
+      },
+      {
+        "stack": "vue",
+        "component": "Button",
+        "from": "iconRight",
+        "group": "slots",
+        "kind": "rename",
+        "to": "iconEnd",
+        "evidence": "packages/vue/src/components/form/Button/Button.vue:93-96 (slot iconEnd, after the label); types.ts:25-26"
+      },
+      {
+        "stack": "livewire",
+        "component": "button",
+        "from": "icon",
+        "kind": "rename",
+        "to": "leadingIcon",
+        "evidence": "The manifest's `icon` is a slot; the attribute is `leadingIcon`. Heroicons names still render through blade-icons (D-017)."
+      },
+      {
+        "stack": "livewire",
+        "component": "button",
+        "from": "label",
+        "kind": "content",
+        "note": "Put the text in the button's default slot.",
+        "evidence": "Button.php has no `label` in 3.0; the view renders the default slot in the `label` part."
+      }
+    ],
+    "Card": [
+      {
+        "stack": "livewire",
+        "component": "card",
+        "from": "subtitle",
+        "kind": "rename",
+        "to": "description",
+        "evidence": "src/View/Components/Card.php:47,59 (\"Supporting text under the title\"); 2.x card.blade.php rendered subtitle under the title"
+      },
+      {
+        "stack": "livewire",
+        "component": "card",
+        "from": "separator",
+        "kind": "remove",
+        "note": "Gone: the card draws no header rule; use `classes` if you need one.",
+        "evidence": "src/View/Components/Card.php:54-65; manifest Card.json props"
+      },
+      {
+        "stack": "livewire",
+        "component": "card",
+        "from": "shadow",
+        "kind": "manual",
+        "note": "Gone: use `surface=\"raised\"` for an elevated card.",
+        "evidence": "src/View/Components/Card.php:43 (surface: default, raised, sunken or glass); no documented mapping"
+      },
+      {
+        "stack": "livewire",
+        "component": "card",
+        "from": "progressIndicator",
+        "kind": "manual",
+        "note": "Gone: show a Progress component inside the card while loading.",
+        "evidence": "src/View/Components/Card.php:54-65; manifest Card.json props"
+      },
+      {
+        "stack": "livewire",
+        "component": "card",
+        "from": "figurePosition",
+        "kind": "manual",
+        "note": "Gone: media always sits at the top of the card; lay out side or bottom images yourself.",
+        "evidence": "src/View/Components/Card.php:50 (\"shown edge to edge at the top\")"
+      },
+      {
+        "stack": "livewire",
+        "component": "card",
+        "from": "menu",
+        "kind": "manual",
+        "note": "Use the `actions` slot, which now sits at the end of the header; move 2.x bottom actions to `footer`.",
+        "evidence": "src/View/Components/Card.php:48-49; resources/views/components/card.blade.php:29-45; 2.x card.blade.php rendered menu in the header"
+      },
+      {
+        "stack": "livewire",
+        "component": "card",
+        "from": "figure",
+        "kind": "rename",
+        "to": "media",
+        "evidence": "src/View/Components/Card.php:50,62; resources/views/components/card.blade.php:7,22-27 (media slot or image URL)"
+      },
+      {
+        "stack": "livewire",
+        "component": "card",
+        "from": "figure",
+        "group": "slots",
+        "kind": "rename",
+        "to": "media",
+        "evidence": "resources/views/components/card.blade.php:3,7,24 (media slot); manifest Card.json slots"
+      },
+      {
+        "stack": "livewire",
+        "component": "card",
+        "from": "menu",
+        "group": "slots",
+        "kind": "manual",
+        "note": "Use the `actions` slot, which now sits at the end of the header; move 2.x bottom actions to `footer`.",
+        "evidence": "resources/views/components/card.blade.php:3,42-44; manifest Card.json slots"
+      },
+      {
+        "stack": "vue",
+        "component": "Card",
+        "from": "subtitle",
+        "kind": "rename",
+        "to": "description",
+        "evidence": "packages/vue/src/components/layout/Card/types.ts:31-32 (description: supporting text under the title)"
+      },
+      {
+        "stack": "vue",
+        "component": "Card",
+        "from": "figurePosition",
+        "kind": "manual",
+        "note": "Removed: media always sits edge to edge above the header. Lay out a side or bottom image yourself in the default slot.",
+        "evidence": "packages/vue/src/components/layout/Card/types.ts:37-38; Card.vue:75-76 (media rendered first only)"
+      },
+      {
+        "stack": "vue",
+        "component": "Card",
+        "from": "noShadow",
+        "kind": "remove",
+        "note": "Gone: elevation is chosen with `surface` (`default`, `raised`, `sunken` or `glass`).",
+        "evidence": "packages/vue/src/components/layout/Card/types.ts:1-2,23-24 (surface default|raised|sunken|glass)"
+      },
+      {
+        "stack": "vue",
+        "component": "Card",
+        "from": "bordered",
+        "kind": "remove",
+        "note": "Gone: there is no border option; the look comes from its `surface`.",
+        "evidence": "packages/vue/src/components/layout/Card/types.ts:22-43 (no bordered prop); manifest Card.json props"
+      },
+      {
+        "stack": "vue",
+        "component": "Card",
+        "from": "compact",
+        "kind": "manual",
+        "note": "Removed: there is no compact padding option. Delete it, or adjust padding with `classes.body` / `classes.header`.",
+        "evidence": "packages/vue/src/components/layout/Card/types.ts:41-42 (classes per part); no compact prop"
+      },
+      {
+        "stack": "vue",
+        "component": "Card",
+        "from": "external",
+        "kind": "manual",
+        "note": "Removed: the card link (`href`) opens in the same tab. For a new-tab link, put your own anchor in the `title` slot.",
+        "evidence": "packages/vue/src/components/layout/Card/Card.vue:96-99 (title anchor takes only href)"
+      },
+      {
+        "stack": "vue",
+        "component": "Card",
+        "from": "figure",
+        "group": "slots",
+        "kind": "rename",
+        "to": "media",
+        "evidence": "packages/vue/src/components/layout/Card/Card.vue:75-76 (slot media, edge to edge above the header); types.ts:18-19"
+      },
+      {
+        "stack": "vue",
+        "component": "Card",
+        "from": "header",
+        "group": "slots",
+        "kind": "manual",
+        "note": "The `header` slot is gone. Split its content across the `title`, `description` and `actions` slots.",
+        "evidence": "packages/vue/src/components/layout/Card/Card.vue:86-113 (header is built from title, description and actions slots)"
+      },
+      {
+        "stack": "vue",
+        "component": "Card",
+        "from": "menu",
+        "group": "slots",
+        "kind": "rename",
+        "to": "actions",
+        "evidence": "packages/vue/src/components/layout/Card/Card.vue:110-113 (slot actions: controls at the end of the header); 1.x Card.vue rendered menu at the end of the title row"
+      }
+    ],
+    "Carousel": [
+      {
+        "stack": "livewire",
+        "component": "carousel",
+        "from": "nextArrow",
+        "kind": "manual",
+        "note": "Ignored in 3.0: remove it; the next button is built in (`next-label` names it).",
+        "evidence": "docs/components/carousel.md:69; src/View/Components/Carousel.php:72"
+      },
+      {
+        "stack": "livewire",
+        "component": "carousel",
+        "from": "previousArrow",
+        "kind": "manual",
+        "note": "Ignored in 3.0: remove it; the previous button is built in (`previous-label` names it).",
+        "evidence": "docs/components/carousel.md:69; src/View/Components/Carousel.php:73"
+      },
+      {
+        "stack": "livewire",
+        "component": "carousel",
+        "from": "dots",
+        "kind": "manual",
+        "note": "Ignored in 3.0: remove it; the dots are built in and always show.",
+        "evidence": "docs/components/carousel.md:69; src/View/Components/Carousel.php:73"
+      },
+      {
+        "stack": "livewire",
+        "component": "carousel",
+        "from": "ariaLabelledBy",
+        "kind": "manual",
+        "note": "Ignored in 3.0: name the carousel with `label` instead.",
+        "evidence": "docs/components/carousel.md:68-69; src/View/Components/Carousel.php:73"
+      },
+      {
+        "stack": "livewire",
+        "component": "carousel",
+        "from": "respectsReducedMotion",
+        "kind": "remove",
+        "note": "Ignored: autoplay always respects reduced motion.",
+        "evidence": "docs/components/carousel.md:69; src/View/Components/Carousel.php:74"
+      },
+      {
+        "stack": "livewire",
+        "component": "carousel",
+        "from": "content",
+        "kind": "manual",
+        "note": "The `content` scoped slot is now `@scope('slide', $slide)`.",
+        "evidence": "docs/components/carousel.md:67"
+      },
+      {
+        "stack": "react",
+        "component": "Carousel",
+        "from": "renderSlide",
+        "kind": "keep",
+        "evidence": "packages/react/src/components/data/Carousel/Carousel.tsx:109-110 (declared; manifest lists it as the `slide` slot, decisions.md D-053)"
+      }
+    ],
+    "Chart": [
+      {
+        "stack": "livewire",
+        "component": "chart",
+        "from": "animationSpeed",
+        "kind": "manual",
+        "note": "Gone: remove it; the chart renders on the server with no animation options.",
+        "evidence": "docs/components/chart.md:93; src/View/Components/Chart.php:59-60"
+      },
+      {
+        "stack": "livewire",
+        "component": "chart",
+        "from": "animationEasing",
+        "kind": "manual",
+        "note": "Gone: remove it; the chart renders on the server with no animation options.",
+        "evidence": "docs/components/chart.md:93; src/View/Components/Chart.php:61-62"
+      },
+      {
+        "stack": "livewire",
+        "component": "chart",
+        "from": "dynamicAnimation",
+        "kind": "remove",
+        "note": "Gone: the chart has no animation options.",
+        "evidence": "docs/components/chart.md:93; src/View/Components/Chart.php:63-64"
+      },
+      {
+        "stack": "livewire",
+        "component": "chart",
+        "from": "dynamicAnimationSpeed",
+        "kind": "manual",
+        "note": "Gone: remove it; the chart renders on the server with no animation options.",
+        "evidence": "docs/components/chart.md:93; src/View/Components/Chart.php:65-66"
+      },
+      {
+        "stack": "react",
+        "component": "Chart",
+        "from": "color",
+        "kind": "manual",
+        "note": "Remove it: Chart has no color prop; series colors come from the theme.",
+        "evidence": "packages/react/src/components/data/Chart/Chart.tsx:67-94 (no color prop); decisions.md D-045"
+      },
+      {
+        "stack": "react",
+        "component": "Chart",
+        "from": "animated",
+        "kind": "remove",
+        "note": "Chart draws its own SVG and has no animation switch.",
+        "evidence": "packages/react/src/components/data/Chart/Chart.tsx:67-94; .changeset/chart-calendar-utility-waves.md"
+      },
+      {
+        "stack": "vue",
+        "component": "Chart",
+        "from": "color",
+        "kind": "manual",
+        "note": "Removed: series take the `--apui-chart-1` to `--apui-chart-6` tokens in order. Override those CSS variables to recolor.",
+        "evidence": "decisions.md D-045; packages/vue/src/components/data/Chart/types.ts:35-62 (no color prop)"
+      },
+      {
+        "stack": "vue",
+        "component": "Chart",
+        "from": "animated",
+        "kind": "remove",
+        "note": "Gone: the chart is a static SVG with no animation option.",
+        "evidence": "packages/vue/src/components/data/Chart/types.ts:35-62 (no animated prop); decisions.md D-045"
+      }
+    ],
+    "Checkbox": [
+      {
+        "stack": "livewire",
+        "component": "checkbox",
+        "from": "right",
+        "kind": "remove",
+        "note": "Gone: the label always follows the box.",
+        "evidence": "src/View/Components/Checkbox.php:64-75 (no such prop); manifest Checkbox.json props; same removal documented for Toggle in docs/components/toggle.md:51"
+      },
+      {
+        "stack": "livewire",
+        "component": "checkbox",
+        "from": "hint",
+        "kind": "rename",
+        "to": "description",
+        "evidence": "src/View/Components/Checkbox.php:56,68 (\"Supporting text under the label\"); same rename documented for Toggle in docs/components/toggle.md:51"
+      },
+      {
+        "stack": "livewire",
+        "component": "checkbox",
+        "from": "card",
+        "kind": "manual",
+        "note": "Gone on Checkbox: use CheckboxGroup with `variant=\"cards\"` for card options.",
+        "evidence": "src/View/Components/Checkbox.php:64-75; src/View/Components/CheckboxGroup.php:85"
+      },
+      {
+        "stack": "react",
+        "component": "Checkbox",
+        "from": "right",
+        "kind": "remove",
+        "note": "The label position is fixed by the design system.",
+        "evidence": "packages/react/src/components/form/Checkbox/Checkbox.tsx:44-73 (no right prop)"
+      },
+      {
+        "stack": "react",
+        "component": "Checkbox",
+        "from": "hint",
+        "kind": "rename",
+        "to": "description",
+        "evidence": "packages/react/src/components/form/Checkbox/Checkbox.tsx:59-60 (description: supporting text under the label; no hint prop); manifest Checkbox.json; decisions.md D-018"
+      },
+      {
+        "stack": "react",
+        "component": "Checkbox",
+        "from": "color",
+        "kind": "manual",
+        "note": "Remove it: Checkbox has no color prop in 2.0.",
+        "evidence": "packages/react/src/components/form/Checkbox/Checkbox.tsx:44-73 (no color prop)"
+      },
+      {
+        "stack": "react",
+        "component": "Checkbox",
+        "from": "card",
+        "kind": "manual",
+        "note": "A single Checkbox has no card layout. Use `CheckboxGroup` with `variant=\"cards\"`.",
+        "evidence": "packages/react/src/components/form/Checkbox/Checkbox.tsx:44-73; form/CheckboxGroup/CheckboxGroup.tsx:54"
+      },
+      {
+        "stack": "react",
+        "component": "Checkbox",
+        "from": "cardClass",
+        "kind": "manual",
+        "note": "Gone with `card`. With `CheckboxGroup variant=\"cards\"`, style the cards through `classes`.",
+        "evidence": "packages/react/src/components/form/Checkbox/Checkbox.tsx:44-73; form/CheckboxGroup/CheckboxGroup.tsx:54"
+      },
+      {
+        "stack": "vue",
+        "component": "Checkbox",
+        "from": "right",
+        "kind": "remove",
+        "note": "Gone: there is no option to move the label to the other side.",
+        "evidence": "packages/vue/src/components/form/Checkbox/types.ts:18-37 (no right prop); manifest Checkbox.json props"
+      },
+      {
+        "stack": "vue",
+        "component": "Checkbox",
+        "from": "hint",
+        "kind": "rename",
+        "to": "description",
+        "evidence": "packages/vue/src/components/form/Checkbox/types.ts:25-26 (description: supporting text under the label)"
+      },
+      {
+        "stack": "vue",
+        "component": "Checkbox",
+        "from": "color",
+        "kind": "manual",
+        "note": "Removed: a checked box uses the primary color. Delete it.",
+        "evidence": "packages/vue/src/components/form/Checkbox/types.ts:18-37 (no color prop); manifest Checkbox.json props"
+      },
+      {
+        "stack": "vue",
+        "component": "Checkbox",
+        "from": "card",
+        "kind": "manual",
+        "note": "Removed from Checkbox. For card-style options use `CheckboxGroup` with `variant=\"cards\"`.",
+        "evidence": "packages/vue/src/components/form/CheckboxGroup/types.ts:35 (variant default|cards); Checkbox/types.ts:18-37"
+      }
+    ],
+    "CheckboxGroup": [
+      {
+        "stack": "livewire",
+        "component": "checkbox-group",
+        "from": "optionValue",
+        "kind": "manual",
+        "note": "Gone: give each `options` entry a `value` key.",
+        "evidence": "src/View/Components/CheckboxGroup.php:77; src/View/Concerns/NormalizesChoiceOptions.php:42-46; docs/components/checkbox-group.md:40"
+      },
+      {
+        "stack": "livewire",
+        "component": "checkbox-group",
+        "from": "optionLabel",
+        "kind": "manual",
+        "note": "Gone: give each `options` entry a `label` key.",
+        "evidence": "src/View/Components/CheckboxGroup.php:77; src/View/Concerns/NormalizesChoiceOptions.php:42-46; docs/components/checkbox-group.md:40"
+      },
+      {
+        "stack": "livewire",
+        "component": "checkbox-group",
+        "from": "optionHint",
+        "kind": "manual",
+        "note": "Gone: give each `options` entry a `description` key.",
+        "evidence": "src/View/Components/CheckboxGroup.php:77; src/View/Concerns/NormalizesChoiceOptions.php:46; docs/components/checkbox-group.md:40"
+      },
+      {
+        "stack": "livewire",
+        "component": "checkbox-group",
+        "from": "card",
+        "kind": "value",
+        "to": "variant",
+        "value": "cards",
+        "evidence": "src/View/Components/CheckboxGroup.php:85,101 (variant: default or cards); docs/components/checkbox-group.md:48"
+      }
+    ],
+    "Code": [
+      {
+        "stack": "livewire",
+        "component": "code",
+        "from": "hint",
+        "kind": "manual",
+        "note": "Gone: remove it; Code is read-only and shows no hint.",
+        "evidence": "docs/components/code.md:64; src/View/Components/Code.php:50"
+      },
+      {
+        "stack": "livewire",
+        "component": "code",
+        "from": "lineHeight",
+        "kind": "manual",
+        "note": "Gone: remove it; set line height through `classes` or tokens.",
+        "evidence": "docs/components/code.md:64; src/View/Components/Code.php:50"
+      },
+      {
+        "stack": "react",
+        "component": "Code",
+        "from": "hint",
+        "kind": "manual",
+        "note": "Remove it and render the text under the code block yourself.",
+        "evidence": "packages/react/src/components/data/Code/Code.tsx:34-61 (no hint prop)"
+      }
+    ],
+    "ColorPicker": [
+      {
+        "stack": "livewire",
+        "component": "colorpicker",
+        "from": "icon",
+        "kind": "manual",
+        "note": "Gone: remove it; the swatch trigger sits at the start of the field.",
+        "evidence": "docs/components/color-picker.md:71; src/View/Components/ColorPicker.php:68-69 (LEGACY_ATTRIBUTES, stripped)"
+      },
+      {
+        "stack": "livewire",
+        "component": "colorpicker",
+        "from": "iconRight",
+        "kind": "manual",
+        "note": "Gone: remove it; the field has no trailing icon.",
+        "evidence": "docs/components/color-picker.md:71; src/View/Components/ColorPicker.php:68-69 (LEGACY_ATTRIBUTES, stripped)"
+      },
+      {
+        "stack": "livewire",
+        "component": "colorpicker",
+        "from": "prefix",
+        "kind": "manual",
+        "note": "Ignored in 3.0: remove it.",
+        "evidence": "src/View/Components/ColorPicker.php:68-69 (LEGACY_ATTRIBUTES, stripped)"
+      },
+      {
+        "stack": "livewire",
+        "component": "colorpicker",
+        "from": "suffix",
+        "kind": "manual",
+        "note": "Ignored in 3.0: remove it.",
+        "evidence": "src/View/Components/ColorPicker.php:68-69 (LEGACY_ATTRIBUTES, stripped)"
+      },
+      {
+        "stack": "livewire",
+        "component": "colorpicker",
+        "from": "inline",
+        "kind": "remove",
+        "note": "Ignored in 3.0; the label always sits above the field.",
+        "evidence": "src/View/Components/ColorPicker.php:68-69 (LEGACY_ATTRIBUTES, stripped)"
+      },
+      {
+        "stack": "livewire",
+        "component": "colorpicker",
+        "from": "clearable",
+        "kind": "remove",
+        "note": "Gone: there is no clear button.",
+        "evidence": "docs/components/color-picker.md:71; src/View/Components/ColorPicker.php:68-69 (LEGACY_ATTRIBUTES, stripped)"
+      },
+      {
+        "stack": "livewire",
+        "component": "colorpicker",
+        "from": "random",
+        "kind": "remove",
+        "note": "Gone: there is no random-color button.",
+        "evidence": "docs/components/color-picker.md:71; src/View/Components/ColorPicker.php:68-69 (LEGACY_ATTRIBUTES, stripped)"
+      },
+      {
+        "stack": "react",
+        "component": "ColorPicker",
+        "from": "clearable",
+        "kind": "remove",
+        "note": "There is no clear button in 2.0.",
+        "evidence": "docs/Form-Components.md:397; packages/react/src/components/form/ColorPicker/ColorPicker.tsx:79-135"
+      },
+      {
+        "stack": "react",
+        "component": "ColorPicker",
+        "from": "random",
+        "kind": "remove",
+        "note": "There is no random-color button in 2.0.",
+        "evidence": "docs/Form-Components.md:397"
+      },
+      {
+        "stack": "react",
+        "component": "ColorPicker",
+        "from": "icon",
+        "kind": "manual",
+        "note": "Remove it: the field shows its own swatch trigger.",
+        "evidence": "docs/Form-Components.md:397; packages/react/src/components/form/ColorPicker/ColorPicker.tsx:79-135"
+      },
+      {
+        "stack": "react",
+        "component": "ColorPicker",
+        "from": "iconRight",
+        "kind": "manual",
+        "note": "Remove it: the field has no trailing icon.",
+        "evidence": "docs/Form-Components.md:397"
+      },
+      {
+        "stack": "react",
+        "component": "ColorPicker",
+        "from": "randomIcon",
+        "kind": "manual",
+        "note": "Remove it: the random-color button is gone.",
+        "evidence": "docs/Form-Components.md:397"
+      },
+      {
+        "stack": "vue",
+        "component": "ColorPicker",
+        "from": "clearable",
+        "kind": "remove",
+        "note": "Gone: there is no clear button. Clear the value through `v-model`.",
+        "evidence": "packages/vue/src/components/form/ColorPicker/types.ts:40-83 (no clearable prop)"
+      },
+      {
+        "stack": "vue",
+        "component": "ColorPicker",
+        "from": "random",
+        "kind": "remove",
+        "note": "Gone: there is no random-color button. Offer presets with `swatches`.",
+        "evidence": "packages/vue/src/components/form/ColorPicker/types.ts:47-48 (swatches); no random prop"
+      },
+      {
+        "stack": "vue",
+        "component": "ColorPicker",
+        "from": "defaultValue",
+        "kind": "manual",
+        "note": "Removed with `clearable` (it was the color used on clear). Set the starting color through `v-model`.",
+        "evidence": "packages/vue/src/components/form/ColorPicker/types.ts:41-42 (modelValue only; the manifest defaultValue is not a Vue prop)"
+      },
+      {
+        "stack": "vue",
+        "component": "ColorPicker",
+        "from": "icon",
+        "group": "slots",
+        "kind": "manual",
+        "note": "The `icon` slot is gone: the field shows its color swatch trigger instead. Remove it.",
+        "evidence": "packages/vue/src/components/form/ColorPicker/ColorPicker.vue (no slots)"
+      },
+      {
+        "stack": "vue",
+        "component": "ColorPicker",
+        "from": "iconRight",
+        "group": "slots",
+        "kind": "manual",
+        "note": "The `iconRight` slot is gone. Remove it.",
+        "evidence": "packages/vue/src/components/form/ColorPicker/ColorPicker.vue (no slots)"
+      },
+      {
+        "stack": "vue",
+        "component": "ColorPicker",
+        "from": "randomIcon",
+        "group": "slots",
+        "kind": "manual",
+        "note": "The `randomIcon` slot is gone with the random button. Remove it.",
+        "evidence": "packages/vue/src/components/form/ColorPicker/ColorPicker.vue (no slots)"
+      }
+    ],
+    "DatePicker": [
+      {
+        "stack": "livewire",
+        "component": "datepicker",
+        "from": "icon",
+        "kind": "manual",
+        "note": "Ignored in 3.0: remove it; the field has no icon prop.",
+        "evidence": "docs/components/date-picker.md:122; src/View/Components/DatePicker.php:66-70 (LEGACY_ATTRIBUTES, stripped from the input)"
+      },
+      {
+        "stack": "livewire",
+        "component": "datepicker",
+        "from": "iconRight",
+        "kind": "manual",
+        "note": "Ignored in 3.0: remove it; the calendar trigger sits at the end of the field.",
+        "evidence": "docs/components/date-picker.md:122; src/View/Components/DatePicker.php:66-70 (LEGACY_ATTRIBUTES, stripped from the input)"
+      },
+      {
+        "stack": "livewire",
+        "component": "datepicker",
+        "from": "inline",
+        "kind": "remove",
+        "note": "Ignored in 3.0; the label always sits above the field.",
+        "evidence": "docs/components/date-picker.md:122; src/View/Components/DatePicker.php:66-70 (LEGACY_ATTRIBUTES, stripped from the input)"
+      },
+      {
+        "stack": "livewire",
+        "component": "datepicker",
+        "from": "config",
+        "kind": "manual",
+        "note": "Replace the flatpickr `config` with `mode`, `min`, `max`, `format` and `time`; other options are ignored.",
+        "evidence": "docs/components/date-picker.md:120; src/View/Components/DatePicker.php:57-60,610 (applyLegacyConfig)"
+      },
+      {
+        "stack": "livewire",
+        "component": "datepicker",
+        "from": "color",
+        "kind": "manual",
+        "note": "Ignored in 3.0: remove it; colors come from the theme tokens.",
+        "evidence": "docs/components/date-picker.md:122; src/View/Components/DatePicker.php:66-70 (LEGACY_ATTRIBUTES, stripped from the input)"
+      },
+      {
+        "stack": "livewire",
+        "component": "datepicker",
+        "from": "theme",
+        "kind": "manual",
+        "note": "Ignored in 3.0: remove it; the picker is styled by the design tokens.",
+        "evidence": "docs/components/date-picker.md:122; src/View/Components/DatePicker.php:66-70 (LEGACY_ATTRIBUTES, stripped from the input); docs/components/date-picker.md:9"
+      },
+      {
+        "stack": "livewire",
+        "component": "datepicker",
+        "from": "fontConfig",
+        "kind": "manual",
+        "note": "Ignored in 3.0: remove it; fonts come from the design tokens.",
+        "evidence": "docs/components/date-picker.md:122; src/View/Components/DatePicker.php:66-70 (LEGACY_ATTRIBUTES, stripped from the input)"
+      },
+      {
+        "stack": "livewire",
+        "component": "datepicker",
+        "from": "darkModeSupport",
+        "kind": "remove",
+        "note": "Ignored: dark mode comes from the theme.",
+        "evidence": "docs/components/date-picker.md:122; src/View/Components/DatePicker.php:66-70 (LEGACY_ATTRIBUTES, stripped from the input)"
+      },
+      {
+        "stack": "livewire",
+        "component": "datepicker",
+        "from": "prepend",
+        "kind": "manual",
+        "note": "Gone: put the related control next to the field instead.",
+        "evidence": "docs/components/date-picker.md:122; src/View/Components/DatePicker.php:66-70 (LEGACY_ATTRIBUTES, stripped from the input)"
+      },
+      {
+        "stack": "livewire",
+        "component": "datepicker",
+        "from": "append",
+        "kind": "manual",
+        "note": "Gone: put the related control next to the field instead.",
+        "evidence": "docs/components/date-picker.md:122; src/View/Components/DatePicker.php:66-70 (LEGACY_ATTRIBUTES, stripped from the input)"
+      },
+      {
+        "stack": "livewire",
+        "component": "datetime",
+        "from": "icon",
+        "kind": "manual",
+        "note": "Ignored in 3.0: remove it; the field has no icon prop.",
+        "evidence": "docs/components/date-picker.md:122; src/View/Components/DatePicker.php:66-70 (LEGACY_ATTRIBUTES, stripped from the input)"
+      },
+      {
+        "stack": "livewire",
+        "component": "datetime",
+        "from": "iconRight",
+        "kind": "manual",
+        "note": "Ignored in 3.0: remove it; the calendar trigger sits at the end of the field.",
+        "evidence": "docs/components/date-picker.md:122; src/View/Components/DatePicker.php:66-70 (LEGACY_ATTRIBUTES, stripped from the input)"
+      },
+      {
+        "stack": "livewire",
+        "component": "datetime",
+        "from": "inline",
+        "kind": "remove",
+        "note": "Ignored in 3.0; the label always sits above the field.",
+        "evidence": "docs/components/date-picker.md:122; src/View/Components/DatePicker.php:66-70 (LEGACY_ATTRIBUTES, stripped from the input)"
+      },
+      {
+        "stack": "livewire",
+        "component": "datetime",
+        "from": "prepend",
+        "kind": "manual",
+        "note": "Gone: put the related control next to the field instead.",
+        "evidence": "docs/components/date-picker.md:122; src/View/Components/DatePicker.php:66-70 (LEGACY_ATTRIBUTES, stripped from the input)"
+      },
+      {
+        "stack": "livewire",
+        "component": "datetime",
+        "from": "append",
+        "kind": "manual",
+        "note": "Gone: put the related control next to the field instead.",
+        "evidence": "docs/components/date-picker.md:122; src/View/Components/DatePicker.php:66-70 (LEGACY_ATTRIBUTES, stripped from the input)"
+      },
+      {
+        "stack": "react",
+        "component": "DatePicker",
+        "from": "inline",
+        "kind": "remove",
+        "note": "The floating/inline label is gone; the label sits above the field.",
+        "evidence": "docs/Form-Components.md:375"
+      },
+      {
+        "stack": "react",
+        "component": "DatePicker",
+        "from": "dateType",
+        "kind": "manual",
+        "note": "`dateType=\"datetime-local\"` becomes the `time` prop; for `time`, `month` and `week` use `<Input type=\"…\">`; `date` is the default, so remove it.",
+        "evidence": "docs/Form-Components.md:375; packages/react/src/components/form/DatePicker/DatePicker.tsx:78-79; decisions.md D-021"
+      },
+      {
+        "stack": "react",
+        "component": "DatePicker",
+        "from": "icon",
+        "kind": "manual",
+        "note": "Remove it: DatePicker has no icon props.",
+        "evidence": "docs/Form-Components.md:375"
+      },
+      {
+        "stack": "react",
+        "component": "DatePicker",
+        "from": "iconRight",
+        "kind": "manual",
+        "note": "Remove it: DatePicker has no icon props.",
+        "evidence": "docs/Form-Components.md:375"
+      },
+      {
+        "stack": "vue",
+        "component": "DatePicker",
+        "from": "inline",
+        "kind": "remove",
+        "note": "Gone: the label always sits above the field.",
+        "evidence": "packages/vue/src/components/form/DatePicker/types.ts:48-117 (no inline prop); decisions.md D-018"
+      },
+      {
+        "stack": "vue",
+        "component": "DatePicker",
+        "from": "dateType",
+        "kind": "manual",
+        "note": "Removed. `date` is the default; for `datetime-local` add `time`. `time`, `month` and `week` have no equivalent: use `<Input type=\"…\">`.",
+        "evidence": "packages/vue/src/components/form/DatePicker/types.ts:55-58 (mode single|range, time); decisions.md D-021"
+      },
+      {
+        "stack": "vue",
+        "component": "DatePicker",
+        "from": "icon",
+        "group": "slots",
+        "kind": "manual",
+        "note": "The `icon` slot is gone: the field has a built-in calendar button. Remove it.",
+        "evidence": "packages/vue/src/components/form/DatePicker/DatePicker.vue:215,244,361 (slots: label, hint, footer)"
+      },
+      {
+        "stack": "vue",
+        "component": "DatePicker",
+        "from": "iconRight",
+        "group": "slots",
+        "kind": "manual",
+        "note": "The `iconRight` slot is gone: the field has a built-in calendar button. Remove it.",
+        "evidence": "packages/vue/src/components/form/DatePicker/DatePicker.vue:215,244,361 (slots: label, hint, footer)"
+      }
+    ],
+    "Diff": [
+      {
+        "stack": "livewire",
+        "component": "diff",
+        "from": "config",
+        "kind": "manual",
+        "note": "Gone: use `view`, `word-level` and `context` instead of the diff2html `config`.",
+        "evidence": "docs/components/diff.md:53; src/View/Components/Diff.php:36,49"
+      },
+      {
+        "stack": "vue",
+        "component": "Diff",
+        "from": "beforeLabel",
+        "kind": "manual",
+        "note": "Removed: the header shows one `fileName` and the change counts, not per-side labels.",
+        "evidence": "packages/vue/src/components/display/Diff/types.ts:32-33 (fileName); no beforeLabel"
+      },
+      {
+        "stack": "vue",
+        "component": "Diff",
+        "from": "afterLabel",
+        "kind": "manual",
+        "note": "Removed: the header shows one `fileName` and the change counts, not per-side labels.",
+        "evidence": "packages/vue/src/components/display/Diff/types.ts:32-33 (fileName); no afterLabel"
+      },
+      {
+        "stack": "vue",
+        "component": "Diff",
+        "from": "mode",
+        "kind": "rename",
+        "to": "view",
+        "values": {
+          "side-by-side": "split",
+          "inline": "unified"
+        },
+        "evidence": "packages/vue/src/components/display/Diff/types.ts:1-2,34-35 (view unified|split; default is now unified)"
+      },
+      {
+        "stack": "vue",
+        "component": "Diff",
+        "from": "lineNumbers",
+        "kind": "remove",
+        "note": "Gone: line numbers always show.",
+        "evidence": "packages/vue/src/components/display/Diff/Diff.vue:106 (lineNumber part always rendered); types.ts:27-52"
+      }
+    ],
+    "DropdownMenu": [
+      {
+        "stack": "livewire",
+        "component": "dropdown",
+        "from": "icon",
+        "kind": "manual",
+        "note": "Gone: the trigger always shows a chevron; put a custom icon in the `label` slot.",
+        "evidence": "resources/views/components/dropdown-menu.blade.php:16-28 (trailing-icon=\"chevron-down\"); src/View/Components/DropdownMenu.php:78"
+      },
+      {
+        "stack": "livewire",
+        "component": "dropdown",
+        "from": "top",
+        "kind": "remove",
+        "note": "Gone: DropdownMenu has no vertical placement prop.",
+        "evidence": "src/View/Components/DropdownMenu.php:85-93 (only `align`); manifest DropdownMenu.json props"
+      },
+      {
+        "stack": "livewire",
+        "component": "dropdown",
+        "from": "trigger",
+        "kind": "manual",
+        "note": "Put the trigger's content in the `label` slot; the trigger is always a Button.",
+        "evidence": "src/View/Components/DropdownMenu.php:30,78; resources/views/components/dropdown-menu.blade.php:16-28; docs/components/dropdown-menu.md:66"
+      },
+      {
+        "stack": "livewire",
+        "component": "dropdown",
+        "from": "trigger",
+        "group": "slots",
+        "kind": "manual",
+        "note": "Put the trigger's content in the `label` slot; the trigger is always a Button.",
+        "evidence": "src/View/Components/DropdownMenu.php:30,78; resources/views/components/dropdown-menu.blade.php:16-28; manifest DropdownMenu.json slots: label"
+      },
+      {
+        "stack": "react",
+        "component": "Dropdown",
+        "from": "end",
+        "kind": "value",
+        "to": "align",
+        "value": "end",
+        "evidence": "packages/react/src/components/layout/DropdownMenu/DropdownMenu.tsx:36,150-151 (align 'start'|'center'|'end')"
+      },
+      {
+        "stack": "react",
+        "component": "Dropdown",
+        "from": "top",
+        "kind": "manual",
+        "note": "Remove it: DropdownMenu has no prop to open above the trigger.",
+        "evidence": "packages/react/src/components/layout/DropdownMenu/DropdownMenu.tsx:132-158 (only `align`)"
+      },
+      {
+        "stack": "react",
+        "component": "Dropdown",
+        "from": "hover",
+        "kind": "remove",
+        "note": "The menu opens on click and from the keyboard only.",
+        "evidence": "packages/react/src/components/layout/DropdownMenu/DropdownMenu.tsx:132-158 (no hover prop)"
+      },
+      {
+        "stack": "react",
+        "component": "Dropdown",
+        "from": "trigger",
+        "kind": "manual",
+        "note": "DropdownMenu renders its own trigger button. Pass the trigger's content as `label`.",
+        "evidence": "packages/react/src/components/layout/DropdownMenu/DropdownMenu.tsx:133-134"
+      },
+      {
+        "stack": "vue",
+        "component": "Dropdown",
+        "from": "trigger",
+        "group": "slots",
+        "kind": "rename",
+        "to": "label",
+        "evidence": "packages/vue/src/components/layout/DropdownMenu/DropdownMenu.vue:128 (slot label is the trigger button's content); types.ts:88-93; 1.x slot was also the content inside the trigger"
+      },
+      {
+        "stack": "livewire",
+        "component": "dropdown",
+        "from": "right",
+        "kind": "value",
+        "to": "align",
+        "value": "end",
+        "evidence": "The manifest's `align` takes `start` and `end`."
+      }
+    ],
+    "RichTextEditor": [
+      {
+        "stack": "livewire",
+        "component": "editor",
+        "from": "gplLicense",
+        "kind": "remove",
+        "note": "Gone: the engine runs TinyMCE without it.",
+        "evidence": "docs/components/rich-text-editor.md:123"
+      },
+      {
+        "stack": "react",
+        "component": "RichTextEditor",
+        "from": "minHeight",
+        "kind": "manual",
+        "note": "Remove it: `minHeight` is gone. Set a min-height in CSS through `classes` if you need one.",
+        "evidence": "docs/Form-Components.md:619"
+      },
+      {
+        "stack": "vue",
+        "component": "RichTextEditor",
+        "from": "minHeight",
+        "kind": "manual",
+        "note": "Removed. Set a `min-height` in CSS on the editable area, for example through `classes.content`.",
+        "evidence": "packages/vue/src/components/form/RichTextEditor/types.ts:11-24,112-113 (content part, classes)"
+      }
+    ],
+    "ValidationSummary": [
+      {
+        "stack": "livewire",
+        "component": "errors",
+        "from": "description",
+        "kind": "manual",
+        "note": "Gone: ValidationSummary shows only a `title` and the list of errors.",
+        "evidence": "src/View/Components/ValidationSummary.php:52-58; docs/components/validation-summary.md:39-43"
+      },
+      {
+        "stack": "livewire",
+        "component": "errors",
+        "from": "icon",
+        "kind": "manual",
+        "note": "Gone: the icon follows `color` (`error` or `warning`).",
+        "evidence": "resources/views/components/validation-summary.blade.php:20; src/View/Components/ValidationSummary.php:52-58"
+      }
+    ],
+    "Fieldset": [
+      {
+        "stack": "livewire",
+        "component": "fieldset",
+        "from": "subtitle",
+        "kind": "rename",
+        "to": "description",
+        "evidence": "docs/components/fieldset.md:48 (\"`subtitle` is `description`\")"
+      },
+      {
+        "stack": "livewire",
+        "component": "fieldset",
+        "from": "icon",
+        "kind": "manual",
+        "note": "Gone: add an icon to your own content if you need one.",
+        "evidence": "docs/components/fieldset.md:48"
+      },
+      {
+        "stack": "livewire",
+        "component": "fieldset",
+        "from": "separator",
+        "kind": "manual",
+        "note": "Gone: pick a `variant` (`panel`, `divided` or `plain`) instead.",
+        "evidence": "docs/components/fieldset.md:38,48"
+      },
+      {
+        "stack": "livewire",
+        "component": "fieldset",
+        "from": "border",
+        "kind": "manual",
+        "note": "Gone: pick a `variant` (`panel` is bordered) or style through `classes`.",
+        "evidence": "docs/components/fieldset.md:38,48"
+      },
+      {
+        "stack": "livewire",
+        "component": "fieldset",
+        "from": "middle",
+        "kind": "manual",
+        "note": "Gone: place the content inside the fieldset yourself.",
+        "evidence": "docs/components/fieldset.md:48"
+      },
+      {
+        "stack": "livewire",
+        "component": "fieldset",
+        "from": "actions",
+        "kind": "manual",
+        "note": "Gone: place the buttons inside the fieldset yourself.",
+        "evidence": "docs/components/fieldset.md:48"
+      }
+    ],
+    "File": [
+      {
+        "stack": "livewire",
+        "component": "file",
+        "from": "hideProgress",
+        "kind": "remove",
+        "note": "Gone: upload progress always shows in the file list.",
+        "evidence": "docs/components/file.md:60"
+      },
+      {
+        "stack": "livewire",
+        "component": "file",
+        "from": "cropAfterChange",
+        "kind": "remove",
+        "note": "Gone: File no longer crops images; ImageLibrary does.",
+        "evidence": "docs/components/file.md:60"
+      },
+      {
+        "stack": "livewire",
+        "component": "file",
+        "from": "changeText",
+        "kind": "manual",
+        "note": "Gone with the image preview: remove it.",
+        "evidence": "docs/components/file.md:60; src/View/Components/File.php:93-109"
+      },
+      {
+        "stack": "livewire",
+        "component": "file",
+        "from": "cropTitleText",
+        "kind": "manual",
+        "note": "Gone with cropping: remove it (ImageLibrary still crops).",
+        "evidence": "docs/components/file.md:60"
+      },
+      {
+        "stack": "livewire",
+        "component": "file",
+        "from": "cropCancelText",
+        "kind": "manual",
+        "note": "Gone with cropping: remove it (ImageLibrary still crops).",
+        "evidence": "docs/components/file.md:60"
+      },
+      {
+        "stack": "livewire",
+        "component": "file",
+        "from": "cropSaveText",
+        "kind": "manual",
+        "note": "Gone with cropping: remove it (ImageLibrary still crops).",
+        "evidence": "docs/components/file.md:60"
+      },
+      {
+        "stack": "livewire",
+        "component": "file",
+        "from": "cropConfig",
+        "kind": "manual",
+        "note": "Gone with cropping: remove it (ImageLibrary still crops).",
+        "evidence": "docs/components/file.md:60"
+      },
+      {
+        "stack": "livewire",
+        "component": "file",
+        "from": "cropMimeType",
+        "kind": "manual",
+        "note": "Gone with cropping: remove it (ImageLibrary still crops).",
+        "evidence": "docs/components/file.md:60"
+      },
+      {
+        "stack": "livewire",
+        "component": "file",
+        "from": "withDragDrop",
+        "kind": "remove",
+        "note": "Gone: the drop zone is always on.",
+        "evidence": "docs/components/file.md:60"
+      },
+      {
+        "stack": "livewire",
+        "component": "file",
+        "from": "dragDropText",
+        "kind": "manual",
+        "note": "Use `title` for the drop zone's main line.",
+        "evidence": "docs/components/file.md:43; src/View/Components/File.php:95 (no documented rename)"
+      },
+      {
+        "stack": "react",
+        "component": "File",
+        "from": "withDragDrop",
+        "kind": "remove",
+        "note": "The drop zone is always on. Use `variant=\"compact\"` for the plain row.",
+        "evidence": "docs/Form-Components.md:424; packages/react/src/components/form/File/File.tsx:113-114"
+      },
+      {
+        "stack": "react",
+        "component": "File",
+        "from": "dragDropText",
+        "kind": "rename",
+        "to": "title",
+        "evidence": "packages/react/src/components/form/File/File.tsx:95-96 (title: the drop zone's main line)"
+      },
+      {
+        "stack": "react",
+        "component": "File",
+        "from": "dragDropClass",
+        "kind": "manual",
+        "note": "Use `classes={{ dropzone: \"…\" }}`.",
+        "evidence": "packages/react/src/components/form/File/File.tsx:46-50,119-120 (FilePart `dropzone`)"
+      },
+      {
+        "stack": "react",
+        "component": "File",
+        "from": "progress",
+        "kind": "manual",
+        "note": "Progress is per file: set `progress` on the entries you pass in `value`.",
+        "evidence": "docs/Form-Components.md:424; packages/react/src/components/form/File/File.tsx:30-41,115-116"
+      },
+      {
+        "stack": "react",
+        "component": "File",
+        "from": "hideProgress",
+        "kind": "remove",
+        "note": "A progress bar shows only for `value` entries that have `progress`.",
+        "evidence": "docs/Form-Components.md:424"
+      },
+      {
+        "stack": "vue",
+        "component": "FileUpload",
+        "from": "withDragDrop",
+        "kind": "value",
+        "to": "variant",
+        "value": "dropzone",
+        "evidence": "packages/vue/src/components/form/File/types.ts:63-64 (variant dropzone|compact, dropzone is the default; without the flag 1.x was a plain input, now `variant=\"compact\"`); form/index.ts:80-86"
+      },
+      {
+        "stack": "vue",
+        "component": "FileUpload",
+        "from": "dragDropText",
+        "kind": "rename",
+        "to": "title",
+        "evidence": "packages/vue/src/components/form/File/types.ts:45-46 (title: the drop zone's main line); form/index.ts:80-86"
+      },
+      {
+        "stack": "vue",
+        "component": "FileUpload",
+        "from": "progress",
+        "kind": "manual",
+        "note": "Removed. Bind `v-model` to the file list and set `progress` (0 to 100) on each entry.",
+        "evidence": "packages/vue/src/components/form/index.ts:80-86 (pass progress per file in the entries); File/types.ts:7-8"
+      },
+      {
+        "stack": "vue",
+        "component": "FileUpload",
+        "from": "hideProgress",
+        "kind": "remove",
+        "note": "Gone: a bar shows only for entries that carry `progress`.",
+        "evidence": "packages/vue/src/components/form/index.ts:80-86; File/types.ts:7-8"
+      }
+    ],
+    "Form": [
+      {
+        "stack": "livewire",
+        "component": "form",
+        "from": "noSeparator",
+        "kind": "remove",
+        "note": "Gone: the actions row has no edge unless you add `divided`.",
+        "evidence": "docs/components/form.md:59"
+      }
+    ],
+    "RadioGroup": [
+      {
+        "stack": "livewire",
+        "component": "group",
+        "from": "optionValue",
+        "kind": "manual",
+        "note": "Gone: give each `options` entry a `value` key.",
+        "evidence": "src/View/Components/RadioGroup.php:73 and src/View/Concerns/NormalizesChoiceOptions.php:42-46: options are read by fixed keys; docs/components/radio-group.md:23,54"
+      },
+      {
+        "stack": "livewire",
+        "component": "group",
+        "from": "optionLabel",
+        "kind": "manual",
+        "note": "Gone: give each `options` entry a `label` key.",
+        "evidence": "src/View/Components/RadioGroup.php:73 and src/View/Concerns/NormalizesChoiceOptions.php:42-46: options are read by fixed keys; docs/components/radio-group.md:23,54"
+      },
+      {
+        "stack": "livewire",
+        "component": "radio",
+        "from": "optionValue",
+        "kind": "manual",
+        "note": "Gone: give each `options` entry a `value` key.",
+        "evidence": "src/View/Components/RadioGroup.php:73 and src/View/Concerns/NormalizesChoiceOptions.php:42-46: options are read by fixed keys"
+      },
+      {
+        "stack": "livewire",
+        "component": "radio",
+        "from": "optionLabel",
+        "kind": "manual",
+        "note": "Gone: give each `options` entry a `label` key.",
+        "evidence": "src/View/Components/RadioGroup.php:73 and src/View/Concerns/NormalizesChoiceOptions.php:42-46: options are read by fixed keys"
+      },
+      {
+        "stack": "livewire",
+        "component": "radio",
+        "from": "optionHint",
+        "kind": "manual",
+        "note": "Gone: give each `options` entry a `description` key.",
+        "evidence": "src/View/Components/RadioGroup.php:73 and src/View/Concerns/NormalizesChoiceOptions.php:42-46: options are read by fixed keys"
+      },
+      {
+        "stack": "livewire",
+        "component": "radio-group",
+        "from": "optionValue",
+        "kind": "manual",
+        "note": "Gone: give each `options` entry a `value` key.",
+        "evidence": "src/View/Components/RadioGroup.php:73 and src/View/Concerns/NormalizesChoiceOptions.php:42-46: options are read by fixed keys"
+      },
+      {
+        "stack": "livewire",
+        "component": "radio-group",
+        "from": "optionLabel",
+        "kind": "manual",
+        "note": "Gone: give each `options` entry a `label` key.",
+        "evidence": "src/View/Components/RadioGroup.php:73 and src/View/Concerns/NormalizesChoiceOptions.php:42-46: options are read by fixed keys"
+      },
+      {
+        "stack": "livewire",
+        "component": "radio-group",
+        "from": "optionHint",
+        "kind": "manual",
+        "note": "Gone: give each `options` entry a `description` key.",
+        "evidence": "src/View/Components/RadioGroup.php:73 and src/View/Concerns/NormalizesChoiceOptions.php:42-46: options are read by fixed keys"
+      },
+      {
+        "stack": "react",
+        "component": "Radio",
+        "from": "color",
+        "kind": "manual",
+        "note": "Remove it: RadioGroup has no color prop.",
+        "evidence": "packages/react/src/components/form/RadioGroup/RadioGroup.tsx:53-85"
+      },
+      {
+        "stack": "react",
+        "component": "Radio",
+        "from": "optionValue",
+        "kind": "manual",
+        "note": "Map your options to `{ value, label, description }` objects; the key props are gone.",
+        "evidence": "packages/react/src/components/form/RadioGroup/RadioGroup.tsx:22-23,57-58"
+      },
+      {
+        "stack": "react",
+        "component": "Radio",
+        "from": "optionLabel",
+        "kind": "manual",
+        "note": "Map your options to `{ value, label, description }` objects; the key props are gone.",
+        "evidence": "packages/react/src/components/form/RadioGroup/RadioGroup.tsx:22-23,57-58"
+      },
+      {
+        "stack": "react",
+        "component": "Radio",
+        "from": "optionHint",
+        "kind": "manual",
+        "note": "Map your options to `{ value, label, description }` objects; the hint is each option's `description`.",
+        "evidence": "packages/react/src/components/form/RadioGroup/RadioGroup.tsx:22-23,57-58"
+      },
+      {
+        "stack": "react",
+        "component": "Radio",
+        "from": "card",
+        "kind": "value",
+        "to": "variant",
+        "value": "cards",
+        "evidence": "packages/react/src/components/form/RadioGroup/RadioGroup.tsx:26,77-78 (variant 'default'|'cards'|'segmented'); decisions.md D-025"
+      },
+      {
+        "stack": "react",
+        "component": "Radio",
+        "from": "cardClass",
+        "kind": "manual",
+        "note": "Use `classes={{ item: \"…\" }}` with `variant=\"cards\"`.",
+        "evidence": "packages/react/src/components/form/RadioGroup/RadioGroup.tsx:32-37,81-82"
+      },
+      {
+        "stack": "vue",
+        "component": "Radio",
+        "from": "color",
+        "kind": "manual",
+        "note": "Removed: radios use the primary color. Delete it.",
+        "evidence": "packages/vue/src/components/form/RadioGroup/types.ts:35-58 (no color prop)"
+      },
+      {
+        "stack": "vue",
+        "component": "Radio",
+        "from": "optionValue",
+        "kind": "manual",
+        "note": "Removed. Options must be strings or `{ value, label, description }` objects; map your data to that shape (1.x defaulted to `id`).",
+        "evidence": "packages/vue/src/components/_shared/choice.ts:14-26 (ChoiceOptionObject); form/RadioGroup/types.ts:36-37"
+      },
+      {
+        "stack": "vue",
+        "component": "Radio",
+        "from": "optionLabel",
+        "kind": "manual",
+        "note": "Removed. Options must be strings or `{ value, label, description }` objects; map your data to that shape (1.x defaulted to `name`).",
+        "evidence": "packages/vue/src/components/_shared/choice.ts:14-26; form/RadioGroup/types.ts:36-37"
+      },
+      {
+        "stack": "vue",
+        "component": "Radio",
+        "from": "optionHint",
+        "kind": "manual",
+        "note": "Removed. Put each option's hint in its `description` key.",
+        "evidence": "packages/vue/src/components/_shared/choice.ts:20-21 (description: supporting text under the label)"
+      },
+      {
+        "stack": "vue",
+        "component": "Radio",
+        "from": "card",
+        "kind": "value",
+        "to": "variant",
+        "value": "cards",
+        "evidence": "packages/vue/src/components/form/RadioGroup/types.ts:6-7,54-55 (variant default|cards|segmented); decisions.md D-025"
+      },
+      {
+        "from": "inline",
+        "kind": "value",
+        "to": "orientation",
+        "value": "horizontal",
+        "evidence": "api-aliases.json: `orientation=\"horizontal\"`"
+      }
+    ],
+    "PageHeader": [
+      {
+        "stack": "livewire",
+        "component": "header",
+        "from": "middle",
+        "kind": "manual",
+        "note": "Not part of PageHeader: move the content into the `actions` or `meta` slot.",
+        "evidence": "resources/views/components/page-header.blade.php:5,8 (only \"the deprecated `header` alias adds its 2.x `middle` slot\"); docs/components/header.md:7; manifest PageHeader.json"
+      }
+    ],
+    "Heading": [
+      {
+        "stack": "livewire",
+        "component": "heading",
+        "from": "color",
+        "kind": "manual",
+        "note": "Gone: use `classes` for a one-off color.",
+        "evidence": "docs/components/heading.md:40"
+      },
+      {
+        "stack": "livewire",
+        "component": "heading",
+        "from": "semibold",
+        "kind": "remove",
+        "note": "Gone: headings are always 600 weight.",
+        "evidence": "docs/components/heading.md:40"
+      },
+      {
+        "stack": "livewire",
+        "component": "heading",
+        "from": "bold",
+        "kind": "remove",
+        "note": "Gone: headings are always 600 weight; use `classes` for a heavier one.",
+        "evidence": "docs/components/heading.md:40"
+      },
+      {
+        "stack": "livewire",
+        "component": "heading",
+        "from": "extrabold",
+        "kind": "remove",
+        "note": "Gone: headings are always 600 weight; use `classes` for a heavier one.",
+        "evidence": "docs/components/heading.md:40"
+      },
+      {
+        "stack": "livewire",
+        "component": "heading",
+        "from": "center",
+        "kind": "manual",
+        "note": "Gone: center the heading with your own class.",
+        "evidence": "docs/components/heading.md:40"
+      }
+    ],
+    "ImageGallery": [
+      {
+        "stack": "livewire",
+        "component": "image-gallery",
+        "from": "aspectRatio",
+        "kind": "manual",
+        "note": "Ignored in 3.0: remove it; thumbnails are always 4:3.",
+        "evidence": "docs/components/image-gallery.md:70; src/View/Components/ImageGallery.php:273-274"
+      },
+      {
+        "stack": "livewire",
+        "component": "image-gallery",
+        "from": "gap",
+        "kind": "manual",
+        "note": "Ignored in 3.0: remove it.",
+        "evidence": "docs/components/image-gallery.md:70; src/View/Components/ImageGallery.php:273-274"
+      },
+      {
+        "stack": "livewire",
+        "component": "image-gallery",
+        "from": "showCaptions",
+        "kind": "remove",
+        "note": "Ignored: captions show whenever an image has one.",
+        "evidence": "docs/components/image-gallery.md:70; src/View/Components/ImageGallery.php:273-274"
+      },
+      {
+        "stack": "livewire",
+        "component": "image-gallery",
+        "from": "layout",
+        "kind": "manual",
+        "note": "Ignored in 3.0: remove it; the gallery is always a grid.",
+        "evidence": "docs/components/image-gallery.md:70; src/View/Components/ImageGallery.php:273-274"
+      },
+      {
+        "stack": "livewire",
+        "component": "image-gallery",
+        "from": "lazyLoad",
+        "kind": "remove",
+        "note": "Ignored: thumbnails are always lazy-loaded.",
+        "evidence": "docs/components/image-gallery.md:70; src/View/Components/ImageGallery.php:273-274"
+      },
+      {
+        "stack": "livewire",
+        "component": "image-gallery",
+        "from": "filters",
+        "kind": "manual",
+        "note": "Ignored in 3.0: remove it; filter the `images` array yourself.",
+        "evidence": "docs/components/image-gallery.md:70; src/View/Components/ImageGallery.php:273-274"
+      },
+      {
+        "stack": "livewire",
+        "component": "image-gallery",
+        "from": "itemsPerPage",
+        "kind": "manual",
+        "note": "Ignored in 3.0: remove it; paginate the `images` array yourself.",
+        "evidence": "docs/components/image-gallery.md:70; src/View/Components/ImageGallery.php:273-274"
+      },
+      {
+        "stack": "livewire",
+        "component": "image-gallery",
+        "from": "loadingStyle",
+        "kind": "manual",
+        "note": "Ignored in 3.0: remove it.",
+        "evidence": "docs/components/image-gallery.md:70; src/View/Components/ImageGallery.php:273-274"
+      }
+    ],
+    "ImageLibrary": [
+      {
+        "stack": "livewire",
+        "component": "image-library",
+        "from": "changeText",
+        "kind": "keep",
+        "evidence": "docs/components/image-library.md:88; src/View/Components/ImageLibrary.php:81-90,106-115 (overrides \"Replace\")"
+      },
+      {
+        "stack": "livewire",
+        "component": "image-library",
+        "from": "cropText",
+        "kind": "keep",
+        "evidence": "docs/components/image-library.md:88; src/View/Components/ImageLibrary.php:81-90,106-115"
+      },
+      {
+        "stack": "livewire",
+        "component": "image-library",
+        "from": "removeText",
+        "kind": "keep",
+        "evidence": "docs/components/image-library.md:88; src/View/Components/ImageLibrary.php:81-90,106-115"
+      },
+      {
+        "stack": "livewire",
+        "component": "image-library",
+        "from": "cropTitleText",
+        "kind": "keep",
+        "evidence": "docs/components/image-library.md:88; src/View/Components/ImageLibrary.php:81-90,106-115"
+      },
+      {
+        "stack": "livewire",
+        "component": "image-library",
+        "from": "cropCancelText",
+        "kind": "keep",
+        "evidence": "docs/components/image-library.md:88; src/View/Components/ImageLibrary.php:81-90,106-115"
+      },
+      {
+        "stack": "livewire",
+        "component": "image-library",
+        "from": "cropSaveText",
+        "kind": "keep",
+        "evidence": "docs/components/image-library.md:88; src/View/Components/ImageLibrary.php:81-90,106-115"
+      },
+      {
+        "stack": "livewire",
+        "component": "image-library",
+        "from": "addFilesText",
+        "kind": "keep",
+        "evidence": "docs/components/image-library.md:88; src/View/Components/ImageLibrary.php:81-90,106-115 (overrides \"Upload\")"
+      },
+      {
+        "stack": "livewire",
+        "component": "image-library",
+        "from": "dragDropText",
+        "kind": "keep",
+        "evidence": "docs/components/image-library.md:88; src/View/Components/ImageLibrary.php:81-90,106-115"
+      },
+      {
+        "stack": "livewire",
+        "component": "image-library",
+        "from": "dragDropMultipleText",
+        "kind": "manual",
+        "note": "Ignored in 3.0: remove it; the drop overlay no longer counts files.",
+        "evidence": "docs/components/image-library.md:88; src/View/Components/ImageLibrary.php:90"
+      }
+    ],
+    "ImageSlider": [
+      {
+        "stack": "livewire",
+        "component": "image-slider",
+        "from": "withArrows",
+        "kind": "remove",
+        "note": "Ignored: the arrows always show.",
+        "evidence": "docs/components/image-slider.md:57; src/View/Components/ImageSlider.php:283-284"
+      },
+      {
+        "stack": "livewire",
+        "component": "image-slider",
+        "from": "withIndicators",
+        "kind": "remove",
+        "note": "Ignored: the dots always show.",
+        "evidence": "docs/components/image-slider.md:57; src/View/Components/ImageSlider.php:283-284"
+      },
+      {
+        "stack": "livewire",
+        "component": "image-slider",
+        "from": "pauseOnHover",
+        "kind": "remove",
+        "note": "Ignored: autoplay always pauses on hover and focus.",
+        "evidence": "docs/components/image-slider.md:57; src/View/Components/ImageSlider.php:283-284"
+      },
+      {
+        "stack": "livewire",
+        "component": "image-slider",
+        "from": "transition",
+        "kind": "manual",
+        "note": "Ignored in 3.0: remove it; slides always scroll.",
+        "evidence": "docs/components/image-slider.md:57; src/View/Components/ImageSlider.php:283-284"
+      },
+      {
+        "stack": "livewire",
+        "component": "image-slider",
+        "from": "transitionDuration",
+        "kind": "manual",
+        "note": "Ignored in 3.0: remove it; slides always scroll.",
+        "evidence": "docs/components/image-slider.md:57; src/View/Components/ImageSlider.php:283-284"
+      },
+      {
+        "stack": "livewire",
+        "component": "image-slider",
+        "from": "showCounter",
+        "kind": "remove",
+        "note": "Ignored: the counter always shows.",
+        "evidence": "docs/components/image-slider.md:57; src/View/Components/ImageSlider.php:283-284"
+      }
+    ],
+    "Input": [
+      {
+        "stack": "livewire",
+        "component": "input",
+        "from": "iconRight",
+        "kind": "rename",
+        "to": "trailingIcon",
+        "evidence": "src/View/Components/Input.php:65,84 (\"Icon name after the value\"); same rename documented for Link in docs/components/link.md:62. Icon names are now registry (Lucide) names."
+      },
+      {
+        "stack": "livewire",
+        "component": "input",
+        "from": "inline",
+        "kind": "remove",
+        "note": "Gone: the label always sits above the field.",
+        "evidence": "src/View/Components/Input.php:69-87 (no such prop); manifest Input.json props"
+      },
+      {
+        "stack": "livewire",
+        "component": "input",
+        "from": "clearable",
+        "kind": "remove",
+        "note": "Gone: there is no clear button.",
+        "evidence": "src/View/Components/Input.php:69-87; manifest Input.json props"
+      },
+      {
+        "stack": "livewire",
+        "component": "input",
+        "from": "money",
+        "kind": "manual",
+        "note": "Gone: currency masking isn't built in; format the value yourself.",
+        "evidence": "src/View/Components/Input.php:69-87; manifest Input.json props"
+      },
+      {
+        "stack": "livewire",
+        "component": "input",
+        "from": "locale",
+        "kind": "manual",
+        "note": "Gone with `money`: remove it.",
+        "evidence": "src/View/Components/Input.php:69-87; manifest Input.json props"
+      },
+      {
+        "stack": "livewire",
+        "component": "input",
+        "from": "prepend",
+        "kind": "manual",
+        "note": "Gone: put the control next to the field, or use `prefix` for text inside the box.",
+        "evidence": "src/View/Components/Input.php:28-29,62 (box parts: icon, prefix, control, suffix, iconEnd); manifest Input.json slots"
+      },
+      {
+        "stack": "livewire",
+        "component": "input",
+        "from": "append",
+        "kind": "manual",
+        "note": "Gone: put the control next to the field, or use `suffix` for text inside the box.",
+        "evidence": "src/View/Components/Input.php:28-29,63; manifest Input.json slots"
+      },
+      {
+        "stack": "react",
+        "component": "Input",
+        "from": "clearable",
+        "kind": "remove",
+        "note": "Input has no clear button in 2.0. If you need one, render your own.",
+        "evidence": "packages/react/src/components/form/Input/Input.tsx:38-82 (no clearable prop)"
+      },
+      {
+        "stack": "react",
+        "component": "Input",
+        "from": "inline",
+        "kind": "remove",
+        "note": "The floating/inline label is gone; the label sits above the field.",
+        "evidence": "packages/react/src/components/form/Input/Input.tsx:38-82 (no inline prop)"
+      },
+      {
+        "stack": "react",
+        "component": "Input",
+        "from": "iconRight",
+        "kind": "rename",
+        "to": "iconEnd",
+        "evidence": "packages/react/src/components/form/Input/Input.tsx:78-79 (iconEnd: trailing icon node)"
+      },
+      {
+        "stack": "vue",
+        "component": "Input",
+        "from": "clearable",
+        "kind": "manual",
+        "note": "Removed: there is no built-in clear button. Use `type=\"search\"` for the native one, or add your own button.",
+        "evidence": "packages/vue/src/components/form/Input/types.ts:26-64 (no clearable prop); manifest Input.json props"
+      },
+      {
+        "stack": "vue",
+        "component": "Input",
+        "from": "inline",
+        "kind": "remove",
+        "note": "Gone: the label always sits above the control.",
+        "evidence": "packages/vue/src/components/form/Input/types.ts:26-64 (no inline prop); decisions.md D-018"
+      },
+      {
+        "stack": "vue",
+        "component": "Input",
+        "from": "iconRight",
+        "group": "slots",
+        "kind": "rename",
+        "to": "iconEnd",
+        "evidence": "packages/vue/src/components/form/Input/Input.vue:123-124 (slot iconEnd, after the value); types.ts:23-24"
+      },
+      {
+        "stack": "livewire",
+        "component": "input",
+        "from": "icon",
+        "kind": "rename",
+        "to": "leadingIcon",
+        "evidence": "The manifest's `icon` is a slot; the attribute is `leadingIcon`. Heroicons names still render through blade-icons (D-017)."
+      }
+    ],
+    "KpiCard": [
+      {
+        "stack": "livewire",
+        "component": "kpi-card",
+        "from": "footer",
+        "kind": "manual",
+        "note": "Gone: render the content after the card, or use `period` and `target`.",
+        "evidence": "docs/components/kpi-card.md:57; src/View/Components/KpiCard.php:34"
+      },
+      {
+        "stack": "livewire",
+        "component": "kpi-card",
+        "from": "footer",
+        "group": "slots",
+        "kind": "manual",
+        "note": "Gone: render the content after the card, or use `period` and `target`.",
+        "evidence": "docs/components/kpi-card.md:57; src/View/Components/KpiCard.php:34"
+      }
+    ],
+    "Link": [
+      {
+        "stack": "livewire",
+        "component": "link",
+        "from": "color",
+        "kind": "manual",
+        "note": "Gone: use `tone`, or tokens and `classes`.",
+        "evidence": "docs/components/link.md:61"
+      },
+      {
+        "stack": "livewire",
+        "component": "link",
+        "from": "underline",
+        "kind": "remove",
+        "note": "Gone: inline links are always underlined; `standalone` drops it.",
+        "evidence": "docs/components/link.md:61,69"
+      },
+      {
+        "stack": "livewire",
+        "component": "link",
+        "from": "hoverUnderline",
+        "kind": "remove",
+        "note": "Gone: use `standalone` for a link without the inline underline.",
+        "evidence": "docs/components/link.md:61"
+      },
+      {
+        "stack": "livewire",
+        "component": "link",
+        "from": "iconRight",
+        "kind": "rename",
+        "to": "trailingIcon",
+        "evidence": "docs/components/link.md:62; src/View/Components/Link.php:61-70"
+      },
+      {
+        "stack": "livewire",
+        "component": "link",
+        "from": "icon",
+        "kind": "rename",
+        "to": "leadingIcon",
+        "evidence": "The manifest's `icon` is a slot; the attribute is `leadingIcon`. Heroicons names still render through blade-icons (D-017)."
+      }
+    ],
+    "ListItem": [
+      {
+        "stack": "livewire",
+        "component": "list-item",
+        "from": "item",
+        "kind": "keep",
+        "evidence": "docs/components/list-item.md:52; src/View/Components/ListItem.php:46,118-135 (deprecated, still fills the row; prefer `title` and `description`)"
+      },
+      {
+        "stack": "livewire",
+        "component": "list-item",
+        "from": "avatar",
+        "kind": "keep",
+        "evidence": "docs/components/list-item.md:52; resources/views/components/list-item.blade.php:15 (deprecated, names the avatar key on `item`; prefer the `leading` slot)"
+      },
+      {
+        "stack": "livewire",
+        "component": "list-item",
+        "from": "subValue",
+        "kind": "keep",
+        "evidence": "docs/components/list-item.md:52; resources/views/components/list-item.blade.php:17 (deprecated, names the description key on `item`; prefer `description`)"
+      },
+      {
+        "stack": "livewire",
+        "component": "list-item",
+        "from": "noSeparator",
+        "kind": "remove",
+        "note": "Gone: the separator is the List's `variant`.",
+        "evidence": "docs/components/list-item.md:53; src/View/Components/ListItem.php:46"
+      },
+      {
+        "stack": "livewire",
+        "component": "list-item",
+        "from": "noHover",
+        "kind": "remove",
+        "note": "Gone: hover comes from the row's `interactive` or `href`.",
+        "evidence": "docs/components/list-item.md:53; src/View/Components/ListItem.php:46"
+      },
+      {
+        "stack": "livewire",
+        "component": "list-item",
+        "from": "icon",
+        "kind": "rename",
+        "to": "leadingIcon",
+        "evidence": "docs/components/list-item.md:54; src/View/Components/ListItem.php:46,78. Icon names are now registry (Lucide) names."
+      },
+      {
+        "stack": "livewire",
+        "component": "list-item",
+        "from": "iconType",
+        "kind": "manual",
+        "note": "Gone: choose the icon with `leading-icon` or the `leading` slot.",
+        "evidence": "docs/components/list-item.md:54; src/View/Components/ListItem.php:46"
+      },
+      {
+        "stack": "livewire",
+        "component": "list-item",
+        "from": "noIcon",
+        "kind": "remove",
+        "note": "Gone: no icon shows unless `leading-icon` or the `leading` slot is set.",
+        "evidence": "docs/components/list-item.md:54; src/View/Components/ListItem.php:46"
+      },
+      {
+        "stack": "livewire",
+        "component": "list-item",
+        "from": "actions",
+        "kind": "rename",
+        "to": "trailing",
+        "evidence": "docs/components/list-item.md:55; src/View/Components/ListItem.php:79; resources/views/components/list-item.blade.php:19,25"
+      },
+      {
+        "stack": "livewire",
+        "component": "list-item",
+        "from": "iconSlot",
+        "kind": "manual",
+        "note": "Use the `leading` slot.",
+        "evidence": "docs/components/list-item.md:54; resources/views/components/list-item.blade.php:18"
+      },
+      {
+        "stack": "livewire",
+        "component": "list-item",
+        "from": "actions",
+        "group": "slots",
+        "kind": "rename",
+        "to": "trailing",
+        "evidence": "docs/components/list-item.md:55; manifest ListItem.json slots"
+      },
+      {
+        "stack": "livewire",
+        "component": "list-item",
+        "from": "avatar",
+        "group": "slots",
+        "kind": "rename",
+        "to": "leading",
+        "evidence": "docs/components/list-item.md:52; resources/views/components/list-item.blade.php:18; manifest ListItem.json slots"
+      },
+      {
+        "stack": "livewire",
+        "component": "list-item",
+        "from": "subValue",
+        "group": "slots",
+        "kind": "rename",
+        "to": "description",
+        "evidence": "docs/components/list-item.md:52; resources/views/components/list-item.blade.php:21; manifest ListItem.json slots"
+      },
+      {
+        "stack": "livewire",
+        "component": "list-item",
+        "from": "value",
+        "group": "slots",
+        "kind": "rename",
+        "to": "title",
+        "evidence": "docs/components/list-item.md:52; resources/views/components/list-item.blade.php:20; manifest ListItem.json slots"
+      }
+    ],
+    "Loading": [
+      {
+        "stack": "livewire",
+        "component": "loading",
+        "from": "customSvg",
+        "kind": "manual",
+        "note": "Gone: use `variant` (`spinner` or `dots`).",
+        "evidence": "docs/components/loading.md:49"
+      },
+      {
+        "stack": "livewire",
+        "component": "loading",
+        "from": "animated",
+        "kind": "remove",
+        "note": "Gone: the indicator always animates.",
+        "evidence": "docs/components/loading.md:49"
+      },
+      {
+        "stack": "vue",
+        "component": "Loading",
+        "from": "ariaLabel",
+        "kind": "rename",
+        "to": "label",
+        "evidence": "packages/vue/src/components/feedback/Loading/types.ts:21-22 (label: what's loading, for screen readers, default Loading); decisions.md D-034"
+      }
+    ],
+    "AppShell": [
+      {
+        "stack": "livewire",
+        "component": "main",
+        "from": "collapseText",
+        "kind": "rename",
+        "to": "collapseLabel",
+        "evidence": "src/View/Components/Main.php:49,70 (collapseLabel: $collapseText); src/View/Components/AppShell.php:76"
+      },
+      {
+        "stack": "livewire",
+        "component": "main",
+        "from": "collapseIcon",
+        "kind": "manual",
+        "note": "Ignored in 3.0: remove it; the collapse button's icon is fixed.",
+        "evidence": "src/View/Components/Main.php:50; docs/components/main.md:7"
+      },
+      {
+        "stack": "react",
+        "component": "Sidebar",
+        "from": "open",
+        "kind": "manual",
+        "note": "AppShell's sidebar is always rendered. Use `collapsed` with `onCollapsedChange` (and `collapsible`) to shrink it to icons; note it is the opposite sense of `open`.",
+        "evidence": "packages/react/src/components/layout/AppShell/AppShell.tsx:40-45"
+      },
+      {
+        "stack": "react",
+        "component": "Sidebar",
+        "from": "side",
+        "kind": "manual",
+        "note": "Remove it: the sidebar always sits at the start edge (left in LTR, right in RTL).",
+        "evidence": "packages/react/src/components/layout/AppShell/AppShell.tsx:39-66 (no side prop)"
+      },
+      {
+        "stack": "react",
+        "component": "Sidebar",
+        "from": "overlay",
+        "kind": "remove",
+        "note": "AppShell has no overlay mode; the sidebar sits beside the content.",
+        "evidence": "packages/react/src/components/layout/AppShell/AppShell.tsx:39-66 (no overlay prop)"
+      },
+      {
+        "stack": "react",
+        "component": "Sidebar",
+        "from": "sidebarContent",
+        "kind": "rename",
+        "to": "sidebar",
+        "evidence": "packages/react/src/components/layout/AppShell/AppShell.tsx:52-53 (sidebar: the sidebar's navigation, usually a Menu); decisions.md D-031"
+      },
+      {
+        "stack": "vue",
+        "component": "Sidebar",
+        "from": "open",
+        "kind": "manual",
+        "note": "No equivalent: AppShell has no mobile drawer (the sidebar stacks above the content on narrow screens). `collapsed` shrinks it to icons instead.",
+        "evidence": "decisions.md D-031 (no mobile drawer at 1.0); packages/vue/src/components/layout/AppShell/types.ts:14-15"
+      },
+      {
+        "stack": "vue",
+        "component": "Sidebar",
+        "from": "side",
+        "kind": "manual",
+        "note": "Removed: the sidebar is always at the start edge (left in LTR, right in RTL).",
+        "evidence": "packages/vue/src/components/layout/AppShell/types.ts:13-38 (no side prop); decisions.md D-031"
+      },
+      {
+        "stack": "vue",
+        "component": "Sidebar",
+        "from": "responsive",
+        "kind": "remove",
+        "note": "Gone: AppShell is always visible and stacks the sidebar above the content below 48rem.",
+        "evidence": "decisions.md D-031; packages/vue/src/components/layout/AppShell/types.ts:13-38"
+      },
+      {
+        "stack": "vue",
+        "component": "Sidebar",
+        "from": "ariaLabel",
+        "kind": "rename",
+        "to": "label",
+        "evidence": "packages/vue/src/components/layout/AppShell/types.ts:30-31 (label names the sidebar landmark); AppShell.vue:91"
+      }
+    ],
+    "Menu": [
+      {
+        "stack": "livewire",
+        "component": "menu",
+        "from": "icon",
+        "kind": "manual",
+        "note": "Gone: add a `menu-title` child for the heading instead.",
+        "evidence": "docs/components/menu.md:102"
+      },
+      {
+        "stack": "livewire",
+        "component": "menu",
+        "from": "separator",
+        "kind": "manual",
+        "note": "Gone: add a `menu-separator` child instead.",
+        "evidence": "docs/components/menu.md:102"
+      },
+      {
+        "stack": "livewire",
+        "component": "menu",
+        "from": "activateByRoute",
+        "kind": "keep",
+        "evidence": "src/View/Components/Menu.php:34,121-129 (read from the attribute bag); manifest Menu.json livewire capabilities"
+      },
+      {
+        "stack": "livewire",
+        "component": "menu",
+        "from": "activeBgColor",
+        "kind": "manual",
+        "note": "Gone: use `classes` or the design tokens.",
+        "evidence": "docs/components/menu.md:103"
+      },
+      {
+        "stack": "livewire",
+        "component": "menu-item",
+        "from": "icon",
+        "kind": "keep",
+        "evidence": "src/View/Components/MenuItem.php:68,86. Icon names are now registry (Lucide) names."
+      },
+      {
+        "stack": "livewire",
+        "component": "menu-item",
+        "from": "spinner",
+        "kind": "manual",
+        "note": "Gone: remove it.",
+        "evidence": "docs/components/menu.md:104; src/View/Components/MenuItem.php:82-99"
+      },
+      {
+        "stack": "livewire",
+        "component": "menu-item",
+        "from": "route",
+        "kind": "keep",
+        "evidence": "src/View/Components/MenuItem.php:67,85"
+      },
+      {
+        "stack": "livewire",
+        "component": "menu-item",
+        "from": "external",
+        "kind": "keep",
+        "evidence": "src/View/Components/MenuItem.php:72,90"
+      },
+      {
+        "stack": "livewire",
+        "component": "menu-item",
+        "from": "badge",
+        "kind": "keep",
+        "evidence": "src/View/Components/MenuItem.php:69,87"
+      },
+      {
+        "stack": "livewire",
+        "component": "menu-item",
+        "from": "active",
+        "kind": "rename",
+        "to": "current",
+        "evidence": "src/View/Components/MenuItem.php:79,97,145 (\"Deprecated: use `current`\"); docs/components/menu.md:101"
+      },
+      {
+        "stack": "livewire",
+        "component": "menu-item",
+        "from": "separator",
+        "kind": "manual",
+        "note": "Gone: add a `menu-separator` child after the item.",
+        "evidence": "src/View/Components/MenuItem.php:82-99 (no separator prop); docs/components/menu.md:102"
+      },
+      {
+        "stack": "livewire",
+        "component": "menu-item",
+        "from": "hidden",
+        "kind": "keep",
+        "evidence": "src/View/Components/MenuItem.php:76,94"
+      },
+      {
+        "stack": "livewire",
+        "component": "menu-item",
+        "from": "exact",
+        "kind": "keep",
+        "evidence": "src/View/Components/MenuItem.php:74,92"
+      },
+      {
+        "stack": "livewire",
+        "component": "menu-item",
+        "from": "role",
+        "kind": "manual",
+        "note": "Gone: remove it; `role=\"menuitem\"` is no longer rendered.",
+        "evidence": "docs/components/menu.md:104; src/View/Components/MenuItem.php:82-99"
+      },
+      {
+        "stack": "livewire",
+        "component": "menu-separator",
+        "from": "icon",
+        "kind": "manual",
+        "note": "Gone: the separator is a plain rule; remove it.",
+        "evidence": "src/View/Components/MenuSeparator.php:50-52; docs/components/menu-separator.md:7"
+      },
+      {
+        "stack": "livewire",
+        "component": "menu-sub",
+        "from": "icon",
+        "kind": "keep",
+        "evidence": "src/View/Components/MenuSub.php:76,85. Icon names are now registry (Lucide) names."
+      },
+      {
+        "stack": "livewire",
+        "component": "menu-sub",
+        "from": "open",
+        "kind": "keep",
+        "evidence": "src/View/Components/MenuSub.php:78,87"
+      },
+      {
+        "stack": "livewire",
+        "component": "menu-sub",
+        "from": "hidden",
+        "kind": "keep",
+        "evidence": "src/View/Components/MenuSub.php:80,89"
+      },
+      {
+        "stack": "livewire",
+        "component": "menu-sub",
+        "from": "active",
+        "kind": "remove",
+        "note": "Gone: a sub opens by itself when it holds the current page.",
+        "evidence": "src/View/Components/MenuSub.php:30,83-91 (no active prop), 100"
+      },
+      {
+        "stack": "livewire",
+        "component": "menu-title",
+        "from": "icon",
+        "kind": "manual",
+        "note": "Gone: the title is text only; remove it.",
+        "evidence": "src/View/Components/MenuTitle.php:51-54"
+      },
+      {
+        "stack": "react",
+        "component": "Menu",
+        "from": "activeKey",
+        "kind": "manual",
+        "note": "Mark the active item with `current` (on the `items` entry or on `MenuItem`). Sub-menus holding it open by default.",
+        "evidence": "packages/react/src/components/navigation/Menu/Menu.tsx:60,231-232,360"
+      },
+      {
+        "stack": "react",
+        "component": "Menu",
+        "from": "color",
+        "kind": "manual",
+        "note": "Remove it: Menu has no color prop in 2.0.",
+        "evidence": "packages/react/src/components/navigation/Menu/Menu.tsx:110-122"
+      },
+      {
+        "stack": "react",
+        "component": "Menu",
+        "from": "size",
+        "kind": "manual",
+        "note": "Remove it: Menu has no size prop in 2.0.",
+        "evidence": "packages/react/src/components/navigation/Menu/Menu.tsx:110-122"
+      },
+      {
+        "stack": "react",
+        "component": "Menu",
+        "from": "compact",
+        "kind": "remove",
+        "note": "Menu spacing follows the design system.",
+        "evidence": "packages/react/src/components/navigation/Menu/Menu.tsx:110-122"
+      },
+      {
+        "stack": "vue",
+        "component": "Menu",
+        "from": "size",
+        "kind": "manual",
+        "note": "Removed: the menu has one size. Delete it, or restyle with `classes`.",
+        "evidence": "packages/vue/src/components/navigation/Menu/types.ts:59-68 (items, collapsible, label, classes)"
+      },
+      {
+        "stack": "vue",
+        "component": "Menu",
+        "from": "color",
+        "kind": "manual",
+        "note": "Removed: the current item uses the theme's tokens. Delete it.",
+        "evidence": "packages/vue/src/components/navigation/Menu/types.ts:59-68 (no color prop)"
+      },
+      {
+        "stack": "vue",
+        "component": "Menu",
+        "from": "item",
+        "group": "slots",
+        "kind": "manual",
+        "note": "The scoped `item` slot is gone. Compose `MenuItem`, `MenuSub`, `MenuTitle` and `MenuSeparator` children in the default slot for custom items.",
+        "evidence": "packages/vue/src/components/navigation/Menu/Menu.vue:49 (default slot only); decisions.md D-023"
+      }
+    ],
+    "Dialog": [
+      {
+        "stack": "livewire",
+        "component": "modal",
+        "from": "subtitle",
+        "kind": "rename",
+        "to": "description",
+        "evidence": "src/View/Components/Dialog.php:71,88 (\"Supporting text under the title\"); docs/components/dialog.md:50"
+      },
+      {
+        "stack": "livewire",
+        "component": "modal",
+        "from": "separator",
+        "kind": "remove",
+        "note": "Gone: the dialog draws its own header and footer.",
+        "evidence": "src/View/Components/Dialog.php:80-96; manifest Dialog.json props"
+      },
+      {
+        "stack": "livewire",
+        "component": "modal",
+        "from": "persistent",
+        "kind": "manual",
+        "note": "Gone: use `role=\"alertdialog\"` so the backdrop doesn't close it, and `hide-close` to drop the close button; Escape still closes.",
+        "evidence": "src/View/Components/Dialog.php:66,76; docs/components/dialog.md:28,55"
+      },
+      {
+        "stack": "livewire",
+        "component": "modal",
+        "from": "actions",
+        "kind": "rename",
+        "to": "footer",
+        "evidence": "src/View/Components/Dialog.php:72,89 (\"The actions row. A `footer` slot overrides it\"); docs/components/dialog.md:51"
+      },
+      {
+        "stack": "react",
+        "component": "Modal",
+        "from": "subtitle",
+        "kind": "rename",
+        "to": "description",
+        "evidence": "packages/react/src/components/layout/Dialog/Dialog.tsx:81-82 (description: supporting text under the title)"
+      },
+      {
+        "stack": "react",
+        "component": "Modal",
+        "from": "persistent",
+        "kind": "manual",
+        "note": "No single equivalent: `role=\"alertdialog\"` stops backdrop clicks closing it and `hideClose` hides the close button, but Escape still closes it.",
+        "evidence": "packages/react/src/components/layout/Dialog/Dialog.tsx:68-72,94-95"
+      },
+      {
+        "stack": "react",
+        "component": "Modal",
+        "from": "bottom",
+        "kind": "manual",
+        "note": "Dialog has no bottom-sheet mode. Use `Drawer` with `side=\"bottom\"`.",
+        "evidence": "packages/react/src/components/layout/Dialog/Dialog.tsx:56-100; layout/Drawer/Drawer.tsx:22,55-60"
+      },
+      {
+        "stack": "react",
+        "component": "Modal",
+        "from": "actions",
+        "kind": "rename",
+        "to": "footer",
+        "evidence": "packages/react/src/components/layout/Dialog/Dialog.tsx:83-84 (footer: the actions row)"
+      },
+      {
+        "stack": "vue",
+        "component": "Modal",
+        "from": "subtitle",
+        "kind": "rename",
+        "to": "description",
+        "evidence": "packages/vue/src/components/layout/Dialog/types.ts:65-66 (description: supporting text under the title)"
+      },
+      {
+        "stack": "vue",
+        "component": "Modal",
+        "from": "persistent",
+        "kind": "manual",
+        "note": "No direct equivalent. `role=\"alertdialog\"` stops the backdrop from closing it, but Escape still closes; `hideClose` hides the close button.",
+        "evidence": "packages/vue/src/components/layout/Dialog/types.ts:52-56,75-76"
+      },
+      {
+        "stack": "vue",
+        "component": "Modal",
+        "from": "bottom",
+        "kind": "manual",
+        "note": "Removed from Dialog. For a bottom sheet use `Drawer` with `side=\"bottom\"`.",
+        "evidence": "packages/vue/src/components/layout/Drawer/types.ts:39-43 (side bottom is a full-width sheet); decisions.md D-029"
+      },
+      {
+        "stack": "vue",
+        "component": "Modal",
+        "from": "ariaLabel",
+        "kind": "manual",
+        "note": "No longer a prop. Pass `aria-label` as a plain kebab-case attribute; it names the dialog when there is no `title`.",
+        "evidence": "packages/vue/src/components/layout/Dialog/Dialog.vue:70-71 (attrs['aria-label'] names the panel without a title)"
+      },
+      {
+        "stack": "vue",
+        "component": "Modal",
+        "from": "actions",
+        "group": "slots",
+        "kind": "rename",
+        "to": "footer",
+        "evidence": "packages/vue/src/components/layout/Dialog/Dialog.vue:179 (slot footer); types.ts:67-68 (footer: the actions row)"
+      }
+    ],
+    "Navbar": [
+      {
+        "stack": "livewire",
+        "component": "nav",
+        "from": "fullWidth",
+        "kind": "remove",
+        "note": "Gone: the bar is full width; put it in your own container to constrain it.",
+        "evidence": "docs/components/navbar.md:82"
+      },
+      {
+        "stack": "react",
+        "component": "Navbar",
+        "from": "start",
+        "kind": "rename",
+        "to": "brand",
+        "note": "`brand` is meant for the logo or app name; move other start content into children.",
+        "evidence": "packages/react/src/components/navigation/Navbar/Navbar.tsx:54-55 (brand: at the start)"
+      },
+      {
+        "stack": "react",
+        "component": "Navbar",
+        "from": "center",
+        "kind": "manual",
+        "note": "Pass the links as `links` or `NavbarItem` children; a search field goes in `search`.",
+        "evidence": "packages/react/src/components/navigation/Navbar/Navbar.tsx:56-59"
+      },
+      {
+        "stack": "react",
+        "component": "Navbar",
+        "from": "end",
+        "kind": "rename",
+        "to": "actions",
+        "evidence": "packages/react/src/components/navigation/Navbar/Navbar.tsx:60-61 (actions: controls at the end)"
+      },
+      {
+        "stack": "vue",
+        "component": "Navbar",
+        "from": "color",
+        "kind": "manual",
+        "note": "Removed: the bar has no color option. Use `surface` (`default` or `glass`) or your own class.",
+        "evidence": "packages/vue/src/components/navigation/Navbar/types.ts:4-5,22-23"
+      },
+      {
+        "stack": "vue",
+        "component": "Navbar",
+        "from": "center",
+        "group": "slots",
+        "kind": "manual",
+        "note": "The `center` slot is gone. Put links in the default slot as `NavbarItem` children (or the `links` prop); a search field goes in the `search` slot.",
+        "evidence": "packages/vue/src/components/navigation/Navbar/Navbar.vue:76-79 (default slot, slot search); decisions.md D-023"
+      },
+      {
+        "stack": "vue",
+        "component": "Navbar",
+        "from": "end",
+        "group": "slots",
+        "kind": "rename",
+        "to": "actions",
+        "evidence": "packages/vue/src/components/navigation/Navbar/Navbar.vue:82 (slot actions); types.ts:32-33 (the controls at the end)"
+      },
+      {
+        "stack": "vue",
+        "component": "Navbar",
+        "from": "start",
+        "group": "slots",
+        "kind": "rename",
+        "to": "brand",
+        "evidence": "packages/vue/src/components/navigation/Navbar/Navbar.vue:66 (slot brand); types.ts:26-27 (the brand at the start)"
+      }
+    ],
+    "Pagination": [
+      {
+        "stack": "livewire",
+        "component": "pagination",
+        "from": "perPageValues",
+        "kind": "manual",
+        "note": "Gone: pair Pagination with a Select for \"Rows per page\".",
+        "evidence": "docs/components/pagination.md:56"
+      },
+      {
+        "stack": "livewire",
+        "component": "pagination",
+        "from": "simple",
+        "kind": "remove",
+        "note": "Gone: there is one design.",
+        "evidence": "docs/components/pagination.md:55"
+      },
+      {
+        "stack": "livewire",
+        "component": "pagination",
+        "from": "compact",
+        "kind": "remove",
+        "note": "Gone: there is one design.",
+        "evidence": "docs/components/pagination.md:55"
+      },
+      {
+        "stack": "livewire",
+        "component": "pagination",
+        "from": "advanced",
+        "kind": "remove",
+        "note": "Gone: there is one design.",
+        "evidence": "docs/components/pagination.md:55"
+      },
+      {
+        "stack": "livewire",
+        "component": "pagination",
+        "from": "minimal",
+        "kind": "remove",
+        "note": "Gone: there is one design.",
+        "evidence": "docs/components/pagination.md:55"
+      },
+      {
+        "stack": "livewire",
+        "component": "pagination",
+        "from": "hidePerPage",
+        "kind": "remove",
+        "note": "Gone: Pagination has no per-page select.",
+        "evidence": "docs/components/pagination.md:56"
+      },
+      {
+        "stack": "livewire",
+        "component": "pagination",
+        "from": "hidePageInfo",
+        "kind": "invert",
+        "to": "summary",
+        "evidence": "docs/components/pagination.md:57; src/View/Components/Pagination.php:55 (summary is off by default, so the flag can also just be dropped)"
+      },
+      {
+        "stack": "livewire",
+        "component": "pagination",
+        "from": "showFirstLast",
+        "kind": "remove",
+        "note": "Gone: there are no first and last buttons.",
+        "evidence": "docs/components/pagination.md:55"
+      },
+      {
+        "stack": "livewire",
+        "component": "pagination",
+        "from": "showJumpTo",
+        "kind": "remove",
+        "note": "Gone: there is no jump-to field.",
+        "evidence": "docs/components/pagination.md:55"
+      },
+      {
+        "stack": "livewire",
+        "component": "pagination",
+        "from": "onEachSide",
+        "kind": "rename",
+        "to": "siblings",
+        "evidence": "src/View/Components/Pagination.php:54,69 (\"Pages shown on each side of the current one\")"
+      },
+      {
+        "stack": "livewire",
+        "component": "pagination",
+        "from": "size",
+        "kind": "manual",
+        "note": "Gone: there is one size; remove it.",
+        "evidence": "docs/components/pagination.md:55"
+      },
+      {
+        "stack": "livewire",
+        "component": "pagination",
+        "from": "pageInfoTemplate",
+        "kind": "rename",
+        "to": "summaryLabel",
+        "evidence": "docs/components/pagination.md:57; src/View/Components/Pagination.php:61 (same {from}, {to}, {total} placeholders; also needs `summary`)",
+        "note": "Add `summary` too: the summary is off by default."
+      },
+      {
+        "stack": "react",
+        "component": "Pagination",
+        "from": "currentPage",
+        "kind": "rename",
+        "to": "page",
+        "evidence": "docs/Navigation-Components.md:168; packages/react/src/components/navigation/Pagination/Pagination.tsx:21-22"
+      },
+      {
+        "stack": "react",
+        "component": "Pagination",
+        "from": "totalPages",
+        "kind": "rename",
+        "to": "pageCount",
+        "evidence": "docs/Navigation-Components.md:168; packages/react/src/components/navigation/Pagination/Pagination.tsx:23-24"
+      },
+      {
+        "stack": "react",
+        "component": "Pagination",
+        "from": "size",
+        "kind": "manual",
+        "note": "Remove it: Pagination has no size prop in 2.0.",
+        "evidence": "docs/Navigation-Components.md:168"
+      },
+      {
+        "stack": "vue",
+        "component": "Pagination",
+        "from": "currentPage",
+        "kind": "rename",
+        "to": "page",
+        "evidence": "packages/vue/src/components/navigation/Pagination/types.ts:11-12 (page, from 1; v-model:page); .changeset/form-navigation-waves.md"
+      },
+      {
+        "stack": "vue",
+        "component": "Pagination",
+        "from": "totalPages",
+        "kind": "rename",
+        "to": "pageCount",
+        "evidence": "packages/vue/src/components/navigation/Pagination/types.ts:13-14 (pageCount); .changeset/form-navigation-waves.md"
+      },
+      {
+        "stack": "vue",
+        "component": "Pagination",
+        "from": "siblingCount",
+        "kind": "rename",
+        "to": "siblings",
+        "evidence": "packages/vue/src/components/navigation/Pagination/types.ts:19-20 (siblings: pages shown on each side, default 1)"
+      },
+      {
+        "stack": "vue",
+        "component": "Pagination",
+        "from": "size",
+        "kind": "manual",
+        "note": "Removed: pagination has one size. Delete it.",
+        "evidence": "packages/vue/src/components/navigation/Pagination/types.ts:10-38 (no size prop)"
+      }
+    ],
+    "Password": [
+      {
+        "stack": "livewire",
+        "component": "password",
+        "from": "iconRight",
+        "kind": "manual",
+        "note": "Gone: the reveal button sits at the end of the field; remove it.",
+        "evidence": "docs/components/password.md:74"
+      },
+      {
+        "stack": "livewire",
+        "component": "password",
+        "from": "prefix",
+        "kind": "manual",
+        "note": "Gone: remove it.",
+        "evidence": "docs/components/password.md:74"
+      },
+      {
+        "stack": "livewire",
+        "component": "password",
+        "from": "suffix",
+        "kind": "manual",
+        "note": "Gone: remove it.",
+        "evidence": "docs/components/password.md:74"
+      },
+      {
+        "stack": "livewire",
+        "component": "password",
+        "from": "inline",
+        "kind": "remove",
+        "note": "Gone: the label always sits above the field.",
+        "evidence": "docs/components/password.md:74"
+      },
+      {
+        "stack": "livewire",
+        "component": "password",
+        "from": "clearable",
+        "kind": "remove",
+        "note": "Gone: there is no clear button.",
+        "evidence": "docs/components/password.md:74"
+      },
+      {
+        "stack": "livewire",
+        "component": "password",
+        "from": "passwordIcon",
+        "kind": "manual",
+        "note": "Gone: the reveal button's icons are fixed; remove it.",
+        "evidence": "docs/components/password.md:74"
+      },
+      {
+        "stack": "livewire",
+        "component": "password",
+        "from": "passwordVisibleIcon",
+        "kind": "manual",
+        "note": "Gone: the reveal button's icons are fixed; remove it.",
+        "evidence": "docs/components/password.md:74"
+      },
+      {
+        "stack": "livewire",
+        "component": "password",
+        "from": "right",
+        "kind": "remove",
+        "note": "Gone: the reveal button is always at the end of the field.",
+        "evidence": "docs/components/password.md:74"
+      },
+      {
+        "stack": "livewire",
+        "component": "password",
+        "from": "onlyPassword",
+        "kind": "remove",
+        "note": "Gone: the reveal button always shows.",
+        "evidence": "docs/components/password.md:74"
+      },
+      {
+        "stack": "livewire",
+        "component": "password",
+        "from": "prepend",
+        "kind": "manual",
+        "note": "Gone: put the control next to the field instead.",
+        "evidence": "docs/components/password.md:74"
+      },
+      {
+        "stack": "livewire",
+        "component": "password",
+        "from": "append",
+        "kind": "manual",
+        "note": "Gone: put the control next to the field instead.",
+        "evidence": "docs/components/password.md:74"
+      },
+      {
+        "stack": "react",
+        "component": "Password",
+        "from": "inline",
+        "kind": "remove",
+        "note": "The floating/inline label is gone; the label sits above the field.",
+        "evidence": "packages/react/src/components/form/Password/Password.tsx:102-146"
+      },
+      {
+        "stack": "react",
+        "component": "Password",
+        "from": "clearable",
+        "kind": "remove",
+        "note": "Password has no clear button in 2.0.",
+        "evidence": "packages/react/src/components/form/Password/Password.tsx:102-146"
+      },
+      {
+        "stack": "react",
+        "component": "Password",
+        "from": "hideToggle",
+        "kind": "manual",
+        "note": "The reveal button is always shown in 2.0. Use `Input type=\"password\"` if you need a field without it.",
+        "evidence": "packages/react/src/components/form/Password/Password.tsx:136-137,149 (reveal toggle built in; no prop to hide it)"
+      },
+      {
+        "stack": "react",
+        "component": "Password",
+        "from": "hiddenIcon",
+        "kind": "manual",
+        "note": "Remove it: the reveal button's icons are built in.",
+        "evidence": "packages/react/src/components/form/Password/Password.tsx:102-146"
+      },
+      {
+        "stack": "react",
+        "component": "Password",
+        "from": "visibleIcon",
+        "kind": "manual",
+        "note": "Remove it: the reveal button's icons are built in.",
+        "evidence": "packages/react/src/components/form/Password/Password.tsx:102-146"
+      },
+      {
+        "stack": "vue",
+        "component": "Password",
+        "from": "inline",
+        "kind": "remove",
+        "note": "Gone: the label always sits above the control.",
+        "evidence": "packages/vue/src/components/form/Password/types.ts:47-82 (no inline prop)"
+      },
+      {
+        "stack": "vue",
+        "component": "Password",
+        "from": "clearable",
+        "kind": "manual",
+        "note": "Removed: there is no clear button. Delete it.",
+        "evidence": "packages/vue/src/components/form/Password/types.ts:47-82 (no clearable prop)"
+      },
+      {
+        "stack": "vue",
+        "component": "Password",
+        "from": "hideToggle",
+        "kind": "manual",
+        "note": "Removed: the reveal button always shows. For a field without it, use `<Input type=\"password\">`.",
+        "evidence": "packages/vue/src/components/form/Password/Password.vue:127-131 (reveal part always rendered); types.ts:47-82"
+      },
+      {
+        "stack": "vue",
+        "component": "Password",
+        "from": "hiddenIcon",
+        "group": "slots",
+        "kind": "manual",
+        "note": "The `hiddenIcon` slot is gone: the reveal button draws its own icons. Remove it.",
+        "evidence": "packages/vue/src/components/form/Password/Password.vue:154-157 (only the `icon` slot)"
+      },
+      {
+        "stack": "vue",
+        "component": "Password",
+        "from": "visibleIcon",
+        "group": "slots",
+        "kind": "manual",
+        "note": "The `visibleIcon` slot is gone: the reveal button draws its own icons. Remove it.",
+        "evidence": "packages/vue/src/components/form/Password/Password.vue:154-157 (only the `icon` slot)"
+      },
+      {
+        "stack": "livewire",
+        "component": "password",
+        "from": "icon",
+        "kind": "rename",
+        "to": "leadingIcon",
+        "evidence": "The manifest's `icon` is a slot; the attribute is `leadingIcon`. Heroicons names still render through blade-icons (D-017)."
+      }
+    ],
+    "Pin": [
+      {
+        "stack": "livewire",
+        "component": "pin",
+        "from": "numeric",
+        "kind": "value",
+        "to": "type",
+        "value": "numeric",
+        "evidence": "docs/components/pin.md:61; src/View/Components/Pin.php:55,71",
+        "note": "`numeric` is now the default: without the flag, add `type=\"alphanumeric\"` to keep 2.x behavior."
+      },
+      {
+        "stack": "livewire",
+        "component": "pin",
+        "from": "hide",
+        "kind": "rename",
+        "to": "mask",
+        "evidence": "docs/components/pin.md:61; src/View/Components/Pin.php:56,72"
+      },
+      {
+        "stack": "livewire",
+        "component": "pin",
+        "from": "hideType",
+        "kind": "manual",
+        "note": "Gone: `mask` always shows a dot; remove it.",
+        "evidence": "docs/components/pin.md:61; src/View/Components/Pin.php:56"
+      },
+      {
+        "stack": "react",
+        "component": "Pin",
+        "from": "numeric",
+        "kind": "value",
+        "to": "type",
+        "value": "numeric",
+        "note": "`numeric` is now the default; a 1.x Pin without `numeric` needs `type=\"alphanumeric\"`.",
+        "evidence": "packages/react/src/components/form/Pin/Pin.tsx:30,62-63 (PinType 'numeric'|'alphanumeric', default 'numeric')"
+      },
+      {
+        "stack": "react",
+        "component": "Pin",
+        "from": "hide",
+        "kind": "rename",
+        "to": "mask",
+        "evidence": "packages/react/src/components/form/Pin/Pin.tsx:64-65 (mask: shows dots, password input)"
+      },
+      {
+        "stack": "react",
+        "component": "Pin",
+        "from": "color",
+        "kind": "manual",
+        "note": "Remove it: Pin has no color prop in 2.0.",
+        "evidence": "packages/react/src/components/form/Pin/Pin.tsx:56-92"
+      },
+      {
+        "stack": "vue",
+        "component": "Pin",
+        "from": "numeric",
+        "kind": "value",
+        "to": "type",
+        "value": "numeric",
+        "evidence": "packages/vue/src/components/form/Pin/types.ts:4-5,30-31 (type numeric|alphanumeric; numeric is now the default, so a 1.x Pin without `numeric` needs `type=\"alphanumeric\"`)"
+      },
+      {
+        "stack": "vue",
+        "component": "Pin",
+        "from": "hide",
+        "kind": "rename",
+        "to": "mask",
+        "evidence": "packages/vue/src/components/form/Pin/types.ts:32-33 (mask: a dot for each character, password input)"
+      },
+      {
+        "stack": "vue",
+        "component": "Pin",
+        "from": "color",
+        "kind": "manual",
+        "note": "Removed: the cells have no color option. Delete it.",
+        "evidence": "packages/vue/src/components/form/Pin/types.ts:27-54 (no color prop)"
+      }
+    ],
+    "UserMenu": [
+      {
+        "stack": "livewire",
+        "component": "profile",
+        "from": "image",
+        "kind": "manual",
+        "note": "Pass the image URL as `avatar` in the `user` array.",
+        "evidence": "src/View/Components/Profile.php:59; src/View/Components/UserMenu.php:69; docs/components/user-menu.md:63"
+      },
+      {
+        "stack": "livewire",
+        "component": "profile",
+        "from": "color",
+        "kind": "manual",
+        "note": "Gone: remove it.",
+        "evidence": "docs/components/profile.md:21"
+      },
+      {
+        "stack": "livewire",
+        "component": "profile",
+        "from": "subtitle",
+        "kind": "manual",
+        "note": "Pass the text as `role` in the `user` array.",
+        "evidence": "src/View/Components/Profile.php:60; src/View/Components/UserMenu.php:69; docs/components/user-menu.md:63"
+      },
+      {
+        "stack": "livewire",
+        "component": "profile",
+        "from": "top",
+        "kind": "remove",
+        "note": "Gone: UserMenu has no vertical placement prop.",
+        "evidence": "docs/components/profile.md:21"
+      }
+    ],
+    "ProgressRadial": [
+      {
+        "stack": "livewire",
+        "component": "progress-radial",
+        "from": "unit",
+        "kind": "manual",
+        "note": "Gone: use `value-text` for a value other than a percentage.",
+        "evidence": "docs/components/progress-radial.md:39"
+      }
+    ],
+    "Rating": [
+      {
+        "stack": "livewire",
+        "component": "rating",
+        "from": "total",
+        "kind": "rename",
+        "to": "max",
+        "evidence": "src/View/Components/Rating.php:87,99 (\"The number of stars\"); docs/components/rating.md:28"
+      },
+      {
+        "stack": "livewire",
+        "component": "rating",
+        "from": "icon",
+        "kind": "manual",
+        "note": "Gone: the rating always draws stars; remove it.",
+        "evidence": "src/View/Components/Rating.php:86-95 (constructor has no such prop); manifest Rating.json props"
+      },
+      {
+        "stack": "livewire",
+        "component": "rating",
+        "from": "filledIcon",
+        "kind": "manual",
+        "note": "Gone: the rating always draws stars; remove it.",
+        "evidence": "src/View/Components/Rating.php:86-95 (constructor has no such prop); manifest Rating.json props"
+      },
+      {
+        "stack": "livewire",
+        "component": "rating",
+        "from": "emptyIcon",
+        "kind": "manual",
+        "note": "Gone: the rating always draws stars; remove it.",
+        "evidence": "src/View/Components/Rating.php:86-95 (constructor has no such prop); manifest Rating.json props"
+      },
+      {
+        "stack": "livewire",
+        "component": "rating",
+        "from": "color",
+        "kind": "manual",
+        "note": "Gone: style the stars through tokens or `classes`.",
+        "evidence": "src/View/Components/Rating.php:86-95 (constructor has no such prop); manifest Rating.json props"
+      },
+      {
+        "stack": "livewire",
+        "component": "rating",
+        "from": "filledColor",
+        "kind": "manual",
+        "note": "Gone: style the stars through tokens or `classes`.",
+        "evidence": "src/View/Components/Rating.php:86-95 (constructor has no such prop); manifest Rating.json props"
+      },
+      {
+        "stack": "livewire",
+        "component": "rating",
+        "from": "emptyColor",
+        "kind": "manual",
+        "note": "Gone: style the stars through tokens or `classes`.",
+        "evidence": "src/View/Components/Rating.php:86-95 (constructor has no such prop); manifest Rating.json props"
+      },
+      {
+        "stack": "livewire",
+        "component": "rating",
+        "from": "halfStars",
+        "kind": "remove",
+        "note": "Gone: a `readonly` rating rounds to the nearest half star by itself.",
+        "evidence": "docs/components/rating.md:27; src/View/Components/Rating.php:86-95 (constructor has no such prop); manifest Rating.json props"
+      },
+      {
+        "stack": "livewire",
+        "component": "rating",
+        "from": "hoverEffect",
+        "kind": "remove",
+        "note": "Gone: remove it.",
+        "evidence": "src/View/Components/Rating.php:86-95 (constructor has no such prop); manifest Rating.json props"
+      },
+      {
+        "stack": "livewire",
+        "component": "rating",
+        "from": "showValue",
+        "kind": "remove",
+        "note": "Gone: a `readonly` rating shows its value by itself.",
+        "evidence": "src/View/Components/Rating.php:29-30; src/View/Components/Rating.php:86-95 (constructor has no such prop); manifest Rating.json props"
+      },
+      {
+        "stack": "livewire",
+        "component": "rating",
+        "from": "valueFormat",
+        "kind": "manual",
+        "note": "Gone: remove it; `value-label` sets the text alternative (`:value`, `:max`).",
+        "evidence": "src/View/Components/Rating.php:93; docs/components/rating.md:34"
+      },
+      {
+        "stack": "livewire",
+        "component": "rating",
+        "from": "clearable",
+        "kind": "remove",
+        "note": "Gone: there is no clear button.",
+        "evidence": "src/View/Components/Rating.php:86-95 (constructor has no such prop); manifest Rating.json props"
+      },
+      {
+        "stack": "livewire",
+        "component": "rating",
+        "from": "clearIcon",
+        "kind": "manual",
+        "note": "Gone with `clearable`: remove it.",
+        "evidence": "src/View/Components/Rating.php:86-95 (constructor has no such prop); manifest Rating.json props"
+      },
+      {
+        "stack": "livewire",
+        "component": "rating",
+        "from": "inlineLabel",
+        "kind": "remove",
+        "note": "Gone: `label` is the accessible name, not visible text.",
+        "evidence": "src/View/Components/Rating.php:92; docs/components/rating.md:33"
+      },
+      {
+        "stack": "livewire",
+        "component": "rating",
+        "from": "helper",
+        "kind": "manual",
+        "note": "Gone: render help text beside the rating yourself.",
+        "evidence": "src/View/Components/Rating.php:86-95 (constructor has no such prop); manifest Rating.json props"
+      },
+      {
+        "stack": "livewire",
+        "component": "rating",
+        "from": "error",
+        "kind": "manual",
+        "note": "Gone: Rating isn't a field and shows no error; render the message yourself.",
+        "evidence": "src/View/Components/Rating.php:45-49; src/View/Components/Rating.php:86-95 (constructor has no such prop); manifest Rating.json props"
+      }
+    ],
+    "Select": [
+      {
+        "stack": "livewire",
+        "component": "select",
+        "from": "iconRight",
+        "kind": "manual",
+        "note": "Gone: the select's indicator sits at the end; remove it.",
+        "evidence": "src/View/Components/Select.php:29-30,66-80; manifest Select.json props"
+      },
+      {
+        "stack": "livewire",
+        "component": "select",
+        "from": "prefix",
+        "kind": "manual",
+        "note": "Gone: remove it; use `leading-icon` or a label.",
+        "evidence": "src/View/Components/Select.php:66-80; manifest Select.json slots: icon"
+      },
+      {
+        "stack": "livewire",
+        "component": "select",
+        "from": "suffix",
+        "kind": "manual",
+        "note": "Gone: remove it.",
+        "evidence": "src/View/Components/Select.php:66-80; manifest Select.json slots: icon"
+      },
+      {
+        "stack": "livewire",
+        "component": "select",
+        "from": "placeholderValue",
+        "kind": "manual",
+        "note": "Gone: the placeholder option's value is always empty.",
+        "evidence": "resources/views/components/select.blade.php:41-42; src/View/Components/Select.php:60"
+      },
+      {
+        "stack": "livewire",
+        "component": "select",
+        "from": "inline",
+        "kind": "remove",
+        "note": "Gone: the label always sits above the field.",
+        "evidence": "src/View/Components/Select.php:66-80; manifest Select.json props"
+      },
+      {
+        "stack": "livewire",
+        "component": "select",
+        "from": "optionValue",
+        "kind": "manual",
+        "note": "Gone: give each `options` entry a `value` key.",
+        "evidence": "src/View/Components/Select.php:53,114-117: options are read by the fixed keys value and label"
+      },
+      {
+        "stack": "livewire",
+        "component": "select",
+        "from": "optionLabel",
+        "kind": "manual",
+        "note": "Gone: give each `options` entry a `label` key.",
+        "evidence": "src/View/Components/Select.php:53,114-117: options are read by the fixed keys value and label"
+      },
+      {
+        "stack": "livewire",
+        "component": "select",
+        "from": "prepend",
+        "kind": "manual",
+        "note": "Gone: put the control next to the field instead.",
+        "evidence": "src/View/Components/Select.php:66-80; manifest Select.json slots: icon"
+      },
+      {
+        "stack": "livewire",
+        "component": "select",
+        "from": "append",
+        "kind": "manual",
+        "note": "Gone: put the control next to the field instead.",
+        "evidence": "src/View/Components/Select.php:66-80; manifest Select.json slots: icon"
+      },
+      {
+        "stack": "livewire",
+        "component": "select-group",
+        "from": "iconRight",
+        "kind": "manual",
+        "note": "Gone: the select's indicator sits at the end; remove it.",
+        "evidence": "src/View/Components/Select.php:29-30,66-80"
+      },
+      {
+        "stack": "livewire",
+        "component": "select-group",
+        "from": "placeholderValue",
+        "kind": "manual",
+        "note": "Gone: the placeholder option's value is always empty.",
+        "evidence": "resources/views/components/select.blade.php:41-42; src/View/Components/Select.php:60"
+      },
+      {
+        "stack": "livewire",
+        "component": "select-group",
+        "from": "inline",
+        "kind": "remove",
+        "note": "Gone: the label always sits above the field.",
+        "evidence": "src/View/Components/Select.php:66-80"
+      },
+      {
+        "stack": "livewire",
+        "component": "select-group",
+        "from": "optionValue",
+        "kind": "manual",
+        "note": "Gone: pass groups as `[ 'label' => …, 'options' => [ [ 'value' => …, 'label' => … ] ] ]`.",
+        "evidence": "src/View/Components/Select.php:84,106-117; docs/components/select.md:206; docs/components/select-group.md:7"
+      },
+      {
+        "stack": "livewire",
+        "component": "select-group",
+        "from": "optionLabel",
+        "kind": "manual",
+        "note": "Gone: pass groups as `[ 'label' => …, 'options' => [ [ 'value' => …, 'label' => … ] ] ]`.",
+        "evidence": "src/View/Components/Select.php:84,106-117; docs/components/select.md:206; docs/components/select-group.md:7"
+      },
+      {
+        "stack": "livewire",
+        "component": "select-group",
+        "from": "prepend",
+        "kind": "manual",
+        "note": "Gone: put the control next to the field instead.",
+        "evidence": "src/View/Components/Select.php:66-80"
+      },
+      {
+        "stack": "livewire",
+        "component": "select-group",
+        "from": "append",
+        "kind": "manual",
+        "note": "Gone: put the control next to the field instead.",
+        "evidence": "src/View/Components/Select.php:66-80"
+      },
+      {
+        "stack": "react",
+        "component": "Select",
+        "from": "placeholderValue",
+        "kind": "manual",
+        "note": "Remove it: the placeholder option always has an empty value.",
+        "evidence": "packages/react/src/components/form/Select/Select.tsx:95-96,180"
+      },
+      {
+        "stack": "react",
+        "component": "Select",
+        "from": "inline",
+        "kind": "remove",
+        "note": "The inline label is gone; the label sits above the field.",
+        "evidence": "packages/react/src/components/form/Select/Select.tsx:72-113"
+      },
+      {
+        "stack": "react",
+        "component": "Select",
+        "from": "optionValue",
+        "kind": "manual",
+        "note": "Map your options to `{ value, label }` objects (or strings); the key props are gone.",
+        "evidence": "packages/react/src/components/form/Select/Select.tsx:28-38"
+      },
+      {
+        "stack": "react",
+        "component": "Select",
+        "from": "optionLabel",
+        "kind": "manual",
+        "note": "Map your options to `{ value, label }` objects (or strings); the key props are gone.",
+        "evidence": "packages/react/src/components/form/Select/Select.tsx:28-38"
+      },
+      {
+        "stack": "react",
+        "component": "Select",
+        "from": "iconRight",
+        "kind": "manual",
+        "note": "Remove it: Select only takes a leading `icon`; the end holds the built-in indicator.",
+        "evidence": "packages/react/src/components/form/Select/Select.tsx:101-106"
+      },
+      {
+        "stack": "vue",
+        "component": "Select",
+        "from": "placeholderValue",
+        "kind": "manual",
+        "note": "Removed: the placeholder option always has an empty value. Delete it and treat `''` as no selection.",
+        "evidence": "packages/vue/src/components/form/Select/Select.vue:77,175-180; types.ts:62-63"
+      },
+      {
+        "stack": "vue",
+        "component": "Select",
+        "from": "inline",
+        "kind": "remove",
+        "note": "Gone: the label always sits above the control.",
+        "evidence": "packages/vue/src/components/form/Select/types.ts:45-70 (no inline prop); decisions.md D-018"
+      },
+      {
+        "stack": "vue",
+        "component": "Select",
+        "from": "optionValue",
+        "kind": "manual",
+        "note": "Removed. Options must be strings, `{ value, label, disabled }` objects or `{ label, options }` groups; map your data to that shape (1.x defaulted to `id`).",
+        "evidence": "packages/vue/src/components/form/Select/types.ts:4-23,48-49"
+      },
+      {
+        "stack": "vue",
+        "component": "Select",
+        "from": "optionLabel",
+        "kind": "manual",
+        "note": "Removed. Options must be strings, `{ value, label, disabled }` objects or `{ label, options }` groups; map your data to that shape (1.x defaulted to `name`).",
+        "evidence": "packages/vue/src/components/form/Select/types.ts:4-23,48-49"
+      },
+      {
+        "stack": "vue",
+        "component": "Select",
+        "from": "iconRight",
+        "group": "slots",
+        "kind": "manual",
+        "note": "The `iconRight` slot is gone: the end of a native select holds its chevron. Use the `icon` slot (before the value) or remove it.",
+        "evidence": "packages/vue/src/components/form/Select/Select.vue:168-171 (only the `icon` slot plus default)"
+      },
+      {
+        "stack": "livewire",
+        "component": "select",
+        "from": "icon",
+        "kind": "rename",
+        "to": "leadingIcon",
+        "evidence": "The manifest's `icon` is a slot; the attribute is `leadingIcon`. Heroicons names still render through blade-icons (D-017)."
+      },
+      {
+        "stack": "livewire",
+        "component": "select-group",
+        "from": "icon",
+        "kind": "rename",
+        "to": "leadingIcon",
+        "evidence": "The manifest's `icon` is a slot; the attribute is `leadingIcon`. Heroicons names still render through blade-icons (D-017)."
+      }
+    ],
+    "Signature": [
+      {
+        "stack": "livewire",
+        "component": "signature",
+        "from": "clearText",
+        "kind": "rename",
+        "to": "clearLabel",
+        "evidence": "docs/components/signature.md:89 (\"use `clear-label` for the Clear label\"); src/View/Components/Signature.php:108-132"
+      },
+      {
+        "stack": "livewire",
+        "component": "signature",
+        "from": "config",
+        "kind": "manual",
+        "note": "Gone: the `signature_pad` options no longer apply; use `pen-color` and `modes`.",
+        "evidence": "docs/components/signature.md:89; src/View/Components/Signature.php:108-111"
+      },
+      {
+        "stack": "livewire",
+        "component": "signature",
+        "from": "clearBtnStyle",
+        "kind": "manual",
+        "note": "Gone: style the Clear button through `classes`.",
+        "evidence": "docs/components/signature.md:89"
+      }
+    ],
+    "Sparkline": [
+      {
+        "stack": "livewire",
+        "component": "sparkline",
+        "from": "color",
+        "kind": "manual",
+        "note": "Gone: the trend uses `--apui-chart-1`; set that token on a parent to change it.",
+        "evidence": "docs/components/sparkline.md:40; src/View/Components/Sparkline.php:54"
+      },
+      {
+        "stack": "livewire",
+        "component": "sparkline",
+        "from": "strokeWidth",
+        "kind": "manual",
+        "note": "Gone: remove it.",
+        "evidence": "docs/components/sparkline.md:40; src/View/Components/Sparkline.php:54"
+      },
+      {
+        "stack": "livewire",
+        "component": "sparkline",
+        "from": "curve",
+        "kind": "manual",
+        "note": "Gone: remove it.",
+        "evidence": "docs/components/sparkline.md:40; src/View/Components/Sparkline.php:54"
+      },
+      {
+        "stack": "livewire",
+        "component": "sparkline",
+        "from": "fillOpacity",
+        "kind": "manual",
+        "note": "Gone: remove it; use `variant=\"area\"` for a filled trend.",
+        "evidence": "docs/components/sparkline.md:40; src/View/Components/Sparkline.php:54"
+      },
+      {
+        "stack": "react",
+        "component": "Sparkline",
+        "from": "color",
+        "kind": "manual",
+        "note": "Remove it: Sparkline has no color prop; style it through `classes` or CSS.",
+        "evidence": "packages/react/src/components/data/Sparkline/Sparkline.tsx:30-46; decisions.md D-038 (takes data, variant, width, height, label)"
+      },
+      {
+        "stack": "react",
+        "component": "Sparkline",
+        "from": "strokeWidth",
+        "kind": "manual",
+        "note": "Remove it: the stroke width is set by the design system.",
+        "evidence": "packages/react/src/components/data/Sparkline/Sparkline.tsx:30-46"
+      },
+      {
+        "stack": "react",
+        "component": "Sparkline",
+        "from": "curve",
+        "kind": "remove",
+        "note": "Lines are drawn by the shared geometry; there is no curve switch.",
+        "evidence": "packages/react/src/components/data/Sparkline/Sparkline.tsx:30-46"
+      },
+      {
+        "stack": "react",
+        "component": "Sparkline",
+        "from": "fillOpacity",
+        "kind": "manual",
+        "note": "Remove it: use `variant=\"area\"` for a fill; its opacity is set by the design system.",
+        "evidence": "packages/react/src/components/data/Sparkline/Sparkline.tsx:33-34"
+      },
+      {
+        "stack": "react",
+        "component": "Sparkline",
+        "from": "showTooltip",
+        "kind": "remove",
+        "note": "Sparkline has no hover tooltip; it is described by `label`.",
+        "evidence": "packages/react/src/components/data/Sparkline/Sparkline.tsx:39-43"
+      },
+      {
+        "stack": "vue",
+        "component": "Sparkline",
+        "from": "color",
+        "kind": "manual",
+        "note": "Removed: the line uses the theme's tokens. Recolor it in CSS through `classes.line` / `classes.area`.",
+        "evidence": "packages/vue/src/components/display/Sparkline/types.ts:5-6,12-29 (no color prop)"
+      },
+      {
+        "stack": "vue",
+        "component": "Sparkline",
+        "from": "strokeWidth",
+        "kind": "manual",
+        "note": "Removed: the stroke is fixed. Override it in CSS through `classes.line` if you must.",
+        "evidence": "packages/vue/src/components/display/Sparkline/types.ts:12-29 (no strokeWidth prop)"
+      },
+      {
+        "stack": "vue",
+        "component": "Sparkline",
+        "from": "curve",
+        "kind": "remove",
+        "note": "Gone: there is no curve option.",
+        "evidence": "packages/vue/src/components/display/Sparkline/types.ts:12-29; manifest Sparkline.json props (data, variant, width, height, label)"
+      },
+      {
+        "stack": "vue",
+        "component": "Sparkline",
+        "from": "fillOpacity",
+        "kind": "manual",
+        "note": "Removed: use `variant=\"area\"` for the fill and style it through `classes.area`.",
+        "evidence": "packages/vue/src/components/display/Sparkline/types.ts:15-16,27-28"
+      },
+      {
+        "stack": "vue",
+        "component": "Sparkline",
+        "from": "showTooltip",
+        "kind": "remove",
+        "note": "Gone: Sparkline has no tooltip; `label` describes the trend for assistive technology.",
+        "evidence": "packages/vue/src/components/display/Sparkline/types.ts:21-26; Sparkline.vue has no tooltip"
+      }
+    ],
+    "Steps": [
+      {
+        "stack": "livewire",
+        "component": "step",
+        "from": "text",
+        "kind": "rename",
+        "to": "title",
+        "evidence": "src/View/Components/Step.php:70,78,111 (\"The 2.x name for title\", still accepted); docs/components/steps.md:80"
+      },
+      {
+        "stack": "livewire",
+        "component": "step",
+        "from": "icon",
+        "kind": "keep",
+        "evidence": "src/View/Components/Step.php:68,76. Icon names are now registry (Lucide) names."
+      },
+      {
+        "stack": "livewire",
+        "component": "step",
+        "from": "dataContent",
+        "kind": "manual",
+        "note": "Gone: the marker shows the step number, or `icon`.",
+        "evidence": "docs/components/steps.md:81"
+      },
+      {
+        "stack": "react",
+        "component": "Steps",
+        "from": "currentStep",
+        "kind": "manual",
+        "note": "Use `value`, which counts from 1: `currentStep={n}` becomes `value={n + 1}`.",
+        "evidence": "docs/Navigation-Components.md:343; packages/react/src/components/navigation/Steps/Steps.tsx:50-51"
+      },
+      {
+        "stack": "react",
+        "component": "Steps",
+        "from": "color",
+        "kind": "manual",
+        "note": "Remove it: Steps has no color prop. Use a step's `state` for an error step.",
+        "evidence": "docs/Navigation-Components.md:343; packages/react/src/components/navigation/Steps/Steps.tsx:74-75"
+      },
+      {
+        "stack": "react",
+        "component": "Steps",
+        "from": "size",
+        "kind": "manual",
+        "note": "Remove it: Steps has no size prop in 2.0.",
+        "evidence": "docs/Navigation-Components.md:343"
+      },
+      {
+        "stack": "vue",
+        "component": "Steps",
+        "from": "currentStep",
+        "kind": "manual",
+        "note": "Use `v-model` (`modelValue`), which counts from 1: pass `currentStep + 1`. Steps before it are complete; the current one is no longer marked complete.",
+        "evidence": "packages/vue/src/components/navigation/Steps/types.ts:32-33; .changeset/form-navigation-waves.md (Steps: 1-based v-model)"
+      },
+      {
+        "stack": "vue",
+        "component": "Steps",
+        "from": "color",
+        "kind": "manual",
+        "note": "Removed: step colors come from each step's state. Delete it; use a step's `state` (`error`) to flag one.",
+        "evidence": "packages/vue/src/components/navigation/Steps/types.ts:1-2,29-46 (no color prop)"
+      },
+      {
+        "stack": "vue",
+        "component": "Steps",
+        "from": "step",
+        "group": "slots",
+        "kind": "manual",
+        "note": "The scoped `step` slot is gone. Compose `Step` children in the default slot; each one's default slot is its title.",
+        "evidence": "packages/vue/src/components/navigation/Steps/Steps.vue:45 (default slot only); Step.vue:71; types.ts:25"
+      }
+    ],
+    "Text": [
+      {
+        "stack": "livewire",
+        "component": "subheading",
+        "from": "color",
+        "kind": "manual",
+        "note": "Gone: use `tone`, or `classes` for a one-off color.",
+        "evidence": "docs/components/subheading.md:17; src/View/Components/Text.php:62,80"
+      },
+      {
+        "stack": "livewire",
+        "component": "subheading",
+        "from": "semibold",
+        "kind": "value",
+        "to": "weight",
+        "value": "semibold",
+        "evidence": "docs/components/text.md:41; src/View/Components/Text.php:71,81"
+      },
+      {
+        "stack": "livewire",
+        "component": "subheading",
+        "from": "bold",
+        "kind": "value",
+        "to": "weight",
+        "value": "semibold",
+        "evidence": "docs/components/text.md:41; src/View/Components/Text.php:71 (semibold is the heaviest weight)",
+        "note": "`semibold` is the heaviest weight in 3.0."
+      },
+      {
+        "stack": "livewire",
+        "component": "subheading",
+        "from": "center",
+        "kind": "manual",
+        "note": "Gone: center the text with your own class.",
+        "evidence": "docs/components/subheading.md:17; docs/components/text.md:42"
+      },
+      {
+        "stack": "livewire",
+        "component": "subheading",
+        "from": "muted",
+        "kind": "value",
+        "to": "tone",
+        "value": "muted",
+        "evidence": "docs/components/text.md:41; src/View/Components/Text.php:62,80; docs/components/subheading.md:17"
+      },
+      {
+        "stack": "livewire",
+        "component": "text",
+        "from": "color",
+        "kind": "manual",
+        "note": "Gone: use `tone`, or `classes` for a one-off color.",
+        "evidence": "docs/components/text.md:42; src/View/Components/Text.php:62,80"
+      },
+      {
+        "stack": "livewire",
+        "component": "text",
+        "from": "semibold",
+        "kind": "value",
+        "to": "weight",
+        "value": "semibold",
+        "evidence": "docs/components/text.md:41; src/View/Components/Text.php:71,81"
+      },
+      {
+        "stack": "livewire",
+        "component": "text",
+        "from": "bold",
+        "kind": "value",
+        "to": "weight",
+        "value": "semibold",
+        "evidence": "docs/components/text.md:41; src/View/Components/Text.php:71 (semibold is the heaviest weight)",
+        "note": "`semibold` is the heaviest weight in 3.0."
+      },
+      {
+        "stack": "livewire",
+        "component": "text",
+        "from": "center",
+        "kind": "manual",
+        "note": "Gone: center the text with your own class.",
+        "evidence": "docs/components/text.md:42"
+      },
+      {
+        "stack": "livewire",
+        "component": "text",
+        "from": "muted",
+        "kind": "value",
+        "to": "tone",
+        "value": "muted",
+        "evidence": "docs/components/text.md:41; src/View/Components/Text.php:62,80"
+      },
+      {
+        "stack": "livewire",
+        "component": "text",
+        "from": "prose",
+        "kind": "remove",
+        "note": "Gone: Text no longer adds prose styles or a bottom margin.",
+        "evidence": "docs/components/text.md:42"
+      }
+    ],
+    "Swap": [
+      {
+        "stack": "livewire",
+        "component": "swap",
+        "from": "true",
+        "kind": "manual",
+        "note": "Pass the content in the `on` slot; as an attribute it is no longer read.",
+        "evidence": "resources/views/components/swap.blade.php:12 (only a slot variable is read); src/View/Components/Swap.php:74-85"
+      },
+      {
+        "stack": "livewire",
+        "component": "swap",
+        "from": "false",
+        "kind": "manual",
+        "note": "Pass the content in the `off` slot; as an attribute it is no longer read.",
+        "evidence": "resources/views/components/swap.blade.php:13; src/View/Components/Swap.php:74-85"
+      },
+      {
+        "stack": "livewire",
+        "component": "swap",
+        "from": "false",
+        "group": "slots",
+        "kind": "rename",
+        "to": "off",
+        "evidence": "docs/components/swap.md:47; resources/views/components/swap.blade.php:13 (the `false` slot still works)"
+      },
+      {
+        "stack": "livewire",
+        "component": "swap",
+        "from": "true",
+        "group": "slots",
+        "kind": "rename",
+        "to": "on",
+        "evidence": "docs/components/swap.md:47; resources/views/components/swap.blade.php:12 (the `true` slot still works)"
+      },
+      {
+        "stack": "livewire",
+        "component": "swap",
+        "from": "after",
+        "group": "slots",
+        "kind": "manual",
+        "note": "Gone: put the content beside the swap yourself.",
+        "evidence": "docs/components/swap.md:50"
+      },
+      {
+        "stack": "livewire",
+        "component": "swap",
+        "from": "before",
+        "group": "slots",
+        "kind": "manual",
+        "note": "Gone: put the content beside the swap yourself.",
+        "evidence": "docs/components/swap.md:50"
+      }
+    ],
+    "Tabs": [
+      {
+        "stack": "livewire",
+        "component": "tab",
+        "from": "icon",
+        "kind": "keep",
+        "evidence": "src/View/Components/Tab.php:60,70. Icon names are now registry (Lucide) names."
+      },
+      {
+        "stack": "livewire",
+        "component": "tab",
+        "from": "hidden",
+        "kind": "keep",
+        "evidence": "src/View/Components/Tab.php:64,74; docs/components/tabs.md:102 (still works, deprecated: leave the tab out instead)"
+      },
+      {
+        "stack": "livewire",
+        "component": "tabs",
+        "from": "gap",
+        "kind": "manual",
+        "note": "Gone: use `classes` or the design tokens.",
+        "evidence": "docs/components/tabs.md:101"
+      },
+      {
+        "stack": "react",
+        "component": "Tabs",
+        "from": "color",
+        "kind": "manual",
+        "note": "Remove it: Tabs has no color prop. Choose the look with `variant` (`segmented` or `underline`).",
+        "evidence": "packages/react/src/components/layout/Tabs/Tabs.tsx:32,59-80"
+      },
+      {
+        "stack": "vue",
+        "component": "Tabs",
+        "from": "color",
+        "kind": "manual",
+        "note": "Removed: the selected tab uses the theme's tokens. Delete it; pick the look with `variant` (`segmented` or `underline`).",
+        "evidence": "packages/vue/src/components/layout/Tabs/types.ts:1-2,33-50 (no color prop)"
+      },
+      {
+        "stack": "vue",
+        "component": "Tabs",
+        "from": "tabListClassName",
+        "kind": "manual",
+        "note": "Use `:classes=\"{ list: '…' }\"`.",
+        "evidence": "packages/vue/src/components/layout/Tabs/types.ts:13-14,48-49 (classes per part: root, list, trigger, icon, count, content)"
+      },
+      {
+        "stack": "vue",
+        "component": "Tabs",
+        "from": "panelClassName",
+        "kind": "manual",
+        "note": "Use `:classes=\"{ content: '…' }\"` (the panel is the `content` part).",
+        "evidence": "packages/vue/src/components/layout/Tabs/types.ts:13-14,48-49; decisions.md D-023 (the spec's panel is Zag's content)"
+      },
+      {
+        "stack": "vue",
+        "component": "Tabs",
+        "from": "activeTabClassName",
+        "kind": "manual",
+        "note": "Removed. Style the selected trigger in CSS with `[data-part=\"trigger\"][data-selected]`, or add a class to all triggers through `classes.trigger`.",
+        "evidence": "packages/vue/src/components/layout/Tabs/types.ts:13-14,48-49 (no per-state class prop)"
+      }
+    ],
+    "Table": [
+      {
+        "stack": "livewire",
+        "component": "table",
+        "from": "selectableKey",
+        "kind": "keep",
+        "evidence": "docs/components/table.md:170; src/View/Components/Table.php:65-77 (LEGACY_ATTRIBUTES, read through legacy()); Table.php:374-384"
+      },
+      {
+        "stack": "livewire",
+        "component": "table",
+        "from": "expandableKey",
+        "kind": "keep",
+        "evidence": "docs/components/table.md:170; src/View/Components/Table.php:65-77 (LEGACY_ATTRIBUTES, read through legacy()); Table.php:390-400"
+      },
+      {
+        "stack": "livewire",
+        "component": "table",
+        "from": "expandableCondition",
+        "kind": "keep",
+        "evidence": "docs/components/table.md:170; src/View/Components/Table.php:65-77 (LEGACY_ATTRIBUTES, read through legacy()); Table.php:406-417"
+      },
+      {
+        "stack": "livewire",
+        "component": "table",
+        "from": "rowDecoration",
+        "kind": "keep",
+        "evidence": "docs/components/table.md:170; src/View/Components/Table.php:65-77 (LEGACY_ATTRIBUTES, read through legacy()); Table.php:759-770"
+      },
+      {
+        "stack": "livewire",
+        "component": "table",
+        "from": "cellDecoration",
+        "kind": "keep",
+        "evidence": "docs/components/table.md:170; src/View/Components/Table.php:65-77 (LEGACY_ATTRIBUTES, read through legacy()); Table.php:781-793"
+      },
+      {
+        "stack": "livewire",
+        "component": "table",
+        "from": "showEmptyText",
+        "kind": "remove",
+        "note": "No longer needed: an empty table always shows the empty state.",
+        "evidence": "docs/components/table.md:174; src/View/Components/Table.php:69-70"
+      },
+      {
+        "stack": "livewire",
+        "component": "table",
+        "from": "sortable",
+        "kind": "keep",
+        "evidence": "docs/components/table.md:170; src/View/Components/Table.php:65-77 (LEGACY_ATTRIBUTES, read through legacy()) (drag-and-drop rows)"
+      },
+      {
+        "stack": "livewire",
+        "component": "table",
+        "from": "sortableKey",
+        "kind": "keep",
+        "evidence": "src/View/Components/Table.php:73,874-884 (row's wire:sort:item value)"
+      },
+      {
+        "stack": "livewire",
+        "component": "table",
+        "from": "sortGroup",
+        "kind": "keep",
+        "evidence": "docs/components/table.md:170; src/View/Components/Table.php:65-77 (LEGACY_ATTRIBUTES, read through legacy()); resources/views/components/table.blade.php:123"
+      },
+      {
+        "stack": "livewire",
+        "component": "table",
+        "from": "sortHandle",
+        "kind": "keep",
+        "evidence": "docs/components/table.md:170; src/View/Components/Table.php:65-77 (LEGACY_ATTRIBUTES, read through legacy()); Table.php:848-856"
+      },
+      {
+        "stack": "livewire",
+        "component": "table",
+        "from": "infiniteScroll",
+        "kind": "keep",
+        "evidence": "docs/components/table.md:170; src/View/Components/Table.php:65-77 (LEGACY_ATTRIBUTES, read through legacy()); Table.php:890-901"
+      },
+      {
+        "stack": "livewire",
+        "component": "table",
+        "from": "infiniteScrollMethod",
+        "kind": "keep",
+        "evidence": "src/View/Components/Table.php:75,919-927; resources/views/components/table.blade.php:256"
+      },
+      {
+        "stack": "livewire",
+        "component": "table",
+        "from": "infiniteScrollModifier",
+        "kind": "keep",
+        "evidence": "src/View/Components/Table.php:75-76,913"
+      },
+      {
+        "stack": "livewire",
+        "component": "table",
+        "from": "infiniteScrollText",
+        "kind": "keep",
+        "evidence": "src/View/Components/Table.php:76; resources/views/components/table.blade.php:257"
+      },
+      {
+        "stack": "livewire",
+        "component": "table",
+        "from": "hasMorePages",
+        "kind": "keep",
+        "evidence": "src/View/Components/Table.php:77,891-901; manifest Table.json livewire capabilities"
+      },
+      {
+        "stack": "livewire",
+        "component": "table",
+        "from": "tr",
+        "kind": "manual",
+        "note": "Not rendered: remove it; use `row-decoration` for row classes.",
+        "evidence": "resources/views/components/table.blade.php (no $tr); 2.x table.blade.php never rendered it either; manifest Table.json slots"
+      },
+      {
+        "stack": "livewire",
+        "component": "table",
+        "from": "sortHandleSlot",
+        "kind": "manual",
+        "note": "Gone: the drag handle is built in (a grip icon); remove it.",
+        "evidence": "resources/views/components/table.blade.php:198-200; manifest Table.json slots"
+      },
+      {
+        "stack": "react",
+        "component": "Table",
+        "from": "size",
+        "kind": "manual",
+        "note": "Use `density` (`compact`, `default` or `comfortable`). `size` is still accepted but ignored.",
+        "evidence": "packages/react/src/components/data/Table/Table.tsx:106-107,183-184 (@deprecated: use density. Ignored)"
+      },
+      {
+        "stack": "react",
+        "component": "Table",
+        "from": "selectableKey",
+        "kind": "rename",
+        "to": "keyBy",
+        "note": "If `expandableKey` is also set, keep a single `keyBy`.",
+        "evidence": "packages/react/src/components/data/Table/Table.tsx:100-101,185-186 (@deprecated: keys come from keyBy. Still declared but ignored)"
+      },
+      {
+        "stack": "react",
+        "component": "Table",
+        "from": "expandableKey",
+        "kind": "rename",
+        "to": "keyBy",
+        "note": "If `selectableKey` is also set, keep a single `keyBy`.",
+        "evidence": "packages/react/src/components/data/Table/Table.tsx:100-101,187-188 (@deprecated: keys come from keyBy. Still declared but ignored)"
+      },
+      {
+        "stack": "react",
+        "component": "Table",
+        "from": "renderExpansion",
+        "kind": "keep",
+        "evidence": "packages/react/src/components/data/Table/Table.tsx:157-158 (declared, not deprecated; manifest lists it as the `expansion` slot)"
+      },
+      {
+        "stack": "react",
+        "component": "Table",
+        "from": "renderActions",
+        "kind": "keep",
+        "evidence": "packages/react/src/components/data/Table/Table.tsx:155-156 (declared, not deprecated; manifest lists it as the `actions` slot)"
+      },
+      {
+        "stack": "livewire",
+        "component": "table",
+        "from": "link",
+        "kind": "keep",
+        "evidence": "Table.php reads the 2.x `link` row link from its attributes (LEGACY_ATTRIBUTES)."
+      }
+    ],
+    "Textarea": [
+      {
+        "stack": "livewire",
+        "component": "textarea",
+        "from": "inline",
+        "kind": "remove",
+        "note": "Gone: the label always sits above the field.",
+        "evidence": "src/View/Components/Textarea.php:67-83 (no such prop); manifest Textarea.json props"
+      },
+      {
+        "stack": "react",
+        "component": "Textarea",
+        "from": "inline",
+        "kind": "remove",
+        "note": "The inline label is gone; the label sits above the field.",
+        "evidence": "packages/react/src/components/form/Textarea/Textarea.tsx:57-93"
+      },
+      {
+        "stack": "vue",
+        "component": "Textarea",
+        "from": "inline",
+        "kind": "remove",
+        "note": "Gone: the label always sits above the box.",
+        "evidence": "packages/vue/src/components/form/Textarea/types.ts:19-51 (no inline prop)"
+      }
+    ],
+    "Timeline": [
+      {
+        "stack": "livewire",
+        "component": "timeline-item",
+        "from": "description",
+        "kind": "keep",
+        "evidence": "src/View/Components/TimelineItem.php:66,75; resources/views/components/timeline-item.blade.php:20-21"
+      },
+      {
+        "stack": "livewire",
+        "component": "timeline-item",
+        "from": "icon",
+        "kind": "keep",
+        "evidence": "src/View/Components/TimelineItem.php:64,73. Icon names are now registry (Lucide) names."
+      },
+      {
+        "stack": "livewire",
+        "component": "timeline-item",
+        "from": "first",
+        "kind": "remove",
+        "note": "Ignored: the list draws its own line.",
+        "evidence": "docs/components/timeline-item.md:18; src/View/Components/TimelineItem.php:45"
+      },
+      {
+        "stack": "livewire",
+        "component": "timeline-item",
+        "from": "last",
+        "kind": "remove",
+        "note": "Ignored: the list draws its own line.",
+        "evidence": "docs/components/timeline-item.md:18; src/View/Components/TimelineItem.php:45"
+      },
+      {
+        "stack": "vue",
+        "component": "Timeline",
+        "from": "item",
+        "group": "slots",
+        "kind": "manual",
+        "note": "The scoped `item` slot is gone. Compose `TimelineItem` children: the default slot is the head and the `card` slot the box under it.",
+        "evidence": "packages/vue/src/components/display/Timeline/Timeline.vue:35 (default slot only); TimelineItem.vue:58,69; decisions.md D-040"
+      },
+      {
+        "stack": "vue",
+        "component": "Timeline",
+        "from": "marker",
+        "group": "slots",
+        "kind": "manual",
+        "note": "The `marker` slot is gone: markers are decorative. Set each item's `icon` and `color`, or use `variant=\"dot\"`.",
+        "evidence": "packages/vue/src/components/display/Timeline/types.ts:26-29,48-49; decisions.md D-040"
+      }
+    ],
+    "Toast": [
+      {
+        "stack": "livewire",
+        "component": "toast",
+        "from": "position",
+        "kind": "manual",
+        "note": "Set `placement` on `<x-artisanpack-toaster>` instead (for example `top-end`).",
+        "evidence": "docs/components/toast.md:21,149-150; src/View/Components/Toaster.php:73"
+      },
+      {
+        "stack": "livewire",
+        "component": "toast",
+        "from": "duration",
+        "kind": "manual",
+        "note": "Set `duration` on `<x-artisanpack-toaster>` instead.",
+        "evidence": "docs/components/toast.md:24,149; src/View/Components/Toaster.php:73"
+      },
+      {
+        "stack": "react",
+        "component": "ToastMessage",
+        "from": "toast",
+        "kind": "manual",
+        "note": "`Toast` takes the fields directly: `message` becomes `title` and `color` stays. Most apps should call `toast.create({ title, color })` and render one `<Toaster />` instead.",
+        "evidence": "packages/react/src/components/feedback/Toast/Toast.tsx:46-72; .changeset/pilot-dialog-dropdown-menu-toast.md"
+      },
+      {
+        "stack": "react",
+        "component": "ToastProvider",
+        "from": "defaultDuration",
+        "kind": "manual",
+        "note": "Replace `ToastProvider` with `<Toaster />` and set its `duration` (ms; 0 keeps toasts).",
+        "evidence": "packages/react/src/components/feedback/Toast/Toaster.tsx:171-176"
+      },
+      {
+        "stack": "react",
+        "component": "ToastProvider",
+        "from": "position",
+        "kind": "manual",
+        "note": "Replace `ToastProvider` with `<Toaster />` and set `placement` to one value such as `bottom-end` (was `['toast-end', 'toast-bottom']`).",
+        "evidence": "packages/react/src/components/feedback/Toast/Toaster.tsx:45-51,165-166"
+      },
+      {
+        "stack": "vue",
+        "component": "ToastProvider",
+        "from": "defaultDuration",
+        "kind": "manual",
+        "note": "Not a `Toast` prop. Render a `Toaster` and set its `duration` (ms, 0 keeps the toast), or pass `duration` to `toast.create()`.",
+        "evidence": "packages/vue/src/components/feedback/Toast/types.ts:58-59 (ToasterProps.duration); decisions.md D-019 (duration is a toaster option)"
+      },
+      {
+        "stack": "vue",
+        "component": "ToastProvider",
+        "from": "position",
+        "kind": "manual",
+        "note": "Not a `Toast` prop. Set `placement` on `Toaster`: one of `top-start`, `top`, `top-end`, `bottom-start`, `bottom`, `bottom-end`, instead of the DaisyUI class array.",
+        "evidence": "packages/vue/src/components/feedback/Toast/types.ts:52-53 (ToasterProps.placement, default bottom-end)"
+      }
+    ],
+    "Toggle": [
+      {
+        "stack": "livewire",
+        "component": "toggle",
+        "from": "right",
+        "kind": "remove",
+        "note": "Gone: the label always follows the switch.",
+        "evidence": "docs/components/toggle.md:51"
+      },
+      {
+        "stack": "livewire",
+        "component": "toggle",
+        "from": "hint",
+        "kind": "rename",
+        "to": "description",
+        "evidence": "docs/components/toggle.md:51 (\"`hint` is `description`\"); src/View/Components/Toggle.php:56,69"
+      },
+      {
+        "stack": "react",
+        "component": "Toggle",
+        "from": "right",
+        "kind": "remove",
+        "note": "The label position is fixed by the design system.",
+        "evidence": "packages/react/src/components/form/Toggle/Toggle.tsx:46-74"
+      },
+      {
+        "stack": "react",
+        "component": "Toggle",
+        "from": "hint",
+        "kind": "rename",
+        "to": "description",
+        "evidence": "packages/react/src/components/form/Toggle/Toggle.tsx:60-61 (description: supporting text under the label; no hint prop)"
+      },
+      {
+        "stack": "vue",
+        "component": "Toggle",
+        "from": "right",
+        "kind": "remove",
+        "note": "Gone: there is no option to move the label to the other side.",
+        "evidence": "packages/vue/src/components/form/Toggle/types.ts:25-46 (no right prop)"
+      },
+      {
+        "stack": "vue",
+        "component": "Toggle",
+        "from": "hint",
+        "kind": "rename",
+        "to": "description",
+        "evidence": "packages/vue/src/components/form/Toggle/types.ts:34-35 (description: supporting text under the label)"
+      }
+    ],
+    "Accordion": [
+      {
+        "stack": "react",
+        "component": "Accordion",
+        "from": "join",
+        "kind": "manual",
+        "note": "Remove `join`. If it was `join={false}` (separate panels), use `variant=\"separated\"`.",
+        "evidence": "packages/react/src/components/layout/Accordion/Accordion.tsx:34,62 (variant default|separated|flush; no join prop)"
+      },
+      {
+        "stack": "vue",
+        "component": "Accordion",
+        "from": "join",
+        "kind": "manual",
+        "note": "Remove it: panels share one container by default. If you passed `:join=\"false\"`, use `variant=\"separated\"` instead.",
+        "evidence": "packages/vue/src/components/layout/Accordion/types.ts:1-2,29-30 (variant default|separated|flush; no join prop)"
+      }
+    ],
+    "Badge": [
+      {
+        "stack": "react",
+        "component": "Badge",
+        "from": "outline",
+        "kind": "value",
+        "to": "variant",
+        "value": "outline",
+        "evidence": "packages/react/src/components/data/Badge/Badge.tsx:17 (BadgeVariant includes 'outline')"
+      },
+      {
+        "stack": "vue",
+        "component": "Badge",
+        "from": "outline",
+        "kind": "value",
+        "to": "variant",
+        "value": "outline",
+        "evidence": "packages/vue/src/components/display/Badge/types.ts:2,28-29 (variant solid|soft|outline|ghost)"
+      },
+      {
+        "stack": "vue",
+        "component": "Badge",
+        "from": "ghost",
+        "kind": "value",
+        "to": "variant",
+        "value": "ghost",
+        "evidence": "packages/vue/src/components/display/Badge/types.ts:2,28-29 (variant solid|soft|outline|ghost)"
+      }
+    ],
+    "Calendar": [
+      {
+        "stack": "react",
+        "component": "Calendar",
+        "from": "highlightToday",
+        "kind": "remove",
+        "note": "Today is always marked.",
+        "evidence": "packages/react/src/components/data/Calendar/Calendar.tsx:126-127 (@deprecated, ignored; still declared)"
+      },
+      {
+        "stack": "react",
+        "component": "Calendar",
+        "from": "minDate",
+        "kind": "manual",
+        "note": "Remove it: the calendar no longer limits dates (the prop is still accepted but ignored).",
+        "evidence": "packages/react/src/components/data/Calendar/Calendar.tsx:128-129 (@deprecated, ignored)"
+      },
+      {
+        "stack": "react",
+        "component": "Calendar",
+        "from": "maxDate",
+        "kind": "manual",
+        "note": "Remove it: the calendar no longer limits dates (the prop is still accepted but ignored).",
+        "evidence": "packages/react/src/components/data/Calendar/Calendar.tsx:130-131 (@deprecated, ignored)"
+      },
+      {
+        "stack": "react",
+        "component": "Calendar",
+        "from": "color",
+        "kind": "manual",
+        "note": "Set `color` on each entry in `events` instead (the prop is still accepted but ignored).",
+        "evidence": "packages/react/src/components/data/Calendar/Calendar.tsx:83,132-133 (@deprecated: events take their own color)"
+      },
+      {
+        "stack": "vue",
+        "component": "Calendar",
+        "from": "month",
+        "kind": "keep",
+        "evidence": "packages/vue/src/components/data/Calendar/types.ts:65-66 (@deprecated alias, still works, 1-12 with year); Calendar.vue:90-92; .changeset/chart-calendar-utility-waves.md"
+      },
+      {
+        "stack": "vue",
+        "component": "Calendar",
+        "from": "year",
+        "kind": "keep",
+        "evidence": "packages/vue/src/components/data/Calendar/types.ts:67-68 (@deprecated alias, still works with month); Calendar.vue:90-92"
+      },
+      {
+        "stack": "vue",
+        "component": "Calendar",
+        "from": "minDate",
+        "kind": "manual",
+        "note": "Still accepted but ignored: the calendar no longer limits dates. Remove it.",
+        "evidence": "packages/vue/src/components/data/Calendar/types.ts:71-72 (@deprecated: no longer limited. Ignored.)"
+      },
+      {
+        "stack": "vue",
+        "component": "Calendar",
+        "from": "maxDate",
+        "kind": "manual",
+        "note": "Still accepted but ignored: the calendar no longer limits dates. Remove it.",
+        "evidence": "packages/vue/src/components/data/Calendar/types.ts:73-74 (@deprecated: no longer limited. Ignored.)"
+      }
+    ],
+    "Collapse": [
+      {
+        "stack": "react",
+        "component": "Collapse",
+        "from": "icon",
+        "kind": "manual",
+        "note": "Remove it: the indicator icon is fixed. Style it through `classes.icon`.",
+        "evidence": "packages/react/src/components/layout/Collapse/Collapse.tsx:24,27-44 (no icon prop; icon is a part)"
+      },
+      {
+        "stack": "react",
+        "component": "Collapse",
+        "from": "bordered",
+        "kind": "remove",
+        "note": "The look comes from `variant` (`section` or `read-more`).",
+        "evidence": "packages/react/src/components/layout/Collapse/Collapse.tsx:21,35"
+      }
+    ],
+    "Drawer": [
+      {
+        "stack": "react",
+        "component": "Drawer",
+        "from": "persistent",
+        "kind": "manual",
+        "note": "No equivalent: Escape and the backdrop always close the drawer. `hideClose` only hides the close button.",
+        "evidence": "packages/react/src/components/layout/Drawer/Drawer.tsx:50-54,80-81"
+      },
+      {
+        "stack": "vue",
+        "component": "Drawer",
+        "from": "persistent",
+        "kind": "manual",
+        "note": "Removed: Escape and the backdrop always close the drawer. To keep it open, bind `v-model:open` and ignore the close; `hideClose` hides the close button.",
+        "evidence": "packages/vue/src/components/layout/Drawer/Drawer.vue:8 (Escape and backdrop dismissal); types.ts:60-61"
+      },
+      {
+        "stack": "vue",
+        "component": "Drawer",
+        "from": "ariaLabel",
+        "kind": "manual",
+        "note": "No longer a prop. Pass `aria-label` as a plain kebab-case attribute; it names the panel when there is no `title`.",
+        "evidence": "packages/vue/src/components/layout/Drawer/Drawer.vue:58-59 (attrs['aria-label'] names the panel without a title)"
+      },
+      {
+        "stack": "vue",
+        "component": "Drawer",
+        "from": "ariaLabelledby",
+        "kind": "manual",
+        "note": "Removed: the panel is labelled by its own `title`. Use `title` (or the `title` slot), or an `aria-label` attribute.",
+        "evidence": "packages/vue/src/components/layout/Drawer/types.ts:48-49 (title is the accessible name); Drawer.vue:58-59"
+      },
+      {
+        "stack": "livewire",
+        "from": "right",
+        "kind": "value",
+        "to": "side",
+        "value": "end",
+        "evidence": "D-029"
+      }
+    ],
+    "ErrorState": [
+      {
+        "stack": "react",
+        "component": "ErrorDisplay",
+        "from": "message",
+        "kind": "rename",
+        "to": "description",
+        "evidence": "packages/react/src/components/feedback/ErrorState/ErrorState.tsx:55-56 (description: what to do; no message prop)"
+      },
+      {
+        "stack": "react",
+        "component": "ErrorDisplay",
+        "from": "retryLabel",
+        "kind": "manual",
+        "note": "Render the retry button yourself in `actions`, for example `actions={<Button onClick={retry}>Try again</Button>}`.",
+        "evidence": "packages/react/src/components/feedback/ErrorState/ErrorState.tsx:59-60 (actions: recovery buttons; no onRetry/retryLabel)"
+      },
+      {
+        "stack": "vue",
+        "component": "ErrorDisplay",
+        "from": "message",
+        "kind": "rename",
+        "to": "description",
+        "evidence": "packages/vue/src/components/feedback/Error/Error.vue:5-8 (wrapper maps message to description); ErrorState/types.ts:34-35"
+      },
+      {
+        "stack": "vue",
+        "component": "ErrorDisplay",
+        "from": "retryable",
+        "kind": "manual",
+        "note": "Removed. Put your own retry `Button` in the `actions` slot and handle its click; ErrorState emits no `retry` event.",
+        "evidence": "packages/vue/src/components/feedback/Error/Error.vue:5-8 (wrapper renders a Button in actions); ErrorState/ErrorState.vue:145 (slot actions, no emits)"
+      },
+      {
+        "stack": "vue",
+        "component": "ErrorDisplay",
+        "from": "retryLabel",
+        "kind": "manual",
+        "note": "Removed with `retryable`. It becomes the text of the `Button` you put in the `actions` slot.",
+        "evidence": "packages/vue/src/components/feedback/Error/Error.vue:5-8; ErrorState/types.ts:38-39"
+      }
+    ],
+    "Spotlight": [
+      {
+        "stack": "react",
+        "component": "SpotlightSearch",
+        "from": "items",
+        "kind": "manual",
+        "note": "Use `groups`: wrap the items as `[{ label, items }]` and rename item fields to the `SpotlightResult` shape (`label`, `description`, `href`, `icon`, `keywords`).",
+        "evidence": "packages/react/src/components/navigation/Spotlight/Spotlight.tsx:73-79"
+      },
+      {
+        "stack": "react",
+        "component": "SpotlightSearch",
+        "from": "filterFn",
+        "kind": "manual",
+        "note": "No custom filter. Set `remote`, track the query with `search`/`onSearchChange`, and pass already-filtered `groups`.",
+        "evidence": "packages/react/src/components/navigation/Spotlight/Spotlight.tsx:80-87"
+      },
+      {
+        "stack": "react",
+        "component": "SpotlightSearch",
+        "from": "maxResults",
+        "kind": "manual",
+        "note": "Remove it: there is no result cap. Limit the items you pass (with `remote` if you filter yourself).",
+        "evidence": "packages/react/src/components/navigation/Spotlight/Spotlight.tsx:63-126 (no maxResults prop)"
+      },
+      {
+        "stack": "react",
+        "component": "SpotlightSearch",
+        "from": "emptyMessage",
+        "kind": "rename",
+        "to": "emptyLabel",
+        "evidence": "packages/react/src/components/navigation/Spotlight/Spotlight.tsx:104-105 (emptyLabel: ReactNode shown when nothing matches)"
+      },
+      {
+        "stack": "vue",
+        "component": "SpotlightSearch",
+        "from": "item",
+        "group": "slots",
+        "kind": "manual",
+        "note": "The scoped `item` slot is gone. Results render from `groups`; set each item's `label`, `description`, `icon`, `color` and `shortcut` instead.",
+        "evidence": "packages/vue/src/components/navigation/Spotlight/Spotlight.vue:158,250,257 (slots: trigger, empty, footer); types.ts:41-47"
+      }
+    ],
+    "Stat": [
+      {
+        "stack": "react",
+        "component": "Stat",
+        "from": "actions",
+        "kind": "manual",
+        "note": "Remove it: Stat has no actions area. Put the controls beside the Stat, for example in a `Card`.",
+        "evidence": "packages/react/src/components/data/Stat/Stat.tsx:46-79; decisions.md D-039"
+      },
+      {
+        "stack": "vue",
+        "component": "Stat",
+        "from": "changeDirection",
+        "kind": "rename",
+        "to": "trend",
+        "values": {
+          "up": "up",
+          "down": "down",
+          "neutral": "flat"
+        },
+        "evidence": "packages/vue/src/components/display/Stat/types.ts:15-16,51-52 (trend up|down|flat); decisions.md D-039"
+      },
+      {
+        "stack": "vue",
+        "component": "Stat",
+        "from": "actions",
+        "group": "slots",
+        "kind": "manual",
+        "note": "The `actions` slot is gone. Place the controls next to the Stat, or use `KpiCard`.",
+        "evidence": "packages/vue/src/components/display/Stat/Stat.vue:59-63 (slots: icon, default); decisions.md D-039"
+      },
+      {
+        "stack": "vue",
+        "component": "Stat",
+        "from": "figure",
+        "group": "slots",
+        "kind": "manual",
+        "note": "The `figure` slot is gone. An icon goes in the `icon` slot (or the `icon` prop); other content has no place in a Stat.",
+        "evidence": "packages/vue/src/components/display/Stat/Stat.vue:59 (slot icon); types.ts:45-46"
+      }
+    ],
+    "Clipboard": [
+      {
+        "stack": "vue",
+        "component": "Clipboard",
+        "from": "color",
+        "kind": "manual",
+        "note": "Removed: the copy button has no color option. Delete it.",
+        "evidence": "packages/vue/src/components/utility/Clipboard/types.ts:15-42 (no color prop)"
+      },
+      {
+        "stack": "vue",
+        "component": "Clipboard",
+        "from": "success",
+        "group": "slots",
+        "kind": "manual",
+        "note": "The `success` slot is gone. Set the after-copy text with `copiedLabel`.",
+        "evidence": "packages/vue/src/components/utility/Clipboard/types.ts:34-35 (copiedLabel); Clipboard.vue has no slots"
+      }
+    ],
+    "Progress": [
+      {
+        "stack": "vue",
+        "component": "Progress",
+        "from": "ariaLabel",
+        "kind": "manual",
+        "note": "No longer a prop. Pass `aria-label` as a plain kebab-case attribute (it lands on the progressbar), or use `label` for a visible name.",
+        "evidence": "packages/vue/src/components/display/Progress/types.ts:18-20,40-41; decisions.md D-034 (named by label or aria-label)"
+      }
+    ],
+    "*": [
+      {
+        "stack": "livewire",
+        "from": "tooltip",
+        "kind": "wrap",
+        "tag": "tooltip",
+        "to": "content",
+        "primary": true,
+        "note": "Tooltip props are gone: the element is wrapped in a Tooltip (D-029)."
+      },
+      {
+        "stack": "livewire",
+        "from": "tooltipLeft",
+        "kind": "wrap",
+        "tag": "tooltip",
+        "to": "content",
+        "primary": true,
+        "set": {
+          "placement": "start"
+        },
+        "note": "Tooltip props are gone: the element is wrapped in a Tooltip (D-029)."
+      },
+      {
+        "stack": "livewire",
+        "from": "tooltipRight",
+        "kind": "wrap",
+        "tag": "tooltip",
+        "to": "content",
+        "primary": true,
+        "set": {
+          "placement": "end"
+        },
+        "note": "Tooltip props are gone: the element is wrapped in a Tooltip (D-029)."
+      },
+      {
+        "stack": "livewire",
+        "from": "tooltipBottom",
+        "kind": "wrap",
+        "tag": "tooltip",
+        "to": "content",
+        "primary": true,
+        "set": {
+          "placement": "bottom"
+        },
+        "note": "Tooltip props are gone: the element is wrapped in a Tooltip (D-029)."
+      },
+      {
+        "stack": "livewire",
+        "from": "tooltipPosition",
+        "kind": "wrap",
+        "tag": "tooltip",
+        "to": "placement",
+        "values": {
+          "left": "start",
+          "right": "end"
+        },
+        "note": "Set `placement` on the wrapping Tooltip; `left` and `right` are now `start` and `end` (D-029)."
+      }
+    ],
+    "Popover": [
+      {
+        "from": "position",
+        "kind": "rename",
+        "to": "placement",
+        "values": {
+          "left": "start",
+          "right": "end"
+        },
+        "note": "`left` and `right` are now `start` and `end` (D-029)."
+      }
+    ],
+    "Tooltip": [
+      {
+        "from": "position",
+        "kind": "rename",
+        "to": "placement",
+        "values": {
+          "left": "start",
+          "right": "end"
+        },
+        "note": "`left` and `right` are now `start` and `end` (D-029)."
+      }
+    ],
+    "Combobox": [
+      {
+        "stack": "livewire",
+        "component": "choices",
+        "from": "searchable",
+        "kind": "rename",
+        "to": "remote",
+        "note": "`searchable` searched on the server, which is now `remote` (D-020).",
+        "evidence": "api-aliases.json Combobox `searchable` note"
+      },
+      {
+        "stack": "livewire",
+        "component": "choices-offline",
+        "from": "searchable",
+        "kind": "remove",
+        "note": "Filtering is always on.",
+        "evidence": "api-aliases.json Combobox `searchable` note"
+      },
+      {
+        "stack": "livewire",
+        "from": "single",
+        "kind": "invert",
+        "to": "multiple",
+        "note": "Choices was multiple unless `single`; Combobox is single unless `multiple` (D-020).",
+        "evidence": "api-aliases.json Combobox `single` note"
+      },
+      {
+        "stack": "livewire",
+        "from": "searchFunction",
+        "kind": "manual",
+        "note": "A method name became a property name: bind the search text with `search-model`, or keep the method with `wire:search-change`.",
+        "evidence": "api-aliases.json Combobox `searchFunction` note"
+      }
+    ]
+  }
+}
