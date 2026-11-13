@@ -6,22 +6,22 @@ Token-driven design system for ArtisanPack UI: DTCG tokens, a plain-CSS componen
 
 | File | Why |
 |---|---|
-| `docs/decisions.md` | Settled decisions (D-001 onward). Don't relitigate them; supersede with a new entry if something must change |
-| `docs/inventory/vocabulary.md` | The unified API: props, parts, slots, events, component names |
-| `docs/inventory/parity-matrix.md` | Which components exist in which stack, and their issues |
-| `docs/inventory/token-audit.md` + `data/token-map.json` | Where existing tokens land in `--apui-*` |
+| `contributing/decisions.md` | Settled decisions (D-001 onward). Don't relitigate them; supersede with a new entry if something must change |
+| `contributing/inventory/vocabulary.md` | The unified API: props, parts, slots, events, component names |
+| `contributing/inventory/parity-matrix.md` | Which components exist in which stack, and their issues |
+| `contributing/inventory/token-audit.md` + `data/token-map.json` | Where existing tokens land in `--apui-*` |
 | `design/README.md` | The visual spec (Phase 1). The target every token and component must match |
 | `design/brand-book.md` | The design rules: tokens, color roles, type, spacing, density, focus, glass, RTL |
-| `docs/tokens/README.md` | The DTCG token schema, modes, presets, the brand generator, outputs and how to change tokens |
-| `docs/css-conventions.md` | How component CSS is written: layers, markup, tokens, RTL, focus |
+| `contributing/tokens/README.md` | The DTCG token schema, modes, presets, the brand generator, outputs and how to change tokens |
+| `contributing/css-conventions.md` | How component CSS is written: layers, markup, tokens, RTL, focus |
 | `packages/behavior/README.md` | The behavior engine (Zag + Floating UI, D-015), the Alpine adapter and the rules for Livewire: every part needs a stable server-rendered id, items need `wire:key` |
 | `packages/testing/README.md` | The quality gates (D-016): fixtures from the manifest, `apui-gates check`, axe, parity helpers for Pest and Vitest, baselines |
-| `docs/figma.md` | The Figma variables and Reference page: generated from the tokens, synced one-way, never edited in Figma |
+| `contributing/figma.md` | The Figma variables and Reference page: generated from the tokens, synced one-way, never edited in Figma |
 | `packages/codemods/README.md` | The upgrade rules (D-056): generated from the Phase 0 catalogue and the manifest plus `rules/curated.json`, applied by the React and Vue codemods and Livewire's `artisanpack:upgrade-ui`; the guides in `docs/upgrade/` are generated from them |
 
 ## Sources of truth
 
-1. **Decisions and vocabulary** (`docs/`) decide names and API.
+1. **Decisions and vocabulary** (`contributing/`) decide names and API.
 2. **Design spec** (`design/`) decides how things look. Match its values, states and themes.
 3. **DTCG tokens** in `packages/tokens/tokens/` are the source of truth for values in code (#20). Design changes arrive as diffs against that JSON. Run `npm run tokens` after editing it and commit the regenerated outputs (including the Figma payload); the tests check contrast and fidelity to `design/tokens/tokens.json`.
 4. **Manifest** (#26) in `packages/manifest/components/<Name>.json` is the per-component API contract the parity tests check. Validate with `npm run validate --workspace @artisanpack-ui/manifest`; run `npm run manifest` after editing and commit `generated/manifests.php`, then `npm run fixtures --workspace @artisanpack-ui/testing` and commit `generated/fixtures/`. Docs examples sit next to it in `packages/manifest/examples/<Name>/`. A manifest change that renames or removes API also needs `npm run rules` and `npm run guides` in `@artisanpack-ui/codemods` (the build fails when they are stale).
@@ -52,5 +52,6 @@ If two of these disagree, stop and ask rather than picking one.
 - Work one issue at a time, in phase order: #16 → #17 → #18 → #19 → #20 → #21 → #22 → #23 → #24 to #31 → #32 to #37 → pilot #44 to #51 → waves.
 - Each component follows its issue's steps and definition of done: spec (already in `design/`), manifest, CSS, Livewire, React, Vue, then the gates (visual regression ×3 stacks, RTL fixture, axe, keyboard and screen-reader checklist, API parity, docs page).
 - Branch per issue, small commits with conventional prefixes (`feat:`, `fix:`, `docs:`, `chore:`), PR that closes the issue. CodeRabbit reviews PRs.
-- Record any new decision in `docs/decisions.md` with the next D-number, and update affected issues.
-- Don't regenerate `docs/inventory/*` reports by hand; use `tools/inventory`.
+- Record any new decision in `contributing/decisions.md` with the next D-number, and update affected issues.
+- Don't regenerate `contributing/inventory/*` reports by hand; use `tools/inventory`.
+- `docs/` is the public user documentation: the docs site imports it on release. Every page needs YAML front matter with a `title` (a plain scalar, no quotes: the importer reads it verbatim), and every subdirectory needs a same-named home file beside it (`docs/theming.md` for `docs/theming/`). Link between pages wiki-style (`[Presets](Theming-Presets)`) and to component pages as `components/<kebab-name>`. Internal notes, audits and decision records go in `contributing/`, never `docs/`. `docs/upgrade/*.md` is generated: change `packages/codemods/guides/` or the rules and run `npm run guides`.
