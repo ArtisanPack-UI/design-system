@@ -1,0 +1,151 @@
+{
+  "version": 1,
+  "component": "Calendar",
+  "rootClass": "apui-calendar",
+  "stacks": [
+    "livewire",
+    "react",
+    "vue"
+  ],
+  "names": {
+    "livewire": "calendar",
+    "react": "Calendar",
+    "vue": "Calendar"
+  },
+  "cases": [
+    {
+      "id": "state=default",
+      "props": {
+        "date": "2026-11-07",
+        "today": "2026-11-07",
+        "weekStartsOn": 1,
+        "locale": "en-US",
+        "timeZone": "UTC",
+        "events": [
+          {
+            "id": 1,
+            "start": "2026-11-02T09:00",
+            "end": "2026-11-02T10:00",
+            "title": "Team meeting",
+            "color": "error",
+            "category": "Marketing"
+          },
+          {
+            "id": 2,
+            "start": "2026-11-03T10:00",
+            "end": "2026-11-03T12:00",
+            "title": "Marketing course",
+            "color": "info",
+            "category": "Learning"
+          },
+          {
+            "id": 3,
+            "start": "2026-11-03T13:00",
+            "title": "Lunch · Edgehill Grill",
+            "color": "success",
+            "category": "Personal"
+          },
+          {
+            "id": 4,
+            "start": "2026-11-05",
+            "title": "Anna’s birthday",
+            "color": "accent",
+            "category": "People"
+          },
+          {
+            "id": 5,
+            "start": "2026-11-09T11:00",
+            "title": "Upgrade Slack plan",
+            "color": "secondary",
+            "category": "Admin"
+          },
+          {
+            "id": 6,
+            "start": "2026-11-12T11:00",
+            "title": "Viewing · Lakeview",
+            "color": "primary",
+            "category": "Viewings"
+          },
+          {
+            "id": 7,
+            "start": "2026-11-12T16:00",
+            "title": "Hubstaff broadcast",
+            "color": "info",
+            "category": "Learning"
+          },
+          {
+            "id": 8,
+            "start": "2026-11-12T18:00",
+            "title": "Board dinner",
+            "color": "success",
+            "category": "Personal"
+          },
+          {
+            "id": 9,
+            "start": "2026-11-13T09:30",
+            "title": "Meet a new intern",
+            "color": "accent",
+            "category": "People"
+          },
+          {
+            "id": 10,
+            "start": "2026-11-17",
+            "title": "Facebook campaign",
+            "color": "error",
+            "category": "Marketing"
+          },
+          {
+            "id": 11,
+            "start": "2026-11-19T10:00",
+            "end": "2026-11-19T11:30",
+            "title": "Design review",
+            "color": "primary",
+            "category": "Viewings"
+          },
+          {
+            "id": 12,
+            "start": "2026-11-24",
+            "title": "Open house · Grove",
+            "color": "success",
+            "category": "Personal"
+          },
+          {
+            "id": 13,
+            "start": "2026-11-26",
+            "title": "Thanksgiving",
+            "color": "neutral",
+            "category": "Holidays"
+          }
+        ]
+      },
+      "state": "default",
+      "content": null
+    }
+  ],
+  "sheets": [
+    {
+      "id": "light",
+      "theme": "light",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "dark",
+      "theme": "dark",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "high-contrast",
+      "theme": "high-contrast",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "rtl",
+      "theme": "light",
+      "density": "default",
+      "dir": "rtl"
+    }
+  ]
+}

@@ -115,8 +115,8 @@ React and Vue match each other almost everywhere; the only exports that differ a
 | **ImageSlider** | #61 | `image-slider` | — | — | New to React and Vue. |
 | **ImageLibrary** | #61 | `image-library` | — | — | Keeps the `WithMediaSync` contract; client logic is `apuiImageLibrary` (D-037). |
 | **Table** | #62 | `table` | `Table` | `Table` | One `table` scope; the root is a `div` around the `<table>`, so classes and attributes move off the table element (D-042). |
-| **Chart** | #63 | `chart` | `Chart` | `Chart` |  |
-| **Calendar** | #64 | `calendar` `event-modal-content` | `Calendar` | `Calendar` | Livewire's is a full Livewire component; event-modal-content is its internal child, not public API. |
+| **Chart** | #63 | `chart` | `Chart` | `Chart` | Own SVG from shared geometry, server-rendered in Livewire (D-045, D-046); ApexCharts is dropped and `showTable` is `tabular`. |
+| **Calendar** | #64 | `calendar` `event-modal-content` | `Calendar` | `Calendar` | Livewire keeps the stateful `<livewire:artisanpack-calendar>` (event-modal-content stays its internal child) and adds the stateless `<x-artisanpack-calendar>` it renders (D-047). |
 
 ## Utility
 
@@ -127,10 +127,10 @@ React and Vue match each other almost everywhere; the only exports that differ a
 | **ThemePreview** | #65 | `theme-preview` | — | — |  |
 | **Markdown** | #65 | `markdown` | `Markdown` | `Markdown` |  |
 | **Code** | #65 | `code` | `Code` | `Code` |  |
-| **Kbd** | #65 | `kbd` | — | — |  |
-| **Swap** | #65 | `swap` | — | — |  |
-| **Carousel** | #65 | `carousel` | `Carousel` | `Carousel` |  |
-| **Clipboard** | **none** | — | `Clipboard` | `Clipboard` | Not in any wave issue. Add to Utility. |
+| **Kbd** | #65 | `kbd` | — | — | New to React and Vue (D-050). |
+| **Swap** | #65 | `swap` | — | — | New to React and Vue; a token-driven primitive with no spec (D-052). |
+| **Carousel** | #65 | `carousel` | `Carousel` | `Carousel` | Runs on the D-041 carousel widget (D-053). |
+| **Clipboard** | #65 | — | `Clipboard` | `Clipboard` | New to Livewire (D-050). |
 
 ## Launch exceptions
 
@@ -141,7 +141,7 @@ Every component ships in all three stacks at launch except these ([D-003](../dec
 | **RichTextEditor** | All three stacks, different engines. TinyMCE stays Livewire-only; React and Vue keep their lighter editor. |
 | **StreamableContent** | Livewire only. Built on wire:stream; React and Vue would need a different transport. |
 | **ImageLibrary** | Livewire only. Tied to Livewire file uploads and the WithMediaSync trait; React and Vue have media-library's MediaModal and MediaGrid. |
-| **ThemePreview** | Livewire only. A theming dev tool rather than a UI component; may move to the docs-site theme builder (#30). |
+| **ThemePreview** | Livewire only. A Blade card picker; the 2.x theme builder and its route are removed, and a theme builder belongs on the docs site (#30) (D-055). |
 
 The other Livewire-only components need React and Vue ports, unless a consolidation below absorbs them: Combobox, Tags, SelectGroup, DateTime, CheckboxGroup, Rating, Fieldset, Form, ValidationSummary, Signature, Link, PageHeader, Heading, Text, ListItem, UserMenu, ProgressRadial, KpiCard, ImageGallery, ImageSlider, Kbd, Swap.
 
@@ -161,11 +161,3 @@ The other Livewire-only components need React and Vue ports, unless a consolidat
 | **ProgressRadial** | Kept as its own component, not a Progress variant (D-034). |
 | **KpiCard** | Kept as its own component built from Stat, with one `stat` object (D-039). |
 | **ImageSlider** | Kept as its own component on the carousel widget that Carousel (#65) reuses (D-041). |
-
-## Components missing from the wave issues
-
-These exist in React and Vue but are not listed in any wave issue, which only names Livewire components. They should be added so they are not dropped.
-
-| Component | Proposed wave |
-|---|---|
-| **Clipboard** | Utility |

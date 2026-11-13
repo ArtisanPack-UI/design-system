@@ -1,0 +1,164 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "ThemePreview",
+  "description": "Selectable cards that show a live miniature of each theme or preset: a radio group whose miniatures are drawn with the real tokens, by setting data-theme and data-preset on each miniature, so they stay accurate after a rebrand. A system card shows light and dark halves. Livewire only (D-003).",
+  "status": "draft",
+  "issue": 65,
+  "rootClass": "apui-theme-preview",
+  "stacks": {
+    "livewire": {
+      "name": "theme-preview",
+      "capabilities": [
+        "wire:model binds the chosen option's value to each native radio, so .live sends it at once",
+        "Replaces the 2.x <livewire:theme-preview> theme builder tool, which is removed"
+      ]
+    },
+    "react": false,
+    "vue": false
+  },
+  "props": [
+    {
+      "name": "options",
+      "type": "array",
+      "required": true,
+      "description": "The cards: { value, label, theme, preset, disabled }. theme is light, dark, high-contrast or system (light and dark halves); without it, a value that names a theme is used, else light. preset sets data-preset on the miniature."
+    },
+    {
+      "name": "value",
+      "type": "string",
+      "description": "The chosen option's value. Livewire binds it with wire:model."
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "description": "The radios' name. Defaults to the wire:model property, else a generated one."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "default": "Theme",
+      "description": "Names the radio group. Translate it: Livewire defaults it through __()."
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part, such as { card: '…', frame: '…', label: '…' }."
+    }
+  ],
+  "parts": [
+    {
+      "name": "root",
+      "element": "div",
+      "description": "The radio group, named by label: a grid of cards."
+    },
+    {
+      "name": "card",
+      "element": "label",
+      "description": "One option, also .apui-theme-card: the frame and the label. Clicking anywhere on it checks its radio."
+    },
+    {
+      "name": "frame",
+      "element": "span",
+      "description": "The bordered 16:10 frame around the miniature; the checked card's frame takes the primary edge and ring."
+    },
+    {
+      "name": "miniature",
+      "element": "span",
+      "description": "The decorative page, aria-hidden, carrying data-theme and data-preset so the real tokens draw it. A system card has two, data-half start and end."
+    },
+    {
+      "name": "sidebar",
+      "element": "span",
+      "description": "The miniature's sidebar, with three lines."
+    },
+    {
+      "name": "main",
+      "element": "span",
+      "description": "The miniature's content: the header tile, then the tiles."
+    },
+    { "name": "tiles", "element": "span", "description": "The two tiles under the header." },
+    {
+      "name": "tile",
+      "element": "span",
+      "description": "A surface in the miniature; the header tile carries data-header."
+    },
+    {
+      "name": "line",
+      "element": "span",
+      "description": "A line of text in the miniature: data-accent for the primary color, data-strong for a figure."
+    },
+    { "name": "pill", "element": "span", "description": "The miniature's primary button." },
+    {
+      "name": "label",
+      "element": "span",
+      "description": "The radio and the option's name, under the frame."
+    },
+    { "name": "box", "element": "span", "description": "The radio's circle." },
+    {
+      "name": "control",
+      "element": "input",
+      "description": "The native radio, transparent over the box, carrying wire:model."
+    },
+    { "name": "indicator", "element": "span", "description": "The checked radio's dot." },
+    {
+      "name": "text",
+      "element": "span",
+      "description": "The option's name, the radio's accessible name."
+    }
+  ],
+  "events": [
+    {
+      "name": "value-change",
+      "description": "Another card was chosen.",
+      "payload": "string"
+    }
+  ],
+  "a11y": {
+    "role": "radiogroup",
+    "element": "div",
+    "keyboard": [
+      { "keys": "Tab", "action": "Moves to the checked card's radio, or the first one." },
+      {
+        "keys": "ArrowRight, ArrowDown, ArrowLeft, ArrowUp",
+        "action": "Moves to the next or previous card and checks it (platform behavior), following the text direction."
+      },
+      { "keys": "Space", "action": "Checks the focused card." }
+    ],
+    "requirements": [
+      "A role=radiogroup named by label, of native radios sharing one name, so the platform supplies roving focus and the arrow keys.",
+      "The miniature is decorative (aria-hidden); the label carries the name.",
+      "ArrowLeft and ArrowRight follow the text direction (native radios do in RTL); the System card's halves mirror too.",
+      "The checked card is shown by its frame's edge and ring and by the filled radio, not by color alone.",
+      "The focus ring shows on the frame while its radio has focus.",
+      "Miniatures are drawn with the real tokens, so they match the theme or preset they show."
+    ],
+    "wcag": ["1.1.1", "1.3.1", "1.4.1", "1.4.11", "2.1.1", "2.4.7", "4.1.2"]
+  },
+  "tokens": [
+    "--apui-radius-md",
+    "--apui-border-default",
+    "--apui-border-strong",
+    "--apui-border-muted",
+    "--apui-color-primary",
+    "--apui-color-primary-soft",
+    "--apui-color-primary-foreground",
+    "--apui-surface-page",
+    "--apui-surface-default",
+    "--apui-text-default",
+    "--apui-focus-ring-color",
+    "--apui-focus-ring-offset-color"
+  ],
+  "fixture": {
+    "props": {
+      "label": "Appearance",
+      "value": "dark",
+      "options": [
+        { "value": "light", "label": "Light" },
+        { "value": "dark", "label": "Dark" },
+        { "value": "high-contrast", "label": "High contrast" },
+        { "value": "system", "label": "System" }
+      ]
+    },
+    "states": []
+  }
+}

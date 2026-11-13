@@ -1,0 +1,57 @@
+/*
+ * Kbd (#65). Root `.apui-kbd` is one key cap, a kbd element (part key), with
+ * data-size (sm, md). A shortcut is `.apui-kbd-combo`, an outer kbd (part
+ * combo) around its keys, as HTML nests kbd for key combinations. A symbol
+ * key (⌘, ⇧, ↵) shows the symbol and carries its name as hidden text. The
+ * combo keeps its key order in RTL, as Spotlight's shortcut hints do. See
+ * design/components/Kbd.
+ */
+@layer apui.components {
+  .apui-kbd {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    min-inline-size: 22px;
+    block-size: 22px;
+    margin: 0;
+    padding-inline: 6px;
+    border: var(--apui-border-width) solid var(--apui-border-default);
+    border-block-end-width: 2px;
+    border-radius: var(--apui-kbd-radius);
+    background: var(--apui-surface-raised);
+    color: var(--apui-text-default);
+    font-family: var(--apui-font-family-mono);
+    font-size: var(--apui-type-code-sm-font-size);
+    font-weight: var(--apui-font-weight-regular);
+    line-height: 1;
+    vertical-align: middle;
+    white-space: nowrap;
+  }
+
+  .apui-kbd[data-size='sm'] {
+    min-inline-size: 18px;
+    block-size: 18px;
+    padding-inline: 4px;
+    font-size: 11px;
+  }
+
+  .apui-kbd-combo {
+    direction: ltr;
+    unicode-bidi: isolate;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin: 0;
+    color: var(--apui-text-muted);
+    font-family: inherit;
+    font-size: var(--apui-type-code-sm-font-size);
+    vertical-align: middle;
+  }
+
+  @media (forced-colors: active) {
+    .apui-kbd {
+      border-color: CanvasText;
+    }
+  }
+}

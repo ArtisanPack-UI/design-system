@@ -8,7 +8,7 @@ Summary of [data/api-differences.json](data/api-differences.json), the machine-r
 
 | Members | rename | missing | behavioral | remove | DaisyUI-coupled |
 |---|---|---|---|---|---|
-| 1302 | 308 | 699 | 120 | 224 | 126 |
+| 1305 | 340 | 657 | 118 | 257 | 127 |
 
 - **rename:** same concept, different name today or under the proposed vocabulary.
 - **missing:** present in another stack but not this one. HTML attributes that pass through (`disabled`, `name`, …) are not counted.
@@ -37,8 +37,8 @@ Livewire values come from docblocks and are only captured where they are listed.
 | Navigation | 8 | 168 | 61 | 154 | 8 | 17 |
 | Layout | 14 | 177 | 50 | 60 | 9 | 63 |
 | Feedback | 8 | 62 | 12 | 18 | 6 | 13 |
-| Data Display | 13 | 259 | 53 | 168 | 38 | 58 |
-| Utility | 9 | 102 | 9 | 96 | 4 | 1 |
+| Data Display | 13 | 262 | 60 | 160 | 37 | 68 |
+| Utility | 9 | 102 | 34 | 62 | 3 | 24 |
 
 ## Largest gaps
 
@@ -48,14 +48,14 @@ Livewire values come from docblocks and are only captured where they are listed.
 | Menu | 35 | 12 | 43 | 0 | 4 |
 | Tabs | 41 | 27 | 22 | 1 | 4 |
 | Stat | 30 | 6 | 11 | 9 | 17 |
+| Calendar | 18 | 8 | 24 | 5 | 2 |
 | Pagination | 24 | 2 | 35 | 0 | 0 |
-| Calendar | 18 | 3 | 27 | 5 | 0 |
+| Carousel | 22 | 3 | 24 | 1 | 6 |
 | Card | 20 | 3 | 25 | 3 | 2 |
 | Password | 29 | 4 | 25 | 3 | 1 |
 | Spotlight | 16 | 5 | 22 | 4 | 1 |
 | Popover | 18 | 8 | 13 | 2 | 8 |
 | File | 28 | 7 | 21 | 2 | 0 |
-| Drawer | 19 | 10 | 9 | 3 | 8 |
 
 ## Pilot components
 

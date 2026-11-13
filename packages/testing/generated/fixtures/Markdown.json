@@ -1,0 +1,52 @@
+{
+  "version": 1,
+  "component": "Markdown",
+  "rootClass": "apui-markdown",
+  "stacks": [
+    "livewire",
+    "react",
+    "vue"
+  ],
+  "names": {
+    "livewire": "markdown",
+    "react": "Markdown",
+    "vue": "Markdown"
+  },
+  "cases": [
+    {
+      "id": "state=default",
+      "props": {
+        "mode": "split",
+        "source": "## Viewing checklist\n\nBring **photo ID** and proof of income.\n\n- [x] Confirm time with agent\n- [ ] Measure the living room\n- [ ] Ask about `heating costs`\n\n> Viewings run 30 minutes.\n\n| Unit | Rent |\n|---|---:|\n| 2B | $1,400 |\n| 4A | $1,650 |\n"
+      },
+      "state": "default",
+      "content": null
+    }
+  ],
+  "sheets": [
+    {
+      "id": "light",
+      "theme": "light",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "dark",
+      "theme": "dark",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "high-contrast",
+      "theme": "high-contrast",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "rtl",
+      "theme": "light",
+      "density": "default",
+      "dir": "rtl"
+    }
+  ]
+}

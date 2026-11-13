@@ -7,7 +7,16 @@
 import type { Api as ZagCarouselApi } from '@zag-js/carousel';
 import type { Api as ZagDialogApi } from '@zag-js/dialog';
 import { mergeProps, normalizeProps, type PropTypes, useMachine } from '@zag-js/vue';
-import { computed, type ComputedRef, type MaybeRefOrGetter, ref, toValue, useId } from 'vue';
+import {
+  computed,
+  type ComputedRef,
+  type MaybeRefOrGetter,
+  onBeforeUnmount,
+  onMounted,
+  ref,
+  toValue,
+  useId,
+} from 'vue';
 
 import type { Normalize } from '../core/widget';
 import { directionOf } from '../positioning';
@@ -17,6 +26,7 @@ import {
   CAROUSEL_LABELS,
   CAROUSEL_SCOPE,
   formatCarouselLabel,
+  prefersReducedMotion,
   toCarouselProps,
 } from '../widgets/carousel';
 import {
@@ -181,6 +191,17 @@ export function useCarousel(options: MaybeRefOrGetter<CarouselOptions>): Compute
     );
   });
   const service = useMachine(definition.machine, props);
+  // Reduced motion: autoplay starts paused; the trigger still starts it.
+  let pauseTimer: ReturnType<typeof setTimeout> | undefined;
+  onMounted(() => {
+    if (!toValue(options).autoplay || !prefersReducedMotion()) return;
+    // Pause once the machine has started, unless it unmounts first.
+    pauseTimer = setTimeout(() => {
+      pauseTimer = undefined;
+      (definition.connect(service, normalize) as unknown as ZagCarouselApi<PropTypes>).pause();
+    }, 0);
+  });
+  onBeforeUnmount(() => clearTimeout(pauseTimer));
   return computed(() => {
     const current = toValue(options);
     const scope = current.scope ?? CAROUSEL_SCOPE;

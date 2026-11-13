@@ -52,6 +52,12 @@
     { "stack": "livewire", "from": "open", "to": "open-change" },
     { "stack": "livewire", "from": "close", "to": "open-change" },
     { "stack": "livewire", "from": "sidebar-toggled", "to": "collapsed-change", "note": "AppShell (D-031)." },
+    { "stack": "livewire", "from": "theme-changed", "to": "value-change", "note": "ThemeToggle (D-054)." },
+    { "stack": "livewire", "from": "theme-changed-class", "to": "value-change", "note": "ThemeToggle; `<html>` no longer gets a class (D-054)." },
+    { "stack": "livewire", "from": "chart-update", "to": null, "note": "Chart re-renders from its props (D-045)." },
+    { "stack": "livewire", "from": "chart-update-series", "to": null },
+    { "stack": "livewire", "from": "chart-append-data", "to": null },
+    { "stack": "vue", "from": "update:modelValue", "to": "date-change", "note": "Calendar (D-047)." },
     { "stack": "livewire", "from": "row-selection", "to": "value-change", "note": "Table selection binds `value` (D-042)." },
     { "stack": "livewire", "from": "row-selection-all", "to": "value-change", "note": "Table selection binds `value` (D-042)." },
     { "stack": "react", "from": "onDismiss", "to": "open-change", "note": "Alert dismisses itself (D-034)." },
@@ -77,6 +83,89 @@
     { "pattern": "tooltip-(primary|secondary|accent|neutral|success|warning|error|info)", "to": null, "note": "Tooltips use the inverse surface." }
   ],
   "components": {
+    "Chart": [
+      { "stack": "livewire", "from": "options", "to": null, "note": "Apex options are dropped; categories, `labels` and the title still fill `labels` and `title` (D-045)." },
+      { "stack": "livewire", "from": "theme", "to": null, "note": "Series take `--apui-chart-1…6` (D-045)." },
+      { "stack": "livewire", "from": "animated", "to": null },
+      { "stack": "livewire", "from": "glass", "to": null },
+      { "stack": "livewire", "from": "showTable", "to": "tabular", "note": "`show-table` still works (D-045)." },
+      { "from": "data", "to": "series", "note": "React and Vue: `data` points become `series` plus `labels` (D-045)." },
+      { "from": "options", "to": null },
+      { "from": "showLegend", "to": null, "note": "The legend shows for two or more series." },
+      { "stack": "vue", "from": "className", "to": "class" }
+    ],
+    "Calendar": [
+      { "stack": "livewire", "from": "sundayStart", "to": "weekStartsOn", "note": "true → 0, false → 1; unset follows the locale (D-047)." },
+      { "stack": "livewire", "from": "months", "to": null },
+      { "stack": "livewire", "from": "colorScheme", "to": null },
+      { "stack": "livewire", "from": "weekendHighlight", "to": null },
+      { "stack": "livewire", "from": "config", "to": null },
+      { "stack": "react", "from": "value", "to": "date" },
+      { "stack": "react", "from": "weekStartsOnSunday", "to": "weekStartsOn", "note": "true → 0." },
+      { "stack": "react", "from": "highlightWeekends", "to": null },
+      { "stack": "react", "from": "renderDay", "to": null },
+      { "stack": "vue", "from": "modelValue", "to": "date" },
+      { "stack": "vue", "from": "weekStart", "to": "weekStartsOn" },
+      { "stack": "vue", "from": "className", "to": "class" }
+    ],
+    "Markdown": [
+      { "stack": "vue", "from": "content", "to": "source", "note": "Deprecated alias kept (D-049)." },
+      { "stack": "react", "from": "renderMarkdown", "to": null },
+      { "stack": "livewire", "from": "config", "to": null, "note": "EasyMDE is removed; use `mode=\"write\"` or `mode=\"split\"` for the editor (D-049)." },
+      { "stack": "livewire", "from": "disk", "to": null, "note": "Markdown image uploads are removed (D-049)." },
+      { "stack": "livewire", "from": "folder", "to": null },
+      { "stack": "livewire", "from": "label", "to": "editorLabel" },
+      { "stack": "livewire", "from": "hint", "to": null }
+    ],
+    "Code": [
+      { "stack": "react", "from": "showLineNumbers", "to": "numbered" },
+      { "stack": "react", "from": "label", "to": "fileName", "note": "`label` now names the scroll region (D-050)." },
+      { "stack": "react", "from": "maxHeight", "to": null },
+      { "stack": "vue", "from": "lineNumbers", "to": "numbered" },
+      { "stack": "vue", "from": "className", "to": "class" },
+      { "stack": "livewire", "from": "lightTheme", "to": null, "note": "The 2.x Ace editor is now CodeEditor; Code is read-only (D-050)." },
+      { "stack": "livewire", "from": "darkTheme", "to": null },
+      { "stack": "livewire", "from": "height", "to": null },
+      { "stack": "livewire", "from": "printMargin", "to": null }
+    ],
+    "Clipboard": [
+      { "from": "text", "to": "value" },
+      { "from": "successLabel", "to": "copiedLabel" },
+      { "from": "successDuration", "to": "timeout" },
+      { "stack": "react", "from": "onCopy", "to": "copied", "note": "`onCopied`; `onCopy` stays a deprecated alias (D-050)." },
+      { "stack": "vue", "from": "copy", "to": "copied", "note": "`copy` is still emitted, deprecated (D-050)." },
+      { "stack": "react", "from": "color", "to": null },
+      { "stack": "vue", "from": "className", "to": "class" }
+    ],
+    "Icon": [
+      { "stack": "livewire", "from": "label", "to": "label", "note": "Meaning change: was visible text beside the icon, now the accessible name (D-051)." },
+      { "stack": "react", "from": "path", "to": null },
+      { "stack": "react", "from": "viewBox", "to": null },
+      { "stack": "vue", "from": "ariaLabel", "to": "label" },
+      { "stack": "vue", "from": "className", "to": "class" }
+    ],
+    "Swap": [
+      { "stack": "livewire", "from": "trueIcon", "to": "onIcon", "note": "Alias kept; the `true`/`false` slots become `on`/`off` (D-052)." },
+      { "stack": "livewire", "from": "falseIcon", "to": "offIcon", "note": "Alias kept." },
+      { "stack": "livewire", "from": "iconSize", "to": null }
+    ],
+    "Carousel": [
+      { "stack": "livewire", "from": "ariaLabel", "to": "label", "note": "Alias kept (D-053)." },
+      { "stack": "livewire", "from": "withoutArrows", "to": null },
+      { "stack": "livewire", "from": "withoutIndicators", "to": null },
+      { "from": "showArrows", "to": null },
+      { "from": "showIndicators", "to": null },
+      { "stack": "vue", "from": "modelValue", "to": "index", "note": "With `index-change`." }
+    ],
+    "ThemeToggle": [
+      { "stack": "livewire", "from": "light", "to": "lightLabel", "note": "Alias kept (D-054)." },
+      { "stack": "livewire", "from": "dark", "to": "darkLabel", "note": "Alias kept." },
+      { "stack": "livewire", "from": "lightTheme", "to": null },
+      { "stack": "livewire", "from": "darkTheme", "to": null },
+      { "stack": "livewire", "from": "withLabel", "to": null },
+      { "stack": "react", "from": "modes", "to": "choices" },
+      { "stack": "vue", "from": "className", "to": "class" }
+    ],
     "Button": [
       { "stack": "livewire", "from": "variant", "to": "color", "note": "Today `variant` holds color values. Under the vocabulary it means visual treatment, so this is a meaning change and cannot be a blind rename." }
     ],

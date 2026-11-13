@@ -1,0 +1,143 @@
+/*
+ * Code (#65). Root `.apui-code`: a read-only block, or inline code with
+ * data-inline (a code element). A block has data-numbered for line numbers.
+ * Parts: header (file, language, copy and the hidden status live region),
+ * pre (the labeled, focusable scroll region) and line (one per line, with
+ * data-n, and data-highlight on emphasized lines). No syntax highlighting.
+ * Lines don't wrap; the pre scrolls. The header mirrors in RTL; the code
+ * stays LTR (D-004). See design/components/Code.
+ */
+@layer apui.components {
+  .apui-code {
+    box-sizing: border-box;
+    min-inline-size: 0;
+    overflow: hidden;
+    border: var(--apui-border-width) solid var(--apui-border-muted);
+    border-radius: var(--apui-radius-md);
+    background: var(--apui-surface-sunken);
+    color: var(--apui-text-default);
+    font-family: var(--apui-font-family-sans);
+  }
+
+  [data-scope='code'][data-part='header'] {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    min-block-size: 32px;
+    box-sizing: border-box;
+    padding-block: 4px;
+    padding-inline: 12px 4px;
+    border-block-end: var(--apui-border-width) solid var(--apui-border-muted);
+    background: var(--apui-surface-default);
+    color: var(--apui-text-muted);
+    font-size: var(--apui-type-caption-font-size);
+    line-height: var(--apui-type-caption-line-height);
+  }
+
+  [data-scope='code'][data-part='file'] {
+    min-inline-size: 0;
+    margin-inline-end: auto;
+    overflow: hidden;
+    color: var(--apui-text-default);
+    font-family: var(--apui-font-family-mono);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  [data-scope='code'][data-part='language'] {
+    flex: none;
+  }
+
+  [data-scope='code'][data-part='copy'] {
+    flex: none;
+  }
+
+  [data-scope='code'][data-part='copy'][data-state='copied'] {
+    --apui-button-fg: var(--apui-color-success-text);
+  }
+
+  /* The code: LTR in every direction, never wrapped, scrolled instead (D-004). */
+  [data-scope='code'][data-part='pre'] {
+    direction: ltr;
+    unicode-bidi: isolate;
+    box-sizing: border-box;
+    margin: 0;
+    padding-block: 12px;
+    padding-inline: 0;
+    overflow: auto;
+    font-family: var(--apui-type-code-md-font-family);
+    font-size: var(--apui-type-code-md-font-size);
+    line-height: var(--apui-type-code-md-line-height);
+    tab-size: 2;
+    text-align: start;
+  }
+
+  [data-scope='code'][data-part='pre']:focus-visible {
+    outline: var(--apui-focus-ring-width) solid var(--apui-focus-ring-color);
+    outline-offset: calc(var(--apui-focus-ring-width) * -1);
+  }
+
+  /*
+   * As wide as the longest line, so a highlight spans the scrolled width. A
+   * column flexbox, so the newline text between line parts (which keeps the
+   * pre's text content line by line) adds no blank lines of its own.
+   */
+  [data-scope='code'][data-part='pre'] > code {
+    display: inline-flex;
+    flex-direction: column;
+    min-inline-size: 100%;
+    font: inherit;
+  }
+
+  [data-scope='code'][data-part='line'] {
+    display: block;
+    box-sizing: border-box;
+    min-block-size: var(--apui-type-code-md-line-height);
+    padding-inline: 16px;
+    white-space: pre;
+  }
+
+  .apui-code[data-numbered] [data-scope='code'][data-part='line'] {
+    padding-inline-start: 0;
+  }
+
+  .apui-code[data-numbered] [data-scope='code'][data-part='line']::before {
+    display: inline-block;
+    box-sizing: border-box;
+    inline-size: 40px;
+    padding-inline-end: 16px;
+    color: var(--apui-text-muted);
+    content: attr(data-n);
+    font-variant-numeric: tabular-nums;
+    text-align: end;
+    user-select: none;
+  }
+
+  [data-scope='code'][data-part='line'][data-highlight] {
+    background: var(--apui-selected-bg);
+    box-shadow: inset var(--apui-selected-indicator-width) 0 0 var(--apui-color-primary);
+  }
+
+  /* Inline code: a code element in running text. */
+  .apui-code[data-inline] {
+    direction: ltr;
+    unicode-bidi: isolate;
+    display: inline;
+    overflow: visible;
+    padding-block: 1px;
+    padding-inline: 5px;
+    border-radius: var(--apui-radius-xs);
+    font-family: var(--apui-font-family-mono);
+    font-size: 0.9em;
+    overflow-wrap: anywhere;
+  }
+
+  @media (forced-colors: active) {
+    [data-scope='code'][data-part='line'][data-highlight] {
+      box-shadow: none;
+      outline: var(--apui-border-width) solid Highlight;
+      outline-offset: calc(var(--apui-border-width) * -1);
+    }
+  }
+}

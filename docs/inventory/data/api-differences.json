@@ -29061,7 +29061,7 @@
         },
         {
           "group": "prop",
-          "canonical": "options",
+          "canonical": null,
           "current": {
             "livewire": {
               "name": "options",
@@ -29069,28 +29069,15 @@
               "type": "?array",
               "default": null,
               "values": null
-            },
-            "react": {
-              "name": "options",
-              "kind": "prop",
-              "type": "ApexOptions",
-              "default": null,
-              "values": null
-            },
-            "vue": {
-              "name": "options",
-              "kind": "prop",
-              "type": "Record<string, unknown>",
-              "default": null,
-              "values": null
             }
           },
           "daisyCoupled": false,
           "differences": [
             {
-              "kind": "behavioral",
-              "aspect": "type",
-              "detail": "livewire: array, react: mixed, vue: mixed"
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "options",
+              "note": "Apex options are dropped; categories, `labels` and the title still fill `labels` and `title` (D-045)."
             }
           ]
         },
@@ -29121,7 +29108,22 @@
             }
           },
           "daisyCoupled": false,
-          "differences": []
+          "differences": [
+            {
+              "kind": "rename",
+              "stack": "react",
+              "from": "data",
+              "to": "series",
+              "note": "React and Vue: `data` points become `series` plus `labels` (D-045)."
+            },
+            {
+              "kind": "rename",
+              "stack": "vue",
+              "from": "data",
+              "to": "series",
+              "note": "React and Vue: `data` points become `series` plus `labels` (D-045)."
+            }
+          ]
         },
         {
           "group": "prop",
@@ -29236,7 +29238,7 @@
         },
         {
           "group": "prop",
-          "canonical": "theme",
+          "canonical": null,
           "current": {
             "livewire": {
               "name": "theme",
@@ -29249,18 +29251,16 @@
           "daisyCoupled": false,
           "differences": [
             {
-              "kind": "missing",
-              "stack": "react"
-            },
-            {
-              "kind": "missing",
-              "stack": "vue"
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "theme",
+              "note": "Series take `--apui-chart-1…6` (D-045)."
             }
           ]
         },
         {
           "group": "prop",
-          "canonical": "animated",
+          "canonical": null,
           "current": {
             "livewire": {
               "name": "animated",
@@ -29268,24 +29268,16 @@
               "type": "bool",
               "default": true,
               "values": null
-            },
-            "react": {
-              "name": "animated",
-              "kind": "prop",
-              "type": "boolean",
-              "default": "true",
-              "values": null
-            },
-            "vue": {
-              "name": "animated",
-              "kind": "prop",
-              "type": "boolean",
-              "default": "true",
-              "values": null
             }
           },
           "daisyCoupled": false,
-          "differences": []
+          "differences": [
+            {
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "animated"
+            }
+          ]
         },
         {
           "group": "prop",
@@ -29385,7 +29377,7 @@
         },
         {
           "group": "prop",
-          "canonical": "surface",
+          "canonical": null,
           "current": {
             "livewire": {
               "name": "glass",
@@ -29398,19 +29390,9 @@
           "daisyCoupled": false,
           "differences": [
             {
-              "kind": "rename",
+              "kind": "remove",
               "stack": "livewire",
-              "from": "glass",
-              "to": "surface",
-              "note": "`surface=\"glass\"`. Plan decision."
-            },
-            {
-              "kind": "missing",
-              "stack": "react"
-            },
-            {
-              "kind": "missing",
-              "stack": "vue"
+              "from": "glass"
             }
           ]
         },
@@ -29487,33 +29469,6 @@
         },
         {
           "group": "prop",
-          "canonical": "data",
-          "current": {
-            "react": {
-              "name": "data",
-              "kind": "prop",
-              "type": "ChartDataPoint[]",
-              "default": "[]",
-              "values": null
-            },
-            "vue": {
-              "name": "data",
-              "kind": "prop",
-              "type": "ChartDataPoint[]",
-              "default": null,
-              "values": null
-            }
-          },
-          "daisyCoupled": false,
-          "differences": [
-            {
-              "kind": "missing",
-              "stack": "livewire"
-            }
-          ]
-        },
-        {
-          "group": "prop",
           "canonical": "color",
           "current": {
             "react": {
@@ -29559,7 +29514,28 @@
         },
         {
           "group": "prop",
-          "canonical": "showLegend",
+          "canonical": null,
+          "current": {
+            "react": {
+              "name": "options",
+              "kind": "prop",
+              "type": "ApexOptions",
+              "default": null,
+              "values": null
+            }
+          },
+          "daisyCoupled": false,
+          "differences": [
+            {
+              "kind": "remove",
+              "stack": "react",
+              "from": "options"
+            }
+          ]
+        },
+        {
+          "group": "prop",
+          "canonical": null,
           "current": {
             "react": {
               "name": "showLegend",
@@ -29567,9 +29543,31 @@
               "type": "boolean",
               "default": "true",
               "values": null
+            }
+          },
+          "daisyCoupled": false,
+          "differences": [
+            {
+              "kind": "remove",
+              "stack": "react",
+              "from": "showLegend",
+              "note": "The legend shows for two or more series."
+            }
+          ]
+        },
+        {
+          "group": "prop",
+          "canonical": "animated",
+          "current": {
+            "react": {
+              "name": "animated",
+              "kind": "prop",
+              "type": "boolean",
+              "default": "true",
+              "values": null
             },
             "vue": {
-              "name": "showLegend",
+              "name": "animated",
               "kind": "prop",
               "type": "boolean",
               "default": "true",
@@ -29608,7 +29606,50 @@
         },
         {
           "group": "prop",
-          "canonical": "className",
+          "canonical": null,
+          "current": {
+            "vue": {
+              "name": "options",
+              "kind": "prop",
+              "type": "Record<string, unknown>",
+              "default": null,
+              "values": null
+            }
+          },
+          "daisyCoupled": false,
+          "differences": [
+            {
+              "kind": "remove",
+              "stack": "vue",
+              "from": "options"
+            }
+          ]
+        },
+        {
+          "group": "prop",
+          "canonical": null,
+          "current": {
+            "vue": {
+              "name": "showLegend",
+              "kind": "prop",
+              "type": "boolean",
+              "default": "true",
+              "values": null
+            }
+          },
+          "daisyCoupled": false,
+          "differences": [
+            {
+              "kind": "remove",
+              "stack": "vue",
+              "from": "showLegend",
+              "note": "The legend shows for two or more series."
+            }
+          ]
+        },
+        {
+          "group": "prop",
+          "canonical": "class",
           "current": {
             "vue": {
               "name": "className",
@@ -29619,15 +29660,22 @@
             }
           },
           "daisyCoupled": false,
-          "differences": []
+          "differences": [
+            {
+              "kind": "rename",
+              "stack": "vue",
+              "from": "className",
+              "to": "class"
+            }
+          ]
         }
       ],
       "totals": {
-        "members": 21,
-        "rename": 1,
-        "missing": 16,
-        "behavioral": 2,
-        "remove": 2,
+        "members": 24,
+        "rename": 3,
+        "missing": 11,
+        "behavioral": 1,
+        "remove": 10,
         "daisyCoupled": 1
       },
       "structure": null,
@@ -29669,7 +29717,7 @@
         },
         {
           "group": "prop",
-          "canonical": "value",
+          "canonical": "date",
           "current": {
             "react": {
               "name": "value",
@@ -29688,6 +29736,22 @@
           },
           "daisyCoupled": false,
           "differences": [
+            {
+              "kind": "rename",
+              "stack": "react",
+              "from": "value",
+              "to": "date"
+            },
+            {
+              "kind": "rename",
+              "stack": "vue",
+              "from": "modelValue",
+              "to": "date"
+            },
+            {
+              "kind": "missing",
+              "stack": "livewire"
+            },
             {
               "kind": "behavioral",
               "aspect": "type",
@@ -29729,7 +29793,7 @@
         },
         {
           "group": "prop",
-          "canonical": "weekStartsOnSunday",
+          "canonical": "weekStartsOn",
           "current": {
             "react": {
               "name": "weekStartsOnSunday",
@@ -29737,23 +29801,44 @@
               "type": "boolean",
               "default": "false",
               "values": null
+            },
+            "vue": {
+              "name": "weekStart",
+              "kind": "prop",
+              "type": "0 | 1",
+              "default": "0",
+              "values": null
             }
           },
           "daisyCoupled": false,
           "differences": [
             {
+              "kind": "rename",
+              "stack": "react",
+              "from": "weekStartsOnSunday",
+              "to": "weekStartsOn",
+              "note": "true → 0."
+            },
+            {
+              "kind": "rename",
+              "stack": "vue",
+              "from": "weekStart",
+              "to": "weekStartsOn"
+            },
+            {
               "kind": "missing",
               "stack": "livewire"
             },
             {
-              "kind": "missing",
-              "stack": "vue"
+              "kind": "behavioral",
+              "aspect": "type",
+              "detail": "react: boolean, vue: mixed"
             }
           ]
         },
         {
           "group": "prop",
-          "canonical": "highlightWeekends",
+          "canonical": null,
           "current": {
             "react": {
               "name": "highlightWeekends",
@@ -29766,12 +29851,9 @@
           "daisyCoupled": false,
           "differences": [
             {
-              "kind": "missing",
-              "stack": "livewire"
-            },
-            {
-              "kind": "missing",
-              "stack": "vue"
+              "kind": "remove",
+              "stack": "react",
+              "from": "highlightWeekends"
             }
           ]
         },
@@ -29898,7 +29980,7 @@
         },
         {
           "group": "prop",
-          "canonical": "renderDay",
+          "canonical": null,
           "current": {
             "react": {
               "name": "renderDay",
@@ -29911,12 +29993,9 @@
           "daisyCoupled": false,
           "differences": [
             {
-              "kind": "missing",
-              "stack": "livewire"
-            },
-            {
-              "kind": "missing",
-              "stack": "vue"
+              "kind": "remove",
+              "stack": "react",
+              "from": "renderDay"
             }
           ]
         },
@@ -29930,13 +30009,6 @@
               "type": "(date: Date) => void",
               "default": null,
               "values": null
-            },
-            "vue": {
-              "name": "update:modelValue",
-              "kind": "event",
-              "type": "[date: string]",
-              "default": null,
-              "values": null
             }
           },
           "daisyCoupled": false,
@@ -29948,15 +30020,8 @@
               "to": "value-change"
             },
             {
-              "kind": "rename",
-              "stack": "vue",
-              "from": "update:modelValue",
-              "to": "value-change"
-            },
-            {
-              "kind": "behavioral",
-              "aspect": "type",
-              "detail": "react: function, vue: mixed"
+              "kind": "missing",
+              "stack": "vue"
             }
           ]
         },
@@ -30040,31 +30105,7 @@
         },
         {
           "group": "prop",
-          "canonical": "weekStart",
-          "current": {
-            "vue": {
-              "name": "weekStart",
-              "kind": "prop",
-              "type": "0 | 1",
-              "default": "0",
-              "values": null
-            }
-          },
-          "daisyCoupled": false,
-          "differences": [
-            {
-              "kind": "missing",
-              "stack": "livewire"
-            },
-            {
-              "kind": "missing",
-              "stack": "react"
-            }
-          ]
-        },
-        {
-          "group": "prop",
-          "canonical": "className",
+          "canonical": "class",
           "current": {
             "vue": {
               "name": "className",
@@ -30075,7 +30116,44 @@
             }
           },
           "daisyCoupled": false,
-          "differences": []
+          "differences": [
+            {
+              "kind": "rename",
+              "stack": "vue",
+              "from": "className",
+              "to": "class"
+            }
+          ]
+        },
+        {
+          "group": "event",
+          "canonical": "date-change",
+          "current": {
+            "vue": {
+              "name": "update:modelValue",
+              "kind": "event",
+              "type": "[date: string]",
+              "default": null,
+              "values": null
+            }
+          },
+          "daisyCoupled": false,
+          "differences": [
+            {
+              "kind": "rename",
+              "stack": "vue",
+              "from": "update:modelValue",
+              "to": "date-change"
+            },
+            {
+              "kind": "missing",
+              "stack": "livewire"
+            },
+            {
+              "kind": "missing",
+              "stack": "react"
+            }
+          ]
         },
         {
           "group": "event",
@@ -30128,10 +30206,10 @@
       ],
       "totals": {
         "members": 18,
-        "rename": 3,
-        "missing": 27,
+        "rename": 8,
+        "missing": 24,
         "behavioral": 5,
-        "remove": 0,
+        "remove": 2,
         "daisyCoupled": 1
       },
       "structure": null,
@@ -30194,13 +30272,22 @@
               "type": "string",
               "default": null,
               "values": null
+            },
+            "vue": {
+              "name": "ariaLabel",
+              "kind": "prop",
+              "type": "string",
+              "default": null,
+              "values": null
             }
           },
           "daisyCoupled": false,
           "differences": [
             {
-              "kind": "missing",
-              "stack": "vue"
+              "kind": "rename",
+              "stack": "vue",
+              "from": "ariaLabel",
+              "to": "label"
             }
           ]
         },
@@ -30228,7 +30315,7 @@
         },
         {
           "group": "prop",
-          "canonical": "path",
+          "canonical": null,
           "current": {
             "react": {
               "name": "path",
@@ -30241,12 +30328,9 @@
           "daisyCoupled": false,
           "differences": [
             {
-              "kind": "missing",
-              "stack": "livewire"
-            },
-            {
-              "kind": "missing",
-              "stack": "vue"
+              "kind": "remove",
+              "stack": "react",
+              "from": "path"
             }
           ]
         },
@@ -30334,7 +30418,7 @@
         },
         {
           "group": "prop",
-          "canonical": "viewBox",
+          "canonical": null,
           "current": {
             "react": {
               "name": "viewBox",
@@ -30347,33 +30431,15 @@
           "daisyCoupled": false,
           "differences": [
             {
-              "kind": "missing",
-              "stack": "livewire"
-            },
-            {
-              "kind": "missing",
-              "stack": "vue"
+              "kind": "remove",
+              "stack": "react",
+              "from": "viewBox"
             }
           ]
         },
         {
           "group": "prop",
-          "canonical": "ariaLabel",
-          "current": {
-            "vue": {
-              "name": "ariaLabel",
-              "kind": "prop",
-              "type": "string",
-              "default": null,
-              "values": null
-            }
-          },
-          "daisyCoupled": false,
-          "differences": []
-        },
-        {
-          "group": "prop",
-          "canonical": "className",
+          "canonical": "class",
           "current": {
             "vue": {
               "name": "className",
@@ -30384,15 +30450,22 @@
             }
           },
           "daisyCoupled": false,
-          "differences": []
+          "differences": [
+            {
+              "kind": "rename",
+              "stack": "vue",
+              "from": "className",
+              "to": "class"
+            }
+          ]
         }
       ],
       "totals": {
-        "members": 10,
-        "rename": 0,
-        "missing": 7,
+        "members": 9,
+        "rename": 2,
+        "missing": 2,
         "behavioral": 0,
-        "remove": 1,
+        "remove": 3,
         "daisyCoupled": 2
       },
       "structure": null,
@@ -30440,7 +30513,7 @@
         },
         {
           "group": "prop",
-          "canonical": "light",
+          "canonical": "lightLabel",
           "current": {
             "livewire": {
               "name": "light",
@@ -30453,6 +30526,13 @@
           "daisyCoupled": false,
           "differences": [
             {
+              "kind": "rename",
+              "stack": "livewire",
+              "from": "light",
+              "to": "lightLabel",
+              "note": "Alias kept (D-054)."
+            },
+            {
               "kind": "missing",
               "stack": "react"
             },
@@ -30464,7 +30544,7 @@
         },
         {
           "group": "prop",
-          "canonical": "dark",
+          "canonical": "darkLabel",
           "current": {
             "livewire": {
               "name": "dark",
@@ -30477,6 +30557,13 @@
           "daisyCoupled": false,
           "differences": [
             {
+              "kind": "rename",
+              "stack": "livewire",
+              "from": "dark",
+              "to": "darkLabel",
+              "note": "Alias kept."
+            },
+            {
               "kind": "missing",
               "stack": "react"
             },
@@ -30488,7 +30575,7 @@
         },
         {
           "group": "prop",
-          "canonical": "lightTheme",
+          "canonical": null,
           "current": {
             "livewire": {
               "name": "lightTheme",
@@ -30501,18 +30588,15 @@
           "daisyCoupled": false,
           "differences": [
             {
-              "kind": "missing",
-              "stack": "react"
-            },
-            {
-              "kind": "missing",
-              "stack": "vue"
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "lightTheme"
             }
           ]
         },
         {
           "group": "prop",
-          "canonical": "darkTheme",
+          "canonical": null,
           "current": {
             "livewire": {
               "name": "darkTheme",
@@ -30525,12 +30609,9 @@
           "daisyCoupled": false,
           "differences": [
             {
-              "kind": "missing",
-              "stack": "react"
-            },
-            {
-              "kind": "missing",
-              "stack": "vue"
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "darkTheme"
             }
           ]
         },
@@ -30582,7 +30663,7 @@
         },
         {
           "group": "prop",
-          "canonical": "withLabel",
+          "canonical": null,
           "current": {
             "livewire": {
               "name": "withLabel",
@@ -30595,18 +30676,15 @@
           "daisyCoupled": false,
           "differences": [
             {
-              "kind": "missing",
-              "stack": "react"
-            },
-            {
-              "kind": "missing",
-              "stack": "vue"
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "withLabel"
             }
           ]
         },
         {
           "group": "event",
-          "canonical": "theme-changed",
+          "canonical": "value-change",
           "current": {
             "livewire": {
               "name": "theme-changed",
@@ -30619,29 +30697,17 @@
           "daisyCoupled": false,
           "differences": [
             {
-              "kind": "missing",
-              "stack": "react"
+              "kind": "rename",
+              "stack": "livewire",
+              "from": "theme-changed",
+              "to": "value-change"
             },
             {
-              "kind": "missing",
-              "stack": "vue"
-            }
-          ]
-        },
-        {
-          "group": "event",
-          "canonical": "theme-changed-class",
-          "current": {
-            "livewire": {
-              "name": "theme-changed-class",
-              "kind": "event",
-              "type": null,
-              "default": null,
-              "values": null
-            }
-          },
-          "daisyCoupled": false,
-          "differences": [
+              "kind": "rename",
+              "stack": "livewire",
+              "from": "theme-changed-class",
+              "to": "value-change"
+            },
             {
               "kind": "missing",
               "stack": "react"
@@ -30691,7 +30757,7 @@
         },
         {
           "group": "prop",
-          "canonical": "modes",
+          "canonical": "choices",
           "current": {
             "react": {
               "name": "modes",
@@ -30703,6 +30769,12 @@
           },
           "daisyCoupled": false,
           "differences": [
+            {
+              "kind": "rename",
+              "stack": "react",
+              "from": "modes",
+              "to": "choices"
+            },
             {
               "kind": "missing",
               "stack": "livewire"
@@ -30763,7 +30835,7 @@
         },
         {
           "group": "prop",
-          "canonical": "className",
+          "canonical": "class",
           "current": {
             "vue": {
               "name": "className",
@@ -30774,15 +30846,22 @@
             }
           },
           "daisyCoupled": false,
-          "differences": []
+          "differences": [
+            {
+              "kind": "rename",
+              "stack": "vue",
+              "from": "className",
+              "to": "class"
+            }
+          ]
         }
       ],
       "totals": {
-        "members": 16,
-        "rename": 2,
-        "missing": 21,
+        "members": 15,
+        "rename": 8,
+        "missing": 13,
         "behavioral": 0,
-        "remove": 0,
+        "remove": 3,
         "daisyCoupled": 2
       },
       "structure": null,
@@ -30865,7 +30944,7 @@
         },
         {
           "group": "prop",
-          "canonical": "label",
+          "canonical": "editorLabel",
           "current": {
             "livewire": {
               "name": "label",
@@ -30878,6 +30957,12 @@
           "daisyCoupled": false,
           "differences": [
             {
+              "kind": "rename",
+              "stack": "livewire",
+              "from": "label",
+              "to": "editorLabel"
+            },
+            {
               "kind": "missing",
               "stack": "react"
             },
@@ -30889,7 +30974,7 @@
         },
         {
           "group": "prop",
-          "canonical": "hint",
+          "canonical": null,
           "current": {
             "livewire": {
               "name": "hint",
@@ -30902,12 +30987,9 @@
           "daisyCoupled": false,
           "differences": [
             {
-              "kind": "missing",
-              "stack": "react"
-            },
-            {
-              "kind": "missing",
-              "stack": "vue"
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "hint"
             }
           ]
         },
@@ -30936,7 +31018,7 @@
         },
         {
           "group": "prop",
-          "canonical": "disk",
+          "canonical": null,
           "current": {
             "livewire": {
               "name": "disk",
@@ -30949,18 +31031,16 @@
           "daisyCoupled": false,
           "differences": [
             {
-              "kind": "missing",
-              "stack": "react"
-            },
-            {
-              "kind": "missing",
-              "stack": "vue"
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "disk",
+              "note": "Markdown image uploads are removed (D-049)."
             }
           ]
         },
         {
           "group": "prop",
-          "canonical": "folder",
+          "canonical": null,
           "current": {
             "livewire": {
               "name": "folder",
@@ -30973,18 +31053,15 @@
           "daisyCoupled": false,
           "differences": [
             {
-              "kind": "missing",
-              "stack": "react"
-            },
-            {
-              "kind": "missing",
-              "stack": "vue"
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "folder"
             }
           ]
         },
         {
           "group": "prop",
-          "canonical": "config",
+          "canonical": null,
           "current": {
             "livewire": {
               "name": "config",
@@ -30997,12 +31074,10 @@
           "daisyCoupled": false,
           "differences": [
             {
-              "kind": "missing",
-              "stack": "react"
-            },
-            {
-              "kind": "missing",
-              "stack": "vue"
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "config",
+              "note": "EasyMDE is removed; use `mode=\"write\"` or `mode=\"split\"` for the editor (D-049)."
             }
           ]
         },
@@ -31099,23 +31174,33 @@
               "type": "string",
               "default": null,
               "values": null
+            },
+            "vue": {
+              "name": "content",
+              "kind": "prop",
+              "type": "string",
+              "default": null,
+              "values": null
             }
           },
           "daisyCoupled": false,
           "differences": [
             {
-              "kind": "missing",
-              "stack": "livewire"
+              "kind": "rename",
+              "stack": "vue",
+              "from": "content",
+              "to": "source",
+              "note": "Deprecated alias kept (D-049)."
             },
             {
               "kind": "missing",
-              "stack": "vue"
+              "stack": "livewire"
             }
           ]
         },
         {
           "group": "prop",
-          "canonical": "renderMarkdown",
+          "canonical": null,
           "current": {
             "react": {
               "name": "renderMarkdown",
@@ -31128,36 +31213,9 @@
           "daisyCoupled": false,
           "differences": [
             {
-              "kind": "missing",
-              "stack": "livewire"
-            },
-            {
-              "kind": "missing",
-              "stack": "vue"
-            }
-          ]
-        },
-        {
-          "group": "prop",
-          "canonical": "content",
-          "current": {
-            "vue": {
-              "name": "content",
-              "kind": "prop",
-              "type": "string",
-              "default": null,
-              "values": null
-            }
-          },
-          "daisyCoupled": false,
-          "differences": [
-            {
-              "kind": "missing",
-              "stack": "livewire"
-            },
-            {
-              "kind": "missing",
-              "stack": "react"
+              "kind": "remove",
+              "stack": "react",
+              "from": "renderMarkdown"
             }
           ]
         },
@@ -31178,11 +31236,11 @@
         }
       ],
       "totals": {
-        "members": 15,
-        "rename": 3,
-        "missing": 18,
+        "members": 14,
+        "rename": 5,
+        "missing": 5,
         "behavioral": 0,
-        "remove": 0,
+        "remove": 5,
         "daisyCoupled": 2
       },
       "structure": null,
@@ -31223,17 +31281,14 @@
               "type": "?string",
               "default": null,
               "values": null
-            },
-            "react": {
-              "name": "label",
-              "kind": "prop",
-              "type": "string",
-              "default": null,
-              "values": null
             }
           },
           "daisyCoupled": false,
           "differences": [
+            {
+              "kind": "missing",
+              "stack": "react"
+            },
             {
               "kind": "missing",
               "stack": "vue"
@@ -31298,7 +31353,7 @@
         },
         {
           "group": "prop",
-          "canonical": "lightTheme",
+          "canonical": null,
           "current": {
             "livewire": {
               "name": "lightTheme",
@@ -31311,18 +31366,16 @@
           "daisyCoupled": false,
           "differences": [
             {
-              "kind": "missing",
-              "stack": "react"
-            },
-            {
-              "kind": "missing",
-              "stack": "vue"
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "lightTheme",
+              "note": "The 2.x Ace editor is now CodeEditor; Code is read-only (D-050)."
             }
           ]
         },
         {
           "group": "prop",
-          "canonical": "darkTheme",
+          "canonical": null,
           "current": {
             "livewire": {
               "name": "darkTheme",
@@ -31335,12 +31388,9 @@
           "daisyCoupled": false,
           "differences": [
             {
-              "kind": "missing",
-              "stack": "react"
-            },
-            {
-              "kind": "missing",
-              "stack": "vue"
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "darkTheme"
             }
           ]
         },
@@ -31392,7 +31442,7 @@
         },
         {
           "group": "prop",
-          "canonical": "height",
+          "canonical": null,
           "current": {
             "livewire": {
               "name": "height",
@@ -31403,7 +31453,13 @@
             }
           },
           "daisyCoupled": false,
-          "differences": []
+          "differences": [
+            {
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "height"
+            }
+          ]
         },
         {
           "group": "prop",
@@ -31431,7 +31487,7 @@
         },
         {
           "group": "prop",
-          "canonical": "printMargin",
+          "canonical": null,
           "current": {
             "livewire": {
               "name": "printMargin",
@@ -31444,12 +31500,9 @@
           "daisyCoupled": false,
           "differences": [
             {
-              "kind": "missing",
-              "stack": "react"
-            },
-            {
-              "kind": "missing",
-              "stack": "vue"
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "printMargin"
             }
           ]
         },
@@ -31482,10 +31535,48 @@
         },
         {
           "group": "prop",
-          "canonical": "showLineNumbers",
+          "canonical": "fileName",
+          "current": {
+            "react": {
+              "name": "label",
+              "kind": "prop",
+              "type": "string",
+              "default": null,
+              "values": null
+            }
+          },
+          "daisyCoupled": false,
+          "differences": [
+            {
+              "kind": "rename",
+              "stack": "react",
+              "from": "label",
+              "to": "fileName",
+              "note": "`label` now names the scroll region (D-050)."
+            },
+            {
+              "kind": "missing",
+              "stack": "livewire"
+            },
+            {
+              "kind": "missing",
+              "stack": "vue"
+            }
+          ]
+        },
+        {
+          "group": "prop",
+          "canonical": "numbered",
           "current": {
             "react": {
               "name": "showLineNumbers",
+              "kind": "prop",
+              "type": "boolean",
+              "default": "false",
+              "values": null
+            },
+            "vue": {
+              "name": "lineNumbers",
               "kind": "prop",
               "type": "boolean",
               "default": "false",
@@ -31495,12 +31586,20 @@
           "daisyCoupled": false,
           "differences": [
             {
-              "kind": "missing",
-              "stack": "livewire"
+              "kind": "rename",
+              "stack": "react",
+              "from": "showLineNumbers",
+              "to": "numbered"
+            },
+            {
+              "kind": "rename",
+              "stack": "vue",
+              "from": "lineNumbers",
+              "to": "numbered"
             },
             {
               "kind": "missing",
-              "stack": "vue"
+              "stack": "livewire"
             }
           ]
         },
@@ -31533,7 +31632,7 @@
         },
         {
           "group": "prop",
-          "canonical": "maxHeight",
+          "canonical": null,
           "current": {
             "react": {
               "name": "maxHeight",
@@ -31546,12 +31645,9 @@
           "daisyCoupled": false,
           "differences": [
             {
-              "kind": "missing",
-              "stack": "livewire"
-            },
-            {
-              "kind": "missing",
-              "stack": "vue"
+              "kind": "remove",
+              "stack": "react",
+              "from": "maxHeight"
             }
           ]
         },
@@ -31581,31 +31677,7 @@
         },
         {
           "group": "prop",
-          "canonical": "lineNumbers",
-          "current": {
-            "vue": {
-              "name": "lineNumbers",
-              "kind": "prop",
-              "type": "boolean",
-              "default": "false",
-              "values": null
-            }
-          },
-          "daisyCoupled": false,
-          "differences": [
-            {
-              "kind": "missing",
-              "stack": "livewire"
-            },
-            {
-              "kind": "missing",
-              "stack": "react"
-            }
-          ]
-        },
-        {
-          "group": "prop",
-          "canonical": "className",
+          "canonical": "class",
           "current": {
             "vue": {
               "name": "className",
@@ -31616,7 +31688,14 @@
             }
           },
           "daisyCoupled": false,
-          "differences": []
+          "differences": [
+            {
+              "kind": "rename",
+              "stack": "vue",
+              "from": "className",
+              "to": "class"
+            }
+          ]
         },
         {
           "group": "event",
@@ -31645,10 +31724,10 @@
       ],
       "totals": {
         "members": 19,
-        "rename": 2,
-        "missing": 22,
+        "rename": 6,
+        "missing": 14,
         "behavioral": 0,
-        "remove": 0,
+        "remove": 5,
         "daisyCoupled": 2
       },
       "structure": null,
@@ -31744,7 +31823,7 @@
         },
         {
           "group": "prop",
-          "canonical": "trueIcon",
+          "canonical": "onIcon",
           "current": {
             "livewire": {
               "name": "trueIcon",
@@ -31755,11 +31834,19 @@
             }
           },
           "daisyCoupled": false,
-          "differences": []
+          "differences": [
+            {
+              "kind": "rename",
+              "stack": "livewire",
+              "from": "trueIcon",
+              "to": "onIcon",
+              "note": "Alias kept; the `true`/`false` slots become `on`/`off` (D-052)."
+            }
+          ]
         },
         {
           "group": "prop",
-          "canonical": "falseIcon",
+          "canonical": "offIcon",
           "current": {
             "livewire": {
               "name": "falseIcon",
@@ -31770,11 +31857,19 @@
             }
           },
           "daisyCoupled": false,
-          "differences": []
+          "differences": [
+            {
+              "kind": "rename",
+              "stack": "livewire",
+              "from": "falseIcon",
+              "to": "offIcon",
+              "note": "Alias kept."
+            }
+          ]
         },
         {
           "group": "prop",
-          "canonical": "iconSize",
+          "canonical": null,
           "current": {
             "livewire": {
               "name": "iconSize",
@@ -31785,7 +31880,13 @@
             }
           },
           "daisyCoupled": false,
-          "differences": []
+          "differences": [
+            {
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "iconSize"
+            }
+          ]
         },
         {
           "group": "prop",
@@ -31820,10 +31921,10 @@
       ],
       "totals": {
         "members": 8,
-        "rename": 0,
+        "rename": 2,
         "missing": 0,
         "behavioral": 0,
-        "remove": 0,
+        "remove": 1,
         "daisyCoupled": 0
       },
       "structure": null,
@@ -31885,7 +31986,7 @@
         },
         {
           "group": "prop",
-          "canonical": "withoutIndicators",
+          "canonical": null,
           "current": {
             "livewire": {
               "name": "withoutIndicators",
@@ -31898,18 +31999,15 @@
           "daisyCoupled": false,
           "differences": [
             {
-              "kind": "missing",
-              "stack": "react"
-            },
-            {
-              "kind": "missing",
-              "stack": "vue"
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "withoutIndicators"
             }
           ]
         },
         {
           "group": "prop",
-          "canonical": "withoutArrows",
+          "canonical": null,
           "current": {
             "livewire": {
               "name": "withoutArrows",
@@ -31922,12 +32020,9 @@
           "daisyCoupled": false,
           "differences": [
             {
-              "kind": "missing",
-              "stack": "react"
-            },
-            {
-              "kind": "missing",
-              "stack": "vue"
+              "kind": "remove",
+              "stack": "livewire",
+              "from": "withoutArrows"
             }
           ]
         },
@@ -32064,7 +32159,7 @@
         },
         {
           "group": "prop",
-          "canonical": "ariaLabel",
+          "canonical": "label",
           "current": {
             "livewire": {
               "name": "ariaLabel",
@@ -32075,7 +32170,23 @@
             }
           },
           "daisyCoupled": false,
-          "differences": []
+          "differences": [
+            {
+              "kind": "rename",
+              "stack": "livewire",
+              "from": "ariaLabel",
+              "to": "label",
+              "note": "Alias kept (D-053)."
+            },
+            {
+              "kind": "missing",
+              "stack": "react"
+            },
+            {
+              "kind": "missing",
+              "stack": "vue"
+            }
+          ]
         },
         {
           "group": "prop",
@@ -32151,16 +32262,9 @@
         },
         {
           "group": "prop",
-          "canonical": "showIndicators",
+          "canonical": null,
           "current": {
             "react": {
-              "name": "showIndicators",
-              "kind": "prop",
-              "type": "boolean",
-              "default": "true",
-              "values": null
-            },
-            "vue": {
               "name": "showIndicators",
               "kind": "prop",
               "type": "boolean",
@@ -32171,23 +32275,17 @@
           "daisyCoupled": false,
           "differences": [
             {
-              "kind": "missing",
-              "stack": "livewire"
+              "kind": "remove",
+              "stack": "react",
+              "from": "showIndicators"
             }
           ]
         },
         {
           "group": "prop",
-          "canonical": "showArrows",
+          "canonical": null,
           "current": {
             "react": {
-              "name": "showArrows",
-              "kind": "prop",
-              "type": "boolean",
-              "default": "true",
-              "values": null
-            },
-            "vue": {
               "name": "showArrows",
               "kind": "prop",
               "type": "boolean",
@@ -32198,8 +32296,9 @@
           "daisyCoupled": false,
           "differences": [
             {
-              "kind": "missing",
-              "stack": "livewire"
+              "kind": "remove",
+              "stack": "react",
+              "from": "showArrows"
             }
           ]
         },
@@ -32229,7 +32328,49 @@
         },
         {
           "group": "prop",
-          "canonical": "value",
+          "canonical": null,
+          "current": {
+            "vue": {
+              "name": "showArrows",
+              "kind": "prop",
+              "type": "boolean",
+              "default": "true",
+              "values": null
+            }
+          },
+          "daisyCoupled": false,
+          "differences": [
+            {
+              "kind": "remove",
+              "stack": "vue",
+              "from": "showArrows"
+            }
+          ]
+        },
+        {
+          "group": "prop",
+          "canonical": null,
+          "current": {
+            "vue": {
+              "name": "showIndicators",
+              "kind": "prop",
+              "type": "boolean",
+              "default": "true",
+              "values": null
+            }
+          },
+          "daisyCoupled": false,
+          "differences": [
+            {
+              "kind": "remove",
+              "stack": "vue",
+              "from": "showIndicators"
+            }
+          ]
+        },
+        {
+          "group": "prop",
+          "canonical": "index",
           "current": {
             "vue": {
               "name": "modelValue",
@@ -32240,7 +32381,23 @@
             }
           },
           "daisyCoupled": false,
-          "differences": []
+          "differences": [
+            {
+              "kind": "rename",
+              "stack": "vue",
+              "from": "modelValue",
+              "to": "index",
+              "note": "With `index-change`."
+            },
+            {
+              "kind": "missing",
+              "stack": "livewire"
+            },
+            {
+              "kind": "missing",
+              "stack": "react"
+            }
+          ]
         },
         {
           "group": "prop",
@@ -32283,7 +32440,7 @@
         },
         {
           "group": "event",
-          "canonical": "value-change",
+          "canonical": "date-change",
           "current": {
             "vue": {
               "name": "update:modelValue",
@@ -32299,7 +32456,11 @@
               "kind": "rename",
               "stack": "vue",
               "from": "update:modelValue",
-              "to": "value-change"
+              "to": "date-change"
+            },
+            {
+              "kind": "missing",
+              "stack": "livewire"
             },
             {
               "kind": "missing",
@@ -32309,11 +32470,11 @@
         }
       ],
       "totals": {
-        "members": 20,
-        "rename": 1,
-        "missing": 25,
+        "members": 22,
+        "rename": 3,
+        "missing": 24,
         "behavioral": 1,
-        "remove": 0,
+        "remove": 6,
         "daisyCoupled": 0
       },
       "structure": null,
@@ -32330,7 +32491,7 @@
       "members": [
         {
           "group": "prop",
-          "canonical": "text",
+          "canonical": "value",
           "current": {
             "react": {
               "name": "text",
@@ -32348,7 +32509,20 @@
             }
           },
           "daisyCoupled": false,
-          "differences": []
+          "differences": [
+            {
+              "kind": "rename",
+              "stack": "react",
+              "from": "text",
+              "to": "value"
+            },
+            {
+              "kind": "rename",
+              "stack": "vue",
+              "from": "text",
+              "to": "value"
+            }
+          ]
         },
         {
           "group": "prop",
@@ -32374,7 +32548,7 @@
         },
         {
           "group": "prop",
-          "canonical": "successLabel",
+          "canonical": "copiedLabel",
           "current": {
             "react": {
               "name": "successLabel",
@@ -32392,11 +32566,24 @@
             }
           },
           "daisyCoupled": false,
-          "differences": []
+          "differences": [
+            {
+              "kind": "rename",
+              "stack": "react",
+              "from": "successLabel",
+              "to": "copiedLabel"
+            },
+            {
+              "kind": "rename",
+              "stack": "vue",
+              "from": "successLabel",
+              "to": "copiedLabel"
+            }
+          ]
         },
         {
           "group": "prop",
-          "canonical": "successDuration",
+          "canonical": "timeout",
           "current": {
             "react": {
               "name": "successDuration",
@@ -32414,11 +32601,24 @@
             }
           },
           "daisyCoupled": false,
-          "differences": []
+          "differences": [
+            {
+              "kind": "rename",
+              "stack": "react",
+              "from": "successDuration",
+              "to": "timeout"
+            },
+            {
+              "kind": "rename",
+              "stack": "vue",
+              "from": "successDuration",
+              "to": "timeout"
+            }
+          ]
         },
         {
           "group": "prop",
-          "canonical": "color",
+          "canonical": null,
           "current": {
             "react": {
               "name": "color",
@@ -32436,30 +32636,14 @@
                 "error",
                 "ghost"
               ]
-            },
-            "vue": {
-              "name": "color",
-              "kind": "prop",
-              "type": "DaisyColor",
-              "default": null,
-              "values": [
-                "primary",
-                "secondary",
-                "accent",
-                "neutral",
-                "info",
-                "success",
-                "warning",
-                "error"
-              ]
             }
           },
           "daisyCoupled": true,
           "differences": [
             {
-              "kind": "behavioral",
-              "aspect": "values",
-              "detail": "react: accent|error|ghost|info|neutral|primary|secondary|success|warning, vue: accent|error|info|neutral|primary|secondary|success|warning"
+              "kind": "remove",
+              "stack": "react",
+              "from": "color"
             }
           ]
         },
@@ -32537,7 +32721,36 @@
         },
         {
           "group": "prop",
-          "canonical": "className",
+          "canonical": "color",
+          "current": {
+            "vue": {
+              "name": "color",
+              "kind": "prop",
+              "type": "DaisyColor",
+              "default": null,
+              "values": [
+                "primary",
+                "secondary",
+                "accent",
+                "neutral",
+                "info",
+                "success",
+                "warning",
+                "error"
+              ]
+            }
+          },
+          "daisyCoupled": true,
+          "differences": [
+            {
+              "kind": "missing",
+              "stack": "react"
+            }
+          ]
+        },
+        {
+          "group": "prop",
+          "canonical": "class",
           "current": {
             "vue": {
               "name": "className",
@@ -32548,7 +32761,14 @@
             }
           },
           "daisyCoupled": false,
-          "differences": []
+          "differences": [
+            {
+              "kind": "rename",
+              "stack": "vue",
+              "from": "className",
+              "to": "class"
+            }
+          ]
         },
         {
           "group": "prop",
@@ -32612,12 +32832,12 @@
         }
       ],
       "totals": {
-        "members": 11,
-        "rename": 1,
-        "missing": 3,
-        "behavioral": 3,
-        "remove": 0,
-        "daisyCoupled": 1
+        "members": 12,
+        "rename": 8,
+        "missing": 4,
+        "behavioral": 2,
+        "remove": 1,
+        "daisyCoupled": 2
       },
       "structure": null,
       "rename": null,

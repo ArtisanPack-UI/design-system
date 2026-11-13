@@ -1,0 +1,193 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "Code",
+  "description": "Read-only code: a block with a header (file name, language and a copy button), optional line numbers and highlighted lines, or inline code in running text. No syntax highlighting. The block is a labeled scroll region that doesn't wrap; the header mirrors in RTL, the code stays LTR. For editable code, use CodeEditor.",
+  "status": "draft",
+  "issue": 65,
+  "rootClass": "apui-code",
+  "stacks": {
+    "livewire": {
+      "name": "code",
+      "capabilities": [
+        "Rendered on the server; the copy button runs on the shared apuiClipboard Alpine component, reading the rendered lines back",
+        "The default slot holds the code when code is empty",
+        "2.x was an Ace editor bound with wire:model: use CodeEditor for that. Its label, hint, height, theme and print-margin props are gone"
+      ]
+    },
+    "react": {
+      "name": "Code",
+      "capabilities": [
+        "The copy button uses the behavior package's useClipboard, as Clipboard does"
+      ]
+    },
+    "vue": {
+      "name": "Code",
+      "capabilities": [
+        "The copy button uses the behavior package's useClipboard, as Clipboard does"
+      ]
+    }
+  },
+  "props": [
+    {
+      "name": "code",
+      "type": "string",
+      "description": "The code. Split into lines on any line ending; one final line ending doesn't add an empty line. Shown as text, never as HTML."
+    },
+    {
+      "name": "language",
+      "type": "string",
+      "description": "The language, shown as a badge in the header, such as \"TypeScript\" or \"Shell\". Only a label: nothing is highlighted."
+    },
+    {
+      "name": "fileName",
+      "type": "string",
+      "description": "The file name or a title such as \"Terminal\", at the start of the header in the mono font."
+    },
+    {
+      "name": "numbered",
+      "type": "boolean",
+      "default": false,
+      "description": "Shows line numbers. They aren't part of the text, so selecting or copying the code leaves them out. Emitted as data-numbered."
+    },
+    {
+      "name": "highlight",
+      "type": "array",
+      "description": "Line numbers to emphasize (1-based), such as [3]. Each gets data-highlight: the selected fill and a primary bar. Highlight a few lines to make a point."
+    },
+    {
+      "name": "inline",
+      "type": "boolean",
+      "default": false,
+      "description": "Inline code in running text: a code element with no header, numbers or copy button. Emitted as data-inline."
+    },
+    {
+      "name": "copyable",
+      "type": "boolean",
+      "default": true,
+      "description": "Shows the copy button in the header. It copies the code and reads \"Copied\" for two seconds."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "description": "Names the scroll region. Defaults to the file name, then the language, then \"Code\" (Livewire through __( 'Code' )).",
+      "a11y": "The region is focusable so keyboard users can scroll it, and needs a name. Name each block when a page has several with the same file name."
+    },
+    {
+      "name": "copyLabel",
+      "type": "string",
+      "default": "Copy",
+      "description": "The copy button's label. Translate it: Livewire defaults it through __( 'Copy' )."
+    },
+    {
+      "name": "copiedLabel",
+      "type": "string",
+      "default": "Copied",
+      "description": "The copy button's label after a copy. Translate it: Livewire defaults it through __( 'Copied' )."
+    },
+    {
+      "name": "copiedMessage",
+      "type": "string",
+      "default": "Copied to clipboard",
+      "description": "Announced after a copy. Translate it: Livewire defaults it through __( 'Copied to clipboard' )."
+    },
+    {
+      "name": "errorMessage",
+      "type": "string",
+      "default": "Couldn't copy. Select the text and copy it yourself.",
+      "description": "Announced when the copy fails. Translate it: Livewire defaults it through __()."
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part, such as { header: '…', pre: '…' }."
+    }
+  ],
+  "parts": [
+    {
+      "name": "root",
+      "element": "div | code",
+      "description": "The frame, with data-numbered; or, inline, the code element with data-inline."
+    },
+    {
+      "name": "header",
+      "element": "div",
+      "description": "The file name, language and copy button. Mirrors in RTL. Left out when there is nothing to show."
+    },
+    {
+      "name": "file",
+      "element": "span",
+      "description": "The file name, in the mono font, cut with an ellipsis when long."
+    },
+    {
+      "name": "language",
+      "element": "span",
+      "description": "The language: a neutral outline Badge (sm)."
+    },
+    {
+      "name": "copy",
+      "element": "button",
+      "description": "A ghost, neutral, xs Button with the copy icon and copyLabel, with data-state (idle, copied, failed). Reads copiedLabel with a check, in the success color, while copied."
+    },
+    {
+      "name": "status",
+      "element": "span",
+      "description": "A hidden role=status live region announcing copiedMessage or errorMessage."
+    },
+    {
+      "name": "pre",
+      "element": "pre",
+      "description": "The code, always LTR (D-004): a focusable role=region named by label, scrolling instead of wrapping."
+    },
+    {
+      "name": "line",
+      "element": "span",
+      "description": "One line, with data-n (its number, drawn as a ::before when numbered) and data-highlight when emphasized."
+    }
+  ],
+  "slots": [
+    {
+      "name": "default",
+      "description": "The code as text, when code is empty (Livewire only: React and Vue take the code prop)."
+    }
+  ],
+  "events": [],
+  "a11y": {
+    "element": "div",
+    "requirements": [
+      "The block is a focusable role=region named by label, so keyboard users can scroll long lines.",
+      "Copying is announced in a live region (copiedMessage), and so is a failure (errorMessage); the button's label changes to Copied.",
+      "Line numbers aren't text: selecting and copying the code leaves them out.",
+      "The code stays LTR in every direction; the header mirrors.",
+      "Highlighted lines keep 4.5:1 for their text and numbers."
+    ],
+    "wcag": ["1.3.1", "2.1.1", "4.1.2", "4.1.3"]
+  },
+  "tokens": [
+    "--apui-surface-default",
+    "--apui-surface-sunken",
+    "--apui-border-muted",
+    "--apui-border-width",
+    "--apui-radius-md",
+    "--apui-radius-xs",
+    "--apui-text-default",
+    "--apui-text-muted",
+    "--apui-font-family-mono",
+    "--apui-type-code-md-font-size",
+    "--apui-type-code-md-line-height",
+    "--apui-selected-bg",
+    "--apui-selected-indicator-width",
+    "--apui-color-primary",
+    "--apui-color-success-text",
+    "--apui-focus-ring-color",
+    "--apui-focus-ring-width"
+  ],
+  "fixture": {
+    "props": {
+      "code": "export function formatPrice(amount: number, currency = 'USD') {\n  // Tabular figures line up in tables\n  return new Intl.NumberFormat('en-US', {\n    style: 'currency',\n    currency,\n    maximumFractionDigits: 0,\n  }).format(amount);\n}\n",
+      "fileName": "format-price.ts",
+      "language": "TypeScript",
+      "numbered": true,
+      "highlight": [3]
+    }
+  }
+}

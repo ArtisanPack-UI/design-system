@@ -1,0 +1,12 @@
+[
+  {
+    "id": "basic",
+    "title": "Numbered, with a highlighted line",
+    "description": "The header shows the file name, the language and a copy button that announces Copied. Line numbers stay out of the copied text; highlight a few lines to make a point."
+  },
+  {
+    "id": "inline",
+    "title": "Plain block and inline code",
+    "description": "A block without numbers for a terminal command, and inline code in running text."
+  }
+]

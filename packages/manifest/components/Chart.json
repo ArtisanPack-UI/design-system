@@ -1,0 +1,277 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "Chart",
+  "description": "A bar, line, area or donut chart in a Card, drawn as inline SVG from tokens: series colors --apui-chart-1…6 in fixed order, a recessive grid, and a tooltip on hover and keyboard focus of each mark. Every stack computes the same geometry, so there is no chart library. Every chart has a title, a legend for two or more series, and a data table view.",
+  "status": "draft",
+  "issue": 63,
+  "rootClass": "apui-chart",
+  "stacks": {
+    "livewire": {
+      "name": "chart",
+      "capabilities": [
+        "Rendered on the server: wire:poll and Livewire updates redraw it, and the tooltip (apuiChart) keeps working through the morph",
+        "The actions slot holds header controls, such as a range switch bound with wire:model.live",
+        "2.x series in ApexCharts' shape still work: [{ name, data }] or a plain array of values, with labels"
+      ]
+    },
+    "react": {
+      "name": "Chart",
+      "capabilities": ["actions takes a node"]
+    },
+    "vue": {
+      "name": "Chart",
+      "capabilities": ["The actions slot holds header controls"]
+    }
+  },
+  "props": [
+    {
+      "name": "type",
+      "type": "enum",
+      "values": ["bar", "line", "area", "donut"],
+      "default": "bar",
+      "description": "Bars from zero (one series: the first), lines, lines with a soft fill below, or a donut of the first series' values. Emitted as data-type."
+    },
+    {
+      "name": "series",
+      "type": "array",
+      "required": true,
+      "description": "The data: [{ name, data: number[] }], or a plain array of values for one series named by title. data lines up with labels. Anything that isn't a finite number is a gap. Series take --apui-chart-1…6 in order; keep the order stable when filters change."
+    },
+    {
+      "name": "labels",
+      "type": "array",
+      "description": "The categories: the x-axis labels, or the donut's slices."
+    },
+    {
+      "name": "title",
+      "type": "string",
+      "required": true,
+      "description": "The chart's heading, and the accessible name of its plot and table.",
+      "a11y": "Every chart has a title; it names the plot (role=group) and the table."
+    },
+    {
+      "name": "description",
+      "type": "string",
+      "description": "Supporting text under the title, such as the period or what's labeled."
+    },
+    {
+      "name": "actions",
+      "type": "node",
+      "description": "Controls at the end of the header, such as Tabs that switch the range."
+    },
+    {
+      "name": "tabular",
+      "type": "boolean",
+      "default": false,
+      "description": "Shows the data as a table under the plot: a row per category and a column per series (the donut's value and share). The spec calls it showTable; Livewire also takes show-table.",
+      "a11y": "The table view is the accessible alternative to the plot."
+    },
+    {
+      "name": "prefix",
+      "type": "string",
+      "description": "Printed before every value on the axis, the marks and the table, such as $."
+    },
+    {
+      "name": "suffix",
+      "type": "string",
+      "description": "Printed after every value, such as %."
+    },
+    {
+      "name": "notation",
+      "type": "enum",
+      "values": ["standard", "compact"],
+      "default": "standard",
+      "description": "standard prints values with thousands separators and up to two decimals (12,500); compact shortens them to k, M and B ($4.1k), the axis sharing the unit of its largest value ($0k … $10k)."
+    },
+    {
+      "name": "width",
+      "type": "number",
+      "default": 520,
+      "description": "The plot's viewBox width. The plot scales to its container; this sets the aspect ratio and how large the axis text reads. The donut is always 160."
+    },
+    {
+      "name": "height",
+      "type": "number",
+      "default": 220,
+      "description": "The plot's viewBox height."
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part, such as { plot: '…', tooltip: '…' }."
+    }
+  ],
+  "parts": [
+    {
+      "name": "root",
+      "element": "div",
+      "description": "The card: .apui-card.apui-chart, with data-type."
+    },
+    {
+      "name": "header",
+      "element": "div",
+      "description": "The heading, the legend (for two or more series) and the actions."
+    },
+    {
+      "name": "title",
+      "element": "h3",
+      "description": "The chart's heading."
+    },
+    {
+      "name": "description",
+      "element": "p",
+      "description": "The supporting text."
+    },
+    {
+      "name": "actions",
+      "element": "div",
+      "description": "The header controls."
+    },
+    {
+      "name": "legend",
+      "element": "ul",
+      "description": "A list of the series, or the donut's slices with their shares. Mirrors in RTL."
+    },
+    {
+      "name": "swatch",
+      "element": "span",
+      "description": "A legend entry's color, with data-series 1–6. Hidden from assistive technology."
+    },
+    {
+      "name": "body",
+      "element": "div",
+      "description": "Holds the plot and the tooltip, and the donut's legend beside it."
+    },
+    {
+      "name": "plot",
+      "element": "svg",
+      "description": "The chart: role=group, named by the title. Stays LTR in every direction (D-004)."
+    },
+    {
+      "name": "grid",
+      "element": "line",
+      "description": "A horizontal grid line at each y-axis value. Hidden from assistive technology."
+    },
+    {
+      "name": "axis",
+      "element": "text",
+      "description": "A y-axis value or x-axis category label. Hidden from assistive technology."
+    },
+    {
+      "name": "mark",
+      "element": "path | rect",
+      "description": "A bar, a donut slice, or a line or area chart's category column: focusable (tabindex=0), role=img with the category and its values as its name, data-series and data-index. Hover or focus opens the tooltip and sets data-state=\"active\"."
+    },
+    {
+      "name": "line",
+      "element": "path",
+      "description": "A series' line, for line and area charts, with data-series."
+    },
+    {
+      "name": "area",
+      "element": "path",
+      "description": "The soft fill under a series' line, for area charts."
+    },
+    {
+      "name": "point",
+      "element": "g",
+      "description": "A category's crosshair and dots, shown (visibility) while its mark is active."
+    },
+    {
+      "name": "crosshair",
+      "element": "line",
+      "description": "The dashed vertical line through the active category."
+    },
+    {
+      "name": "dot",
+      "element": "circle",
+      "description": "A series' value at the active category."
+    },
+    {
+      "name": "value",
+      "element": "text | span",
+      "description": "The one labeled value (the first series' maximum) in the plot, and each slice's share in the donut's legend."
+    },
+    {
+      "name": "tooltip",
+      "element": "div",
+      "description": "The active mark's category and values, on the overlay surface. aria-hidden: the mark's name says the same."
+    },
+    {
+      "name": "table",
+      "element": "table",
+      "description": "The data table view (tabular), named by the title."
+    }
+  ],
+  "slots": [
+    {
+      "name": "actions",
+      "description": "Controls at the end of the header, such as Tabs."
+    }
+  ],
+  "events": [],
+  "a11y": {
+    "element": "div",
+    "requirements": [
+      "Every chart has a title that names the plot (role=group) and the table, a legend for two or more series, and a table view (tabular).",
+      "Every mark is focusable, with its category and values as its accessible name; the tooltip opens on hover and on keyboard focus, and Escape closes it.",
+      "The grid, axis labels, lines, areas and the labeled value are hidden from assistive technology: the marks and the table carry the data.",
+      "Series colors follow --apui-chart-1…6 in fixed order. Light-mode --apui-chart-2, -4 and -6 sit under 3:1, so values are always reachable as labels, in the tooltip or in the table, never by color alone.",
+      "The plot stays LTR in every direction; the header and legend mirror."
+    ],
+    "wcag": ["1.1.1", "1.3.1", "1.4.1", "1.4.11", "1.4.13", "2.1.1", "2.4.7"]
+  },
+  "tokens": [
+    "--apui-chart-1",
+    "--apui-chart-2",
+    "--apui-chart-3",
+    "--apui-chart-4",
+    "--apui-chart-5",
+    "--apui-chart-6",
+    "--apui-chart-grid",
+    "--apui-chart-axis",
+    "--apui-surface-overlay",
+    "--apui-elevation-overlay",
+    "--apui-border-strong",
+    "--apui-card-padding",
+    "--apui-text-muted"
+  ],
+  "fixture": {
+    "props": {
+      "type": "bar",
+      "title": "Weekly revenue",
+      "description": "The Grove at Greenfield · best week labeled",
+      "labels": ["W1", "W2", "W3", "W4", "W5", "W6", "W7", "W8", "W9", "W10"],
+      "series": [
+        {
+          "name": "Revenue",
+          "data": [4100, 6000, 8200, 10000, 4000, 8000, 4000, 8000, 6000, 4000]
+        }
+      ],
+      "prefix": "$",
+      "notation": "compact"
+    },
+    "parts": {
+      "type": "area",
+      "title": "Analytic",
+      "description": "Sales estimation vs target",
+      "labels": ["Q1", "Q2", "Q3", "Q4", "Q1", "Q2", "Q3", "Q4"],
+      "series": [
+        {
+          "name": "Sales",
+          "data": [600000, 1800000, 2600000, 3200000, 3600000, 4400000, 6100000, 7400000]
+        },
+        {
+          "name": "Target",
+          "data": [3200000, 4400000, 3800000, 5200000, 6100000, 6600000, 7000000, 6400000]
+        }
+      ],
+      "prefix": "$",
+      "notation": "compact",
+      "width": 1000,
+      "height": 260,
+      "tabular": true,
+      "actions": "Export"
+    }
+  }
+}

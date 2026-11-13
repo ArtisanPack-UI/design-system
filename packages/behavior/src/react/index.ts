@@ -421,6 +421,8 @@ export {
 export { useCarousel, useLightbox, type CarouselApi, type LightboxApi } from './images';
 export {
   CAROUSEL_LABELS,
+  carouselPageCount,
+  carouselSlidesPerPage,
   formatCarouselLabel,
   type CarouselLabels,
   type CarouselOptions,
@@ -432,3 +434,17 @@ export {
   type LightboxLabels,
   type LightboxOptions,
 } from '../widgets/lightbox';
+export {
+  useApplePlatform,
+  useClipboard,
+  type UseClipboardOptions,
+  type UseClipboardResult,
+} from './clipboard';
+export {
+  CLIPBOARD_LABELS,
+  CLIPBOARD_TIMEOUT,
+  clipboardLabel,
+  clipboardMessage,
+  type ClipboardLabels,
+  type ClipboardStatus,
+} from '../widgets/clipboard';

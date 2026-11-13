@@ -1,0 +1,324 @@
+/*
+ * Markdown (#65). Root `.apui-markdown`, with data-mode (preview, write,
+ * split). `.apui-prose` holds the shared prose styles for rendered Markdown,
+ * from either commonmark (Livewire) or renderMarkdown (React, Vue), which
+ * write the same HTML: in preview mode the root carries it too; in write and
+ * split modes the preview part does.
+ * Plain elements are styled under the root: headings keep their levels,
+ * lists, the task list (`[data-part='task']`: a disabled checkbox and its
+ * label), block quotes, code, tables (cells read data-align) and images.
+ * Line length stops at the measure.
+ *
+ * In write and split modes the root holds the design-system Tabs; the
+ * editor part wraps the source Textarea in the mono font, the preview part
+ * is a card-like region with the same prose, and the split part sets the
+ * two side by side. Code blocks here are plain `pre`/`code` in prose tokens:
+ * the Code component (`.apui-code`) is separate. Code stays LTR (D-004).
+ * See design/components/Markdown.
+ */
+@layer apui.components {
+  .apui-prose {
+    max-inline-size: var(--apui-measure);
+    color: var(--apui-text-default);
+    font-family: var(--apui-font-family-sans);
+    font-size: var(--apui-type-body-md-font-size);
+    line-height: 22px;
+    overflow-wrap: break-word;
+  }
+
+  .apui-markdown {
+    display: block;
+    min-inline-size: 0;
+  }
+
+  /* Flow: blocks lose their own margins, then sit 12px apart. */
+  .apui-prose :where(p, figure, ul, ol, dl, blockquote, pre, table, h1, h2, h3, h4, h5, h6) {
+    margin: 0;
+  }
+
+  .apui-prose > * + * {
+    margin-block-start: 12px;
+  }
+
+  .apui-prose > :is(h1, h2, h3, h4, h5, h6):not(:first-child) {
+    margin-block-start: 24px;
+  }
+
+  .apui-prose > :is(h1, h2, h3, h4, h5, h6) + * {
+    margin-block-start: 8px;
+  }
+
+  /* Headings keep their levels; sizes follow the type scale. */
+  .apui-prose :is(h1, h2, h3, h4, h5, h6) {
+    color: var(--apui-text-default);
+    font-weight: var(--apui-font-weight-semibold);
+  }
+
+  .apui-prose h1 {
+    font-size: var(--apui-type-heading-xl-font-size);
+    letter-spacing: var(--apui-type-heading-xl-letter-spacing);
+    line-height: var(--apui-type-heading-xl-line-height);
+  }
+
+  .apui-prose h2 {
+    font-size: var(--apui-type-heading-lg-font-size);
+    letter-spacing: var(--apui-type-heading-lg-letter-spacing);
+    line-height: var(--apui-type-heading-lg-line-height);
+  }
+
+  .apui-prose h3 {
+    font-size: var(--apui-type-heading-md-font-size);
+    line-height: var(--apui-type-heading-md-line-height);
+  }
+
+  .apui-prose h4 {
+    font-size: var(--apui-type-heading-sm-font-size);
+    line-height: var(--apui-type-heading-sm-line-height);
+  }
+
+  .apui-prose :is(h5, h6) {
+    font-size: var(--apui-type-body-md-font-size);
+    line-height: 22px;
+  }
+
+  .apui-prose :is(strong, b) {
+    font-weight: var(--apui-font-weight-semibold);
+  }
+
+  .apui-prose a {
+    color: var(--apui-color-primary-text);
+    text-decoration-color: var(--apui-color-primary-border);
+    text-underline-offset: 3px;
+  }
+
+  .apui-prose a:hover {
+    text-decoration-color: currentcolor;
+  }
+
+  .apui-prose a:focus-visible {
+    border-radius: var(--apui-radius-xs);
+    outline: var(--apui-focus-ring-width) solid transparent;
+    box-shadow:
+      0 0 0 var(--apui-focus-ring-offset) var(--apui-focus-ring-offset-color),
+      0 0 0 calc(var(--apui-focus-ring-offset) + var(--apui-focus-ring-width))
+        var(--apui-focus-ring-color);
+  }
+
+  /* Lists */
+  .apui-prose :is(ul, ol) {
+    padding-inline-start: 22px;
+  }
+
+  .apui-prose li + li,
+  .apui-prose li > * + * {
+    margin-block-start: 4px;
+  }
+
+  .apui-prose li > p + p {
+    margin-block-start: 8px;
+  }
+
+  .apui-prose li::marker {
+    color: var(--apui-text-muted);
+  }
+
+  /* Task list: no marker; the checkbox takes its place. */
+  [data-scope='markdown'][data-part='task'] {
+    margin-inline-start: -22px;
+    list-style: none;
+  }
+
+  [data-scope='markdown'][data-part='task'] label {
+    display: inline-flex;
+    gap: 8px;
+    align-items: flex-start;
+  }
+
+  [data-scope='markdown'][data-part='task'] input[type='checkbox'] {
+    display: grid;
+    flex: none;
+    place-content: center;
+    box-sizing: border-box;
+    inline-size: 18px;
+    block-size: 18px;
+    margin: 2px 0 0;
+    border: var(--apui-border-width) solid var(--apui-border-default);
+    border-radius: var(--apui-checkbox-radius);
+    background: var(--apui-surface-default);
+    color: var(--apui-color-primary-foreground);
+    font: inherit;
+    cursor: default;
+    appearance: none;
+  }
+
+  /* The check: a clipped square in the foreground color, shown when checked. */
+  [data-scope='markdown'][data-part='task'] input[type='checkbox']::before {
+    inline-size: 10px;
+    block-size: 10px;
+    background: currentcolor;
+    content: '';
+    clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+    transform: scale(0);
+  }
+
+  [data-scope='markdown'][data-part='task'] input[type='checkbox']:checked {
+    border-color: var(--apui-color-primary);
+    background: var(--apui-color-primary);
+  }
+
+  [data-scope='markdown'][data-part='task'] input[type='checkbox']:checked::before {
+    transform: scale(1);
+  }
+
+  /* Quotes, rules */
+  .apui-prose blockquote {
+    padding-block: 4px;
+    padding-inline: 16px;
+    border-inline-start: 3px solid var(--apui-border-default);
+    color: var(--apui-text-muted);
+  }
+
+  .apui-prose blockquote > * + * {
+    margin-block-start: 8px;
+  }
+
+  .apui-prose hr {
+    block-size: var(--apui-border-width);
+    margin-block: 24px;
+    margin-inline: 0;
+    border: 0;
+    background: var(--apui-border-muted);
+  }
+
+  /* Code: plain pre and code in prose tokens. Blocks stay LTR (D-004). */
+  .apui-prose code {
+    font-family: var(--apui-font-family-mono);
+    font-size: 0.9em;
+  }
+
+  .apui-prose :not(pre) > code {
+    padding-block: 1px;
+    padding-inline: 5px;
+    border: var(--apui-border-width) solid var(--apui-border-muted);
+    border-radius: var(--apui-radius-xs);
+    background: var(--apui-surface-sunken);
+  }
+
+  .apui-prose pre {
+    padding-block: 12px;
+    padding-inline: 16px;
+    overflow-x: auto;
+    border: var(--apui-border-width) solid var(--apui-border-muted);
+    border-radius: var(--apui-radius-md);
+    background: var(--apui-surface-sunken);
+    font-size: var(--apui-type-code-md-font-size);
+    line-height: var(--apui-type-code-md-line-height);
+    direction: ltr;
+    text-align: start;
+    tab-size: 2;
+  }
+
+  .apui-prose pre > code {
+    font-size: inherit;
+    white-space: pre;
+  }
+
+  /* Tables keep their header cells; data-align is the column's alignment. */
+  .apui-prose table {
+    inline-size: 100%;
+    border-collapse: collapse;
+    font-size: var(--apui-type-body-sm-font-size);
+    line-height: var(--apui-type-body-sm-line-height);
+  }
+
+  .apui-prose :is(th, td) {
+    padding-block: 6px;
+    padding-inline: 10px;
+    border: var(--apui-border-width) solid var(--apui-border-muted);
+    text-align: start;
+    vertical-align: top;
+  }
+
+  .apui-prose th {
+    background: var(--apui-surface-sunken);
+    font-weight: var(--apui-table-head-weight);
+  }
+
+  .apui-prose :is(th, td)[data-align='center'] {
+    text-align: center;
+  }
+
+  .apui-prose :is(th, td)[data-align='end'] {
+    text-align: end;
+  }
+
+  .apui-prose img {
+    display: block;
+    max-inline-size: 100%;
+    block-size: auto;
+    border-radius: var(--apui-radius-md);
+  }
+
+  .apui-prose kbd {
+    padding-block: 1px;
+    padding-inline: 5px;
+    border: var(--apui-border-width) solid var(--apui-border-default);
+    border-radius: var(--apui-kbd-radius);
+    background: var(--apui-surface-default);
+    font-family: var(--apui-font-family-mono);
+    font-size: 0.85em;
+  }
+
+  .apui-prose mark {
+    background: var(--apui-color-warning-soft);
+    color: var(--apui-color-warning-soft-foreground);
+  }
+
+  /* Write and split: the editor, the preview region and the columns. */
+  [data-scope='markdown'][data-part='editor'] [data-scope='textarea'][data-part='box'] {
+    min-block-size: 300px;
+  }
+
+  [data-scope='markdown'][data-part='editor'] [data-scope='textarea'][data-part='control'] {
+    font-family: var(--apui-font-family-mono);
+    font-size: var(--apui-type-code-md-font-size);
+    line-height: var(--apui-type-code-md-line-height);
+  }
+
+  [data-scope='markdown'][data-part='preview'] {
+    box-sizing: border-box;
+    min-inline-size: 0;
+    max-inline-size: none;
+    padding: var(--apui-card-padding);
+    border: var(--apui-border-width) solid var(--apui-border-muted);
+    border-radius: var(--apui-card-radius);
+    background: var(--apui-surface-default);
+  }
+
+  [data-scope='markdown'][data-part='preview'] > * {
+    max-inline-size: var(--apui-measure);
+  }
+
+  [data-scope='markdown'][data-part='split'] {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    align-items: start;
+  }
+
+  @media (max-width: 640px) {
+    [data-scope='markdown'][data-part='split'] {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  @media (forced-colors: active) {
+    [data-scope='markdown'][data-part='task'] input[type='checkbox'] {
+      border-color: CanvasText;
+    }
+
+    [data-scope='markdown'][data-part='task'] input[type='checkbox']:checked::before {
+      background: CanvasText;
+    }
+  }
+}

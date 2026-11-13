@@ -1,0 +1,133 @@
+{
+  "version": 1,
+  "component": "Clipboard",
+  "rootClass": "apui-clipboard",
+  "stacks": [
+    "livewire",
+    "react",
+    "vue"
+  ],
+  "names": {
+    "livewire": "clipboard",
+    "react": "Clipboard",
+    "vue": "Clipboard"
+  },
+  "cases": [
+    {
+      "id": "variant=button size=xs state=default",
+      "props": {
+        "value": "https://horizonhomes.com/l/grove-greenfield",
+        "variant": "button",
+        "size": "xs"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=button size=sm state=default",
+      "props": {
+        "value": "https://horizonhomes.com/l/grove-greenfield",
+        "variant": "button",
+        "size": "sm"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=button size=md state=default",
+      "props": {
+        "value": "https://horizonhomes.com/l/grove-greenfield",
+        "variant": "button",
+        "size": "md"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=icon size=xs state=default",
+      "props": {
+        "value": "https://horizonhomes.com/l/grove-greenfield",
+        "variant": "icon",
+        "size": "xs"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=icon size=sm state=default",
+      "props": {
+        "value": "https://horizonhomes.com/l/grove-greenfield",
+        "variant": "icon",
+        "size": "sm"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=icon size=md state=default",
+      "props": {
+        "value": "https://horizonhomes.com/l/grove-greenfield",
+        "variant": "icon",
+        "size": "md"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=field size=xs state=default",
+      "props": {
+        "value": "https://horizonhomes.com/l/grove-greenfield",
+        "variant": "field",
+        "size": "xs"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=field size=sm state=default",
+      "props": {
+        "value": "https://horizonhomes.com/l/grove-greenfield",
+        "variant": "field",
+        "size": "sm"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=field size=md state=default",
+      "props": {
+        "value": "https://horizonhomes.com/l/grove-greenfield",
+        "variant": "field",
+        "size": "md"
+      },
+      "state": "default",
+      "content": null
+    }
+  ],
+  "sheets": [
+    {
+      "id": "light",
+      "theme": "light",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "dark",
+      "theme": "dark",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "high-contrast",
+      "theme": "high-contrast",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "rtl",
+      "theme": "light",
+      "density": "default",
+      "dir": "rtl"
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "version": 1,
+  "component": "Code",
+  "rootClass": "apui-code",
+  "stacks": [
+    "livewire",
+    "react",
+    "vue"
+  ],
+  "names": {
+    "livewire": "code",
+    "react": "Code",
+    "vue": "Code"
+  },
+  "cases": [
+    {
+      "id": "state=default",
+      "props": {
+        "code": "export function formatPrice(amount: number, currency = 'USD') {\n  // Tabular figures line up in tables\n  return new Intl.NumberFormat('en-US', {\n    style: 'currency',\n    currency,\n    maximumFractionDigits: 0,\n  }).format(amount);\n}\n",
+        "fileName": "format-price.ts",
+        "language": "TypeScript",
+        "numbered": true,
+        "highlight": [
+          3
+        ]
+      },
+      "state": "default",
+      "content": null
+    }
+  ],
+  "sheets": [
+    {
+      "id": "light",
+      "theme": "light",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "dark",
+      "theme": "dark",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "high-contrast",
+      "theme": "high-contrast",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "rtl",
+      "theme": "light",
+      "density": "default",
+      "dir": "rtl"
+    }
+  ]
+}

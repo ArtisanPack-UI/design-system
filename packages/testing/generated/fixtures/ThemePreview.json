@@ -1,0 +1,66 @@
+{
+  "version": 1,
+  "component": "ThemePreview",
+  "rootClass": "apui-theme-preview",
+  "stacks": [
+    "livewire"
+  ],
+  "names": {
+    "livewire": "theme-preview"
+  },
+  "cases": [
+    {
+      "id": "state=default",
+      "props": {
+        "label": "Appearance",
+        "value": "dark",
+        "options": [
+          {
+            "value": "light",
+            "label": "Light"
+          },
+          {
+            "value": "dark",
+            "label": "Dark"
+          },
+          {
+            "value": "high-contrast",
+            "label": "High contrast"
+          },
+          {
+            "value": "system",
+            "label": "System"
+          }
+        ]
+      },
+      "state": "default",
+      "content": null
+    }
+  ],
+  "sheets": [
+    {
+      "id": "light",
+      "theme": "light",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "dark",
+      "theme": "dark",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "high-contrast",
+      "theme": "high-contrast",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "rtl",
+      "theme": "light",
+      "density": "default",
+      "dir": "rtl"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+[
+  {
+    "id": "basic",
+    "title": "Sizes and labels",
+    "description": "name picks a Lucide icon from the registry; size is sm, md, lg or xl. An icon is decorative unless it has a label, which makes it role=img."
+  },
+  {
+    "id": "tiles",
+    "title": "Tiles and custom icons",
+    "description": "variant=\"tile\" sets the icon on a soft-colored square in any color. Pass your own <svg> as the content to draw an icon that isn't registered."
+  }
+]

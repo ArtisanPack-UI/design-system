@@ -5,8 +5,8 @@
  * follow the text direction (Zag maps ArrowLeft and ArrowRight through
  * `dir`), optional autoplay with a pause trigger, and a progress text.
  *
- * ImageSlider is the first component on it; Carousel (#65) will be the
- * second. Each renames the machine's `carousel` scope to its own through
+ * ImageSlider is the first component on it; Carousel (#65) is the second,
+ * with `perView` slides per view (the next one peeks, in CSS). Each renames the machine's `carousel` scope to its own through
  * `rescope()`, so the parity gate finds the parts by the component's scope
  * (D-025). The parts keep Zag's names (D-019): the spec's dots are the
  * `indicatorGroup` and its `indicator`s, the counter is `progressText`, and
@@ -60,6 +60,44 @@ export const CAROUSEL_LABELS = {
 } as const;
 
 export type CarouselLabels = Partial<Record<keyof typeof CAROUSEL_LABELS, string>>;
+
+/** How much of the next slide peeks when several are in view: 0.15 of one. */
+export const CAROUSEL_PEEK = 0.15;
+
+/**
+ * The machine's `slidesPerPage` for `perView` whole slides: above one, the
+ * next slide peeks by `CAROUSEL_PEEK` of a slide at the inline end.
+ */
+export function carouselSlidesPerPage(perView = 1): number {
+  const view = Math.max(1, Math.floor(perView));
+  return view > 1 ? view + CAROUSEL_PEEK : 1;
+}
+
+/**
+ * How many positions (pages) a carousel has: one per slide that can sit at
+ * the start of the view, moving one slide at a time. It is what the machine
+ * measures once mounted (the last position is the end of the track, short of
+ * a full step because of the peek) and, through `carouselMachine`, its snap
+ * points before it measures, so a server render draws the same dots, counter
+ * and next trigger as the mounted carousel.
+ */
+export function carouselPageCount(slideCount: number, perView = 1): number {
+  const count = Math.max(0, Math.floor(slideCount));
+  const view = Math.max(1, Math.floor(perView));
+  return count <= view ? 1 : count - view + 1;
+}
+
+/**
+ * Whether the person asked for reduced motion. Autoplay then starts paused:
+ * the pause trigger still shows, and a press on it starts rotation.
+ */
+export function prefersReducedMotion(): boolean {
+  return (
+    typeof window !== 'undefined' &&
+    typeof window.matchMedia === 'function' &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  );
+}
 
 /** Replaces `{index}` and `{count}` in a label. */
 export function formatCarouselLabel(template: string, index: number, count: number): string {
@@ -183,13 +221,38 @@ function withCarouselExtras(
   };
 }
 
+/**
+ * Zag's carousel machine, with its snap points before it measures (one per
+ * slide index) counted by `carouselPageCount`. Zag counts the slide indexes
+ * whose page fits whole, `slidesPerPage` with the peek included, so with
+ * `perView` above one it has a position fewer than the track measures to
+ * once mounted (the last slide sits at the end with the peek gone). Only the
+ * default changes: mounting, a resize or a slide change still measures.
+ */
+export const carouselMachine = {
+  ...zag.machine,
+  context(params) {
+    const context = zag.machine.context!(params);
+    const { prop, bindable } = params;
+    if (prop('autoSize') || prop('slidesPerMove') !== 1) return context;
+    const slideCount = Math.max(0, Math.floor(prop('slideCount') ?? 0));
+    const pages = slideCount > 0 ? carouselPageCount(slideCount, prop('slidesPerPage')) : 0;
+    return {
+      ...context,
+      pageSnapPoints: bindable(() => ({
+        defaultValue: Array.from({ length: pages }, (_, index) => index),
+      })),
+    };
+  },
+} as Machine<Schema>;
+
 /** The carousel's definition, its parts carrying `scope`. */
 export function carouselDefinition(
   scope: string = CAROUSEL_SCOPE,
 ): WidgetDefinition<Schema, CarouselApi> {
   return {
     scope,
-    machine: zag.machine as Machine<Schema>,
+    machine: carouselMachine,
     connect: (service, normalize) => {
       const scoped =
         scope === CAROUSEL_SCOPE ? normalize : rescope(normalize, CAROUSEL_SCOPE, scope);
@@ -226,6 +289,10 @@ export interface CarouselIds {
 export interface CarouselOptions {
   /** How many slides there are. Required by the machine. */
   slideCount: number;
+  /** Slides per view, a whole number. Default 1. Above one the next slide peeks; each move shows one more. */
+  perView?: number;
+  /** The gap between slides, a CSS length. Default `0px`. */
+  spacing?: string;
   /** Controlled index: the slide shown, 0-based. Pair it with `onIndexChange`. */
   index?: number;
   /** Initial index when uncontrolled. */
@@ -260,7 +327,9 @@ export function toCarouselProps(options: CarouselOptions, id: string): Partial<C
     // Before mount, `<html dir>`: the measured direction replaces it after.
     dir: tabsDirection(options.dir),
     slideCount: Math.max(0, options.slideCount),
-    slidesPerPage: 1,
+    slidesPerPage: carouselSlidesPerPage(options.perView),
+    slidesPerMove: 1,
+    spacing: options.spacing ?? '0px',
     loop: options.loop ?? false,
     autoplay: options.autoplay ? { delay: options.interval ?? 5000 } : false,
     allowMouseDrag: false,

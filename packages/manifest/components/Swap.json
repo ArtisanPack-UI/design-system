@@ -1,0 +1,166 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "Swap",
+  "description": "A two-state toggle that swaps its on and off content, such as a sun and a moon: a native checkbox with an accessible name over the content, with an optional fade or rotate. No Claude Design spec; token-driven like Grid and Stack.",
+  "status": "draft",
+  "issue": 65,
+  "rootClass": "apui-swap",
+  "stacks": {
+    "livewire": {
+      "name": "swap",
+      "capabilities": [
+        "wire:model binds checked on the native checkbox (D-018)",
+        "The 2.x true and false slots and true-icon and false-icon props still work as on, off, on-icon and off-icon"
+      ]
+    },
+    "react": {
+      "name": "Swap"
+    },
+    "vue": {
+      "name": "Swap"
+    }
+  },
+  "sizes": ["sm", "md", "lg"],
+  "props": [
+    {
+      "name": "checked",
+      "type": "boolean",
+      "default": false,
+      "description": "Whether it is on: the on content shows. Livewire binds it with wire:model, Vue with v-model:checked; React pairs it with onCheckedChange."
+    },
+    {
+      "name": "defaultChecked",
+      "type": "boolean",
+      "default": false,
+      "description": "The initial state of an uncontrolled swap.",
+      "stacks": ["react"]
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "required": true,
+      "description": "The accessible name of the checkbox, such as \"Dark mode\". It is not shown.",
+      "a11y": "Name the setting, not the icon: \"Dark mode\", checked or not, rather than \"Moon\"."
+    },
+    {
+      "name": "onIcon",
+      "type": "string",
+      "default": "sun",
+      "description": "The icon shown when on. The on slot overrides it. Livewire's 2.x true-icon still works."
+    },
+    {
+      "name": "offIcon",
+      "type": "string",
+      "default": "moon",
+      "description": "The icon shown when off. The off slot overrides it. Livewire's 2.x false-icon still works."
+    },
+    {
+      "name": "transition",
+      "type": "enum",
+      "values": ["fade", "rotate", "none"],
+      "default": "fade",
+      "description": "How the content swaps: a cross-fade, a fade with a quarter turn, or at once. Reduced motion always swaps at once. Emitted as data-transition."
+    },
+    {
+      "name": "size",
+      "type": "enum",
+      "values": ["sm", "md", "lg"],
+      "default": "md",
+      "description": "The square target (control heights sm, md, lg) and its icon (16, 16, 20px). Emitted as data-size."
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": false,
+      "description": "Disables the checkbox."
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part: { root, control, on, off }."
+    }
+  ],
+  "parts": [
+    {
+      "name": "root",
+      "element": "label",
+      "description": "The square target. It holds the checkbox and both contents in one grid cell; data-state is checked or unchecked."
+    },
+    {
+      "name": "control",
+      "element": "input",
+      "description": "The native checkbox, transparent over the target, named by label. Attributes other than class land here."
+    },
+    {
+      "name": "on",
+      "element": "span",
+      "description": "Shown when checked. aria-hidden: the checkbox carries the state."
+    },
+    {
+      "name": "off",
+      "element": "span",
+      "description": "Shown when not checked. aria-hidden."
+    }
+  ],
+  "slots": [
+    {
+      "name": "on",
+      "description": "Content shown when on, in place of onIcon. Livewire's 2.x true slot still works."
+    },
+    {
+      "name": "off",
+      "description": "Content shown when off, in place of offIcon. Livewire's 2.x false slot still works."
+    }
+  ],
+  "events": [
+    {
+      "name": "checked-change",
+      "description": "The swap turned on or off.",
+      "payload": "boolean"
+    }
+  ],
+  "a11y": {
+    "element": "label",
+    "keyboard": [
+      {
+        "keys": "Space",
+        "action": "Turns it on or off."
+      },
+      {
+        "keys": "Tab",
+        "action": "Moves focus to and from it."
+      }
+    ],
+    "requirements": [
+      "A native input type=checkbox stays in the DOM over the target, so the platform handles keyboard and screen readers and the state is announced as checked or not checked.",
+      "The checkbox has an accessible name (label) that names the setting; the swapping content is aria-hidden.",
+      "The target is at least 24×24px (2.5.8) and shows a focus ring while the checkbox has :focus-visible.",
+      "The fade and rotate are removed under prefers-reduced-motion.",
+      "Disabled uses --apui-text-disabled, never opacity alone."
+    ],
+    "wcag": ["1.3.1", "1.4.11", "2.1.1", "2.4.7", "2.5.8", "4.1.2"]
+  },
+  "tokens": [
+    "--apui-control-height-sm",
+    "--apui-control-height-md",
+    "--apui-control-height-lg",
+    "--apui-icon-size-md",
+    "--apui-icon-size-lg",
+    "--apui-radius-md",
+    "--apui-text-default",
+    "--apui-text-disabled",
+    "--apui-state-hover",
+    "--apui-state-pressed",
+    "--apui-focus-ring-color",
+    "--apui-focus-ring-width",
+    "--apui-focus-ring-offset",
+    "--apui-motion-duration-moderate",
+    "--apui-motion-ease-standard"
+  ],
+  "fixture": {
+    "props": {
+      "label": "Dark mode"
+    },
+    "states": ["hover", "focus-visible", "checked", "disabled"]
+  }
+}

@@ -48,6 +48,17 @@ Decisions that shape the design system. To change one, add a new entry that supe
 | [D-042](#d-042-table-has-one-table-scope) | Table has one `table` scope | #62 | 2026-11-12 |
 | [D-043](#d-043-heading-and-text-listitem-lives-in-a-list) | Heading and Text; ListItem lives in a List | #58 | 2026-11-12 |
 | [D-044](#d-044-usermenu-composes-dropdownmenu-avatar-colors-initials-by-name) | UserMenu composes DropdownMenu; Avatar colors initials by name | #58, #61 | 2026-11-12 |
+| [D-045](#d-045-chart-draws-its-own-svg-from-shared-geometry) | Chart draws its own SVG from shared geometry | #63 | 2026-11-12 |
+| [D-046](#d-046-chart-tooltips-are-a-shared-dom-controller-and-chart-scope-is-limited-to-the-spec) | Chart tooltips are a shared DOM controller, and chart scope is limited to the spec | #63 | 2026-11-12 |
+| [D-047](#d-047-calendar-date-math-is-shared-and-livewire-has-two-tags) | Calendar date math is shared, and Livewire has two tags | #64 | 2026-11-12 |
+| [D-048](#d-048-calendar-anatomy-and-accessible-names) | Calendar anatomy and accessible names | #64 | 2026-11-12 |
+| [D-049](#d-049-markdown-renders-the-same-html-in-every-stack) | Markdown renders the same HTML in every stack | #65 | 2026-11-12 |
+| [D-050](#d-050-code-clipboard-and-kbd) | Code, Clipboard and Kbd | #65 | 2026-11-12 |
+| [D-051](#d-051-icon-and-the-directional-icon-list) | Icon and the directional icon list | #65 | 2026-11-12 |
+| [D-052](#d-052-swap-is-a-token-driven-primitive-in-every-stack) | Swap is a token-driven primitive in every stack | #65 | 2026-11-12 |
+| [D-053](#d-053-carousel-runs-on-the-d-041-carousel-widget) | Carousel runs on the D-041 carousel widget | #65 | 2026-11-12 |
+| [D-054](#d-054-theme-choice-lives-in-behavior-and-applies-before-first-paint) | Theme choice lives in `behavior` and applies before first paint | #65 | 2026-11-12 |
+| [D-055](#d-055-themepreview-is-a-blade-card-picker) | ThemePreview is a Blade card picker | #65 | 2026-11-12 |
 
 ## D-001: No separate brand
 
@@ -638,3 +649,132 @@ The package tests repeat these in Chromium with Alpine's morph plugin, plus RTL 
 - The status joins the accessible name ("Name (Online)") through a translatable `statusLabel`. The image layers over the initials, so a failed image falls back with no script. 2.x `image` and `placeholder` become `src` and `name`. Avatar groups are `avatar-group` / `AvatarGroup`.
 
 **Why.** A user menu is a dropdown menu with a richer header; composing it reuses DropdownMenu's machine and keyboard. A hash gives the same person the same color in every stack and on every render, with no stored state.
+
+## D-045: Chart draws its own SVG from shared geometry
+
+**Decision.**
+
+- Chart (`bar` · `line` · `area` · `donut`) is drawn from `chartGeometry` in `@artisanpack-ui/behavior`'s `src/data/chart.ts`, used directly by React and Vue. Livewire ports it to PHP (`ChartGeometry`) and renders the SVG on the server; shared vectors prove the two produce the same numbers. This extends D-038 to charts: no stack loads ApexCharts, and `ChartThemes` is removed.
+- The root is `.apui-card.apui-chart` with `data-type`. Parts: `header`, `title`, `description`, `actions`, `legend`, `swatch`, `body`, `plot`, `grid`, `axis`, `mark`, `line`, `area`, `point`, `crosshair`, `dot`, `value`, `tooltip` and `table`. Series take `--apui-chart-1…6` in order through `data-series`.
+- The default viewBox is 520×220, the donut 160 (radius 64, inner 44). The plot scales to its container; `width` and `height` are viewBox units. Ticks are nice numbers (about five intervals, always including zero). The first series' maximum is the one labeled value.
+- The plot is a named `role="group"` and stays LTR (D-004); grid, axes and labels are `aria-hidden`. Each bar, slice, or line/area category column is a focusable `role="img"` whose name carries every series' value.
+- The spec's `showTable` is `tabular`, since the manifest rejects `show*` booleans; Livewire also accepts `show-table`. The legend shows for two or more series.
+- 2.x Apex `options` are dropped, except that categories, `labels` and the title still fill `labels` and `title`; `pie` becomes `donut`. React and Vue `data` becomes `series` plus `labels`, and `title` is required. `data` entries may still be ApexCharts points (`{x, y}`, `[x, y]`); the first pointed series' `x` labels the categories when `labels` is empty.
+- Numbers round as JS `toFixed` does on the exact double; the PHP port uses `ChartGeometry::toFixed`, never `number_format`. Standard values print up to 2 decimals, or 2 significant digits below 1; ticks print at least 2 decimals, more when the step needs them; 10 at most. Compact values use one decimal and step up a unit when rounding reaches 1,000.
+
+**Why.** A token-themed, server-rendered SVG gives pixel parity across stacks and full theme, RTL and high-contrast control, which a canvas or Apex SVG doesn't. Sparkline already proved the approach.
+
+## D-046: Chart tooltips are a shared DOM controller, and chart scope is limited to the spec
+
+**Decision.**
+
+- `attachChartTooltip(root)` in `behavior` is one controller all stacks attach (Alpine `apuiChart`). Marks carry `data-tooltip-title`, `data-tooltip-body` and `data-anchor-x/y`; the controller listens on the root only, so Livewire's morph doesn't break it. The tooltip opens on hover and focus, closes on Escape, blur or pointer leave, and is `aria-hidden` because the mark's name already says everything.
+- Bars draw the first series; the donut draws the first series' positive values. There are no stacked, grouped or dual-axis charts.
+- Values format with `prefix`, `suffix` and `notation` (`standard` · `compact`). Formatting isn't locale-aware, and the chart has no built-in strings: everything shown comes from props.
+
+**Why.** A tooltip that only repeats a mark's accessible name doesn't need a state machine. The spec shows none of the larger chart types, and its "no dual axes" rule rules out the rest.
+
+**Addendum (review).** The y axis is clamped to ±1e300 (`CHART_LIMIT`), and values beyond it draw at the limit while the tooltip and table print the real value. The tick step is at least 1e-10 (`CHART_MIN_STEP`, the smallest step the labels print), and NaN counts as 0, so any finite input gives a finite axis. A viewBox that doesn't fit the padding (width ≤ 48, height ≤ 36) uses the default 520×220. Both ports parse powers of ten from `1e…` and print values of 1e21 and above as full digits, so TS and PHP agree at any magnitude.
+
+## D-047: Calendar date math is shared, and Livewire has two tags
+
+**Decision.**
+
+- `calendarModel()` in `behavior/src/data/calendar.ts` builds the month, week, day and agenda views on `@internationalized/date`; Livewire ports it to PHP (`CalendarModel`) with the same formulas and tie-breaking. Dates format through ICU skeletons in both (`yMMMM`, `EEE`, `EEEE`, `yMMMMEEEEd`, `MMMd`, `yMMMd`); times are 24-hour `HH:mm` everywhere so stacks match. `timeZone` defaults to UTC and `today` can be pinned, so fixtures are deterministic.
+- Livewire keeps `<livewire:artisanpack-calendar>` as the stateful public component (view and date on the server, `goToNextPeriod`, `goToPreviousPeriod`, `goToToday`, `loadEventModal`), with event-modal-content as its internal child. It renders `<x-artisanpack-calendar>`, a stateless view that dispatches `view-change`, `date-change`, `event-click` and `create` as browser events. Parity and the gates use the x-tag. It's no longer lazy by default.
+- `weekStartsOn` defaults to the locale (2.x Livewire defaulted to Monday); 2.x `sunday-start` still maps to it.
+
+**Why.** The parity and fixture hosts render x-tags only, and a stateless grid is what React and Vue ship too. Shared math keeps week starts, overflow and multi-day spans identical.
+
+## D-048: Calendar anatomy and accessible names
+
+**Decision.**
+
+- The toolbar uses Button (Today, previous and next mirrored in RTL, New event), an `h2` title with `aria-live`, and a view switcher that reuses the Tabs markup and CSS but not the Tabs widget: a tablist whose tabs control the calendar body, with roving focus (`rovingKeydown`) and manual activation.
+- The body is a `role="grid"` with one tab stop and arrow keys that follow text direction; they stop at the grid's edge. Agenda reuses the grid's parts as a list (`ul`, `li`, `h3`), and an empty agenda shows EmptyState. Event details open in Dialog in every stack. React and Vue keep the roving tab stop in state (the arrow-key target for the shown view and date), not in the `tabIndex` the shared keydown helper writes, so a re-render never leaves two tab stops; Livewire's morph resets it to the server's.
+- An event is a button, or a link with `href`. Its name starts with the visible time and title, followed by a visually hidden category and full date and time; each day cell starts with a hidden full date. There are no `aria-label`s on cells or events (WCAG 2.5.3). Events and "+N more" are at least 24px tall.
+- A month cell shows `maxEvents` (default 2) events, then "+N more", which opens that day. Multi-day events repeat on each day, a date `end` is inclusive, and a timed event ending at 00:00 ends the day before. Week and day views list events in columns with no hourly axis: the spec has no week or day design.
+
+**Why.** The visible text must begin the accessible name, and axe flagged the label-based version. Reusing Tabs' look keeps the switcher consistent without nesting panels in the toolbar.
+
+**Addendum (review).** Livewire UI Components doesn't require `ext-intl`: without it `CalendarModel` takes the week start from a CLDR region table (the one `@internationalized/date` falls back to) plus likely regions for bare languages, and names stay English. Impossible seconds or offsets skip the event in both stacks. A timed event ending at 00:00 is placed through the previous day, but its full date text names the actual end day. "+N more" moves focus to the day it opens in every stack. The Livewire calendar steps previous and next on the server (`goToPreviousPeriod`, `goToNextPeriod`), and `loadEventModal` carries the calendar's id so a default details child ignores other calendars.
+
+## D-049: Markdown renders the same HTML in every stack
+
+**Decision.**
+
+- Livewire renders with `league/commonmark` (GFM, `html_input: escape`, `allow_unsafe_links: false`). React and Vue use `renderMarkdown` in `behavior/src/data/markdown.ts`, which tokenizes with `marked` and serializes commonmark's exact output; shared vectors check every case with `sanitize` on and off. Named character references outside a short table stay as written in React and Vue (same rendering, different bytes).
+- Both stacks make the same four changes to commonmark's HTML: task items are `<li data-part="task"><label><input disabled type="checkbox"> text</label></li>`; table alignment is `data-align` (`start` · `center` · `end`); a link or image whose URL fails SafeUrl is dropped and its text kept; and `sanitize={false}` passes raw HTML through a tag-level allowlist (formatting, lists, tables, `details`, links and images, with `title`, `lang` and `dir` and SafeUrl-checked `href`/`src`). Other tags are escaped as text. There is no opt-in to unsafe HTML.
+- The root is `.apui-markdown` with `data-mode` (D-002's one-root-class rule); `.apui-prose` carries the shared prose styles. `mode` `write` and `split` put Tabs over a Textarea; the edit event is `source-change` (Vue also `update:source`). Livewire renders every panel on the server and disables the hidden Textarea, and its `source` defaults to the `wire:model` value. EasyMDE and the Markdown image upload are removed; Livewire's default is now render-only.
+
+**Why.** Prose that looks the same in every stack needs the same HTML. Escaping instead of sanitizing a DOM keeps the PHP and TypeScript paths identical and needs no DOMPurify.
+
+**Addendum (review).** Both stacks cap block nesting at 100 (commonmark depth: a block quote is one level, a list two) and emphasis delimiter runs per inline container at 500; TS mirrors commonmark through a guarded marked Lexer/Tokenizer, byte for byte on the shared vectors at and past the limits. Raw-HTML `<img>` takes the same `data:` allowlist as Markdown images (PNG, GIF, JPEG, WebP). In Livewire, native control attributes go to the editor's Textarea, one named control posts from every tab, and a plain form (no `wire:model`) renders the draft in the browser with `renderMarkdown` through `apuiMarkdown`, the same HTML the server writes. That adds about 18 KB gzip to `alpine.global.js`. With `wire:model`, switching tabs flushes a debounced value before committing.
+
+## D-050: Code, Clipboard and Kbd
+
+**Decision.**
+
+- **Clipboard** is `.apui-clipboard[data-variant]` (`button` · `icon` · `field`, default `button`) instead of the spec's `.apui-copy` and `.apui-copy-field`, per D-002. Parts: `button`, `field`, `value` and `tooltip` (a `role="status"` region, visible under the icon variant). It takes `value`, `timeout` (2000), `size` (`xs` · `sm` · `md`), `label`, `copiedLabel`, `copiedMessage` and `errorMessage`, and fires `copy` and `error`. Clipboard now ships in Livewire too.
+- One copy helper (`createClipboard`, `writeClipboard` with an `execCommand` fallback) serves every stack and Code's copy button. Each copy resets to idle first, so a repeat is announced again; failures are announced, never silent.
+- **Code** has no syntax highlighting. The `pre` is a focusable `role="region"` named by `label`, then the file name, then the language, then "Code", and stays LTR (D-004). `highlight` lines carry `data-highlight` on the `line` part; a hidden `status` part announces the copy. Props add `code`, `inline` and `copyable` (default true). Livewire's 2.x Ace editor is gone: editing is CodeEditor's job.
+- **Kbd** renders `kbd.apui-kbd` keys; a shortcut is an outer `kbd.apui-kbd-combo` that keeps its order in RTL. Symbols are hidden from screen readers and followed by a translatable name. `platform` is `auto` · `mac` · `other`; `auto` renders the non-Apple keys on the server and swaps in ⌘, ⌥ and ⇧ after mount. Kbd now ships in React and Vue.
+
+**Why.** A visible "Copied" plus a live region covers sighted and screen-reader users, and one helper keeps the timing identical. Code's spec has no token colors for syntax, and rendering the server's keys first avoids a hydration mismatch.
+
+**Addendum (review).** Clipboard's success event is `copied` (React `onCopied`), apart from the native `copy` event a manual copy fires. React keeps `onCopy` and Vue still emits `copy` as deprecated aliases; neither can catch native copies. Livewire dispatches only `copied`. A new value clears a stale "Copied", even from a copy still in flight. After a failed copy, the button and icon variants show the `field` and `value` parts beside the button with the value selected, so it can be copied by hand. Code copies the exact source (a final newline and `\r` included), and its line parts are separated by newlines so the `pre` text reads line by line, with a column flexbox so they add no blank lines.
+
+## D-051: Icon and the directional icon list
+
+**Decision.**
+
+- Icon is `span.apui-icon` around the registry's `svg` (D-017) or the author's own `<svg>`. `variant` is `plain` or `tile`; a tile is the root with `.apui-icon-tile`. Sizes are `sm` 14, `md` 16, `lg` 20 and `xl` 24px; tiles are 32, 40, 48 and 56px. `color` sets a plain icon's text tone or a tile's soft fill; the tile gets the high-contrast soft edge (D-035).
+- `label` makes the icon `role="img"` with `aria-label`; without it the icon is `aria-hidden`. Livewire's 2.x `label` was visible text beside the icon; it's now the accessible name.
+- Directional icons are a list in the registry (`DIRECTIONAL_ICONS` in `behavior`, `IconRegistry::DIRECTIONAL` in Livewire): `arrow-left`, `arrow-right`, `chevron-left` and `chevron-right`. Apps extend it with `registerDirectionalIcons` or `IconRegistry::registerDirectional`, every component's `data-mirror` follows it, and `mirror` overrides it per icon.
+
+**Why.** One list decides mirroring for every component in every stack, so a chevron can't flip in one stack and not another.
+
+**Addendum (review).** A caller's `aria-label` or `aria-labelledby` names an Icon as `label` does (`role="img"`, not hidden); `label` wins. Livewire passes `classes.svg` to blade-icons fallbacks too.
+
+## D-052: Swap is a token-driven primitive in every stack
+
+**Decision.** Swap has no design spec and ships in all three stacks as a minimal primitive, as D-032 did for Grid and Stack. `label.apui-swap` wraps a native checkbox (`control`) over `on` and `off` parts, and CSS swaps them on `:checked`, so `wire:model` needs no script. Checked state follows D-018 (`wire:model`, `v-model:checked`, `checked` with `onCheckedChange`). `label` is the required accessible name; `onIcon` (default `sun`), `offIcon` (`moon`), `transition` (`fade` · `rotate` · `none`, none under reduced motion), `size` (`sm` · `md` · `lg`, the control heights) and `disabled` complete it. Livewire's `true`/`false` slots and `true-icon`/`false-icon` remain as aliases.
+
+**Why.** Swap was Livewire-only and DaisyUI-based; a native checkbox gives it keyboard and screen-reader support for free.
+
+## D-053: Carousel runs on the D-041 carousel widget
+
+**Decision.**
+
+- Carousel reuses `carouselDefinition` rescoped to `carousel`. Spec parts map to Zag's: track is `itemGroup`, slide `item`, nav `prevTrigger` and `nextTrigger`, dots `indicatorGroup` and `indicator`, plus `autoplayTrigger`; `header` and `title` stay.
+- `perView` becomes the machine's `slidesPerPage` plus a 0.15 peek above one, with `slidesPerMove: 1` and 12px spacing. Positions are count − perView + 1, rendered the same by the server and every stack; dots hide with one position.
+- With a `title`, the header holds the heading (`headingLevel`, default 3) and the buttons; without one, the buttons overlay the viewport. Slides default to a Card built from `image`, `alt`, `title`, `description` and `href`; a scoped `slide` slot (Livewire `@scope('slide', $slide)`, Vue `#slide`, React `renderSlide`) replaces it.
+- `interval` defaults to 5000ms and Carousel wraps only with `loop`. Autoplay starts paused under reduced motion; the shared adapters do this, so ImageSlider does too.
+- `carouselMachine` seeds Zag's pre-measure snap points with `carouselPageCount`, so server-rendered dots and the next button agree with the mounted carousel.
+
+**Why.** D-041 built the widget for exactly this reuse, and one machine keeps the slider and the carousel's keyboard and announcements identical.
+
+**Addendum (review).** The autoplay button is the root's first child, first in the Tab order, and sits over the viewport through its grid row. A caller's `aria-label` is kept. When every slide has a distinct `id`, it keys the slides in every stack, else their index. Livewire's root `wire:key` carries the slide count and a hash of the options, so a morph that changes them remounts the carousel.
+
+## D-054: Theme choice lives in `behavior` and applies before first paint
+
+**Decision.**
+
+- `behavior/src/theme.ts` owns the choice: `light` · `dark` · `high-contrast` · `system` (default). A choice sets `data-theme` on `<html>`, persists under localStorage `apui-theme` (guarded), and is broadcast to other toggles and tabs. `system` follows `prefers-color-scheme` live; it doesn't map `prefers-contrast`.
+- The blocking head snippet is `themeScript()`, shipped byte for byte as Livewire's `@apuiThemeScript` (with the Vite CSP nonce) and React and Vue `<ThemeScript>`. Toggles apply a theme on a pick and, for `system`, on an OS change. On mount they leave it to the head script, except a Livewire toggle bound with `wire:model` (the server's value, such as a profile setting), which applies and stores that value once when it differs from the stored choice. A plain `value` never changes the page, so docs pages can show toggles with fixed values; a React or Vue parent that controls the value calls `applyTheme` itself.
+- ThemeToggle variants: `segmented` (default) is `.apui-theme-toggle.apui-tabs` with a `role="radiogroup"`; `menu` composes DropdownMenu with radio items, "Match system" last; `icon` switches light and dark (high contrast goes to dark). Segmented and menu offer all four choices; `choices` narrows them.
+- The 2.x `mary-theme` storage keys, the `<html>` class, the `theme-changed` events and the `mary-toggle-theme` window event are removed; the change event is `value-change`. React's `modes` becomes `choices`.
+- Where an inline script can't run, as with React's client-rendered `<ThemeScript>`, the stack applies the stored choice once on mount, and only while `<html>` has no `data-theme`, so it never overrides the head script; SPAs that want no flash inline `themeScript()` in `index.html`. A Livewire toggle bound with `wire:model` also applies a value the server sets later. Under a 2.x `ThemeProvider` (React) or `provideTheme` (Vue) the toggle still drives the provider; high contrast reaches it as `light`.
+
+**Why.** A theme applied after paint flashes. One script and one storage key keep every stack, tab and toggle in agreement.
+
+**Addendum (review).**
+- *Controlled toggles.* A toggle whose value its parent owns (React `value`, Vue `modelValue`, Livewire `wire:model`) only reports a pick. It applies, stores and passes a choice to a 2.x provider when the bound value changes to it after mount, so a parent that rejects a pick leaves the page alone. This replaces "a React or Vue parent that controls the value calls `applyTheme` itself". The value a toggle mounts with is still never applied in React or Vue, and neither is a plain Livewire `value`; `wire:model` keeps its apply-once-on-mount-when-different.
+- *Default handoff.* The head snippet records the choice behind `data-theme` as `data-theme-choice` on `<html>`, and `applyTheme` keeps it current. An uncontrolled toggle with nothing stored (and no 2.x provider) starts on that recorded choice, else its own default, which it applies only while `<html>` has no `data-theme`.
+- *Other tabs.* Only toggles that read storage (uncontrolled and persisting) follow a choice another tab stores, and the page follows through them. Controlled, bound and `persist: false` toggles ignore storage events.
+
+## D-055: ThemePreview is a Blade card picker
+
+**Decision.** ThemePreview stays Livewire-only (D-003) but is now a Blade component, `<x-artisanpack-theme-preview>`: `.apui-theme-card` native radios (with `wire:model` on each input, so it needs no Alpine) whose miniatures carry `data-theme` and `data-preset` and render with the real tokens; a System card shows light and dark halves. It takes `options` (`{value, label, theme?, preset?}`) and `value`. The 2.x `<livewire:theme-preview>` theme builder and its `/artisanpack/theme-preview` route are removed. This replaces D-003's description of ThemePreview as a theming dev tool. Where a theme builder lives in 3.x (artisanpackui.dev, the docs site's builder in #30, or the package) is open in ArtisanPack-UI/livewire-ui-components#142.
+
+**Why.** The spec defines ThemePreview as selectable cards. Miniatures drawn from tokens stay correct after a rebrand, where screenshots would go stale.

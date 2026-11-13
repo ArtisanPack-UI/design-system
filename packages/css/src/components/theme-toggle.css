@@ -1,0 +1,61 @@
+/*
+ * ThemeToggle (#65). Root `.apui-theme-toggle`, with data-variant
+ * (segmented · icon · menu) and data-size (sm · md). It composes other
+ * components' markup, so their CSS does most of the work:
+ *
+ * - segmented: the root is also `.apui-tabs`; its list is a radiogroup of
+ *   `role=radio` triggers on the segmented track. Tabs reads aria-selected,
+ *   so the checked radio's surface and edge are repeated here for
+ *   aria-checked. data-icon-only keeps the names visually hidden.
+ * - icon: a ghost, icon-only `.apui-button`.
+ * - menu: an outline `.apui-button` trigger and a `.apui-dropdown-menu` of
+ *   radio items.
+ *
+ * See design/components/ThemeToggle.
+ */
+@layer apui.components {
+  .apui-theme-toggle {
+    display: inline-flex;
+    vertical-align: middle;
+  }
+
+  .apui-theme-toggle.apui-tabs {
+    flex-direction: column;
+  }
+
+  .apui-theme-toggle [data-scope='tabs'][data-part='trigger'][aria-checked='true'] {
+    background: var(--apui-surface-raised);
+    box-shadow: inset 0 0 0 var(--apui-border-width) var(--apui-border-muted);
+    color: var(--apui-text-default);
+  }
+
+  .apui-theme-toggle [data-scope='tabs'][data-part='trigger']:focus-visible {
+    outline: var(--apui-focus-ring-width) solid transparent;
+    box-shadow:
+      0 0 0 var(--apui-focus-ring-offset) var(--apui-focus-ring-offset-color),
+      0 0 0 calc(var(--apui-focus-ring-offset) + var(--apui-focus-ring-width))
+        var(--apui-focus-ring-color);
+  }
+
+  /* Icons alone: square triggers, the names kept for assistive technology. */
+  .apui-theme-toggle[data-icon-only] [data-scope='tabs'][data-part='trigger'] {
+    inline-size: calc(var(--apui-control-height-md) - 6px);
+    padding-inline: 0;
+  }
+
+  .apui-theme-toggle[data-icon-only][data-size='sm'] [data-scope='tabs'][data-part='trigger'] {
+    inline-size: calc(var(--apui-control-height-sm) - 6px);
+  }
+
+  @media (forced-colors: active) {
+    .apui-theme-toggle [data-scope='tabs'][data-part='trigger'][aria-checked='true'] {
+      outline: var(--apui-border-width) solid Highlight;
+      outline-offset: -1px;
+    }
+
+    .apui-theme-toggle [data-scope='tabs'][data-part='trigger']:focus-visible {
+      outline: var(--apui-focus-ring-width) solid Highlight;
+      outline-offset: calc(var(--apui-focus-ring-width) * -1);
+    }
+  }
+}

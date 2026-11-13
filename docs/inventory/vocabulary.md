@@ -104,6 +104,8 @@ One concept name, spelled the way each stack expects.
 - Bare `onChange` stays the native DOM event in React. Today some components use it for value changes.
 - Close is not a separate event. `onClose` (React), `close` (Livewire) and `update:open` (Vue) all become `open-change`.
 - What a gallery or slider shows is `index` with `index-change`, not `value`: nothing is being chosen (D-041).
+- A Markdown editor reports `source-change` for its `source`, not `value-change` (D-049).
+- A theme choice is `value` with `value-change`: `light` · `dark` · `high-contrast` · `system` (D-054).
 
 ## Data-driven vs compositional
 
@@ -136,6 +138,8 @@ Names describe what the component is, and the same word never means two things. 
 | `subheading` | Text `size="lead"` | It was a paragraph, not a heading (D-043) |
 | React `StatGroup` | Grid | A row of stats is a grid (D-039) |
 | React/Vue `Sidebar` | AppShell (`sidebar` slot) | The sidebar is a part of the frame (D-031) |
+| `showTable` (Chart) | `tabular` | Booleans are positive adjectives, never `show*` (D-045) |
+| Livewire `swap` `true`/`false` slots | `on`/`off` | Names the state, not the boolean (D-052) |
 | `colorpicker` | ColorPicker | Blade tag becomes `color-picker`, matching the other stacks |
 
 Blade tags are the kebab-case form: `<x-artisanpack-dropdown-menu>`.
