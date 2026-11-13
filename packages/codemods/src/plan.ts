@@ -50,6 +50,9 @@ export function planAttribute(name: string, rule: MemberRule, attr: AttributeVal
 
   switch (rule.kind) {
     case 'rename': {
+      if (attr.type === 'literal' && attr.string && rule.keep?.includes(attr.value ?? '')) {
+        return { plan: { type: 'none' } };
+      }
       const review = rule.review ? (rule.note ?? 'Check this change.') : undefined;
       if (!rule.values) return { plan: { type: 'rename', to: rule.to }, review };
       if (attr.type === 'literal' && attr.string) {

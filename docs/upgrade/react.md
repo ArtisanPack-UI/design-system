@@ -59,7 +59,7 @@ It reads `.tsx`, `.jsx`, `.ts` and `.js` files and skips `node_modules`, build o
 | `removed` | A prop that was deleted because 2.0 has no equivalent |
 | `class` | A raw DaisyUI class, theme variable or DaisyUI configuration. See step 3 |
 
-It can't see through a spread (`<Modal {...props} />`) or a dynamic value (`vertical={isTall}`); both are reported. The codemod is safe to run again after you fix things by hand.
+It can't see through a spread (`<Modal {...props} />`) or a dynamic value (`vertical={isTall}`); both are reported. You can run the codemod again after you fix things by hand: migrated code has nothing left for it to rewrite. The exception is a 1.x name that 2.0 reuses with a new meaning, such as `label` on Code. Preview a second run with `--dry-run`.
 
 ## 3. Remove DaisyUI and adopt the new CSS
 
@@ -96,8 +96,8 @@ Markup that used DaisyUI classes directly (`btn`, `card`, `badge`, `bg-base-200`
 | `bg-base-300`, `border-base-300` | `border-default` · `var(--apui-border-default)`; as a background, `bg-surface-sunken` |
 | `text-base-content` | `text-default` · `var(--apui-text-default)` |
 | `text-base-content/70`, `/60`, `/50` | `text-muted` · `var(--apui-text-muted)`. `text-subtle` for the faintest text. Opacity on text is gone: the tokens are checked for contrast, an opacity isn't |
-| `text-primary-content`, `text-error-content` | `text-primary-foreground` · `var(--apui-color-primary-foreground)` |
-| `bg-primary`, `text-error`, `border-success` | Unchanged with the Tailwind preset. Without Tailwind, `var(--apui-color-primary)` |
+| `text-primary-content`, `text-error-content`, … | The color's own foreground: `text-primary-foreground`, `text-error-foreground` · `var(--apui-color-primary-foreground)`, `var(--apui-color-error-foreground)` |
+| `bg-primary`, `text-error`, `border-success` | Unchanged with the Tailwind preset. Without Tailwind, the color's own token: `var(--apui-color-primary)`, `var(--apui-color-error)`, `var(--apui-color-success)` |
 | `rounded-box`, `rounded-btn` | `rounded-surface`, `rounded-control` · `var(--apui-radius-surface)`, `var(--apui-radius-control)` |
 
 The tool marks names such as `input`, `table`, `link` and `label` as "may be": they are DaisyUI classes and also common class names of your own. Check each.
@@ -108,9 +108,10 @@ Left and right are logical now. Use `ms-*`, `me-*`, `ps-*`, `pe-*`, `start-*` an
 
 `@artisanpack-ui/tokens` 1.x shipped DaisyUI color maps, `cn()`, `resolveColor()`, glass helpers and a Tailwind plugin. 2.0 replaces all of them with the design tokens as `--apui-*` custom properties, which `@artisanpack-ui/css` already includes. Remove the 1.x Tailwind plugin from your config and any imports of those helpers.
 
-A brand is a **preset**. Generate one from your colors:
+A brand is a **preset**. The generator ships with the tokens package, so install it, then generate a preset from your colors:
 
 ```bash
+npm install --save-dev @artisanpack-ui/tokens@^2
 npx apui-generate-preset --name acme --primary "#7c3aed" > acme.css
 ```
 
@@ -175,6 +176,7 @@ Every 1.x prop and event that changed. "Automatic" says whether the codemod make
 | `openIndices` | Now `value`. | Yes |
 | `defaultOpenIndices` | Now `defaultValue`. | Yes |
 | `join` | Remove `join`. If it was `join={false}` (separate panels), use `variant="separated"`. | By hand |
+| `onOpenChange` | The `onOpenChange` event is not in the 2.0 API. Check the component's docs for what replaces it. | By hand |
 
 ### `<Alert>`
 
@@ -291,6 +293,8 @@ Every 1.x prop and event that changed. "Automatic" says whether the codemod make
 | `icon` | Remove it: the field shows its own swatch trigger. | By hand |
 | `iconRight` | Remove it: the field has no trailing icon. | By hand |
 | `randomIcon` | Remove it: the random-color button is gone. | By hand |
+| `onClear` | The `onClear` event is not in the 2.0 API. Check the component's docs for what replaces it. | By hand |
+| `onRandomColor` | The `onRandomColor` event is not in the 2.0 API. Check the component's docs for what replaces it. | By hand |
 
 ### `<DatePicker>`
 
@@ -348,6 +352,7 @@ Every 1.x prop and event that changed. "Automatic" says whether the codemod make
 |---|---|---|
 | `message` | Now `description`. | Yes |
 | `retryLabel` | Render the retry button yourself in `actions`, for example `actions={<Button onClick={retry}>Try again</Button>}`. | By hand |
+| `onRetry` | The `onRetry` event is not in the 2.0 API. Check the component's docs for what replaces it. | By hand |
 
 ### `<File>`
 
@@ -358,6 +363,7 @@ Every 1.x prop and event that changed. "Automatic" says whether the codemod make
 | `dragDropClass` | Use `classes={{ dropzone: "…" }}`. | By hand |
 | `progress` | Progress is per file: set `progress` on the entries you pass in `value`. | By hand |
 | `hideProgress` | Removed. A progress bar shows only for `value` entries that have `progress`. | Yes |
+| `onFilesSelected` | The `onFilesSelected` event is not in the 2.0 API. Check the component's docs for what replaces it. | By hand |
 
 ### `<Grid>`
 
@@ -385,6 +391,7 @@ Every 1.x prop and event that changed. "Automatic" says whether the codemod make
 | `clearable` | Removed. Input has no clear button in 2.0. If you need one, render your own. | Yes |
 | `inline` | Removed. The floating/inline label is gone; the label sits above the field. | Yes |
 | `iconRight` | Now `iconEnd`. | Yes |
+| `onClear` | The `onClear` event is not in the 2.0 API. Check the component's docs for what replaces it. | By hand |
 
 ### `<Markdown>`
 
@@ -439,6 +446,7 @@ Every 1.x prop and event that changed. "Automatic" says whether the codemod make
 | `hideToggle` | The reveal button is always shown in 2.0. Use `Input type="password"` if you need a field without it. | By hand |
 | `hiddenIcon` | Remove it: the reveal button's icons are built in. | By hand |
 | `visibleIcon` | Remove it: the reveal button's icons are built in. | By hand |
+| `onClear` | The `onClear` event is not in the 2.0 API. Check the component's docs for what replaces it. | By hand |
 
 ### `<Pin>`
 
@@ -447,6 +455,7 @@ Every 1.x prop and event that changed. "Automatic" says whether the codemod make
 | `numeric` | Now `type="numeric"`. | Yes |
 | `hide` | Now `mask`. | Yes |
 | `color` | Remove it: Pin has no color prop in 2.0. | By hand |
+| `onIncomplete` | The `onIncomplete` event is not in the 2.0 API. Check the component's docs for what replaces it. | By hand |
 
 ### `<Popover>`
 

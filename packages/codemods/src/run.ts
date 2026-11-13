@@ -1,6 +1,6 @@
 /** Runs a codemod over files on disk. */
 import { readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
-import { extname, join, relative } from 'node:path';
+import { extname, join, relative, resolve } from 'node:path';
 
 import { findClasses } from './classes';
 import { unifiedDiff } from './diff';
@@ -90,7 +90,7 @@ export function run(options: RunOptions): RunResult {
   const files: string[] = [];
   for (const path of options.paths) {
     collect(
-      join(cwd, path),
+      resolve(cwd, path),
       (file) => code.has(extname(file)) || (withClasses && CLASS_EXTENSIONS.has(extname(file))),
       files,
     );
@@ -107,13 +107,10 @@ export function run(options: RunOptions): RunResult {
       ? [...result.findings, ...findClasses(source, options.rules?.classes)]
       : result.findings;
     if (!result.changed && !findings.length) continue;
+    // The diff comes first, so a file is never written without its report.
+    const diff = result.changed ? unifiedDiff(file, source, result.code) : '';
     if (result.changed && !options.dryRun) writeFileSync(path, result.code);
-    results.push({
-      file,
-      changed: result.changed,
-      findings,
-      diff: result.changed ? unifiedDiff(file, source, result.code) : '',
-    });
+    results.push({ file, changed: result.changed, findings, diff });
   }
   return { files: results, scanned: new Set(files).size };
 }

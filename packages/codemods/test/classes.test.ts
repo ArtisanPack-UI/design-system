@@ -18,6 +18,9 @@ describe('classifyClass', () => {
     ['apui-button', null],
     ['buttons', null],
     ['Btn', null],
+    ['[&:hover]:btn', 'component'],
+    ['[&>*]:md:badge-sm', 'component'],
+    ['w-[120px]', null],
   ] as const)('%s is %s', (token, kind) => {
     expect(classifyClass(token)).toBe(kind);
   });
@@ -45,6 +48,24 @@ describe('findClasses', () => {
     expect(findings[0]).toMatchObject({ kind: 'class', line: 2, column: 17 });
     expect(findings[0]!.message).toContain('DaisyUI class');
     expect(findings[4]!.message).toContain('may be');
+  });
+
+  it('reads the string literals of an expression, and only those', () => {
+    const source = [
+      "<div className={active ? 'btn' : 'card'} />",
+      "<div className={cn(card, badge && 'badge')} />",
+      `<a :class="[card, { 'btn-primary': on }]" class="[&:hover]:btn">Go</a>`,
+      `<i class="{{ $on ? "btn" : "btn-outline" }}"></i>`,
+    ].join('\n');
+    expect(findClasses(source).map((finding) => `${finding.line}:${finding.member}`)).toEqual([
+      '1:btn',
+      '1:card',
+      '2:badge',
+      '3:btn-primary',
+      '3:[&:hover]:btn',
+      '4:btn',
+      '4:btn-outline',
+    ]);
   });
 
   it('reports theme variables and DaisyUI configuration', () => {

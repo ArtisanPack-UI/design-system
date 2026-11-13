@@ -54,7 +54,7 @@ It reads `.vue`, `.ts`, `.js`, `.tsx` and `.jsx` files and skips `node_modules`,
 | `removed` | A prop that was deleted because 2.0 has no equivalent |
 | `class` | A raw DaisyUI class, theme variable or DaisyUI configuration. See step 3 |
 
-It can't see through `v-bind="props"` or a dynamic value (`:vertical="isTall"`); both are reported. Templates in other languages, such as Pug, are not rewritten. The codemod is safe to run again after you fix things by hand.
+It can't see through `v-bind="props"` or a dynamic value (`:vertical="isTall"`); both are reported. Templates in other languages, such as Pug, are not rewritten. You can run the codemod again after you fix things by hand: migrated code has nothing left for it to rewrite. The exception is a 1.x name that 2.0 reuses with a new meaning, such as `label` on Code. Preview a second run with `--dry-run`.
 
 ## 3. Remove DaisyUI and adopt the new CSS
 
@@ -83,9 +83,10 @@ To bring your own styles, import `@artisanpack-ui/css/headless` instead: the sam
 
 `@artisanpack-ui/tokens` 1.x shipped DaisyUI color maps, `cn()`, `resolveColor()`, glass helpers and a Tailwind plugin. 2.0 replaces all of them with the design tokens as `--apui-*` custom properties, which `@artisanpack-ui/css` already includes. Remove the 1.x Tailwind plugin from your config and any imports of those helpers.
 
-A brand is a **preset**. Generate one from your colors:
+A brand is a **preset**. The generator ships with the tokens package, so install it, then generate a preset from your colors:
 
 ```bash
+npm install --save-dev @artisanpack-ui/tokens@^2
 npx apui-generate-preset --name acme --primary "#7c3aed" > acme.css
 ```
 

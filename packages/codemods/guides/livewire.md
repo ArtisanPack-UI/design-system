@@ -38,7 +38,7 @@ php artisan artisanpack:upgrade-ui
 | `--dry-run` | Show the changes as a diff without writing |
 | `--no-classes` | Leave raw DaisyUI classes out of the report |
 | `--json` | Print the report as JSON. It writes without asking, so pair it with `--dry-run` to only report |
-| `--force` | Write without asking |
+| `--force` | Write without asking. Required when the command can't ask, as in CI |
 
 Views in a package or a module are not under `resources/views`, so pass them: `php artisan artisanpack:upgrade-ui packages/billing/resources/views`.
 
@@ -55,7 +55,7 @@ Views in a package or a module are not under `resources/views`, so pass them: `p
 
 **What it never touches.** Tags that other packages register under the same prefix, such as `<x-artisanpack-ec-price>`; Blade comments; `@verbatim` blocks; anything that isn't a Blade component tag. It does not edit PHP, so attributes built in a component class or passed through `$attributes->merge()` are yours to check: the command flags tags that build their attributes with Blade.
 
-The command is safe to run again after you fix things by hand.
+You can run the command again after you fix things by hand: migrated markup has nothing left for it to rewrite. Preview a second run with `--dry-run` all the same.
 
 ## 3. Remove DaisyUI and adopt the new CSS
 

@@ -93,6 +93,45 @@ describe('transformReact', () => {
     );
   });
 
+  it('keeps the public name of an export', () => {
+    expect(
+      transformReact(
+        `import { Modal, Stat } from '@artisanpack-ui/react';\nexport { Modal, Stat };\nexport { Modal as Sheet };\n`,
+        'index.ts',
+      ).code,
+    ).toBe(
+      `import { Dialog, Stat } from '@artisanpack-ui/react';\nexport { Dialog as Modal, Stat };\nexport { Dialog as Sheet };\n`,
+    );
+    const barrel = transformReact(
+      `export { Modal, Button, type ModalProps } from '@artisanpack-ui/react';\nexport { Modal as Other } from './local';\n`,
+      'index.ts',
+    );
+    expect(barrel.code).toBe(
+      `export { Dialog as Modal, Button, type DialogProps as ModalProps } from '@artisanpack-ui/react';\nexport { Modal as Other } from './local';\n`,
+    );
+    expect(barrel.findings.map((finding) => finding.kind)).toEqual(['review', 'review']);
+  });
+
+  it('sees names declared by destructuring, and keeps a type import a type', () => {
+    const result = transformReact(
+      `import { Modal, type ModalProps } from '@artisanpack-ui/react';\nconst { Dialog } = registry;\ntype DialogProps = {};\nexport const App = (p: ModalProps) => <Modal open />;\n`,
+      'App.tsx',
+    );
+    expect(result.code).toContain(
+      `import { Dialog as Modal, type DialogProps as ModalProps } from '@artisanpack-ui/react';`,
+    );
+    expect(result.code).toContain('<Modal open />');
+  });
+
+  it('reports component events that are gone, and leaves DOM events alone', () => {
+    const result = transformReact(
+      jsx('<Input onClear={reset} onClick={go} onFocus={go} />', 'Input'),
+      'App.tsx',
+    );
+    expect(result.changed).toBe(false);
+    expect(result.findings).toMatchObject([{ kind: 'manual', member: 'onClear' }]);
+  });
+
   it('follows a namespace import', () => {
     expect(
       transformReact(

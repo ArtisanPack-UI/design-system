@@ -58,7 +58,7 @@ A member rule has one of these kinds:
 
 | Kind | What the tools do |
 |---|---|
-| `rename` | Rename it to `to`; `values` maps literal values that changed too |
+| `rename` | Rename it to `to`; `values` maps literal values that changed too, and `keep` lists values that already belong to a prop of the same name in the next major (Pin `size`) |
 | `value` | Replace a flag with `to="value"` |
 | `split` | Pick the new name from the literal value (Button `variant`: a color goes to `color`, a variant stays) |
 | `invert` | Replace a negative flag with `to` set to false |

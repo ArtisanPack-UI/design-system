@@ -98,6 +98,8 @@ export function transformVue(
   const magic = new MagicString(source);
   const locate = locator(source);
   const bindings = new Map<string, Binding>();
+  /** Imports the script renamed. An import aliased on a collision keeps its tag. */
+  const renamed = new Map<string, string>();
 
   for (const block of [descriptor.script, descriptor.scriptSetup]) {
     if (!block || block.src) continue;
@@ -115,6 +117,7 @@ export function transformVue(
       shorthand: 'rename',
     });
     for (const [local, binding] of result.bindings) bindings.set(local, binding);
+    for (const [local, to] of result.renames) renamed.set(local, to);
   }
 
   const template = descriptor.template;
@@ -184,9 +187,11 @@ export function transformVue(
       if (rule.to !== component) {
         const pascal = node.tag === component || /[A-Z]/.test(node.tag);
         const local = [...bindings].find(([, item]) => item.component === component)?.[0];
-        // An aliased import (`Modal as Sheet`) keeps its local name.
-        if (!local || local === component) {
-          const to = pascal ? rule.to : kebab(rule.to);
+        // An aliased import (`Modal as Sheet`, or `Dialog as Modal` on a collision) keeps its tag.
+        if (!local || renamed.get(local) === rule.to) {
+          // A one-word kebab-case name would be a native element (`<dialog>`), which Vue never
+          // resolves to a component.
+          const to = pascal || !kebab(rule.to).includes('-') ? rule.to : kebab(rule.to);
           const open = node.loc.start.offset + 1;
           magic.overwrite(open, open + node.tag.length, to);
           const close = node.loc.source.lastIndexOf(`</${node.tag}`);

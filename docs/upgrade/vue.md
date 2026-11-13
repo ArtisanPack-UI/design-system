@@ -60,7 +60,7 @@ It reads `.vue`, `.ts`, `.js`, `.tsx` and `.jsx` files and skips `node_modules`,
 | `removed` | A prop that was deleted because 2.0 has no equivalent |
 | `class` | A raw DaisyUI class, theme variable or DaisyUI configuration. See step 3 |
 
-It can't see through `v-bind="props"` or a dynamic value (`:vertical="isTall"`); both are reported. Templates in other languages, such as Pug, are not rewritten. The codemod is safe to run again after you fix things by hand.
+It can't see through `v-bind="props"` or a dynamic value (`:vertical="isTall"`); both are reported. Templates in other languages, such as Pug, are not rewritten. You can run the codemod again after you fix things by hand: migrated code has nothing left for it to rewrite. The exception is a 1.x name that 2.0 reuses with a new meaning, such as `label` on Code. Preview a second run with `--dry-run`.
 
 ## 3. Remove DaisyUI and adopt the new CSS
 
@@ -97,8 +97,8 @@ Markup that used DaisyUI classes directly (`btn`, `card`, `badge`, `bg-base-200`
 | `bg-base-300`, `border-base-300` | `border-default` · `var(--apui-border-default)`; as a background, `bg-surface-sunken` |
 | `text-base-content` | `text-default` · `var(--apui-text-default)` |
 | `text-base-content/70`, `/60`, `/50` | `text-muted` · `var(--apui-text-muted)`. `text-subtle` for the faintest text. Opacity on text is gone: the tokens are checked for contrast, an opacity isn't |
-| `text-primary-content`, `text-error-content` | `text-primary-foreground` · `var(--apui-color-primary-foreground)` |
-| `bg-primary`, `text-error`, `border-success` | Unchanged with the Tailwind preset. Without Tailwind, `var(--apui-color-primary)` |
+| `text-primary-content`, `text-error-content`, … | The color's own foreground: `text-primary-foreground`, `text-error-foreground` · `var(--apui-color-primary-foreground)`, `var(--apui-color-error-foreground)` |
+| `bg-primary`, `text-error`, `border-success` | Unchanged with the Tailwind preset. Without Tailwind, the color's own token: `var(--apui-color-primary)`, `var(--apui-color-error)`, `var(--apui-color-success)` |
 | `rounded-box`, `rounded-btn` | `rounded-surface`, `rounded-control` · `var(--apui-radius-surface)`, `var(--apui-radius-control)` |
 
 The tool marks names such as `input`, `table`, `link` and `label` as "may be": they are DaisyUI classes and also common class names of your own. Check each.
@@ -109,9 +109,10 @@ Left and right are logical now. Use `ms-*`, `me-*`, `ps-*`, `pe-*`, `start-*` an
 
 `@artisanpack-ui/tokens` 1.x shipped DaisyUI color maps, `cn()`, `resolveColor()`, glass helpers and a Tailwind plugin. 2.0 replaces all of them with the design tokens as `--apui-*` custom properties, which `@artisanpack-ui/css` already includes. Remove the 1.x Tailwind plugin from your config and any imports of those helpers.
 
-A brand is a **preset**. Generate one from your colors:
+A brand is a **preset**. The generator ships with the tokens package, so install it, then generate a preset from your colors:
 
 ```bash
+npm install --save-dev @artisanpack-ui/tokens@^2
 npx apui-generate-preset --name acme --primary "#7c3aed" > acme.css
 ```
 
@@ -231,6 +232,8 @@ Every 1.x prop, slot and event that changed. "Automatic" says whether the codemo
 | `max-date` | Still accepted but ignored: the calendar no longer limits dates. Remove it. | By hand |
 | `class-name` | Now `class`. | Yes |
 | `@update:modelValue` | Now `@date-change`. Check the handler: the payload is string. | Yes, to review |
+| `@date-click` | The `date-click` event is not in the 2.0 API. Check the component's docs for what replaces it. | By hand |
+| `@month-change` | The `month-change` event is not in the 2.0 API. Check the component's docs for what replaces it. | By hand |
 
 ### `<Card>`
 
@@ -255,6 +258,7 @@ Every 1.x prop, slot and event that changed. "Automatic" says whether the codemo
 | `show-arrows` | Removed. | Yes |
 | `show-indicators` | Removed. | Yes |
 | `model-value` | Now `index`. | Yes |
+| `@update:modelValue` | Now `@update:index`. | Yes |
 
 ### `<Chart>`
 
@@ -295,6 +299,7 @@ Every 1.x prop, slot and event that changed. "Automatic" says whether the codemo
 |---|---|---|
 | `line-numbers` | Now `numbered`. | Yes |
 | `class-name` | Now `class`. | Yes |
+| `@copy-failed` | The `copy-failed` event is not in the 2.0 API. Check the component's docs for what replaces it. | By hand |
 
 ### `<ColorPicker>`
 
@@ -306,6 +311,8 @@ Every 1.x prop, slot and event that changed. "Automatic" says whether the codemo
 | `#icon` | The `icon` slot is gone: the field shows its color swatch trigger instead. Remove it. | By hand |
 | `#iconRight` | The `iconRight` slot is gone. Remove it. | By hand |
 | `#randomIcon` | The `randomIcon` slot is gone with the random button. Remove it. | By hand |
+| `@clear` | The `clear` event is not in the 2.0 API. Check the component's docs for what replaces it. | By hand |
+| `@randomColor` | The `randomColor` event is not in the 2.0 API. Check the component's docs for what replaces it. | By hand |
 
 ### `<DatePicker>`
 
@@ -365,6 +372,7 @@ Every 1.x prop, slot and event that changed. "Automatic" says whether the codemo
 | `message` | Now `description`. | Yes |
 | `retryable` | Removed. Put your own retry `Button` in the `actions` slot and handle its click; ErrorState emits no `retry` event. | By hand |
 | `retry-label` | Removed with `retryable`. It becomes the text of the `Button` you put in the `actions` slot. | By hand |
+| `@retry` | The `retry` event is not in the 2.0 API. Check the component's docs for what replaces it. | By hand |
 
 ### `<FileUpload>` → `<File>`
 
@@ -375,6 +383,7 @@ Every 1.x prop, slot and event that changed. "Automatic" says whether the codemo
 | `drag-drop-class` | Now the `dragDrop` key of `classes`. | Yes |
 | `progress` | Removed. Bind `v-model` to the file list and set `progress` (0 to 100) on each entry. | By hand |
 | `hide-progress` | Removed. A bar shows only for entries that carry `progress`. | Yes |
+| `@filesSelected` | The `filesSelected` event is not in the 2.0 API. Check the component's docs for what replaces it. | By hand |
 
 ### `<Grid>`
 
@@ -402,6 +411,7 @@ Every 1.x prop, slot and event that changed. "Automatic" says whether the codemo
 | `clearable` | Removed: there is no built-in clear button. Use `type="search"` for the native one, or add your own button. | By hand |
 | `inline` | Removed. The label always sits above the control. | Yes |
 | `#iconRight` | Now `#iconEnd`. | Yes |
+| `@clear` | The `clear` event is not in the 2.0 API. Check the component's docs for what replaces it. | By hand |
 
 ### `<Loading>`
 
@@ -453,6 +463,7 @@ Every 1.x prop, slot and event that changed. "Automatic" says whether the codemo
 | `total-pages` | Now `page-count`. | Yes |
 | `sibling-count` | Now `siblings`. | Yes |
 | `size` | Removed: pagination has one size. Delete it. | By hand |
+| `@update:currentPage` | Now `@update:page`. | Yes |
 
 ### `<Password>`
 
@@ -463,6 +474,7 @@ Every 1.x prop, slot and event that changed. "Automatic" says whether the codemo
 | `hide-toggle` | Removed: the reveal button always shows. For a field without it, use `<Input type="password">`. | By hand |
 | `#hiddenIcon` | The `hiddenIcon` slot is gone: the reveal button draws its own icons. Remove it. | By hand |
 | `#visibleIcon` | The `visibleIcon` slot is gone: the reveal button draws its own icons. Remove it. | By hand |
+| `@clear` | The `clear` event is not in the 2.0 API. Check the component's docs for what replaces it. | By hand |
 
 ### `<Pin>`
 
@@ -471,6 +483,7 @@ Every 1.x prop, slot and event that changed. "Automatic" says whether the codemo
 | `numeric` | Now `type="numeric"`. | Yes |
 | `hide` | Now `mask`. | Yes |
 | `color` | Removed: the cells have no color option. Delete it. | By hand |
+| `@incomplete` | The `incomplete` event is not in the 2.0 API. Check the component's docs for what replaces it. | By hand |
 | `@valueChange` | Now `@update:modelValue`. Check the handler: the payload is string. | Yes, to review |
 
 ### `<Popover>`
@@ -573,6 +586,7 @@ Every 1.x prop, slot and event that changed. "Automatic" says whether the codemo
 | `pin-cols` | Removed. | Yes |
 | `sort` | `key` becomes `column`. | By hand |
 | `empty-message` | Now `empty-text`. | Yes |
+| `@sort` | `key` becomes `column`. | By hand |
 
 ### `<Tabs>`
 
@@ -586,6 +600,7 @@ Every 1.x prop, slot and event that changed. "Automatic" says whether the codemo
 | `tab-list-class-name` | Use `:classes="{ list: '…' }"`. | By hand |
 | `panel-class-name` | Use `:classes="{ content: '…' }"` (the panel is the `content` part). | By hand |
 | `active-tab-class-name` | Removed. Style the selected trigger in CSS with `[data-part="trigger"][data-selected]`, or add a class to all triggers through `classes.trigger`. | By hand |
+| `@update:activeTab` | Now `@update:modelValue`. | Yes |
 
 ### `<Textarea>`
 

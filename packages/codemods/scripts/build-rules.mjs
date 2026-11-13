@@ -215,7 +215,9 @@ function propRule({ aliases, canonical, stack, manifest, unchecked }, member) {
     return clean({ kind: 'manual', note: note ?? `Now part of the \`${alias.to}\` object.` });
   }
 
-  return clean({ kind: 'rename', to: alias.to, note });
+  // The old name is still a prop with other values (Pin `size`): those values stay where they are,
+  // so a second run doesn't rename what is already migrated.
+  return clean({ kind: 'rename', to: alias.to, keep: self?.values, note });
 }
 
 /** The rule for one 2.x slot (Blade `<x-slot:name>`, Vue `#name`), or null. */
@@ -234,6 +236,24 @@ function slotRule({ aliases, canonical, stack, manifest }, name) {
     : clean({ kind: 'manual', note: alias.note ?? `Planned as \`${alias.to}\`.` });
 }
 
+/** DOM events a component passes through to its root element. */
+const DOM_EVENTS = new Set([
+  'abort', 'animationend', 'animationiteration', 'animationstart', 'auxclick', 'beforeinput', 'blur',
+  'change', 'click', 'compositionend', 'compositionstart', 'compositionupdate', 'contextmenu', 'copy',
+  'cut', 'dblclick', 'doubleclick', 'drag', 'dragend', 'dragenter', 'dragleave', 'dragover', 'dragstart', 'drop',
+  'error', 'focus', 'focusin', 'focusout', 'input', 'invalid', 'keydown', 'keypress', 'keyup', 'load',
+  'mousedown', 'mouseenter', 'mouseleave', 'mousemove', 'mouseout', 'mouseover', 'mouseup', 'paste',
+  'pointercancel', 'pointerdown', 'pointerenter', 'pointerleave', 'pointermove', 'pointerout',
+  'pointerover', 'pointerup', 'reset', 'scroll', 'select', 'submit', 'toggle', 'touchcancel',
+  'touchend', 'touchmove', 'touchstart', 'transitionend', 'wheel',
+]); // prettier-ignore
+
+/** Whether an event name is a DOM event: `onMouseEnter` in React, `mouseenter` in Vue. */
+function isNativeEvent(name, stack) {
+  const event = stack === 'react' ? name.replace(/^on/, '').replace(/Capture$/, '') : name;
+  return DOM_EVENTS.has(event.toLowerCase());
+}
+
 /** The rule for one 2.x React or Vue event, or null. */
 function eventRule({ aliases, canonical, stack, manifest }, name) {
   const scoped = resolveAlias({ ...aliases, global: [] }, canonical, stack, name);
@@ -242,7 +262,13 @@ function eventRule({ aliases, canonical, stack, manifest }, name) {
   const event = (manifest.events ?? []).find((item) => item.name === concept);
   if (!event) {
     // Native handlers (`onClick`) reach the root element, so they stand.
-    return null;
+    if (isNativeEvent(name, stack)) return null;
+    return {
+      kind: 'manual',
+      note:
+        scoped?.note ??
+        `The \`${name}\` event is not in the ${VERSIONS[stack].to} API. Check the component's docs for what replaces it.`,
+    };
   }
   const to = eventName(concept, stack, manifest);
   if (to === name) return null;
@@ -348,6 +374,15 @@ export function buildRules({ map, aliases, api, manifests, curated }) {
         if (stack === 'vue') {
           for (const rule of Object.values(component.props)) {
             if (rule.kind === 'rename' && rule.to === 'value') rule.to = 'modelValue';
+          }
+        }
+        // `update:activeTab` follows its prop: when the prop was renamed, so was the event.
+        if (stack === 'vue') {
+          for (const [name, rule] of Object.entries(component.events)) {
+            const prop = component.props[/^update:(\w+)$/.exec(name)?.[1] ?? ''];
+            if (rule.kind === 'manual' && prop?.kind === 'rename') {
+              component.events[name] = { kind: 'rename', to: `update:${prop.to}` };
+            }
           }
         }
         // A Livewire member can be an attribute or a slot (`actions`): one rename covers both.

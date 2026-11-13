@@ -62,6 +62,8 @@ export interface ScriptResult {
   bindings: Map<string, Binding>;
   /** Local names of `import * as UI` from the package. */
   namespaces: Set<string>;
+  /** Local names the script renamed, with their new names. An aliased import isn't one. */
+  renames: Map<string, string>;
 }
 
 function scriptKind(fileName: string): ts.ScriptKind {
@@ -99,6 +101,9 @@ function declaredNames(source: ts.SourceFile): Set<string> {
   const visit = (node: ts.Node) => {
     if (
       (ts.isVariableDeclaration(node) ||
+        ts.isBindingElement(node) ||
+        ts.isFunctionExpression(node) ||
+        ts.isClassExpression(node) ||
         ts.isFunctionDeclaration(node) ||
         ts.isClassDeclaration(node) ||
         ts.isParameter(node) ||
@@ -238,7 +243,11 @@ export function transformScript(options: ScriptOptions): ScriptResult {
       continue;
     }
     if (declared.has(to)) {
-      magic.overwrite(at(node), offset + node.end, `${to} as ${local}`);
+      magic.overwrite(
+        at(node),
+        offset + node.end,
+        `${node.isTypeOnly ? 'type ' : ''}${to} as ${local}`,
+      );
       report(
         'review',
         node,
@@ -268,7 +277,41 @@ export function transformScript(options: ScriptOptions): ScriptResult {
     return null;
   };
 
+  /** `export { Modal }` and `export { Modal } from '…'` keep their public names. */
+  const exported = (node: ts.ExportSpecifier) => {
+    const declaration = node.parent.parent;
+    const source = declaration.moduleSpecifier;
+    const written = node.propertyName ?? node.name;
+    if (!ts.isIdentifier(written)) return;
+    let to: string | undefined;
+    if (!source) {
+      to = renames.get(written.text);
+    } else if (ts.isStringLiteral(source) && options.packages.test(source.text)) {
+      const props = /^(\w+)Props$/.exec(written.text)?.[1];
+      const rule = rules.components[props ?? written.text];
+      if (rule && rule.to !== (props ?? written.text)) to = props ? `${rule.to}Props` : rule.to;
+    }
+    if (!to || to === written.text) return;
+    magic.overwrite(
+      at(written),
+      offset + written.end,
+      node.propertyName ? to : `${to} as ${written.text}`,
+    );
+    if (source) {
+      report(
+        'review',
+        node,
+        `\`${written.text}\` is now \`${to}\`. It is still exported as \`${node.name.text}\`; rename the export when its users are migrated.`,
+        { component: written.text },
+      );
+    }
+  };
+
   const visit = (node: ts.Node) => {
+    if (ts.isExportSpecifier(node)) {
+      exported(node);
+      return;
+    }
     if (ts.isIdentifier(node) && renames.has(node.text) && isReference(node)) {
       const to = renames.get(node.text)!;
       if (ts.isShorthandPropertyAssignment(node.parent) && options.shorthand === 'expand') {
@@ -434,5 +477,5 @@ export function transformScript(options: ScriptOptions): ScriptResult {
   };
 
   visit(source);
-  return { bindings, namespaces };
+  return { bindings, namespaces, renames };
 }

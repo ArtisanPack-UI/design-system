@@ -22,7 +22,8 @@ export type ClassKind =
   /** `@plugin "daisyui"`, `data-theme=`. */
   | 'config';
 
-const VARIANTS = /^(?:[a-z0-9-]+:)*!?/;
+// `hover:`, `md:` and arbitrary variants such as `[&:hover]:`.
+const VARIANTS = /^(?:(?:[a-z0-9-]+|\[[^\]]*\]):)*!?/;
 
 /** Classifies one class token, variants and all (`hover:btn-sm`); null when it isn't DaisyUI's. */
 export function classifyClass(
@@ -44,13 +45,25 @@ export function classifyClass(
   return null;
 }
 
-const CLASS_SOURCES = [
-  // class="…", :class="…", className="…", className={'…'}
-  /(?:^|[\s<"'(])(?::class|x-bind:class|class|className)\s*=\s*(?:"([^"]*)"|'([^']*)'|\{\s*(?:`([^`]*)`|"([^"]*)"|'([^']*)')\s*\})/g,
-  // @class([...]), cn(...), clsx(...)
-  /@class\(\s*\[([\s\S]*?)\]\s*\)/g,
-  /\b(?:cn|clsx|classNames|twMerge)\(([^;]*?)\)/g,
+/** Class lists written as plain text: `class="…"`, `className="…"`, `className={'…'}`. */
+const CLASS_LISTS = [
+  /(?:^|[\s<"'(])(?:class|className)\s*=\s*(?:"(?:\{\{[\s\S]*?\}\}|[^"])*"|'(?:\{\{[\s\S]*?\}\}|[^'])*'|\{\s*(?:`[^`]*`|"[^"]*"|'[^']*')\s*\})/g,
 ];
+
+/**
+ * Class lists inside an expression, where only the string literals are
+ * classes: `:class="on ? 'btn' : ''"`, `className={on ? 'btn' : 'card'}`,
+ * `@class([...])`, `cn(...)`.
+ */
+const CLASS_EXPRESSIONS = [
+  /(?:^|[\s<"'(])(?::class|x-bind:class|v-bind:class)\s*=\s*(?:"[^"]*"|'[^']*')/g,
+  /(?:^|[\s<(])className\s*=\s*\{(?:[^{}]|\{[^{}]*\})*\}/g,
+  /@class\(\s*\[[\s\S]*?\]\s*\)/g,
+  /\b(?:cn|clsx|classNames|twMerge)\([^;]*?\)/g,
+];
+
+/** One class token, with a leading arbitrary variant kept whole. */
+const TOKEN = /(?:\[[^\]\s"'<>]+\]:)?[A-Za-z0-9_:!/.[\]-]+/g;
 
 const MESSAGES: Record<ClassKind, (name: string) => string> = {
   component: (name) =>
@@ -85,13 +98,26 @@ export function findClasses(source: string, rules: ClassRules = upgradeRules.cla
     });
   };
 
-  for (const pattern of CLASS_SOURCES) {
+  // Tokens keep their place in the file, so each is reported where it is.
+  const scan = (text: string, start: number) => {
+    for (const token of text.matchAll(TOKEN)) {
+      const kind = classifyClass(token[0], rules);
+      if (kind) add(kind, token[0], start + token.index);
+    }
+  };
+
+  for (const pattern of CLASS_LISTS) {
+    for (const match of source.matchAll(pattern)) scan(match[0], match.index);
+  }
+  for (const pattern of CLASS_EXPRESSIONS) {
     for (const match of source.matchAll(pattern)) {
       const text = match[0];
-      // Tokens keep their place in the file, so each is reported where it is.
-      for (const token of text.matchAll(/[A-Za-z0-9_:!/.[\]-]+/g)) {
-        const kind = classifyClass(token[0], rules);
-        if (kind) add(kind, token[0], match.index + token.index);
+      const bound = /^[\s<"'(]*(?::class|x-bind:class|v-bind:class)\s*=\s*["']/.exec(text);
+      // A bound attribute's value is the expression; its own quotes aren't a literal.
+      const from = bound ? bound[0].length : 0;
+      const expression = bound ? text.slice(from, -1) : text;
+      for (const literal of expression.matchAll(/'([^'\n]*)'|"([^"\n]*)"|`([^`]*)`/g)) {
+        scan(literal[0].slice(1, -1), match.index + from + literal.index + 1);
       }
     }
   }

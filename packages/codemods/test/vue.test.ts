@@ -28,11 +28,12 @@ describe('transformVue', () => {
     const pascal = run('<Modal subtitle="x">Hi</Modal>');
     expect(pascal.code).toContain(`import { Dialog } from '@artisanpack-ui/vue';`);
     expect(pascal.template).toBe('<Dialog description="x">Hi</Dialog>');
+    // A lowercase `<dialog>` would be the native element, so a one-word name is written in PascalCase.
     expect(run('<modal subtitle="x">Hi</modal>').template).toBe(
-      '<dialog description="x">Hi</dialog>',
+      '<Dialog description="x">Hi</Dialog>',
     );
     expect(run('<SpotlightSearch />', 'SpotlightSearch').template).toBe('<Spotlight />');
-    expect(run('<spotlight-search />', 'SpotlightSearch').template).toBe('<spotlight />');
+    expect(run('<spotlight-search />', 'SpotlightSearch').template).toBe('<Spotlight />');
   });
 
   it('only touches tags the file imports from the package', () => {
@@ -52,6 +53,13 @@ describe('transformVue', () => {
     const source = `<script setup>\nimport { Modal as Sheet } from '@artisanpack-ui/vue';\n</script>\n<template><Sheet subtitle="x" /></template>\n`;
     expect(transformVue(source, 'App.vue').code).toBe(
       `<script setup>\nimport { Dialog as Sheet } from '@artisanpack-ui/vue';\n</script>\n<template><Sheet description="x" /></template>\n`,
+    );
+  });
+
+  it('keeps the tag when the import had to be aliased', () => {
+    const source = `<script setup>\nimport Dialog from './Dialog.vue';\nimport { Modal } from '@artisanpack-ui/vue';\n</script>\n<template><Modal subtitle="x" /><Dialog /></template>\n`;
+    expect(transformVue(source, 'App.vue').code).toBe(
+      `<script setup>\nimport Dialog from './Dialog.vue';\nimport { Dialog as Modal } from '@artisanpack-ui/vue';\n</script>\n<template><Modal description="x" /><Dialog /></template>\n`,
     );
   });
 
@@ -109,6 +117,15 @@ describe('transformVue', () => {
     expect(run('<Tabs v-model:active-tab="tab" />', 'Tabs').template).toBe(
       '<Tabs v-model:model-value="tab" />',
     );
+  });
+
+  it('renames an update event with its prop, and reports events that are gone', () => {
+    expect(run('<Tabs @update:activeTab="go" />', 'Tabs').template).toBe(
+      '<Tabs @update:modelValue="go" />',
+    );
+    const gone = run('<Input @clear="reset" @click="go" />', 'Input');
+    expect(gone.changed).toBe(false);
+    expect(gone.findings).toMatchObject([{ kind: 'manual', member: 'clear' }]);
   });
 
   it('renames slots on a template child and on the component itself', () => {

@@ -68,6 +68,11 @@ describe('run', () => {
     expect(result.files[0]!.findings.every((finding) => finding.kind !== 'class')).toBe(true);
   });
 
+  it('takes absolute paths', () => {
+    const result = run({ stack: 'react', paths: [join(cwd, 'src/pages')], cwd, dryRun: true });
+    expect(result.files.map((file) => file.file)).toEqual(['src/pages/App.tsx']);
+  });
+
   it('picks the transform by stack and extension', () => {
     expect(transformFile(REACT, 'App.tsx', { stack: 'react' }).changed).toBe(true);
     expect(transformFile(VUE, 'Page.vue', { stack: 'vue' }).changed).toBe(true);

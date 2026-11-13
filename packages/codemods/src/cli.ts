@@ -7,7 +7,7 @@
  * Paths default to `src`. See USAGE for the options.
  */
 import { existsSync } from 'node:fs';
-import { join } from 'node:path';
+import { resolve } from 'node:path';
 
 import { run } from './run';
 import type { CodemodStack, FileResult } from './run';
@@ -63,7 +63,7 @@ export function main(argv: string[]): number {
   }
 
   const targets = paths.length ? paths : ['src'];
-  const missing = targets.filter((path) => !existsSync(join(process.cwd(), path)));
+  const missing = targets.filter((path) => !existsSync(resolve(process.cwd(), path)));
   if (missing.length) {
     console.error(`No such file or directory: ${missing.join(', ')}`);
     return 2;

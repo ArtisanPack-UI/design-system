@@ -12,8 +12,8 @@ Markup that used DaisyUI classes directly (`btn`, `card`, `badge`, `bg-base-200`
 | `bg-base-300`, `border-base-300` | `border-default` · `var(--apui-border-default)`; as a background, `bg-surface-sunken` |
 | `text-base-content` | `text-default` · `var(--apui-text-default)` |
 | `text-base-content/70`, `/60`, `/50` | `text-muted` · `var(--apui-text-muted)`. `text-subtle` for the faintest text. Opacity on text is gone: the tokens are checked for contrast, an opacity isn't |
-| `text-primary-content`, `text-error-content` | `text-primary-foreground` · `var(--apui-color-primary-foreground)` |
-| `bg-primary`, `text-error`, `border-success` | Unchanged with the Tailwind preset. Without Tailwind, `var(--apui-color-primary)` |
+| `text-primary-content`, `text-error-content`, … | The color's own foreground: `text-primary-foreground`, `text-error-foreground` · `var(--apui-color-primary-foreground)`, `var(--apui-color-error-foreground)` |
+| `bg-primary`, `text-error`, `border-success` | Unchanged with the Tailwind preset. Without Tailwind, the color's own token: `var(--apui-color-primary)`, `var(--apui-color-error)`, `var(--apui-color-success)` |
 | `rounded-box`, `rounded-btn` | `rounded-surface`, `rounded-control` · `var(--apui-radius-surface)`, `var(--apui-radius-control)` |
 
 The tool marks names such as `input`, `table`, `link` and `label` as "may be": they are DaisyUI classes and also common class names of your own. Check each.

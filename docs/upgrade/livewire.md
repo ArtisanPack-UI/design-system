@@ -44,7 +44,7 @@ php artisan artisanpack:upgrade-ui
 | `--dry-run` | Show the changes as a diff without writing |
 | `--no-classes` | Leave raw DaisyUI classes out of the report |
 | `--json` | Print the report as JSON. It writes without asking, so pair it with `--dry-run` to only report |
-| `--force` | Write without asking |
+| `--force` | Write without asking. Required when the command can't ask, as in CI |
 
 Views in a package or a module are not under `resources/views`, so pass them: `php artisan artisanpack:upgrade-ui packages/billing/resources/views`.
 
@@ -61,7 +61,7 @@ Views in a package or a module are not under `resources/views`, so pass them: `p
 
 **What it never touches.** Tags that other packages register under the same prefix, such as `<x-artisanpack-ec-price>`; Blade comments; `@verbatim` blocks; anything that isn't a Blade component tag. It does not edit PHP, so attributes built in a component class or passed through `$attributes->merge()` are yours to check: the command flags tags that build their attributes with Blade.
 
-The command is safe to run again after you fix things by hand.
+You can run the command again after you fix things by hand: migrated markup has nothing left for it to rewrite. Preview a second run with `--dry-run` all the same.
 
 ## 3. Remove DaisyUI and adopt the new CSS
 
@@ -133,8 +133,8 @@ Markup that used DaisyUI classes directly (`btn`, `card`, `badge`, `bg-base-200`
 | `bg-base-300`, `border-base-300` | `border-default` · `var(--apui-border-default)`; as a background, `bg-surface-sunken` |
 | `text-base-content` | `text-default` · `var(--apui-text-default)` |
 | `text-base-content/70`, `/60`, `/50` | `text-muted` · `var(--apui-text-muted)`. `text-subtle` for the faintest text. Opacity on text is gone: the tokens are checked for contrast, an opacity isn't |
-| `text-primary-content`, `text-error-content` | `text-primary-foreground` · `var(--apui-color-primary-foreground)` |
-| `bg-primary`, `text-error`, `border-success` | Unchanged with the Tailwind preset. Without Tailwind, `var(--apui-color-primary)` |
+| `text-primary-content`, `text-error-content`, … | The color's own foreground: `text-primary-foreground`, `text-error-foreground` · `var(--apui-color-primary-foreground)`, `var(--apui-color-error-foreground)` |
+| `bg-primary`, `text-error`, `border-success` | Unchanged with the Tailwind preset. Without Tailwind, the color's own token: `var(--apui-color-primary)`, `var(--apui-color-error)`, `var(--apui-color-success)` |
 | `rounded-box`, `rounded-btn` | `rounded-surface`, `rounded-control` · `var(--apui-radius-surface)`, `var(--apui-radius-control)` |
 
 The tool marks names such as `input`, `table`, `link` and `label` as "may be": they are DaisyUI classes and also common class names of your own. Check each.

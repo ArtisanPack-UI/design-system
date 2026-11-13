@@ -2269,6 +2269,10 @@
             "size": {
               "kind": "rename",
               "to": "length",
+              "keep": [
+                "sm",
+                "md"
+              ],
               "note": "The number of cells."
             },
             "numeric": {
@@ -3601,6 +3605,12 @@
               "kind": "manual",
               "note": "Remove `join`. If it was `join={false}` (separate panels), use `variant=\"separated\"`."
             }
+          },
+          "events": {
+            "onOpenChange": {
+              "kind": "manual",
+              "note": "The `onOpenChange` event is not in the 2.0 API. Check the component's docs for what replaces it."
+            }
           }
         },
         "Alert": {
@@ -3921,6 +3931,16 @@
               "kind": "manual",
               "note": "Remove it: the random-color button is gone."
             }
+          },
+          "events": {
+            "onClear": {
+              "kind": "manual",
+              "note": "The `onClear` event is not in the 2.0 API. Check the component's docs for what replaces it."
+            },
+            "onRandomColor": {
+              "kind": "manual",
+              "note": "The `onRandomColor` event is not in the 2.0 API. Check the component's docs for what replaces it."
+            }
           }
         },
         "DatePicker": {
@@ -4072,6 +4092,12 @@
               "kind": "manual",
               "note": "Render the retry button yourself in `actions`, for example `actions={<Button onClick={retry}>Try again</Button>}`."
             }
+          },
+          "events": {
+            "onRetry": {
+              "kind": "manual",
+              "note": "The `onRetry` event is not in the 2.0 API. Check the component's docs for what replaces it."
+            }
           }
         },
         "File": {
@@ -4097,6 +4123,12 @@
             "hideProgress": {
               "kind": "remove",
               "note": "A progress bar shows only for `value` entries that have `progress`."
+            }
+          },
+          "events": {
+            "onFilesSelected": {
+              "kind": "manual",
+              "note": "The `onFilesSelected` event is not in the 2.0 API. Check the component's docs for what replaces it."
             }
           }
         },
@@ -4163,6 +4195,12 @@
             "iconRight": {
               "kind": "rename",
               "to": "iconEnd"
+            }
+          },
+          "events": {
+            "onClear": {
+              "kind": "manual",
+              "note": "The `onClear` event is not in the 2.0 API. Check the component's docs for what replaces it."
             }
           }
         },
@@ -4309,6 +4347,12 @@
               "kind": "manual",
               "note": "Remove it: the reveal button's icons are built in."
             }
+          },
+          "events": {
+            "onClear": {
+              "kind": "manual",
+              "note": "The `onClear` event is not in the 2.0 API. Check the component's docs for what replaces it."
+            }
           }
         },
         "Pin": {
@@ -4328,6 +4372,12 @@
             "color": {
               "kind": "manual",
               "note": "Remove it: Pin has no color prop in 2.0."
+            }
+          },
+          "events": {
+            "onIncomplete": {
+              "kind": "manual",
+              "note": "The `onIncomplete` event is not in the 2.0 API. Check the component's docs for what replaces it."
             }
           }
         },
@@ -4982,6 +5032,14 @@
               "to": "date-change",
               "review": true,
               "note": "Check the handler: the payload is string."
+            },
+            "date-click": {
+              "kind": "manual",
+              "note": "The `date-click` event is not in the 2.0 API. Check the component's docs for what replaces it."
+            },
+            "month-change": {
+              "kind": "manual",
+              "note": "The `month-change` event is not in the 2.0 API. Check the component's docs for what replaces it."
             }
           }
         },
@@ -5054,6 +5112,12 @@
               "kind": "rename",
               "to": "index",
               "note": "With `index-change`."
+            }
+          },
+          "events": {
+            "update:modelValue": {
+              "kind": "rename",
+              "to": "update:index"
             }
           }
         },
@@ -5168,6 +5232,12 @@
               "kind": "rename",
               "to": "class"
             }
+          },
+          "events": {
+            "copy-failed": {
+              "kind": "manual",
+              "note": "The `copy-failed` event is not in the 2.0 API. Check the component's docs for what replaces it."
+            }
           }
         },
         "Collapse": {
@@ -5203,6 +5273,16 @@
             "randomIcon": {
               "kind": "manual",
               "note": "The `randomIcon` slot is gone with the random button. Remove it."
+            }
+          },
+          "events": {
+            "clear": {
+              "kind": "manual",
+              "note": "The `clear` event is not in the 2.0 API. Check the component's docs for what replaces it."
+            },
+            "randomColor": {
+              "kind": "manual",
+              "note": "The `randomColor` event is not in the 2.0 API. Check the component's docs for what replaces it."
             }
           }
         },
@@ -5366,6 +5446,12 @@
               "kind": "manual",
               "note": "Removed with `retryable`. It becomes the text of the `Button` you put in the `actions` slot."
             }
+          },
+          "events": {
+            "retry": {
+              "kind": "manual",
+              "note": "The `retry` event is not in the 2.0 API. Check the component's docs for what replaces it."
+            }
           }
         },
         "FileUpload": {
@@ -5394,6 +5480,12 @@
             "hideProgress": {
               "kind": "remove",
               "note": "Gone: a bar shows only for entries that carry `progress`."
+            }
+          },
+          "events": {
+            "filesSelected": {
+              "kind": "manual",
+              "note": "The `filesSelected` event is not in the 2.0 API. Check the component's docs for what replaces it."
             }
           }
         },
@@ -5462,6 +5554,12 @@
             "iconRight": {
               "kind": "rename",
               "to": "iconEnd"
+            }
+          },
+          "events": {
+            "clear": {
+              "kind": "manual",
+              "note": "The `clear` event is not in the 2.0 API. Check the component's docs for what replaces it."
             }
           }
         },
@@ -5594,6 +5692,12 @@
               "kind": "manual",
               "note": "Removed: pagination has one size. Delete it."
             }
+          },
+          "events": {
+            "update:currentPage": {
+              "kind": "rename",
+              "to": "update:page"
+            }
           }
         },
         "Password": {
@@ -5622,6 +5726,12 @@
               "kind": "manual",
               "note": "The `visibleIcon` slot is gone: the reveal button draws its own icons. Remove it."
             }
+          },
+          "events": {
+            "clear": {
+              "kind": "manual",
+              "note": "The `clear` event is not in the 2.0 API. Check the component's docs for what replaces it."
+            }
           }
         },
         "Pin": {
@@ -5643,6 +5753,10 @@
             }
           },
           "events": {
+            "incomplete": {
+              "kind": "manual",
+              "note": "The `incomplete` event is not in the 2.0 API. Check the component's docs for what replaces it."
+            },
             "valueChange": {
               "kind": "rename",
               "to": "update:modelValue",
@@ -5921,6 +6035,12 @@
               "to": "emptyText",
               "note": "Deprecated alias kept in 3.0."
             }
+          },
+          "events": {
+            "sort": {
+              "kind": "manual",
+              "note": "`key` becomes `column`."
+            }
           }
         },
         "Tabs": {
@@ -5961,6 +6081,12 @@
             "activeTabClassName": {
               "kind": "manual",
               "note": "Removed. Style the selected trigger in CSS with `[data-part=\"trigger\"][data-selected]`, or add a class to all triggers through `classes.trigger`."
+            }
+          },
+          "events": {
+            "update:activeTab": {
+              "kind": "rename",
+              "to": "update:modelValue"
             }
           }
         },

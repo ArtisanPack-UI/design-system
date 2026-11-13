@@ -10,7 +10,15 @@ export type Stack = 'livewire' | 'react' | 'vue';
 /** What happens to one 2.x prop, slot or event. */
 export type MemberRule =
   /** Same meaning, new name. `values` maps literal values that changed too. */
-  | { kind: 'rename'; to: string; values?: Record<string, string>; review?: boolean; note?: string }
+  | {
+      kind: 'rename';
+      to: string;
+      values?: Record<string, string>;
+      /** Literal values that belong to a prop of the same name in the next major, and stay. */
+      keep?: string[];
+      review?: boolean;
+      note?: string;
+    }
   /** A flag becomes `to="value"`. */
   | { kind: 'value'; to: string; value: string; note?: string }
   /** The literal value decides the new name; values in `keep` stay as they are. */

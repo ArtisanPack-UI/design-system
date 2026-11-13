@@ -26,6 +26,28 @@ describe('unifiedDiff', () => {
     );
   });
 
+  it('counts lines without the final newline as a line', () => {
+    expect(unifiedDiff('a', 'a\n', 'b\n')).toBe('--- a/a\n+++ b/a\n@@ -1,1 +1,1 @@\n-a\n+b\n');
+    expect(unifiedDiff('a', '', 'b\n')).toBe('--- a/a\n+++ b/a\n@@ -0,0 +1,1 @@\n+b\n');
+  });
+
+  it('marks a missing final newline', () => {
+    expect(unifiedDiff('a', 'x\na', 'x\nb')).toBe(
+      '--- a/a\n+++ b/a\n@@ -1,2 +1,2 @@\n x\n-a\n\\ No newline at end of file\n+b\n\\ No newline at end of file\n',
+    );
+    expect(unifiedDiff('a', 'a', 'a\n')).toBe(
+      '--- a/a\n+++ b/a\n@@ -1,1 +1,1 @@\n-a\n\\ No newline at end of file\n+a\n',
+    );
+  });
+
+  it('stays within memory on a huge change', () => {
+    const before = Array.from({ length: 6000 }, (_, index) => `old ${index}`).join('\n');
+    const after = Array.from({ length: 6000 }, (_, index) => `new ${index}`).join('\n');
+    const diff = unifiedDiff('a', before, after);
+    expect(diff).toContain('@@ -1,6000 +1,6000 @@');
+    expect(diff).toContain('-old 5999');
+  });
+
   it('splits distant changes into hunks and counts added and removed lines', () => {
     const lines = Array.from({ length: 30 }, (_, index) => `line ${index + 1}`);
     const after = [...lines];
