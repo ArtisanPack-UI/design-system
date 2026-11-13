@@ -272,7 +272,8 @@ export function parseCalendarMoment(value: unknown, timeZone: string): Moment | 
   if (hh === undefined) return { date: new CalendarDate(year, month, day), time: null };
   const hour = Number(hh);
   const minute = Number(mm);
-  if (hour > 23 || minute > 59) return null;
+  const second = Number(ss ?? 0);
+  if (hour > 23 || minute > 59 || second > 59) return null;
   if (zone === undefined) {
     return { date: new CalendarDate(year, month, day), time: `${pad(hour)}:${pad(minute)}` };
   }
@@ -280,10 +281,17 @@ export function parseCalendarMoment(value: unknown, timeZone: string): Moment | 
   if (zone !== 'Z') {
     const sign = zone.startsWith('-') ? -1 : 1;
     const digits = zone.slice(1).replace(':', '');
-    offset = sign * (Number(digits.slice(0, 2)) * 60 + Number(digits.slice(2, 4)));
+    const offsetHours = Number(digits.slice(0, 2));
+    const offsetMinutes = Number(digits.slice(2, 4));
+    if (offsetHours > 23 || offsetMinutes > 59) return null;
+    offset = sign * (offsetHours * 60 + offsetMinutes);
   }
-  const ms = Date.UTC(year, month - 1, day, hour, minute, Number(ss ?? 0)) - offset * 60_000;
-  return fromInstant(ms, timeZone);
+  const ms = Date.UTC(year, month - 1, day, hour, minute, second) - offset * 60_000;
+  try {
+    return fromInstant(ms, timeZone);
+  } catch {
+    return null;
+  }
 }
 
 function fromInstant(ms: number, timeZone: string): Moment {
@@ -377,6 +385,8 @@ interface Normalized {
   allDay: boolean;
   start: CalendarDate;
   end: CalendarDate;
+  /** The end the text names: `end`, or the next day for a timed event ending at 00:00. */
+  whenEnd: CalendarDate;
   startTime: string | null;
   endTime: string | null;
   event: CalendarEvent;
@@ -397,11 +407,11 @@ function normalizeEvents(events: readonly CalendarEvent[], timeZone: string): No
       endValue === undefined || endValue === null ? null : parseCalendarMoment(endValue, timeZone);
     const allDay = event.allDay === true || start.time === null;
     const end = parsedEnd ?? { date: start.date, time: null };
-    let endDate = end.date;
+    let endDate = end.date.compare(start.date) < 0 ? start.date : end.date;
+    const whenEnd = endDate;
     if (!allDay && end.time === '00:00' && endDate.compare(start.date) > 0) {
       endDate = endDate.subtract({ days: 1 });
     }
-    if (endDate.compare(start.date) < 0) endDate = start.date;
     const id = event.id;
     out.push({
       eventKey: typeof id === 'string' || typeof id === 'number' ? String(id) : String(index),
@@ -414,6 +424,7 @@ function normalizeEvents(events: readonly CalendarEvent[], timeZone: string): No
       allDay,
       start: start.date,
       end: endDate,
+      whenEnd,
       startTime: allDay ? null : start.time,
       endTime: allDay || parsedEnd === null ? null : parsedEnd.time,
       event,
@@ -469,16 +480,19 @@ export function calendarModel(options: CalendarOptions = {}): CalendarModel {
   const events = normalizeEvents(options.events ?? [], timeZone);
 
   const when = (item: Normalized): string => {
-    const single = item.start.compare(item.end) === 0;
+    // A timed event ending at 00:00 is placed up to the day before but still
+    // ends on the next day, so the text names that day.
+    const end = item.whenEnd;
+    const single = item.start.compare(end) === 0;
     if (item.allDay) {
       return single
         ? `${full(item.start)}, ${labels.allDay}`
-        : `${full(item.start)} – ${full(item.end)}, ${labels.allDay}`;
+        : `${full(item.start)} – ${full(end)}, ${labels.allDay}`;
     }
     if (single) {
       return `${full(item.start)}, ${item.startTime}${item.endTime ? ` – ${item.endTime}` : ''}`;
     }
-    return `${full(item.start)}, ${item.startTime} – ${full(item.end)}${item.endTime ? `, ${item.endTime}` : ''}`;
+    return `${full(item.start)}, ${item.startTime} – ${full(end)}${item.endTime ? `, ${item.endTime}` : ''}`;
   };
 
   const place = (item: Normalized, day: CalendarDate): CalendarItem => {
@@ -700,6 +714,24 @@ export function calendarGridKeydown(
   const vertical = event.key === 'ArrowUp' || event.key === 'ArrowDown';
   if (vertical && (next < 0 || next >= cells.length)) next = current;
   const cell = cells[Math.min(cells.length - 1, Math.max(0, next))]!;
+  for (const each of cells) each.tabIndex = each === cell ? 0 : -1;
+  cell.focus();
+  return cell;
+}
+
+/**
+ * Moves focus to a date's cell in a calendar grid and makes it the grid's
+ * one tab stop. "+N more" uses it after opening the day view: the button it
+ * was on is gone, so focus would otherwise drop to the page. Returns the
+ * cell, or null when the date isn't shown.
+ */
+export function focusCalendarCell(root: ParentNode | null, date: string): HTMLElement | null {
+  if (!root) return null;
+  const cells = Array.from(
+    root.querySelectorAll<HTMLElement>('[data-scope="calendar"][data-part="cell"]'),
+  );
+  const cell = cells.find((each) => each.getAttribute('data-date') === date);
+  if (!cell) return null;
   for (const each of cells) each.tabIndex = each === cell ? 0 : -1;
   cell.focus();
   return cell;

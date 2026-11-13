@@ -192,6 +192,68 @@ describe('theme toggle (Alpine)', () => {
     await page.close();
   });
 
+  it("starts on the head script's default when nothing is stored, and never overrides it", async () => {
+    const { page } = await open('<main></main>');
+    await memoryStorage(page);
+    // What `themeScript({ defaultValue: 'dark' })` leaves behind.
+    await page.evaluate(() => {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      document.documentElement.setAttribute('data-theme-choice', 'dark');
+    });
+    await addToggle(
+      page,
+      `<div id="late" x-data="apuiThemeToggle({ value: null })" x-bind:data-value="current()"></div>`,
+    );
+    expect(await page.$eval('#late', (el) => el.getAttribute('data-value'))).toBe('dark');
+    expect(await theme(page)).toBe('dark');
+    await page.close();
+  });
+
+  it('applies system on start only while the page has no theme', async () => {
+    const { page } = await open('<main></main>');
+    await memoryStorage(page);
+    await page.emulateMedia({ colorScheme: 'dark' });
+    await page.evaluate(() => document.documentElement.setAttribute('data-theme', 'light'));
+    await addToggle(page, `<div id="app" x-data="apuiThemeToggle({ value: null })"></div>`);
+    // The app's own theme stays.
+    expect(await theme(page)).toBe('light');
+    await page.evaluate(() => document.documentElement.removeAttribute('data-theme'));
+    await addToggle(page, `<div id="bare" x-data="apuiThemeToggle({ value: null })"></div>`);
+    expect(await theme(page)).toBe('dark');
+    // Applied, not stored.
+    expect(await page.evaluate(() => localStorage.getItem('apui-theme'))).toBeNull();
+    await page.close();
+  });
+
+  it("ignores another tab's stored choice when bound or unpersisted", async () => {
+    const { page } = await open('<main></main>');
+    await memoryStorage(page, { 'apui-theme': 'light' });
+    await addToggle(
+      page,
+      `<div id="bound" x-data="apuiThemeToggle({ value: 'light', bound: true })" x-bind:data-value="current()"></div>
+       <div id="unpersisted" x-data="apuiThemeToggle({ value: 'light', persist: false })" x-bind:data-value="current()"></div>`,
+    );
+    const storageEvent = () =>
+      page.evaluate(() =>
+        window.dispatchEvent(new StorageEvent('storage', { key: 'apui-theme', newValue: 'dark' })),
+      );
+    await storageEvent();
+    await settle(page);
+    expect(await page.$eval('#bound', (el) => el.getAttribute('data-value'))).toBe('light');
+    expect(await page.$eval('#unpersisted', (el) => el.getAttribute('data-value'))).toBe('light');
+    expect(await theme(page)).toBeNull();
+    // A toggle that reads storage follows it, and the page with it.
+    await addToggle(
+      page,
+      `<div id="follower" x-data="apuiThemeToggle({ value: null })" x-bind:data-value="current()"></div>`,
+    );
+    await storageEvent();
+    await settle(page);
+    expect(await page.$eval('#follower', (el) => el.getAttribute('data-value'))).toBe('dark');
+    expect(await theme(page)).toBe('dark');
+    await page.close();
+  });
+
   it('switches light and dark from the icon button', async () => {
     const { page } = await open(`
       <div id="icon" x-data="apuiThemeToggle({ value: 'light', persist: false })">

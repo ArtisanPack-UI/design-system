@@ -1606,7 +1606,7 @@ return [
 				'name'        => 'slides',
 				'type'        => 'array',
 				'required'    => true,
-				'description' => 'The slides, in order. By default each is a Card from { image, alt, title, description }; the slide render content draws anything else.',
+				'description' => 'The slides, in order. By default each is a Card from { image, alt, title, description }; the slide render content draws anything else. When every slide has a distinct id it keys the slide, so a reordered list keeps each slide\'s own state; else slides are keyed by position.',
 				'a11y'        => 'Every image needs alt text.',
 			],
 			[
@@ -1661,7 +1661,7 @@ return [
 			[
 				'name'        => 'label',
 				'type'        => 'string',
-				'description' => 'Names the region. Defaults to the title, else "Carousel". Translate it: Livewire defaults it through __( \'Carousel\' ).',
+				'description' => 'Names the region. Defaults to a passed aria-label, then the title, else "Carousel". Translate it: Livewire defaults it through __( \'Carousel\' ).',
 				'a11y'        => 'A page with several carousels names each one.',
 			],
 			[
@@ -1762,7 +1762,7 @@ return [
 			[
 				'name'        => 'autoplayTrigger',
 				'element'     => 'button',
-				'description' => 'Pauses and resumes autoplay, with autoplay. Always visible while autoplay is on.',
+				'description' => 'Pauses and resumes autoplay, with autoplay. Always visible while autoplay is on. The root\'s first child, so it comes first in the Tab order; it sits over the viewport\'s top start.',
 			],
 		],
 		'slots'       => [
@@ -1799,7 +1799,7 @@ return [
 					'action' => 'On the dots: show the first or last position.',
 				],
 			],
-			'requirements' => [ 'The root is a region with aria-roledescription carousel and a translatable name (label, else the title).', 'Each slide is a group with aria-roledescription slide, named "n of N"; slides out of view are hidden from assistive technology.', 'The track is a polite live region, off while autoplay runs, so moves are announced.', 'The previous and next buttons and the dots have accessible names (translatable); the dot shown carries aria-current.', 'Autoplay never runs without a visible pause button, pauses while the pointer or focus is on the carousel, and starts paused under prefers-reduced-motion (2.2.2).', 'Arrow keys follow the text direction; the previous and next icons mirror and the next slide peeks at the inline end in RTL.', 'Every part keeps a stable, server-rendered id in Livewire (D-015).' ],
+			'requirements' => [ 'The root is a region with aria-roledescription carousel and a translatable name (label, else the title).', 'Each slide is a group with aria-roledescription slide, named "n of N"; slides out of view are hidden from assistive technology.', 'The track is a polite live region, off while autoplay runs, so moves are announced.', 'The previous and next buttons and the dots have accessible names (translatable); the dot shown carries aria-current.', 'Autoplay never runs without a visible pause button, first in the carousel\'s Tab order (before the rotating slides), pauses while the pointer or focus is on the carousel, and starts paused under prefers-reduced-motion (2.2.2).', 'Arrow keys follow the text direction; the previous and next icons mirror and the next slide peeks at the inline end in RTL.', 'Every part keeps a stable, server-rendered id in Livewire (D-015).' ],
 			'wcag'         => [ '1.3.1', '1.4.11', '2.1.1', '2.2.2', '2.4.3', '2.4.7', '4.1.2' ],
 		],
 		'tokens'      => [ '--apui-radius-lg', '--apui-radius-full', '--apui-border-default', '--apui-color-primary', '--apui-elevation-glass', '--apui-focus-ring-color', '--apui-focus-ring-width', '--apui-motion-duration-fast', '--apui-motion-ease-standard' ],
@@ -2444,15 +2444,15 @@ return [
 		'stacks'      => [
 			'livewire' => [
 				'name'         => 'clipboard',
-				'capabilities' => [ 'New in Livewire. Runs on the shared apuiClipboard Alpine component; a changed value from Livewire copies the new one', 'copy and error are DOM events on the root (x-on:copy, x-on:error)' ],
+				'capabilities' => [ 'New in Livewire. Runs on the shared apuiClipboard Alpine component; a changed value from Livewire copies the new one and clears a stale Copied', 'copied and error are DOM events on the root (x-on:copied, x-on:error); copied is named apart from the native copy event, which a manual copy fires' ],
 			],
 			'react'    => [
 				'name'         => 'Clipboard',
-				'capabilities' => [ 'onCopy gets the value; onError the failure' ],
+				'capabilities' => [ 'onCopied gets the value; onError the failure. The 2.x onCopy still works as a deprecated alias of onCopied and never sees native copy events' ],
 			],
 			'vue'      => [
 				'name'         => 'Clipboard',
-				'capabilities' => [ 'copy gets the value; error the failure' ],
+				'capabilities' => [ 'copied gets the value; error the failure. The 2.x copy event is still emitted as a deprecated alias; it is declared, so it never catches native copy events' ],
 			],
 		],
 		'props'       => [
@@ -2529,7 +2529,7 @@ return [
 			[
 				'name'        => 'field',
 				'element'     => 'span',
-				'description' => 'The field variant\'s read-only box, in the mono font on the sunken surface.',
+				'description' => 'The field variant\'s read-only box, in the mono font on the sunken surface. The button and icon variants show it beside the button after a failed copy, with the value selected, so it can be copied by hand; a copy that works or a new value hides it.',
 			],
 			[
 				'name'        => 'value',
@@ -2545,8 +2545,8 @@ return [
 		'slots'       => [],
 		'events'      => [
 			[
-				'name'        => 'copy',
-				'description' => 'The value reached the clipboard.',
+				'name'        => 'copied',
+				'description' => 'The value reached the clipboard. Named apart from the native copy event, which a manual copy fires.',
 				'payload'     => 'string',
 			],
 			[
@@ -2557,7 +2557,7 @@ return [
 		],
 		'a11y'        => [
 			'element'      => 'span',
-			'requirements' => [ 'The result is announced in a role=status live region, success or failure; never a silent copy.', 'The label changes to Copied while copied; the icon button\'s accessible name does too.', 'The value in a copy field reads LTR in every direction and stays selectable, so it can be copied by hand when copying fails.' ],
+			'requirements' => [ 'The result is announced in a role=status live region, success or failure; never a silent copy.', 'The label changes to Copied while copied; the icon button\'s accessible name does too.', 'The value in a copy field reads LTR in every direction and stays selectable, so it can be copied by hand when copying fails; the button and icon variants show it, selected, after a failure.' ],
 			'wcag'         => [ '2.1.1', '4.1.2', '4.1.3' ],
 		],
 		'tokens'      => [ '--apui-control-height-xs', '--apui-control-height-sm', '--apui-control-height-md', '--apui-input-radius', '--apui-border-muted', '--apui-border-width', '--apui-surface-sunken', '--apui-surface-inverse', '--apui-text-default', '--apui-text-inverse', '--apui-font-family-mono', '--apui-tooltip-radius', '--apui-color-success-text', '--apui-z-tooltip' ],

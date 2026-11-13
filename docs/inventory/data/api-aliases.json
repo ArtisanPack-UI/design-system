@@ -132,6 +132,8 @@
       { "from": "text", "to": "value" },
       { "from": "successLabel", "to": "copiedLabel" },
       { "from": "successDuration", "to": "timeout" },
+      { "stack": "react", "from": "onCopy", "to": "copied", "note": "`onCopied`; `onCopy` stays a deprecated alias (D-050)." },
+      { "stack": "vue", "from": "copy", "to": "copied", "note": "`copy` is still emitted, deprecated (D-050)." },
       { "stack": "react", "from": "color", "to": null },
       { "stack": "vue", "from": "className", "to": "class" }
     ],

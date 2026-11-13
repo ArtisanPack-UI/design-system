@@ -27,7 +27,7 @@
       "name": "slides",
       "type": "array",
       "required": true,
-      "description": "The slides, in order. By default each is a Card from { image, alt, title, description }; the slide render content draws anything else.",
+      "description": "The slides, in order. By default each is a Card from { image, alt, title, description }; the slide render content draws anything else. When every slide has a distinct id it keys the slide, so a reordered list keeps each slide's own state; else slides are keyed by position.",
       "a11y": "Every image needs alt text."
     },
     {
@@ -82,7 +82,7 @@
     {
       "name": "label",
       "type": "string",
-      "description": "Names the region. Defaults to the title, else \"Carousel\". Translate it: Livewire defaults it through __( 'Carousel' ).",
+      "description": "Names the region. Defaults to a passed aria-label, then the title, else \"Carousel\". Translate it: Livewire defaults it through __( 'Carousel' ).",
       "a11y": "A page with several carousels names each one."
     },
     {
@@ -183,7 +183,7 @@
     {
       "name": "autoplayTrigger",
       "element": "button",
-      "description": "Pauses and resumes autoplay, with autoplay. Always visible while autoplay is on."
+      "description": "Pauses and resumes autoplay, with autoplay. Always visible while autoplay is on. The root's first child, so it comes first in the Tab order; it sits over the viewport's top start."
     }
   ],
   "slots": [
@@ -225,7 +225,7 @@
       "Each slide is a group with aria-roledescription slide, named \"n of N\"; slides out of view are hidden from assistive technology.",
       "The track is a polite live region, off while autoplay runs, so moves are announced.",
       "The previous and next buttons and the dots have accessible names (translatable); the dot shown carries aria-current.",
-      "Autoplay never runs without a visible pause button, pauses while the pointer or focus is on the carousel, and starts paused under prefers-reduced-motion (2.2.2).",
+      "Autoplay never runs without a visible pause button, first in the carousel's Tab order (before the rotating slides), pauses while the pointer or focus is on the carousel, and starts paused under prefers-reduced-motion (2.2.2).",
       "Arrow keys follow the text direction; the previous and next icons mirror and the next slide peeks at the inline end in RTL.",
       "Every part keeps a stable, server-rendered id in Livewire (D-015)."
     ],

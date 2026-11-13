@@ -29,6 +29,13 @@ export const THEME_STORAGE_KEY = 'apui-theme';
 /** The attribute the tokens switch themes on. */
 export const THEME_ATTRIBUTE = 'data-theme';
 
+/**
+ * The attribute that records the choice behind `data-theme` (so `system`, not
+ * the `light` or `dark` it resolved to). The head snippet and
+ * {@link applyTheme} set it; a toggle with nothing stored starts on it.
+ */
+export const THEME_CHOICE_ATTRIBUTE = 'data-theme-choice';
+
 /** The window event every toggle on the page hears when a choice is applied. */
 export const THEME_CHANGE_EVENT = 'apui-theme-change';
 
@@ -195,20 +202,22 @@ export interface ApplyThemeOptions {
   matchMedia?: MatchMedia;
 }
 
+function documentRoot(root: Element | null | undefined): Element | null {
+  if (root !== undefined) return root;
+  return typeof document !== 'undefined' ? document.documentElement : null;
+}
+
 /**
  * Applies a choice: sets `data-theme` on the root to the theme it resolves
- * to, stores it, and dispatches {@link THEME_CHANGE_EVENT} on the window with
+ * to (and {@link THEME_CHOICE_ATTRIBUTE} to the choice), stores it, and
+ * dispatches {@link THEME_CHANGE_EVENT} on the window with
  * `{ value, theme, storageKey }`. Returns the theme it set.
  */
 export function applyTheme(choice: ThemeChoice, options: ApplyThemeOptions = {}): Theme {
   const theme = resolveTheme(choice, options.matchMedia ?? defaultMatchMedia());
-  const root =
-    options.root === undefined
-      ? typeof document !== 'undefined'
-        ? document.documentElement
-        : null
-      : options.root;
+  const root = documentRoot(options.root);
   root?.setAttribute(THEME_ATTRIBUTE, theme);
+  root?.setAttribute(THEME_CHOICE_ATTRIBUTE, choice);
   const storageKey = options.storageKey ?? THEME_STORAGE_KEY;
   if (options.persist ?? true) {
     storeThemeChoice(choice, storageKey, options.storage ?? defaultStorage());
@@ -219,6 +228,39 @@ export function applyTheme(choice: ThemeChoice, options: ApplyThemeOptions = {})
     );
   }
   return theme;
+}
+
+/**
+ * The choice the page shows, as the head snippet or {@link applyTheme}
+ * recorded it in {@link THEME_CHOICE_ATTRIBUTE}. `null` when there's none, or
+ * when `data-theme` no longer matches it (the app set its own theme).
+ */
+export function pageThemeChoice(root?: Element | null): ThemeChoice | null {
+  const element = documentRoot(root);
+  const choice = element?.getAttribute(THEME_CHOICE_ATTRIBUTE);
+  const theme = element?.getAttribute(THEME_ATTRIBUTE);
+  if (!isThemeChoice(choice) || !theme) return null;
+  return choice === 'system' || choice === theme ? choice : null;
+}
+
+/**
+ * The choice an uncontrolled toggle starts on when nothing is stored: the one
+ * the page shows ({@link pageThemeChoice}, so the head snippet's `default`
+ * carries over), else `fallback`. The fallback is applied (not stored, not
+ * broadcast) only while the root has no `data-theme`, so it never overrides
+ * the head snippet or a theme the app set.
+ */
+export function startThemeChoice(
+  fallback: ThemeChoice,
+  options: Pick<ApplyThemeOptions, 'root' | 'matchMedia'> = {},
+): ThemeChoice {
+  const root = documentRoot(options.root);
+  const shown = pageThemeChoice(root);
+  if (shown) return shown;
+  if (root && !root.hasAttribute(THEME_ATTRIBUTE)) {
+    applyTheme(fallback, { ...options, root, persist: false, broadcast: false });
+  }
+  return fallback;
 }
 
 export interface WatchThemeOptions {
@@ -279,7 +321,9 @@ export interface ThemeScriptOptions {
  * The blocking snippet that applies the stored choice before first paint.
  * Put it in `<head>`, before the stylesheets, as an inline classic script:
  * `<script>${themeScript()}</script>`. It only reads storage and the OS
- * scheme and sets `data-theme` on `<html>`; it never throws.
+ * scheme and sets `data-theme` on `<html>`, and {@link THEME_CHOICE_ATTRIBUTE}
+ * to the choice behind it (so toggles start on the snippet's default when
+ * nothing is stored); it never throws.
  */
 export function themeScript(options: ThemeScriptOptions = {}): string {
   const key = JSON.stringify(options.storageKey ?? THEME_STORAGE_KEY).replace(/</g, '\\u003c');
@@ -287,8 +331,9 @@ export function themeScript(options: ThemeScriptOptions = {}): string {
   return (
     `(function(){try{var c=null;try{c=localStorage.getItem(${key})}catch(e){}` +
     `if(["light","dark","high-contrast","system"].indexOf(c)<0)c=${fallback};` +
+    `var d=document.documentElement;d.setAttribute("${THEME_CHOICE_ATTRIBUTE}",c);` +
     `if(c==="system")c=window.matchMedia&&matchMedia("${DARK_SCHEME_QUERY}").matches?"dark":"light";` +
-    `document.documentElement.setAttribute("${THEME_ATTRIBUTE}",c)}catch(e){}})();`
+    `d.setAttribute("${THEME_ATTRIBUTE}",c)}catch(e){}})();`
   );
 }
 

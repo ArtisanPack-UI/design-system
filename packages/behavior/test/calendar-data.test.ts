@@ -278,6 +278,45 @@ describe('calendar events', () => {
     ]);
   });
 
+  it('skips impossible seconds and offsets instead of rolling them over', () => {
+    expect(parseCalendarMoment('2026-11-02T09:00:99Z', 'UTC')).toBeNull();
+    expect(parseCalendarMoment('2026-11-02T09:00:60', 'UTC')).toBeNull();
+    expect(parseCalendarMoment('2026-11-02T09:00+24:00', 'UTC')).toBeNull();
+    expect(parseCalendarMoment('2026-11-02T09:00+05:60', 'UTC')).toBeNull();
+    expect(parseCalendarMoment('2026-11-02T09:00:59+14:00', 'UTC')).toMatchObject({
+      time: '19:00',
+    });
+    const model = calendarModel({
+      ...base,
+      view: 'day',
+      date: '2026-11-02',
+      events: [
+        { start: '2026-11-02T09:00:99Z', title: 'Bad seconds' },
+        { start: '2026-11-02T10:00', end: '2026-11-02T11:00:99Z', title: 'Bad end' },
+        { start: '2026-11-02T12:00', title: 'Good' },
+      ],
+    });
+    const day = model.rows[0]![0]!;
+    expect(day.events.map((e) => e.title)).toEqual(['Bad end', 'Good']);
+    expect(day.events[0]!.range).toBe('10:00');
+  });
+
+  it('names the next day for a timed event ending at 00:00', () => {
+    const model = calendarModel({
+      ...base,
+      view: 'week',
+      date: '2026-11-02',
+      events: [{ start: '2026-11-04T09:00', end: '2026-11-05T00:00', title: 'Late' }],
+    });
+    const late = model.rows[0]![2]!.events[0]!;
+    expect(late.end).toBe('2026-11-04');
+    expect(late.range).toBe('09:00 – 00:00');
+    expect(late.when).toBe(
+      'Wednesday, November 4, 2026, 09:00 – Thursday, November 5, 2026, 00:00',
+    );
+    expect(model.rows[0]![3]!.events).toEqual([]);
+  });
+
   it('fills label templates', () => {
     expect(fillCalendarLabel('+{count} more', { count: 3 })).toBe('+3 more');
     expect(fillCalendarLabel('{missing}', {})).toBe('{missing}');

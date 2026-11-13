@@ -57,6 +57,31 @@ describe('chart geometry', () => {
     expect(formatChartTicks([0, 0.001, 0.002])).toEqual(['0', '0.001', '0.002']);
   });
 
+  it('gives any range a finite axis with distinct ends, never hanging or dividing by zero', () => {
+    expect(chartTicks(0, Number.MAX_VALUE)).toEqual([0, 2e299, 4e299, 6e299, 8e299, 1e300]);
+    expect(chartTicks(-Infinity, Infinity)).toEqual([-1e300, -5e299, 0, 5e299, 1e300]);
+    expect(chartTicks(0, 1e-60)).toEqual([0, 1e-10]);
+    expect(chartTicks(Number.NaN, Number.NaN)).toEqual([0, 0.2, 0.4, 0.6, 0.8, 1]);
+    const tiny = chartGeometry([{ name: 'A', data: [1e-60, -1e-300] }], { type: 'area' });
+    expect(tiny.ticks.map((tick) => tick.label)).toEqual(['-0.0000000001', '0', '0.0000000001']);
+    expect(JSON.stringify(tiny)).not.toMatch(/NaN|Infinity/);
+  });
+
+  it('prints values from 1e21 up in full, as PHP does, not in exponent notation', () => {
+    expect(formatChartValue(2.5e21)).toBe('2,500,000,000,000,000,000,000');
+    expect(formatChartValue(-1e21, { notation: 'compact' })).toBe('-1,000,000,000,000.0B');
+  });
+
+  it('falls back to the default viewBox when the size leaves no room inside the padding', () => {
+    const size = (width: number, height: number) => {
+      const geometry = chartGeometry([1, 2], { width, height });
+      return [geometry.width, geometry.height];
+    };
+    expect(size(48, 36)).toEqual([520, 220]);
+    expect(size(49, 37)).toEqual([49, 37]);
+    expect(size(Infinity, Number.NaN)).toEqual([520, 220]);
+  });
+
   it('steps the compact unit up when rounding reaches 1,000 of it', () => {
     expect(formatChartValue(999_950, { notation: 'compact' })).toBe('1.0M');
     expect(formatChartValue(999.996, { notation: 'compact' })).toBe('1.0k');

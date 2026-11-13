@@ -14,15 +14,21 @@
  *   script-capable markup;
  * - links and images whose URL isn't safe (the SafeUrl rules: links take
  *   relative, http, https, mailto, tel and sms; images relative, http, https,
- *   blob and `data:image/…`) are dropped, keeping their text;
+ *   blob and PNG, GIF, JPEG or WebP `data:` images, raw `<img>` included)
+ *   are dropped, keeping their text;
  * - a task-list item is `<li data-scope="markdown" data-part="task">` with
  *   its disabled checkbox inside a `<label>` holding the item's first line;
  * - table cell alignment is `data-align` (start, center, end), not `align`.
  *
+ * Both stacks bound the work untrusted source can cause, as commonmark's
+ * `max_nesting_level` and `max_delimiters_per_line`
+ * ({@link MARKDOWN_MAX_NESTING}, {@link MARKDOWN_MAX_DELIMITERS}): deeper
+ * blocks stay text, and emphasis delimiters past the limit stay literal.
+ *
  * The shared vectors in `test/fixtures/markdown-vectors.json` hold both
  * stacks to the same output; keep the PHP port in step.
  */
-import { Marked, type Token, type Tokens } from 'marked';
+import { getDefaults, Lexer, Tokenizer, type Token, type Tokens } from 'marked';
 
 /** The Markdown component's modes: the rendered preview, the source, or both side by side. */
 export type MarkdownMode = 'preview' | 'write' | 'split';
@@ -42,6 +48,20 @@ export const MARKDOWN_LABELS = {
   /** Names the rendered preview region in write and split modes. */
   output: 'Rendered preview',
 } as const;
+
+/**
+ * How deep blocks nest before the rest of a line stays text: commonmark's
+ * `max_nesting_level`, which LUC's `MarkdownRenderer` sets to the same value.
+ * A block quote is one level, a list two (the list and its item).
+ */
+export const MARKDOWN_MAX_NESTING = 100;
+
+/**
+ * Emphasis and strikethrough delimiter runs one paragraph, heading or cell
+ * may use before the rest stay literal: commonmark's
+ * `max_delimiters_per_line`, which LUC's `MarkdownRenderer` sets to the same value.
+ */
+export const MARKDOWN_MAX_DELIMITERS = 500;
 
 /** Options for {@link renderMarkdown}. */
 export interface MarkdownRenderOptions {
@@ -346,7 +366,8 @@ function rebuildTag(closing: boolean, rawName: string, rawAttributes: string): s
     let value = decodeAttribute(match[2] ?? match[3] ?? match[4] ?? '');
     if (attribute === 'href' || attribute === 'src') {
       const safe = attribute === 'href' ? markdownLinkUrl(value) : markdownImageUrl(value);
-      if (safe === null) continue;
+      // Images take the same data: formats as Markdown images: PNG, GIF, JPEG and WebP.
+      if (safe === null || (attribute === 'src' && commonmarkUnsafe(safe))) continue;
       value = safe;
     }
     attributes += ` ${attribute}="${escapeText(value)}"`;
@@ -382,7 +403,122 @@ function escapeAngles(text: string): string {
 // ---------------------------------------------------------------------------
 // Rendering
 
-const lexer = new Marked({ gfm: true, breaks: false });
+const WHITESPACE = /^[\s\p{Zs}]$/u;
+const PUNCTUATION = /^[\p{P}\p{S}]$/u;
+
+/**
+ * Whether a delimiter run goes on commonmark's delimiter stack, so it counts
+ * toward {@link MARKDOWN_MAX_DELIMITERS}: it can open or close emphasis
+ * (`DelimiterParser::determineCanOpenOrClose`).
+ */
+function countsAsDelimiter(character: string, before: string, after: string): boolean {
+  const beforeSpace = before === '' || WHITESPACE.test(before);
+  const afterSpace = after === '' || WHITESPACE.test(after);
+  const beforePunctuation = !beforeSpace && PUNCTUATION.test(before);
+  const afterPunctuation = !afterSpace && PUNCTUATION.test(after);
+  const left = !afterSpace && (!afterPunctuation || beforeSpace || beforePunctuation);
+  const right = !beforeSpace && (!beforePunctuation || afterSpace || afterPunctuation);
+  if (character !== '_') return left || right;
+  return (left && (!right || beforePunctuation)) || (right && (!left || afterPunctuation));
+}
+
+/** A lexer that tracks block depth and, per inline container, delimiter runs. */
+class GuardedLexer extends Lexer {
+  /** The current container's commonmark depth: the document is 0. */
+  blockDepth = 0;
+  /** Delimiter runs counted in the current inline container. */
+  delimiters = 0;
+  /** The inline source being lexed, outermost first. */
+  inlineSources: string[] = [];
+
+  override inlineTokens(src: string, tokens: Token[] = []): Token[] {
+    if (this.inlineSources.length === 0) this.delimiters = 0;
+    this.inlineSources.push(src);
+    try {
+      return super.inlineTokens(src, tokens);
+    } finally {
+      this.inlineSources.pop();
+    }
+  }
+}
+
+/**
+ * Marked's tokenizer with commonmark's limits: a block quote or list starts
+ * only below {@link MARKDOWN_MAX_NESTING}, and a delimiter run past
+ * {@link MARKDOWN_MAX_DELIMITERS} is literal text, which also keeps marked's
+ * closer search from going quadratic.
+ */
+class GuardedTokenizer extends Tokenizer {
+  override blockquote(src: string): Tokens.Blockquote | undefined {
+    return this.nested(1, () => super.blockquote(src));
+  }
+
+  override list(src: string): Tokens.List | undefined {
+    return this.nested(2, () => super.list(src));
+  }
+
+  override emStrong(
+    src: string,
+    maskedSrc: string,
+    prevChar = '',
+  ): Tokens.Em | Tokens.Strong | undefined {
+    return this.delimited(/^(?:\*+|_+)/, src, () => super.emStrong(src, maskedSrc, prevChar));
+  }
+
+  override del(src: string, maskedSrc: string, prevChar = ''): Tokens.Del | undefined {
+    return this.delimited(/^~+/, src, () => super.del(src, maskedSrc, prevChar));
+  }
+
+  private get guarded(): GuardedLexer {
+    return this.lexer as GuardedLexer;
+  }
+
+  private nested<T>(cost: number, run: () => T | undefined): T | undefined {
+    const lexer = this.guarded;
+    if (lexer.blockDepth >= MARKDOWN_MAX_NESTING) return undefined;
+    lexer.blockDepth += cost;
+    try {
+      return run();
+    } finally {
+      lexer.blockDepth -= cost;
+    }
+  }
+
+  private delimited<T extends Token>(
+    pattern: RegExp,
+    src: string,
+    run: () => T | undefined,
+  ): T | undefined {
+    const delimiter = pattern.exec(src)?.[0];
+    if (delimiter === undefined) return run();
+    const lexer = this.guarded;
+    const whole = lexer.inlineSources.at(-1) ?? src;
+    const index = whole.length - src.length;
+    if (!countsAsDelimiter(delimiter[0]!, whole.charAt(index - 1), src.charAt(delimiter.length))) {
+      return run();
+    }
+    if (lexer.delimiters >= MARKDOWN_MAX_DELIMITERS) {
+      // Marked takes any token here; a text token renders the run as written.
+      const literal: Tokens.Text = { type: 'text', raw: delimiter, text: delimiter };
+      return literal as unknown as T;
+    }
+    lexer.delimiters += 1;
+    const token = run();
+    // The closing run went on commonmark's stack too.
+    if (token !== undefined) lexer.delimiters += 1;
+    return token;
+  }
+}
+
+/** Tokens for the source, with the limits above. */
+function lex(source: string): Token[] {
+  return new GuardedLexer({
+    ...getDefaults(),
+    gfm: true,
+    breaks: false,
+    tokenizer: new GuardedTokenizer(),
+  }).lex(source);
+}
 
 interface RenderContext {
   sanitize: boolean;
@@ -615,6 +751,6 @@ export function renderMarkdown(
 ): string {
   if (!source) return '';
   const context: RenderContext = { sanitize: options.sanitize !== false };
-  const html = renderBlocks(lexer.lexer(source.replace(/\r\n?/g, '\n')), context);
+  const html = renderBlocks(lex(source.replace(/\r\n?/g, '\n')), context);
   return html === '' ? '' : `${html}\n`;
 }

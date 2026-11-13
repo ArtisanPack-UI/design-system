@@ -3,5 +3,5 @@
 	variant="field"
 	size="md"
 	:label="__( 'Copy share link' )"
-	x-on:copy="$wire.trackShare()"
+	x-on:copied="$wire.trackShare()"
 />

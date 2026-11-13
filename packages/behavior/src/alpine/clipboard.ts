@@ -47,22 +47,51 @@ interface AlpineMagics {
   $root: HTMLElement;
 }
 
-/** The `apuiClipboard` component: status, label, icon and message for the view to bind. */
+/** Selects the rendered value part's text, so a failed copy can be finished by hand. */
+export function selectClipboardValue(root: ParentNode | null | undefined): void {
+  const value = root?.querySelector('[data-scope="clipboard"][data-part="value"]');
+  const selection = typeof window === 'undefined' ? null : window.getSelection();
+  if (value && selection) selection.selectAllChildren(value);
+}
+
+/**
+ * The `apuiClipboard` component: status, label, icon and message for the view
+ * to bind. A changed `value` attribute inside the root (Livewire morphing a
+ * new value onto the button) clears a stale "Copied", even from a copy still
+ * in flight. After a failed copy `manual` holds the value, which the view
+ * shows (and the component selects) so it can be copied by hand.
+ */
 export function clipboardComponent(options: ClipboardAlpineOptions = {}) {
   let controller: ClipboardController | undefined;
+  let observer: MutationObserver | undefined;
+  let generation = 0;
   return {
     status: 'idle' as ClipboardStatus,
+    /** The value to copy by hand after a failed copy, else `null`. */
+    manual: null as string | null,
 
-    init(this: { status: ClipboardStatus }) {
+    init(
+      this: Partial<AlpineMagics> & {
+        status: ClipboardStatus;
+        reset: () => void;
+      },
+    ) {
       controller = createClipboard({
         timeout: options.timeout,
         onStatusChange: (status) => {
           this.status = status;
         },
       });
+      const root = this.$root;
+      if (root && typeof MutationObserver !== 'undefined') {
+        observer = new MutationObserver(() => this.reset());
+        observer.observe(root, { attributes: true, attributeFilter: ['value'], subtree: true });
+      }
     },
 
     destroy() {
+      observer?.disconnect();
+      observer = undefined;
       controller?.destroy();
     },
 
@@ -86,9 +115,38 @@ export function clipboardComponent(options: ClipboardAlpineOptions = {}) {
       return iconSvg(this.status === 'copied' ? 'check' : 'copy');
     },
 
-    /** Copies the text; resolves `true` when it reached the clipboard. */
-    copy(text: string | null | undefined): Promise<boolean> {
-      return controller?.copy(text) ?? Promise.resolve(false);
+    /** Back to idle, dropping any copy in flight and the manual-copy value. */
+    reset(this: { manual: string | null }) {
+      generation++;
+      controller?.reset();
+      this.manual = null;
+    },
+
+    /**
+     * Copies the text; resolves `true` when it reached the clipboard. On a
+     * failure the text becomes `manual`, and its value part is selected.
+     */
+    async copy(
+      this: Partial<AlpineMagics> & {
+        manual: string | null;
+        $nextTick?: (callback: () => void) => void;
+      },
+      text: string | null | undefined,
+    ): Promise<boolean> {
+      if (!controller) return false;
+      const value = String(text ?? '');
+      const current = ++generation;
+      const copied = await controller.copy(value);
+      // The value changed (or another copy started) meanwhile: it owns the state.
+      if (current !== generation) return copied;
+      this.manual = copied ? null : value;
+      if (!copied) {
+        const root = this.$root;
+        const select = () => selectClipboardValue(root);
+        if (this.$nextTick) this.$nextTick(select);
+        else select();
+      }
+      return copied;
     },
 
     /** Copies the Code block's lines, as the server rendered them. */

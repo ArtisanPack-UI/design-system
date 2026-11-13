@@ -205,6 +205,39 @@ describe('Carousel', () => {
     await page.close();
   });
 
+  it('puts the autoplay button first in the DOM, still over the viewport top start and above raised slide controls', async () => {
+    const autoplay =
+      '<button id="auto" type="button" data-scope="carousel" data-part="autoplay-trigger" aria-label="Stop"></button>';
+    // A slide control raised the way Card raises its own (z-index 1).
+    const raised = `<div data-scope="carousel" data-part="item"><button id="raised" style="position: relative; z-index: 1; display: block; inline-size: 100%; block-size: 80px">x</button></div>`;
+    for (const dir of ['ltr', 'rtl']) {
+      for (const header of [false, true]) {
+        const page = await open(
+          `<div id="r" class="apui-carousel" style="${rootStyle(1)}; inline-size: 600px">
+            ${autoplay}
+            ${header ? `<div data-scope="carousel" data-part="header" style="block-size: 40px"><h3 data-scope="carousel" data-part="title">Featured</h3>${button('prev-trigger')}${button('next-trigger')}</div>` : ''}
+            <div id="v" data-scope="carousel" data-part="viewport"><div id="g" data-scope="carousel" data-part="item-group" style="display: grid">${raised}</div>${header ? '' : button('prev-trigger') + button('next-trigger')}</div>
+          </div>`,
+          `data-theme="light" dir="${dir}"`,
+        );
+        const v = await page.$eval('#v', (el) => el.getBoundingClientRect().toJSON());
+        const a = await page.$eval('#auto', (el) => el.getBoundingClientRect().toJSON());
+        expect(a.top - v.top).toBe(12);
+        if (dir === 'ltr') expect(a.left - v.left).toBe(12);
+        else expect(v.right - a.right).toBe(12);
+        const hit = await page.evaluate(
+          ([x, y]) => document.elementFromPoint(x!, y!)?.id,
+          [a.left + a.width / 2, a.top + a.height / 2],
+        );
+        expect(hit).toBe('auto');
+        // First in the Tab order.
+        await page.keyboard.press('Tab');
+        expect(await page.evaluate(() => document.activeElement?.id)).toBe('auto');
+        await page.close();
+      }
+    }
+  });
+
   it('draws a wider primary pill for the current dot, in a 24px target', async () => {
     const page = await open(`
       <div data-scope="carousel" data-part="indicator-group">

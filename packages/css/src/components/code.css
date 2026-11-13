@@ -78,9 +78,14 @@
     outline-offset: calc(var(--apui-focus-ring-width) * -1);
   }
 
-  /* As wide as the longest line, so a highlight spans the scrolled width. */
+  /*
+   * As wide as the longest line, so a highlight spans the scrolled width. A
+   * column flexbox, so the newline text between line parts (which keeps the
+   * pre's text content line by line) adds no blank lines of its own.
+   */
   [data-scope='code'][data-part='pre'] > code {
-    display: inline-block;
+    display: inline-flex;
+    flex-direction: column;
     min-inline-size: 100%;
     font: inherit;
   }

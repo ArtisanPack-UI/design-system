@@ -9,17 +9,21 @@
     "livewire": {
       "name": "clipboard",
       "capabilities": [
-        "New in Livewire. Runs on the shared apuiClipboard Alpine component; a changed value from Livewire copies the new one",
-        "copy and error are DOM events on the root (x-on:copy, x-on:error)"
+        "New in Livewire. Runs on the shared apuiClipboard Alpine component; a changed value from Livewire copies the new one and clears a stale Copied",
+        "copied and error are DOM events on the root (x-on:copied, x-on:error); copied is named apart from the native copy event, which a manual copy fires"
       ]
     },
     "react": {
       "name": "Clipboard",
-      "capabilities": ["onCopy gets the value; onError the failure"]
+      "capabilities": [
+        "onCopied gets the value; onError the failure. The 2.x onCopy still works as a deprecated alias of onCopied and never sees native copy events"
+      ]
     },
     "vue": {
       "name": "Clipboard",
-      "capabilities": ["copy gets the value; error the failure"]
+      "capabilities": [
+        "copied gets the value; error the failure. The 2.x copy event is still emitted as a deprecated alias; it is declared, so it never catches native copy events"
+      ]
     }
   },
   "props": [
@@ -96,7 +100,7 @@
     {
       "name": "field",
       "element": "span",
-      "description": "The field variant's read-only box, in the mono font on the sunken surface."
+      "description": "The field variant's read-only box, in the mono font on the sunken surface. The button and icon variants show it beside the button after a failed copy, with the value selected, so it can be copied by hand; a copy that works or a new value hides it."
     },
     {
       "name": "value",
@@ -112,8 +116,8 @@
   "slots": [],
   "events": [
     {
-      "name": "copy",
-      "description": "The value reached the clipboard.",
+      "name": "copied",
+      "description": "The value reached the clipboard. Named apart from the native copy event, which a manual copy fires.",
       "payload": "string"
     },
     {
@@ -127,7 +131,7 @@
     "requirements": [
       "The result is announced in a role=status live region, success or failure; never a silent copy.",
       "The label changes to Copied while copied; the icon button's accessible name does too.",
-      "The value in a copy field reads LTR in every direction and stays selectable, so it can be copied by hand when copying fails."
+      "The value in a copy field reads LTR in every direction and stays selectable, so it can be copied by hand when copying fails; the button and icon variants show it, selected, after a failure."
     ],
     "wcag": ["2.1.1", "4.1.2", "4.1.3"]
   },

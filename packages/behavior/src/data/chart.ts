@@ -35,9 +35,15 @@ export interface ChartOptions {
    * `x` of the first series given as points fills them.
    */
   labels?: readonly unknown[];
-  /** The plot's viewBox width (cartesian charts). @defaultValue 520 */
+  /**
+   * The plot's viewBox width (cartesian charts). Not a finite number above
+   * the 48px side padding, the default is used. @defaultValue 520
+   */
   width?: number;
-  /** The plot's viewBox height (cartesian charts). @defaultValue 220 */
+  /**
+   * The plot's viewBox height (cartesian charts). Not a finite number above
+   * the 36px top and bottom padding, the default is used. @defaultValue 220
+   */
   height?: number;
   /** Names a series given as a plain array of numbers. */
   title?: string;
@@ -150,6 +156,18 @@ export const CHART_DONUT_INNER_RADIUS = 44;
 /** The series colors, `--apui-chart-1…6`. */
 export const CHART_COLORS = 6;
 export const CHART_TYPES: readonly ChartType[] = ['bar', 'line', 'area', 'donut'];
+/**
+ * The largest magnitude the y axis spans. Values beyond it (up to
+ * `Number.MAX_VALUE`) draw at the limit, so the axis math never overflows to
+ * Infinity; the tooltip and table still print the value itself.
+ */
+export const CHART_LIMIT = 1e300;
+/**
+ * The finest step between y-axis ticks: the smallest the labels print
+ * (`MAX_DIGITS` decimals). A narrower range (all values within 1e-10 of zero,
+ * such as `1e-60`) gets this step, so the ticks stay distinct.
+ */
+export const CHART_MIN_STEP = 1e-10;
 
 const PAD_LEFT = 40;
 const PAD_RIGHT = 8;
@@ -170,8 +188,13 @@ const fixed = (value: number, digits = 1): string => {
   return /^-0\.0+$/.test(text) ? text.slice(1) : text;
 };
 
-/** 10 to a whole power, without `**` on negative powers (engines round those differently). */
-const pow10 = (exponent: number): number => (exponent >= 0 ? 10 ** exponent : 1 / 10 ** -exponent);
+/**
+ * 10 to a whole power, dividing for negative powers (engines round `**` on
+ * those differently). Parsed from `1e…`, the nearest double for any power,
+ * as PHP's port parses it.
+ */
+const pow10 = (exponent: number): number =>
+  exponent >= 0 ? Number(`1e${exponent}`) : 1 / Number(`1e${-exponent}`);
 
 /** The power of ten at or below a positive number. */
 function exponentOf(value: number): number {
@@ -196,15 +219,24 @@ export function niceNumber(value: number, round: boolean): number {
 /** Rounds to `digits` decimals, as `toFixed` does. */
 const roundTo = (value: number, digits: number): number => Number(value.toFixed(digits));
 
+/** A value as the y axis places it: within `CHART_LIMIT`, and NaN as 0. */
+const axisValue = (value: number): number =>
+  Number.isNaN(value) ? 0 : Math.max(-CHART_LIMIT, Math.min(CHART_LIMIT, value));
+
 /**
  * The y axis's values: nice steps from at or below the smallest value (or
- * zero) to at or above the largest (or zero), about five intervals.
+ * zero) to at or above the largest (or zero), about five intervals. The range
+ * is clamped to `CHART_LIMIT` and the step is at least `CHART_MIN_STEP`, so
+ * any input gives a finite axis with distinct ends.
  */
 export function chartTicks(min: number, max: number): number[] {
-  const low = Math.min(0, min);
-  let high = Math.max(0, max);
+  const low = Math.min(0, axisValue(min));
+  let high = Math.max(0, axisValue(max));
   if (high === low) high = low + 1;
-  const step = niceNumber(niceNumber(high - low, false) / TICK_COUNT, true);
+  const step = Math.max(
+    CHART_MIN_STEP,
+    niceNumber(niceNumber(high - low, false) / TICK_COUNT, true),
+  );
   const digits = Math.max(0, -exponentOf(step));
   const start = roundTo(Math.floor(low / step) * step, digits);
   const end = roundTo(Math.ceil(high / step) * step, digits);
@@ -280,8 +312,19 @@ export function chartPointLabels(series: unknown): string[] {
 
 const groupThousands = (digits: string): string => digits.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
+/**
+ * `toFixed`, but written out in full from 1e21 up, where `toFixed` switches
+ * to exponent notation (`1e+21`); such doubles are whole numbers, so their
+ * digits are the BigInt's. PHP's port prints the same digits.
+ */
+function toDecimal(value: number, digits: number): string {
+  if (!(Math.abs(value) >= 1e21) || !Number.isFinite(value)) return value.toFixed(digits);
+  const whole = BigInt(value).toString();
+  return digits > 0 ? `${whole}.${'0'.repeat(digits)}` : whole;
+}
+
 function plain(value: number, digits: number, trim: boolean): string {
-  let text = value.toFixed(digits);
+  let text = toDecimal(value, digits);
   if (trim && text.includes('.')) text = text.replace(/\.?0+$/, '');
   const [whole, fraction] = text.split('.') as [string, string | undefined];
   return groupThousands(whole) + (fraction ? `.${fraction}` : '');
@@ -375,6 +418,10 @@ export const chartColor = (index: number): number => (index % CHART_COLORS) + 1;
 const share = (value: number, total: number): string =>
   `${fixed(total > 0 ? (value / total) * 100 : 0)}%`;
 
+/** A viewBox size: `value` if it's a finite number above `padding`, else `fallback`. */
+const dimension = (value: number | undefined, padding: number, fallback: number): number =>
+  typeof value === 'number' && Number.isFinite(value) && value > padding ? value : fallback;
+
 /** Everything the chart draws for `series` as `options.type`. */
 export function chartGeometry(series: unknown, options: ChartOptions = {}): ChartGeometry {
   const type: ChartType = CHART_TYPES.includes(options.type as ChartType)
@@ -388,8 +435,8 @@ export function chartGeometry(series: unknown, options: ChartOptions = {}): Char
 
   if (type === 'donut') return donutGeometry(all, labels, format);
 
-  const width = options.width && options.width > 0 ? options.width : CHART_WIDTH;
-  const height = options.height && options.height > 0 ? options.height : CHART_HEIGHT;
+  const width = dimension(options.width, PAD_LEFT + PAD_RIGHT, CHART_WIDTH);
+  const height = dimension(options.height, PAD_TOP + PAD_BOTTOM, CHART_HEIGHT);
   const drawn = type === 'bar' ? all.slice(0, 1) : all;
   const count = Math.max(labels.length, ...drawn.map((entry) => entry.data.length), 0);
   const label = (index: number) => labels[index] ?? '';
@@ -402,7 +449,8 @@ export function chartGeometry(series: unknown, options: ChartOptions = {}): Char
   const right = width - PAD_RIGHT;
   const top = PAD_TOP;
   const bottom = height - PAD_BOTTOM;
-  const toY = (value: number): number => top + ((high - value) / (high - low)) * (bottom - top);
+  const toY = (value: number): number =>
+    top + ((high - axisValue(value)) / (high - low)) * (bottom - top);
   const zero = toY(0);
   const plotWidth = right - left;
 

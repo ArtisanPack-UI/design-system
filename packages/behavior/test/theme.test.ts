@@ -8,8 +8,10 @@ import {
   applyTheme,
   isThemeChoice,
   nextIconTheme,
+  pageThemeChoice,
   readThemeChoice,
   resolveTheme,
+  startThemeChoice,
   storeThemeChoice,
   THEME_CHOICES,
   themeChoiceLabel,
@@ -45,6 +47,12 @@ class FakeRoot {
   attributes = new Map<string, string>();
   setAttribute(name: string, value: string) {
     this.attributes.set(name, value);
+  }
+  getAttribute(name: string) {
+    return this.attributes.get(name) ?? null;
+  }
+  hasAttribute(name: string) {
+    return this.attributes.has(name);
   }
 }
 
@@ -111,11 +119,49 @@ describe('resolving and applying', () => {
     });
     expect(theme).toBe('dark');
     expect(root.attributes.get('data-theme')).toBe('dark');
+    expect(root.attributes.get('data-theme-choice')).toBe('system');
     expect(storage.getItem('site-theme')).toBe('system');
 
     applyTheme('high-contrast', { root: root as unknown as Element, storage, persist: false });
     expect(root.attributes.get('data-theme')).toBe('high-contrast');
     expect(storage.getItem('apui-theme')).toBeNull();
+  });
+});
+
+describe('the choice the page shows', () => {
+  const asElement = (root: FakeRoot) => root as unknown as Element;
+
+  it('reads the recorded choice while data-theme still matches it', () => {
+    const root = new FakeRoot();
+    expect(pageThemeChoice(asElement(root))).toBeNull();
+    applyTheme('system', { root: asElement(root), persist: false, matchMedia: media(true) });
+    expect(pageThemeChoice(asElement(root))).toBe('system');
+    applyTheme('high-contrast', { root: asElement(root), persist: false });
+    expect(pageThemeChoice(asElement(root))).toBe('high-contrast');
+    // The app set its own theme over it: the recorded choice no longer holds.
+    root.setAttribute('data-theme', 'dark');
+    expect(pageThemeChoice(asElement(root))).toBeNull();
+    root.setAttribute('data-theme-choice', 'sepia');
+    expect(pageThemeChoice(asElement(root))).toBeNull();
+  });
+
+  it('starts an uncontrolled toggle on the page choice, else applies the fallback to a bare page', () => {
+    const shown = new FakeRoot();
+    shown.setAttribute('data-theme', 'dark');
+    shown.setAttribute('data-theme-choice', 'dark');
+    expect(startThemeChoice('system', { root: asElement(shown) })).toBe('dark');
+
+    const bare = new FakeRoot();
+    expect(startThemeChoice('high-contrast', { root: asElement(bare) })).toBe('high-contrast');
+    expect(bare.attributes.get('data-theme')).toBe('high-contrast');
+    expect(bare.attributes.get('data-theme-choice')).toBe('high-contrast');
+
+    // The app's own data-theme stays.
+    const app = new FakeRoot();
+    app.setAttribute('data-theme', 'light');
+    expect(startThemeChoice('dark', { root: asElement(app) })).toBe('dark');
+    expect(app.attributes.get('data-theme')).toBe('light');
+    expect(app.attributes.has('data-theme-choice')).toBe(false);
   });
 });
 
@@ -149,9 +195,10 @@ describe('the segmented radio group keys', () => {
 });
 
 describe('the head snippet', () => {
+  let lastRoot = new FakeRoot();
   /** Runs the snippet against a fake document, storage and media query. */
   function run(script: string, stored: string | null | Error, dark: boolean) {
-    const root = new FakeRoot();
+    const root = (lastRoot = new FakeRoot());
     const localStorage = {
       getItem() {
         if (stored instanceof Error) throw stored;
@@ -172,8 +219,9 @@ describe('the head snippet', () => {
     expect(themeScript()).toBe(
       '(function(){try{var c=null;try{c=localStorage.getItem("apui-theme")}catch(e){}' +
         'if(["light","dark","high-contrast","system"].indexOf(c)<0)c="system";' +
+        'var d=document.documentElement;d.setAttribute("data-theme-choice",c);' +
         'if(c==="system")c=window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";' +
-        'document.documentElement.setAttribute("data-theme",c)}catch(e){}})();',
+        'd.setAttribute("data-theme",c)}catch(e){}})();',
     );
   });
 
@@ -183,6 +231,14 @@ describe('the head snippet', () => {
     expect(run(themeScript(), null, false)).toBe('light');
     expect(run(themeScript(), 'bogus', true)).toBe('dark');
     expect(run(themeScript({ defaultValue: 'dark' }), null, false)).toBe('dark');
+  });
+
+  it('records the choice behind the theme, so a toggle starts on the default it applied', () => {
+    expect(run(themeScript({ defaultValue: 'dark' }), null, false)).toBe('dark');
+    expect(lastRoot.attributes.get('data-theme-choice')).toBe('dark');
+    expect(pageThemeChoice(lastRoot as unknown as Element)).toBe('dark');
+    expect(run(themeScript(), 'system', true)).toBe('dark');
+    expect(lastRoot.attributes.get('data-theme-choice')).toBe('system');
   });
 
   it('falls back when storage is blocked', () => {

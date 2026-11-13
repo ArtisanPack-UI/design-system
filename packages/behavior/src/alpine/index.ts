@@ -77,6 +77,7 @@ import { chartComponent } from './chart';
 import { codeEditorComponent, richTextEditorComponent, signatureComponent } from './form';
 import { themeToggleComponent } from './theme';
 import { clipboardComponent, kbdComponent } from './clipboard';
+import { markdownComponent } from './markdown';
 import { directionOf, type PositionOptions, zagPositioning } from '../positioning';
 
 type Alpine = AlpineGlobal.Alpine;
@@ -1041,6 +1042,7 @@ export default function apuiBehavior(Alpine: Alpine): void {
   Alpine.data('apuiChart', chartComponent as never);
   Alpine.data('apuiClipboard', clipboardComponent as never);
   Alpine.data('apuiKbd', kbdComponent as never);
+  Alpine.data('apuiMarkdown', markdownComponent as never);
 
   Alpine.directive(
     'apui',

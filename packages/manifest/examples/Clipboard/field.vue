@@ -10,6 +10,6 @@ const emit = defineEmits<{ share: [url: string] }>();
     variant="field"
     size="md"
     label="Copy share link"
-    @copy="emit('share', $event)"
+    @copied="emit('share', $event)"
   />
 </template>

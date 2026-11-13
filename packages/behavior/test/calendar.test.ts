@@ -105,6 +105,29 @@ describe('calendar grid', () => {
     await page.close();
   });
 
+  it('moves focus to the day "+N more" opens, through the re-render', async () => {
+    const withMore = markup().replace(
+      'id="e9">Event</button></div>',
+      'id="e9">Event</button><button type="button" data-scope="calendar" data-part="more" id="m9" x-on:click="moreFocus(\'9\')">+1 more</button></div>',
+    );
+    const { page, errors } = await open(
+      withMore.replace(/id="d(\d+)"/g, 'id="d$1" data-date="$1"'),
+    );
+    await page.focus('#m9');
+    await page.keyboard.press('Enter');
+    expect(await focusedId(page)).toBe('d9');
+    expect(await stops(page)).toEqual(['d9']);
+    // The day view replaces the grid; focus follows the new cell.
+    await page.evaluate(() => {
+      const grid = document.querySelector('[role="grid"]')!;
+      grid.innerHTML =
+        '<div data-scope="calendar" data-part="row" role="row"><div data-scope="calendar" data-part="cell" role="gridcell" id="day9" data-date="9" tabindex="0">9</div></div>';
+    });
+    await page.waitForFunction(() => document.activeElement?.id === 'day9');
+    expect(errors).toEqual([]);
+    await page.close();
+  });
+
   it('roves focus in the view tabs', async () => {
     const { page } = await open(markup(), { dir: 'rtl' });
     await page.focus('#t-month');

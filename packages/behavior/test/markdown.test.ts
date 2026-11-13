@@ -10,6 +10,8 @@ import { fileURLToPath } from 'node:url';
 
 import {
   filterMarkdownHtml,
+  MARKDOWN_MAX_DELIMITERS,
+  MARKDOWN_MAX_NESTING,
   markdownImageUrl,
   markdownLinkUrl,
   renderMarkdown,
@@ -86,7 +88,34 @@ describe('renderMarkdown', () => {
   });
 });
 
+describe('renderMarkdown limits', () => {
+  it.each([true, false])('stops nesting blocks at the limit (sanitize %s)', (sanitize) => {
+    const quotes = renderMarkdown(`${'> '.repeat(10000)}text`, { sanitize });
+    expect(quotes.match(/<blockquote>/g)).toHaveLength(MARKDOWN_MAX_NESTING);
+    expect(quotes).toContain('<p>&gt; &gt; ');
+
+    const lists = renderMarkdown(`${'- '.repeat(10000)}text`, { sanitize });
+    expect(lists.match(/<ul>/g)).toHaveLength(MARKDOWN_MAX_NESTING / 2);
+  });
+
+  it('keeps delimiter runs past the limit literal', () => {
+    const html = renderMarkdown('*a* '.repeat(MARKDOWN_MAX_DELIMITERS));
+    expect(html.match(/<em>/g)).toHaveLength(MARKDOWN_MAX_DELIMITERS / 2);
+    expect(html.endsWith('*a*</p>\n')).toBe(true);
+  });
+});
+
 describe('filterMarkdownHtml', () => {
+  it('keeps only PNG, GIF, JPEG and WebP data images, as Markdown images', () => {
+    expect(filterMarkdownHtml('<img src="data:image/svg+xml;base64,PHN2Zz4=" alt="x">')).toBe(
+      '<img alt="x">',
+    );
+    expect(filterMarkdownHtml('<img src="DATA:image/webp;base64,AA">')).toBe(
+      '<img src="DATA:image/webp;base64,AA">',
+    );
+    expect(renderMarkdown('![x](data:image/svg+xml;base64,PHN2Zz4=)')).toBe('<p>x</p>\n');
+  });
+
   it('rebuilds allowed tags with their allowed attributes', () => {
     expect(filterMarkdownHtml('<KBD class="k" title="Key">K</KBD>')).toBe(
       '<kbd title="Key">K</kbd>',

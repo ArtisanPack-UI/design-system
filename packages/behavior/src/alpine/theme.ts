@@ -14,11 +14,14 @@
  *   </div>
  *
  * `value` is plain Alpine state, so `$wire.entangle()` binds it to Livewire.
- * Without a value, the stored choice shows, else `system`. A choice the
- * toggle makes dispatches `value-change` from the root; every toggle on the
- * page (and in other tabs) follows it. When the value changes from outside
- * the toggle (Livewire setting the entangled property), the toggle applies
- * it too; the value it starts with isn't applied, the head script did that.
+ * Without a value, the stored choice shows, else the one the head script
+ * applied (`data-theme-choice`), else `system`, which is applied only while
+ * `<html>` has no `data-theme`. A choice the toggle makes dispatches
+ * `value-change` from the root; every toggle on the page follows it, and so
+ * do toggles in other tabs that read storage (not `bound` ones, and not with
+ * `persist: false`). When the value changes from outside the toggle
+ * (Livewire setting the entangled property), the toggle applies it too; a
+ * plain starting value isn't applied, the head script did that.
  */
 import { directionOf } from '../positioning';
 import {
@@ -27,6 +30,7 @@ import {
   nextIconTheme,
   readThemeChoice,
   resolveTheme,
+  startThemeChoice,
   type Theme,
   type ThemeChoice,
   themeChoices,
@@ -36,7 +40,7 @@ import {
 } from '../theme';
 
 export interface ThemeToggleAlpineOptions {
-  /** Initial or entangled choice. Without one, the stored choice, else `system`. */
+  /** Initial or entangled choice. Without one, the stored choice, else the page's, else `system`. */
   value?: ThemeChoice | null;
   /** The choices offered, in order. Default all four. */
   choices?: ThemeChoice[];
@@ -81,7 +85,7 @@ export function themeToggleComponent(options: ThemeToggleAlpineOptions = {}) {
     init(this: Magics & State) {
       const stored = persist ? readThemeChoice(storageKey) : null;
       if (!isThemeChoice(this.value)) {
-        this.value = stored ?? 'system';
+        this.value = stored ?? startThemeChoice('system');
         this.resolved = resolveTheme(this.value as ThemeChoice);
       } else if (options.bound && this.value !== stored) {
         // A bound value the head script didn't apply (say, a profile setting from
@@ -96,8 +100,12 @@ export function themeToggleComponent(options: ThemeToggleAlpineOptions = {}) {
         known = value;
         this.resolved = applyTheme(value, { persist, storageKey });
       });
+      // A bound toggle shows the server's value and an unpersisted one ignores
+      // storage, so neither follows (or applies) a choice another tab stored.
+      const followsStorage = persist && !options.bound;
       stop = watchTheme(
         ({ value, source }) => {
+          if (source === 'storage' && !followsStorage) return;
           if (value) {
             known = value;
             this.value = value;

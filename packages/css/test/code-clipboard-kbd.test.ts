@@ -82,6 +82,20 @@ describe('Code', () => {
     await page.close();
   });
 
+  it('adds no blank lines for the newlines that separate the line parts', async () => {
+    const page = await open(CODE.replace(/<\/span><span id="l/g, '</span>\n<span id="l'));
+    expect(await page.$eval('#pre', (el) => el.textContent)).toBe(
+      'const veryLongName = someFunction(argumentOne, argumentTwo, argumentThree);\n\n  return a;',
+    );
+    const [l1, l2, l3] = [await box(page, '#l1'), await box(page, '#l2'), await box(page, '#l3')];
+    expect([l1.height, l2.height, l3.height]).toEqual([20, 20, 20]);
+    expect(l2.y - l1.y).toBe(20);
+    expect(l3.y - l2.y).toBe(20);
+    // Each line still spans the scrolled width, so a highlight covers it.
+    expect(l3.width).toBe(l1.width);
+    await page.close();
+  });
+
   it('turns the copied button the success color', async () => {
     const page = await open(CODE);
     const idle = await style(page, '#copy', 'color');
@@ -134,6 +148,23 @@ describe('Clipboard', () => {
     const button = await box(page, '#button');
     expect(Math.abs(tip.x + tip.width / 2 - (button.x + button.width / 2))).toBeLessThan(1);
     await page.close();
+  });
+
+  it('shows the value beside the button and icon variants after a failed copy', async () => {
+    const field =
+      '<span id="field" data-scope="clipboard" data-part="field"><span data-scope="clipboard" data-part="value">https://horizonhomes.com/l/grove-greenfield</span></span>';
+    for (const variant of ['button', 'icon']) {
+      const page = await open(clipboard(variant, 'failed').replace('<button', `${field}<button`));
+      const box1 = await box(page, '#field');
+      const button = await box(page, '#button');
+      expect(box1.width).toBeGreaterThan(100);
+      expect(box1.width).toBeLessThanOrEqual(240);
+      expect(button.x - (box1.x + box1.width)).toBe(8);
+      expect(await style(page, '#field', 'border-start-end-radius')).toBe(
+        await style(page, '#field', 'border-start-start-radius'),
+      );
+      await page.close();
+    }
   });
 
   it('joins the copy field to its button at the size height', async () => {

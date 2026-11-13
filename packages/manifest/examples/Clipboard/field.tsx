@@ -7,7 +7,7 @@ export default function FieldExample({ onShare }: { onShare: (url: string) => vo
       variant="field"
       size="md"
       label="Copy share link"
-      onCopy={onShare}
+      onCopied={onShare}
     />
   );
 }

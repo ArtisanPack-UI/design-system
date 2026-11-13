@@ -674,6 +674,8 @@ The package tests repeat these in Chromium with Alpine's morph plugin, plus RTL 
 
 **Why.** A tooltip that only repeats a mark's accessible name doesn't need a state machine. The spec shows none of the larger chart types, and its "no dual axes" rule rules out the rest.
 
+**Addendum (review).** The y axis is clamped to ±1e300 (`CHART_LIMIT`), and values beyond it draw at the limit while the tooltip and table print the real value. The tick step is at least 1e-10 (`CHART_MIN_STEP`, the smallest step the labels print), and NaN counts as 0, so any finite input gives a finite axis. A viewBox that doesn't fit the padding (width ≤ 48, height ≤ 36) uses the default 520×220. Both ports parse powers of ten from `1e…` and print values of 1e21 and above as full digits, so TS and PHP agree at any magnitude.
+
 ## D-047: Calendar date math is shared, and Livewire has two tags
 
 **Decision.**
@@ -695,6 +697,8 @@ The package tests repeat these in Chromium with Alpine's morph plugin, plus RTL 
 
 **Why.** The visible text must begin the accessible name, and axe flagged the label-based version. Reusing Tabs' look keeps the switcher consistent without nesting panels in the toolbar.
 
+**Addendum (review).** Livewire UI Components doesn't require `ext-intl`: without it `CalendarModel` takes the week start from a CLDR region table (the one `@internationalized/date` falls back to) plus likely regions for bare languages, and names stay English. Impossible seconds or offsets skip the event in both stacks. A timed event ending at 00:00 is placed through the previous day, but its full date text names the actual end day. "+N more" moves focus to the day it opens in every stack. The Livewire calendar steps previous and next on the server (`goToPreviousPeriod`, `goToNextPeriod`), and `loadEventModal` carries the calendar's id so a default details child ignores other calendars.
+
 ## D-049: Markdown renders the same HTML in every stack
 
 **Decision.**
@@ -704,6 +708,8 @@ The package tests repeat these in Chromium with Alpine's morph plugin, plus RTL 
 - The root is `.apui-markdown` with `data-mode` (D-002's one-root-class rule); `.apui-prose` carries the shared prose styles. `mode` `write` and `split` put Tabs over a Textarea; the edit event is `source-change` (Vue also `update:source`). Livewire renders every panel on the server and disables the hidden Textarea, and its `source` defaults to the `wire:model` value. EasyMDE and the Markdown image upload are removed; Livewire's default is now render-only.
 
 **Why.** Prose that looks the same in every stack needs the same HTML. Escaping instead of sanitizing a DOM keeps the PHP and TypeScript paths identical and needs no DOMPurify.
+
+**Addendum (review).** Both stacks cap block nesting at 100 (commonmark depth: a block quote is one level, a list two) and emphasis delimiter runs per inline container at 500; TS mirrors commonmark through a guarded marked Lexer/Tokenizer, byte for byte on the shared vectors at and past the limits. Raw-HTML `<img>` takes the same `data:` allowlist as Markdown images (PNG, GIF, JPEG, WebP). In Livewire, native control attributes go to the editor's Textarea, one named control posts from every tab, and a plain form (no `wire:model`) renders the draft in the browser with `renderMarkdown` through `apuiMarkdown`, the same HTML the server writes. That adds about 18 KB gzip to `alpine.global.js`. With `wire:model`, switching tabs flushes a debounced value before committing.
 
 ## D-050: Code, Clipboard and Kbd
 
@@ -716,6 +722,8 @@ The package tests repeat these in Chromium with Alpine's morph plugin, plus RTL 
 
 **Why.** A visible "Copied" plus a live region covers sighted and screen-reader users, and one helper keeps the timing identical. Code's spec has no token colors for syntax, and rendering the server's keys first avoids a hydration mismatch.
 
+**Addendum (review).** Clipboard's success event is `copied` (React `onCopied`), apart from the native `copy` event a manual copy fires. React keeps `onCopy` and Vue still emits `copy` as deprecated aliases; neither can catch native copies. Livewire dispatches only `copied`. A new value clears a stale "Copied", even from a copy still in flight. After a failed copy, the button and icon variants show the `field` and `value` parts beside the button with the value selected, so it can be copied by hand. Code copies the exact source (a final newline and `\r` included), and its line parts are separated by newlines so the `pre` text reads line by line, with a column flexbox so they add no blank lines.
+
 ## D-051: Icon and the directional icon list
 
 **Decision.**
@@ -725,6 +733,8 @@ The package tests repeat these in Chromium with Alpine's morph plugin, plus RTL 
 - Directional icons are a list in the registry (`DIRECTIONAL_ICONS` in `behavior`, `IconRegistry::DIRECTIONAL` in Livewire): `arrow-left`, `arrow-right`, `chevron-left` and `chevron-right`. Apps extend it with `registerDirectionalIcons` or `IconRegistry::registerDirectional`, every component's `data-mirror` follows it, and `mirror` overrides it per icon.
 
 **Why.** One list decides mirroring for every component in every stack, so a chevron can't flip in one stack and not another.
+
+**Addendum (review).** A caller's `aria-label` or `aria-labelledby` names an Icon as `label` does (`role="img"`, not hidden); `label` wins. Livewire passes `classes.svg` to blade-icons fallbacks too.
 
 ## D-052: Swap is a token-driven primitive in every stack
 
@@ -744,6 +754,8 @@ The package tests repeat these in Chromium with Alpine's morph plugin, plus RTL 
 
 **Why.** D-041 built the widget for exactly this reuse, and one machine keeps the slider and the carousel's keyboard and announcements identical.
 
+**Addendum (review).** The autoplay button is the root's first child, first in the Tab order, and sits over the viewport through its grid row. A caller's `aria-label` is kept. When every slide has a distinct `id`, it keys the slides in every stack, else their index. Livewire's root `wire:key` carries the slide count and a hash of the options, so a morph that changes them remounts the carousel.
+
 ## D-054: Theme choice lives in `behavior` and applies before first paint
 
 **Decision.**
@@ -755,6 +767,11 @@ The package tests repeat these in Chromium with Alpine's morph plugin, plus RTL 
 - Where an inline script can't run, as with React's client-rendered `<ThemeScript>`, the stack applies the stored choice once on mount, and only while `<html>` has no `data-theme`, so it never overrides the head script; SPAs that want no flash inline `themeScript()` in `index.html`. A Livewire toggle bound with `wire:model` also applies a value the server sets later. Under a 2.x `ThemeProvider` (React) or `provideTheme` (Vue) the toggle still drives the provider; high contrast reaches it as `light`.
 
 **Why.** A theme applied after paint flashes. One script and one storage key keep every stack, tab and toggle in agreement.
+
+**Addendum (review).**
+- *Controlled toggles.* A toggle whose value its parent owns (React `value`, Vue `modelValue`, Livewire `wire:model`) only reports a pick. It applies, stores and passes a choice to a 2.x provider when the bound value changes to it after mount, so a parent that rejects a pick leaves the page alone. This replaces "a React or Vue parent that controls the value calls `applyTheme` itself". The value a toggle mounts with is still never applied in React or Vue, and neither is a plain Livewire `value`; `wire:model` keeps its apply-once-on-mount-when-different.
+- *Default handoff.* The head snippet records the choice behind `data-theme` as `data-theme-choice` on `<html>`, and `applyTheme` keeps it current. An uncontrolled toggle with nothing stored (and no 2.x provider) starts on that recorded choice, else its own default, which it applies only while `<html>` has no `data-theme`.
+- *Other tabs.* Only toggles that read storage (uncontrolled and persisting) follow a choice another tab stores, and the page follows through them. Controlled, bound and `persist: false` toggles ignore storage events.
 
 ## D-055: ThemePreview is a Blade card picker
 

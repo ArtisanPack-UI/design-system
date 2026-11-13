@@ -262,6 +262,59 @@ describe('Alpine components', () => {
     component.destroy();
   });
 
+  it('apuiClipboard clears a stale "Copied" when Livewire morphs a new value, even mid-copy', async () => {
+    const { clipboardComponent } = await import('../src/alpine/clipboard');
+    let release: () => void = () => {};
+    const writeText = vi
+      .fn()
+      .mockResolvedValueOnce(undefined)
+      .mockReturnValueOnce(new Promise<void>((resolve) => (release = resolve)));
+    vi.stubGlobal('navigator', { clipboard: { writeText } });
+    const root = document.createElement('span');
+    root.innerHTML = '<button value="A"></button>';
+    const button = root.querySelector('button')!;
+    const component = Object.assign(clipboardComponent({ timeout: 5000 }), { $root: root });
+    component.init();
+
+    expect(await component.copy('A')).toBe(true);
+    expect(component.status).toBe('copied');
+    button.setAttribute('value', 'B');
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(component.status).toBe('idle');
+
+    const pending = component.copy('B');
+    button.setAttribute('value', 'C');
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    release();
+    expect(await pending).toBe(true);
+    expect(component.status).toBe('idle');
+    component.destroy();
+  });
+
+  it('apuiClipboard keeps a failed value for copying by hand and selects it', async () => {
+    const { clipboardComponent } = await import('../src/alpine/clipboard');
+    vi.stubGlobal('navigator', {
+      clipboard: { writeText: vi.fn().mockRejectedValueOnce(new Error('denied')) },
+    });
+    document.execCommand = vi.fn(() => false);
+    const root = document.createElement('span');
+    root.innerHTML =
+      '<span data-scope="clipboard" data-part="field"><span data-scope="clipboard" data-part="value">KEY-1</span></span>';
+    document.body.append(root);
+    const component = Object.assign(clipboardComponent(), { $root: root });
+    component.init();
+
+    expect(await component.copy('KEY-1')).toBe(false);
+    expect(component.status).toBe('failed');
+    expect(component.manual).toBe('KEY-1');
+    expect(window.getSelection()?.toString()).toBe('KEY-1');
+
+    component.reset();
+    expect([component.status, component.manual]).toEqual(['idle', null]);
+    component.destroy();
+    root.remove();
+  });
+
   it('apuiKbd swaps in Apple keys on Apple platforms', async () => {
     const { kbdComponent } = await import('../src/alpine/clipboard');
     vi.stubGlobal('navigator', { platform: 'Win32' });
