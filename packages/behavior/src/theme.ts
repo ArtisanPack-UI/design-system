@@ -3,7 +3,7 @@
  * is one of the token themes (`light`, `dark`, `high-contrast`) or `system`,
  * which follows `prefers-color-scheme` live. Applying a choice sets
  * `data-theme` on the root element, the same attribute the tokens switch on
- * (docs/tokens, Modes); the reset sets the native `color-scheme` from it.
+ * (contributing/tokens, Modes); the reset sets the native `color-scheme` from it.
  *
  * The choice persists in `localStorage` (guarded: private windows and blocked
  * storage fall back to the default) and is applied before first paint by the

@@ -1,5 +1,5 @@
 /**
- * Loads the DTCG source, validates it against the schema in docs/tokens.md and
+ * Loads the DTCG source, validates it against the schema in contributing/tokens.md and
  * resolves aliases.
  */
 import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';

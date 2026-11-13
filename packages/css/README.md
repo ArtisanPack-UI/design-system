@@ -25,7 +25,7 @@ Everything sits in `@layer apui.reset, apui.tokens, apui.components, apui.utilit
 | `@artisanpack-ui/css/tailwind`   | Optional Tailwind v4 utilities generated from the tokens (`bg-primary`, `text-muted`, `rounded-control`, …)             |
 | `@artisanpack-ui/css/assets.php` | The entry points as a PHP array, for the Livewire package                                                               |
 
-Brand presets are separate imports from `@artisanpack-ui/tokens/presets/<name>.css`. Make your own with `npx apui-generate-preset` ([docs](../../docs/tokens/README.md#brand-presets-the-generator-27)).
+Brand presets are separate imports from `@artisanpack-ui/tokens/presets/<name>.css`. Make your own with `npx apui-generate-preset` ([docs](../../contributing/tokens/README.md#brand-presets-the-generator-27)).
 
 ## With Tailwind v4
 
@@ -36,8 +36,8 @@ Brand presets are separate imports from `@artisanpack-ui/tokens/presets/<name>.c
 @import '@artisanpack-ui/css/tailwind';
 ```
 
-The first line puts the design system between Tailwind's Preflight and its utilities: Preflight never restyles a component, and a utility class on a component still wins. The preset only adds utilities and never redefines a Tailwind default, so components render the same with or without it. The full utility list is in [docs/css-conventions.md](../../docs/css-conventions.md#with-tailwind-24).
+The first line puts the design system between Tailwind's Preflight and its utilities: Preflight never restyles a component, and a utility class on a component still wins. The preset only adds utilities and never redefines a Tailwind default, so components render the same with or without it. The full utility list is in [contributing/css-conventions.md](../../contributing/css-conventions.md#with-tailwind-24).
 
-How to write component CSS for this package: [docs/css-conventions.md](../../docs/css-conventions.md).
+How to write component CSS for this package: [contributing/css-conventions.md](../../contributing/css-conventions.md).
 
 Part of the [ArtisanPack UI Design System](../../README.md).

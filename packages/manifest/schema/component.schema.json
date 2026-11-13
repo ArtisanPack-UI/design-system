@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://artisanpackui.dev/schemas/manifest/component.schema.json",
   "title": "ArtisanPack UI component manifest",
-  "description": "One component's API contract across Livewire, React and Vue (#26). Names follow docs/inventory/vocabulary.md.",
+  "description": "One component's API contract across Livewire, React and Vue (#26). Names follow contributing/inventory/vocabulary.md.",
   "type": "object",
   "additionalProperties": false,
   "required": ["name", "description", "status", "rootClass", "stacks", "props", "parts", "a11y"],

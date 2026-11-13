@@ -24,7 +24,7 @@ A codemod rewrites what it can decide: renamed imports and components with every
 
 What it can't decide it leaves alone and reports with the file, line and column: `manual` for a prop with no automatic replacement, `review` for a change worth a look (an event whose payload changed), `removed` for a deleted prop, and `class` for a raw DaisyUI class, theme variable or DaisyUI configuration. DaisyUI classes are only ever reported.
 
-The step-by-step guides are in [docs/upgrade](../../docs/upgrade/README.md).
+The step-by-step guides are in [docs/upgrade](../../docs/upgrade.md).
 
 ## Use it from code
 
@@ -47,9 +47,9 @@ The rules are a diff of two API descriptions:
 
 | Input | Role |
 |---|---|
-| `docs/inventory/data/api-<stack>.json` | **Before:** the 2.x API of each stack, from the Phase 0 catalogue |
+| `contributing/inventory/data/api-<stack>.json` | **Before:** the 2.x API of each stack, from the Phase 0 catalogue |
 | `packages/manifest/components/*.json` | **After:** the component manifests |
-| `docs/inventory/data/component-map.json`, `api-aliases.json` | Which old name is which new one |
+| `contributing/inventory/data/component-map.json`, `api-aliases.json` | Which old name is which new one |
 | `rules/curated.json` | What names can't say: a value to write, an attribute to add, a child's new name, a note for a person |
 
 `npm run rules` builds them and refuses to write a rule whose target the manifest doesn't have: a prop that isn't in the manifest for that stack, a value that isn't one of the prop's values. A 2.x member with no rule and no place in the manifest becomes a `manual` rule, so nothing disappears silently.
@@ -70,7 +70,7 @@ A member rule has one of these kinds:
 
 ### Change a rule
 
-1. Edit `rules/curated.json` (a rule under `props.<Manifest>`, or a component under `components.<stack>`), or the curated maps in `docs/inventory/data`. Say where the rule comes from in `evidence`.
+1. Edit `rules/curated.json` (a rule under `props.<Manifest>`, or a component under `components.<stack>`), or the curated maps in `contributing/inventory/data`. Say where the rule comes from in `evidence`.
 2. `npm run rules --workspace @artisanpack-ui/codemods`, then `npm run guides --workspace @artisanpack-ui/codemods`.
 3. `npm test --workspace @artisanpack-ui/codemods`. The tests run one generated case per rule, so a new rule is covered as soon as it exists.
 4. Commit the generated files, then rebuild the assets in Livewire UI Components (`node scripts/build-assets.mjs --from ../design-system`) and refresh its fixtures.

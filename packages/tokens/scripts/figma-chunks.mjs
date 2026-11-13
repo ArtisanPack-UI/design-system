@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Writes the Figma sync as numbered Plugin API scripts that each fit the Figma
- * connector's size cap (#28). See docs/figma.md.
+ * connector's size cap (#28). See contributing/figma.md.
  *
  *   node scripts/figma-chunks.mjs [out-dir]   Default out-dir: .figma-chunks
  */

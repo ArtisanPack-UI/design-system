@@ -1,6 +1,6 @@
 /**
  * Every target in the Phase 0 token audit is mapped into the DTCG tokens
- * (#18): it exists as a token, or docs/tokens/phase-0-map.json records what
+ * (#18): it exists as a token, or contributing/tokens/phase-0-map.json records what
  * superseded it, or why it was dropped or deferred.
  */
 import { readFileSync } from 'node:fs';
@@ -16,9 +16,11 @@ interface Resolution {
 }
 
 const repo = join(__dirname, '..', '..', '..');
-const audit = JSON.parse(readFileSync(join(repo, 'docs/inventory/data/token-map.json'), 'utf8'));
+const audit = JSON.parse(
+  readFileSync(join(repo, 'contributing/inventory/data/token-map.json'), 'utf8'),
+);
 const map: { resolutions: Record<string, Resolution> } = JSON.parse(
-  readFileSync(join(repo, 'docs/tokens/phase-0-map.json'), 'utf8'),
+  readFileSync(join(repo, 'contributing/tokens/phase-0-map.json'), 'utf8'),
 );
 const model = loadTokens(join(__dirname, '..', 'tokens'));
 const cssVars = [...model.tokens.values()].map((entry) => entry.cssVar as string);

@@ -1,6 +1,6 @@
 # @artisanpack-ui/testing
 
-The quality gates every ArtisanPack UI component passes, in every stack it ships in ([D-003](../../docs/decisions.md#d-003-full-parity-at-launch-with-four-exceptions), [D-016](../../docs/decisions.md#d-016-the-quality-gates-ship-as-artisanpack-uitesting-plus-a-composer-kit)):
+The quality gates every ArtisanPack UI component passes, in every stack it ships in ([D-003](../../contributing/decisions.md#d-003-full-parity-at-launch-with-four-exceptions), [D-016](../../contributing/decisions.md#d-016-the-quality-gates-ship-as-artisanpack-uitesting-plus-a-composer-kit)):
 
 | Gate | Issue | What fails it |
 |---|---|---|
@@ -16,7 +16,7 @@ Fixtures come from the component's manifest, so every stack renders the same mat
 
 - every variant × size × state, then every other color × variant, then every other `surface` once;
 - states: `hover`, `focus-visible` and `active` for interactive components, forced through the DevTools protocol on the root, or on a field's native `control` part instead, plus each state prop the component has (`disabled`, `loading`, `invalid`, …);
-- one sheet per theme (`light`, `dark`, `high-contrast`) at the default density, plus one `rtl` sheet in the default theme and density ([D-004](../../docs/decisions.md#d-004-rtl-is-a-launch-requirement)).
+- one sheet per theme (`light`, `dark`, `high-contrast`) at the default density, plus one `rtl` sheet in the default theme and density ([D-004](../../contributing/decisions.md#d-004-rtl-is-a-launch-requirement)).
 
 The manifest's optional `fixture` block sets the slot text, extra props, the props that render every part, and the states. `generated/fixtures/<Name>.json` holds the same fixtures for PHP; run `npm run fixtures` after a manifest changes, and `npm run build` fails while they're stale.
 

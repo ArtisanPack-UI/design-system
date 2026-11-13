@@ -1,7 +1,7 @@
 /**
  * Stylelint for the design system's CSS (#21). Enforces the apui namespace and
  * cascade layers (D-002) and logical properties (D-004). See
- * docs/css-conventions.md.
+ * contributing/css-conventions.md.
  *
  * A physical property needs a described exception, which stylelint checks:
  *   /* stylelint-disable-next-line property-disallowed-list -- why *\/

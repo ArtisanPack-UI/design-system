@@ -5,7 +5,7 @@
 
 Design tokens for the [ArtisanPack UI Design System](https://github.com/ArtisanPack-UI/design-system). The source is W3C DTCG JSON in [`tokens/`](tokens), in three tiers (primitive, semantic, component) with theme and density modes. One build turns it into CSS custom properties, a typed TypeScript map and a PHP array.
 
-> **2.0.0 is in progress and not published yet.** It replaces the 1.x package (DaisyUI color maps, `cn()`, `resolveColor()`, glass helpers and the Tailwind plugin) with the DTCG tokens under the `--apui-*` namespace ([D-007](../../docs/decisions.md#d-007-tokens-moves-here-1x-is-frozen-next-release-is-200), [D-008](../../docs/decisions.md#d-008-token-source-format-and-build)). `@artisanpack-ui/react` and `@artisanpack-ui/vue` stay on 1.0.1 from npm until they migrate.
+> **2.0.0 is in progress and not published yet.** It replaces the 1.x package (DaisyUI color maps, `cn()`, `resolveColor()`, glass helpers and the Tailwind plugin) with the DTCG tokens under the `--apui-*` namespace ([D-007](../../contributing/decisions.md#d-007-tokens-moves-here-1x-is-frozen-next-release-is-200), [D-008](../../contributing/decisions.md#d-008-token-source-format-and-build)). `@artisanpack-ui/react` and `@artisanpack-ui/vue` stay on 1.0.1 from npm until they migrate.
 
 ## CSS
 
@@ -37,7 +37,7 @@ Ledger and Harbor (D-005) come with `@artisanpack-ui/css`. On their own, import 
 npx apui-generate-preset --name acme --primary "#7c3aed" > acme.css
 ```
 
-The generator rebuilds the primary ramp (and optionally the secondary and accent ramps, the grays and the font families) around your colors. Each step keeps your hue but matches the default step's luminance, so every contrast check the default theme passes still passes. It checks every pair in every theme before writing anything. Output is CSS, DTCG source, PHP or JSON. See [docs/tokens](../../docs/tokens/README.md#brand-presets-the-generator-27).
+The generator rebuilds the primary ramp (and optionally the secondary and accent ramps, the grays and the font families) around your colors. Each step keeps your hue but matches the default step's luminance, so every contrast check the default theme passes still passes. It checks every pair in every theme before writing anything. Output is CSS, DTCG source, PHP or JSON. See [contributing/tokens](../../contributing/tokens/README.md#brand-presets-the-generator-27).
 
 ## TypeScript
 
@@ -56,7 +56,7 @@ presets.ledger.tokens['radius.md'].resolved; // '4px'
 
 ## Changing tokens
 
-Edit the JSON in `tokens/` or `presets/`, then run `npm run tokens` and commit the source with the regenerated `generated/` and `src/generated/` files. `npm test` checks the schema, WCAG contrast for every semantic pair in every theme and preset, and fidelity to the design spec. The full schema is in [docs/tokens](../../docs/tokens/README.md).
+Edit the JSON in `tokens/` or `presets/`, then run `npm run tokens` and commit the source with the regenerated `generated/` and `src/generated/` files. `npm test` checks the schema, WCAG contrast for every semantic pair in every theme and preset, and fidelity to the design spec. The full schema is in [contributing/tokens](../../contributing/tokens/README.md).
 
 ## License
 

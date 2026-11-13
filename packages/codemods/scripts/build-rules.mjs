@@ -4,7 +4,7 @@
  * becomes in the next major (#67 to #70).
  *
  * The rules are a diff of two API descriptions. "Before" is the Phase 0
- * catalogue of the 2.x packages (docs/inventory/data/api-<stack>.json).
+ * catalogue of the 2.x packages (contributing/inventory/data/api-<stack>.json).
  * "After" is the component manifest (packages/manifest/components). The
  * curated maps say which old name is which new one (component-map.json,
  * api-aliases.json), and rules/curated.json adds what names alone can't say:
@@ -490,7 +490,7 @@ function classRules(aliases) {
 }
 
 function load() {
-  const data = join(repoRoot, 'docs', 'inventory', 'data');
+  const data = join(repoRoot, 'contributing', 'inventory', 'data');
   const dir = join(repoRoot, 'packages', 'manifest', 'components');
   return {
     map: readJson(join(data, 'component-map.json')),
