@@ -1,7 +1,6 @@
 {
   "name": "@artisanpack-ui/css",
   "version": "0.0.0",
-  "private": true,
   "description": "Plain-CSS component layer for ArtisanPack UI, with a headless entry and an optional Tailwind v4 preset. Tailwind is not required.",
   "license": "MIT",
   "author": "Jacob Martella <me@jacobmartella.com>",
