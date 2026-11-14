@@ -47,7 +47,7 @@ export function SettingsPage({ user, error }: { user: User; error?: string }) {
         value={tab}
         onValueChange={setTab}
         orientation="vertical"
-        classes={{ tabList: 'w-48' }}
+        classes={{ list: 'w-48' }}
         tabs={[{ name: 'profile', label: 'Profile' }]}
       />
       <Pagination page={page} pageCount={9} onChange={setPage} />

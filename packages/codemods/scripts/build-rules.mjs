@@ -124,6 +124,8 @@ const clean = (rule) =>
  * `to="value"`), `split` (the value decides the new name), `invert` (a
  * negative flag becomes `to={false}`), `part-class` (a per-part class prop
  * joins `classes`), `remove` (deleted), `manual` (left alone and reported).
+ * Curated rules add `keep` (listed as unchanged) and `duration` (a `250ms`
+ * or `1s` literal becomes integer milliseconds).
  */
 function propRule({ aliases, canonical, stack, manifest, unchecked }, member) {
   const props = new Map(
@@ -165,12 +167,20 @@ function propRule({ aliases, canonical, stack, manifest, unchecked }, member) {
         note: "Per-part class props are gone here. Use `class`, or the parent's `classes`.",
       };
     }
-    return props.has('classes')
+    if (!props.has('classes')) {
+      return clean({
+        kind: 'manual',
+        note: note ?? 'Per-part classes are not supported on this component.',
+      });
+    }
+    // Only a part the manifest names is a `classes` key; anything else would be dropped silently.
+    const parts = (manifest.parts ?? []).map((item) => item.name);
+    return parts.includes(lowerFirst(part))
       ? clean({ kind: 'part-class', to: 'classes', part: lowerFirst(part), note })
-      : clean({
+      : {
           kind: 'manual',
-          note: note ?? 'Per-part classes are not supported on this component.',
-        });
+          note: `${manifest.name} has no \`${lowerFirst(part)}\` part. Style it with \`class\`, or a \`classes\` key: ${parts.map((name) => `\`${name}\``).join(', ')}.`,
+        };
   }
 
   const target = props.get(alias.to);
@@ -338,7 +348,8 @@ export function buildRules({ map, aliases, api, manifests, curated }) {
           const hit = extra.find((rule) => rule.from === name && (rule.group ?? 'props') === group);
           if (!hit) return undefined;
           const rule = without(hit, ['stack', 'component', 'from', 'group', 'evidence']);
-          return rule.kind === 'keep' ? null : rule;
+          // A bare `keep` only stops a derived rule; with a note, the guides list it as unchanged.
+          return rule.kind === 'keep' && !rule.note ? null : rule;
         };
         const collect = (group, names, derive) => {
           const out = {};
@@ -438,6 +449,7 @@ function checkTargets(component, { stack, oldName, manifest, problems }) {
       .map((prop) => [prop.name, prop]),
   );
   const slots = new Set((manifest.slots ?? []).map((slot) => slot.name));
+  const parts = new Set((manifest.parts ?? []).map((part) => part.name));
   const where = (name) => `${stack} ${oldName}.${name}`;
   const checkProp = (name, to, values = []) => {
     const target = props.get(to);
@@ -457,6 +469,15 @@ function checkTargets(component, { stack, oldName, manifest, problems }) {
     if (rule.kind === 'rename') checkProp(name, rule.to, Object.values(rule.values ?? {}));
     if (rule.kind === 'value') checkProp(name, rule.to, [rule.value]);
     if (rule.kind === 'invert' || rule.kind === 'part-class') checkProp(name, rule.to);
+    if (rule.kind === 'part-class' && !parts.has(rule.part)) {
+      problems.push(`${where(name)}: \`${rule.part}\` is not a ${manifest.name} part.`);
+    }
+    if (rule.kind === 'duration') {
+      checkProp(name, rule.to);
+      if (props.has(rule.to) && props.get(rule.to).type !== 'number') {
+        problems.push(`${where(name)}: ${manifest.name} \`${rule.to}\` is not a number.`);
+      }
+    }
     if (rule.kind === 'split') for (const item of rule.cases) checkProp(name, item.to, item.values);
   }
   for (const item of component.add ?? [])

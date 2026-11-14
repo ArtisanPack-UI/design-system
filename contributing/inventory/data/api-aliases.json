@@ -205,7 +205,7 @@
       { "stack": "livewire", "from": "icon", "to": "leadingIcon" },
       { "stack": "livewire", "from": "iconRight", "to": null },
       { "stack": "livewire", "from": "allowCustomTags", "to": "allowCreate", "note": "`tags` only." },
-      { "stack": "livewire", "from": "customTagsText", "to": "createLabel", "note": "`tags` only; `:value` is the typed text." },
+      { "stack": "livewire", "from": "customTagsText", "to": "createLabel", "note": "`tags` only; `{value}` is the typed text." },
       { "stack": "livewire", "from": "compact", "to": null },
       { "stack": "livewire", "from": "compactText", "to": null },
       { "stack": "livewire", "from": "allowAll", "to": null },

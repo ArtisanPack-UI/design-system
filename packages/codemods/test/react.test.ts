@@ -1,7 +1,7 @@
 import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
-import { rulesFor, transformReact } from '../src';
+import { rulesFor, transformReact, upgradeRules } from '../src';
 import { label, ruleCases } from './helpers';
 
 const fixtures = join(__dirname, 'fixtures/react');
@@ -184,7 +184,7 @@ describe('transformReact', () => {
 
   it('merges per-part class props into classes', () => {
     expect(body('<Tabs tabListClassName="a" panelClassName={b} />', 'Tabs')).toBe(
-      `<Tabs classes={{ tabList: 'a', panel: b }} />`,
+      `<Tabs classes={{ list: 'a', content: b }} />`,
     );
     const taken = transformReact(
       jsx('<Tabs tabListClassName="a" classes={c} />', 'Tabs'),
@@ -316,12 +316,49 @@ describe('transformReact', () => {
           expect(result.findings.some((finding) => finding.kind === 'removed')).toBe(true);
           break;
         }
+        case 'keep': {
+          const result = run(`${member}="x"`);
+          expect(result.element).toBe(`${result.open} ${member}="x" />`);
+          expect(result.findings.some((finding) => finding.member === member)).toBe(false);
+          break;
+        }
+        case 'duration': {
+          const result = run(`${member}="1s"`);
+          expect(result.element).toBe(`${result.open} ${memberRule.to}={1000} />`);
+          break;
+        }
         default: {
           const result = run(`${member}="x"`);
           expect(result.element).toBe(`${result.open} ${member}="x" />`);
           expect(result.findings.some((finding) => finding.kind === 'manual')).toBe(true);
         }
       }
+    });
+  });
+
+  describe('duration rules', () => {
+    const rules = structuredClone(rulesFor('react').components);
+    rules.Dropdown!.props = { ...rules.Dropdown!.props, delay: { kind: 'duration', to: 'delay' } };
+    const transform = (attribute: string) =>
+      transformReact(
+        jsx(`<Dropdown ${attribute} />`, 'Dropdown'),
+        'App.tsx',
+        { rules: { ...upgradeRules, stacks: { ...upgradeRules.stacks, react: { ...upgradeRules.stacks.react, components: rules } } } },
+      );
+
+    it.each([
+      ['delay="250ms"', 'delay={250}'],
+      ['delay="1s"', 'delay={1000}'],
+      ['delay="1.5s"', 'delay={1500}'],
+      ['delay={300}', 'delay={300}'],
+    ])('writes %s as %s', (from, to) => {
+      expect(transform(from).code).toContain(`<DropdownMenu ${to} />`);
+    });
+
+    it('leaves a dynamic value for a person', () => {
+      const result = transform('delay={wait}');
+      expect(result.code).toContain('delay={wait}');
+      expect(result.findings.some((finding) => finding.kind === 'manual')).toBe(true);
     });
   });
 

@@ -221,7 +221,7 @@ Every 1.x prop, slot and event that changed. "Automatic" says whether the codemo
 | `external` | Removed. Pass `target="_blank"` and `rel="noopener noreferrer"` as attributes; they go to the anchor that `href` renders. | By hand |
 | `badge` | Removed. Put a `Badge` inside the button's default slot. | By hand |
 | `badge-color` | Removed with `badge`. Set `color` on the `Badge` you put in the default slot. | By hand |
-| `badge-classes` | Now the `badge` key of `classes`. | Yes |
+| `badge-classes` | Button has no `badge` part. Style it with `class`, or a `classes` key: `root`, `icon`, `iconEnd`, `label`, `spinner`. | By hand |
 | `responsive` | Removed. Hide the label at small widths with your own responsive class on the slot content, or use `iconOnly` with an `aria-label`. | By hand |
 | `tooltip` | Removed. Wrap the button in `<Tooltip content="…">`. | By hand |
 | `tooltip-position` | Removed. Set `placement` (`top`, `bottom`, `start`, `end`) on the `Tooltip` you wrap the button in; `left` is `start` and `right` is `end`. | By hand |
@@ -284,7 +284,7 @@ Every 1.x prop, slot and event that changed. "Automatic" says whether the codemo
 | `hint` | Now `description`. | Yes |
 | `color` | Removed: a checked box uses the primary color. Delete it. | By hand |
 | `card` | Removed from Checkbox. For card-style options use `CheckboxGroup` with `variant="cards"`. | By hand |
-| `card-class` | Now the `card` key of `classes`. | Yes |
+| `card-class` | Checkbox has no `card` part. Style it with `class`, or a `classes` key: `root`, `box`, `control`, `indicator`, `label`, `description`, `error`. | By hand |
 
 ### `<Clipboard>`
 
@@ -385,7 +385,7 @@ Every 1.x prop, slot and event that changed. "Automatic" says whether the codemo
 |---|---|---|
 | `with-drag-drop` | Now `variant="dropzone"`. | Yes |
 | `drag-drop-text` | Now `title`. | Yes |
-| `drag-drop-class` | Now the `dragDrop` key of `classes`. | Yes |
+| `drag-drop-class` | Now the `dropzone` key of `classes`. | Yes |
 | `progress` | Removed. Bind `v-model` to the file list and set `progress` (0 to 100) on each entry. | By hand |
 | `hide-progress` | Removed. A bar shows only for entries that carry `progress`. | Yes |
 | `@filesSelected` | The `filesSelected` event is not in the 2.0 API. Check the component's docs for what replaces it. | By hand |
@@ -443,6 +443,7 @@ Every 1.x prop, slot and event that changed. "Automatic" says whether the codemo
 
 | 1.x | 2.0 | Automatic |
 |---|---|---|
+| `title` | Unchanged. Still the heading and the accessible name. | Yes |
 | `subtitle` | Now `description`. | Yes |
 | `persistent` | No direct equivalent. `role="alertdialog"` stops the backdrop from closing it, but Escape still closes; `hideClose` hides the close button. | By hand |
 | `glass` | Now `surface="glass"`. | Yes |
@@ -514,7 +515,7 @@ Every 1.x prop, slot and event that changed. "Automatic" says whether the codemo
 | `option-hint` | Removed. Put each option's hint in its `description` key. | By hand |
 | `inline` | Now `orientation="horizontal"`. | Yes |
 | `card` | Now `variant="cards"`. | Yes |
-| `card-class` | Now the `card` key of `classes`. | Yes |
+| `card-class` | Now the `item` key of `classes`. | Yes |
 
 ### `<RichTextEditor>`
 

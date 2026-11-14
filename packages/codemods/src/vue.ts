@@ -344,6 +344,9 @@ export function transformVue(
           case 'boolean':
             magic.overwrite(start, end, plan.value ? as(plan.to) : `:${as(plan.to)}="false"`);
             break;
+          case 'number':
+            magic.overwrite(start, end, `:${as(plan.to)}="${plan.value}"`);
+            break;
           case 'negate':
             magic.overwrite(start, end, `:${as(plan.to)}="!(${prop.exp?.content ?? ''})"`);
             break;
@@ -381,7 +384,9 @@ export function transformVue(
         const to =
           plan.type === 'set'
             ? `${as(plan.to)}="${plan.value}"`
-            : 'to' in plan
+            : plan.type === 'number'
+              ? `:${as(plan.to)}="${plan.value}"`
+              : 'to' in plan
               ? as(plan.to)
               : written;
         report(

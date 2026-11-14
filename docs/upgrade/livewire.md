@@ -201,11 +201,11 @@ Theme, preset and density (`data-density="compact"`) combine, and any element ca
 | `<x-artisanpack-dropdown>` | `<x-artisanpack-dropdown-menu>` |  |
 | `<x-artisanpack-editor>` | `<x-artisanpack-rich-text-editor>` |  |
 | `<x-artisanpack-errors>` | `<x-artisanpack-validation-summary>` |  |
-| `<x-artisanpack-group>` | `<x-artisanpack-radio-group>` | Group is RadioGroup with `variant="segmented"`. The tool adds `variant="segmented"`. |
+| `<x-artisanpack-group>` | `<x-artisanpack-radio-group>` | Group is RadioGroup with `variant="segmented"` and `orientation="horizontal"`. The tool adds `variant="segmented"` and `orientation="horizontal"`. |
 | `<x-artisanpack-header>` | `<x-artisanpack-page-header>` |  |
 | `<x-artisanpack-main>` | `<x-artisanpack-app-shell>` |  |
 | `<x-artisanpack-modal>` | `<x-artisanpack-dialog>` |  |
-| `<x-artisanpack-nav>` | `<x-artisanpack-navbar>` |  |
+| `<x-artisanpack-nav>` | `<x-artisanpack-navbar>` | Navbar is sticky by default; 2.x `nav` was not. Add `:sticky="false"` to keep a bar that scrolls away. |
 | `<x-artisanpack-profile>` | `<x-artisanpack-user-menu>` |  |
 | `<x-artisanpack-radio>` | `<x-artisanpack-radio-group>` |  |
 | `<x-artisanpack-select-group>` | `<x-artisanpack-select>` | Pass the groups to Select as `{ label, options }` entries. |
@@ -263,9 +263,9 @@ Every 2.x attribute and slot that changed. "Automatic" says whether `artisanpack
 | 2.x | 3.0 | Automatic |
 |---|---|---|
 | `separator` | Gone: the separator is always a chevron; remove it and style it through `classes`. | By hand |
-| `link-item-class` | Now the `linkItem` key of `classes`. | Yes |
-| `text-item-class` | Now the `textItem` key of `classes`. | Yes |
-| `icon-class` | Now the `icon` key of `classes`. | Yes |
+| `link-item-class` | Breadcrumbs has no `linkItem` part. Style it with `class`, or a `classes` key: `root`, `list`, `item`, `link`, `separator`, `current`, `overflow`. | By hand |
+| `text-item-class` | Breadcrumbs has no `textItem` part. Style it with `class`, or a `classes` key: `root`, `list`, `item`, `link`, `separator`, `current`, `overflow`. | By hand |
+| `icon-class` | Breadcrumbs has no `icon` part. Style it with `class`, or a `classes` key: `root`, `list`, `item`, `link`, `separator`, `current`, `overflow`. | By hand |
 | `separator-class` | Now the `separator` key of `classes`. | Yes |
 | `no-wire-navigate` | Now `navigate`, with the opposite meaning: the flag becomes `navigate` set to false. | Yes |
 
@@ -282,7 +282,7 @@ Every 2.x attribute and slot that changed. "Automatic" says whether `artisanpack
 | `no-wire-navigate` | Not in the 3.0 API (planned as `navigate`). Remove it, or check the component's docs for what replaces it. | By hand |
 | `responsive` | Removed. The label no longer hides on small screens; use `icon-only` for an icon button. | Yes |
 | `badge` | Gone: render a Badge inside the button's slot or beside it. | By hand |
-| `badge-classes` | Now the `badge` key of `classes`. | Yes |
+| `badge-classes` | Button has no `badge` part. Style it with `class`, or a `classes` key: `root`, `icon`, `iconEnd`, `label`, `spinner`. | By hand |
 | `tooltip` | Now `content` on a `<x-artisanpack-tooltip>` wrapped around the element. | Yes |
 | `tooltip-left` | Now `content` on a `<x-artisanpack-tooltip>` wrapped around the element with `placement="start"`. | Yes |
 | `tooltip-right` | Now `content` on a `<x-artisanpack-tooltip>` wrapped around the element with `placement="end"`. | Yes |
@@ -345,9 +345,9 @@ Every 2.x attribute and slot that changed. "Automatic" says whether `artisanpack
 |---|---|---|
 | `right` | Removed. The label always follows the box. | Yes |
 | `hint` | Now `description`. | Yes |
-| `hint-class` | Now the `hint` key of `classes`. | Yes |
+| `hint-class` | Now the `description` key of `classes`. | Yes |
 | `card` | Gone on Checkbox: use CheckboxGroup with `variant="cards"` for card options. | By hand |
-| `card-class` | Now the `card` key of `classes`. | Yes |
+| `card-class` | Checkbox has no `card` part. Style it with `class`, or a `classes` key: `root`, `box`, `control`, `indicator`, `label`, `description`, `error`. | By hand |
 | `error-class` | Now the `error` key of `classes`. | Yes |
 | `omit-error` | Not in the 3.0 API (planned as `hideError`). Remove it, or check the component's docs for what replaces it. | By hand |
 | `<x-slot:hint>` | Now `<x-slot:description>`. | Yes |
@@ -362,7 +362,7 @@ Every 2.x attribute and slot that changed. "Automatic" says whether `artisanpack
 | `option-hint` | Gone: give each `options` entry a `description` key. | By hand |
 | `horizontal` | Now `orientation="horizontal"`. | Yes |
 | `card` | Now `variant="cards"`. | Yes |
-| `card-class` | Now the `card` key of `classes`. | Yes |
+| `card-class` | CheckboxGroup has no `card` part. Style it with `class`, or a `classes` key: `root`, `label`, `selectAll`, `items`, `hint`, `error`. | By hand |
 | `error-class` | Now the `error` key of `classes`. | Yes |
 | `omit-error` | Not in the 3.0 API (planned as `hideError`). Remove it, or check the component's docs for what replaces it. | By hand |
 
@@ -381,11 +381,11 @@ Every 2.x attribute and slot that changed. "Automatic" says whether `artisanpack
 | `compact` | Removed. | Yes |
 | `compact-text` | Removed, with no replacement. | By hand |
 | `allow-all` | Removed. | Yes |
-| `debounce` | A `250ms` string becomes integer milliseconds (`:debounce="250"`). | By hand |
+| `debounce` | Now integer milliseconds: `:debounce="250"` for `250ms`, `:debounce="1000"` for `1s`. | For literal values |
 | `min-chars` | Check the length in the `search-model` handler. | By hand |
 | `allow-all-text` | Removed, with no replacement. | By hand |
 | `remove-all-text` | Removed, with no replacement. | By hand |
-| `search-function` | A method name became a property name: bind the search text with `search-model`, or keep the method with `wire:search-change`. | By hand |
+| `search-function` | The deprecated `choices`, `choices-offline` and `tags` tags still call it. `combobox` doesn't: set `search-model` to a property and search in its `updated` hook, or call your method with `wire:search-change="yourMethod($event.detail.search)"`. | By hand |
 | `option-value` | Manual: map options to `{ value, label, description }`. | By hand |
 | `option-label` | Manual: see `optionValue`. | By hand |
 | `option-sub-label` | Manual: becomes each option's `description`. | By hand |
@@ -419,7 +419,7 @@ Every 2.x attribute and slot that changed. "Automatic" says whether `artisanpack
 | `compact` | Removed. | Yes |
 | `compact-text` | Removed, with no replacement. | By hand |
 | `allow-all` | Removed. | Yes |
-| `debounce` | A `250ms` string becomes integer milliseconds (`:debounce="250"`). | By hand |
+| `debounce` | Now integer milliseconds: `:debounce="250"` for `250ms`, `:debounce="1000"` for `1s`. | For literal values |
 | `min-chars` | Check the length in the `search-model` handler. | By hand |
 | `allow-all-text` | Removed, with no replacement. | By hand |
 | `remove-all-text` | Removed, with no replacement. | By hand |
@@ -436,7 +436,7 @@ Every 2.x attribute and slot that changed. "Automatic" says whether `artisanpack
 | `selection` | Slot removed; chips render the label. | By hand |
 | `prepend` | Removed, with no replacement. | By hand |
 | `append` | Removed, with no replacement. | By hand |
-| `search-function` | A method name became a property name: bind the search text with `search-model`, or keep the method with `wire:search-change`. | By hand |
+| `search-function` | The deprecated `choices`, `choices-offline` and `tags` tags still call it. `combobox` doesn't: set `search-model` to a property and search in its `updated` hook, or call your method with `wire:search-change="yourMethod($event.detail.search)"`. | By hand |
 
 ### `<x-artisanpack-code>`
 
@@ -445,8 +445,8 @@ Every 2.x attribute and slot that changed. "Automatic" says whether `artisanpack
 | `hint` | Gone: remove it; Code is read-only and shows no hint. | By hand |
 | `light-theme` | The 2.x Ace editor is now CodeEditor; Code is read-only. | By hand |
 | `dark-theme` | Removed, with no replacement. | By hand |
-| `light-class` | Now the `light` key of `classes`. | Yes |
-| `dark-class` | Now the `dark` key of `classes`. | Yes |
+| `light-class` | Code has no `light` part. Style it with `class`, or a `classes` key: `root`, `header`, `file`, `language`, `copy`, `status`, `pre`, `line`. | By hand |
+| `dark-class` | Code has no `dark` part. Style it with `class`, or a `classes` key: `root`, `header`, `file`, `language`, `copy`, `status`, `pre`, `line`. | By hand |
 | `height` | Removed, with no replacement. | By hand |
 | `line-height` | Gone: remove it; set line height through `classes` or tokens. | By hand |
 | `print-margin` | Removed. | Yes |
@@ -545,6 +545,7 @@ Every 2.x attribute and slot that changed. "Automatic" says whether `artisanpack
 
 | 2.x | 3.0 | Automatic |
 |---|---|---|
+| `label` | Unchanged. Still the trigger's text. | Yes |
 | `icon` | Gone: the trigger always shows a chevron; put a custom icon in the `label` slot. | By hand |
 | `right` | Now `align="end"`. | Yes |
 | `top` | Removed. DropdownMenu has no vertical placement prop. | Yes |
@@ -600,7 +601,7 @@ Every 2.x attribute and slot that changed. "Automatic" says whether `artisanpack
 | `crop-mime-type` | Gone with cropping: remove it (ImageLibrary still crops). | By hand |
 | `with-drag-drop` | Removed. The drop zone is always on. | Yes |
 | `drag-drop-text` | Use `title` for the drop zone's main line. | By hand |
-| `drag-drop-class` | Now the `dragDrop` key of `classes`. | Yes |
+| `drag-drop-class` | Now the `dropzone` key of `classes`. | Yes |
 | `error-class` | Now the `error` key of `classes`. | Yes |
 | `omit-error` | Not in the 3.0 API (planned as `hideError`). Remove it, or check the component's docs for what replaces it. | By hand |
 
@@ -632,7 +633,7 @@ Every 2.x attribute and slot that changed. "Automatic" says whether `artisanpack
 | `with-anchor` | Removed. | Yes |
 | `size` | `level` sets the heading. | By hand |
 | `icon` | Removed, with no replacement. | By hand |
-| `icon-classes` | Now the `icon` key of `classes`. | Yes |
+| `icon-classes` | PageHeader has no `icon` part. Style it with `class`, or a `classes` key: `root`, `breadcrumbs`, `row`, `meta`, `title`, `description`, `actions`, `tabs`. | By hand |
 | `middle` | Not part of PageHeader: move the content into the `actions` or `meta` slot. | By hand |
 | `<x-slot:subtitle>` | Now `<x-slot:description>`. | Yes |
 
@@ -784,11 +785,11 @@ Every 2.x attribute and slot that changed. "Automatic" says whether `artisanpack
 |---|---|---|
 | `label` | Now `editor-label`. | Yes |
 | `hint` | Removed, with no replacement. | By hand |
-| `hint-class` | Now the `hint` key of `classes`. | Yes |
+| `hint-class` | Markdown has no `hint` part. Style it with `class`, or a `classes` key: `root`, `editor`, `preview`, `split`, `task`. | By hand |
 | `disk` | Markdown image uploads are removed. | By hand |
 | `folder` | Removed, with no replacement. | By hand |
 | `config` | EasyMDE is removed; use `mode="write"` or `mode="split"` for the editor. | By hand |
-| `error-class` | Now the `error` key of `classes`. | Yes |
+| `error-class` | Markdown has no `error` part. Style it with `class`, or a `classes` key: `root`, `editor`, `preview`, `split`, `task`. | By hand |
 | `omit-error` | Not in the 3.0 API (planned as `hideError`). Remove it, or check the component's docs for what replaces it. | By hand |
 
 ### `<x-artisanpack-menu>`
@@ -843,8 +844,9 @@ Every 2.x attribute and slot that changed. "Automatic" says whether `artisanpack
 
 | 2.x | 3.0 | Automatic |
 |---|---|---|
+| `title` | Unchanged. Still the heading and the accessible name. | Yes |
 | `subtitle` | Now `description`. | Yes |
-| `box-class` | Now the `box` key of `classes`. | Yes |
+| `box-class` | Now the `root` key of `classes`. | Yes |
 | `separator` | Removed. The dialog draws its own header and footer. | Yes |
 | `persistent` | Gone: use `role="alertdialog"` so the backdrop doesn't close it, and `hide-close` to drop the close button; Escape still closes. | By hand |
 | `without-trap-focus` | Removed. Disabling focus trap breaks the WCAG 2.2 AA dialog contract. | Yes |
@@ -950,7 +952,7 @@ Every 2.x attribute and slot that changed. "Automatic" says whether `artisanpack
 | `option-hint` | Gone: give each `options` entry a `description` key. | By hand |
 | `inline` | Now `orientation="horizontal"`. | Yes |
 | `card` | `variant="cards"`. | By hand |
-| `card-class` | Now the `card` key of `classes`. | Yes |
+| `card-class` | Now the `item` key of `classes`. | Yes |
 | `error-class` | Now the `error` key of `classes`. | Yes |
 | `omit-error` | Not in the 3.0 API (planned as `hideError`). Remove it, or check the component's docs for what replaces it. | By hand |
 
@@ -964,7 +966,7 @@ Every 2.x attribute and slot that changed. "Automatic" says whether `artisanpack
 | `option-hint` | Gone: give each `options` entry a `description` key. | By hand |
 | `horizontal` | Now `orientation="horizontal"`. | Yes |
 | `card` | `variant="cards"`. | By hand |
-| `card-class` | Now the `card` key of `classes`. | Yes |
+| `card-class` | Now the `item` key of `classes`. | Yes |
 | `error-class` | Now the `error` key of `classes`. | Yes |
 | `omit-error` | Not in the 3.0 API (planned as `hideError`). Remove it, or check the component's docs for what replaces it. | By hand |
 | `inline` | Now `orientation="horizontal"`. | Yes |
@@ -1109,7 +1111,7 @@ Every 2.x attribute and slot that changed. "Automatic" says whether `artisanpack
 |---|---|---|
 | `vertical` | Now `orientation="vertical"`. | Yes |
 | `steps-color` | Not in the 3.0 API (planned as `color`). Remove it, or check the component's docs for what replaces it. | By hand |
-| `stepper-classes` | Now the `stepper` key of `classes`. | Yes |
+| `stepper-classes` | Steps has no `stepper` part. Style it with `class`, or a `classes` key: `root`, `step`, `marker`, `title`, `connector`, `description`. | By hand |
 | `glass` | Not in the 3.0 API (planned as `surface`). Remove it, or check the component's docs for what replaces it. | By hand |
 | `glass-tint` | Replaced by glass surface tokens. | By hand |
 | `glass-tint-opacity` | Replaced by glass surface tokens. | By hand |
@@ -1183,19 +1185,19 @@ Every 2.x attribute and slot that changed. "Automatic" says whether `artisanpack
 |---|---|---|
 | `selected` | Now `value`. | Yes |
 | `gap` | Gone: use `classes` or the design tokens. | By hand |
-| `label-color-classes` | Now the `labelColor` key of `classes`. | Yes |
-| `active-color-classes` | Now the `activeColor` key of `classes`. | Yes |
-| `label-class` | Now the `label` key of `classes`. | Yes |
-| `active-class` | Now the `active` key of `classes`. | Yes |
-| `label-div-class` | Now the `labelDiv` key of `classes`. | Yes |
-| `tabs-class` | Now the `tabs` key of `classes`. | Yes |
-| `vertical-tabs-class` | Now the `verticalTabs` key of `classes`. | Yes |
-| `vertical-label-class` | Now the `verticalLabel` key of `classes`. | Yes |
-| `vertical-active-class` | Now the `verticalActive` key of `classes`. | Yes |
-| `vertical-label-div-class` | Now the `verticalLabelDiv` key of `classes`. | Yes |
-| `vertical-content-class` | Now the `verticalContent` key of `classes`. | Yes |
-| `vertical-right-active-class` | Now the `verticalRightActive` key of `classes`. | Yes |
-| `vertical-right-label-div-class` | Now the `verticalRightLabelDiv` key of `classes`. | Yes |
+| `label-color-classes` | Tabs has no `labelColor` part. Style it with `class`, or a `classes` key: `root`, `list`, `trigger`, `icon`, `count`, `content`. | By hand |
+| `active-color-classes` | Tabs has no `activeColor` part. Style it with `class`, or a `classes` key: `root`, `list`, `trigger`, `icon`, `count`, `content`. | By hand |
+| `label-class` | Tabs has no `label` part. Style it with `class`, or a `classes` key: `root`, `list`, `trigger`, `icon`, `count`, `content`. | By hand |
+| `active-class` | Tabs has no `active` part. Style it with `class`, or a `classes` key: `root`, `list`, `trigger`, `icon`, `count`, `content`. | By hand |
+| `label-div-class` | Tabs has no `labelDiv` part. Style it with `class`, or a `classes` key: `root`, `list`, `trigger`, `icon`, `count`, `content`. | By hand |
+| `tabs-class` | Tabs has no `tabs` part. Style it with `class`, or a `classes` key: `root`, `list`, `trigger`, `icon`, `count`, `content`. | By hand |
+| `vertical-tabs-class` | Tabs has no `verticalTabs` part. Style it with `class`, or a `classes` key: `root`, `list`, `trigger`, `icon`, `count`, `content`. | By hand |
+| `vertical-label-class` | Tabs has no `verticalLabel` part. Style it with `class`, or a `classes` key: `root`, `list`, `trigger`, `icon`, `count`, `content`. | By hand |
+| `vertical-active-class` | Tabs has no `verticalActive` part. Style it with `class`, or a `classes` key: `root`, `list`, `trigger`, `icon`, `count`, `content`. | By hand |
+| `vertical-label-div-class` | Tabs has no `verticalLabelDiv` part. Style it with `class`, or a `classes` key: `root`, `list`, `trigger`, `icon`, `count`, `content`. | By hand |
+| `vertical-content-class` | Tabs has no `verticalContent` part. Style it with `class`, or a `classes` key: `root`, `list`, `trigger`, `icon`, `count`, `content`. | By hand |
+| `vertical-right-active-class` | Tabs has no `verticalRightActive` part. Style it with `class`, or a `classes` key: `root`, `list`, `trigger`, `icon`, `count`, `content`. | By hand |
+| `vertical-right-label-div-class` | Tabs has no `verticalRightLabelDiv` part. Style it with `class`, or a `classes` key: `root`, `list`, `trigger`, `icon`, `count`, `content`. | By hand |
 | `glass` | Not in the 3.0 API (planned as `surface`). Remove it, or check the component's docs for what replaces it. | By hand |
 | `glass-tint` | Replaced by glass surface tokens. | By hand |
 | `glass-tint-opacity` | Replaced by glass surface tokens. | By hand |
@@ -1211,9 +1213,9 @@ Every 2.x attribute and slot that changed. "Automatic" says whether `artisanpack
 | `prefix` | Removed, with no replacement. | By hand |
 | `suffix` | Removed, with no replacement. | By hand |
 | `searchable` | Removed. `choices`: becomes `remote` (server search). `choices-offline`: dropped, filtering is always on. | Yes |
-| `debounce` | A `250ms` string becomes integer milliseconds (`:debounce="250"`). | By hand |
+| `debounce` | Now integer milliseconds: `:debounce="250"` for `250ms`, `:debounce="1000"` for `1s`. | For literal values |
 | `min-chars` | Check the length in the `search-model` handler. | By hand |
-| `search-function` | A method name became a property name: bind the search text with `search-model`, or keep the method with `wire:search-change`. | By hand |
+| `search-function` | The deprecated `choices`, `choices-offline` and `tags` tags still call it. `combobox` doesn't: set `search-model` to a property and search in its `updated` hook, or call your method with `wire:search-change="yourMethod($event.detail.search)"`. | By hand |
 | `option-value` | Manual: map options to `{ value, label, description }`. | By hand |
 | `option-label` | Manual: see `optionValue`. | By hand |
 | `option-sub-label` | Manual: becomes each option's `description`. | By hand |
@@ -1258,8 +1260,8 @@ Every 2.x attribute and slot that changed. "Automatic" says whether `artisanpack
 | `dark` | Now `dark-label`. | Yes |
 | `light-theme` | Removed, with no replacement. | By hand |
 | `dark-theme` | Removed, with no replacement. | By hand |
-| `light-class` | Now the `light` key of `classes`. | Yes |
-| `dark-class` | Now the `dark` key of `classes`. | Yes |
+| `light-class` | ThemeToggle has no `light` part. Style it with `class`, or a `classes` key: `root`. | By hand |
+| `dark-class` | ThemeToggle has no `dark` part. Style it with `class`, or a `classes` key: `root`. | By hand |
 | `with-label` | Removed. | Yes |
 
 ### `<x-artisanpack-timeline-item>`
@@ -1288,7 +1290,7 @@ Every 2.x attribute and slot that changed. "Automatic" says whether `artisanpack
 |---|---|---|
 | `right` | Removed. The label always follows the switch. | Yes |
 | `hint` | Now `description`. | Yes |
-| `hint-class` | Now the `hint` key of `classes`. | Yes |
+| `hint-class` | Now the `description` key of `classes`. | Yes |
 | `error-class` | Now the `error` key of `classes`. | Yes |
 | `omit-error` | Not in the 3.0 API (planned as `hideError`). Remove it, or check the component's docs for what replaces it. | By hand |
 | `<x-slot:hint>` | Now `<x-slot:description>`. | Yes |
