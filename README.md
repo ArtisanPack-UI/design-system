@@ -4,6 +4,8 @@ Token-driven design system for ArtisanPack UI: DTCG design tokens, a plain-CSS c
 
 **Documentation:** [docs/](docs/home.md), published on the [ArtisanPack UI docs site](https://docs.artisanpackui.dev/documentation/design-system/home): getting started for each stack, foundations, theming, styling, every component, accessibility and the upgrade guides.
 
+**Changelog:** [CHANGELOG.md](CHANGELOG.md) summarizes each release across every package; each package under `packages/` also keeps its own.
+
 **Contributing:** the [design spec](design/README.md) sets the visual direction and specifies every component; [contributing/](contributing) holds the [decision log](contributing/decisions.md), the Phase 0 [inventory](contributing/inventory/README.md), the [token source format](contributing/tokens/README.md) and the [CSS conventions](contributing/css-conventions.md).
 
 ## Packages
@@ -19,7 +21,7 @@ Token-driven design system for ArtisanPack UI: DTCG design tokens, a plain-CSS c
 
 The repo root is also a Composer package, `artisanpack-ui/design-system`, with the PHP side of the manifest and the gates ([D-016](contributing/decisions.md#d-016-the-quality-gates-ship-as-artisanpack-uitesting-plus-a-composer-kit)).
 
-None is published from this repo yet. The 1.0 releases are tracked in #81.
+The six npm packages are published to npm; the Composer package isn't on Packagist yet. Release history is in [CHANGELOG.md](CHANGELOG.md).
 
 ## Tools
 
