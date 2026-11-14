@@ -1,6 +1,6 @@
 {
   "name": "@artisanpack-ui/behavior",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Shared interaction engine for ArtisanPack UI components, with Alpine, React and Vue adapters.",
   "license": "MIT",
   "author": "Jacob Martella <me@jacobmartella.com>",
