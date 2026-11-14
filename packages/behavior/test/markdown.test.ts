@@ -59,6 +59,15 @@ describe('renderMarkdown', () => {
     expect(html).toContain('<td data-align="end">3</td>');
   });
 
+  it('leaves names inherited from Object.prototype as text', () => {
+    for (const name of ['constructor', 'toString', 'valueOf', 'hasOwnProperty', 'isPrototypeOf']) {
+      expect(() => renderMarkdown(`&${name}; in a paragraph\n\n# &${name};`)).not.toThrow();
+      expect(renderMarkdown(`&${name};`)).toBe(
+        renderMarkdown(`&notanentity;`).replace('notanentity', name),
+      );
+    }
+  });
+
   it('normalizes Windows line endings', () => {
     expect(renderMarkdown('# A\r\n\r\nB')).toBe('<h1>A</h1>\n<p>B</p>\n');
   });
