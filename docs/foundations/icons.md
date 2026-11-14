@@ -37,7 +37,7 @@ Any open-licensed icon set drawn on a 24px grid fits the system. A slot or a nod
 
 ### Livewire: existing icon names
 
-Livewire UI Components falls back to Blade Icons for names outside the registry, so Heroicons (`o-user`, `s-home`) and Font Awesome (`fa-user`) names from 2.x keep rendering.
+Livewire UI Components falls back to Blade Icons for names outside the registry, so 2.x icon names keep rendering. A name without a dot is a Heroicon (`o-user` and `s-home` render `heroicon-o-user` and `heroicon-s-home`). Other Blade Icons sets take the set's prefix and a dot: Font Awesome's solid user icon is `fas.user`. A dotless name such as `fa-user` is looked up as a Heroicon and won't render.
 
 ## Right-to-left
 
