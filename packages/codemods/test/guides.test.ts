@@ -2,6 +2,7 @@ import { execFileSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
+import { buildGuide } from '../scripts/build-guides.mjs';
 import { rulesFor } from '../src';
 import type { Stack } from '../src';
 
@@ -60,4 +61,25 @@ describe('upgrade guides', () => {
     expect(guide('react')).toContain('| `onClose` | Now `onOpenChange`.');
     expect(guide('vue')).toContain('| `#actions` | Now `#footer`. | Yes |');
   });
+});
+
+describe('guide titles', () => {
+  const rules = { stacks: { livewire: [], react: [], vue: [] } };
+  const build = (heading: string) => () =>
+    buildGuide('react', rules, (name: string) =>
+      name === 'react.md' ? `# ${heading}\n\nBody` : '',
+    );
+
+  it('writes a plain scalar title', () => {
+    expect(build('Upgrading to React 2.0')()).toMatch(
+      /^---\ntitle: Upgrading to React 2\.0\nmenu_order: 2\n---/,
+    );
+  });
+
+  it.each(['Upgrading: React 2.0', '@artisanpack-ui/react 2.0', 'Upgrading #2'])(
+    'rejects a heading YAML would have to quote (%s)',
+    (heading) => {
+      expect(build(heading)).toThrow(/can't be a plain YAML title/);
+    },
+  );
 });
