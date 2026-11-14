@@ -394,6 +394,7 @@ export function useToast(entry: ToastEntry, parent: GroupService, index: number)
 }
 
 export { useSpotlight, type SpotlightApi, type SpotlightOptions } from './spotlight';
+export type { SpotlightExtras } from '../core/spotlight-options';
 export { highlightLabel, type SpotlightLabelSegment } from '../widgets/spotlight';
 export type {
   SpotlightGroup,
