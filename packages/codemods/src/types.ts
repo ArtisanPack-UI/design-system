@@ -32,6 +32,10 @@ export type MemberRule =
   | { kind: 'invert'; to: string; note?: string }
   /** A per-part class prop joins the `classes` object under `part`. */
   | { kind: 'part-class'; to: string; part: string; note?: string }
+  /** A duration literal (`250ms`, `1s`, `250`) becomes integer milliseconds on `to`. */
+  | { kind: 'duration'; to: string; note?: string }
+  /** Carries over unchanged; listed so the guides show it. */
+  | { kind: 'keep'; note?: string }
   /**
    * Livewire only: the attribute moves to a component wrapped around the
    * element (`tooltip="…"` becomes a Tooltip with `content`).

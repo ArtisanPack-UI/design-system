@@ -41,6 +41,10 @@ function memberName(stack, group, name) {
 
 const prop = (stack, name) => (stack === 'react' ? name : kebab(name));
 
+/** A bound attribute as each stack writes it: `:debounce="250"` or `debounce={250}`. */
+const bound = (stack, name, value) =>
+  stack === 'react' ? `${name}={${value}}` : `:${prop(stack, name)}="${value}"`;
+
 /** What a rule does, in a sentence, and whether the tool does it. */
 export function describe(stack, group, rule) {
   const note = rule.note ? ` ${rule.note}` : '';
@@ -74,6 +78,13 @@ export function describe(stack, group, rule) {
       ];
     case 'part-class':
       return [`Now the \`${rule.part}\` key of \`classes\`.`, 'Yes'];
+    case 'duration':
+      return [
+        `Now integer milliseconds: \`${bound(stack, rule.to, '250')}\` for \`250ms\`, \`${bound(stack, rule.to, '1000')}\` for \`1s\`.`,
+        'For literal values',
+      ];
+    case 'keep':
+      return [`Unchanged.${note}`, 'Yes'];
     case 'wrap': {
       const set = Object.entries(rule.set ?? {})
         .map(([name, value]) => ` with \`${prop(stack, name)}="${value}"\``)

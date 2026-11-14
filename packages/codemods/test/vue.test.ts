@@ -141,21 +141,24 @@ describe('transformVue', () => {
   });
 
   it('merges per-part classes into classes', () => {
-    expect(run('<Button :badge-classes="tone" />', 'Button').template).toBe(
-      '<Button :classes="{ badge: tone }" />',
+    expect(run('<Radio :card-class="tone" />', 'Radio').template).toBe(
+      '<RadioGroup :classes="{ item: tone }" />',
     );
-    const taken = run('<Button badge-classes="a" :classes="mine" />', 'Button');
-    expect(taken.changed).toBe(false);
-    expect(taken.findings[0]).toMatchObject({ kind: 'manual', member: 'badge-classes' });
+    const taken = run('<Radio card-class="a" :classes="mine" />', 'Radio');
+    expect(taken.findings.find((finding) => finding.member === 'card-class')).toMatchObject({
+      kind: 'manual',
+    });
   });
 
   it('does not set a prop the element already has, or build an object it cannot quote', () => {
     const taken = run('<Tabs vertical orientation="horizontal" />', 'Tabs');
     expect(taken.changed).toBe(false);
     expect(taken.findings[0]!.message).toContain('already set');
-    const quoted = run(`<Button :badge-classes='on ? "a" : b' />`, 'Button');
-    expect(quoted.changed).toBe(false);
-    expect(quoted.findings[0]).toMatchObject({ kind: 'manual', member: 'badge-classes' });
+    const quoted = run(`<Radio :card-class='on ? "a" : b' />`, 'Radio');
+    expect(quoted.template).toContain(`:card-class='on ? "a" : b'`);
+    expect(quoted.findings.find((finding) => finding.member === 'card-class')).toMatchObject({
+      kind: 'manual',
+    });
   });
 
   it('flags v-bind objects and components that need a person', () => {
@@ -246,6 +249,17 @@ describe('transformVue', () => {
           expect(result.findings.some((finding) => finding.kind === 'removed')).toBe(true);
           break;
         }
+        case 'keep': {
+          const result = run(`<${component} ${attr}="x" />`, component);
+          expect(result.template).toBe(`${open} ${attr}="x" />`);
+          expect(result.findings.some((finding) => finding.member === member)).toBe(false);
+          break;
+        }
+        case 'duration':
+          expect(run(`<${component} ${attr}="1s" />`, component).template).toBe(
+            `${open} :${kebab(memberRule.to)}="1000" />`,
+          );
+          break;
         default: {
           const result = run(`<${component} ${attr}="x" />`, component);
           expect(result.template).toBe(`${open} ${attr}="x" />`);

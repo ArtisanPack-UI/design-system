@@ -399,6 +399,9 @@ export function transformScript(options: ScriptOptions): ScriptResult {
         case 'boolean':
           magic.overwrite(start, end, plan.value ? plan.to : `${plan.to}={false}`);
           break;
+        case 'number':
+          magic.overwrite(start, end, `${plan.to}={${plan.value}}`);
+          break;
         case 'negate':
           magic.overwrite(start, end, `${plan.to}={!(${value.expression!.getText(source)})}`);
           break;
@@ -423,7 +426,14 @@ export function transformScript(options: ScriptOptions): ScriptResult {
           });
           continue;
       }
-      const to = plan.type === 'set' ? `${plan.to}="${plan.value}"` : 'to' in plan ? plan.to : name;
+      const to =
+        plan.type === 'set'
+          ? `${plan.to}="${plan.value}"`
+          : plan.type === 'number'
+            ? `${plan.to}={${plan.value}}`
+            : 'to' in plan
+              ? plan.to
+              : name;
       report(
         review ? 'review' : 'rewrote',
         attr,

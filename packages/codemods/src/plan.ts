@@ -28,6 +28,8 @@ export type Plan =
   | { type: 'boolean'; to: string; value: boolean }
   /** Rename and negate a dynamic expression. */
   | { type: 'negate'; to: string }
+  /** Replace the attribute with the number `to` bound to `value`. */
+  | { type: 'number'; to: string; value: number }
   | { type: 'part-class'; part: string }
   | { type: 'remove' };
 
@@ -37,6 +39,13 @@ export interface Planned {
   manual?: string;
   /** Whether the change is worth a second look even though it was made. */
   review?: string;
+}
+
+/** `250ms`, `1s` or `250` in milliseconds, or null when it isn't a duration. */
+export function durationMs(text: string): number | null {
+  const match = /^\s*(\d+(?:\.\d+)?)\s*(ms|s)?\s*$/i.exec(text);
+  if (!match) return null;
+  return Math.round(Number(match[1]) * (match[2]?.toLowerCase() === 's' ? 1000 : 1));
 }
 
 const isTrue = (attr: AttributeValue) =>
@@ -100,6 +109,18 @@ export function planAttribute(name: string, rule: MemberRule, attr: AttributeVal
 
     case 'part-class':
       return { plan: { type: 'part-class', part: rule.part } };
+
+    case 'duration': {
+      const ms = attr.type === 'literal' ? durationMs(attr.value ?? '') : null;
+      if (ms !== null) return { plan: { type: 'number', to: rule.to, value: ms } };
+      return {
+        plan: { type: 'none' },
+        manual: `\`${name}\` is now integer milliseconds on \`${rule.to}\`; convert this value.${note}`,
+      };
+    }
+
+    case 'keep':
+      return { plan: { type: 'none' } };
 
     case 'remove':
       return { plan: { type: 'remove' } };

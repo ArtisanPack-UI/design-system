@@ -1,5 +1,5 @@
 {
-  "$comment": "Curated. What the names in contributing/inventory/data can't say about the move to the next major. `components` overrides a 2.x component by stack: `canonical` (its manifest, when component-map.json's has none), `to` (its new name), `keep` (the name stands), `children` (its props belong to a child the manifest doesn't describe, so they aren't checked against it), `manual` with `note` (reported wherever it is used), `add` (attributes the new component needs). `props` lists member rules by manifest name (`*` for every component that has the member); they win over the rules derived from api-aliases.json. `kind: keep` means the member carries over. `evidence` says where the rule comes from. Run `npm run rules` after editing.",
+  "$comment": "Curated. What the names in contributing/inventory/data can't say about the move to the next major. `components` overrides a 2.x component by stack: `canonical` (its manifest, when component-map.json's has none), `to` (its new name), `keep` (the name stands), `children` (its props belong to a child the manifest doesn't describe, so they aren't checked against it), `manual` with `note` (reported wherever it is used), `add` (attributes the new component needs). `props` lists member rules by manifest name (`*` for every component that has the member); they win over the rules derived from api-aliases.json. `kind: keep` means the member carries over; with a `note` it is listed in the guides as unchanged. `kind: duration` turns a `250ms` or `1s` literal into integer milliseconds. `evidence` says where the rule comes from. Run `npm run rules` after editing.",
   "components": {
     "livewire": {
       "tags": {
@@ -54,9 +54,13 @@
           {
             "name": "variant",
             "value": "segmented"
+          },
+          {
+            "name": "orientation",
+            "value": "horizontal"
           }
         ],
-        "note": "Group is RadioGroup with `variant=\"segmented\"` (D-025)."
+        "note": "Group is RadioGroup with `variant=\"segmented\"` and `orientation=\"horizontal\"` (D-025)."
       },
       "menu-item": {
         "keep": true,
@@ -99,6 +103,9 @@
           }
         ],
         "note": "The default side moved from start to end (D-029)."
+      },
+      "nav": {
+        "note": "Navbar is sticky by default; 2.x `nav` was not. Add `:sticky=\"false\"` to keep a bar that scrolls away."
       }
     },
     "react": {
@@ -785,6 +792,16 @@
         "kind": "manual",
         "note": "Removed from Checkbox. For card-style options use `CheckboxGroup` with `variant=\"cards\"`.",
         "evidence": "packages/vue/src/components/form/CheckboxGroup/types.ts:35 (variant default|cards); Checkbox/types.ts:18-37"
+      },
+      {
+        "stack": "livewire",
+        "component": "checkbox",
+        "from": "hintClass",
+        "kind": "part-class",
+        "to": "classes",
+        "part": "description",
+        "note": "`hint` is now `description`, and so is its part.",
+        "evidence": "packages/manifest/components/Checkbox.json (parts: description; hint renamed to description)"
       }
     ],
     "CheckboxGroup": [
@@ -1315,6 +1332,22 @@
         "to": "align",
         "value": "end",
         "evidence": "The manifest's `align` takes `start` and `end`."
+      },
+      {
+        "stack": "livewire",
+        "component": "dropdown",
+        "from": "label",
+        "kind": "keep",
+        "note": "Still the trigger's text.",
+        "evidence": "livewire-ui-components src/View/Components/Dropdown.php (label passes through)"
+      },
+      {
+        "stack": "react",
+        "component": "Dropdown",
+        "from": "label",
+        "kind": "keep",
+        "note": "Still the trigger's text.",
+        "evidence": "packages/manifest/components/DropdownMenu.json (label)"
       }
     ],
     "RichTextEditor": [
@@ -1564,6 +1597,24 @@
         "kind": "remove",
         "note": "Gone: a bar shows only for entries that carry `progress`.",
         "evidence": "packages/vue/src/components/form/index.ts:80-86; File/types.ts:7-8"
+      },
+      {
+        "stack": "livewire",
+        "component": "file",
+        "from": "dragDropClass",
+        "kind": "part-class",
+        "to": "classes",
+        "part": "dropzone",
+        "evidence": "packages/manifest/components/File.json (parts: dropzone)"
+      },
+      {
+        "stack": "vue",
+        "component": "FileUpload",
+        "from": "dragDropClass",
+        "kind": "part-class",
+        "to": "classes",
+        "part": "dropzone",
+        "evidence": "packages/manifest/components/File.json (parts: dropzone)"
       }
     ],
     "Form": [
@@ -1737,6 +1788,36 @@
         "to": "orientation",
         "value": "horizontal",
         "evidence": "api-aliases.json: `orientation=\"horizontal\"`"
+      },
+      {
+        "stack": "livewire",
+        "component": "radio",
+        "from": "cardClass",
+        "kind": "part-class",
+        "to": "classes",
+        "part": "item",
+        "note": "Each option card is the `item` part (`variant=\"cards\"`).",
+        "evidence": "livewire-ui-components src/View/Components/Radio.php ('item' => \\$cardClass)"
+      },
+      {
+        "stack": "livewire",
+        "component": "radio-group",
+        "from": "cardClass",
+        "kind": "part-class",
+        "to": "classes",
+        "part": "item",
+        "note": "Each option card is the `item` part (`variant=\"cards\"`).",
+        "evidence": "livewire-ui-components src/View/Components/Radio.php ('item' => \\$cardClass)"
+      },
+      {
+        "stack": "vue",
+        "component": "Radio",
+        "from": "cardClass",
+        "kind": "part-class",
+        "to": "classes",
+        "part": "item",
+        "note": "Each option card is the `item` part (`variant=\"cards\"`).",
+        "evidence": "packages/manifest/components/RadioGroup.json (parts: item)"
       }
     ],
     "PageHeader": [
@@ -2686,6 +2767,32 @@
         "kind": "rename",
         "to": "footer",
         "evidence": "packages/vue/src/components/layout/Dialog/Dialog.vue:179 (slot footer); types.ts:67-68 (footer: the actions row)"
+      },
+      {
+        "stack": "livewire",
+        "component": "modal",
+        "from": "boxClass",
+        "kind": "part-class",
+        "to": "classes",
+        "part": "root",
+        "note": "The panel is the `root` part.",
+        "evidence": "livewire-ui-components src/View/Components/Modal.php (boxClass lands on classes.root)"
+      },
+      {
+        "stack": "livewire",
+        "component": "modal",
+        "from": "title",
+        "kind": "keep",
+        "note": "Still the heading and the accessible name.",
+        "evidence": "livewire-ui-components src/View/Components/Modal.php (title passes through)"
+      },
+      {
+        "stack": "vue",
+        "component": "Modal",
+        "from": "title",
+        "kind": "keep",
+        "note": "Still the heading and the accessible name.",
+        "evidence": "packages/manifest/components/Dialog.json (title)"
       }
     ],
     "Navbar": [
@@ -4001,6 +4108,24 @@
         "kind": "manual",
         "note": "Removed. Style the selected trigger in CSS with `[data-part=\"trigger\"][data-selected]`, or add a class to all triggers through `classes.trigger`.",
         "evidence": "packages/vue/src/components/layout/Tabs/types.ts:13-14,48-49 (no per-state class prop)"
+      },
+      {
+        "stack": "react",
+        "component": "Tabs",
+        "from": "tabListClassName",
+        "kind": "part-class",
+        "to": "classes",
+        "part": "list",
+        "evidence": "packages/manifest/components/Tabs.json (parts: list, content)"
+      },
+      {
+        "stack": "react",
+        "component": "Tabs",
+        "from": "panelClassName",
+        "kind": "part-class",
+        "to": "classes",
+        "part": "content",
+        "evidence": "packages/manifest/components/Tabs.json (parts: list, content)"
       }
     ],
     "Table": [
@@ -4356,6 +4481,16 @@
         "kind": "rename",
         "to": "description",
         "evidence": "packages/vue/src/components/form/Toggle/types.ts:34-35 (description: supporting text under the label)"
+      },
+      {
+        "stack": "livewire",
+        "component": "toggle",
+        "from": "hintClass",
+        "kind": "part-class",
+        "to": "classes",
+        "part": "description",
+        "note": "`hint` is now `description`, and so is its part.",
+        "evidence": "packages/manifest/components/Toggle.json (parts: description; hint renamed to description)"
       }
     ],
     "Accordion": [
@@ -4797,8 +4932,35 @@
         "stack": "livewire",
         "from": "searchFunction",
         "kind": "manual",
-        "note": "A method name became a property name: bind the search text with `search-model`, or keep the method with `wire:search-change`.",
-        "evidence": "api-aliases.json Combobox `searchFunction` note"
+        "note": "The deprecated `choices`, `choices-offline` and `tags` tags still call it. `combobox` doesn't: set `search-model` to a property and search in its `updated` hook, or call your method with `wire:search-change=\"yourMethod($event.detail.search)\"`.",
+        "evidence": "api-aliases.json Combobox `searchFunction` note; livewire-ui-components src/View/Components/View/Concerns/CallsLegacySearchFunction.php; Combobox.php searchHandler() ($event.detail.search)"
+      },
+      {
+        "stack": "livewire",
+        "component": "choices",
+        "from": "debounce",
+        "kind": "duration",
+        "to": "debounce",
+        "note": "A `250ms` or `1s` string becomes integer milliseconds.",
+        "evidence": "livewire-ui-components src/View/Components/Choices.php legacyDebounce(); Combobox.php int $debounce"
+      },
+      {
+        "stack": "livewire",
+        "component": "choices-offline",
+        "from": "debounce",
+        "kind": "duration",
+        "to": "debounce",
+        "note": "A `250ms` or `1s` string becomes integer milliseconds.",
+        "evidence": "livewire-ui-components src/View/Components/Choices.php legacyDebounce(); Combobox.php int $debounce"
+      },
+      {
+        "stack": "livewire",
+        "component": "tags",
+        "from": "debounce",
+        "kind": "duration",
+        "to": "debounce",
+        "note": "A `250ms` or `1s` string becomes integer milliseconds.",
+        "evidence": "livewire-ui-components src/View/Components/Choices.php legacyDebounce(); Combobox.php int $debounce"
       }
     ]
   }

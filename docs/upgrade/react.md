@@ -215,7 +215,7 @@ Every 1.x prop and event that changed. "Automatic" says whether the codemod make
 | `link` | Now `href`. | Yes |
 | `external` | Set `target="_blank"` and `rel="noopener noreferrer"` alongside `href`. | By hand |
 | `badge` | Render a `Badge` inside the button's children. | By hand |
-| `badgeClasses` | Now the `badge` key of `classes`. | Yes |
+| `badgeClasses` | Button has no `badge` part. Style it with `class`, or a `classes` key: `root`, `icon`, `iconEnd`, `label`, `spinner`. | By hand |
 | `responsive` | Removed. The label is no longer hidden on small screens; use `iconOnly` with an `aria-label` for an icon-only button. | Yes |
 | `tooltip` | Wrap the button in `<Tooltip content="…">`. | By hand |
 | `tooltipPosition` | Set `placement` on the wrapping `Tooltip` (logical values such as `top`, `bottom`, `start`, `end`). | By hand |
@@ -338,6 +338,7 @@ Every 1.x prop and event that changed. "Automatic" says whether the codemod make
 
 | 1.x | 2.0 | Automatic |
 |---|---|---|
+| `label` | Unchanged. Still the trigger's text. | Yes |
 | `end` | Now `align="end"`. | Yes |
 | `top` | Remove it: DropdownMenu has no prop to open above the trigger. | By hand |
 | `hover` | Removed. The menu opens on click and from the keyboard only. | Yes |
@@ -590,9 +591,9 @@ Every 1.x prop and event that changed. "Automatic" says whether the codemod make
 | `vertical` | Now `orientation="vertical"`. | Yes |
 | `verticalRight` | Removed. Covered by `orientation` and logical placement. | Yes |
 | `color` | Remove it: Tabs has no color prop. Choose the look with `variant` (`segmented` or `underline`). | By hand |
-| `tabListClassName` | Now the `tabList` key of `classes`. | Yes |
-| `panelClassName` | Now the `panel` key of `classes`. | Yes |
-| `activeTabClassName` | Now the `activeTab` key of `classes`. | Yes |
+| `tabListClassName` | Now the `list` key of `classes`. | Yes |
+| `panelClassName` | Now the `content` key of `classes`. | Yes |
+| `activeTabClassName` | Tabs has no `activeTab` part. Style it with `class`, or a `classes` key: `root`, `list`, `trigger`, `icon`, `count`, `content`. | By hand |
 | `onChange` | Now `onValueChange`. Check the handler: the payload is string. | Yes, to review |
 
 ### `<Textarea>`
