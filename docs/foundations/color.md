@@ -9,7 +9,7 @@ Color comes in four groups: **surfaces** (what things sit on), **text**, **edges
 
 ## Contrast guarantees
 
-- Text roles reach **4.5:1** against every surface, in every theme. `--apui-text-default` reaches 12:1.
+- Text roles reach **4.5:1** against the surfaces they're meant for, in every theme: the default, muted and glass text roles on the page, raised, sunken and overlay surfaces, and `--apui-text-inverse` on `--apui-surface-inverse`. `--apui-text-default` reaches 12:1. Don't put a regular text role on the inverse surface, or inverse text on a regular one.
 - Control edges and the focus ring reach **3:1** (WCAG 1.4.11).
 - Glass text is checked over black, white, saturated red and saturated blue backdrops.
 - Status is never shown by color alone. Components pair it with a label or an icon, and so should you.

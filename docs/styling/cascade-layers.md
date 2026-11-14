@@ -33,7 +33,7 @@ Within the design system, later layers win over earlier ones regardless of speci
 
 ## Your own layers
 
-If your app uses layers of its own, declare where the design system goes. Layers declared earlier lose to layers declared later:
+If your app uses layers of its own, declare where the design system goes, before you import any CSS. A layer's position is fixed the first time it appears, so this line has to come before the design system's stylesheet loads. Layers declared earlier lose to layers declared later:
 
 ```css
 @layer reset, apui, app;

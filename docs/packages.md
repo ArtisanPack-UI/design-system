@@ -21,4 +21,4 @@ All packages are MIT licensed. Source: [ArtisanPack-UI/design-system](https://gi
 
 ## Versions
 
-The design system packages start at 1.0, except `@artisanpack-ui/tokens`, which started life alongside the React package and continues at 2.0. Its 1.x line, used by `@artisanpack-ui/react` and `@artisanpack-ui/vue` 1.x, is frozen.
+The design system packages start at 1.0, except `@artisanpack-ui/tokens`. It started life alongside the React package, whose 1.x line uses tokens 1.x, so the design system's release of it is 2.0.0. Tokens 1.x, used by `@artisanpack-ui/react` and `@artisanpack-ui/vue` 1.x, is frozen.

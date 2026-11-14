@@ -17,6 +17,8 @@ Every token is a CSS custom property in the `apui.tokens` cascade layer. CSS you
 }
 ```
 
+This sets the tokens on the document root. A preset or theme switched on for an element further down (`data-preset` or `data-theme` on a section) sets many tokens again on that element, and everything inside it inherits those values instead. To change a token there too, add the element's attribute to the selector, as in the next section.
+
 ## For one theme
 
 Match the theme attribute, so your value only applies there:

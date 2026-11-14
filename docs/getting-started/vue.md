@@ -28,7 +28,7 @@ With Tailwind v4, import it from your Tailwind entry stylesheet instead, after t
 
 ## Apply the theme before the first paint
 
-Render `ThemeScript` in the document `<head>` (with server rendering) so a stored dark or high-contrast choice applies before the page paints. In a single-page app with a static `index.html`, inline the output of `themeScript()` from `@artisanpack-ui/behavior` in `<head>` instead. With Nuxt, pass `themeScript()` to `useHead`. See [Themes](Theming-Themes).
+Render `ThemeScript` in the document `<head>` (with server rendering) so a stored dark or high-contrast choice applies before the page paints. In a single-page app with a static `index.html`, inline the output of `themeScript()` from `@artisanpack-ui/behavior` in `<head>` instead. With Nuxt, add it as a head script, before any stylesheet: `useHead({ script: [{ innerHTML: themeScript(), tagPriority: 'critical' }] })`. See [Themes](Theming-Themes).
 
 ## Your first component
 

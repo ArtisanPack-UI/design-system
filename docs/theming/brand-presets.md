@@ -12,7 +12,7 @@ Most rebrands only need a primary color. The preset generator builds a complete 
 With npm:
 
 ```bash
-npx apui-generate-preset --name acme --primary "#7c3aed" > acme.css
+npx apui-generate-preset --name acme --primary "#7c3aed" > presets/acme.css
 ```
 
 In a Laravel app with Livewire UI Components:
@@ -23,7 +23,7 @@ php artisan artisanpack:generate-preset acme --primary="#7c3aed"
 
 The Artisan command writes `resources/css/presets/acme.css`.
 
-Import the file after the design system's CSS and switch it on:
+Both commands write the file into a `presets/` folder: run the npm one from the folder that holds your main stylesheet, or move the file there. Import it after the design system's CSS and switch it on:
 
 ```css
 @import '@artisanpack-ui/css';

@@ -31,7 +31,7 @@ Every visual decision in the design system is a token: a named value such as `--
 
 ## What stays fixed
 
-You can change any token, but some guarantees hold whatever you change. The [theming tools](Theming) check them for you:
+The built-in themes and presets, and any preset the [preset generator](Theming-Brand-Presets) writes, keep these guarantees. A token you override by hand isn't checked, so check its contrast yourself:
 
 - A visible focus ring on every interactive element.
 - Contrast floors: 4.5:1 for text and 3:1 for control edges and the focus ring, in every theme.

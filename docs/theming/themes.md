@@ -29,7 +29,7 @@ A stored theme has to be applied before the browser paints, or a dark-mode visit
 |---|---|
 | Livewire / Blade | `@apuiThemeScript` |
 | React | `<ThemeScript />` from `@artisanpack-ui/react` |
-| Vue | `<ThemeScript />` from `@artisanpack-ui/vue`, or `useHead` with `themeScript()` in Nuxt |
+| Vue | `<ThemeScript />` from `@artisanpack-ui/vue`, or `useHead({ script: [{ innerHTML: themeScript() }] })` in Nuxt |
 | Static `index.html` | Inline the output of `themeScript()` from `@artisanpack-ui/behavior` |
 
 Put it first in `<head>`, before any stylesheet. Until a visitor makes a choice, the script applies their system's light or dark setting. All four produce the same script.

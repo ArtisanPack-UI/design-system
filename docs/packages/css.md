@@ -30,7 +30,7 @@ npm install @artisanpack-ui/css
 @layer apui.reset, apui.tokens, apui.components, apui.utilities;
 ```
 
-Your own CSS always wins over all four without `!important`. See [Cascade Layers](Styling-Cascade-Layers).
+Unlayered CSS you write wins over all four without `!important`. If your CSS is in a layer of its own, order that layer after `apui`. See [Cascade Layers](Styling-Cascade-Layers).
 
 ## Utilities
 

@@ -29,6 +29,8 @@ The installer asks how your app should load the design system's CSS and JavaScri
 
 Skip the question with `--assets=bundler` or `--assets=prebuilt`.
 
+The bundler option installs the design system packages from npm. Until those packages are published, the installer uses the prebuilt option, and `--assets=bundler` warns that the packages must come from a linked checkout or a private registry.
+
 If `resources/css/app.css` still loads DaisyUI, the installer says so. Remove the `@plugin "daisyui"` block: 3.0 doesn't use DaisyUI.
 
 ## With Vite

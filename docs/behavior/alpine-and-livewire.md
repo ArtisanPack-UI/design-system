@@ -50,7 +50,7 @@ These keep a widget working through Livewire's DOM morphing:
 
 ## What the engine handles
 
-- **Morphing.** The machine owns the attributes it writes on its parts. A re-render resets them to the server's HTML, and the widget writes them back before the next paint. State it writes outside its parts, such as `aria-hidden` on the page behind a modal, is carried through the morph. If you use another morph library, call `ApuiBehavior.keepClientState(el, toEl)` before each element is patched.
+- **Morphing.** The machine owns the attributes it writes on its parts. A re-render resets them to the server's HTML, and the widget writes them back before the next paint. State it writes outside its parts, such as `aria-hidden` on the page behind a modal, is carried through the morph. If you use another morph library, call `keepClientState(el, toEl)` before each element is patched. With a bundler, import it with `import { keepClientState } from '@artisanpack-ui/behavior'`. The prebuilt script exposes it as `ApuiBehavior.keepClientState`.
 - **`wire:navigate`.** Leaving a page stops each widget and runs its cleanup: focus traps, scroll locks, `aria-hidden` and listeners all go.
 
 ## Events

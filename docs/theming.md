@@ -39,4 +39,6 @@ Components never check these attributes. They read tokens, and the attributes re
 
 ## What theming can't change
 
-Some guarantees hold whatever you set: a visible focus ring, 4.5:1 text and 3:1 edge contrast, the 24px minimum target size, and each component's parts, ARIA and keyboard behavior. The [preset generator](Theming-Brand-Presets) refuses to write a preset that breaks a contrast floor.
+Some guarantees hold whatever you set: a visible focus ring, the 24px minimum target size, and each component's parts, ARIA and keyboard behavior.
+
+Contrast (4.5:1 text, 3:1 edges) holds for the built-in themes and presets, and for any preset the [preset generator](Theming-Brand-Presets) writes: it refuses to write one that breaks a contrast floor. A color token you override by hand isn't checked, so check those pairs yourself. See [Customizing Tokens](Theming-Customizing-Tokens).
