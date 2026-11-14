@@ -1,6 +1,6 @@
 /**
  * Validates manifests: structure through the JSON Schema, then the vocabulary
- * rules the schema can't express (docs/inventory/vocabulary.md, D-003).
+ * rules the schema can't express (contributing/inventory/vocabulary.md, D-003).
  */
 import { Ajv2020 } from 'ajv/dist/2020.js';
 

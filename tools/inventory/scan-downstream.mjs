@@ -1,6 +1,6 @@
 /**
  * Measures how much of the downstream ecosystem the migration touches and writes
- * docs/inventory/data/downstream-usage.json. Every package directory beside this
+ * contributing/inventory/data/downstream-usage.json. Every package directory beside this
  * repo is scanned, so consumers missing from the plan's list are still found.
  */
 import { execFileSync, execSync } from 'node:child_process';

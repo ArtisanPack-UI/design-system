@@ -1,5 +1,5 @@
 {
-  "$comment": "How each target in docs/inventory/data/token-map.json landed in the DTCG tokens (#18). Targets that exist as built tokens need no entry. Every other target is listed here: superseded (with the tokens that replace it), dropped, or deferred to a later issue. packages/tokens/test/phase-0-map.test.ts keeps this file complete and checks every replacement exists.",
+  "$comment": "How each target in contributing/inventory/data/token-map.json landed in the DTCG tokens (#18). Targets that exist as built tokens need no entry. Every other target is listed here: superseded (with the tokens that replace it), dropped, or deferred to a later issue. packages/tokens/test/phase-0-map.test.ts keeps this file complete and checks every replacement exists.",
   "resolutions": {
     "--apui-surface-glass-opacity": {
       "status": "superseded",

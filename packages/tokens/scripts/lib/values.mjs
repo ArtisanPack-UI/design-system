@@ -2,7 +2,7 @@
  * Value rules for each supported DTCG token type, and conversion to CSS.
  *
  * Supported types follow the W3C DTCG 2025.10 format. Two documented
- * extensions apply (see docs/tokens.md): `dimension` also accepts the `em` and
+ * extensions apply (see contributing/tokens.md): `dimension` also accepts the `em` and
  * `ch` units, and `color` accepts only the `srgb` and `oklch` color spaces.
  */
 

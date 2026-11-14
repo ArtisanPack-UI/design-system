@@ -1,6 +1,6 @@
 /**
  * Extracts the current public API of every component in all three stacks into
- * docs/inventory/data/api-{livewire,react,vue}.json.
+ * contributing/inventory/data/api-{livewire,react,vue}.json.
  */
 import { existsSync, readFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';

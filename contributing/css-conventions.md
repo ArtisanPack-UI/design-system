@@ -138,7 +138,7 @@ The preset never redefines a Tailwind default, so Tailwind's `font-sans` stays a
 ## Theme, density, preset and surface
 
 - An element with `data-theme` resets its text color to `--apui-text-default` and sets `color-scheme`, so inherited text follows the theme. It does not paint a background: put a themed region on a surface (a component or `background: var(--apui-surface-page)`).
-- Theme, density and preset are attributes on any element: `data-theme="light | dark | high-contrast"`, `data-density="compact | default | comfortable"`, `data-preset="ledger | harbor | <brand>"`. Component CSS never checks them. It reads tokens, which the attributes reassign. See [docs/tokens](tokens/README.md#modes) and [presets](tokens/README.md#presets-23).
+- Theme, density and preset are attributes on any element: `data-theme="light | dark | high-contrast"`, `data-density="compact | default | comfortable"`, `data-preset="ledger | harbor | <brand>"`. Component CSS never checks them. It reads tokens, which the attributes reassign. See [contributing/tokens](tokens/README.md#modes) and [presets](tokens/README.md#presets-23).
 - Density changes spacing through `--apui-panel-padding`, `--apui-panel-gap`, `--apui-row-height`, `--apui-cell-padding-x`, `--apui-field-gap` and the component tokens that alias them. It never changes control sizes.
 - Glass is a surface: `data-surface="glass"` on a container ([D-006](decisions.md#d-006-glass-is-a-surface-not-a-theme-preset)). It falls back to `--apui-surface-raised` under `prefers-reduced-transparency`, without `backdrop-filter` support, and in high contrast.
 

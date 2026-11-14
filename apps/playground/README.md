@@ -16,7 +16,7 @@ This builds `apps/playground/dist/` and prints a `file://` URL. Open it in a bro
 
 The sample UI is a stand-in built from semantic and component tokens until the components ship. It isn't the component CSS.
 
-Making a brand preset is the generator's job: `apui-generate-preset` ([docs](../../docs/tokens/README.md#brand-presets-the-generator-27)), and the web theme builder on the docs site ([D-013](../../docs/decisions.md#d-013-the-theme-generator-is-a-cli-plus-a-web-builder-on-the-docs-site)).
+Making a brand preset is the generator's job: `apui-generate-preset` ([docs](../../contributing/tokens/README.md#brand-presets-the-generator-27)), and the web theme builder on the docs site ([D-013](../../contributing/decisions.md#d-013-the-theme-generator-is-a-cli-plus-a-web-builder-on-the-docs-site)).
 
 ## Tests
 

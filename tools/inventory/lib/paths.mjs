@@ -13,8 +13,8 @@ const here = dirname( fileURLToPath( import.meta.url ) );
 
 export const repoRoot = resolve( here, '../../..' );
 export const packagesDir = process.env.AP_PACKAGES_DIR ?? resolve( repoRoot, '..' );
-export const dataDir = join( repoRoot, 'docs/inventory/data' );
-export const docsDir = join( repoRoot, 'docs/inventory' );
+export const dataDir = join( repoRoot, 'contributing/inventory/data' );
+export const docsDir = join( repoRoot, 'contributing/inventory' );
 
 /**
  * Reads the short commit of a sibling package so reports state their snapshot.

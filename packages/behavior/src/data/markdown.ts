@@ -274,7 +274,10 @@ function decodeEntity(
 ): string | null {
   if (hex !== undefined) return codePoint(parseInt(hex, 16));
   if (decimal !== undefined) return codePoint(parseInt(decimal, 10));
-  return NAMED_ENTITIES[name!] ?? null;
+  // Own keys only: `&constructor;` must not reach Object.prototype.
+  return Object.prototype.hasOwnProperty.call(NAMED_ENTITIES, name!)
+    ? NAMED_ENTITIES[name!]!
+    : null;
 }
 
 /** Decodes numeric references and the {@link NAMED_ENTITIES}, as commonmark does in URLs and titles. */
