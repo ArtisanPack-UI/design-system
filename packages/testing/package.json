@@ -1,6 +1,6 @@
 {
   "name": "@artisanpack-ui/testing",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Quality gates for ArtisanPack UI components: manifest fixtures, cross-stack visual regression, axe and API parity checks for Livewire, React and Vue.",
   "license": "MIT",
   "author": "Jacob Martella <me@jacobmartella.com>",
@@ -86,8 +86,8 @@
     "access": "public"
   },
   "dependencies": {
-    "@artisanpack-ui/manifest": "^0.0.0",
-    "@artisanpack-ui/tokens": "^1.0.1",
+    "@artisanpack-ui/manifest": "^1.0.0",
+    "@artisanpack-ui/tokens": "^2.0.0",
     "axe-core": "~4.14.0",
     "esbuild": "^0.28.2",
     "happy-dom": "^21.0.4",
