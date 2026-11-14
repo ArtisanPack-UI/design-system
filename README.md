@@ -21,7 +21,7 @@ Token-driven design system for ArtisanPack UI: DTCG design tokens, a plain-CSS c
 
 The repo root is also a Composer package, `artisanpack-ui/design-system`, with the PHP side of the manifest and the gates ([D-016](contributing/decisions.md#d-016-the-quality-gates-ship-as-artisanpack-uitesting-plus-a-composer-kit)).
 
-None is published from this repo yet. The 1.0 releases are tracked in #81.
+The six npm packages are published to npm; the Composer package isn't on Packagist yet. Release history is in [CHANGELOG.md](CHANGELOG.md).
 
 ## Tools
 
