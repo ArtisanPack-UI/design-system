@@ -387,8 +387,8 @@ export function transformVue(
             : plan.type === 'number'
               ? `:${as(plan.to)}="${plan.value}"`
               : 'to' in plan
-              ? as(plan.to)
-              : written;
+                ? as(plan.to)
+                : written;
         report(
           review ? 'review' : 'rewrote',
           prop.loc,

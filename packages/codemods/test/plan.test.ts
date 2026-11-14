@@ -24,10 +24,14 @@ describe('planAttribute', () => {
   const duration = { kind: 'duration', to: 'debounce' } as const;
 
   it('turns a duration literal into a number', () => {
-    expect(planAttribute('debounce', duration, { type: 'literal', value: '1s', string: true })).toEqual({
+    expect(
+      planAttribute('debounce', duration, { type: 'literal', value: '1s', string: true }),
+    ).toEqual({
       plan: { type: 'number', to: 'debounce', value: 1000 },
     });
-    expect(planAttribute('debounce', duration, { type: 'literal', value: '300', string: false })).toEqual({
+    expect(
+      planAttribute('debounce', duration, { type: 'literal', value: '300', string: false }),
+    ).toEqual({
       plan: { type: 'number', to: 'debounce', value: 300 },
     });
   });
@@ -45,7 +49,11 @@ describe('planAttribute', () => {
 
   it('leaves a kept member alone', () => {
     expect(
-      planAttribute('title', { kind: 'keep', note: 'Unchanged.' }, { type: 'literal', value: 'x', string: true }),
+      planAttribute(
+        'title',
+        { kind: 'keep', note: 'Unchanged.' },
+        { type: 'literal', value: 'x', string: true },
+      ),
     ).toEqual({ plan: { type: 'none' } });
   });
 });

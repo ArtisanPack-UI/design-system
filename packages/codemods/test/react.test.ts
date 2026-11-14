@@ -340,11 +340,15 @@ describe('transformReact', () => {
     const rules = structuredClone(rulesFor('react').components);
     rules.Dropdown!.props = { ...rules.Dropdown!.props, delay: { kind: 'duration', to: 'delay' } };
     const transform = (attribute: string) =>
-      transformReact(
-        jsx(`<Dropdown ${attribute} />`, 'Dropdown'),
-        'App.tsx',
-        { rules: { ...upgradeRules, stacks: { ...upgradeRules.stacks, react: { ...upgradeRules.stacks.react, components: rules } } } },
-      );
+      transformReact(jsx(`<Dropdown ${attribute} />`, 'Dropdown'), 'App.tsx', {
+        rules: {
+          ...upgradeRules,
+          stacks: {
+            ...upgradeRules.stacks,
+            react: { ...upgradeRules.stacks.react, components: rules },
+          },
+        },
+      });
 
     it.each([
       ['delay="250ms"', 'delay={250}'],
