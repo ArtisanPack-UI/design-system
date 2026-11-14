@@ -1,7 +1,6 @@
 {
   "name": "@artisanpack-ui/codemods",
   "version": "0.0.0",
-  "private": true,
   "description": "Codemods and upgrade rules that move ArtisanPack UI apps to the next major: React, Vue and the rules behind the Blade upgrade command.",
   "license": "MIT",
   "author": "Jacob Martella <me@jacobmartella.com>",

@@ -1,7 +1,6 @@
 {
   "name": "@artisanpack-ui/manifest",
   "version": "0.0.0",
-  "private": true,
   "description": "Per-component JSON manifest for ArtisanPack UI: the API contract the parity tests check.",
   "license": "MIT",
   "author": "Jacob Martella <me@jacobmartella.com>",

@@ -11,7 +11,8 @@ permissions:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  # Never cancel a run on main: it may be mid-publish.
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 jobs:
   lint:
@@ -174,8 +175,9 @@ jobs:
       - run: npm ci
       # Action v2 is the line that supports Changesets CLI 3: it reads published
       # packages from CHANGESETS_OUTPUT instead of parsing "New tag:" from stdout.
-      # npm auth comes from setup-node's registry-url plus NODE_AUTH_TOKEN; switch
-      # to npm Trusted Publishing before #81 and drop the token.
+      # npm auth comes from setup-node's registry-url plus NODE_AUTH_TOKEN, from
+      # the organization's NPM_TOKEN secret (shared with react and vue). An
+      # expired token fails the publish as E404.
       - name: Create release PR or publish
         uses: changesets/action@v2
         with:
