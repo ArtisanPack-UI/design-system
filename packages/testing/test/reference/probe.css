@@ -1,0 +1,66 @@
+/* Test-only styles for the reference Probe, read from the tokens like a real component. */
+@layer apui.components {
+  .apui-probe {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--apui-space-2);
+    min-block-size: var(--apui-control-height-md);
+    padding-inline: var(--apui-space-3);
+    border: 1px solid transparent;
+    border-radius: var(--apui-radius-control);
+    font: inherit;
+    font-size: 14px;
+    background: var(--apui-color-primary);
+    color: var(--apui-color-primary-foreground);
+  }
+  .apui-probe[data-size='sm'] {
+    min-block-size: var(--apui-control-height-sm);
+    padding-inline: var(--apui-space-2);
+  }
+  .apui-probe[data-color='error'] {
+    background: var(--apui-color-error);
+    color: var(--apui-color-error-foreground);
+  }
+  .apui-probe[data-variant='solid']:hover {
+    background: var(--apui-color-primary-hover);
+  }
+  .apui-probe[data-variant='solid'][data-color='error']:hover {
+    background: var(--apui-color-error-hover);
+  }
+  .apui-probe[data-variant='outline'] {
+    background: transparent;
+    border-color: var(--apui-color-primary-border);
+    color: var(--apui-color-primary-text);
+  }
+  .apui-probe[data-variant='outline'][data-color='error'] {
+    border-color: var(--apui-color-error-border);
+    color: var(--apui-color-error-text);
+  }
+  .apui-probe[data-variant='outline']:hover {
+    background: var(--apui-state-hover);
+  }
+  .apui-probe:focus-visible {
+    outline: 2px solid transparent;
+    box-shadow:
+      0 0 0 2px var(--apui-focus-ring-offset-color),
+      0 0 0 4px var(--apui-focus-ring-color);
+  }
+  .apui-probe:active {
+    transform: translateY(1px);
+  }
+  .apui-probe:disabled {
+    background: var(--apui-surface-sunken);
+    border-color: var(--apui-border-default);
+    color: var(--apui-text-disabled);
+  }
+  [data-scope='probe'][data-part='icon'] {
+    display: inline-flex;
+  }
+  [data-scope='probe'][data-part='spinner'] {
+    inline-size: 12px;
+    block-size: 12px;
+    border: 2px solid currentColor;
+    border-inline-end-color: transparent;
+    border-radius: 50%;
+  }
+}

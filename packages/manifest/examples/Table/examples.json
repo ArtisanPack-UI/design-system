@@ -1,0 +1,22 @@
+[
+  {
+    "id": "basic",
+    "title": "Basic",
+    "description": "headers and rows. A column's key is a dot path into each row; numeric end-aligns it with tabular figures, and secondary adds a muted second line. The title names the table."
+  },
+  {
+    "id": "selection",
+    "title": "Sorting and selection",
+    "description": "Sortable headers carry aria-sort and report the next sort through sort-change: sort the rows where they come from. selectable adds row boxes bound to value, with a select-all box that is mixed while some rows are selected."
+  },
+  {
+    "id": "cells",
+    "title": "Cells, actions and expansion",
+    "description": "Cell content comes from a scoped slot per column, given the row; row actions from the actions slot; expanded content from the expansion slot. Status uses a Badge, never a whole-row color."
+  },
+  {
+    "id": "pagination",
+    "title": "Footer and pagination",
+    "description": "pagination takes Pagination's props and renders it at the end of the footer. In Livewire, paginated reads a paginator in rows and per-page adds a \"Rows per page\" Select."
+  }
+]

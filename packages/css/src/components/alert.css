@@ -1,0 +1,238 @@
+/*
+ * Alert (#60). Root `.apui-alert`, role=status (role=alert for errors), with
+ * data-color, data-variant (soft, outline, solid) and data-surface. Parts:
+ * icon, title, description, actions and close-trigger (a ghost Button). A
+ * dismissed alert carries the hidden attribute. Status comes from the tint
+ * and the icon, never a colored side border. See design/components/Alert.
+ */
+@layer apui.components {
+  .apui-alert {
+    --apui-_solid: var(--apui-color-neutral);
+    --apui-_on-solid: var(--apui-color-neutral-foreground);
+    --apui-_solid-border: transparent;
+    --apui-_soft: var(--apui-color-neutral-soft);
+    --apui-_on-soft: var(--apui-color-neutral-soft-foreground);
+    --apui-_tone-border: var(--apui-color-neutral-border);
+    --apui-_tone-text: var(--apui-color-neutral-text);
+
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 4px 12px;
+    align-items: start;
+    box-sizing: border-box;
+    padding-block: 12px;
+    padding-inline: 16px;
+
+    /*
+     * Soft: the tint carries the status. The spec draws no edge; high contrast
+     * adds one through --apui-border-soft-edge-width (see the soft rule below).
+     */
+    border: var(--apui-border-width) solid transparent;
+    border-radius: var(--apui-alert-radius);
+    background: var(--apui-_soft);
+    color: var(--apui-_on-soft);
+    font-family: var(--apui-font-family-sans);
+    font-size: var(--apui-type-body-md-font-size);
+    line-height: 20px;
+
+    /* Buttons inside ring against the alert. */
+    --apui-focus-ring-offset-color: var(--apui-_soft);
+  }
+
+  .apui-alert[hidden] {
+    display: none;
+  }
+
+  .apui-alert[data-color='primary'] {
+    --apui-_solid: var(--apui-color-primary);
+    --apui-_on-solid: var(--apui-color-primary-foreground);
+    --apui-_soft: var(--apui-color-primary-soft);
+    --apui-_on-soft: var(--apui-color-primary-soft-foreground);
+    --apui-_tone-border: var(--apui-color-primary-border);
+    --apui-_tone-text: var(--apui-color-primary-text);
+  }
+
+  .apui-alert[data-color='secondary'] {
+    --apui-_solid: var(--apui-color-secondary);
+    --apui-_on-solid: var(--apui-color-secondary-foreground);
+    --apui-_soft: var(--apui-color-secondary-soft);
+    --apui-_on-soft: var(--apui-color-secondary-soft-foreground);
+    --apui-_tone-border: var(--apui-color-secondary-border);
+    --apui-_tone-text: var(--apui-color-secondary-text);
+  }
+
+  .apui-alert[data-color='accent'] {
+    --apui-_solid: var(--apui-color-accent);
+    --apui-_on-solid: var(--apui-color-accent-foreground);
+    --apui-_solid-border: var(--apui-color-accent-border);
+    --apui-_soft: var(--apui-color-accent-soft);
+    --apui-_on-soft: var(--apui-color-accent-soft-foreground);
+    --apui-_tone-border: var(--apui-color-accent-border);
+    --apui-_tone-text: var(--apui-color-accent-text);
+  }
+
+  .apui-alert[data-color='success'] {
+    --apui-_solid: var(--apui-color-success);
+    --apui-_on-solid: var(--apui-color-success-foreground);
+    --apui-_soft: var(--apui-color-success-soft);
+    --apui-_on-soft: var(--apui-color-success-soft-foreground);
+    --apui-_tone-border: var(--apui-color-success-border);
+    --apui-_tone-text: var(--apui-color-success-text);
+  }
+
+  .apui-alert[data-color='warning'] {
+    --apui-_solid: var(--apui-color-warning);
+    --apui-_on-solid: var(--apui-color-warning-foreground);
+    --apui-_solid-border: var(--apui-color-warning-border);
+    --apui-_soft: var(--apui-color-warning-soft);
+    --apui-_on-soft: var(--apui-color-warning-soft-foreground);
+    --apui-_tone-border: var(--apui-color-warning-border);
+    --apui-_tone-text: var(--apui-color-warning-text);
+  }
+
+  .apui-alert[data-color='error'] {
+    --apui-_solid: var(--apui-color-error);
+    --apui-_on-solid: var(--apui-color-error-foreground);
+    --apui-_soft: var(--apui-color-error-soft);
+    --apui-_on-soft: var(--apui-color-error-soft-foreground);
+    --apui-_tone-border: var(--apui-color-error-border);
+    --apui-_tone-text: var(--apui-color-error-text);
+  }
+
+  .apui-alert[data-color='info'] {
+    --apui-_solid: var(--apui-color-info);
+    --apui-_on-solid: var(--apui-color-info-foreground);
+    --apui-_soft: var(--apui-color-info-soft);
+    --apui-_on-soft: var(--apui-color-info-soft-foreground);
+    --apui-_tone-border: var(--apui-color-info-border);
+    --apui-_tone-text: var(--apui-color-info-text);
+  }
+
+  /* Soft: high contrast's edge, over the transparent border (0 elsewhere). */
+  .apui-alert:not([data-variant='outline'], [data-variant='solid'], [data-surface='glass']) {
+    outline: var(--apui-border-soft-edge-width) solid var(--apui-_tone-border);
+    outline-offset: calc(-1 * var(--apui-border-width));
+  }
+
+  /* Outline: for alerts inside dense forms, where a tint would be too loud. */
+  .apui-alert[data-variant='outline'] {
+    --apui-focus-ring-offset-color: var(--apui-surface-default);
+
+    border-color: var(--apui-_tone-border);
+    background: var(--apui-surface-default);
+    color: var(--apui-text-default);
+  }
+
+  .apui-alert[data-variant='outline'] [data-scope='alert'][data-part='icon'] {
+    color: var(--apui-_tone-text);
+  }
+
+  .apui-alert[data-variant='outline'] [data-scope='alert'][data-part='description'] {
+    color: var(--apui-text-muted);
+  }
+
+  /* Solid: for page-level failures that block work. */
+  .apui-alert[data-variant='solid'] {
+    --apui-focus-ring-offset-color: var(--apui-_solid);
+
+    border-color: var(--apui-_solid-border);
+    background: var(--apui-_solid);
+    color: var(--apui-_on-solid);
+  }
+
+  .apui-alert[data-variant='solid'] [data-scope='alert'][data-part='close-trigger'] {
+    --apui-state-hover: color-mix(in oklab, currentcolor 16%, transparent);
+  }
+
+  /* Glass is a surface (D-006): default text, the icon keeps the status tint. */
+  .apui-alert[data-surface='glass'] {
+    --apui-text-muted: var(--apui-text-muted-glass);
+    --apui-focus-ring-offset-color: transparent;
+
+    border-color: var(--apui-surface-glass-border);
+    background: var(--apui-surface-glass);
+    box-shadow: var(--apui-elevation-glass);
+    color: var(--apui-text-default);
+    backdrop-filter: blur(var(--apui-surface-glass-blur))
+      saturate(var(--apui-surface-glass-saturation));
+  }
+
+  .apui-alert[data-surface='glass'] [data-scope='alert'][data-part='icon'] {
+    color: var(--apui-_tone-text);
+  }
+
+  @supports not (backdrop-filter: blur(1px)) {
+    .apui-alert[data-surface='glass'] {
+      border-color: var(--apui-border-muted);
+      background: var(--apui-surface-raised);
+    }
+  }
+
+  @media (prefers-reduced-transparency: reduce) {
+    .apui-alert[data-surface='glass'] {
+      border-color: var(--apui-border-muted);
+      background: var(--apui-surface-raised);
+      backdrop-filter: none;
+    }
+  }
+
+  /* Parts */
+  [data-scope='alert'][data-part='icon'] {
+    display: inline-flex;
+    grid-column: 1;
+    grid-row: 1;
+    margin-block-start: 2px;
+  }
+
+  [data-scope='alert'][data-part='icon'] > svg {
+    inline-size: var(--apui-icon-size-md);
+    block-size: var(--apui-icon-size-md);
+  }
+
+  [data-scope='alert'][data-part='title'] {
+    grid-column: 2;
+    margin: 0;
+    font-weight: var(--apui-font-weight-semibold);
+  }
+
+  [data-scope='alert'][data-part='description'] {
+    grid-column: 2;
+    margin: 0;
+  }
+
+  /* Softens the description under a title; solid fills keep full contrast. */
+  .apui-alert:not([data-variant='solid'])
+    [data-scope='alert'][data-part='title']
+    + [data-scope='alert'][data-part='description'] {
+    opacity: 0.92;
+  }
+
+  [data-scope='alert'][data-part='actions'] {
+    display: flex;
+    flex-wrap: wrap;
+    grid-column: 2;
+    gap: 8px;
+    margin-block-start: 8px;
+  }
+
+  /* The close button takes the alert's text color in every variant. */
+  [data-scope='alert'][data-part='close-trigger'] {
+    --apui-button-fg: currentcolor;
+
+    grid-column: 3;
+    grid-row: 1;
+    margin-block-start: -4px;
+    margin-inline-end: -8px;
+  }
+
+  @media (forced-colors: active) {
+    .apui-alert {
+      border-color: CanvasText;
+    }
+
+    .apui-alert[data-surface='glass'] {
+      background: Canvas;
+      backdrop-filter: none;
+    }
+  }
+}

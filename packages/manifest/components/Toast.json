@@ -1,0 +1,215 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "Toast",
+  "description": "A brief, non-blocking message about something that just happened. A toaster (the region) shows toasts created from data, stacked, timed and paused on hover and focus; Livewire triggers them from the server. Rendered on its own, a Toast is static.",
+  "status": "draft",
+  "issue": 51,
+  "rootClass": "apui-toast",
+  "stacks": {
+    "livewire": {
+      "name": "toast",
+      "capabilities": [
+        "toaster renders the region; $this->dispatch('toast', …) from a Livewire component, and toasts flashed to the session, show in it",
+        "ApuiBehavior.toast({ … }) shows one from JavaScript"
+      ]
+    },
+    "react": {
+      "name": "Toast",
+      "capabilities": ["Toaster renders the region; toast.create({ … }) shows one"]
+    },
+    "vue": {
+      "name": "Toast",
+      "capabilities": ["Toaster renders the region; toast.create({ … }) shows one"]
+    }
+  },
+  "props": [
+    {
+      "name": "title",
+      "type": "node",
+      "description": "The message, linked with aria-labelledby."
+    },
+    {
+      "name": "description",
+      "type": "node",
+      "description": "Supporting text, linked with aria-describedby."
+    },
+    {
+      "name": "color",
+      "type": "enum",
+      "values": [
+        "primary",
+        "secondary",
+        "accent",
+        "neutral",
+        "success",
+        "warning",
+        "error",
+        "info"
+      ],
+      "default": "neutral",
+      "description": "Tints the icon. Emitted as data-color. error makes the toast an alert.",
+      "a11y": "error sets role=alert, so it's announced at once."
+    },
+    {
+      "name": "variant",
+      "type": "enum",
+      "values": ["default", "inverse"],
+      "default": "default",
+      "description": "inverse uses the inverse surface, for a toast that must stand out. Emitted as data-variant."
+    },
+    {
+      "name": "surface",
+      "type": "enum",
+      "values": ["overlay", "glass"],
+      "default": "overlay",
+      "description": "The toast's surface. Emitted as data-surface. Glass falls back to the overlay surface under reduced transparency and in high contrast."
+    },
+    {
+      "name": "icon",
+      "type": "string",
+      "description": "An icon name from the registry. Defaults to the color's status icon: circle-check, triangle-alert, circle-alert or info. A slot or node overrides it."
+    },
+    {
+      "name": "actions",
+      "type": "node",
+      "description": "Buttons under the text, such as Undo. In a toaster, a toast with an action doesn't dismiss itself."
+    },
+    {
+      "name": "hideClose",
+      "type": "boolean",
+      "default": false,
+      "description": "Hides the close button."
+    },
+    {
+      "name": "closeLabel",
+      "type": "string",
+      "default": "Dismiss notification",
+      "description": "The close button's accessible name. Translate it: Livewire defaults it through __( 'Dismiss notification' ).",
+      "a11y": "The close button is icon-only, so this is its only name."
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part, such as { title: '…', actions: '…' }."
+    }
+  ],
+  "variants": ["default", "inverse"],
+  "colors": ["primary", "secondary", "accent", "neutral", "success", "warning", "error", "info"],
+  "parts": [
+    {
+      "name": "root",
+      "element": "div",
+      "description": "The toast: role status, or alert for errors."
+    },
+    {
+      "name": "icon",
+      "element": "span",
+      "description": "The status icon."
+    },
+    {
+      "name": "title",
+      "element": "p",
+      "description": "The message."
+    },
+    {
+      "name": "description",
+      "element": "p",
+      "description": "Supporting text."
+    },
+    {
+      "name": "actions",
+      "element": "div",
+      "description": "The action buttons."
+    },
+    {
+      "name": "closeTrigger",
+      "element": "button",
+      "description": "The close button: a ghost, neutral, small icon-only Button."
+    }
+  ],
+  "slots": [
+    {
+      "name": "icon",
+      "description": "Overrides the icon."
+    },
+    {
+      "name": "title",
+      "description": "Rich message content."
+    },
+    {
+      "name": "description",
+      "description": "Rich supporting text."
+    },
+    {
+      "name": "actions",
+      "description": "The action buttons."
+    }
+  ],
+  "events": [
+    {
+      "name": "open-change",
+      "description": "The close button was pressed. In a toaster the toast also dismisses itself; on its own, hiding it is the owner's job.",
+      "payload": "boolean"
+    }
+  ],
+  "a11y": {
+    "role": "status",
+    "roles": ["alert"],
+    "element": "div",
+    "keyboard": [
+      {
+        "keys": "Alt+T",
+        "action": "Moves focus to the toaster's region."
+      },
+      {
+        "keys": "Tab",
+        "action": "Moves through the toasts' actions and close buttons."
+      },
+      {
+        "keys": "Escape",
+        "action": "On a toast in a toaster, dismisses it."
+      }
+    ],
+    "requirements": [
+      "The toaster's region is a labelled landmark (role=region, translatable \"Notifications\") with aria-live=polite; an error toast is role=alert, announced at once.",
+      "A toast times out after its duration (default 5000ms), paused while the region is hovered or focused; duration 0 keeps it.",
+      "Toasts with actions don't dismiss themselves (WCAG 2.2.1).",
+      "Never the only place an error is reported: blocking errors use Alert.",
+      "The close button has an accessible name (translatable, \"Dismiss notification\").",
+      "Text keeps 4.5:1 on the overlay, inverse and glass surfaces; the icon tint is --apui-color-<c>-text.",
+      "The region sits at the bottom end of the viewport and mirrors in RTL."
+    ],
+    "wcag": ["1.3.1", "1.4.3", "1.4.11", "2.1.1", "2.2.1", "2.4.7", "4.1.2", "4.1.3"]
+  },
+  "tokens": [
+    "--apui-toast-radius",
+    "--apui-surface-overlay",
+    "--apui-surface-inverse",
+    "--apui-surface-glass",
+    "--apui-surface-glass-border",
+    "--apui-surface-glass-blur",
+    "--apui-surface-glass-saturation",
+    "--apui-elevation-overlay",
+    "--apui-elevation-glass",
+    "--apui-z-toast",
+    "--apui-border-muted",
+    "--apui-text-default",
+    "--apui-text-muted",
+    "--apui-text-muted-glass",
+    "--apui-text-inverse",
+    "--apui-color-success-text",
+    "--apui-color-warning-text",
+    "--apui-color-error-text",
+    "--apui-color-info-text"
+  ],
+  "fixture": {
+    "props": {
+      "title": "Listing saved",
+      "description": "Cedarwood Estates is live now."
+    },
+    "parts": {
+      "actions": "Undo"
+    },
+    "states": []
+  }
+}

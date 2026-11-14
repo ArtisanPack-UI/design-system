@@ -1,0 +1,74 @@
+{
+  "version": 1,
+  "component": "Steps",
+  "rootClass": "apui-steps",
+  "stacks": [
+    "livewire",
+    "react",
+    "vue"
+  ],
+  "names": {
+    "livewire": "steps",
+    "react": "Steps",
+    "vue": "Steps"
+  },
+  "cases": [
+    {
+      "id": "state=default",
+      "props": {
+        "value": 4,
+        "steps": [
+          {
+            "title": "Basics",
+            "description": "Title and type"
+          },
+          {
+            "title": "Location",
+            "description": "Address and map"
+          },
+          {
+            "title": "Pricing",
+            "description": "Price rejected",
+            "state": "error"
+          },
+          {
+            "title": "Photos",
+            "description": "At least 6"
+          },
+          {
+            "title": "Review",
+            "description": "Publish"
+          }
+        ]
+      },
+      "state": "default",
+      "content": null
+    }
+  ],
+  "sheets": [
+    {
+      "id": "light",
+      "theme": "light",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "dark",
+      "theme": "dark",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "high-contrast",
+      "theme": "high-contrast",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "rtl",
+      "theme": "light",
+      "density": "default",
+      "dir": "rtl"
+    }
+  ]
+}

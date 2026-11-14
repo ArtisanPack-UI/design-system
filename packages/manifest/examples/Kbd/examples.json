@@ -1,0 +1,12 @@
+[
+  {
+    "id": "basic",
+    "title": "Keys and shortcuts",
+    "description": "mod shows ⌘ on macOS and Ctrl elsewhere; symbol keys such as ↵ carry their name for screen readers."
+  },
+  {
+    "id": "context",
+    "title": "In running text and menus",
+    "description": "md in a sentence, sm in menus, tooltips and other dense rows."
+  }
+]

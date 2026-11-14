@@ -1,0 +1,181 @@
+/*
+ * Checkbox (#47). Root `.apui-checkbox`: the box, then the label,
+ * description and error in the second column. The native input (control)
+ * stays in the DOM, transparent over the box with a 4px larger hit area.
+ *
+ * Checked styles read the native :checked state, so the box follows a click
+ * before a deferred wire:model round trip re-renders. Indeterminate reads
+ * :indeterminate or data-state (only script can set the native property; the
+ * stacks keep data-state in step on change). The indicator holds both
+ * glyphs, `svg[data-icon='check']` and `svg[data-icon='minus']`, and CSS
+ * shows the one that matches, so a click never leaves a stale glyph.
+ */
+@layer apui.components {
+  .apui-checkbox {
+    display: inline-grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: 10px;
+    row-gap: 2px;
+    align-items: start;
+    font-family: var(--apui-font-family-sans);
+    font-size: var(--apui-type-body-md-font-size);
+    line-height: var(--apui-type-body-md-line-height);
+  }
+
+  [data-scope='checkbox'][data-part='box'] {
+    position: relative;
+    display: grid;
+    place-items: center;
+    box-sizing: border-box;
+    inline-size: 18px;
+    block-size: 18px;
+    margin-block-start: 1px;
+    border: var(--apui-border-width) solid var(--apui-border-default);
+    border-radius: var(--apui-checkbox-radius);
+    background: var(--apui-surface-default);
+    color: var(--apui-color-primary-foreground);
+    transition:
+      background-color var(--apui-motion-duration-fast) var(--apui-motion-ease-standard),
+      border-color var(--apui-motion-duration-fast) var(--apui-motion-ease-standard);
+  }
+
+  [data-scope='checkbox'][data-part='control'] {
+    position: absolute;
+    z-index: 1;
+    inset: -4px;
+    inline-size: calc(100% + 8px);
+    block-size: calc(100% + 8px);
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  [data-scope='checkbox'][data-part='indicator'] {
+    display: grid;
+    place-items: center;
+    inline-size: 14px;
+    block-size: 14px;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  [data-scope='checkbox'][data-part='indicator'] > svg {
+    grid-area: 1 / 1;
+    inline-size: 100%;
+    block-size: 100%;
+    stroke-width: 2.5;
+  }
+
+  /* Decorative (aria-hidden) glyphs: the dash only while indeterminate. */
+  [data-scope='checkbox'][data-part='indicator'] > svg[data-icon='minus'],
+  .apui-checkbox[data-state='indeterminate']
+    [data-scope='checkbox'][data-part='indicator']
+    > svg[data-icon='check'],
+  [data-scope='checkbox'][data-part='box']:has([data-part='control']:indeterminate)
+    > [data-part='indicator']
+    > svg[data-icon='check'] {
+    display: none;
+  }
+
+  .apui-checkbox[data-state='indeterminate']
+    [data-scope='checkbox'][data-part='indicator']
+    > svg[data-icon='minus'],
+  [data-scope='checkbox'][data-part='box']:has([data-part='control']:indeterminate)
+    > [data-part='indicator']
+    > svg[data-icon='minus'] {
+    display: block;
+  }
+
+  [data-scope='checkbox'][data-part='label'] {
+    grid-column: 2;
+    cursor: pointer;
+  }
+
+  [data-scope='checkbox'][data-part='description'] {
+    grid-column: 2;
+    margin: 0;
+    color: var(--apui-text-muted);
+    font-size: var(--apui-type-body-sm-font-size);
+    line-height: var(--apui-type-body-sm-line-height);
+  }
+
+  .apui-checkbox > [data-scope='checkbox'][data-part='error'] {
+    grid-column: 2;
+  }
+
+  /* Hover */
+  .apui-checkbox:hover [data-scope='checkbox'][data-part='box'],
+  [data-scope='checkbox'][data-part='box']:has([data-part='control']:hover) {
+    border-color: var(--apui-border-strong);
+  }
+
+  /* Checked and indeterminate */
+  [data-scope='checkbox'][data-part='box']:has([data-part='control']:is(:checked, :indeterminate)),
+  .apui-checkbox[data-state='indeterminate'] [data-scope='checkbox'][data-part='box'] {
+    border-color: var(--apui-color-primary);
+    background: var(--apui-color-primary);
+  }
+
+  [data-scope='checkbox'][data-part='box']:has([data-part='control']:is(:checked, :indeterminate))
+    > [data-part='indicator'],
+  .apui-checkbox[data-state='indeterminate'] [data-scope='checkbox'][data-part='indicator'] {
+    opacity: 1;
+  }
+
+  .apui-checkbox:hover
+    [data-scope='checkbox'][data-part='box']:has(
+      [data-part='control']:is(:checked, :indeterminate)
+    ),
+  [data-scope='checkbox'][data-part='box']:has(
+      [data-part='control']:is(:checked, :indeterminate):hover
+    ) {
+    border-color: var(--apui-color-primary-hover);
+    background: var(--apui-color-primary-hover);
+  }
+
+  /* Focus */
+  [data-scope='checkbox'][data-part='box']:has([data-part='control']:focus-visible) {
+    outline: var(--apui-focus-ring-width) solid transparent;
+    box-shadow:
+      0 0 0 var(--apui-focus-ring-offset) var(--apui-focus-ring-offset-color),
+      0 0 0 calc(var(--apui-focus-ring-offset) + var(--apui-focus-ring-width))
+        var(--apui-focus-ring-color);
+  }
+
+  /* Invalid */
+  .apui-checkbox[data-invalid] [data-scope='checkbox'][data-part='box'] {
+    border-color: var(--apui-color-error-border);
+  }
+
+  /* Disabled: the sunken surface, never opacity alone. */
+  .apui-checkbox[data-disabled] [data-scope='checkbox'][data-part='box'],
+  .apui-checkbox[data-disabled]
+    [data-scope='checkbox'][data-part='box']:has(
+      [data-part='control']:is(:checked, :indeterminate)
+    ),
+  .apui-checkbox[data-disabled][data-state='indeterminate']
+    [data-scope='checkbox'][data-part='box'] {
+    border-color: var(--apui-border-muted);
+    background: var(--apui-surface-sunken);
+    color: var(--apui-text-disabled);
+  }
+
+  .apui-checkbox[data-disabled]
+    [data-scope='checkbox']:is([data-part='control'], [data-part='label']) {
+    cursor: not-allowed;
+  }
+
+  .apui-checkbox[data-disabled] [data-scope='checkbox'][data-part='label'] {
+    color: var(--apui-text-disabled);
+  }
+
+  @media (forced-colors: active) {
+    [data-scope='checkbox'][data-part='box'] {
+      border-color: CanvasText;
+    }
+
+    [data-scope='checkbox'][data-part='indicator'] {
+      color: CanvasText;
+    }
+  }
+}

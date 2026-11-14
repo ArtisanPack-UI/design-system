@@ -1,0 +1,64 @@
+/*
+ * Sparkline (#61). Root `svg.apui-sparkline`, role=img, with data-variant
+ * (line, area, bar). Parts: area, line, dot (the latest value), bar and
+ * baseline (zero, when the values cross it). One color for the whole trend,
+ * never up or down. A chart plot, so it stays LTR (D-004): the coordinates
+ * are drawn left to right in every direction. See design/components/Sparkline.
+ */
+@layer apui.components {
+  .apui-sparkline {
+    --apui-_sparkline-color: var(--apui-chart-1);
+
+    display: inline-block;
+    flex: none;
+    overflow: visible;
+    vertical-align: middle;
+  }
+
+  [data-scope='sparkline'][data-part='line'] {
+    fill: none;
+    stroke: var(--apui-_sparkline-color);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.75;
+  }
+
+  [data-scope='sparkline'][data-part='area'] {
+    fill: var(--apui-_sparkline-color);
+    opacity: 0.12;
+  }
+
+  [data-scope='sparkline'][data-part='dot'] {
+    fill: var(--apui-_sparkline-color);
+    stroke: var(--apui-focus-ring-offset-color);
+    stroke-width: 2;
+  }
+
+  [data-scope='sparkline'][data-part='bar'] {
+    fill: var(--apui-_sparkline-color);
+  }
+
+  [data-scope='sparkline'][data-part='baseline'] {
+    stroke: var(--apui-chart-grid);
+    stroke-dasharray: 2 2;
+    stroke-width: 1;
+  }
+
+  @media (forced-colors: active) {
+    [data-scope='sparkline'][data-part='line'] {
+      stroke: CanvasText;
+    }
+
+    [data-scope='sparkline']:is([data-part='dot'], [data-part='bar']) {
+      fill: CanvasText;
+    }
+
+    [data-scope='sparkline'][data-part='area'] {
+      fill: none;
+    }
+
+    [data-scope='sparkline'][data-part='baseline'] {
+      stroke: GrayText;
+    }
+  }
+}

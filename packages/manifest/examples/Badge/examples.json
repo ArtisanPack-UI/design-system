@@ -1,0 +1,12 @@
+[
+  {
+    "id": "variants",
+    "title": "Variants and colors",
+    "description": "soft is the default; solid is for counts and emphasis, outline and ghost for quieter labels. Use the same color for the same status everywhere."
+  },
+  {
+    "id": "dot-and-icon",
+    "title": "Dot, icon and size",
+    "description": "A dot or an icon leads the label; both are decorative. sm fits table rows, lg sits beside a heading."
+  }
+]

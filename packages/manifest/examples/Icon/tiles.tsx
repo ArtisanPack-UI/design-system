@@ -1,0 +1,24 @@
+import { Icon } from '@artisanpack-ui/react';
+
+export default function TilesExample() {
+  return (
+    <>
+      <Icon name="wallet" variant="tile" color="primary" />
+      <Icon name="trending-up" variant="tile" color="success" />
+      <Icon name="triangle-alert" variant="tile" color="warning" size="lg" />
+      <Icon variant="tile" size="sm" label="Spreadsheet">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <rect width="18" height="18" x="3" y="3" rx="2" />
+          <path d="M3 9h18M3 15h18M9 3v18" />
+        </svg>
+      </Icon>
+    </>
+  );
+}

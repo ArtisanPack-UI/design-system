@@ -1,0 +1,12 @@
+[
+  {
+    "id": "basic",
+    "title": "Rendered Markdown",
+    "description": "GitHub-flavored Markdown in the shared prose styles: headings keep their levels, task lists are disabled checkboxes, tables keep header cells. Raw HTML is escaped and unsafe URLs are dropped."
+  },
+  {
+    "id": "editor",
+    "title": "Write and preview",
+    "description": "mode=\"split\" adds Write, Preview and Split tabs over the source, opening side by side. Bind the source so the preview follows the edits."
+  }
+]

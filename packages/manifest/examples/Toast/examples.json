@@ -1,0 +1,12 @@
+[
+  {
+    "id": "toaster",
+    "title": "Toaster",
+    "description": "Put one toaster on the page, then show toasts from data: from a Livewire action with dispatch('toast'), or with toast.create() in React and Vue. A toast with an action stays until it's used or closed."
+  },
+  {
+    "id": "static",
+    "title": "Colors and variants",
+    "description": "A Toast on its own is static: the color tints the status icon, inverse stands out, and error is announced as an alert."
+  }
+]

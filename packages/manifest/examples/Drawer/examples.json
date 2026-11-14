@@ -1,0 +1,12 @@
+[
+  {
+    "id": "basic",
+    "title": "Filters",
+    "description": "A trigger, a title and description, a body of fields and a footer with the primary action. The panel comes in from the end: the right in LTR, the left in RTL."
+  },
+  {
+    "id": "sheet",
+    "title": "Bottom sheet",
+    "description": "side=\"bottom\" is a full-width sheet with a handle, for short choices on small screens."
+  }
+]

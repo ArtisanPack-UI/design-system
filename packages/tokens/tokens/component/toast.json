@@ -1,0 +1,8 @@
+{
+  "toast": {
+    "radius": {
+      "$type": "dimension",
+      "$value": "{radius.overlay}"
+    }
+  }
+}

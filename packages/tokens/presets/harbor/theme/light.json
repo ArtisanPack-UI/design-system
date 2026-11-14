@@ -1,0 +1,137 @@
+{
+  "surface": {
+    "$type": "color",
+    "page": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.9216, 0.9451, 0.9686],
+        "alpha": 1,
+        "hex": "#ebf1f7"
+      },
+      "$description": "Canvas tinted at chroma 0.01."
+    },
+    "default": {
+      "$value": "{gray.0}",
+      "$description": "Islands are white; shadow separates them."
+    }
+  },
+  "border": {
+    "muted": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.0, 0.0, 0.0],
+        "alpha": 0,
+        "hex": "#000000"
+      },
+      "$description": "No hairline: space and shadow do the work."
+    }
+  },
+  "elevation": {
+    "$type": "shadow",
+    "raised": {
+      "$value": [
+        {
+          "color": {
+            "colorSpace": "srgb",
+            "components": [0.0627, 0.0784, 0.0941],
+            "alpha": 0.04,
+            "hex": "#101418"
+          },
+          "offsetX": {
+            "value": 0,
+            "unit": "px"
+          },
+          "offsetY": {
+            "value": 1,
+            "unit": "px"
+          },
+          "blur": {
+            "value": 2,
+            "unit": "px"
+          },
+          "spread": {
+            "value": 0,
+            "unit": "px"
+          }
+        },
+        {
+          "color": {
+            "colorSpace": "srgb",
+            "components": [0.0627, 0.0784, 0.0941],
+            "alpha": 0.04,
+            "hex": "#101418"
+          },
+          "offsetX": {
+            "value": 0,
+            "unit": "px"
+          },
+          "offsetY": {
+            "value": 2,
+            "unit": "px"
+          },
+          "blur": {
+            "value": 8,
+            "unit": "px"
+          },
+          "spread": {
+            "value": 0,
+            "unit": "px"
+          }
+        }
+      ]
+    },
+    "overlay": {
+      "$value": [
+        {
+          "color": {
+            "colorSpace": "srgb",
+            "components": [0.0627, 0.0784, 0.0941],
+            "alpha": 0.1,
+            "hex": "#101418"
+          },
+          "offsetX": {
+            "value": 0,
+            "unit": "px"
+          },
+          "offsetY": {
+            "value": 12,
+            "unit": "px"
+          },
+          "blur": {
+            "value": 32,
+            "unit": "px"
+          },
+          "spread": {
+            "value": 0,
+            "unit": "px"
+          }
+        },
+        {
+          "color": {
+            "colorSpace": "srgb",
+            "components": [0.0627, 0.0784, 0.0941],
+            "alpha": 0.06,
+            "hex": "#101418"
+          },
+          "offsetX": {
+            "value": 0,
+            "unit": "px"
+          },
+          "offsetY": {
+            "value": 2,
+            "unit": "px"
+          },
+          "blur": {
+            "value": 6,
+            "unit": "px"
+          },
+          "spread": {
+            "value": 0,
+            "unit": "px"
+          }
+        }
+      ]
+    }
+  }
+}

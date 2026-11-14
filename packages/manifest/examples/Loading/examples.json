@@ -1,0 +1,12 @@
+[
+  {
+    "id": "inline",
+    "title": "Spinner, dots and a label",
+    "description": "On its own the indicator says Loading to screen readers; text in the default slot shows beside it instead. It waits 300ms before showing, so fast loads don't flash."
+  },
+  {
+    "id": "overlay",
+    "title": "Region overlay",
+    "description": "Covers the nearest positioned ancestor. Set aria-busy on the region while it loads, and don't block the whole page for a partial load."
+  }
+]

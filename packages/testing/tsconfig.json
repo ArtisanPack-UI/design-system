@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "allowJs": true,
+    "jsx": "react-jsx",
+    "types": ["vitest/globals", "node"],
+    "paths": {
+      "@artisanpack-ui/manifest": ["../manifest/src/index.ts"],
+      "@artisanpack-ui/tokens": ["../tokens/src/index.ts"]
+    }
+  },
+  "include": ["src", "test", "scripts"],
+  "exclude": ["dist", "node_modules"]
+}

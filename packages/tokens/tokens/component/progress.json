@@ -1,0 +1,12 @@
+{
+  "progress": {
+    "height": {
+      "$type": "dimension",
+      "$value": {
+        "value": 6,
+        "unit": "px"
+      },
+      "$description": "Progress track height, md; sm 4px, lg 10px."
+    }
+  }
+}

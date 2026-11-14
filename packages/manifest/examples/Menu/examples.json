@@ -1,0 +1,12 @@
+[
+  {
+    "id": "basic",
+    "title": "Basic",
+    "description": "Links with icons and badges, a collapsible sub-menu, a section title and a separator. The current page sets aria-current, and a sub-menu holding it renders open."
+  },
+  {
+    "id": "data",
+    "title": "From data",
+    "description": "items renders the same children as composition. Off, collapsible shows every sub-menu with its item as a heading."
+  }
+]

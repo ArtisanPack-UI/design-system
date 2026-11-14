@@ -1,0 +1,12 @@
+{
+  "spotlight": {
+    "width": {
+      "$type": "dimension",
+      "$value": {
+        "value": 640,
+        "unit": "px"
+      },
+      "$description": "Spotlight command palette width."
+    }
+  }
+}

@@ -1,0 +1,176 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "Tooltip",
+  "description": "A short label shown on hover and keyboard focus. The trigger is the author's own control: the tooltip describes it with aria-describedby while it shows. It waits delay before showing on hover, shows at once on focus, stays while the pointer is on it and closes on Escape. Never put links or buttons in a tooltip; use Popover.",
+  "status": "draft",
+  "issue": 59,
+  "rootClass": "apui-tooltip",
+  "stacks": {
+    "livewire": {
+      "name": "tooltip",
+      "capabilities": [
+        "wire:model binds open both ways through $wire.entangle()",
+        "The first element in the default slot becomes the trigger; text is wrapped in a focusable span"
+      ]
+    },
+    "react": {
+      "name": "Tooltip"
+    },
+    "vue": {
+      "name": "Tooltip"
+    }
+  },
+  "props": [
+    {
+      "name": "content",
+      "type": "string",
+      "required": true,
+      "description": "The label. Keep it short; it describes the trigger, it doesn't name it.",
+      "a11y": "Linked to the trigger with aria-describedby while it shows. Never the only name of an icon button: give the button its own aria-label."
+    },
+    {
+      "name": "placement",
+      "type": "enum",
+      "values": ["top", "bottom", "start", "end"],
+      "default": "top",
+      "description": "The trigger's side the label sits on, centered. start and end follow the reading direction. Emitted as data-placement; the side the machine settled on, after flipping, is data-side."
+    },
+    {
+      "name": "delay",
+      "type": "number",
+      "default": 400,
+      "description": "Milliseconds the pointer rests on the trigger before the label shows. Keyboard focus shows it at once."
+    },
+    {
+      "name": "size",
+      "type": "enum",
+      "values": ["md", "lg"],
+      "default": "md",
+      "description": "md is a one-line label; lg is for a sentence or two, at body size. Emitted as data-size."
+    },
+    {
+      "name": "shortcut",
+      "type": "string",
+      "description": "A keyboard shortcut shown after the label, as keys joined with + (⌘+K). Each key is a kbd part."
+    },
+    {
+      "name": "open",
+      "type": "boolean",
+      "description": "Controls the label: true shows it, false hides it, whatever the pointer and focus do. Leave it out to let hover and focus show it. Livewire binds it with wire:model, Vue with v-model:open. Emitted as data-state."
+    },
+    {
+      "name": "defaultOpen",
+      "type": "boolean",
+      "default": false,
+      "description": "The initial state of an uncontrolled tooltip.",
+      "stacks": ["react"]
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": false,
+      "description": "Never shows the label. Emitted as data-disabled on the label."
+    },
+    {
+      "name": "portal",
+      "type": "boolean",
+      "default": true,
+      "description": "Renders the label at the end of the body, above everything (x-teleport, a React portal, Vue Teleport). Off renders it in place."
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part, such as { root: '…', kbd: '…' }."
+    }
+  ],
+  "sizes": ["md", "lg"],
+  "parts": [
+    {
+      "name": "root",
+      "element": "div",
+      "description": "The label, carrying the root class. It is Zag's content part, so it also carries data-part=\"content\" (D-019)."
+    },
+    {
+      "name": "content",
+      "element": "div",
+      "description": "The label: the same element as root."
+    },
+    {
+      "name": "trigger",
+      "element": "button",
+      "description": "The author's control, which the label describes."
+    },
+    {
+      "name": "positioner",
+      "element": "div",
+      "description": "Places the label against the trigger."
+    },
+    {
+      "name": "arrow",
+      "element": "span",
+      "description": "Points at the trigger. Decorative."
+    },
+    {
+      "name": "kbd",
+      "element": "kbd",
+      "description": "One key of the shortcut."
+    }
+  ],
+  "slots": [
+    {
+      "name": "content",
+      "description": "Rich label content (text and inline formatting only), in place of the content prop."
+    }
+  ],
+  "events": [
+    {
+      "name": "open-change",
+      "description": "The label showed or hid itself: hover, focus, blur or Escape. Setting open doesn't fire it.",
+      "payload": "boolean"
+    }
+  ],
+  "a11y": {
+    "role": "tooltip",
+    "element": "div",
+    "keyboard": [
+      {
+        "keys": "Tab",
+        "action": "Focusing the trigger shows the label at once."
+      },
+      {
+        "keys": "Escape",
+        "action": "Hides the label; focus stays on the trigger."
+      }
+    ],
+    "requirements": [
+      "Shown on hover and keyboard focus; dismissible with Escape without moving focus or the pointer; hoverable, so the pointer can move onto it (WCAG 1.4.13).",
+      "The label is role=tooltip and is linked to the trigger with aria-describedby while it shows.",
+      "Never the only name of an icon button: the button keeps its own aria-label.",
+      "No links, buttons or other interactive content in the label; use Popover.",
+      "Text keeps 4.5:1 on the inverse surface in every theme, and the label has a visible edge in forced colors.",
+      "start and end follow the reading direction, and the label flips to stay in the viewport.",
+      "Every part keeps a stable, server-rendered id in Livewire, so morphs never replace the label (D-015)."
+    ],
+    "wcag": ["1.3.1", "1.4.3", "1.4.13", "2.1.1", "4.1.2"]
+  },
+  "tokens": [
+    "--apui-tooltip-radius",
+    "--apui-kbd-radius",
+    "--apui-surface-inverse",
+    "--apui-text-inverse",
+    "--apui-z-tooltip"
+  ],
+  "fixture": {
+    "content": "Archive",
+    "props": {
+      "open": true,
+      "portal": false,
+      "placement": "bottom",
+      "content": "Archive this listing"
+    },
+    "parts": {
+      "shortcut": "E"
+    },
+    "states": []
+  }
+}

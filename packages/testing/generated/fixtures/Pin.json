@@ -1,0 +1,147 @@
+{
+  "version": 1,
+  "component": "Pin",
+  "rootClass": "apui-pin",
+  "stacks": [
+    "livewire",
+    "react",
+    "vue"
+  ],
+  "names": {
+    "livewire": "pin",
+    "react": "Pin",
+    "vue": "Pin"
+  },
+  "cases": [
+    {
+      "id": "size=sm state=default",
+      "props": {
+        "label": "Verification code",
+        "groupSize": 3,
+        "size": "sm"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "size=sm state=hover",
+      "props": {
+        "label": "Verification code",
+        "groupSize": 3,
+        "size": "sm"
+      },
+      "state": "hover",
+      "content": null
+    },
+    {
+      "id": "size=sm state=focus-visible",
+      "props": {
+        "label": "Verification code",
+        "groupSize": 3,
+        "size": "sm"
+      },
+      "state": "focus-visible",
+      "content": null
+    },
+    {
+      "id": "size=sm state=disabled",
+      "props": {
+        "label": "Verification code",
+        "groupSize": 3,
+        "size": "sm",
+        "disabled": true
+      },
+      "state": "disabled",
+      "content": null
+    },
+    {
+      "id": "size=sm state=invalid",
+      "props": {
+        "label": "Verification code",
+        "groupSize": 3,
+        "size": "sm",
+        "invalid": true
+      },
+      "state": "invalid",
+      "content": null
+    },
+    {
+      "id": "size=md state=default",
+      "props": {
+        "label": "Verification code",
+        "groupSize": 3,
+        "size": "md"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "size=md state=hover",
+      "props": {
+        "label": "Verification code",
+        "groupSize": 3,
+        "size": "md"
+      },
+      "state": "hover",
+      "content": null
+    },
+    {
+      "id": "size=md state=focus-visible",
+      "props": {
+        "label": "Verification code",
+        "groupSize": 3,
+        "size": "md"
+      },
+      "state": "focus-visible",
+      "content": null
+    },
+    {
+      "id": "size=md state=disabled",
+      "props": {
+        "label": "Verification code",
+        "groupSize": 3,
+        "size": "md",
+        "disabled": true
+      },
+      "state": "disabled",
+      "content": null
+    },
+    {
+      "id": "size=md state=invalid",
+      "props": {
+        "label": "Verification code",
+        "groupSize": 3,
+        "size": "md",
+        "invalid": true
+      },
+      "state": "invalid",
+      "content": null
+    }
+  ],
+  "sheets": [
+    {
+      "id": "light",
+      "theme": "light",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "dark",
+      "theme": "dark",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "high-contrast",
+      "theme": "high-contrast",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "rtl",
+      "theme": "light",
+      "density": "default",
+      "dir": "rtl"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+[
+  {
+    "id": "inline",
+    "title": "Inline",
+    "description": "Links in running text stay underlined, so color isn't the only cue. muted is for secondary links such as legal text."
+  },
+  {
+    "id": "standalone",
+    "title": "Standalone",
+    "description": "A link on its own line drops the underline until hover and takes icons. Arrows mirror in RTL."
+  },
+  {
+    "id": "external",
+    "title": "External",
+    "description": "external opens a new tab, adds the external-link icon and says so to screen readers. Translate externalLabel."
+  }
+]

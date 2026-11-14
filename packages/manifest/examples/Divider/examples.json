@@ -1,0 +1,12 @@
+[
+  {
+    "id": "basic",
+    "title": "Horizontal, strong and labelled",
+    "description": "A muted rule, a strong one, and labels in the middle or at the start. A labelled divider is named by its label."
+  },
+  {
+    "id": "vertical",
+    "title": "Vertical in a toolbar",
+    "description": "Vertical dividers between groups of buttons in a row."
+  }
+]

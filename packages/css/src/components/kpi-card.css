@@ -1,0 +1,59 @@
+/*
+ * KpiCard (#61). Root `.apui-card.apui-kpi-card`: a Card built from Stat,
+ * with data-color (the icon tile and the target bar). Parts: top (label,
+ * period, icon), row (summary beside the sparkline), summary (value and
+ * foot), sparkline (a Sparkline), target (a Progress and targetText). The
+ * label, icon, value, unit, foot, delta and description rules live in
+ * stat.css, shared with Stat. See design/components/KpiCard.
+ */
+@layer apui.components {
+  .apui-kpi-card {
+    display: grid;
+    align-content: start;
+    gap: 12px;
+    padding: var(--apui-card-padding);
+  }
+
+  [data-scope='kpi-card'][data-part='top'] > [data-part='label'] {
+    margin-inline-end: auto;
+  }
+
+  [data-scope='kpi-card'][data-part='period'] {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+  }
+
+  [data-scope='kpi-card'][data-part='row'] {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 12px;
+    min-inline-size: 0;
+  }
+
+  [data-scope='kpi-card'][data-part='summary'] {
+    display: grid;
+    gap: 4px;
+    min-inline-size: 0;
+  }
+
+  [data-scope='kpi-card'][data-part='sparkline'] {
+    flex: none;
+  }
+
+  [data-scope='kpi-card'][data-part='target'] {
+    display: grid;
+    gap: 6px;
+    color: var(--apui-text-muted);
+    font-size: var(--apui-type-caption-font-size);
+    line-height: var(--apui-type-caption-line-height);
+  }
+
+  [data-scope='kpi-card'][data-part='targetText'] {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 4px 12px;
+  }
+}

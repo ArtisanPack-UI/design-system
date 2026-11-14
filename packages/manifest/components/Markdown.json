@@ -1,0 +1,202 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "Markdown",
+  "description": "Renders GitHub-flavored Markdown (tables, task lists, strikethrough, autolinks) with the shared prose styles, and optionally edits it: write and split modes add Write, Preview and Split tabs over a Textarea. Every stack writes the same HTML: Livewire with league/commonmark, React and Vue with the behavior package's renderMarkdown. Raw HTML is escaped and unsafe link and image URLs are dropped.",
+  "status": "draft",
+  "issue": 65,
+  "rootClass": "apui-markdown",
+  "stacks": {
+    "livewire": {
+      "name": "markdown",
+      "capabilities": [
+        "Rendered on the server with league/commonmark (GFM, html_input escape, allow_unsafe_links off), with no script in preview mode",
+        "wire:model on the component binds the source in write and split modes: it goes to the Textarea, and source defaults to the bound property. Use wire:model.live.debounce for a preview that follows typing; with a deferred wire:model, switching to Preview or Split sends the change first",
+        "2.x EasyMDE options (config, disk, folder, label, hint and the error props) are removed"
+      ]
+    },
+    "react": {
+      "name": "Markdown",
+      "capabilities": [
+        "source with onSourceChange; without a handler the editor keeps its own draft",
+        "2.x renderMarkdown is removed"
+      ]
+    },
+    "vue": {
+      "name": "Markdown",
+      "capabilities": [
+        "v-model:source, or source with source-change",
+        "2.x content still works, as source"
+      ]
+    }
+  },
+  "props": [
+    {
+      "name": "source",
+      "type": "string",
+      "description": "The Markdown. In write and split modes it's the Textarea's value."
+    },
+    {
+      "name": "mode",
+      "type": "enum",
+      "values": ["preview", "write", "split"],
+      "default": "preview",
+      "description": "preview renders the Markdown only. write and split add Write, Preview and Split tabs over the source, opening on that tab; split shows the source beside the preview. Emitted as data-mode."
+    },
+    {
+      "name": "sanitize",
+      "type": "boolean",
+      "default": true,
+      "description": "Escape raw HTML in the source. false keeps an allowlist of formatting tags (kbd, sup, details, …) with safe attributes and escapes every other tag: script-capable markup never renders. Unsafe link and image URLs are dropped either way."
+    },
+    {
+      "name": "tabsLabel",
+      "type": "string",
+      "default": "Markdown mode",
+      "description": "Names the mode tabs. Translate it: Livewire defaults it through __( 'Markdown mode' )."
+    },
+    {
+      "name": "writeLabel",
+      "type": "string",
+      "default": "Write",
+      "description": "The Write tab. Translate it: Livewire defaults it through __( 'Write' )."
+    },
+    {
+      "name": "previewLabel",
+      "type": "string",
+      "default": "Preview",
+      "description": "The Preview tab. Translate it: Livewire defaults it through __( 'Preview' )."
+    },
+    {
+      "name": "splitLabel",
+      "type": "string",
+      "default": "Split",
+      "description": "The Split tab. Translate it: Livewire defaults it through __( 'Split' )."
+    },
+    {
+      "name": "editorLabel",
+      "type": "string",
+      "default": "Markdown source",
+      "description": "Names the source Textarea. Translate it: Livewire defaults it through __( 'Markdown source' )."
+    },
+    {
+      "name": "outputLabel",
+      "type": "string",
+      "default": "Rendered preview",
+      "description": "Names the preview region in write and split modes. Translate it: Livewire defaults it through __( 'Rendered preview' )."
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part, such as { preview: '…', editor: '…' }."
+    }
+  ],
+  "parts": [
+    {
+      "name": "root",
+      "element": "div",
+      "description": "The .apui-markdown root, with data-mode. In preview mode it also carries .apui-prose and holds the rendered Markdown, its line length capped at --apui-measure; in write and split modes it holds the Tabs."
+    },
+    {
+      "name": "editor",
+      "element": "div",
+      "description": "Holds the source Textarea, in the mono font."
+    },
+    {
+      "name": "preview",
+      "element": "div",
+      "description": "The rendered Markdown in write and split modes: an .apui-prose region named by outputLabel, on a card surface."
+    },
+    {
+      "name": "split",
+      "element": "div",
+      "description": "The Split tab's two columns: the editor beside the preview, stacked on narrow screens."
+    },
+    {
+      "name": "task",
+      "element": "li",
+      "description": "A task-list item: a disabled checkbox and the item's first line in a label."
+    }
+  ],
+  "slots": [],
+  "events": [
+    {
+      "name": "source-change",
+      "description": "The source was edited in the Textarea. Setting source doesn't fire it.",
+      "payload": "string"
+    }
+  ],
+  "a11y": {
+    "element": "div",
+    "keyboard": [
+      {
+        "keys": "ArrowRight, ArrowLeft",
+        "action": "On the mode tabs: move between Write, Preview and Split, following the text direction."
+      },
+      {
+        "keys": "Tab",
+        "action": "From the selected tab into its panel: the Textarea, or the preview's links."
+      }
+    ],
+    "requirements": [
+      "Headings keep their levels and tables keep their header cells (th), so the structure reads as written.",
+      "Task-list checkboxes are real, disabled checkboxes, named by their item's text through a label.",
+      "Raw HTML is escaped, or with sanitize=false filtered to formatting tags; event handlers, styles and unsafe URLs never render.",
+      "The mode tabs are design-system Tabs named by tabsLabel; the Textarea is named by editorLabel and the preview region by outputLabel.",
+      "Prose text keeps 4.5:1 on every surface; links are underlined, not marked by color alone.",
+      "Line length is capped (--apui-measure) for readability; the text reflows at 320px.",
+      "Code blocks stay LTR in RTL pages; everything else mirrors."
+    ],
+    "wcag": ["1.3.1", "1.4.1", "1.4.3", "1.4.10", "2.1.1", "4.1.2"]
+  },
+  "tokens": [
+    "--apui-border-default",
+    "--apui-border-muted",
+    "--apui-border-width",
+    "--apui-card-padding",
+    "--apui-card-radius",
+    "--apui-checkbox-radius",
+    "--apui-color-primary",
+    "--apui-color-primary-border",
+    "--apui-color-primary-foreground",
+    "--apui-color-primary-text",
+    "--apui-color-warning-soft",
+    "--apui-color-warning-soft-foreground",
+    "--apui-focus-ring-color",
+    "--apui-focus-ring-offset",
+    "--apui-focus-ring-offset-color",
+    "--apui-focus-ring-width",
+    "--apui-font-family-mono",
+    "--apui-font-family-sans",
+    "--apui-font-weight-semibold",
+    "--apui-kbd-radius",
+    "--apui-measure",
+    "--apui-radius-md",
+    "--apui-radius-xs",
+    "--apui-surface-default",
+    "--apui-surface-sunken",
+    "--apui-table-head-weight",
+    "--apui-text-default",
+    "--apui-text-muted",
+    "--apui-type-body-md-font-size",
+    "--apui-type-body-sm-font-size",
+    "--apui-type-body-sm-line-height",
+    "--apui-type-code-md-font-size",
+    "--apui-type-code-md-line-height",
+    "--apui-type-heading-lg-font-size",
+    "--apui-type-heading-lg-letter-spacing",
+    "--apui-type-heading-lg-line-height",
+    "--apui-type-heading-md-font-size",
+    "--apui-type-heading-md-line-height",
+    "--apui-type-heading-sm-font-size",
+    "--apui-type-heading-sm-line-height",
+    "--apui-type-heading-xl-font-size",
+    "--apui-type-heading-xl-letter-spacing",
+    "--apui-type-heading-xl-line-height"
+  ],
+  "fixture": {
+    "props": {
+      "mode": "split",
+      "source": "## Viewing checklist\n\nBring **photo ID** and proof of income.\n\n- [x] Confirm time with agent\n- [ ] Measure the living room\n- [ ] Ask about `heating costs`\n\n> Viewings run 30 minutes.\n\n| Unit | Rent |\n|---|---:|\n| 2B | $1,400 |\n| 4A | $1,650 |\n"
+    }
+  }
+}

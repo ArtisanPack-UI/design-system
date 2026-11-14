@@ -1,0 +1,201 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "Alert",
+  "description": "An inline message about the state of a page or section: what happened and what to do next. The tint and the status icon carry the meaning, so it never relies on color alone. A dismissible alert hides itself when its close button is pressed.",
+  "status": "draft",
+  "issue": 60,
+  "rootClass": "apui-alert",
+  "stacks": {
+    "livewire": {
+      "name": "alert"
+    },
+    "react": {
+      "name": "Alert"
+    },
+    "vue": {
+      "name": "Alert"
+    }
+  },
+  "props": [
+    {
+      "name": "title",
+      "type": "node",
+      "description": "The headline: what happened."
+    },
+    {
+      "name": "description",
+      "type": "node",
+      "description": "Supporting text: what to do next. The default slot (children) fills it too."
+    },
+    {
+      "name": "color",
+      "type": "enum",
+      "values": [
+        "primary",
+        "secondary",
+        "accent",
+        "neutral",
+        "success",
+        "warning",
+        "error",
+        "info"
+      ],
+      "default": "neutral",
+      "description": "The status. Emitted as data-color. error makes the alert role=alert.",
+      "a11y": "error sets role=alert, announced at once; every other color is role=status."
+    },
+    {
+      "name": "variant",
+      "type": "enum",
+      "values": ["soft", "outline", "solid"],
+      "default": "soft",
+      "description": "soft tints the background; outline suits dense forms; solid is for page-level failures that block work. Emitted as data-variant."
+    },
+    {
+      "name": "surface",
+      "type": "enum",
+      "values": ["default", "glass"],
+      "default": "default",
+      "description": "The alert's surface. Emitted as data-surface. Glass keeps default text and tints only the icon; it falls back to the raised surface under reduced transparency and in high contrast."
+    },
+    {
+      "name": "icon",
+      "type": "string",
+      "description": "An icon name from the registry. Defaults to the color's status icon: circle-check, triangle-alert, circle-alert or info. A slot or node overrides it."
+    },
+    {
+      "name": "actions",
+      "type": "node",
+      "description": "Buttons under the text, such as Upgrade or Update card."
+    },
+    {
+      "name": "dismissible",
+      "type": "boolean",
+      "default": false,
+      "description": "Adds a close button. Pressing it hides the alert (the hidden attribute) and reports open-change."
+    },
+    {
+      "name": "closeLabel",
+      "type": "string",
+      "default": "Dismiss",
+      "description": "The close button's accessible name. Translate it: Livewire defaults it through __( 'Dismiss' ).",
+      "a11y": "The close button is icon-only, so this is its only name."
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part, such as { title: '…', actions: '…' }."
+    }
+  ],
+  "variants": ["soft", "outline", "solid"],
+  "colors": ["primary", "secondary", "accent", "neutral", "success", "warning", "error", "info"],
+  "parts": [
+    {
+      "name": "root",
+      "element": "div",
+      "description": "The alert: role=status, or role=alert for errors."
+    },
+    {
+      "name": "icon",
+      "element": "span",
+      "description": "The status icon, hidden from assistive technology."
+    },
+    {
+      "name": "title",
+      "element": "p",
+      "description": "The headline."
+    },
+    {
+      "name": "description",
+      "element": "div",
+      "description": "Supporting text. A div, so it can hold a list or links."
+    },
+    {
+      "name": "actions",
+      "element": "div",
+      "description": "The action buttons."
+    },
+    {
+      "name": "closeTrigger",
+      "element": "button",
+      "description": "The close button: a ghost, neutral, extra-small icon-only Button in the alert's text color."
+    }
+  ],
+  "slots": [
+    {
+      "name": "icon",
+      "description": "Overrides the icon."
+    },
+    {
+      "name": "title",
+      "description": "Rich headline content."
+    },
+    {
+      "name": "description",
+      "description": "Rich supporting text. The default slot fills it too."
+    },
+    {
+      "name": "actions",
+      "description": "The action buttons."
+    }
+  ],
+  "events": [
+    {
+      "name": "open-change",
+      "description": "The close button was pressed. The alert hides itself; the payload is false.",
+      "payload": "boolean"
+    }
+  ],
+  "a11y": {
+    "role": "status",
+    "roles": ["alert"],
+    "element": "div",
+    "keyboard": [
+      {
+        "keys": "Tab",
+        "action": "Moves through the actions and the close button."
+      },
+      {
+        "keys": "Enter / Space",
+        "action": "On the close button, dismisses the alert."
+      }
+    ],
+    "requirements": [
+      "role=alert for errors, role=status otherwise, so a blocking failure is announced at once and the rest politely.",
+      "Meaning is carried by the icon and the title, not by color alone; the icon is decorative (aria-hidden).",
+      "The close button has an accessible name (translatable, \"Dismiss\").",
+      "Text keeps 4.5:1 on the soft, outline, solid and glass treatments in every theme; in high contrast the soft alert carries an edge.",
+      "No colored side border; status comes from the tint and the icon.",
+      "The icon, the actions and the close button sit at the start and end in the reading direction, and mirror in RTL."
+    ],
+    "wcag": ["1.3.1", "1.4.1", "1.4.3", "1.4.11", "2.1.1", "2.4.7", "4.1.2", "4.1.3"]
+  },
+  "tokens": [
+    "--apui-alert-radius",
+    "--apui-color-primary-soft",
+    "--apui-color-primary-soft-foreground",
+    "--apui-color-primary-border",
+    "--apui-color-primary-text",
+    "--apui-color-primary",
+    "--apui-color-primary-foreground",
+    "--apui-surface-default",
+    "--apui-surface-glass",
+    "--apui-surface-glass-border",
+    "--apui-border-muted",
+    "--apui-text-default",
+    "--apui-text-muted",
+    "--apui-text-muted-glass",
+    "--apui-elevation-glass"
+  ],
+  "fixture": {
+    "props": {
+      "title": "Listing published",
+      "description": "Lakeview Lofts is live and visible in search.",
+      "dismissible": true
+    },
+    "parts": {
+      "actions": "Update card"
+    },
+    "states": []
+  }
+}

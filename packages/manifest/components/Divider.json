@@ -1,0 +1,84 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "Divider",
+  "description": "Separates content with a muted rule: horizontal, vertical or with a label in the middle. Prefer spacing; add a divider only when groups blur together. Replaces Livewire's separator.",
+  "status": "draft",
+  "issue": 58,
+  "rootClass": "apui-divider",
+  "stacks": {
+    "livewire": { "name": "divider", "capabilities": ["The default slot is the label"] },
+    "react": { "name": "Divider", "capabilities": ["Children are the label"] },
+    "vue": { "name": "Divider", "capabilities": ["The default slot is the label"] }
+  },
+  "props": [
+    {
+      "name": "orientation",
+      "type": "enum",
+      "values": ["horizontal", "vertical"],
+      "default": "horizontal",
+      "description": "A rule across the inline axis, or a vertical one between items in a row, such as a toolbar. Emitted as data-orientation."
+    },
+    {
+      "name": "label",
+      "type": "node",
+      "description": "Text in the middle of the rule, such as or continue with."
+    },
+    {
+      "name": "align",
+      "type": "enum",
+      "values": ["start", "center", "end"],
+      "default": "center",
+      "description": "Where a label sits along the rule. Emitted as data-align."
+    },
+    {
+      "name": "strength",
+      "type": "enum",
+      "values": ["subtle", "strong"],
+      "default": "subtle",
+      "description": "Subtle uses the muted border, strong the default border. Emitted as data-strength."
+    },
+    {
+      "name": "decorative",
+      "type": "boolean",
+      "default": false,
+      "description": "Hides the divider from assistive technology, for rules that only decorate. Emitted as data-decorative."
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part, such as { label: '…' }."
+    }
+  ],
+  "parts": [
+    {
+      "name": "root",
+      "element": "hr | div",
+      "description": "An hr for a plain horizontal rule; a div with role separator and aria-orientation for a vertical or labelled one, labelled by its label."
+    },
+    { "name": "label", "element": "span", "description": "The label, with a rule on each side." }
+  ],
+  "a11y": {
+    "element": "hr",
+    "role": "separator",
+    "requirements": [
+      "role=separator (an hr's own role), with aria-orientation on a vertical one.",
+      "A labelled divider is named by its label (aria-labelledby), since a separator's children are presentational.",
+      "A decorative divider is aria-hidden (role none on an hr).",
+      "The rule meets 3:1 against its surface only with strength strong; subtle rules are decorative contrast, like edges."
+    ],
+    "wcag": ["1.3.1", "1.4.3", "4.1.2"]
+  },
+  "tokens": [
+    "--apui-border-width",
+    "--apui-border-muted",
+    "--apui-border-default",
+    "--apui-text-muted",
+    "--apui-type-caption-font-size",
+    "--apui-type-caption-line-height"
+  ],
+  "fixture": {
+    "props": { "label": "or continue with" },
+    "parts": { "label": "or continue with" },
+    "states": []
+  }
+}

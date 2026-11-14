@@ -1,0 +1,17 @@
+[
+  {
+    "id": "basic",
+    "title": "Basic",
+    "description": "Typing a date always works; the calendar is an aid. Show the expected format as the hint."
+  },
+  {
+    "id": "range",
+    "title": "Range",
+    "description": "Two dates in one box. min, max and disabledDates strike out what can't be chosen."
+  },
+  {
+    "id": "date-time",
+    "title": "Date and time",
+    "description": "time adds a time list beside the month (DateTime). Show the time zone whenever people in different zones use the data."
+  }
+]

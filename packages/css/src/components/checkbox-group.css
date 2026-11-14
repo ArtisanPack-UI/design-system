@@ -1,0 +1,109 @@
+/*
+ * CheckboxGroup (#53). Root `fieldset.apui-checkbox-group`: the legend
+ * (label), select all, the items, then the hint and error (field.css). Each
+ * option is a pilot Checkbox (`.apui-checkbox`, checkbox.css); this file only
+ * lays them out and adds the cards variant and the group's invalid edge.
+ */
+@layer apui.components {
+  .apui-checkbox-group {
+    display: grid;
+    gap: 8px;
+    min-inline-size: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-family: var(--apui-font-family-sans);
+  }
+
+  [data-scope='checkbox-group'][data-part='label'] {
+    margin-block-end: 4px;
+  }
+
+  [data-scope='checkbox-group'][data-part='select-all'] {
+    padding-block-end: 8px;
+    border-block-end: var(--apui-border-width) solid var(--apui-border-muted);
+  }
+
+  [data-scope='checkbox-group'][data-part='items'] {
+    display: grid;
+    gap: 12px;
+  }
+
+  .apui-checkbox-group[data-columns='2'] [data-scope='checkbox-group'][data-part='items'] {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .apui-checkbox-group[data-columns='3'] [data-scope='checkbox-group'][data-part='items'] {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .apui-checkbox-group[data-orientation='horizontal']
+    [data-scope='checkbox-group'][data-part='items'] {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 20px;
+  }
+
+  /* Invalid: every box takes the error edge. */
+  .apui-checkbox-group[data-invalid]
+    [data-scope='checkbox-group'][data-part='items']
+    [data-scope='checkbox'][data-part='box'] {
+    border-color: var(--apui-color-error-border);
+  }
+
+  /* Cards: bordered, and the label covers the card so it is clickable anywhere. */
+  .apui-checkbox-group[data-variant='cards'] [data-scope='checkbox-group'][data-part='items'] {
+    gap: 8px;
+  }
+
+  .apui-checkbox-group[data-variant='cards']
+    [data-scope='checkbox-group'][data-part='items']
+    > .apui-checkbox {
+    position: relative;
+    display: grid;
+    padding-block: 12px;
+    padding-inline: 14px;
+    border: var(--apui-border-width) solid var(--apui-border-default);
+    border-radius: var(--apui-radius-md);
+    background: var(--apui-surface-default);
+  }
+
+  .apui-checkbox-group[data-variant='cards']
+    [data-scope='checkbox-group'][data-part='items']
+    > .apui-checkbox
+    [data-scope='checkbox'][data-part='label']::after {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    content: '';
+  }
+
+  .apui-checkbox-group[data-variant='cards']
+    [data-scope='checkbox-group'][data-part='items']
+    > .apui-checkbox:has([data-part='control']:checked) {
+    border-color: var(--apui-selected-border);
+    background: var(--apui-selected-bg);
+    box-shadow: inset 0 0 0 1px var(--apui-selected-border);
+  }
+
+  .apui-checkbox-group[data-variant='cards'][data-invalid]
+    [data-scope='checkbox-group'][data-part='items']
+    > .apui-checkbox {
+    border-color: var(--apui-color-error-border);
+  }
+
+  .apui-checkbox-group[data-variant='cards']
+    [data-scope='checkbox-group'][data-part='items']
+    > .apui-checkbox[data-disabled] {
+    border-color: var(--apui-border-muted);
+    background: var(--apui-surface-sunken);
+  }
+
+  @media (forced-colors: active) {
+    .apui-checkbox-group[data-variant='cards']
+      [data-scope='checkbox-group'][data-part='items']
+      > .apui-checkbox {
+      border-color: CanvasText;
+    }
+  }
+}

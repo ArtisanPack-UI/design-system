@@ -1,0 +1,22 @@
+[
+  {
+    "id": "basic",
+    "title": "Basic",
+    "description": "Title, description, actions, body and footer. Every part is optional."
+  },
+  {
+    "id": "media",
+    "title": "Media",
+    "description": "An image edge to edge above the header. Leave mediaAlt empty when it's decorative."
+  },
+  {
+    "id": "link",
+    "title": "Link card",
+    "description": "With href, the title is the one link and its hit area covers the card. Buttons inside stay separately focusable."
+  },
+  {
+    "id": "surfaces",
+    "title": "Surfaces",
+    "description": "Default, raised, sunken and glass. Glass falls back to raised under reduced transparency and in high contrast."
+  }
+]

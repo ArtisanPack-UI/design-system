@@ -1,0 +1,12 @@
+[
+  {
+    "id": "basic",
+    "title": "On an icon button",
+    "description": "The control in the default slot is the trigger. The button keeps its own aria-label; the tooltip describes it, with its shortcut."
+  },
+  {
+    "id": "long",
+    "title": "Long text",
+    "description": "size=\"lg\" for a sentence or two, at body size."
+  }
+]

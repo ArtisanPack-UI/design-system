@@ -1,0 +1,17 @@
+[
+  {
+    "id": "basic",
+    "title": "Basic",
+    "description": "One item open at a time. Each child renders a heading holding its trigger, then its panel; the open items bind both ways."
+  },
+  {
+    "id": "variants",
+    "title": "Separated and flush",
+    "description": "Separated gives each item its own container; flush drops the container inside a card or page. multiple lets several items stay open."
+  },
+  {
+    "id": "data",
+    "title": "From data",
+    "description": "items renders the same children as composition, with a disabled item."
+  }
+]

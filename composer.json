@@ -1,0 +1,60 @@
+{
+    "name": "artisanpack-ui/design-system",
+    "description": "The PHP side of the ArtisanPack UI Design System: component manifests, docs examples and the quality-gate kit (Blade fixture host and parity checks).",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jacob Martella",
+            "email": "me@jacobmartella.com"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "ext-dom": "*",
+        "ext-json": "*",
+        "ext-libxml": "*"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^10.0|^11.0",
+        "pestphp/pest": "^3.8|^4.0"
+    },
+    "suggest": {
+        "illuminate/view": "Renders the Blade fixtures and runs the Livewire parity checks (^12.0|^13.0).",
+        "pestphp/pest": "For the toMatchManifest expectation."
+    },
+    "autoload": {
+        "psr-4": {
+            "ArtisanPackUI\\DesignSystem\\Manifest\\": "packages/manifest/php/",
+            "ArtisanPackUI\\DesignSystem\\Testing\\": "packages/testing/php/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "ArtisanPackUI\\DesignSystem\\Testing\\Tests\\": "packages/testing/tests-php/"
+        }
+    },
+    "scripts": {
+        "test": "pest --test-directory=packages/testing/tests-php"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        },
+        "sort-packages": true
+    },
+    "archive": {
+        "exclude": [
+            "/design",
+            "/docs",
+            "/apps",
+            "/tools",
+            "/node_modules",
+            "/packages/*/node_modules",
+            "/packages/*/test",
+            "/packages/testing/tests-php"
+        ]
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}

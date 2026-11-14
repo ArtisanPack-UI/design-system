@@ -1,95 +1,63 @@
 # @artisanpack-ui/tokens
 
 [![CI](https://github.com/ArtisanPack-UI/design-system/actions/workflows/ci.yml/badge.svg)](https://github.com/ArtisanPack-UI/design-system/actions/workflows/ci.yml)
-[![npm](https://img.shields.io/npm/v/@artisanpack-ui/tokens)](https://www.npmjs.com/package/@artisanpack-ui/tokens)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/ArtisanPack-UI/design-system/blob/main/LICENSE)
 
-Shared design tokens, color resolver, and glass helpers for [ArtisanPack UI](https://github.com/ArtisanPack-UI/design-system). Provides colors, spacing, typography, shadows, animations, and glass morphism presets as CSS custom properties and a Tailwind CSS plugin.
+Design tokens for the [ArtisanPack UI Design System](https://github.com/ArtisanPack-UI/design-system). The source is W3C DTCG JSON in [`tokens/`](tokens), in three tiers (primitive, semantic, component) with theme and density modes. One build turns it into CSS custom properties, a typed TypeScript map and a PHP array.
 
-> **1.x is frozen.** This package moved here from the React monorepo at 1.0.1 ([#17](https://github.com/ArtisanPack-UI/design-system/issues/17)). The next release is 2.0.0, which switches to W3C DTCG tokens under the `--apui-*` namespace ([D-007](https://github.com/ArtisanPack-UI/design-system/blob/main/docs/decisions.md#d-007-tokens-moves-here-1x-is-frozen-next-release-is-200)). `@artisanpack-ui/react` and `@artisanpack-ui/vue` stay on `^1.0.1` until they migrate.
+> **2.0.0 is in progress and not published yet.** It replaces the 1.x package (DaisyUI color maps, `cn()`, `resolveColor()`, glass helpers and the Tailwind plugin) with the DTCG tokens under the `--apui-*` namespace ([D-007](../../contributing/decisions.md#d-007-tokens-moves-here-1x-is-frozen-next-release-is-200), [D-008](../../contributing/decisions.md#d-008-token-source-format-and-build)). `@artisanpack-ui/react` and `@artisanpack-ui/vue` stay on 1.0.1 from npm until they migrate.
 
-## Installation
-
-```bash
-npm install @artisanpack-ui/tokens
-```
-
-### Peer Dependencies
-
-```bash
-npm install clsx tailwind-merge
-```
-
-`tailwindcss` (v4+) is an optional peer dependency for the Tailwind plugin.
-
-## Setup
-
-Import the tokens CSS in your Tailwind entry file:
+## CSS
 
 ```css
-@import "tailwindcss";
-@import "@artisanpack-ui/tokens/css";
+@import '@artisanpack-ui/tokens/css';
 ```
 
-### Tailwind Plugin (Optional)
+The properties sit in `@layer apui.tokens`, so any app CSS overrides them without `!important`. `@artisanpack-ui/css` already includes them.
 
-The plugin is a factory: pass it Tailwind's `plugin` function.
-
-```js
-// tailwind.config.js
-import plugin from 'tailwindcss/plugin';
-import { createArtisanPackPlugin } from '@artisanpack-ui/tokens/tailwind';
-
-export default {
-  plugins: [createArtisanPackPlugin(plugin)],
-};
+```html
+<html data-theme="dark" data-density="compact">
+  <section data-theme="light" data-density="comfortable">Any element can switch.</section>
+</html>
 ```
 
-With Tailwind v4, load that config from your CSS entry:
+## Presets
 
-```css
-@import "tailwindcss";
-@config "./tailwind.config.js";
+```html
+<html data-preset="ledger">
+  <section data-preset="harbor" data-theme="dark">Presets combine with theme and density.</section>
+</html>
 ```
 
-`@plugin "@artisanpack-ui/tokens/tailwind"` doesn't work in 1.x, because the module has no default export. In a TypeScript config, `createArtisanPackPlugin(plugin)` also fails strict type-checking against Tailwind v4. Both are tracked in [#94](https://github.com/ArtisanPack-UI/design-system/issues/94).
+Ledger and Harbor (D-005) come with `@artisanpack-ui/css`. On their own, import `@artisanpack-ui/tokens/presets/<name>.css`. A preset reassigns token values only, so every component follows it without a change. The `forest` preset is an example brand preset.
 
-## Usage
+## Brand presets
 
-```tsx
-import { resolveColor, cn, glassClassName } from '@artisanpack-ui/tokens';
-
-// Resolve DaisyUI/theme-aware colors (pass an element to read scoped values)
-const color = resolveColor('primary');
-
-// Merge Tailwind classes, resolving conflicts (last wins)
-const classes = cn('px-4 py-2', 'px-6'); // => 'py-2 px-6'
-
-// Glass morphism presets
-const glassClasses = glassClassName({ preset: 'frosted', tint: 'primary' });
+```bash
+npx apui-generate-preset --name acme --primary "#7c3aed" > acme.css
 ```
 
-## What's Included
+The generator rebuilds the primary ramp (and optionally the secondary and accent ramps, the grays and the font families) around your colors. Each step keeps your hue but matches the default step's luminance, so every contrast check the default theme passes still passes. It checks every pair in every theme before writing anything. Output is CSS, DTCG source, PHP or JSON. See [contributing/tokens](../../contributing/tokens/README.md#brand-presets-the-generator-27).
 
-- **Color tokens** - DaisyUI-compatible color variables
-- **Spacing scale** - Consistent spacing values
-- **Typography** - Font families, sizes, and weights
-- **Shadows** - Elevation-based shadow tokens
-- **Animations** - Transition and animation presets
-- **Glass morphism** - Frosted glass effect helpers
-- **Utilities** - `cn()` class merger, `resolveColor()`, and more
+## TypeScript
 
-## Part of ArtisanPack UI
+```ts
+import { cssVar, presets, tokens } from '@artisanpack-ui/tokens';
 
-This package is part of the [ArtisanPack UI Design System](https://github.com/ArtisanPack-UI/design-system), and is used by:
+cssVar('color.primary'); // 'var(--apui-color-primary)'
+tokens['color.primary'].resolved.dark; // '#60aaf3'
+tokens['card.padding'].resolved.compact; // '16px'
+presets.ledger.tokens['radius.md'].resolved; // '4px'
+```
 
-| Package | Description |
-|---------|-------------|
-| [`@artisanpack-ui/react`](https://www.npmjs.com/package/@artisanpack-ui/react) | 56+ React UI components |
-| [`@artisanpack-ui/react-laravel`](https://www.npmjs.com/package/@artisanpack-ui/react-laravel) | Inertia.js adapter wrappers for React |
-| [`@artisanpack-ui/vue`](https://www.npmjs.com/package/@artisanpack-ui/vue) | Vue UI components |
-| [`@artisanpack-ui/vue-laravel`](https://www.npmjs.com/package/@artisanpack-ui/vue-laravel) | Inertia.js adapter wrappers for Vue |
+## PHP
+
+`@artisanpack-ui/tokens/php` resolves to `generated/tokens.php`, which returns the same map as an array. `@artisanpack-ui/tokens/presets/php` returns the presets.
+
+## Changing tokens
+
+Edit the JSON in `tokens/` or `presets/`, then run `npm run tokens` and commit the source with the regenerated `generated/` and `src/generated/` files. `npm test` checks the schema, WCAG contrast for every semantic pair in every theme and preset, and fidelity to the design spec. The full schema is in [contributing/tokens](../../contributing/tokens/README.md).
 
 ## License
 
-[MIT](https://github.com/ArtisanPack-UI/design-system/blob/main/LICENSE) - Jacob Martella
+MIT

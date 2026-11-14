@@ -6,9 +6,13 @@ on:
   pull_request:
     branches: [main, release/*]
 
+permissions:
+  contents: read
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  # Never cancel a run on main: it may be mid-publish.
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 jobs:
   lint:
@@ -17,6 +21,8 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -24,8 +30,14 @@ jobs:
       - run: npm ci
       - name: ESLint
         run: npm run lint
+      - name: Stylelint
+        run: npm run lint:css
       - name: Prettier
         run: npm run format:check
+      - name: Component manifests
+        run: npm run build --workspace @artisanpack-ui/manifest && npm run validate --workspace @artisanpack-ui/manifest
+      - name: Upgrade rules and guides
+        run: npm run rules:check --workspace @artisanpack-ui/codemods && npm run guides:check --workspace @artisanpack-ui/codemods
 
   type-check:
     name: Type check
@@ -33,6 +45,8 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -46,13 +60,84 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
+      # The manifest's PHP twins and the gate tests' Blade host run on PHP.
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          coverage: none
+      - run: composer install --no-interaction --no-progress
       - run: npm ci
+      # The CSS cascade tests and the gate tests run in Chromium.
+      - run: npx playwright install --with-deps chromium
+      # Fails when the committed token outputs are stale (#19).
       - run: npm run build
       - run: npm test
+        env:
+          TMPDIR: ${{ runner.temp }}
+      - name: Upload the gate tests' screenshots and diffs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gate-test-output
+          path: ${{ runner.temp }}/apui-gates-*
+          if-no-files-found: ignore
+          retention-days: 7
+
+  php:
+    name: PHP kit (Pest)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['8.2', '8.4']
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+      - run: composer install --no-interaction --no-progress
+      - run: composer test
+
+  gates:
+    name: Quality gates (reference Probe)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          coverage: none
+      - run: composer install --no-interaction --no-progress
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run build
+      # Renders the Probe in Blade, React and Vue, diffs them against each other
+      # and test/baselines, and runs axe (#39, #40). Baselines are Linux renders:
+      # take them from this job's artifact, never from a local run on another OS.
+      - run: npm run gates --workspace @artisanpack-ui/testing
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: quality-gates
+          path: packages/testing/build/gates
+          if-no-files-found: ignore
 
   inventory:
     name: Inventory checks
@@ -60,6 +145,8 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -72,7 +159,7 @@ jobs:
     name: Release
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    needs: [lint, type-check, test, inventory]
+    needs: [lint, type-check, test, php, gates, inventory]
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     permissions:
       contents: write
@@ -88,8 +175,9 @@ jobs:
       - run: npm ci
       # Action v2 is the line that supports Changesets CLI 3: it reads published
       # packages from CHANGESETS_OUTPUT instead of parsing "New tag:" from stdout.
-      # npm auth comes from setup-node's registry-url plus NODE_AUTH_TOKEN; switch
-      # to npm Trusted Publishing before #81 and drop the token.
+      # npm auth comes from setup-node's registry-url plus NODE_AUTH_TOKEN, from
+      # the organization's NPM_TOKEN secret (shared with react and vue). An
+      # expired token fails the publish as E404.
       - name: Create release PR or publish
         uses: changesets/action@v2
         with:

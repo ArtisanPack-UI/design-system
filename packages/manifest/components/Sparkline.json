@@ -1,0 +1,108 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "Sparkline",
+  "description": "A word-sized trend with no axes: a line, an area or bars, drawn as inline SVG. Every stack computes the same coordinates, so there is no chart library and no script. It's an image with a label stating the first and latest values; put the values themselves in a table or tooltip nearby.",
+  "status": "draft",
+  "issue": 61,
+  "rootClass": "apui-sparkline",
+  "stacks": {
+    "livewire": {
+      "name": "sparkline",
+      "capabilities": [
+        "Rendered on the server: wire:poll and Livewire updates redraw it with no script",
+        "2.x type still works, as variant"
+      ]
+    },
+    "react": { "name": "Sparkline" },
+    "vue": { "name": "Sparkline" }
+  },
+  "props": [
+    {
+      "name": "data",
+      "type": "array",
+      "required": true,
+      "description": "The values, oldest first. Anything that isn't a finite number is skipped. Values that cross zero draw a dashed baseline at zero."
+    },
+    {
+      "name": "variant",
+      "type": "enum",
+      "values": ["line", "area", "bar"],
+      "default": "line",
+      "description": "A line with a dot on the latest value, the same with a soft fill below, or one bar per value (rect parts with data-part=\"bar\"). The spec calls it kind. Emitted as data-variant."
+    },
+    {
+      "name": "width",
+      "type": "number",
+      "default": 96,
+      "description": "The width in px. Give sparklines in one column the same size and scale."
+    },
+    {
+      "name": "height",
+      "type": "number",
+      "default": 28,
+      "description": "The height in px."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "default": "Trend from {first} to {latest}",
+      "description": "The accessible label; {first}, {latest}, {min}, {max} and {count} are filled in from data. Translate it: Livewire defaults it through __( 'Trend from {first} to {latest}' ).",
+      "a11y": "Names the image, so the trend reads as its first and latest values."
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part, such as { line: '…', dot: '…' }."
+    }
+  ],
+  "variants": ["line", "area", "bar"],
+  "parts": [
+    {
+      "name": "root",
+      "element": "svg",
+      "description": "The image: role=img, the label, and a viewBox of width × height. Its plot stays LTR in every direction (D-004)."
+    },
+    {
+      "name": "area",
+      "element": "path",
+      "description": "The fill below the line, for the area variant."
+    },
+    {
+      "name": "line",
+      "element": "path",
+      "description": "The trend line, for the line and area variants."
+    },
+    {
+      "name": "dot",
+      "element": "circle",
+      "description": "The latest value, for the line and area variants."
+    },
+    {
+      "name": "baseline",
+      "element": "line",
+      "description": "A dashed line at zero, when the values cross it."
+    }
+  ],
+  "events": [],
+  "a11y": {
+    "role": "img",
+    "element": "svg",
+    "requirements": [
+      "role=img with a label that states the first and latest values, so the trend isn't only visual.",
+      "The values themselves are available nearby, in a table or tooltip.",
+      "One color for the whole trend, never up or down: the number beside it says that.",
+      "The line, dot and bars keep 3:1 against the surface (--apui-chart-1)."
+    ],
+    "wcag": ["1.1.1", "1.4.1", "1.4.11"]
+  },
+  "tokens": ["--apui-chart-1", "--apui-chart-grid", "--apui-focus-ring-offset-color"],
+  "fixture": {
+    "props": {
+      "data": [2, 4, 3, 7, 6, 9, 12, 11, 14]
+    },
+    "parts": {
+      "variant": "area",
+      "data": [-2, 4, 3, -1, 6, 9, 12, 11, 14]
+    }
+  }
+}

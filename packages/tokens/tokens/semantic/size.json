@@ -1,0 +1,88 @@
+{
+  "control-height": {
+    "$type": "dimension",
+    "xs": {
+      "$value": {
+        "value": 24,
+        "unit": "px"
+      },
+      "$description": "Control height xs. Also the WCAG 2.5.8 minimum target."
+    },
+    "sm": {
+      "$value": {
+        "value": 28,
+        "unit": "px"
+      },
+      "$description": "Control height sm."
+    },
+    "md": {
+      "$value": {
+        "value": 36,
+        "unit": "px"
+      },
+      "$description": "Control height md, the default."
+    },
+    "lg": {
+      "$value": {
+        "value": 44,
+        "unit": "px"
+      },
+      "$description": "Control height lg."
+    },
+    "xl": {
+      "$value": {
+        "value": 52,
+        "unit": "px"
+      },
+      "$description": "Control height xl."
+    }
+  },
+  "icon-size": {
+    "$type": "dimension",
+    "sm": {
+      "$value": {
+        "value": 14,
+        "unit": "px"
+      },
+      "$description": "Icons in xs and sm controls."
+    },
+    "md": {
+      "$value": {
+        "value": 16,
+        "unit": "px"
+      },
+      "$description": "Icons in md controls and body text."
+    },
+    "lg": {
+      "$value": {
+        "value": 20,
+        "unit": "px"
+      },
+      "$description": "Icons in lg and xl controls, empty states."
+    }
+  },
+  "target-size-min": {
+    "$type": "dimension",
+    "$value": {
+      "value": 24,
+      "unit": "px"
+    },
+    "$description": "Minimum pointer target. Smaller visual controls extend their hit area to this."
+  },
+  "content-max-width": {
+    "$type": "dimension",
+    "$value": {
+      "value": 1200,
+      "unit": "px"
+    },
+    "$description": "Max width of PageHeader and page content."
+  },
+  "measure": {
+    "$type": "dimension",
+    "$value": {
+      "value": 68,
+      "unit": "ch"
+    },
+    "$description": "Max line length for prose and long-form help text."
+  }
+}

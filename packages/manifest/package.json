@@ -1,7 +1,6 @@
 {
   "name": "@artisanpack-ui/manifest",
   "version": "0.0.0",
-  "private": true,
   "description": "Per-component JSON manifest for ArtisanPack UI: the API contract the parity tests check.",
   "license": "MIT",
   "author": "Jacob Martella <me@jacobmartella.com>",
@@ -29,19 +28,40 @@
         "types": "./dist/index.d.cts",
         "default": "./dist/index.cjs"
       }
-    }
+    },
+    "./schema.json": "./schema/component.schema.json",
+    "./components/*": "./components/*",
+    "./examples/*": "./examples/*",
+    "./php/*": "./php/*",
+    "./generated/manifests.php": "./generated/manifests.php",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "apui-manifest": "./bin/apui-manifest.mjs"
   },
   "files": [
     "dist",
+    "bin",
+    "schema",
+    "components",
+    "examples",
+    "generated",
+    "php",
     "README.md",
     "LICENSE"
   ],
   "scripts": {
-    "build": "tsup",
+    "manifest": "node scripts/build-php.mjs",
+    "manifest:check": "node scripts/build-php.mjs --check",
+    "build": "npm run manifest:check && tsup",
     "test": "vitest run",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "validate": "node bin/apui-manifest.mjs validate"
   },
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "ajv": "^8.20.0"
   }
 }

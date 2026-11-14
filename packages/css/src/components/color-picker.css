@@ -1,0 +1,450 @@
+/*
+ * ColorPicker (#53) on the color-picker machine. Root `.apui-color-picker`
+ * is the field (label, box, hint, error; field.css) and Zag's root part. The
+ * box (Zag's control, renamed) holds the trigger (the spec's swatch, with a
+ * `swatch` fill) and the text value (`control`), which is always visible.
+ *
+ * The popover is the `content` panel: the `area` (its `area-background`
+ * gradients and the `area-thumb` cursor), the hue and opacity
+ * `channel-slider`s (track, thumb, and the `transparency-grid` under the
+ * opacity gradient), a `row` with the format select and the eyedropper, and
+ * the `swatch-group` of `swatch-trigger`s. The machine writes the gradients,
+ * the thumbs' positions and colors inline. See design/components/ColorPicker.
+ */
+@layer apui.components {
+  .apui-color-picker {
+    --apui-_h: var(--apui-control-height-md);
+    --apui-_pad: 12px;
+    --apui-_fs: var(--apui-type-body-md-font-size);
+    --apui-_swatch: 20px;
+    --apui-_checker: repeating-conic-gradient(
+        var(--apui-border-muted) 0 25%,
+        var(--apui-surface-default) 0 50%
+      )
+      0 0 / 8px 8px;
+
+    display: grid;
+    align-content: start;
+    gap: 6px;
+    min-inline-size: 0;
+    font-family: var(--apui-font-family-sans);
+  }
+
+  .apui-color-picker[data-size='sm'] {
+    --apui-_h: var(--apui-control-height-sm);
+    --apui-_pad: 10px;
+    --apui-_fs: var(--apui-type-body-sm-font-size);
+    --apui-_swatch: 16px;
+  }
+
+  .apui-color-picker[data-size='lg'] {
+    --apui-_h: var(--apui-control-height-lg);
+    --apui-_pad: 14px;
+    --apui-_fs: 15px;
+    --apui-_swatch: 24px;
+  }
+
+  /* The box. */
+  [data-scope='color-picker'][data-part='box'] {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-sizing: border-box;
+    min-inline-size: 0;
+    block-size: var(--apui-_h);
+    padding-inline: var(--apui-_pad);
+    border: var(--apui-border-width) solid var(--apui-border-default);
+    border-radius: var(--apui-input-radius);
+    background: var(--apui-surface-default);
+    color: var(--apui-text-default);
+    font-size: var(--apui-_fs);
+    line-height: var(--apui-type-body-md-line-height);
+    transition: border-color var(--apui-motion-duration-fast) var(--apui-motion-ease-standard);
+  }
+
+  [data-scope='color-picker'][data-part='box']:hover {
+    border-color: var(--apui-border-strong);
+  }
+
+  [data-scope='color-picker'][data-part='box']:has([data-part='control']:focus-visible) {
+    outline: var(--apui-focus-ring-width) solid transparent;
+    box-shadow:
+      0 0 0 var(--apui-focus-ring-offset) var(--apui-focus-ring-offset-color),
+      0 0 0 calc(var(--apui-focus-ring-offset) + var(--apui-focus-ring-width))
+        var(--apui-focus-ring-color);
+  }
+
+  /* The trigger: the spec's swatch, which opens the popover. */
+  [data-scope='color-picker'][data-part='trigger'] {
+    position: relative;
+    display: inline-grid;
+    flex: none;
+    inline-size: var(--apui-_swatch);
+    block-size: var(--apui-_swatch);
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+    border-radius: var(--apui-radius-xs);
+    background: var(--apui-_checker);
+    cursor: pointer;
+  }
+
+  [data-scope='color-picker'][data-part='trigger']:focus-visible,
+  [data-scope='color-picker']:is(
+      [data-part='swatch-trigger'],
+      [data-part='eye-dropper-trigger'],
+      [data-part='format-select']
+    ):focus-visible {
+    outline: var(--apui-focus-ring-width) solid transparent;
+    box-shadow:
+      0 0 0 var(--apui-focus-ring-offset) var(--apui-focus-ring-offset-color),
+      0 0 0 calc(var(--apui-focus-ring-offset) + var(--apui-focus-ring-width))
+        var(--apui-focus-ring-color);
+  }
+
+  /* A color fill, with an inset edge so it shows on any surface. */
+  [data-scope='color-picker'][data-part='swatch'] {
+    display: block;
+    inline-size: 100%;
+    block-size: 100%;
+    border-radius: inherit;
+    box-shadow: inset 0 0 0 1px var(--apui-border-strong);
+  }
+
+  /* The text value. */
+  [data-scope='color-picker'][data-part='control'] {
+    flex: 1 1 auto;
+    box-sizing: border-box;
+    align-self: stretch;
+    min-inline-size: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    outline: none;
+    background: transparent;
+    color: inherit;
+    font-family: var(--apui-font-family-mono);
+    font-size: inherit;
+  }
+
+  .apui-color-picker[data-format='hex'] [data-scope='color-picker'][data-part='control'] {
+    text-transform: uppercase;
+  }
+
+  /* Invalid and disabled: an error edge, the sunken surface. Never color or opacity alone. */
+  .apui-color-picker[data-invalid] > [data-scope='color-picker'][data-part='box'] {
+    border-color: var(--apui-color-error-border);
+  }
+
+  .apui-color-picker[data-disabled] > [data-scope='color-picker'][data-part='box'] {
+    border-color: var(--apui-border-muted);
+    background: var(--apui-surface-sunken);
+    color: var(--apui-text-disabled);
+  }
+
+  .apui-color-picker[data-disabled]
+    [data-scope='color-picker']:is([data-part='control'], [data-part='trigger']) {
+    cursor: not-allowed;
+  }
+
+  /* The popover. */
+  [data-scope='color-picker'][data-part='positioner'] {
+    z-index: var(--apui-z-dropdown);
+  }
+
+  [data-scope='color-picker'][data-part='content'] {
+    display: grid;
+    gap: 12px;
+    box-sizing: border-box;
+    inline-size: 296px;
+    max-inline-size: calc(100vw - 16px);
+    padding: 12px;
+    border: var(--apui-border-width) solid var(--apui-border-muted);
+    border-radius: var(--apui-popover-radius);
+    background: var(--apui-surface-overlay);
+    box-shadow: var(--apui-elevation-overlay);
+    color: var(--apui-text-default);
+    font-family: var(--apui-font-family-sans);
+    font-size: var(--apui-type-body-sm-font-size);
+  }
+
+  [data-scope='color-picker'][data-part='content'][hidden] {
+    display: none;
+  }
+
+  [data-scope='color-picker'][data-part='content'][data-state='open'] {
+    animation: apui-color-picker-enter var(--apui-motion-duration-fast)
+      var(--apui-motion-ease-enter);
+  }
+
+  @keyframes apui-color-picker-enter {
+    from {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+  }
+
+  /* The area: saturation along the inline axis, brightness up the block axis. */
+  [data-scope='color-picker'][data-part='area'] {
+    position: relative;
+    block-size: 150px;
+    border-radius: var(--apui-radius-md);
+    touch-action: none;
+  }
+
+  /*
+   * The machine sets it position: relative and its gradients inline; it
+   * fills the area. The gradients here are the same, for a server render
+   * before the machine runs (Livewire), from --apui-_hue-color.
+   */
+  [data-scope='color-picker'][data-part='area-background'] {
+    inline-size: 100%;
+    block-size: 100%;
+    border-radius: inherit;
+    background:
+      linear-gradient(to top, #000, rgb(0 0 0 / 0%)),
+      linear-gradient(to right, #fff, rgb(255 255 255 / 0%)), var(--apui-_hue-color, transparent);
+  }
+
+  [data-scope='color-picker'][data-part='area-background']:dir(rtl) {
+    background:
+      linear-gradient(to top, #000, rgb(0 0 0 / 0%)),
+      linear-gradient(to left, #fff, rgb(255 255 255 / 0%)), var(--apui-_hue-color, transparent);
+  }
+
+  /*
+   * A server render places the thumbs from --apui-_x and --apui-_y; the
+   * machine then writes left and top inline (physical, mirrored for RTL
+   * itself), which win over these.
+   */
+  [data-scope='color-picker']:is([data-part='area-thumb'], [data-part='channel-slider-thumb']) {
+    position: absolute;
+    /* stylelint-disable-next-line property-disallowed-list -- matches the machine's inline left, which it mirrors for RTL itself */
+    left: var(--apui-_x);
+  }
+
+  [data-scope='color-picker']:is([data-part='area-thumb'], [data-part='channel-slider-thumb']):dir(
+      rtl
+    ) {
+    /* stylelint-disable-next-line property-disallowed-list -- matches the machine's inline left, which it mirrors for RTL itself */
+    left: calc(100% - var(--apui-_x));
+  }
+
+  [data-scope='color-picker'][data-part='area-thumb'] {
+    inset-block-start: var(--apui-_y);
+    transform: translate(-50%, -50%);
+  }
+
+  /*
+   * The thumbs: the spec's cursors, a 16px ring inside a 24px target (the
+   * transparent border; WCAG 2.5.8). The machine sets their position and
+   * fill color inline.
+   */
+  [data-scope='color-picker']:is([data-part='area-thumb'], [data-part='channel-slider-thumb']) {
+    box-sizing: border-box;
+    inline-size: 24px;
+    block-size: 24px;
+    border: 4px solid transparent;
+    border-radius: var(--apui-radius-full);
+    background-clip: padding-box;
+    box-shadow:
+      inset 0 0 0 2px #fff,
+      inset 0 0 0 3px rgb(0 0 0 / 40%);
+    cursor: grab;
+  }
+
+  [data-scope='color-picker']:is(
+      [data-part='area-thumb'],
+      [data-part='channel-slider-thumb']
+    ):focus-visible {
+    outline: var(--apui-focus-ring-width) solid var(--apui-focus-ring-color);
+    outline-offset: -2px;
+  }
+
+  /* The sliders. */
+  [data-scope='color-picker'][data-part='channel-slider'] {
+    position: relative;
+  }
+
+  [data-scope='color-picker'][data-part='channel-slider-track'] {
+    position: relative;
+    block-size: 12px;
+    border-radius: var(--apui-radius-full);
+    box-shadow: inset 0 0 0 1px rgb(0 0 0 / 10%);
+    touch-action: none;
+  }
+
+  /* The machine sets left and top: 50%; center the thumb on that point. */
+  [data-scope='color-picker'][data-part='channel-slider-thumb'] {
+    inset-block-start: 50%;
+    translate: -50% -50%;
+  }
+
+  /* The tracks' gradients, as the machine writes them inline. */
+  [data-scope='color-picker'][data-part='channel-slider-track'][data-channel='hue'] {
+    background-image: linear-gradient(
+      to right,
+      rgb(255 0 0) 0%,
+      rgb(255 255 0) 17%,
+      rgb(0 255 0) 33%,
+      rgb(0 255 255) 50%,
+      rgb(0 0 255) 67%,
+      rgb(255 0 255) 83%,
+      rgb(255 0 0) 100%
+    );
+  }
+
+  [data-scope='color-picker'][data-part='channel-slider-track'][data-channel='hue']:dir(rtl) {
+    background-image: linear-gradient(
+      to left,
+      rgb(255 0 0) 0%,
+      rgb(255 255 0) 17%,
+      rgb(0 255 0) 33%,
+      rgb(0 255 255) 50%,
+      rgb(0 0 255) 67%,
+      rgb(255 0 255) 83%,
+      rgb(255 0 0) 100%
+    );
+  }
+
+  [data-scope='color-picker'][data-part='channel-slider-track'][data-channel='alpha'] {
+    background-image: linear-gradient(to right, var(--apui-_from), var(--apui-_to));
+  }
+
+  [data-scope='color-picker'][data-part='channel-slider-track'][data-channel='alpha']:dir(rtl) {
+    background-image: linear-gradient(to left, var(--apui-_from), var(--apui-_to));
+  }
+
+  /* The checkerboard under the opacity gradient, as the machine draws it. */
+  [data-scope='color-picker'][data-part='transparency-grid'] {
+    position: absolute;
+    inset: 0;
+    border-radius: var(--apui-radius-full);
+    background-color: #fff;
+    background-image: conic-gradient(#eee 0 25%, transparent 0 50%, #eee 0 75%, transparent 0);
+    background-size: 12px 12px;
+  }
+
+  /* The row: format select and eyedropper. */
+  [data-scope='color-picker'][data-part='row'] {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  [data-scope='color-picker'][data-part='format-select'] {
+    flex: 1 1 auto;
+    box-sizing: border-box;
+    min-inline-size: 0;
+    block-size: var(--apui-control-height-sm);
+    padding-inline: 8px;
+    border: var(--apui-border-width) solid var(--apui-border-default);
+    border-radius: var(--apui-input-radius);
+    background: var(--apui-surface-default);
+    color: var(--apui-text-default);
+    font: inherit;
+    cursor: pointer;
+  }
+
+  [data-scope='color-picker'][data-part='format-select']:hover {
+    border-color: var(--apui-border-strong);
+  }
+
+  [data-scope='color-picker'][data-part='eye-dropper-trigger'] {
+    display: inline-grid;
+    flex: none;
+    place-items: center;
+    inline-size: var(--apui-control-height-sm);
+    block-size: var(--apui-control-height-sm);
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: var(--apui-input-radius);
+    background: transparent;
+    color: var(--apui-text-muted);
+    cursor: pointer;
+  }
+
+  [data-scope='color-picker'][data-part='eye-dropper-trigger']:hover {
+    background: var(--apui-state-hover);
+    color: var(--apui-text-default);
+  }
+
+  [data-scope='color-picker'][data-part='eye-dropper-trigger'][hidden] {
+    display: none;
+  }
+
+  [data-scope='color-picker'][data-part='eye-dropper-trigger'] > svg {
+    inline-size: var(--apui-icon-size-md);
+    block-size: var(--apui-icon-size-md);
+  }
+
+  /* The preset swatches. */
+  [data-scope='color-picker'][data-part='swatch-group'] {
+    display: grid;
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  [data-scope='color-picker'][data-part='swatch-trigger'] {
+    display: block;
+    aspect-ratio: 1;
+    inline-size: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+    border-radius: var(--apui-radius-full);
+    background: var(--apui-_checker);
+    cursor: pointer;
+  }
+
+  [data-scope='color-picker'][data-part='swatch-trigger'][aria-pressed='true'] {
+    box-shadow:
+      0 0 0 2px var(--apui-surface-overlay),
+      0 0 0 4px var(--apui-text-default);
+  }
+
+  .apui-color-picker[data-disabled]
+    [data-scope='color-picker']:is(
+      [data-part='area-thumb'],
+      [data-part='channel-slider-thumb'],
+      [data-part='swatch-trigger'],
+      [data-part='format-select']
+    ) {
+    cursor: not-allowed;
+  }
+
+  @media (forced-colors: active) {
+    [data-scope='color-picker']:is([data-part='box'], [data-part='content']) {
+      border-color: CanvasText;
+    }
+
+    [data-scope='color-picker']:is(
+      [data-part='trigger'],
+      [data-part='swatch-trigger'],
+      [data-part='area'],
+      [data-part='channel-slider-track']
+    ) {
+      forced-color-adjust: none;
+      outline: 1px solid CanvasText;
+    }
+
+    [data-scope='color-picker'][data-part='swatch-trigger'][aria-pressed='true'] {
+      outline: 2px solid Highlight;
+      outline-offset: 2px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-scope='color-picker'][data-part='box'] {
+      transition: none;
+    }
+
+    [data-scope='color-picker'][data-part='content'][data-state='open'] {
+      animation: none;
+    }
+  }
+}

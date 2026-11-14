@@ -1,0 +1,43 @@
+{
+  "density": {
+    "$type": "number",
+    "$value": 1,
+    "$description": "Density multiplier: 0.8 compact, 1 default, 1.2 comfortable. Multiply custom spacing by it, e.g. calc(var(--apui-space-4) * var(--apui-density))."
+  },
+  "panel": {
+    "padding": {
+      "$type": "dimension",
+      "$value": "{space.5}",
+      "$description": "Card and panel padding. Follows data-density."
+    },
+    "gap": {
+      "$type": "dimension",
+      "$value": "{space.3}",
+      "$description": "Gap between panels. Follows data-density."
+    }
+  },
+  "row": {
+    "height": {
+      "$type": "dimension",
+      "$value": {
+        "value": 40,
+        "unit": "px"
+      },
+      "$description": "Table row and menu item height. Follows data-density."
+    }
+  },
+  "cell": {
+    "padding-x": {
+      "$type": "dimension",
+      "$value": "{space.3}",
+      "$description": "Table cell inline padding. Follows data-density."
+    }
+  },
+  "field": {
+    "gap": {
+      "$type": "dimension",
+      "$value": "{space.4}",
+      "$description": "Vertical gap between form fields. Follows data-density."
+    }
+  }
+}

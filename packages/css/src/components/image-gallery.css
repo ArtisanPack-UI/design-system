@@ -1,0 +1,316 @@
+/*
+ * ImageGallery (#61). Root `.apui-image-gallery` holds the grid and the
+ * lightbox, with data-featured. Grid parts: grid, item (a figure), trigger
+ * (the button that opens the lightbox), image and caption. The lightbox is
+ * a dialog (D-019): the panel `.apui-lightbox` is the machine's content part,
+ * with backdrop and positioner around it and bar (title, download,
+ * close-trigger), stage (image, prev-trigger, next-trigger), thumbs and
+ * thumb inside. The columns come in as --apui-_image-gallery-columns. The
+ * machine sets hidden on the closed parts; the rules below keep it working
+ * where they set display. See design/components/ImageGallery.
+ */
+@layer apui.components {
+  .apui-image-gallery {
+    display: grid;
+    gap: 12px;
+    color: var(--apui-text-default);
+    font-family: var(--apui-font-family-sans);
+  }
+
+  [data-scope='image-gallery'][data-part='grid'] {
+    display: grid;
+    grid-template-columns: repeat(var(--apui-_image-gallery-columns, 4), minmax(0, 1fr));
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+  }
+
+  [data-scope='image-gallery'][data-part='item'] {
+    position: relative;
+    margin: 0;
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+    border-radius: var(--apui-radius-md);
+    background: var(--apui-surface-sunken);
+  }
+
+  /* The featured image spans two columns and two rows. */
+  .apui-image-gallery[data-featured] [data-scope='image-gallery'][data-part='item']:first-child {
+    grid-row: span 2;
+    grid-column: span 2;
+    aspect-ratio: auto;
+  }
+
+  /* The ring sits on the item, outside the clipped image. */
+  [data-scope='image-gallery'][data-part='item']:has(
+      > [data-scope='image-gallery'][data-part='trigger']:focus-visible
+    ) {
+    outline: var(--apui-focus-ring-width) solid transparent;
+    box-shadow:
+      0 0 0 var(--apui-focus-ring-offset) var(--apui-focus-ring-offset-color),
+      0 0 0 calc(var(--apui-focus-ring-offset) + var(--apui-focus-ring-width))
+        var(--apui-focus-ring-color);
+  }
+
+  [data-scope='image-gallery'][data-part='trigger'] {
+    display: block;
+    box-sizing: border-box;
+    inline-size: 100%;
+    block-size: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: inherit;
+    background: none;
+    color: inherit;
+    font: inherit;
+    cursor: zoom-in;
+    appearance: none;
+  }
+
+  [data-scope='image-gallery'][data-part='trigger']:focus-visible {
+    outline: none;
+  }
+
+  [data-scope='image-gallery'][data-part='item'] [data-scope='image-gallery'][data-part='image'] {
+    display: block;
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+  }
+
+  [data-scope='image-gallery'][data-part='caption'] {
+    position: absolute;
+    inset-block-end: 0;
+    inset-inline: 0;
+    padding-block: 24px 8px;
+    padding-inline: 10px;
+    background: linear-gradient(to top, rgb(0 0 0 / 60%), rgb(0 0 0 / 0%));
+    color: #fff;
+    font-size: var(--apui-type-caption-font-size);
+    font-weight: var(--apui-font-weight-medium);
+    line-height: var(--apui-type-caption-line-height);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--apui-motion-duration-fast) var(--apui-motion-ease-standard);
+  }
+
+  /* Captions show on hover and focus, and always where there's no hover. */
+  [data-scope='image-gallery'][data-part='item']:is(:hover, :focus-within)
+    [data-scope='image-gallery'][data-part='caption'] {
+    opacity: 1;
+  }
+
+  @media (hover: none) {
+    [data-scope='image-gallery'][data-part='caption'] {
+      opacity: 1;
+    }
+  }
+
+  /* The lightbox: a dark viewer in every theme, so photos read the same. */
+  [data-scope='image-gallery'][data-part='backdrop'] {
+    position: fixed;
+    inset: 0;
+    z-index: var(--apui-z-modal);
+    background: var(--apui-backdrop);
+  }
+
+  [data-scope='image-gallery'][data-part='positioner'] {
+    position: fixed;
+    inset: 0;
+    z-index: var(--apui-z-modal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    overflow-y: auto;
+  }
+
+  :is([data-scope='image-gallery'][data-part='positioner'], .apui-lightbox)[hidden],
+  [data-scope='image-gallery'][data-part='backdrop'][hidden] {
+    display: none;
+  }
+
+  .apui-lightbox {
+    --apui-_lightbox-bg: rgb(8 10 12 / 92%);
+    --apui-_lightbox-fg: #f4f7fb;
+    --apui-focus-ring-offset-color: #080a0c;
+
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    gap: 12px;
+    box-sizing: border-box;
+    inline-size: min(960px, 100%);
+    max-block-size: 100%;
+    padding: 16px;
+    border-radius: var(--apui-radius-lg);
+    background: var(--apui-_lightbox-bg);
+    color: var(--apui-_lightbox-fg);
+    font-family: var(--apui-font-family-sans);
+    outline: none;
+  }
+
+  .apui-lightbox[data-state='open'] {
+    animation: apui-lightbox-enter var(--apui-motion-duration-moderate)
+      var(--apui-motion-ease-enter);
+  }
+
+  @keyframes apui-lightbox-enter {
+    from {
+      opacity: 0;
+      transform: scale(0.98);
+    }
+  }
+
+  [data-scope='image-gallery'][data-part='bar'] {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-inline-size: 0;
+    font-size: var(--apui-type-body-sm-font-size);
+    line-height: var(--apui-type-body-sm-line-height);
+  }
+
+  [data-scope='image-gallery'][data-part='bar'] .apui-button {
+    --apui-button-fg: var(--apui-_lightbox-fg);
+  }
+
+  [data-scope='image-gallery'][data-part='title'] {
+    flex: 1;
+    min-inline-size: 0;
+    margin: 0;
+    overflow: hidden;
+    font-size: inherit;
+    font-weight: var(--apui-font-weight-medium);
+    line-height: inherit;
+    font-variant-numeric: tabular-nums;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    /* The counter and caption follow the caption's own direction. */
+    unicode-bidi: plaintext;
+  }
+
+  [data-scope='image-gallery'][data-part='stage'] {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-block-size: 0;
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+    border-radius: var(--apui-radius-md);
+    background: rgb(0 0 0 / 40%);
+  }
+
+  [data-scope='image-gallery'][data-part='stage']
+    > [data-scope='image-gallery'][data-part='image'] {
+    display: block;
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: contain;
+  }
+
+  [data-scope='image-gallery']:is([data-part='prev-trigger'], [data-part='next-trigger']) {
+    position: absolute;
+    inset-block-start: 50%;
+    transform: translateY(-50%);
+  }
+
+  [data-scope='image-gallery'][data-part='prev-trigger'] {
+    inset-inline-start: 12px;
+  }
+
+  [data-scope='image-gallery'][data-part='next-trigger'] {
+    inset-inline-end: 12px;
+  }
+
+  [dir='rtl']
+    [data-scope='image-gallery']:is([data-part='prev-trigger'], [data-part='next-trigger'])
+    [data-mirror]
+    > svg {
+    scale: -1 1;
+  }
+
+  [data-scope='image-gallery'][data-part='thumbs'] {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    padding: 4px;
+    overflow-x: auto;
+    scrollbar-width: thin;
+  }
+
+  [data-scope='image-gallery'][data-part='thumb'] {
+    flex: none;
+    inline-size: 56px;
+    block-size: 40px;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+    border-radius: var(--apui-radius-sm);
+    background: rgb(255 255 255 / 8%);
+    cursor: pointer;
+    opacity: 0.55;
+    appearance: none;
+    transition: opacity var(--apui-motion-duration-fast) var(--apui-motion-ease-standard);
+  }
+
+  [data-scope='image-gallery'][data-part='thumb']:hover {
+    opacity: 0.8;
+  }
+
+  [data-scope='image-gallery'][data-part='thumb'] > img {
+    display: block;
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+  }
+
+  [data-scope='image-gallery'][data-part='thumb']:is([aria-current='true'], :focus-visible) {
+    outline: var(--apui-focus-ring-width) solid transparent;
+    box-shadow:
+      0 0 0 var(--apui-focus-ring-offset) var(--apui-focus-ring-offset-color),
+      0 0 0 calc(var(--apui-focus-ring-offset) + var(--apui-focus-ring-width))
+        var(--apui-focus-ring-color);
+    opacity: 1;
+  }
+
+  /* The current thumb keeps its ring; focus adds a dashed one in the text color. */
+  [data-scope='image-gallery'][data-part='thumb'][aria-current='true']:focus-visible {
+    outline: 2px dashed var(--apui-_lightbox-fg);
+    outline-offset: 6px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-scope='image-gallery']:is([data-part='caption'], [data-part='thumb']) {
+      transition: none;
+    }
+
+    .apui-lightbox[data-state='open'] {
+      animation: none;
+    }
+  }
+
+  @media (forced-colors: active) {
+    [data-scope='image-gallery'][data-part='caption'] {
+      background: Canvas;
+      color: CanvasText;
+      opacity: 1;
+    }
+
+    .apui-lightbox {
+      border: 1px solid CanvasText;
+      background: Canvas;
+      color: CanvasText;
+    }
+
+    [data-scope='image-gallery'][data-part='thumb'] {
+      opacity: 1;
+    }
+
+    [data-scope='image-gallery'][data-part='thumb'][aria-current='true'] {
+      outline: 3px solid Highlight;
+    }
+  }
+}

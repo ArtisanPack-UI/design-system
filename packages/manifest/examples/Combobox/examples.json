@@ -1,0 +1,22 @@
+[
+  {
+    "id": "basic",
+    "title": "Basic",
+    "description": "Typing filters the options by label, ignoring case and accents, and marks the matches. An option can carry a description."
+  },
+  {
+    "id": "tags",
+    "title": "Tags: multiple with create",
+    "description": "multiple shows the chosen values as removable chips; allowCreate offers “Create …” for new text and fires create. Backspace in the empty input removes the last chip. This replaces the old Tags component."
+  },
+  {
+    "id": "remote",
+    "title": "Remote search",
+    "description": "With remote, the app filters: typing fires search-change (Livewire entangles search-model after a debounce), and the combobox shows the options it's given. loading shows the spinner while results load."
+  },
+  {
+    "id": "states",
+    "title": "Validation, sizes and clearing",
+    "description": "The error is linked to the input. clearable adds a button that clears the value. Small, medium and large match Input."
+  }
+]

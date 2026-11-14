@@ -1,0 +1,12 @@
+{
+  "tooltip": {
+    "radius": {
+      "$type": "dimension",
+      "$value": {
+        "value": 8,
+        "unit": "px"
+      },
+      "$description": "Tooltip corners."
+    }
+  }
+}

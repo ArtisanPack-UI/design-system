@@ -1,0 +1,306 @@
+{
+  "version": 1,
+  "component": "Table",
+  "rootClass": "apui-table",
+  "stacks": [
+    "livewire",
+    "react",
+    "vue"
+  ],
+  "names": {
+    "livewire": "table",
+    "react": "Table",
+    "vue": "Table"
+  },
+  "cases": [
+    {
+      "id": "state=default",
+      "props": {
+        "title": "Transaction history",
+        "headers": [
+          {
+            "key": "symbol",
+            "label": "Product name",
+            "secondary": "company",
+            "sortable": true
+          },
+          {
+            "key": "amount",
+            "label": "Order amount",
+            "numeric": true
+          },
+          {
+            "key": "date",
+            "label": "Date",
+            "sortable": true
+          },
+          {
+            "key": "status",
+            "label": "Status"
+          },
+          {
+            "key": "owner",
+            "label": "Executed by"
+          }
+        ],
+        "rows": [
+          {
+            "id": 1,
+            "symbol": "TSLA",
+            "company": "Tesla, Inc.",
+            "amount": "$30,021.23",
+            "date": "Dec 13, 2023",
+            "status": "Processing",
+            "owner": "Olivia Rhye"
+          },
+          {
+            "id": 2,
+            "symbol": "MTCH",
+            "company": "Match Group, Inc.",
+            "amount": "$10,045.00",
+            "date": "Dec 13, 2023",
+            "status": "Success",
+            "owner": "Phoenix Baker"
+          },
+          {
+            "id": 3,
+            "symbol": "DDOG",
+            "company": "Datadog Inc.",
+            "amount": "$40,132.16",
+            "date": "Dec 13, 2023",
+            "status": "Success",
+            "owner": "Lana Steiner"
+          },
+          {
+            "id": 4,
+            "symbol": "ARKG",
+            "company": "ARK Genomic Revolution ETF",
+            "amount": "$22,665.12",
+            "date": "Dec 28, 2023",
+            "status": "Declined",
+            "owner": "Demi Wilkinson"
+          }
+        ],
+        "selectable": true,
+        "expandable": true,
+        "value": [
+          2
+        ],
+        "sortBy": {
+          "column": "date",
+          "direction": "desc"
+        },
+        "footer": "1 selected · 4 of 128 transactions",
+        "pagination": {
+          "page": 3,
+          "total": 128,
+          "perPage": 4
+        }
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "state=loading",
+      "props": {
+        "title": "Transaction history",
+        "headers": [
+          {
+            "key": "symbol",
+            "label": "Product name",
+            "secondary": "company",
+            "sortable": true
+          },
+          {
+            "key": "amount",
+            "label": "Order amount",
+            "numeric": true
+          },
+          {
+            "key": "date",
+            "label": "Date",
+            "sortable": true
+          },
+          {
+            "key": "status",
+            "label": "Status"
+          },
+          {
+            "key": "owner",
+            "label": "Executed by"
+          }
+        ],
+        "rows": [
+          {
+            "id": 1,
+            "symbol": "TSLA",
+            "company": "Tesla, Inc.",
+            "amount": "$30,021.23",
+            "date": "Dec 13, 2023",
+            "status": "Processing",
+            "owner": "Olivia Rhye"
+          },
+          {
+            "id": 2,
+            "symbol": "MTCH",
+            "company": "Match Group, Inc.",
+            "amount": "$10,045.00",
+            "date": "Dec 13, 2023",
+            "status": "Success",
+            "owner": "Phoenix Baker"
+          },
+          {
+            "id": 3,
+            "symbol": "DDOG",
+            "company": "Datadog Inc.",
+            "amount": "$40,132.16",
+            "date": "Dec 13, 2023",
+            "status": "Success",
+            "owner": "Lana Steiner"
+          },
+          {
+            "id": 4,
+            "symbol": "ARKG",
+            "company": "ARK Genomic Revolution ETF",
+            "amount": "$22,665.12",
+            "date": "Dec 28, 2023",
+            "status": "Declined",
+            "owner": "Demi Wilkinson"
+          }
+        ],
+        "selectable": true,
+        "expandable": true,
+        "value": [
+          2
+        ],
+        "sortBy": {
+          "column": "date",
+          "direction": "desc"
+        },
+        "footer": "1 selected · 4 of 128 transactions",
+        "pagination": {
+          "page": 3,
+          "total": 128,
+          "perPage": 4
+        },
+        "loading": true
+      },
+      "state": "loading",
+      "content": null
+    },
+    {
+      "id": "surface=glass state=default",
+      "props": {
+        "title": "Transaction history",
+        "headers": [
+          {
+            "key": "symbol",
+            "label": "Product name",
+            "secondary": "company",
+            "sortable": true
+          },
+          {
+            "key": "amount",
+            "label": "Order amount",
+            "numeric": true
+          },
+          {
+            "key": "date",
+            "label": "Date",
+            "sortable": true
+          },
+          {
+            "key": "status",
+            "label": "Status"
+          },
+          {
+            "key": "owner",
+            "label": "Executed by"
+          }
+        ],
+        "rows": [
+          {
+            "id": 1,
+            "symbol": "TSLA",
+            "company": "Tesla, Inc.",
+            "amount": "$30,021.23",
+            "date": "Dec 13, 2023",
+            "status": "Processing",
+            "owner": "Olivia Rhye"
+          },
+          {
+            "id": 2,
+            "symbol": "MTCH",
+            "company": "Match Group, Inc.",
+            "amount": "$10,045.00",
+            "date": "Dec 13, 2023",
+            "status": "Success",
+            "owner": "Phoenix Baker"
+          },
+          {
+            "id": 3,
+            "symbol": "DDOG",
+            "company": "Datadog Inc.",
+            "amount": "$40,132.16",
+            "date": "Dec 13, 2023",
+            "status": "Success",
+            "owner": "Lana Steiner"
+          },
+          {
+            "id": 4,
+            "symbol": "ARKG",
+            "company": "ARK Genomic Revolution ETF",
+            "amount": "$22,665.12",
+            "date": "Dec 28, 2023",
+            "status": "Declined",
+            "owner": "Demi Wilkinson"
+          }
+        ],
+        "selectable": true,
+        "expandable": true,
+        "value": [
+          2
+        ],
+        "sortBy": {
+          "column": "date",
+          "direction": "desc"
+        },
+        "footer": "1 selected · 4 of 128 transactions",
+        "pagination": {
+          "page": 3,
+          "total": 128,
+          "perPage": 4
+        },
+        "surface": "glass"
+      },
+      "state": "default",
+      "content": null
+    }
+  ],
+  "sheets": [
+    {
+      "id": "light",
+      "theme": "light",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "dark",
+      "theme": "dark",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "high-contrast",
+      "theme": "high-contrast",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "rtl",
+      "theme": "light",
+      "density": "default",
+      "dir": "rtl"
+    }
+  ]
+}

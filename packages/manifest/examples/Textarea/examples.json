@@ -1,0 +1,17 @@
+[
+  {
+    "id": "basic",
+    "title": "Basic",
+    "description": "Size it to the expected length of the answer with rows."
+  },
+  {
+    "id": "counter",
+    "title": "Character counter",
+    "description": "maxLength shows the counter; screen readers hear the characters left only near the limit."
+  },
+  {
+    "id": "states",
+    "title": "Validation and states",
+    "description": "The error sits under the box, linked to the control. Read-only and disabled use the sunken surface."
+  }
+]

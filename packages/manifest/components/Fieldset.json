@@ -1,0 +1,88 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "Fieldset",
+  "description": "Groups related fields under a legend (title and description), as a panel, a divided section or plain.",
+  "status": "draft",
+  "issue": 53,
+  "rootClass": "apui-fieldset",
+  "stacks": {
+    "livewire": { "name": "fieldset" },
+    "react": { "name": "Fieldset" },
+    "vue": { "name": "Fieldset" }
+  },
+  "props": [
+    {
+      "name": "variant",
+      "type": "enum",
+      "values": ["panel", "divided", "plain"],
+      "default": "panel",
+      "description": "A bordered panel, a section with an edge under it, or no chrome. Emitted as data-variant."
+    },
+    {
+      "name": "title",
+      "type": "node",
+      "description": "The group's name, in the legend. Announced with each field inside."
+    },
+    {
+      "name": "description",
+      "type": "node",
+      "description": "Supporting text in the legend, under the title."
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": false,
+      "description": "Disables every control inside (native fieldset disabled). Emitted as data-disabled."
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part, such as { legend: '…', title: '…' }."
+    }
+  ],
+  "variants": ["panel", "divided", "plain"],
+  "parts": [
+    {
+      "name": "root",
+      "element": "fieldset",
+      "description": "The native fieldset; the default slot holds the fields."
+    },
+    {
+      "name": "legend",
+      "element": "legend",
+      "description": "The native legend, holding the title and description."
+    },
+    { "name": "title", "element": "span", "description": "The group's name." },
+    { "name": "description", "element": "span", "description": "Supporting text." }
+  ],
+  "slots": [
+    { "name": "title", "description": "Rich title content." },
+    { "name": "description", "description": "Rich supporting text." }
+  ],
+  "a11y": {
+    "role": "group",
+    "requirements": [
+      "A native fieldset and legend, so the group's name is announced with each field inside.",
+      "Disabled uses the native disabled attribute, which disables every control inside.",
+      "Don't nest fieldsets more than one level.",
+      "Fields side by side go in a row: <div data-scope=\"fieldset\" data-part=\"row\">, a grid that wraps on narrow screens."
+    ],
+    "wcag": ["1.3.1", "2.4.6", "3.3.2"]
+  },
+  "tokens": [
+    "--apui-panel-padding",
+    "--apui-field-gap",
+    "--apui-radius-lg",
+    "--apui-border-muted",
+    "--apui-surface-default",
+    "--apui-text-default",
+    "--apui-text-muted",
+    "--apui-text-disabled"
+  ],
+  "fixture": {
+    "content": "Full name, email and phone fields go here.",
+    "props": { "title": "Contact" },
+    "parts": { "description": "Who buyers and renters should reach." },
+    "states": ["disabled"]
+  }
+}

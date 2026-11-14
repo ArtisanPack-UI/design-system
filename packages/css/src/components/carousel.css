@@ -1,0 +1,246 @@
+/*
+ * Carousel (#65), on the carousel machine ImageSlider uses (D-041). Root
+ * `.apui-carousel` is the machine's root (role=region). Parts keep Zag's
+ * names (D-019): header and title (with a title, the buttons sit beside it),
+ * viewport, item-group (the spec's track: a scroll-snapping grid), item (the
+ * spec's slide), prev-trigger and next-trigger (the spec's nav: in the
+ * header, or soft buttons over the viewport's edges without one),
+ * indicator-group and indicator (the spec's dots) and autoplay-trigger.
+ * With more than one slide per view the next slide peeks at the inline end.
+ * See design/components/Carousel.
+ */
+@layer apui.components {
+  .apui-carousel {
+    position: relative;
+    display: grid;
+    gap: 12px;
+    min-inline-size: 0;
+    color: var(--apui-text-default);
+    font-family: var(--apui-font-family-sans);
+  }
+
+  [data-scope='carousel'][data-part='header'] {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-inline-size: 0;
+  }
+
+  [data-scope='carousel'][data-part='title'] {
+    min-inline-size: 0;
+    margin-block: 0;
+    margin-inline: 0 auto;
+    color: var(--apui-text-default);
+    font-size: var(--apui-type-heading-sm-font-size);
+    font-weight: var(--apui-font-weight-semibold);
+    line-height: var(--apui-type-heading-sm-line-height);
+  }
+
+  [data-scope='carousel'][data-part='viewport'] {
+    position: relative;
+    min-inline-size: 0;
+    overflow: hidden;
+    border-radius: var(--apui-radius-lg);
+  }
+
+  /*
+   * The machine writes the track's grid inline: --slides-per-page (perView,
+   * plus a 0.15 peek above one) and --slide-spacing (12px).
+   */
+  [data-scope='carousel'][data-part='item-group'] {
+    min-inline-size: 0;
+    border-radius: inherit;
+    scroll-behavior: smooth;
+  }
+
+  /*
+   * Without a header the buttons overlay the viewport's edges: the track
+   * insets between them, so no neighbor shows under a button.
+   */
+  .apui-carousel:not(:has(> [data-part='header'])) [data-scope='carousel'][data-part='viewport'] {
+    padding-inline: 52px;
+  }
+
+  [data-scope='carousel'][data-part='item-group']::-webkit-scrollbar {
+    display: none;
+  }
+
+  [data-scope='carousel'][data-part='item-group']:focus-visible {
+    outline: var(--apui-focus-ring-width) solid var(--apui-focus-ring-color);
+    outline-offset: calc(-1 * var(--apui-focus-ring-width));
+  }
+
+  [data-scope='carousel'][data-part='item'] {
+    display: grid;
+    min-inline-size: 0;
+  }
+
+  [data-scope='carousel'][data-part='item'] > * {
+    min-inline-size: 0;
+  }
+
+  /* Overlay buttons: soft, centered on the viewport's start and end edges. */
+  [data-scope='carousel'][data-part='viewport']
+    > [data-scope='carousel']:is([data-part='prev-trigger'], [data-part='next-trigger']) {
+    position: absolute;
+    inset-block-start: 50%;
+    z-index: 1;
+    box-shadow: var(--apui-elevation-glass);
+    transform: translateY(-50%);
+  }
+
+  [data-scope='carousel'][data-part='viewport']
+    > [data-scope='carousel'][data-part='prev-trigger'] {
+    inset-inline-start: 8px;
+  }
+
+  [data-scope='carousel'][data-part='viewport']
+    > [data-scope='carousel'][data-part='next-trigger'] {
+    inset-inline-end: 8px;
+  }
+
+  [dir='rtl']
+    [data-scope='carousel']:is([data-part='prev-trigger'], [data-part='next-trigger'])
+    [data-mirror]
+    > svg {
+    scale: -1 1;
+  }
+
+  [data-scope='carousel'][data-part='indicator-group'] {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* A 24px target (WCAG 2.5.8) around the drawn dot. */
+  [data-scope='carousel'][data-part='indicator'] {
+    display: grid;
+    place-items: center;
+    box-sizing: border-box;
+    inline-size: 24px;
+    block-size: 24px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: var(--apui-radius-full);
+    background: none;
+    cursor: pointer;
+    appearance: none;
+  }
+
+  [data-scope='carousel'][data-part='indicator'][aria-current='true'] {
+    inline-size: 32px;
+  }
+
+  [data-scope='carousel'][data-part='indicator']::before {
+    content: '';
+    inline-size: 8px;
+    block-size: 8px;
+    border-radius: var(--apui-radius-full);
+    background: var(--apui-border-default);
+    transition: inline-size var(--apui-motion-duration-fast) var(--apui-motion-ease-standard);
+  }
+
+  [data-scope='carousel'][data-part='indicator'][aria-current='true']::before {
+    inline-size: 20px;
+    background: var(--apui-color-primary);
+  }
+
+  [data-scope='carousel'][data-part='indicator']:focus-visible {
+    outline: var(--apui-focus-ring-width) solid transparent;
+    box-shadow:
+      0 0 0 var(--apui-focus-ring-offset) var(--apui-focus-ring-offset-color),
+      0 0 0 calc(var(--apui-focus-ring-offset) + var(--apui-focus-ring-width))
+        var(--apui-focus-ring-color);
+  }
+
+  /*
+   * The pause button: glass, at the viewport's top start (D-006). It is the
+   * root's first child, so it comes first in the Tab order, before the
+   * rotating slides (WAI carousel pattern); its grid row (the viewport's: the
+   * second with a header) places it over the viewport. Above the slides'
+   * own raised controls, which follow it in the DOM.
+   */
+  [data-scope='carousel'][data-part='autoplay-trigger'] {
+    --apui-focus-ring-offset-color: transparent;
+
+    position: absolute;
+    grid-row: 1;
+    inset-block-start: 12px;
+    inset-inline-start: 12px;
+    z-index: 2;
+    display: grid;
+    place-items: center;
+    box-sizing: border-box;
+    inline-size: var(--apui-control-height-sm);
+    block-size: var(--apui-control-height-sm);
+    margin: 0;
+    padding: 0;
+    border: var(--apui-border-width) solid var(--apui-surface-glass-border);
+    border-radius: var(--apui-radius-full);
+    background: var(--apui-surface-glass);
+    box-shadow: var(--apui-elevation-glass);
+    color: var(--apui-text-default);
+    cursor: pointer;
+    appearance: none;
+    backdrop-filter: blur(var(--apui-surface-glass-blur))
+      saturate(var(--apui-surface-glass-saturation));
+  }
+
+  .apui-carousel:has(> [data-part='header'])
+    > [data-scope='carousel'][data-part='autoplay-trigger'] {
+    grid-row: 2;
+  }
+
+  [data-scope='carousel'][data-part='autoplay-trigger'] > svg {
+    inline-size: var(--apui-icon-size-sm);
+    block-size: var(--apui-icon-size-sm);
+  }
+
+  [data-scope='carousel'][data-part='autoplay-trigger']:focus-visible {
+    outline: var(--apui-focus-ring-width) solid var(--apui-focus-ring-color);
+    outline-offset: var(--apui-focus-ring-offset);
+  }
+
+  @supports not (backdrop-filter: blur(1px)) {
+    [data-scope='carousel'][data-part='autoplay-trigger'] {
+      border-color: var(--apui-border-muted);
+      background: var(--apui-surface-raised);
+    }
+  }
+
+  @media (prefers-reduced-transparency: reduce) {
+    [data-scope='carousel'][data-part='autoplay-trigger'] {
+      border-color: var(--apui-border-muted);
+      background: var(--apui-surface-raised);
+      backdrop-filter: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-scope='carousel'][data-part='item-group'] {
+      scroll-behavior: auto;
+    }
+
+    [data-scope='carousel'][data-part='indicator']::before {
+      transition: none;
+    }
+  }
+
+  @media (forced-colors: active) {
+    [data-scope='carousel'][data-part='indicator']::before {
+      background: CanvasText;
+    }
+
+    [data-scope='carousel'][data-part='indicator'][aria-current='true']::before {
+      background: Highlight;
+    }
+
+    [data-scope='carousel'][data-part='autoplay-trigger'] {
+      border-color: CanvasText;
+      background: Canvas;
+      backdrop-filter: none;
+    }
+  }
+}

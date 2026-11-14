@@ -1,0 +1,160 @@
+/*
+ * Progress (#60). Root `.apui-progress` is the progressbar, with data-size
+ * (sm, md, lg) and data-color. Parts: head (label and value) and track with
+ * its bar; with data-segmented the track holds one bar per step, the done
+ * ones marked data-done. The bar's width comes inline as --apui-_v. data-indeterminate
+ * slides a short bar along the track in the reading direction, and stops
+ * under reduced motion. See design/components/Progress.
+ */
+@layer apui.components {
+  .apui-progress {
+    --apui-_tone: var(--apui-color-primary);
+    --apui-_height: var(--apui-progress-height);
+
+    display: grid;
+    gap: 6px;
+    min-inline-size: 0;
+    font-family: var(--apui-font-family-sans);
+  }
+
+  .apui-progress[data-size='sm'] {
+    --apui-_height: 4px;
+  }
+
+  .apui-progress[data-size='lg'] {
+    --apui-_height: 10px;
+  }
+
+  .apui-progress[data-color='secondary'] {
+    --apui-_tone: var(--apui-color-secondary);
+  }
+
+  .apui-progress[data-color='accent'] {
+    --apui-_tone: var(--apui-color-accent);
+  }
+
+  .apui-progress[data-color='neutral'] {
+    --apui-_tone: var(--apui-color-neutral);
+  }
+
+  .apui-progress[data-color='success'] {
+    --apui-_tone: var(--apui-color-success);
+  }
+
+  .apui-progress[data-color='warning'] {
+    --apui-_tone: var(--apui-color-warning);
+  }
+
+  .apui-progress[data-color='error'] {
+    --apui-_tone: var(--apui-color-error);
+  }
+
+  .apui-progress[data-color='info'] {
+    --apui-_tone: var(--apui-color-info);
+  }
+
+  [data-scope='progress'][data-part='head'] {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: var(--apui-type-body-sm-font-size);
+    line-height: 18px;
+  }
+
+  [data-scope='progress'][data-part='label'] {
+    color: var(--apui-text-default);
+    font-weight: var(--apui-font-weight-medium);
+  }
+
+  [data-scope='progress'][data-part='value'] {
+    color: var(--apui-text-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* The track keeps a 1px edge so it shows at 3:1 on every surface. */
+  [data-scope='progress'][data-part='track'] {
+    position: relative;
+    overflow: hidden;
+    block-size: var(--apui-_height);
+    border-radius: 9999px;
+    background: var(--apui-surface-sunken);
+    box-shadow: inset 0 0 0 1px var(--apui-border-muted);
+  }
+
+  [data-scope='progress'][data-part='bar'] {
+    inline-size: var(--apui-_v, 0%);
+    block-size: 100%;
+    border-radius: inherit;
+    background: var(--apui-_tone);
+    transition: inline-size var(--apui-motion-duration-slow) var(--apui-motion-ease-standard);
+  }
+
+  .apui-progress[data-indeterminate] [data-scope='progress'][data-part='bar'] {
+    position: absolute;
+    inset-block: 0;
+    inline-size: 35%;
+    animation: apui-progress-indeterminate 1.4s ease-in-out infinite;
+  }
+
+  @keyframes apui-progress-indeterminate {
+    from {
+      inset-inline-start: -35%;
+    }
+
+    to {
+      inset-inline-start: 100%;
+    }
+  }
+
+  /* Segmented: the track lays out one bar per step; done steps are filled. */
+  .apui-progress[data-segmented] [data-scope='progress'][data-part='track'] {
+    display: grid;
+    grid-auto-columns: minmax(0, 1fr);
+    grid-auto-flow: column;
+    gap: 4px;
+    overflow: visible;
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
+  }
+
+  .apui-progress[data-segmented] [data-scope='progress'][data-part='bar'] {
+    inline-size: auto;
+    border-radius: 9999px;
+    background: var(--apui-surface-sunken);
+    box-shadow: inset 0 0 0 1px var(--apui-border-muted);
+    transition: none;
+  }
+
+  .apui-progress[data-segmented] [data-scope='progress'][data-part='bar'][data-done] {
+    background: var(--apui-_tone);
+    box-shadow: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-scope='progress'][data-part='bar'] {
+      transition: none;
+    }
+
+    .apui-progress[data-indeterminate] [data-scope='progress'][data-part='bar'] {
+      inset-inline-start: 0;
+      animation: none;
+    }
+  }
+
+  @media (forced-colors: active) {
+    [data-scope='progress'][data-part='track'],
+    .apui-progress[data-segmented] [data-scope='progress'][data-part='bar'] {
+      forced-color-adjust: none;
+      border: 1px solid CanvasText;
+      background: Canvas;
+      box-shadow: none;
+    }
+
+    [data-scope='progress'][data-part='bar'],
+    .apui-progress[data-segmented] [data-scope='progress'][data-part='bar'][data-done] {
+      forced-color-adjust: none;
+      background: Highlight;
+    }
+  }
+}

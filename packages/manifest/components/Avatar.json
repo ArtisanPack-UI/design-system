@@ -1,0 +1,167 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "Avatar",
+  "description": "A person or organization as an image, initials or an icon. Without an image it shows the initials of name in a color picked from a stable hash of the name; without a name, an icon. An image sits over the initials, so a broken image falls back to them.",
+  "status": "draft",
+  "issue": 61,
+  "rootClass": "apui-avatar",
+  "stacks": {
+    "livewire": {
+      "name": "avatar",
+      "capabilities": [
+        "Group: avatar-group overlaps a row of avatars, from avatar children or avatars data with max",
+        "The 2.x image and placeholder attributes still map to src and name, deprecated"
+      ]
+    },
+    "react": {
+      "name": "Avatar",
+      "capabilities": [
+        "Group: AvatarGroup overlaps a row of avatars, from Avatar children or avatars data with max"
+      ]
+    },
+    "vue": {
+      "name": "Avatar",
+      "capabilities": [
+        "Group: AvatarGroup overlaps a row of avatars, from Avatar children or avatars data with max"
+      ]
+    }
+  },
+  "props": [
+    {
+      "name": "name",
+      "type": "string",
+      "description": "The person's or organization's full name. It gives the initials (first and last word), the accessible name and the hashed color.",
+      "a11y": "Names the role=img root. Without name or alt the avatar is decorative and aria-hidden."
+    },
+    {
+      "name": "src",
+      "type": "string",
+      "description": "The image URL. Only relative, http, https and data:image URLs are used. It covers the initials, which show through when it fails to load."
+    },
+    {
+      "name": "alt",
+      "type": "string",
+      "description": "The accessible name when it should differ from name, such as \"Apexify logo\"."
+    },
+    {
+      "name": "initials",
+      "type": "string",
+      "description": "Overrides the initials taken from name, such as \"+4\" for an overflow avatar."
+    },
+    {
+      "name": "icon",
+      "type": "string",
+      "description": "Icon name shown instead of initials, resolved through the icon registry. Without a name or initials the avatar shows user."
+    },
+    {
+      "name": "size",
+      "type": "enum",
+      "values": ["xs", "sm", "md", "lg", "xl"],
+      "default": "md",
+      "description": "Matches the control heights: 24, 28, 36, 44 or 52px. Emitted as data-size."
+    },
+    {
+      "name": "shape",
+      "type": "enum",
+      "values": ["circle", "square"],
+      "default": "circle",
+      "description": "circle for people, square for organizations and workspaces. Emitted as data-shape."
+    },
+    {
+      "name": "color",
+      "type": "enum",
+      "values": [
+        "primary",
+        "secondary",
+        "accent",
+        "neutral",
+        "success",
+        "warning",
+        "error",
+        "info"
+      ],
+      "description": "The initials' tone. Defaults to a color picked from a stable hash of name (sum of its code points over primary, secondary, accent, success, warning, error and info), and neutral without a name. Emitted as data-color."
+    },
+    {
+      "name": "status",
+      "type": "enum",
+      "values": ["online", "away", "offline"],
+      "description": "A presence dot at the end corner. Emitted on the status part as data-status.",
+      "a11y": "Also announced in the accessible name through statusLabel, so color is not the only signal."
+    },
+    {
+      "name": "statusLabel",
+      "type": "string",
+      "description": "The words for the status, added to the accessible name: \"Olivia Rhye (Online)\". Defaults to Online, Away or Offline; translate it. Livewire defaults it through __()."
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part, such as { image: '…' }."
+    }
+  ],
+  "sizes": ["xs", "sm", "md", "lg", "xl"],
+  "colors": ["primary", "secondary", "accent", "neutral", "success", "warning", "error", "info"],
+  "parts": [
+    {
+      "name": "root",
+      "element": "span",
+      "description": "The avatar, role=img with the person's name."
+    },
+    {
+      "name": "image",
+      "element": "img",
+      "description": "The image, over the initials. Decorative (alt=\"\"): the root carries the name."
+    },
+    {
+      "name": "initials",
+      "element": "span",
+      "description": "Up to two letters from name, or initials. Decorative."
+    },
+    {
+      "name": "status",
+      "element": "span",
+      "description": "The presence dot. Decorative; the status is in the accessible name."
+    }
+  ],
+  "slots": [],
+  "events": [],
+  "a11y": {
+    "role": "img",
+    "element": "span",
+    "requirements": [
+      "The root is role=img named by alt or name, plus the status in words; the image, initials, icon and dot inside it are decorative.",
+      "Without a name or alt the avatar is decorative: aria-hidden, no role.",
+      "Initials keep 4.5:1 on their soft fill in every theme.",
+      "Status is announced in text (statusLabel), never by color alone; the dot has a 2px ring in the surface color.",
+      "In a group each avatar is ringed in the surface color (--apui-focus-ring-offset-color).",
+      "In forced colors the avatar keeps an edge and the dot is CanvasText."
+    ],
+    "wcag": ["1.1.1", "1.4.1", "1.4.3", "1.4.11", "4.1.2"]
+  },
+  "tokens": [
+    "--apui-avatar-radius",
+    "--apui-control-height-xs",
+    "--apui-control-height-sm",
+    "--apui-control-height-md",
+    "--apui-control-height-lg",
+    "--apui-control-height-xl",
+    "--apui-color-neutral-soft",
+    "--apui-color-neutral-soft-foreground",
+    "--apui-color-success",
+    "--apui-color-warning",
+    "--apui-text-subtle",
+    "--apui-focus-ring-offset-color",
+    "--apui-radius-sm",
+    "--apui-font-weight-medium"
+  ],
+  "fixture": {
+    "props": {
+      "name": "Olivia Rhye",
+      "status": "online"
+    },
+    "parts": {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Crect width='8' height='8' fill='%2394a3b8'/%3E%3Ccircle cx='4' cy='3' r='1.6' fill='%23e2e8f0'/%3E%3C/svg%3E"
+    }
+  }
+}

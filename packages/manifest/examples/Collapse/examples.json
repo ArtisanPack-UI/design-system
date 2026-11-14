@@ -1,0 +1,12 @@
+[
+  {
+    "id": "section",
+    "title": "Show more settings",
+    "description": "A section: the trigger says what will appear, and the region follows it, hidden while closed. open binds both ways."
+  },
+  {
+    "id": "read-more",
+    "title": "Read more",
+    "description": "Clamps long text behind a fade, with the trigger after it. The whole text stays readable to assistive technology."
+  }
+]

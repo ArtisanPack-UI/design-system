@@ -1,0 +1,203 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "Diff",
+  "description": "Shows the changes between two versions of a text, unified or side by side, with hunks of context around each change and the changed words marked. Every stack computes the same diff, so there is no diff library and no script. The header mirrors in RTL; the code stays LTR.",
+  "status": "draft",
+  "issue": 61,
+  "rootClass": "apui-diff",
+  "stacks": {
+    "livewire": {
+      "name": "diff",
+      "capabilities": [
+        "Rendered on the server, with no script",
+        "The actions slot holds header controls, such as a Clipboard or a view switch bound with wire:model.live",
+        "2.x old and new still work, as oldContent and newContent"
+      ]
+    },
+    "react": {
+      "name": "Diff",
+      "capabilities": ["actions takes a node"]
+    },
+    "vue": {
+      "name": "Diff",
+      "capabilities": ["The actions slot holds header controls"]
+    }
+  },
+  "props": [
+    {
+      "name": "oldContent",
+      "type": "string",
+      "description": "The earlier version."
+    },
+    {
+      "name": "newContent",
+      "type": "string",
+      "description": "The later version."
+    },
+    {
+      "name": "fileName",
+      "type": "string",
+      "description": "What changed, at the start of the header: a file path or \"Version 3 → Version 4\"."
+    },
+    {
+      "name": "view",
+      "type": "enum",
+      "values": ["unified", "split"],
+      "default": "unified",
+      "description": "One column with both line numbers, or the old version beside the new one, deletions paired with additions. Emitted as data-view."
+    },
+    {
+      "name": "wordLevel",
+      "type": "boolean",
+      "default": true,
+      "description": "Marks the changed words inside a changed line, in ins and del, when the old and new line share some words. Best for short edits."
+    },
+    {
+      "name": "context",
+      "type": "number",
+      "default": 3,
+      "description": "Unchanged lines kept around each change. Changes further apart than twice this start a new hunk."
+    },
+    {
+      "name": "countsLabel",
+      "type": "string",
+      "default": "{additions} additions, {deletions} deletions",
+      "description": "The counts' text for assistive technology; {additions} and {deletions} are filled in. Translate it: Livewire defaults it through __( '{additions} additions, {deletions} deletions' )."
+    },
+    {
+      "name": "emptyLabel",
+      "type": "string",
+      "default": "No changes",
+      "description": "Shown in the table when the versions are the same. Translate it: Livewire defaults it through __( 'No changes' )."
+    },
+    {
+      "name": "actions",
+      "type": "node",
+      "description": "Controls at the end of the header, such as a copy button or a Tabs view switch."
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part, such as { header: '…', code: '…' }."
+    }
+  ],
+  "parts": [
+    {
+      "name": "root",
+      "element": "div",
+      "description": "The frame, with data-view."
+    },
+    {
+      "name": "header",
+      "element": "div",
+      "description": "The icon, file name, counts and actions. Mirrors in RTL."
+    },
+    {
+      "name": "icon",
+      "element": "span",
+      "description": "A compare icon. Hidden from assistive technology."
+    },
+    {
+      "name": "file",
+      "element": "span",
+      "description": "The file name, in the mono font."
+    },
+    {
+      "name": "counts",
+      "element": "span",
+      "description": "+additions and −deletions in success and error text, with countsLabel as hidden text."
+    },
+    {
+      "name": "actions",
+      "element": "div",
+      "description": "The header controls."
+    },
+    {
+      "name": "table",
+      "element": "table",
+      "description": "The lines. Always LTR (D-004)."
+    },
+    {
+      "name": "hunk",
+      "element": "tr",
+      "description": "A hunk header (@@ -a,b +c,d @@), or emptyLabel when nothing changed."
+    },
+    {
+      "name": "line",
+      "element": "tr",
+      "description": "A line, with data-type ctx, add or del (unified), or a row pairing the old and new sides (split)."
+    },
+    {
+      "name": "lineNumber",
+      "element": "td",
+      "description": "A line number: old and new in unified, one per side in split. Not selectable."
+    },
+    {
+      "name": "sign",
+      "element": "td",
+      "description": "+, − or a space, so additions and deletions read without color. Not selectable."
+    },
+    {
+      "name": "code",
+      "element": "td",
+      "description": "The line's text, wrapping long lines. Every cell carries its side's data-type."
+    },
+    {
+      "name": "ins",
+      "element": "ins",
+      "description": "An added word: semibold with a success underline."
+    },
+    {
+      "name": "del",
+      "element": "del",
+      "description": "A deleted word: semibold and struck through."
+    }
+  ],
+  "slots": [
+    {
+      "name": "actions",
+      "description": "Controls at the end of the header."
+    }
+  ],
+  "events": [],
+  "a11y": {
+    "element": "div",
+    "requirements": [
+      "Every changed line has a + or − sign in text, and changed words are ins and del elements: color is never the only signal.",
+      "The counts are read as words (countsLabel); the visible +3 −2 is hidden from assistive technology.",
+      "The code stays LTR in every direction; the header around it mirrors.",
+      "Soft add and delete fills keep 4.5:1 for their text; line numbers keep 4.5:1 (--apui-text-muted)."
+    ],
+    "wcag": ["1.3.1", "1.4.1", "1.4.3"]
+  },
+  "tokens": [
+    "--apui-surface-default",
+    "--apui-surface-sunken",
+    "--apui-border-muted",
+    "--apui-border-width",
+    "--apui-radius-md",
+    "--apui-text-default",
+    "--apui-text-muted",
+    "--apui-font-family-mono",
+    "--apui-color-success-soft",
+    "--apui-color-success-soft-foreground",
+    "--apui-color-success-text",
+    "--apui-color-success-border",
+    "--apui-color-error-soft",
+    "--apui-color-error-soft-foreground",
+    "--apui-color-error-text",
+    "--apui-color-error-border",
+    "--apui-color-info-soft",
+    "--apui-color-info-soft-foreground"
+  ],
+  "fixture": {
+    "props": {
+      "fileName": "listings/grove-greenfield.json",
+      "oldContent": "{\n  id: 4127,\n  name: \"Grove Greenfield\",\n  beds: 3,\n  price: 220000,\n  rent: 1600,\n  currency: \"USD\",\n  available: \"2027-01-01\",\n}\n",
+      "newContent": "{\n  id: 4127,\n  name: \"Grove Greenfield\",\n  beds: 3,\n  price: 220000,\n  rent: 1650,\n  deposit: 3300,\n  currency: \"USD\",\n  available: \"2027-01-15\",\n}\n"
+    },
+    "parts": {
+      "actions": "Copy"
+    }
+  }
+}

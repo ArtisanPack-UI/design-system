@@ -1,0 +1,182 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "ListItem",
+  "description": "A row with leading, title, description and trailing parts. Set href or interactive and the title becomes a link or a button that covers the row, so the whole row is one target. Rows go in a List, whose variant frames them (bordered) or rules them (divided).",
+  "status": "draft",
+  "issue": 58,
+  "rootClass": "apui-list-item",
+  "stacks": {
+    "livewire": {
+      "name": "list-item",
+      "capabilities": [
+        "Container: list (variant plain, bordered or divided); list-item children render as li",
+        "navigate adds wire:navigate to an internal href",
+        "The 2.x item, value, sub-value, avatar and link attributes still fill the row, deprecated"
+      ]
+    },
+    "react": {
+      "name": "ListItem",
+      "capabilities": [
+        "Container: List (variant plain, bordered or divided); ListItem children render as li"
+      ]
+    },
+    "vue": {
+      "name": "ListItem",
+      "capabilities": [
+        "Container: List (variant plain, bordered or divided); ListItem children render as li"
+      ]
+    }
+  },
+  "props": [
+    {
+      "name": "title",
+      "type": "string",
+      "description": "The row's main text. The title slot overrides it."
+    },
+    {
+      "name": "description",
+      "type": "string",
+      "description": "Secondary text under the title. The description slot overrides it."
+    },
+    {
+      "name": "href",
+      "type": "string",
+      "description": "Makes the title a link that covers the row. Only relative, http, https, mailto, tel and sms URLs are used."
+    },
+    {
+      "name": "interactive",
+      "type": "boolean",
+      "default": false,
+      "description": "Without href, makes the title a button that covers the row, for a click handler on the row. Emitted as data-interactive; href sets it too."
+    },
+    {
+      "name": "selected",
+      "type": "boolean",
+      "default": false,
+      "description": "Marks the current or chosen row. Emitted as data-selected.",
+      "a11y": "The row's link or button gets aria-current=\"true\"."
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": false,
+      "description": "Dims the row; its link or button is disabled. Emitted as data-disabled.",
+      "a11y": "A disabled link loses its href and gets aria-disabled."
+    },
+    {
+      "name": "leadingIcon",
+      "type": "string",
+      "description": "Icon name in the leading part, resolved through the icon registry. The leading slot overrides it, for an avatar or a thumbnail."
+    },
+    {
+      "name": "trailing",
+      "type": "string",
+      "description": "Short text at the end, such as a time or an amount. The trailing slot overrides it, for a badge or an action."
+    },
+    {
+      "name": "navigate",
+      "type": "boolean",
+      "default": true,
+      "description": "Adds wire:navigate to an internal href, so Livewire swaps the page in without a full reload.",
+      "stacks": ["livewire"]
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part, such as { title: '…' }."
+    }
+  ],
+  "parts": [
+    {
+      "name": "root",
+      "element": "li | div",
+      "description": "The row: an li inside a List, a div on its own."
+    },
+    {
+      "name": "leading",
+      "element": "span",
+      "description": "An icon, avatar or thumbnail at the start."
+    },
+    {
+      "name": "title",
+      "element": "span | a | button",
+      "description": "The main text; a link or a button covering the row when it's interactive."
+    },
+    {
+      "name": "description",
+      "element": "span",
+      "description": "Secondary text under the title."
+    },
+    {
+      "name": "trailing",
+      "element": "span",
+      "description": "Short content at the end, above the row's link so its controls stay clickable."
+    }
+  ],
+  "slots": [
+    {
+      "name": "leading",
+      "description": "Leading content, such as an avatar or a thumbnail."
+    },
+    {
+      "name": "title",
+      "description": "Rich title content."
+    },
+    {
+      "name": "description",
+      "description": "Rich description content."
+    },
+    {
+      "name": "trailing",
+      "description": "Trailing content, such as a badge or an icon button. Keep it short, and keep to one primary action per row."
+    }
+  ],
+  "events": [],
+  "a11y": {
+    "element": "div",
+    "keyboard": [
+      {
+        "keys": "Tab",
+        "action": "Moves to the row's link or button, then to any controls in trailing."
+      },
+      {
+        "keys": "Enter",
+        "action": "Follows the row's link or activates its button."
+      }
+    ],
+    "requirements": [
+      "Interactive rows are links (href) or buttons (interactive), never a clickable li; the control covers the row.",
+      "Selection sets aria-current=\"true\" on the row's link or button.",
+      "Rows in a List are li elements of a ul.",
+      "The focus ring is drawn inside the row, so rows in a list don't overlap it.",
+      "Title text keeps 4.5:1; the description is --apui-text-muted.",
+      "Disabled rows set aria-disabled, use --apui-text-disabled, and their link or button is disabled."
+    ],
+    "wcag": ["1.3.1", "1.4.3", "2.1.1", "2.4.4", "2.4.7", "4.1.2"]
+  },
+  "tokens": [
+    "--apui-row-height",
+    "--apui-cell-padding-x",
+    "--apui-text-default",
+    "--apui-text-muted",
+    "--apui-text-disabled",
+    "--apui-state-hover",
+    "--apui-selected-bg",
+    "--apui-border-muted",
+    "--apui-surface-default",
+    "--apui-radius-lg",
+    "--apui-focus-ring-color",
+    "--apui-focus-ring-offset-color"
+  ],
+  "fixture": {
+    "props": {
+      "title": "Olivia Rhye",
+      "description": "olivia@company.com",
+      "interactive": true
+    },
+    "parts": {
+      "leadingIcon": "mail",
+      "trailing": "2m"
+    }
+  }
+}

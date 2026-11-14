@@ -1,0 +1,261 @@
+/*
+ * Range (#53). Root `.apui-range` is the field: label, track, marks, hint
+ * and error, sharing the field rules in field.css. The stacks set the
+ * private --apui-_from and --apui-_to (percentages of the track) inline.
+ *
+ * Each thumb is a native input type=range (control, data-thumb start or
+ * end), transparent over the track and half a thumb wider at each end, so
+ * its own thumb lines up with the drawn one (thumb, same data-thumb). Its
+ * pseudo-element thumbs take the pointer, so the two inputs of a dual range
+ * don't block each other. Everything is placed with logical properties, so
+ * under RTL the track fills from the right, as the native inputs do.
+ */
+@layer apui.components {
+  .apui-range {
+    --apui-_from: 0%;
+    --apui-_to: 50%;
+    --apui-_thumb: 18px;
+    --apui-_hit: 24px;
+    --apui-_tone: var(--apui-color-primary);
+  }
+
+  .apui-range[data-size='sm'] {
+    --apui-_thumb: 14px;
+  }
+
+  .apui-range[data-show-value='always'] {
+    padding-block-start: 28px;
+  }
+
+  .apui-range[data-color='secondary'] {
+    --apui-_tone: var(--apui-color-secondary);
+  }
+
+  .apui-range[data-color='accent'] {
+    --apui-_tone: var(--apui-color-accent);
+  }
+
+  .apui-range[data-color='neutral'] {
+    --apui-_tone: var(--apui-color-neutral);
+  }
+
+  .apui-range[data-color='success'] {
+    --apui-_tone: var(--apui-color-success);
+  }
+
+  .apui-range[data-color='warning'] {
+    --apui-_tone: var(--apui-color-warning);
+  }
+
+  .apui-range[data-color='error'] {
+    --apui-_tone: var(--apui-color-error);
+  }
+
+  .apui-range[data-color='info'] {
+    --apui-_tone: var(--apui-color-info);
+  }
+
+  [data-scope='range'][data-part='track'] {
+    position: relative;
+    block-size: 4px;
+    min-inline-size: 120px;
+    margin-block: 8px;
+    margin-inline: calc(var(--apui-_thumb) / 2);
+    border-radius: var(--apui-radius-full);
+    background: var(--apui-surface-sunken);
+    box-shadow: inset 0 0 0 var(--apui-border-width) var(--apui-border-default);
+  }
+
+  [data-scope='range'][data-part='fill'] {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: var(--apui-_from);
+    inline-size: calc(var(--apui-_to) - var(--apui-_from));
+    border-radius: inherit;
+    background: var(--apui-_tone);
+  }
+
+  [data-scope='range'][data-part='control'] {
+    position: absolute;
+    z-index: 1;
+    inset-block-start: 50%;
+    inset-inline-start: calc(var(--apui-_thumb) / -2);
+    box-sizing: border-box;
+    inline-size: calc(100% + var(--apui-_thumb));
+    block-size: var(--apui-_hit);
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-50%);
+    appearance: none;
+  }
+
+  /* One thumb: the whole track takes the pointer, so a click jumps there. */
+  .apui-range:not([data-dual]) [data-scope='range'][data-part='control'] {
+    pointer-events: auto;
+    cursor: pointer;
+  }
+
+  [data-scope='range'][data-part='control']::-webkit-slider-runnable-track {
+    block-size: var(--apui-_hit);
+    background: transparent;
+  }
+
+  [data-scope='range'][data-part='control']::-webkit-slider-thumb {
+    inline-size: var(--apui-_thumb);
+    block-size: var(--apui-_hit);
+    pointer-events: auto;
+    cursor: grab;
+    appearance: none;
+  }
+
+  [data-scope='range'][data-part='control']::-moz-range-track {
+    block-size: var(--apui-_hit);
+    background: transparent;
+  }
+
+  [data-scope='range'][data-part='control']::-moz-range-thumb {
+    inline-size: var(--apui-_thumb);
+    block-size: var(--apui-_hit);
+    border: 0;
+    pointer-events: auto;
+    cursor: grab;
+  }
+
+  [data-scope='range'][data-part='control']:active::-webkit-slider-thumb {
+    cursor: grabbing;
+  }
+
+  [data-scope='range'][data-part='thumb'] {
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-start: var(--apui-_to);
+    box-sizing: border-box;
+    inline-size: var(--apui-_thumb);
+    block-size: var(--apui-_thumb);
+    margin-inline-start: calc(var(--apui-_thumb) / -2);
+    border: 2px solid var(--apui-_tone);
+    border-radius: var(--apui-radius-full);
+    background: var(--apui-surface-raised);
+    pointer-events: none;
+    transform: translateY(-50%);
+  }
+
+  [data-scope='range'][data-part='thumb'][data-thumb='start'] {
+    inset-inline-start: var(--apui-_from);
+  }
+
+  .apui-range:has([data-part='control'][data-thumb='start']:focus-visible)
+    [data-scope='range'][data-part='thumb'][data-thumb='start'],
+  .apui-range:has([data-part='control'][data-thumb='end']:focus-visible)
+    [data-scope='range'][data-part='thumb'][data-thumb='end'] {
+    outline: var(--apui-focus-ring-width) solid transparent;
+    box-shadow:
+      0 0 0 var(--apui-focus-ring-offset) var(--apui-focus-ring-offset-color),
+      0 0 0 calc(var(--apui-focus-ring-offset) + var(--apui-focus-ring-width))
+        var(--apui-focus-ring-color);
+  }
+
+  /* The value bubble: always, or while its thumb has focus or is dragged. */
+  [data-scope='range'][data-part='bubble'] {
+    position: absolute;
+    inset-block-end: calc(100% + 8px);
+    inset-inline-start: 50%;
+    padding-block: 2px;
+    padding-inline: 8px;
+    border-radius: var(--apui-tooltip-radius);
+    background: var(--apui-surface-inverse);
+    color: var(--apui-text-inverse);
+    font-family: var(--apui-font-family-sans);
+    font-size: var(--apui-type-caption-font-size);
+    font-variant-numeric: tabular-nums;
+    font-weight: var(--apui-font-weight-medium);
+    line-height: 18px;
+    white-space: nowrap;
+    transform: translateX(-50%);
+  }
+
+  [data-scope='range'][data-part='bubble']:dir(rtl) {
+    transform: translateX(50%);
+  }
+
+  .apui-range[data-show-value='focus'] [data-scope='range'][data-part='bubble'] {
+    display: none;
+  }
+
+  .apui-range[data-show-value='focus']:has(
+      [data-part='control'][data-thumb='start']:is(:focus-visible, :active)
+    )
+    [data-scope='range'][data-part='thumb'][data-thumb='start']
+    > [data-part='bubble'],
+  .apui-range[data-show-value='focus']:has(
+      [data-part='control'][data-thumb='end']:is(:focus-visible, :active)
+    )
+    [data-scope='range'][data-part='thumb'][data-thumb='end']
+    > [data-part='bubble'] {
+    display: block;
+  }
+
+  /* Marks: each at its value, shifted by the same share of its width, so the ends align. */
+  [data-scope='range'][data-part='marks'] {
+    position: relative;
+    block-size: var(--apui-type-caption-line-height);
+    margin-inline: calc(var(--apui-_thumb) / 2);
+    color: var(--apui-text-muted);
+    font-size: var(--apui-type-caption-font-size);
+    font-variant-numeric: tabular-nums;
+    line-height: var(--apui-type-caption-line-height);
+  }
+
+  [data-scope='range'][data-part='mark'] {
+    --apui-_at: 0%;
+
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: var(--apui-_at);
+    white-space: nowrap;
+    transform: translateX(calc(var(--apui-_at) * -1));
+  }
+
+  [data-scope='range'][data-part='mark']:dir(rtl) {
+    transform: translateX(var(--apui-_at));
+  }
+
+  .apui-range[data-invalid] [data-scope='range'][data-part='track'] {
+    box-shadow: inset 0 0 0 var(--apui-border-width) var(--apui-color-error-border);
+  }
+
+  .apui-range[data-disabled] [data-scope='range'][data-part='fill'] {
+    background: var(--apui-text-disabled);
+  }
+
+  .apui-range[data-disabled] [data-scope='range'][data-part='thumb'] {
+    border-color: var(--apui-text-disabled);
+  }
+
+  .apui-range[data-disabled] [data-scope='range'][data-part='control']::-webkit-slider-thumb {
+    cursor: not-allowed;
+  }
+
+  .apui-range[data-disabled] [data-scope='range'][data-part='control']::-moz-range-thumb {
+    cursor: not-allowed;
+  }
+
+  @media (forced-colors: active) {
+    [data-scope='range'][data-part='track'] {
+      border: var(--apui-border-width) solid CanvasText;
+    }
+
+    [data-scope='range'][data-part='fill'] {
+      background: Highlight;
+      forced-color-adjust: none;
+    }
+
+    [data-scope='range'][data-part='thumb'] {
+      border-color: CanvasText;
+    }
+  }
+}

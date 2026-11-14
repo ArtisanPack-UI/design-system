@@ -1,0 +1,74 @@
+/*
+ * Fieldset (#53). Root `.apui-fieldset` on a native fieldset. The legend
+ * holds the title and description; it floats so it lays out inside the
+ * panel like any other row. Fields side by side go in a row
+ * (`<div data-scope="fieldset" data-part="row">`), a grid that wraps.
+ */
+@layer apui.components {
+  .apui-fieldset {
+    display: grid;
+    gap: var(--apui-field-gap);
+    box-sizing: border-box;
+    min-inline-size: 0;
+    margin: 0;
+    padding: var(--apui-panel-padding);
+    border: var(--apui-border-width) solid var(--apui-border-muted);
+    border-radius: var(--apui-radius-lg);
+    background: var(--apui-surface-default);
+    color: var(--apui-text-default);
+    font-family: var(--apui-font-family-sans);
+  }
+
+  .apui-fieldset[data-variant='divided'] {
+    padding-block: 0 var(--apui-panel-padding);
+    padding-inline: 0;
+    border-width: 0;
+    border-block-end-width: var(--apui-border-width);
+    border-radius: 0;
+    background: none;
+  }
+
+  .apui-fieldset[data-variant='plain'] {
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: none;
+  }
+
+  [data-scope='fieldset'][data-part='legend'] {
+    float: inline-start;
+    inline-size: 100%;
+    margin-block-end: 4px;
+    padding: 0;
+  }
+
+  [data-scope='fieldset'][data-part='legend'] + * {
+    clear: both;
+  }
+
+  [data-scope='fieldset'][data-part='title'] {
+    display: block;
+    color: var(--apui-text-default);
+    font-size: var(--apui-type-heading-sm-font-size);
+    font-weight: var(--apui-font-weight-semibold);
+    line-height: var(--apui-type-heading-sm-line-height);
+  }
+
+  [data-scope='fieldset'][data-part='description'] {
+    display: block;
+    margin-block-start: 2px;
+    color: var(--apui-text-muted);
+    font-size: var(--apui-type-body-sm-font-size);
+    line-height: var(--apui-type-body-sm-line-height);
+  }
+
+  .apui-fieldset:is(:disabled, [data-disabled]) [data-scope='fieldset'][data-part='title'] {
+    color: var(--apui-text-disabled);
+  }
+
+  [data-scope='fieldset'][data-part='row'] {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: var(--apui-field-gap);
+  }
+}

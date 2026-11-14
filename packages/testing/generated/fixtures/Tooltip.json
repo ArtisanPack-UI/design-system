@@ -1,0 +1,67 @@
+{
+  "version": 1,
+  "component": "Tooltip",
+  "rootClass": "apui-tooltip",
+  "stacks": [
+    "livewire",
+    "react",
+    "vue"
+  ],
+  "names": {
+    "livewire": "tooltip",
+    "react": "Tooltip",
+    "vue": "Tooltip"
+  },
+  "cases": [
+    {
+      "id": "size=md state=default",
+      "props": {
+        "open": true,
+        "portal": false,
+        "placement": "bottom",
+        "content": "Archive this listing",
+        "size": "md"
+      },
+      "state": "default",
+      "content": "Archive"
+    },
+    {
+      "id": "size=lg state=default",
+      "props": {
+        "open": true,
+        "portal": false,
+        "placement": "bottom",
+        "content": "Archive this listing",
+        "size": "lg"
+      },
+      "state": "default",
+      "content": "Archive"
+    }
+  ],
+  "sheets": [
+    {
+      "id": "light",
+      "theme": "light",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "dark",
+      "theme": "dark",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "high-contrast",
+      "theme": "high-contrast",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "rtl",
+      "theme": "light",
+      "density": "default",
+      "dir": "rtl"
+    }
+  ]
+}

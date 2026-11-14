@@ -1,0 +1,12 @@
+{
+  "components": ["Probe"],
+  "manifests": "manifests",
+  "css": ["../../../css/dist/index.css", "probe.css"],
+  "stacks": {
+    "livewire": { "html": "../../build/gates/html/livewire" },
+    "react": { "host": "react/host.tsx" },
+    "vue": { "host": "vue/host.ts" }
+  },
+  "baselines": "../baselines",
+  "out": "../../build/gates"
+}

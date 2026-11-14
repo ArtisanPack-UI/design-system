@@ -1,0 +1,138 @@
+/*
+ * ProgressRadial (#60), built from Progress. Root `.apui-progress-radial`,
+ * role=progressbar, with data-color; its size comes inline as --apui-_s.
+ * Parts: svg (the ring, drawn with a track circle and a bar circle whose
+ * dash offset is the value), value (the number in the center) and label (a
+ * caption under it). The ring starts at the top and fills in the reading
+ * direction; data-indeterminate spins a quarter arc, slowed under reduced
+ * motion. See design/components/ProgressRadial.
+ */
+@layer apui.components {
+  .apui-progress-radial {
+    --apui-_tone: var(--apui-color-primary);
+    --apui-_s: 64px;
+
+    position: relative;
+    display: inline-grid;
+    flex: none;
+    place-items: center;
+    inline-size: var(--apui-_s);
+    block-size: var(--apui-_s);
+    font-family: var(--apui-font-family-sans);
+    vertical-align: middle;
+  }
+
+  .apui-progress-radial[data-color='secondary'] {
+    --apui-_tone: var(--apui-color-secondary);
+  }
+
+  .apui-progress-radial[data-color='accent'] {
+    --apui-_tone: var(--apui-color-accent);
+  }
+
+  .apui-progress-radial[data-color='neutral'] {
+    --apui-_tone: var(--apui-color-neutral);
+  }
+
+  .apui-progress-radial[data-color='success'] {
+    --apui-_tone: var(--apui-color-success);
+  }
+
+  .apui-progress-radial[data-color='warning'] {
+    --apui-_tone: var(--apui-color-warning);
+  }
+
+  .apui-progress-radial[data-color='error'] {
+    --apui-_tone: var(--apui-color-error);
+  }
+
+  .apui-progress-radial[data-color='info'] {
+    --apui-_tone: var(--apui-color-info);
+  }
+
+  [data-scope='progress-radial'][data-part='svg'] {
+    position: absolute;
+    inset: 0;
+    inline-size: 100%;
+    block-size: 100%;
+    rotate: -90deg;
+  }
+
+  /* Mirror across the vertical axis, so the ring fills counterclockwise. */
+  [data-scope='progress-radial'][data-part='svg']:dir(rtl) {
+    transform: scaleY(-1);
+  }
+
+  [data-scope='progress-radial'][data-part='track'] {
+    fill: none;
+    stroke: var(--apui-surface-sunken);
+  }
+
+  [data-scope='progress-radial'][data-part='bar'] {
+    fill: none;
+    stroke: var(--apui-_tone);
+    stroke-linecap: round;
+    transition: stroke-dashoffset var(--apui-motion-duration-slow) var(--apui-motion-ease-standard);
+  }
+
+  [data-scope='progress-radial'][data-part='value'] {
+    position: relative;
+    color: var(--apui-text-default);
+    font-size: calc(var(--apui-_s) * 0.24);
+    font-variant-numeric: tabular-nums;
+    font-weight: var(--apui-font-weight-semibold);
+    line-height: 1;
+    text-align: center;
+  }
+
+  [data-scope='progress-radial'][data-part='label'] {
+    display: block;
+    margin-block-start: 2px;
+    color: var(--apui-text-muted);
+    font-size: 11px;
+    font-weight: var(--apui-font-weight-regular);
+    line-height: 14px;
+    text-align: center;
+  }
+
+  .apui-progress-radial[data-indeterminate] [data-scope='progress-radial'][data-part='svg'] {
+    animation: apui-progress-radial-spin 1.2s linear infinite;
+  }
+
+  .apui-progress-radial[data-indeterminate]
+    [data-scope='progress-radial'][data-part='svg']:dir(rtl) {
+    animation-direction: reverse;
+  }
+
+  @keyframes apui-progress-radial-spin {
+    from {
+      rotate: -90deg;
+    }
+
+    to {
+      rotate: 270deg;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-scope='progress-radial'][data-part='bar'] {
+      transition: none;
+    }
+
+    .apui-progress-radial[data-indeterminate] [data-scope='progress-radial'][data-part='svg'] {
+      animation-duration: 3.6s;
+    }
+  }
+
+  @media (forced-colors: active) {
+    [data-scope='progress-radial'][data-part='track'] {
+      forced-color-adjust: none;
+      stroke: GrayText;
+    }
+
+    [data-scope='progress-radial'][data-part='bar'] {
+      forced-color-adjust: none;
+      stroke: Highlight;
+    }
+  }
+}

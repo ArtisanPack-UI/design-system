@@ -4,5 +4,8 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'node',
+    // The widget tests drive Chromium.
+    testTimeout: 30000,
+    hookTimeout: 30000,
   },
 });

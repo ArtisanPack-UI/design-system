@@ -1,0 +1,323 @@
+{
+  "version": 1,
+  "component": "Icon",
+  "rootClass": "apui-icon",
+  "stacks": [
+    "livewire",
+    "react",
+    "vue"
+  ],
+  "names": {
+    "livewire": "icon",
+    "react": "Icon",
+    "vue": "Icon"
+  },
+  "cases": [
+    {
+      "id": "variant=plain size=sm state=default",
+      "props": {
+        "name": "house",
+        "label": "Home",
+        "variant": "plain",
+        "size": "sm"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=plain size=md state=default",
+      "props": {
+        "name": "house",
+        "label": "Home",
+        "variant": "plain",
+        "size": "md"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=plain size=lg state=default",
+      "props": {
+        "name": "house",
+        "label": "Home",
+        "variant": "plain",
+        "size": "lg"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=plain size=xl state=default",
+      "props": {
+        "name": "house",
+        "label": "Home",
+        "variant": "plain",
+        "size": "xl"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=tile size=sm state=default",
+      "props": {
+        "name": "house",
+        "label": "Home",
+        "variant": "tile",
+        "size": "sm"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=tile size=md state=default",
+      "props": {
+        "name": "house",
+        "label": "Home",
+        "variant": "tile",
+        "size": "md"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=tile size=lg state=default",
+      "props": {
+        "name": "house",
+        "label": "Home",
+        "variant": "tile",
+        "size": "lg"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=tile size=xl state=default",
+      "props": {
+        "name": "house",
+        "label": "Home",
+        "variant": "tile",
+        "size": "xl"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=plain size=md color=primary state=default",
+      "props": {
+        "name": "house",
+        "label": "Home",
+        "variant": "plain",
+        "size": "md",
+        "color": "primary"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=tile size=md color=primary state=default",
+      "props": {
+        "name": "house",
+        "label": "Home",
+        "variant": "tile",
+        "size": "md",
+        "color": "primary"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=plain size=md color=secondary state=default",
+      "props": {
+        "name": "house",
+        "label": "Home",
+        "variant": "plain",
+        "size": "md",
+        "color": "secondary"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=tile size=md color=secondary state=default",
+      "props": {
+        "name": "house",
+        "label": "Home",
+        "variant": "tile",
+        "size": "md",
+        "color": "secondary"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=plain size=md color=accent state=default",
+      "props": {
+        "name": "house",
+        "label": "Home",
+        "variant": "plain",
+        "size": "md",
+        "color": "accent"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=tile size=md color=accent state=default",
+      "props": {
+        "name": "house",
+        "label": "Home",
+        "variant": "tile",
+        "size": "md",
+        "color": "accent"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=plain size=md color=neutral state=default",
+      "props": {
+        "name": "house",
+        "label": "Home",
+        "variant": "plain",
+        "size": "md",
+        "color": "neutral"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=tile size=md color=neutral state=default",
+      "props": {
+        "name": "house",
+        "label": "Home",
+        "variant": "tile",
+        "size": "md",
+        "color": "neutral"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=plain size=md color=success state=default",
+      "props": {
+        "name": "house",
+        "label": "Home",
+        "variant": "plain",
+        "size": "md",
+        "color": "success"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=tile size=md color=success state=default",
+      "props": {
+        "name": "house",
+        "label": "Home",
+        "variant": "tile",
+        "size": "md",
+        "color": "success"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=plain size=md color=warning state=default",
+      "props": {
+        "name": "house",
+        "label": "Home",
+        "variant": "plain",
+        "size": "md",
+        "color": "warning"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=tile size=md color=warning state=default",
+      "props": {
+        "name": "house",
+        "label": "Home",
+        "variant": "tile",
+        "size": "md",
+        "color": "warning"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=plain size=md color=error state=default",
+      "props": {
+        "name": "house",
+        "label": "Home",
+        "variant": "plain",
+        "size": "md",
+        "color": "error"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=tile size=md color=error state=default",
+      "props": {
+        "name": "house",
+        "label": "Home",
+        "variant": "tile",
+        "size": "md",
+        "color": "error"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=plain size=md color=info state=default",
+      "props": {
+        "name": "house",
+        "label": "Home",
+        "variant": "plain",
+        "size": "md",
+        "color": "info"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=tile size=md color=info state=default",
+      "props": {
+        "name": "house",
+        "label": "Home",
+        "variant": "tile",
+        "size": "md",
+        "color": "info"
+      },
+      "state": "default",
+      "content": null
+    }
+  ],
+  "sheets": [
+    {
+      "id": "light",
+      "theme": "light",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "dark",
+      "theme": "dark",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "high-contrast",
+      "theme": "high-contrast",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "rtl",
+      "theme": "light",
+      "density": "default",
+      "dir": "rtl"
+    }
+  ]
+}

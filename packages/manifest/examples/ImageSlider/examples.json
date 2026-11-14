@@ -1,0 +1,12 @@
+[
+  {
+    "id": "basic",
+    "title": "Basic",
+    "description": "One image per view with a glass caption, the counter, previous and next buttons and dots. label names the region."
+  },
+  {
+    "id": "thumbnails",
+    "title": "Thumbnails and autoplay",
+    "description": "thumbnails adds a strip under the frame. autoplay advances every interval ms and always shows a pause button; it pauses while the pointer or focus is on the slider."
+  }
+]

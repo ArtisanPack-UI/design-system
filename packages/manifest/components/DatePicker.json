@@ -1,0 +1,499 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "DatePicker",
+  "description": "A text field with a calendar popover for a single date or a range, and with time it's DateTime: date and time in one field. Typing a date always works; the calendar is an aid. Replaces Livewire's datepicker and datetime.",
+  "status": "draft",
+  "issue": 55,
+  "rootClass": "apui-date-picker",
+  "stacks": {
+    "livewire": {
+      "name": "date-picker",
+      "capabilities": [
+        "wire:model binds value (an ISO string, or an array of two in range mode) through $wire.entangle()",
+        "datepicker and datetime stay as deprecated aliases (datetime renders time mode)"
+      ]
+    },
+    "react": {
+      "name": "DatePicker"
+    },
+    "vue": {
+      "name": "DatePicker"
+    }
+  },
+  "props": [
+    {
+      "name": "value",
+      "type": "string",
+      "description": "The value as ISO 8601: a date (2026-11-12), a date and time in time mode (2026-11-12T11:00), or an array of two dates in range mode. Livewire binds it with wire:model, Vue with v-model."
+    },
+    {
+      "name": "defaultValue",
+      "type": "string",
+      "description": "The initial value of an uncontrolled date picker.",
+      "stacks": ["react"]
+    },
+    {
+      "name": "mode",
+      "type": "enum",
+      "values": ["single", "range"],
+      "default": "single",
+      "description": "One date, or a range of two (two inputs in one box). Emitted as data-mode."
+    },
+    {
+      "name": "time",
+      "type": "boolean",
+      "default": false,
+      "description": "Date and time (DateTime): adds a time list beside the month, and the value carries the time. Single mode only. Emitted as data-time."
+    },
+    {
+      "name": "step",
+      "type": "number",
+      "default": 30,
+      "description": "Minutes between the times in the time list."
+    },
+    {
+      "name": "timeZone",
+      "type": "string",
+      "description": "The IANA time zone the time is in, shown under the field in time mode and used for today's date. Default: none shown, UTC for today."
+    },
+    {
+      "name": "locale",
+      "type": "string",
+      "description": "BCP 47 locale for month and weekday names, the first day of the week and the default text pattern. Livewire defaults to the app locale, React and Vue to en-US."
+    },
+    {
+      "name": "min",
+      "type": "string",
+      "description": "The earliest date that can be chosen, ISO."
+    },
+    {
+      "name": "max",
+      "type": "string",
+      "description": "The latest date that can be chosen, ISO."
+    },
+    {
+      "name": "disabledDates",
+      "type": "array",
+      "description": "Dates that can't be chosen, as ISO strings. They're struck through.",
+      "a11y": "Sets aria-disabled on the day."
+    },
+    {
+      "name": "weekStartsOn",
+      "type": "number",
+      "description": "First day of the week, 0 (Sunday) to 6. Follows the locale unless set."
+    },
+    {
+      "name": "format",
+      "type": "string",
+      "description": "The text pattern, with yyyy, MM and dd tokens (dd.MM.yyyy). Follows the locale unless set; typing always works in it."
+    },
+    {
+      "name": "size",
+      "type": "enum",
+      "values": ["sm", "md", "lg"],
+      "default": "md",
+      "description": "Control height. Emitted as data-size."
+    },
+    {
+      "name": "label",
+      "type": "node",
+      "description": "The visible label, linked to the (first) input."
+    },
+    {
+      "name": "hint",
+      "type": "node",
+      "description": "Help text under the field, linked with aria-describedby. Show the expected format here."
+    },
+    {
+      "name": "error",
+      "type": "string",
+      "description": "Validation message. Marks the field invalid and is linked with aria-describedby."
+    },
+    {
+      "name": "invalid",
+      "type": "boolean",
+      "default": false,
+      "description": "Marks the field invalid without a message. Emitted as data-invalid.",
+      "a11y": "Sets aria-invalid on the input."
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": false,
+      "description": "Disables the field and the calendar."
+    },
+    {
+      "name": "readonly",
+      "type": "boolean",
+      "default": false,
+      "description": "Makes the field read-only: it stays focusable, the calendar doesn't open."
+    },
+    {
+      "name": "required",
+      "type": "boolean",
+      "default": false,
+      "description": "Marks the field required and shows the required mark.",
+      "a11y": "Sets required on the input."
+    },
+    {
+      "name": "placeholder",
+      "type": "string",
+      "description": "Placeholder text. Defaults to the pattern, MM/DD/YYYY."
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "description": "Submits the ISO value under this name in a hidden input (two, name[], in range mode)."
+    },
+    {
+      "name": "open",
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the calendar is open. Vue binds it with v-model:open. Emitted as data-state."
+    },
+    {
+      "name": "defaultOpen",
+      "type": "boolean",
+      "default": false,
+      "description": "The initial state of an uncontrolled popover.",
+      "stacks": ["react"]
+    },
+    {
+      "name": "portal",
+      "type": "boolean",
+      "default": true,
+      "description": "Renders the popover at the end of the body (x-teleport, a React portal, Vue Teleport). Off renders it in place."
+    },
+    {
+      "name": "footer",
+      "type": "node",
+      "description": "A row under the calendar, such as a summary and an Apply button."
+    },
+    {
+      "name": "triggerLabel",
+      "type": "string",
+      "default": "Choose date",
+      "description": "The calendar button's accessible name. Translate it: Livewire defaults it through __( 'Choose date' ) (or 'Choose date and time').",
+      "a11y": "The button is icon-only, so this is its only name."
+    },
+    {
+      "name": "previousLabel",
+      "type": "string",
+      "default": "Previous month",
+      "description": "The previous-month button's accessible name. Livewire defaults it through __( 'Previous month' )."
+    },
+    {
+      "name": "nextLabel",
+      "type": "string",
+      "default": "Next month",
+      "description": "The next-month button's accessible name. Livewire defaults it through __( 'Next month' )."
+    },
+    {
+      "name": "calendarLabel",
+      "type": "string",
+      "default": "Calendar",
+      "description": "The popover's accessible name. Livewire defaults it through __( 'Calendar' )."
+    },
+    {
+      "name": "timeLabel",
+      "type": "string",
+      "default": "Time",
+      "description": "The time list's name and heading. Livewire defaults it through __( 'Time' )."
+    },
+    {
+      "name": "endLabel",
+      "type": "string",
+      "default": "End date",
+      "description": "The end input's accessible name in range mode. Livewire defaults it through __( 'End date' )."
+    },
+    {
+      "name": "timeZoneLabel",
+      "type": "string",
+      "default": "Time zone: {zone}",
+      "description": "The time-zone line, with {zone} for the zone. Livewire defaults it through __( 'Time zone: :zone' )."
+    },
+    {
+      "name": "errorField",
+      "type": "string",
+      "description": "The validation key to read from $errors. Defaults to the wire:model name.",
+      "stacks": ["livewire"]
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part, such as { control: '…', content: '…' }."
+    }
+  ],
+  "sizes": ["sm", "md", "lg"],
+  "parts": [
+    {
+      "name": "root",
+      "element": "div",
+      "description": "The field: label, control, hint, time zone and error. Zag's root part."
+    },
+    {
+      "name": "label",
+      "element": "label",
+      "description": "The visible label, for the first input."
+    },
+    {
+      "name": "required",
+      "element": "span",
+      "description": "The required mark inside the label. Hidden from screen readers; the input is required."
+    },
+    {
+      "name": "box",
+      "element": "div",
+      "description": "The bordered box around the trigger and the input(s): Zag's control part, renamed to the field anatomy's box (D-018)."
+    },
+    {
+      "name": "trigger",
+      "element": "button",
+      "description": "The calendar icon at the start of the box: an icon-only button that opens the popover."
+    },
+    {
+      "name": "control",
+      "element": "input",
+      "description": "The native text input, typed in the pattern: Zag's input part, renamed to the field anatomy's control (D-018). Range mode has two. Attributes other than class land on the first."
+    },
+    {
+      "name": "hint",
+      "element": "p",
+      "description": "Help text."
+    },
+    {
+      "name": "timeZone",
+      "element": "p",
+      "description": "The time zone, in time mode."
+    },
+    {
+      "name": "error",
+      "element": "p",
+      "description": "Validation message, with an icon."
+    },
+    {
+      "name": "positioner",
+      "element": "div",
+      "description": "Places the popover under the field."
+    },
+    {
+      "name": "content",
+      "element": "div",
+      "description": "The popover panel: the month, the time column and the footer."
+    },
+    {
+      "name": "view",
+      "element": "div",
+      "description": "The month: its header and grid."
+    },
+    {
+      "name": "viewControl",
+      "element": "div",
+      "description": "The header: previous month, the month's name, next month."
+    },
+    {
+      "name": "prevTrigger",
+      "element": "button",
+      "description": "Previous month: a ghost, neutral, small icon-only Button. Its arrow mirrors in RTL."
+    },
+    {
+      "name": "rangeText",
+      "element": "span",
+      "description": "The visible month and year, from Intl in the locale."
+    },
+    {
+      "name": "nextTrigger",
+      "element": "button",
+      "description": "Next month. Its arrow mirrors in RTL."
+    },
+    {
+      "name": "table",
+      "element": "table",
+      "description": "The month grid (role=grid)."
+    },
+    {
+      "name": "tableHead",
+      "element": "thead",
+      "description": "The weekday row. Hidden from screen readers; each day's name says its weekday."
+    },
+    {
+      "name": "tableRow",
+      "element": "tr",
+      "description": "A week, or the weekday row."
+    },
+    {
+      "name": "tableHeader",
+      "element": "th",
+      "description": "A weekday name, from Intl in the locale."
+    },
+    {
+      "name": "tableBody",
+      "element": "tbody",
+      "description": "The weeks."
+    },
+    {
+      "name": "tableCell",
+      "element": "td",
+      "description": "A day's cell (role=gridcell, aria-selected)."
+    },
+    {
+      "name": "tableCellTrigger",
+      "element": "div",
+      "description": "A day: today, selected, in range, outside the month or unavailable through data attributes."
+    },
+    {
+      "name": "time",
+      "element": "div",
+      "description": "The time column, in time mode."
+    },
+    {
+      "name": "timeLabel",
+      "element": "span",
+      "description": "The time column's heading. Hidden from screen readers; the list carries the same name."
+    },
+    {
+      "name": "timeList",
+      "element": "div",
+      "description": "The times (role=listbox)."
+    },
+    {
+      "name": "timeOption",
+      "element": "div",
+      "description": "One time (role=option, aria-selected)."
+    },
+    {
+      "name": "footer",
+      "element": "div",
+      "description": "The row under the calendar."
+    }
+  ],
+  "slots": [
+    {
+      "name": "label",
+      "description": "Rich label content."
+    },
+    {
+      "name": "hint",
+      "description": "Rich help text."
+    },
+    {
+      "name": "footer",
+      "description": "The row under the calendar."
+    }
+  ],
+  "events": [
+    {
+      "name": "value-change",
+      "description": "A day, a time or typed text changed the value. Reports the ISO value.",
+      "payload": "string"
+    },
+    {
+      "name": "open-change",
+      "description": "The popover opened or closed itself: the trigger, Escape, outside click or a choice. Setting open doesn't fire it.",
+      "payload": "boolean"
+    }
+  ],
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Tab",
+        "action": "Moves between the trigger and the input; typing a date in the pattern always works."
+      },
+      {
+        "keys": "Enter, Space",
+        "action": "On the trigger, opens the calendar; on a day, chooses it."
+      },
+      {
+        "keys": "ArrowLeft, ArrowRight",
+        "action": "Previous and next day. They follow the text direction, so they swap under RTL."
+      },
+      {
+        "keys": "ArrowUp, ArrowDown",
+        "action": "Same day of the previous and next week; in the time list, the previous and next time."
+      },
+      {
+        "keys": "PageUp, PageDown",
+        "action": "Previous and next month (Shift for a year)."
+      },
+      {
+        "keys": "Home, End",
+        "action": "Start and end of the week; in the time list, the first and last time."
+      },
+      {
+        "keys": "Escape",
+        "action": "Closes the calendar and returns focus to the field."
+      }
+    ],
+    "requirements": [
+      "Typing a date always works; the calendar never replaces the input.",
+      "The month is role=grid; each day names its full localized date, and its cell carries aria-selected, aria-disabled and aria-current=date for today.",
+      "Arrow keys follow the text direction, and the previous and next arrows mirror in RTL.",
+      "Month and weekday names come from Intl in the locale; every built-in label is a translatable prop.",
+      "The calendar button is labelled and reports aria-expanded and aria-controls.",
+      "The time list is a listbox of options with roving focus; the time zone is always visible when set.",
+      "Unavailable days are struck through as well as muted, never color alone; the selected day is filled, today has a ring.",
+      "Hint and error are linked to the input with aria-describedby; invalid sets aria-invalid.",
+      "Every server-rendered part keeps a stable id in Livewire; the calendar is client-rendered inside wire:ignore (D-015)."
+    ],
+    "wcag": [
+      "1.3.1",
+      "1.4.1",
+      "1.4.3",
+      "1.4.11",
+      "2.1.1",
+      "2.4.3",
+      "2.4.7",
+      "2.5.8",
+      "3.3.1",
+      "3.3.2",
+      "4.1.2"
+    ]
+  },
+  "tokens": [
+    "--apui-input-radius",
+    "--apui-menu-radius",
+    "--apui-menu-item-radius",
+    "--apui-radius-full",
+    "--apui-control-height-sm",
+    "--apui-control-height-md",
+    "--apui-control-height-lg",
+    "--apui-surface-default",
+    "--apui-surface-sunken",
+    "--apui-surface-overlay",
+    "--apui-elevation-overlay",
+    "--apui-z-dropdown",
+    "--apui-border-default",
+    "--apui-border-muted",
+    "--apui-border-strong",
+    "--apui-color-primary",
+    "--apui-color-primary-foreground",
+    "--apui-color-primary-soft",
+    "--apui-color-primary-soft-foreground",
+    "--apui-selected-bg",
+    "--apui-state-hover",
+    "--apui-color-error-border",
+    "--apui-color-error-text",
+    "--apui-text-default",
+    "--apui-text-muted",
+    "--apui-text-disabled",
+    "--apui-focus-ring-color"
+  ],
+  "fixture": {
+    "props": {
+      "label": "Move-in date",
+      "locale": "en-US",
+      "value": "2031-03-12",
+      "open": true,
+      "portal": false
+    },
+    "parts": {
+      "required": true,
+      "hint": "MM/DD/YYYY",
+      "error": "That date doesn't exist.",
+      "time": true,
+      "timeZone": "Europe/Madrid",
+      "footer": "Thu, Mar 12"
+    },
+    "states": ["hover", "focus-visible", "disabled", "invalid", "readonly"]
+  }
+}

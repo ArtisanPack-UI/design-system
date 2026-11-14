@@ -1,0 +1,150 @@
+{
+  "version": 1,
+  "component": "ProgressRadial",
+  "rootClass": "apui-progress-radial",
+  "stacks": [
+    "livewire",
+    "react",
+    "vue"
+  ],
+  "names": {
+    "livewire": "progress-radial",
+    "react": "ProgressRadial",
+    "vue": "ProgressRadial"
+  },
+  "cases": [
+    {
+      "id": "state=default",
+      "props": {
+        "value": 68,
+        "size": 80,
+        "thickness": 7,
+        "label": "complete"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "state=indeterminate",
+      "props": {
+        "value": 68,
+        "size": 80,
+        "thickness": 7,
+        "label": "complete",
+        "indeterminate": true
+      },
+      "state": "indeterminate",
+      "content": null
+    },
+    {
+      "id": "color=secondary state=default",
+      "props": {
+        "value": 68,
+        "size": 80,
+        "thickness": 7,
+        "label": "complete",
+        "color": "secondary"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "color=accent state=default",
+      "props": {
+        "value": 68,
+        "size": 80,
+        "thickness": 7,
+        "label": "complete",
+        "color": "accent"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "color=neutral state=default",
+      "props": {
+        "value": 68,
+        "size": 80,
+        "thickness": 7,
+        "label": "complete",
+        "color": "neutral"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "color=success state=default",
+      "props": {
+        "value": 68,
+        "size": 80,
+        "thickness": 7,
+        "label": "complete",
+        "color": "success"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "color=warning state=default",
+      "props": {
+        "value": 68,
+        "size": 80,
+        "thickness": 7,
+        "label": "complete",
+        "color": "warning"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "color=error state=default",
+      "props": {
+        "value": 68,
+        "size": 80,
+        "thickness": 7,
+        "label": "complete",
+        "color": "error"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "color=info state=default",
+      "props": {
+        "value": 68,
+        "size": 80,
+        "thickness": 7,
+        "label": "complete",
+        "color": "info"
+      },
+      "state": "default",
+      "content": null
+    }
+  ],
+  "sheets": [
+    {
+      "id": "light",
+      "theme": "light",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "dark",
+      "theme": "dark",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "high-contrast",
+      "theme": "high-contrast",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "rtl",
+      "theme": "light",
+      "density": "default",
+      "dir": "rtl"
+    }
+  ]
+}

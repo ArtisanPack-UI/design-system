@@ -1,0 +1,9 @@
+{
+  "popover": {
+    "radius": {
+      "$type": "dimension",
+      "$value": "{radius.surface}",
+      "$description": "Popover, ColorPicker, DatePicker popovers."
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "tabs": {
+    "radius": {
+      "$type": "dimension",
+      "$value": "{radius.control}",
+      "$description": "Segmented Tabs; underline Tabs use none."
+    }
+  }
+}

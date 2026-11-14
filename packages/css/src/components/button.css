@@ -1,0 +1,359 @@
+/*
+ * Button (#44). Root `.apui-button` on a native <button>, or an <a> with href.
+ * Parts: icon, label, iconEnd, spinner. See design/components/Button.
+ *
+ * One-off colors go through the override hooks, not the color prop:
+ *   style="--apui-button-bg: #7c3aed; --apui-button-fg: #fff"
+ * Set --apui-button-bg-hover for the solid hover color; without it a solid
+ * button with a one-off background keeps that color on hover instead of
+ * switching to the theme's hover color.
+ */
+@layer apui.components {
+  .apui-button {
+    --apui-_h: var(--apui-control-height-md);
+    --apui-_px: 16px;
+    --apui-_gap: 8px;
+    --apui-_fs: var(--apui-type-body-md-font-size);
+    --apui-_lh: var(--apui-type-body-md-line-height);
+    --apui-_ic: var(--apui-icon-size-md);
+    --apui-_border: transparent;
+
+    /* The tone every variant reads; data-color reassigns it. Primary by default. */
+    --apui-_solid: var(--apui-color-primary);
+    --apui-_solid-hover: var(--apui-color-primary-hover);
+    --apui-_solid-border: transparent;
+    --apui-_on-solid: var(--apui-color-primary-foreground);
+    --apui-_soft: var(--apui-color-primary-soft);
+    --apui-_on-soft: var(--apui-color-primary-soft-foreground);
+    --apui-_tone-border: var(--apui-color-primary-border);
+    --apui-_tone-text: var(--apui-color-primary-text);
+
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--apui-_gap);
+    box-sizing: border-box;
+    block-size: var(--apui-_h);
+    min-inline-size: 0;
+    margin: 0;
+    padding-block: 0;
+    padding-inline: var(--apui-_px);
+    border: var(--apui-border-width) solid var(--apui-_border);
+    border-radius: var(--apui-button-radius);
+    background-color: var(--apui-button-bg, var(--apui-_solid));
+    color: var(--apui-button-fg, var(--apui-_on-solid));
+    font-family: var(--apui-font-family-sans);
+    font-size: var(--apui-_fs);
+    font-weight: var(--apui-button-weight);
+    line-height: var(--apui-_lh);
+    white-space: nowrap;
+    text-decoration: none;
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    transition:
+      background-color var(--apui-motion-duration-fast) var(--apui-motion-ease-standard),
+      border-color var(--apui-motion-duration-fast) var(--apui-motion-ease-standard),
+      color var(--apui-motion-duration-fast) var(--apui-motion-ease-standard);
+  }
+
+  .apui-button:focus-visible {
+    outline: var(--apui-focus-ring-width) solid transparent;
+    box-shadow:
+      0 0 0 var(--apui-focus-ring-offset) var(--apui-focus-ring-offset-color),
+      0 0 0 calc(var(--apui-focus-ring-offset) + var(--apui-focus-ring-width))
+        var(--apui-focus-ring-color);
+  }
+
+  /* Sizes */
+  .apui-button[data-size='xs'] {
+    --apui-_h: var(--apui-control-height-xs);
+    --apui-_px: 8px;
+    --apui-_gap: 4px;
+    --apui-_fs: var(--apui-type-caption-font-size);
+    --apui-_lh: var(--apui-type-caption-line-height);
+    --apui-_ic: var(--apui-icon-size-sm);
+  }
+
+  .apui-button[data-size='sm'] {
+    --apui-_h: var(--apui-control-height-sm);
+    --apui-_px: 12px;
+    --apui-_gap: 6px;
+    --apui-_fs: var(--apui-type-body-sm-font-size);
+    --apui-_lh: var(--apui-type-body-sm-line-height);
+    --apui-_ic: var(--apui-icon-size-sm);
+  }
+
+  .apui-button[data-size='lg'] {
+    --apui-_h: var(--apui-control-height-lg);
+    --apui-_px: 20px;
+    --apui-_fs: 15px;
+    --apui-_lh: 22px;
+    --apui-_ic: var(--apui-icon-size-lg);
+  }
+
+  .apui-button[data-size='xl'] {
+    --apui-_h: var(--apui-control-height-xl);
+    --apui-_px: 24px;
+    --apui-_fs: var(--apui-type-body-lg-font-size);
+    --apui-_lh: var(--apui-type-body-lg-line-height);
+    --apui-_ic: var(--apui-icon-size-lg);
+  }
+
+  /* xs keeps a 24px hit area (WCAG 2.5.8) without growing visually. */
+  /* Centered without translate, so it needs no direction rule. */
+  .apui-button[data-size='xs']::after {
+    content: '';
+    position: absolute;
+    inset-block-start: calc(50% - max(50%, var(--apui-target-size-min) / 2));
+    inset-inline-start: calc(50% - max(50%, var(--apui-target-size-min) / 2));
+    inline-size: max(100%, var(--apui-target-size-min));
+    block-size: max(100%, var(--apui-target-size-min));
+  }
+
+  .apui-button[data-icon-only] {
+    inline-size: var(--apui-_h);
+    padding-inline: 0;
+  }
+
+  /* Colors: reassign the tone. */
+  .apui-button[data-color='secondary'] {
+    --apui-_solid: var(--apui-color-secondary);
+    --apui-_solid-hover: var(--apui-color-secondary-hover);
+    --apui-_on-solid: var(--apui-color-secondary-foreground);
+    --apui-_soft: var(--apui-color-secondary-soft);
+    --apui-_on-soft: var(--apui-color-secondary-soft-foreground);
+    --apui-_tone-border: var(--apui-color-secondary-border);
+    --apui-_tone-text: var(--apui-color-secondary-text);
+  }
+
+  .apui-button[data-color='accent'] {
+    --apui-_solid: var(--apui-color-accent);
+    --apui-_solid-hover: var(--apui-color-accent-hover);
+    --apui-_solid-border: var(--apui-color-accent-border);
+    --apui-_on-solid: var(--apui-color-accent-foreground);
+    --apui-_soft: var(--apui-color-accent-soft);
+    --apui-_on-soft: var(--apui-color-accent-soft-foreground);
+    --apui-_tone-border: var(--apui-color-accent-border);
+    --apui-_tone-text: var(--apui-color-accent-text);
+  }
+
+  .apui-button[data-color='neutral'] {
+    --apui-_solid: var(--apui-color-neutral);
+    --apui-_solid-hover: var(--apui-color-neutral-hover);
+    --apui-_on-solid: var(--apui-color-neutral-foreground);
+    --apui-_soft: var(--apui-color-neutral-soft);
+    --apui-_on-soft: var(--apui-color-neutral-soft-foreground);
+    --apui-_tone-border: var(--apui-color-neutral-border);
+    --apui-_tone-text: var(--apui-color-neutral-text);
+  }
+
+  .apui-button[data-color='success'] {
+    --apui-_solid: var(--apui-color-success);
+    --apui-_solid-hover: var(--apui-color-success-hover);
+    --apui-_on-solid: var(--apui-color-success-foreground);
+    --apui-_soft: var(--apui-color-success-soft);
+    --apui-_on-soft: var(--apui-color-success-soft-foreground);
+    --apui-_tone-border: var(--apui-color-success-border);
+    --apui-_tone-text: var(--apui-color-success-text);
+  }
+
+  .apui-button[data-color='warning'] {
+    --apui-_solid: var(--apui-color-warning);
+    --apui-_solid-hover: var(--apui-color-warning-hover);
+    --apui-_solid-border: var(--apui-color-warning-border);
+    --apui-_on-solid: var(--apui-color-warning-foreground);
+    --apui-_soft: var(--apui-color-warning-soft);
+    --apui-_on-soft: var(--apui-color-warning-soft-foreground);
+    --apui-_tone-border: var(--apui-color-warning-border);
+    --apui-_tone-text: var(--apui-color-warning-text);
+  }
+
+  .apui-button[data-color='error'] {
+    --apui-_solid: var(--apui-color-error);
+    --apui-_solid-hover: var(--apui-color-error-hover);
+    --apui-_on-solid: var(--apui-color-error-foreground);
+    --apui-_soft: var(--apui-color-error-soft);
+    --apui-_on-soft: var(--apui-color-error-soft-foreground);
+    --apui-_tone-border: var(--apui-color-error-border);
+    --apui-_tone-text: var(--apui-color-error-text);
+  }
+
+  .apui-button[data-color='info'] {
+    --apui-_solid: var(--apui-color-info);
+    --apui-_solid-hover: var(--apui-color-info-hover);
+    --apui-_on-solid: var(--apui-color-info-foreground);
+    --apui-_soft: var(--apui-color-info-soft);
+    --apui-_on-soft: var(--apui-color-info-soft-foreground);
+    --apui-_tone-border: var(--apui-color-info-border);
+    --apui-_tone-text: var(--apui-color-info-text);
+  }
+
+  /* Variants */
+  .apui-button,
+  .apui-button[data-variant='solid'] {
+    --apui-_border: var(--apui-_solid-border);
+  }
+
+  .apui-button[data-variant='solid']:not(:disabled, [aria-disabled='true']):hover {
+    background-color: var(--apui-button-bg-hover, var(--apui-button-bg, var(--apui-_solid-hover)));
+  }
+
+  .apui-button[data-variant='soft'] {
+    --apui-_border: transparent;
+
+    background-color: var(--apui-button-bg, var(--apui-_soft));
+    color: var(--apui-button-fg, var(--apui-_on-soft));
+  }
+
+  .apui-button[data-variant='outline'] {
+    --apui-_border: var(--apui-_tone-border);
+
+    background-color: transparent;
+    color: var(--apui-button-fg, var(--apui-_tone-text));
+  }
+
+  .apui-button[data-variant='ghost'] {
+    --apui-_border: transparent;
+
+    background-color: transparent;
+    color: var(--apui-button-fg, var(--apui-_tone-text));
+  }
+
+  /* Neutral outline and ghost read as default text, not as the neutral tone. */
+  .apui-button[data-color='neutral']:is([data-variant='outline'], [data-variant='ghost']):not(
+      :disabled,
+      [aria-disabled='true']
+    ) {
+    color: var(--apui-button-fg, var(--apui-text-default));
+  }
+
+  .apui-button:is([data-variant='soft'], [data-variant='outline'], [data-variant='ghost']):not(
+      :disabled,
+      [aria-disabled='true']
+    ):hover {
+    background-image: linear-gradient(var(--apui-state-hover), var(--apui-state-hover));
+  }
+
+  .apui-button:not([data-variant='link'], :disabled, [aria-disabled='true']):active {
+    background-image: linear-gradient(var(--apui-state-pressed), var(--apui-state-pressed));
+  }
+
+  .apui-button[data-variant='link'] {
+    --apui-_border: transparent;
+
+    block-size: auto;
+    padding: 0;
+    border-radius: var(--apui-radius-xs);
+    background: none;
+    color: var(--apui-button-fg, var(--apui-_tone-text));
+    text-underline-offset: 3px;
+  }
+
+  .apui-button[data-variant='link']:hover {
+    text-decoration: underline;
+  }
+
+  /* Disabled: a sunken surface and disabled text, never opacity alone. */
+  .apui-button:is(:disabled, [aria-disabled='true']) {
+    --apui-_border: transparent;
+
+    background: var(--apui-surface-sunken);
+    color: var(--apui-text-disabled);
+    cursor: not-allowed;
+  }
+
+  .apui-button:is([data-variant='ghost'], [data-variant='link']):is(
+      :disabled,
+      [aria-disabled='true']
+    ) {
+    background: transparent;
+  }
+
+  .apui-button[data-variant='outline']:is(:disabled, [aria-disabled='true']) {
+    --apui-_border: var(--apui-border-muted);
+
+    background: transparent;
+  }
+
+  .apui-button[data-variant='link']:is(:disabled, [aria-disabled='true']):hover {
+    text-decoration: none;
+  }
+
+  /* Parts */
+  [data-scope='button']:is([data-part='icon'], [data-part='iconEnd']) {
+    display: inline-flex;
+    flex: none;
+    inline-size: var(--apui-_ic);
+    block-size: var(--apui-_ic);
+  }
+
+  [data-scope='button']:is([data-part='icon'], [data-part='iconEnd']) > svg {
+    inline-size: 100%;
+    block-size: 100%;
+  }
+
+  [dir='rtl']
+    [data-scope='button']:is([data-part='icon'], [data-part='iconEnd'])[data-mirror]
+    > svg {
+    scale: -1 1;
+  }
+
+  [data-scope='button'][data-part='label'] {
+    min-inline-size: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /*
+   * Loading: the spinner sits over the content, which keeps its space (so the
+   * width holds) and stays in the accessibility tree (opacity, not
+   * visibility). Pointer clicks are ignored; the stacks guard keyboard
+   * activation.
+   */
+  .apui-button:is([aria-busy='true'], a[aria-disabled='true']) {
+    pointer-events: none;
+  }
+
+  .apui-button[aria-busy='true']
+    > [data-scope='button']:is([data-part='icon'], [data-part='label'], [data-part='iconEnd']) {
+    opacity: 0;
+  }
+
+  [data-scope='button'][data-part='spinner'] {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    box-sizing: border-box;
+    inline-size: var(--apui-_ic);
+    block-size: var(--apui-_ic);
+    border: 2px solid currentcolor;
+    border-inline-end-color: transparent;
+    border-radius: var(--apui-radius-full);
+    animation: apui-button-spin 0.8s linear infinite;
+  }
+
+  @keyframes apui-button-spin {
+    to {
+      rotate: 1turn;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-scope='button'][data-part='spinner'] {
+      animation-duration: 2.4s;
+    }
+  }
+
+  @media (forced-colors: active) {
+    .apui-button {
+      border-color: ButtonText;
+    }
+
+    .apui-button:is(:disabled, [aria-disabled='true']) {
+      border-color: GrayText;
+      color: GrayText;
+    }
+  }
+}

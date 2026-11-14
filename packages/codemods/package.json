@@ -1,0 +1,63 @@
+{
+  "name": "@artisanpack-ui/codemods",
+  "version": "0.0.0",
+  "description": "Codemods and upgrade rules that move ArtisanPack UI apps to the next major: React, Vue and the rules behind the Blade upgrade command.",
+  "license": "MIT",
+  "author": "Jacob Martella <me@jacobmartella.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ArtisanPack-UI/design-system.git",
+    "directory": "packages/codemods"
+  },
+  "bugs": {
+    "url": "https://github.com/ArtisanPack-UI/design-system/issues"
+  },
+  "homepage": "https://github.com/ArtisanPack-UI/design-system/tree/main/packages/codemods#readme",
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./rules.json": "./generated/upgrade-rules.json",
+    "./generated/upgrade-rules.php": "./generated/upgrade-rules.php",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "apui-codemod": "./bin/apui-codemod.mjs"
+  },
+  "files": [
+    "dist",
+    "bin",
+    "generated",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "rules": "node scripts/build-rules.mjs",
+    "rules:check": "node scripts/build-rules.mjs --check",
+    "guides": "node scripts/build-guides.mjs",
+    "guides:check": "node scripts/build-guides.mjs --check",
+    "build": "npm run rules:check && npm run guides:check && tsup",
+    "test": "vitest run",
+    "type-check": "tsc --noEmit"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@vue/compiler-sfc": "^3.5.45",
+    "magic-string": "^0.30.21",
+    "typescript": "~5.9.3"
+  }
+}

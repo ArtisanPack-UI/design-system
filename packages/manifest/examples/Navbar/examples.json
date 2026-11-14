@@ -1,0 +1,12 @@
+[
+  {
+    "id": "basic",
+    "title": "Bar",
+    "description": "A full-width bar for marketing pages: the brand, the primary links with the current page marked, and actions at the end."
+  },
+  {
+    "id": "island",
+    "title": "Island on glass",
+    "description": "A rounded island for an app's top bar, with a search taking the free space. Glass needs a backdrop worth showing, and falls back to an opaque surface under reduced transparency and in high contrast."
+  }
+]

@@ -1,0 +1,158 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "Menu",
+  "description": "A navigation list in a nav landmark: links with icons and badges, section titles, separators and collapsible sub-menus, with the current page marked. Not for actions; use DropdownMenu.",
+  "status": "draft",
+  "issue": 56,
+  "rootClass": "apui-menu",
+  "stacks": {
+    "livewire": {
+      "name": "menu",
+      "capabilities": [
+        "Children: menu-item, menu-sub, menu-title and menu-separator; items renders the same children",
+        "menu-item takes route and activates by the current URL (activate-by-route on the menu or the item)"
+      ]
+    },
+    "react": {
+      "name": "Menu",
+      "capabilities": [
+        "Children: MenuItem, MenuSub, MenuTitle and MenuSeparator; items renders the same children"
+      ]
+    },
+    "vue": {
+      "name": "Menu",
+      "capabilities": [
+        "Children: MenuItem, MenuSub, MenuTitle and MenuSeparator; items renders the same children"
+      ]
+    }
+  },
+  "props": [
+    {
+      "name": "items",
+      "type": "array",
+      "description": "The menu as data, rendering the same children as composition: { label, href, icon, badge, current, disabled }, { label, icon, open, items: [...] } for a sub-menu, { type: 'title', label } and { type: 'separator' }."
+    },
+    {
+      "name": "collapsible",
+      "type": "boolean",
+      "default": true,
+      "description": "Sub-menus open and close from their item, a button with aria-expanded. Off shows every sub-menu, with its item as a plain heading. Emitted as data-collapsible."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "description": "Names the nav landmark, such as Main or Settings.",
+      "a11y": "Name every Menu when a page has more than one nav landmark."
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part, such as { item: '…', sub: '…' }."
+    }
+  ],
+  "parts": [
+    {
+      "name": "root",
+      "element": "nav",
+      "description": "The nav landmark, carrying the root class."
+    },
+    { "name": "list", "element": "ul", "description": "The top-level list." },
+    {
+      "name": "item",
+      "element": "a | button | span",
+      "description": "A link (aria-current=page when it's the current page), a sub-menu's toggle button, or a sub-menu's heading when collapsible is off."
+    },
+    { "name": "icon", "element": "span", "description": "An item's leading icon." },
+    { "name": "itemText", "element": "span", "description": "An item's label." },
+    {
+      "name": "badge",
+      "element": "span",
+      "description": "An item's count or status, at the end of the item."
+    },
+    {
+      "name": "chevron",
+      "element": "span",
+      "description": "A sub-menu toggle's chevron. It points to the inline end and turns down while open; it mirrors in RTL."
+    },
+    {
+      "name": "sub",
+      "element": "ul",
+      "description": "A sub-menu's list, hidden while it's closed."
+    },
+    {
+      "name": "title",
+      "element": "li",
+      "description": "A section title between items."
+    },
+    {
+      "name": "separator",
+      "element": "li",
+      "description": "A rule between items, hidden from assistive technology."
+    }
+  ],
+  "a11y": {
+    "element": "nav",
+    "keyboard": [
+      {
+        "keys": "Tab, Shift+Tab",
+        "action": "Move through the links and sub-menu toggles in order. Items in a closed sub-menu are skipped."
+      },
+      { "keys": "Enter", "action": "Follows a link; opens or closes a sub-menu." },
+      { "keys": "Space", "action": "Opens or closes a sub-menu." }
+    ],
+    "requirements": [
+      "A nav landmark, named with label when the page has more than one.",
+      "The current page's item sets aria-current=page; it is shown by surface and color, not color alone.",
+      "A sub-menu's item is a button with aria-expanded and aria-controls pointing at its list (the disclosure pattern); it is not an ARIA menu, so the arrow keys aren't used.",
+      "A sub-menu holding the current page renders open.",
+      "Disabled links set aria-disabled, lose their href and leave the Tab order.",
+      "Titles and badges are text, so screen readers read them in order; separators are aria-hidden.",
+      "The chevron mirrors in RTL and is aria-hidden; the button's expanded state carries the meaning.",
+      "Keep nesting to two levels.",
+      "Every toggle and sub-menu keeps a stable, server-rendered id in Livewire (D-015)."
+    ],
+    "wcag": ["1.3.1", "1.4.1", "1.4.3", "1.4.11", "2.1.1", "2.4.3", "2.4.7", "4.1.2"]
+  },
+  "tokens": [
+    "--apui-control-height-sm",
+    "--apui-control-height-md",
+    "--apui-radius-full",
+    "--apui-state-hover",
+    "--apui-selected-bg",
+    "--apui-border-muted",
+    "--apui-text-default",
+    "--apui-text-muted",
+    "--apui-text-disabled",
+    "--apui-color-primary-soft-foreground",
+    "--apui-focus-ring-color"
+  ],
+  "fixture": {
+    "props": {
+      "label": "Main",
+      "items": [
+        { "label": "Dashboard", "href": "#dashboard", "icon": "list" },
+        {
+          "label": "Properties",
+          "icon": "settings",
+          "open": true,
+          "items": [
+            { "label": "All properties", "href": "#properties" },
+            { "label": "Lakeview Lofts", "href": "#lakeview", "current": true },
+            { "label": "Drafts", "href": "#drafts", "badge": "3" }
+          ]
+        },
+        {
+          "label": "Analytics",
+          "icon": "calendar",
+          "items": [{ "label": "Reports", "href": "#reports" }]
+        },
+        { "label": "Inbox", "href": "#inbox", "icon": "mail", "badge": "12" },
+        { "type": "title", "label": "Settings" },
+        { "label": "Team", "href": "#team", "icon": "user" },
+        { "type": "separator" },
+        { "label": "Billing", "href": "#billing", "disabled": true }
+      ]
+    },
+    "states": []
+  }
+}

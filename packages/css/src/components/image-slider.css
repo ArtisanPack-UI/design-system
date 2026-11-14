@@ -1,0 +1,324 @@
+/*
+ * ImageSlider (#61), on the carousel machine. Root `.apui-image-slider` is
+ * the machine's root (role=region). Parts: viewport (the rounded frame, its
+ * ratio from --apui-_image-slider-ratio), item-group (the scroll-snapping
+ * track), item (a slide), image, caption (title and description, glass),
+ * progress-text (the spec's counter, glass), prev-trigger and next-trigger,
+ * indicator-group and indicator (the spec's dots, glass), autoplay-trigger,
+ * and thumbs and thumb under the frame. See design/components/ImageSlider.
+ */
+@layer apui.components {
+  .apui-image-slider {
+    display: grid;
+    gap: 10px;
+    min-inline-size: 0;
+    color: var(--apui-text-default);
+    font-family: var(--apui-font-family-sans);
+  }
+
+  [data-scope='image-slider'][data-part='viewport'] {
+    position: relative;
+    min-inline-size: 0;
+    overflow: hidden;
+    aspect-ratio: var(--apui-_image-slider-ratio, 21 / 9);
+    border-radius: var(--apui-radius-lg);
+    background: var(--apui-surface-sunken);
+  }
+
+  /* The track fills the frame, so slides get a definite height to cover. */
+  [data-scope='image-slider'][data-part='item-group'] {
+    position: absolute;
+    inset: 0;
+  }
+
+  [data-scope='image-slider'][data-part='item-group']::-webkit-scrollbar {
+    display: none;
+  }
+
+  [data-scope='image-slider'][data-part='item-group']:focus-visible {
+    outline: var(--apui-focus-ring-width) solid var(--apui-focus-ring-color);
+    outline-offset: calc(-1 * var(--apui-focus-ring-width));
+    border-radius: inherit;
+  }
+
+  [data-scope='image-slider'][data-part='item'] {
+    position: relative;
+    block-size: 100%;
+    min-inline-size: 0;
+  }
+
+  /* Out of flow, so the image never sizes the track: it covers its slide. */
+  [data-scope='image-slider'][data-part='image'] {
+    position: absolute;
+    inset: 0;
+    display: block;
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+  }
+
+  /* Glass overlays: caption, counter and dots (D-006). */
+  [data-scope='image-slider']:is(
+    [data-part='caption'],
+    [data-part='progress-text'],
+    [data-part='indicator-group'],
+    [data-part='autoplay-trigger']
+  ) {
+    --apui-text-muted: var(--apui-text-muted-glass);
+    --apui-focus-ring-offset-color: transparent;
+
+    position: absolute;
+    box-sizing: border-box;
+    border: var(--apui-border-width) solid var(--apui-surface-glass-border);
+    background: var(--apui-surface-glass);
+    box-shadow: var(--apui-elevation-glass);
+    color: var(--apui-text-default);
+    backdrop-filter: blur(var(--apui-surface-glass-blur))
+      saturate(var(--apui-surface-glass-saturation));
+  }
+
+  @supports not (backdrop-filter: blur(1px)) {
+    [data-scope='image-slider']:is(
+      [data-part='caption'],
+      [data-part='progress-text'],
+      [data-part='indicator-group'],
+      [data-part='autoplay-trigger']
+    ) {
+      border-color: var(--apui-border-muted);
+      background: var(--apui-surface-raised);
+    }
+  }
+
+  @media (prefers-reduced-transparency: reduce) {
+    [data-scope='image-slider']:is(
+      [data-part='caption'],
+      [data-part='progress-text'],
+      [data-part='indicator-group'],
+      [data-part='autoplay-trigger']
+    ) {
+      border-color: var(--apui-border-muted);
+      background: var(--apui-surface-raised);
+      backdrop-filter: none;
+    }
+  }
+
+  [data-scope='image-slider'][data-part='caption'] {
+    inset-block-end: 20px;
+    inset-inline-start: 20px;
+    max-inline-size: min(420px, calc(100% - 40px));
+    padding-block: 14px;
+    padding-inline: 16px;
+    border-radius: var(--apui-radius-lg);
+  }
+
+  [data-scope='image-slider'][data-part='title'] {
+    margin: 0;
+    font-size: var(--apui-type-heading-md-font-size);
+    font-weight: var(--apui-font-weight-semibold);
+    line-height: var(--apui-type-heading-md-line-height);
+  }
+
+  [data-scope='image-slider'][data-part='description'] {
+    margin: 2px 0 0;
+    color: var(--apui-text-muted);
+    font-size: var(--apui-type-body-sm-font-size);
+    line-height: var(--apui-type-body-sm-line-height);
+  }
+
+  [data-scope='image-slider'][data-part='progress-text'] {
+    inset-block-start: 16px;
+    inset-inline-end: 16px;
+    padding-block: 2px;
+    padding-inline: 10px;
+    border-radius: var(--apui-radius-full);
+    font-size: var(--apui-type-caption-font-size);
+    font-weight: var(--apui-font-weight-medium);
+    line-height: var(--apui-type-caption-line-height);
+    font-variant-numeric: tabular-nums;
+
+    /* "2 / 6" reads the same way in RTL: no strong characters, so plaintext
+       lays it out left to right, while the part stays at the inline end. */
+    unicode-bidi: plaintext;
+  }
+
+  [data-scope='image-slider']:is([data-part='prev-trigger'], [data-part='next-trigger']) {
+    position: absolute;
+    inset-block-start: 50%;
+    z-index: 1;
+    box-shadow: var(--apui-elevation-glass);
+    transform: translateY(-50%);
+  }
+
+  [data-scope='image-slider'][data-part='prev-trigger'] {
+    inset-inline-start: 8px;
+  }
+
+  [data-scope='image-slider'][data-part='next-trigger'] {
+    inset-inline-end: 8px;
+  }
+
+  [dir='rtl']
+    [data-scope='image-slider']:is([data-part='prev-trigger'], [data-part='next-trigger'])
+    [data-mirror]
+    > svg {
+    scale: -1 1;
+  }
+
+  [data-scope='image-slider'][data-part='indicator-group'] {
+    inset-block-end: 20px;
+    inset-inline-end: 20px;
+    display: flex;
+    align-items: center;
+    padding-block: 0;
+    padding-inline: 4px;
+    border-radius: var(--apui-radius-full);
+  }
+
+  /* A 24px target (WCAG 2.5.8) around the drawn dot. */
+  [data-scope='image-slider'][data-part='indicator'] {
+    display: grid;
+    place-items: center;
+    box-sizing: border-box;
+    inline-size: 24px;
+    block-size: 24px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: var(--apui-radius-full);
+    background: none;
+    cursor: pointer;
+    appearance: none;
+  }
+
+  [data-scope='image-slider'][data-part='indicator'][aria-current='true'] {
+    inline-size: 32px;
+  }
+
+  [data-scope='image-slider'][data-part='indicator']::before {
+    content: '';
+    inline-size: 8px;
+    block-size: 8px;
+    border-radius: var(--apui-radius-full);
+    background: var(--apui-border-default);
+    transition: inline-size var(--apui-motion-duration-fast) var(--apui-motion-ease-standard);
+  }
+
+  [data-scope='image-slider'][data-part='indicator'][aria-current='true']::before {
+    inline-size: 20px;
+    background: var(--apui-color-primary);
+  }
+
+  [data-scope='image-slider']:is([data-part='indicator'], [data-part='thumb']):focus-visible {
+    outline: var(--apui-focus-ring-width) solid transparent;
+    box-shadow:
+      0 0 0 var(--apui-focus-ring-offset) var(--apui-focus-ring-offset-color),
+      0 0 0 calc(var(--apui-focus-ring-offset) + var(--apui-focus-ring-width))
+        var(--apui-focus-ring-color);
+  }
+
+  [data-scope='image-slider'][data-part='autoplay-trigger'] {
+    inset-block-start: 16px;
+    inset-inline-start: 16px;
+    display: grid;
+    place-items: center;
+    inline-size: var(--apui-control-height-sm);
+    block-size: var(--apui-control-height-sm);
+    margin: 0;
+    padding: 0;
+    border-radius: var(--apui-radius-full);
+    cursor: pointer;
+    appearance: none;
+  }
+
+  [data-scope='image-slider'][data-part='autoplay-trigger'] > svg {
+    inline-size: var(--apui-icon-size-sm);
+    block-size: var(--apui-icon-size-sm);
+  }
+
+  [data-scope='image-slider'][data-part='thumbs'] {
+    display: flex;
+    gap: 6px;
+    padding: 4px;
+    overflow-x: auto;
+    scrollbar-width: thin;
+  }
+
+  [data-scope='image-slider'][data-part='thumb'] {
+    flex: none;
+    inline-size: 96px;
+    block-size: 64px;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+    border-radius: var(--apui-radius-sm);
+    background: var(--apui-surface-sunken);
+    cursor: pointer;
+    opacity: 0.55;
+    appearance: none;
+    transition: opacity var(--apui-motion-duration-fast) var(--apui-motion-ease-standard);
+  }
+
+  [data-scope='image-slider'][data-part='thumb']:hover {
+    opacity: 0.8;
+  }
+
+  [data-scope='image-slider'][data-part='thumb'] > img {
+    display: block;
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+  }
+
+  [data-scope='image-slider'][data-part='thumb'][aria-current='true'] {
+    box-shadow:
+      0 0 0 var(--apui-focus-ring-offset) var(--apui-surface-page),
+      0 0 0 calc(var(--apui-focus-ring-offset) + var(--apui-focus-ring-width))
+        var(--apui-color-primary);
+    opacity: 1;
+  }
+
+  [data-scope='image-slider'][data-part='thumb']:focus-visible {
+    opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-scope='image-slider'][data-part='thumb'],
+    [data-scope='image-slider'][data-part='indicator']::before {
+      transition: none;
+    }
+
+    [data-scope='image-slider'][data-part='item-group'] {
+      scroll-behavior: auto;
+    }
+  }
+
+  @media (forced-colors: active) {
+    [data-scope='image-slider']:is(
+      [data-part='caption'],
+      [data-part='progress-text'],
+      [data-part='indicator-group'],
+      [data-part='autoplay-trigger']
+    ) {
+      border-color: CanvasText;
+      background: Canvas;
+      backdrop-filter: none;
+    }
+
+    [data-scope='image-slider'][data-part='indicator']::before {
+      background: CanvasText;
+    }
+
+    [data-scope='image-slider'][data-part='indicator'][aria-current='true']::before {
+      background: Highlight;
+    }
+
+    [data-scope='image-slider'][data-part='thumb'] {
+      opacity: 1;
+    }
+
+    [data-scope='image-slider'][data-part='thumb'][aria-current='true'] {
+      outline: 3px solid Highlight;
+    }
+  }
+}

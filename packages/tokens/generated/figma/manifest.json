@@ -1,0 +1,15 @@
+{
+  "name": "ArtisanPack UI tokens sync",
+  "id": "artisanpack-ui-tokens-sync",
+  "api": "1.0.0",
+  "main": "plugin.js",
+  "editorType": [
+    "figma"
+  ],
+  "documentAccess": "dynamic-page",
+  "networkAccess": {
+    "allowedDomains": [
+      "none"
+    ]
+  }
+}

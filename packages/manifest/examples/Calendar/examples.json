@@ -1,0 +1,12 @@
+[
+  {
+    "id": "basic",
+    "title": "Month with events",
+    "description": "Give each event a start, a title, a tint and a category; the legend keeps the category key visible. In Livewire, the Livewire component keeps the view and date and opens an event's details in a Dialog."
+  },
+  {
+    "id": "agenda",
+    "title": "Agenda and controlled views",
+    "description": "The agenda lists the month's events by day, the accessible alternative to the grid. Bind the view and date to keep them in your own state, and handle create to add an event."
+  }
+]

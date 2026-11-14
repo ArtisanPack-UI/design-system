@@ -1,0 +1,101 @@
+{
+  "version": 1,
+  "component": "Collapse",
+  "rootClass": "apui-collapse",
+  "stacks": [
+    "livewire",
+    "react",
+    "vue"
+  ],
+  "names": {
+    "livewire": "collapse",
+    "react": "Collapse",
+    "vue": "Collapse"
+  },
+  "cases": [
+    {
+      "id": "variant=section state=default",
+      "props": {
+        "label": "Advanced settings",
+        "variant": "section"
+      },
+      "state": "default",
+      "content": "Twenty-four bright apartments around a shared garden courtyard, five minutes from the tram. Most units face south with private balconies. The building was renovated in 2024 with new windows, heat pumps and a rooftop terrace."
+    },
+    {
+      "id": "variant=section state=disabled",
+      "props": {
+        "label": "Advanced settings",
+        "variant": "section",
+        "disabled": true
+      },
+      "state": "disabled",
+      "content": "Twenty-four bright apartments around a shared garden courtyard, five minutes from the tram. Most units face south with private balconies. The building was renovated in 2024 with new windows, heat pumps and a rooftop terrace."
+    },
+    {
+      "id": "variant=section state=open",
+      "props": {
+        "label": "Advanced settings",
+        "variant": "section",
+        "open": true
+      },
+      "state": "open",
+      "content": "Twenty-four bright apartments around a shared garden courtyard, five minutes from the tram. Most units face south with private balconies. The building was renovated in 2024 with new windows, heat pumps and a rooftop terrace."
+    },
+    {
+      "id": "variant=read-more state=default",
+      "props": {
+        "label": "Advanced settings",
+        "variant": "read-more"
+      },
+      "state": "default",
+      "content": "Twenty-four bright apartments around a shared garden courtyard, five minutes from the tram. Most units face south with private balconies. The building was renovated in 2024 with new windows, heat pumps and a rooftop terrace."
+    },
+    {
+      "id": "variant=read-more state=disabled",
+      "props": {
+        "label": "Advanced settings",
+        "variant": "read-more",
+        "disabled": true
+      },
+      "state": "disabled",
+      "content": "Twenty-four bright apartments around a shared garden courtyard, five minutes from the tram. Most units face south with private balconies. The building was renovated in 2024 with new windows, heat pumps and a rooftop terrace."
+    },
+    {
+      "id": "variant=read-more state=open",
+      "props": {
+        "label": "Advanced settings",
+        "variant": "read-more",
+        "open": true
+      },
+      "state": "open",
+      "content": "Twenty-four bright apartments around a shared garden courtyard, five minutes from the tram. Most units face south with private balconies. The building was renovated in 2024 with new windows, heat pumps and a rooftop terrace."
+    }
+  ],
+  "sheets": [
+    {
+      "id": "light",
+      "theme": "light",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "dark",
+      "theme": "dark",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "high-contrast",
+      "theme": "high-contrast",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "rtl",
+      "theme": "light",
+      "density": "default",
+      "dir": "rtl"
+    }
+  ]
+}

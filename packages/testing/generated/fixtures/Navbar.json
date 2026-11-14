@@ -1,0 +1,92 @@
+{
+  "version": 1,
+  "component": "Navbar",
+  "rootClass": "apui-navbar",
+  "stacks": [
+    "livewire",
+    "react",
+    "vue"
+  ],
+  "names": {
+    "livewire": "navbar",
+    "react": "Navbar",
+    "vue": "Navbar"
+  },
+  "cases": [
+    {
+      "id": "state=default",
+      "props": {
+        "brand": "Horizon",
+        "links": [
+          {
+            "label": "Properties",
+            "href": "#properties",
+            "current": true
+          },
+          {
+            "label": "Analytics",
+            "href": "#analytics"
+          },
+          {
+            "label": "Tools",
+            "href": "#tools"
+          }
+        ],
+        "sticky": false
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "surface=glass state=default",
+      "props": {
+        "brand": "Horizon",
+        "links": [
+          {
+            "label": "Properties",
+            "href": "#properties",
+            "current": true
+          },
+          {
+            "label": "Analytics",
+            "href": "#analytics"
+          },
+          {
+            "label": "Tools",
+            "href": "#tools"
+          }
+        ],
+        "sticky": false,
+        "surface": "glass"
+      },
+      "state": "default",
+      "content": null
+    }
+  ],
+  "sheets": [
+    {
+      "id": "light",
+      "theme": "light",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "dark",
+      "theme": "dark",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "high-contrast",
+      "theme": "high-contrast",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "rtl",
+      "theme": "light",
+      "density": "default",
+      "dir": "rtl"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+[
+  {
+    "id": "basic",
+    "title": "Segmented, with the head snippet",
+    "description": "The default: every choice on the segmented track, System checked until someone picks. The head snippet applies the stored choice before first paint, so the page never flashes the wrong theme."
+  },
+  {
+    "id": "icon",
+    "title": "Icon button",
+    "description": "One button that switches between light and dark, for a top bar. Its name says what it does next."
+  },
+  {
+    "id": "menu",
+    "title": "Menu, bound to a setting",
+    "description": "A Theme button that opens the choices as radio items, with System last. Bind the choice to save it with the account; value-change fires only when the person picks."
+  }
+]

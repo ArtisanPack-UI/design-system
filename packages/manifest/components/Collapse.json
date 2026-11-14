@@ -1,0 +1,128 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "Collapse",
+  "description": "A single disclosure: a button that shows and hides one region, such as advanced settings, or a read-more that clamps long text behind a fade.",
+  "status": "draft",
+  "issue": 58,
+  "rootClass": "apui-collapse",
+  "stacks": {
+    "livewire": {
+      "name": "collapse",
+      "capabilities": [
+        "Slots: trigger replaces label; the deprecated heading and content slots still render",
+        "wire:model binds open"
+      ]
+    },
+    "react": { "name": "Collapse" },
+    "vue": { "name": "Collapse", "capabilities": ["Slots: trigger replaces label"] }
+  },
+  "props": [
+    {
+      "name": "open",
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the region shows. Livewire binds it with wire:model, Vue with v-model:open. Setting it doesn't fire open-change."
+    },
+    {
+      "name": "defaultOpen",
+      "type": "boolean",
+      "default": false,
+      "description": "Whether an uncontrolled collapse starts open.",
+      "stacks": ["react"]
+    },
+    {
+      "name": "variant",
+      "type": "enum",
+      "values": ["section", "read-more"],
+      "default": "section",
+      "description": "Section hides the region while closed. Read-more shows its first lines behind a fade and puts the trigger after them. Emitted as data-variant."
+    },
+    {
+      "name": "label",
+      "type": "node",
+      "description": "The trigger's text: say what will appear (Advanced settings). Read-more defaults it to Read more; Livewire translates the default with __()."
+    },
+    {
+      "name": "openLabel",
+      "type": "string",
+      "description": "The trigger's text while open, when it should change. Read-more defaults it to Show less; Livewire translates the default with __()."
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": false,
+      "description": "The trigger can't be focused or toggled."
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part, such as { trigger: '…', content: '…' }."
+    }
+  ],
+  "variants": ["section", "read-more"],
+  "parts": [
+    {
+      "name": "root",
+      "element": "div",
+      "description": "Holds the trigger and the region. data-state is open or closed."
+    },
+    {
+      "name": "trigger",
+      "element": "button",
+      "description": "The button: aria-expanded, and aria-controls the region. Before the region in a section, after it in a read-more."
+    },
+    {
+      "name": "icon",
+      "element": "span",
+      "description": "The chevron at the trigger's end; it turns up while open. Zag's indicator."
+    },
+    {
+      "name": "content",
+      "element": "div",
+      "description": "The region. A section's is hidden while closed; a read-more's is clamped to --apui-collapse-clamp-height. The spec calls it panel; it keeps Zag's name (D-019)."
+    },
+    {
+      "name": "fade",
+      "element": "span",
+      "description": "Read-more only: the gradient over the clamped text's last line, hidden while open. aria-hidden."
+    }
+  ],
+  "events": [
+    {
+      "name": "open-change",
+      "description": "The region opened or closed from the trigger. Setting open doesn't fire it.",
+      "payload": "boolean"
+    }
+  ],
+  "a11y": {
+    "element": "div",
+    "keyboard": [
+      { "keys": "Enter, Space", "action": "Opens or closes the region." },
+      { "keys": "Tab", "action": "Moves from the trigger into the open region." }
+    ],
+    "requirements": [
+      "The trigger is a button with aria-expanded and aria-controls; a section's region follows it in the DOM.",
+      "A closed section's region is hidden; a closed read-more's text stays in the accessibility tree, only clamped visually.",
+      "The fade is decorative and aria-hidden.",
+      "The trigger's text says what will appear, and the chevron is aria-hidden.",
+      "Don't clamp text that holds the main point.",
+      "The focus ring shows on the trigger."
+    ],
+    "wcag": ["1.3.1", "1.4.3", "2.1.1", "2.4.6", "2.4.7", "4.1.2"]
+  },
+  "tokens": [
+    "--apui-collapse-clamp-height",
+    "--apui-color-primary-text",
+    "--apui-text-disabled",
+    "--apui-surface-default",
+    "--apui-radius-xs",
+    "--apui-motion-duration-fast",
+    "--apui-motion-ease-standard",
+    "--apui-focus-ring-color"
+  ],
+  "fixture": {
+    "content": "Twenty-four bright apartments around a shared garden courtyard, five minutes from the tram. Most units face south with private balconies. The building was renovated in 2024 with new windows, heat pumps and a rooftop terrace.",
+    "props": { "label": "Advanced settings" },
+    "parts": { "variant": "read-more" }
+  }
+}

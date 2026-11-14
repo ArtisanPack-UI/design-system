@@ -1,0 +1,83 @@
+/*
+ * ValidationSummary (#53). Root `.apui-validation-summary`: the icon, then
+ * the title and the list of links in the second column. Error is an alert
+ * on the error soft surface; warning a status on the warning one.
+ */
+@layer apui.components {
+  .apui-validation-summary {
+    --apui-_bg: var(--apui-color-error-soft);
+    --apui-_fg: var(--apui-color-error-soft-foreground);
+    --apui-_edge: var(--apui-color-error-border);
+
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 4px 12px;
+    box-sizing: border-box;
+    padding-block: 14px;
+    padding-inline: 16px;
+    border: var(--apui-border-width) solid var(--apui-_edge);
+    border-radius: var(--apui-alert-radius);
+    background: var(--apui-_bg);
+    color: var(--apui-_fg);
+    font-family: var(--apui-font-family-sans);
+    font-size: var(--apui-type-body-md-font-size);
+    line-height: var(--apui-type-body-md-line-height);
+  }
+
+  .apui-validation-summary[data-color='warning'] {
+    --apui-_bg: var(--apui-color-warning-soft);
+    --apui-_fg: var(--apui-color-warning-soft-foreground);
+    --apui-_edge: var(--apui-color-warning-border);
+  }
+
+  .apui-validation-summary:focus-visible {
+    outline: var(--apui-focus-ring-width) solid transparent;
+    box-shadow:
+      0 0 0 var(--apui-focus-ring-offset) var(--apui-focus-ring-offset-color),
+      0 0 0 calc(var(--apui-focus-ring-offset) + var(--apui-focus-ring-width))
+        var(--apui-focus-ring-color);
+  }
+
+  [data-scope='validation-summary'][data-part='icon'] {
+    display: inline-flex;
+    inline-size: var(--apui-icon-size-md);
+    block-size: var(--apui-icon-size-md);
+    margin-block-start: 2px;
+  }
+
+  [data-scope='validation-summary'][data-part='icon'] > svg {
+    inline-size: 100%;
+    block-size: 100%;
+  }
+
+  [data-scope='validation-summary'][data-part='title'] {
+    margin: 0;
+    font-weight: var(--apui-font-weight-semibold);
+  }
+
+  [data-scope='validation-summary'][data-part='list'] {
+    display: grid;
+    grid-column: 2;
+    gap: 4px;
+    margin-block: 4px 0;
+    margin-inline: 0;
+    padding-inline-start: 18px;
+  }
+
+  [data-scope='validation-summary'][data-part='link'] {
+    border-radius: 2px;
+    color: inherit;
+    text-underline-offset: 3px;
+  }
+
+  [data-scope='validation-summary'][data-part='link']:focus-visible {
+    outline: var(--apui-focus-ring-width) solid var(--apui-focus-ring-color);
+    outline-offset: 2px;
+  }
+
+  @media (forced-colors: active) {
+    .apui-validation-summary {
+      border-color: CanvasText;
+    }
+  }
+}

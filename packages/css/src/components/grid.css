@@ -1,0 +1,141 @@
+/*
+ * Grid (#58), a layout primitive. Root `.apui-grid` with data-columns (1–12),
+ * data-gap (a step of the space scale), data-align (align-items) and
+ * data-justify (justify-items). With --apui-grid-min-item-width set (the
+ * minItemWidth prop), the columns drop rather than narrowing past it, down to
+ * one. (Each track's minimum is a pixel under an exact share, so rounding
+ * never drops a column.) Columns follow the text direction. No spec in design/: built from the
+ * tokens (wave #58 decision).
+ */
+@layer apui.components {
+  .apui-grid {
+    --apui-_columns: 1;
+    --apui-_gap: var(--apui-space-4);
+
+    display: grid;
+    grid-template-columns: repeat(
+      auto-fill,
+      minmax(
+        min(
+          100%,
+          max(
+            var(--apui-grid-min-item-width, 0px),
+            (100% - (var(--apui-_columns) - 1) * var(--apui-_gap)) / var(--apui-_columns) - 1px
+          )
+        ),
+        1fr
+      )
+    );
+    gap: var(--apui-_gap);
+    min-inline-size: 0;
+  }
+
+  .apui-grid[data-columns='2'] {
+    --apui-_columns: 2;
+  }
+
+  .apui-grid[data-columns='3'] {
+    --apui-_columns: 3;
+  }
+
+  .apui-grid[data-columns='4'] {
+    --apui-_columns: 4;
+  }
+
+  .apui-grid[data-columns='5'] {
+    --apui-_columns: 5;
+  }
+
+  .apui-grid[data-columns='6'] {
+    --apui-_columns: 6;
+  }
+
+  .apui-grid[data-columns='7'] {
+    --apui-_columns: 7;
+  }
+
+  .apui-grid[data-columns='8'] {
+    --apui-_columns: 8;
+  }
+
+  .apui-grid[data-columns='9'] {
+    --apui-_columns: 9;
+  }
+
+  .apui-grid[data-columns='10'] {
+    --apui-_columns: 10;
+  }
+
+  .apui-grid[data-columns='11'] {
+    --apui-_columns: 11;
+  }
+
+  .apui-grid[data-columns='12'] {
+    --apui-_columns: 12;
+  }
+
+  /* The space-0 token is a unitless 0, which calc() can't subtract from a length. */
+  .apui-grid[data-gap='0'] {
+    --apui-_gap: 0px;
+  }
+
+  .apui-grid[data-gap='1'] {
+    --apui-_gap: var(--apui-space-1);
+  }
+
+  .apui-grid[data-gap='2'] {
+    --apui-_gap: var(--apui-space-2);
+  }
+
+  .apui-grid[data-gap='3'] {
+    --apui-_gap: var(--apui-space-3);
+  }
+
+  .apui-grid[data-gap='5'] {
+    --apui-_gap: var(--apui-space-5);
+  }
+
+  .apui-grid[data-gap='6'] {
+    --apui-_gap: var(--apui-space-6);
+  }
+
+  .apui-grid[data-gap='8'] {
+    --apui-_gap: var(--apui-space-8);
+  }
+
+  .apui-grid[data-gap='10'] {
+    --apui-_gap: var(--apui-space-10);
+  }
+
+  .apui-grid[data-gap='12'] {
+    --apui-_gap: var(--apui-space-12);
+  }
+
+  .apui-grid[data-gap='16'] {
+    --apui-_gap: var(--apui-space-16);
+  }
+
+  .apui-grid[data-align='start'] {
+    align-items: start;
+  }
+
+  .apui-grid[data-align='center'] {
+    align-items: center;
+  }
+
+  .apui-grid[data-align='end'] {
+    align-items: end;
+  }
+
+  .apui-grid[data-justify='start'] {
+    justify-items: start;
+  }
+
+  .apui-grid[data-justify='center'] {
+    justify-items: center;
+  }
+
+  .apui-grid[data-justify='end'] {
+    justify-items: end;
+  }
+}

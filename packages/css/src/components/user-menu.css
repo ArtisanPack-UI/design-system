@@ -1,0 +1,184 @@
+/*
+ * UserMenu (#58). The account menu, composed from Avatar and DropdownMenu:
+ * the panel is `.apui-dropdown-menu.apui-user-menu` and the menu's items,
+ * groups and separators keep the dropdown-menu scope. Parts scoped user-menu:
+ * trigger (the avatar button, with avatar, name, role and indicator), header
+ * (identity at the top of the menu, with avatar, name and email) and theme
+ * (a row of three radio items: light, dark, system).
+ *
+ * The trigger is also the menu machine's trigger. In Alpine the machine writes
+ * its own data-scope (dropdown-menu) onto it, so the trigger rules also match
+ * a trigger holding user-menu parts.
+ * See design/components/UserMenu.
+ */
+@layer apui.components {
+  [data-part='trigger']:is([data-scope='user-menu'], :has(> [data-scope='user-menu'])) {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    box-sizing: border-box;
+    max-inline-size: 100%;
+    min-block-size: 44px;
+    margin: 0;
+    padding-block: 4px;
+    padding-inline: 6px 10px;
+    border: var(--apui-border-width) solid transparent;
+    border-radius: var(--apui-button-radius);
+    background: none;
+    color: var(--apui-text-default);
+    font-family: var(--apui-font-family-sans);
+    font-size: var(--apui-type-body-md-font-size);
+    line-height: var(--apui-type-body-md-line-height);
+    text-align: start;
+    cursor: pointer;
+    transition: background-color var(--apui-motion-duration-fast) var(--apui-motion-ease-standard);
+  }
+
+  [data-part='trigger']:is([data-scope='user-menu'], :has(> [data-scope='user-menu'])):hover,
+  [data-part='trigger']:is(
+      [data-scope='user-menu'],
+      :has(> [data-scope='user-menu'])
+    )[aria-expanded='true'] {
+    background-color: var(--apui-state-hover);
+  }
+
+  [data-part='trigger']:is(
+      [data-scope='user-menu'],
+      :has(> [data-scope='user-menu'])
+    ):focus-visible {
+    outline: var(--apui-focus-ring-width) solid transparent;
+    box-shadow:
+      0 0 0 var(--apui-focus-ring-offset) var(--apui-focus-ring-offset-color),
+      0 0 0 calc(var(--apui-focus-ring-offset) + var(--apui-focus-ring-width))
+        var(--apui-focus-ring-color);
+  }
+
+  /* The trigger's avatar-only form (no name shown) is a round button. */
+  [data-part='trigger']:is(
+      [data-scope='user-menu'],
+      :has(> [data-scope='user-menu'])
+    )[data-avatar-only] {
+    min-block-size: 0;
+    padding: 2px;
+    border-radius: var(--apui-radius-full);
+  }
+
+  [data-scope='user-menu'][data-part='identity'] {
+    display: grid;
+    min-inline-size: 0;
+    line-height: 16px;
+  }
+
+  [data-scope='user-menu'][data-part='name'] {
+    overflow: hidden;
+    font-weight: var(--apui-font-weight-medium);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  [data-scope='user-menu']:is([data-part='role'], [data-part='email']) {
+    overflow: hidden;
+    color: var(--apui-text-muted);
+    font-size: var(--apui-type-caption-font-size);
+    font-weight: var(--apui-font-weight-regular);
+    line-height: var(--apui-type-caption-line-height);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  [data-scope='user-menu'][data-part='indicator'] {
+    display: inline-flex;
+    flex: none;
+    margin-inline-start: auto;
+    color: var(--apui-text-muted);
+  }
+
+  [data-scope='user-menu'][data-part='indicator'] > svg {
+    inline-size: var(--apui-icon-size-sm);
+    block-size: var(--apui-icon-size-sm);
+  }
+
+  .apui-user-menu {
+    inline-size: 260px;
+    max-inline-size: calc(100vw - 32px);
+  }
+
+  [data-scope='user-menu'][data-part='header'] {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding-block: 8px;
+    padding-inline: 10px;
+  }
+
+  [data-scope='user-menu'][data-part='header'] [data-scope='user-menu'][data-part='identity'] {
+    gap: 2px;
+    line-height: var(--apui-type-body-md-line-height);
+  }
+
+  /* Theme: three radio items as a segmented control. */
+  [data-scope='user-menu'][data-part='theme'] {
+    padding-block: 6px;
+    padding-inline: 10px;
+  }
+
+  [data-scope='user-menu'][data-part='theme']
+    [data-scope='dropdown-menu'][data-part='item-group-label'] {
+    padding: 0;
+    margin-block-end: 6px;
+  }
+
+  [data-scope='user-menu'][data-part='theme-options'] {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 2px;
+    padding: 2px;
+    border-radius: var(--apui-tabs-radius);
+    background-color: var(--apui-surface-sunken);
+  }
+
+  [data-scope='user-menu'][data-part='theme-options']
+    [data-scope='dropdown-menu'][data-part='item'] {
+    justify-content: center;
+    min-block-size: calc(var(--apui-control-height-sm) - 4px);
+    padding-inline: 8px;
+    border-radius: calc(var(--apui-tabs-radius) - 2px);
+    color: var(--apui-text-muted);
+  }
+
+  [data-scope='user-menu'][data-part='theme-options']
+    [data-scope='dropdown-menu'][data-part='item'][aria-checked='true'] {
+    background-color: var(--apui-surface-raised);
+    box-shadow: inset 0 0 0 1px var(--apui-border-muted);
+    color: var(--apui-text-default);
+  }
+
+  /* The options show icons; the check and the words are for assistive technology. */
+  [data-scope='user-menu'][data-part='theme-options']
+    [data-scope='dropdown-menu']:is([data-part='item-indicator'], [data-part='item-text']) {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  [data-scope='user-menu'][data-part='theme-options']
+    [data-scope='dropdown-menu'][data-part='icon'] {
+    color: inherit;
+  }
+
+  @media (forced-colors: active) {
+    [data-part='trigger']:is([data-scope='user-menu'], :has(> [data-scope='user-menu'])) {
+      border-color: ButtonText;
+    }
+
+    [data-scope='user-menu'][data-part='theme-options']
+      [data-scope='dropdown-menu'][data-part='item'][aria-checked='true'] {
+      outline: 2px solid Highlight;
+      outline-offset: -2px;
+    }
+  }
+}

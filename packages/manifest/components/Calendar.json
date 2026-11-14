@@ -1,0 +1,437 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "Calendar",
+  "description": "Events on a month grid, a week, a day or an agenda list, with Today, previous and next, view tabs and an optional New event button. Days, titles and event order come from one set of date rules in every stack (behavior's calendarModel, ported to PHP for Livewire), so the three render the same calendar. Events are buttons, or links with href, named by their title, category and full time; their soft tint is by category and never the only cue.",
+  "status": "draft",
+  "issue": 64,
+  "rootClass": "apui-calendar",
+  "stacks": {
+    "livewire": {
+      "name": "calendar",
+      "capabilities": [
+        "<livewire:artisanpack-calendar> is a full Livewire component: it keeps view and date, re-renders on Today, previous, next, \"+N more\" and the view tabs, and opens a clicked event in a Dialog whose content is its internal event-modal-content child (event-view names another Livewire component, which receives the event through a load-event-modal event)",
+        "<x-artisanpack-calendar> renders the same markup with no state of its own: its controls dispatch view-change, date-change, event-click and create as browser events for the page or a parent component to answer",
+        "Rendered on the server: the grid, labels and event order come from Support\\CalendarModel, a port of behavior's calendarModel; Alpine only adds the arrow keys",
+        "2.x props still work: sunday-start (weekStartsOn 0, or 1 when false), and events with date, range, time, label and colorScheme; the year view and months fall back to month, and color-scheme, custom-color, weekend-highlight and config are ignored"
+      ],
+      "differences": [
+        "The Livewire component's event details are a Livewire child (event-modal-content), so they can load more data from the server; React and Vue show the event's time, category and description in the Dialog."
+      ]
+    },
+    "react": {
+      "name": "Calendar",
+      "capabilities": [
+        "view and date are controlled with onViewChange and onDateChange, uncontrolled when unset; onEventClick and onCreate report the other events",
+        "renderEventDetails(event) replaces the details Dialog's body"
+      ]
+    },
+    "vue": {
+      "name": "Calendar",
+      "capabilities": [
+        "v-model:view and v-model:date bind the view and date; @event-click and @create report the other events",
+        "The #details=\"{ event }\" slot replaces the details Dialog's body"
+      ]
+    }
+  },
+  "props": [
+    {
+      "name": "view",
+      "type": "enum",
+      "values": ["month", "week", "day", "agenda"],
+      "default": "month",
+      "description": "The month grid, the week as seven columns, one day, or the agenda: the month's events as a list of days, the accessible list alternative to the grid. Emitted as data-view."
+    },
+    {
+      "name": "date",
+      "type": "string",
+      "description": "The date the view shows, as YYYY-MM-DD: its month, week or day. Previous and next move it by a month (agenda too), a week or a day, keeping the day of the month where it exists. Defaults to today."
+    },
+    {
+      "name": "today",
+      "type": "string",
+      "description": "The date marked as today (YYYY-MM-DD). Defaults to the current date in timeZone; set it when the server and the browser could disagree."
+    },
+    {
+      "name": "events",
+      "type": "array",
+      "description": "The events: { id, start, end, title, color, allDay, category, description, href }. start and end are ISO strings: a date (2026-11-24) for an all-day event, a date and time (2026-11-02T09:00) for a timed one; with Z or an offset the time is converted to timeZone. end is inclusive for dates; a timed event ending at 00:00 ends the day before. color is a soft tint (primary, secondary, accent, success, warning, error, info, neutral; primary when unset). category shows in the legend and the event's name. href makes the event a link. Events on a day sort all-day first, then by start time, then as given."
+    },
+    {
+      "name": "weekStartsOn",
+      "type": "number",
+      "description": "The first day of the week, 0 (Sunday) to 6. Follows the locale unless set."
+    },
+    {
+      "name": "locale",
+      "type": "string",
+      "description": "BCP 47 locale for the title, weekday and date names and the first day of the week. Livewire defaults to the app locale, React and Vue to en-US. Times show as 24-hour HH:mm in every locale."
+    },
+    {
+      "name": "timeZone",
+      "type": "string",
+      "description": "The IANA time zone for today's date and for event times given with Z or an offset. Defaults to UTC."
+    },
+    {
+      "name": "maxEvents",
+      "type": "number",
+      "default": 2,
+      "description": "How many events a month cell shows; the rest fold into a \"+N more\" button that opens that day."
+    },
+    {
+      "name": "creatable",
+      "type": "boolean",
+      "default": false,
+      "description": "Shows a New event Button at the end of the toolbar. It fires create with the shown date."
+    },
+    {
+      "name": "details",
+      "type": "boolean",
+      "default": true,
+      "description": "Clicking an event (one without href) opens a Dialog with its details, and the events carry aria-haspopup=\"dialog\". Turn it off to handle event-click yourself. The Livewire x-tag only dispatches event-click: the Livewire component opens the Dialog."
+    },
+    {
+      "name": "labels",
+      "type": "object",
+      "default": {
+        "today": "Today",
+        "previous": "Previous",
+        "next": "Next",
+        "views": "Calendar view",
+        "month": "Month",
+        "week": "Week",
+        "day": "Day",
+        "agenda": "Agenda",
+        "allDay": "All day",
+        "more": "+{count} more",
+        "showMore": "Show {count} more events on {date}",
+        "newEvent": "New event",
+        "empty": "No events",
+        "legend": "Categories"
+      },
+      "description": "Built-in text: the toolbar buttons, the view tabs and their tablist's name (views), the all-day time, the more part's text and name ({count}, {date}), the agenda's empty state and the legend's name. Keys you leave out keep their defaults; Livewire translates them through __()."
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part, such as { cell: '…', event: '…' }."
+    }
+  ],
+  "parts": [
+    {
+      "name": "root",
+      "element": "div",
+      "description": "The frame around the toolbar, the body and the legend. Carries data-view."
+    },
+    {
+      "name": "toolbar",
+      "element": "div",
+      "description": "Today, previous and next, the title, the view tabs and the New event button. Wraps on narrow screens."
+    },
+    {
+      "name": "todayTrigger",
+      "element": "button",
+      "description": "An outline neutral sm Button that shows today (date-change with today)."
+    },
+    {
+      "name": "previousTrigger",
+      "element": "button",
+      "description": "An icon-only ghost Button named by labels.previous; its chevron mirrors in RTL."
+    },
+    {
+      "name": "nextTrigger",
+      "element": "button",
+      "description": "An icon-only ghost Button named by labels.next; its chevron mirrors in RTL."
+    },
+    {
+      "name": "title",
+      "element": "h2",
+      "description": "The month and year, the week's range or the day. It names the grid, and is a live region so moving through dates is announced."
+    },
+    {
+      "name": "viewTabs",
+      "element": "div",
+      "description": "A segmented sm Tabs (`.apui-tabs`) whose tablist is named by labels.views. The tabs control the body: arrow keys move between them (following the text direction) and Enter or Space chooses one."
+    },
+    {
+      "name": "createTrigger",
+      "element": "button",
+      "description": "The solid New event Button, with creatable."
+    },
+    {
+      "name": "body",
+      "element": "div",
+      "description": "The tabpanel the view tabs control, holding the grid (or the agenda's empty state)."
+    },
+    {
+      "name": "grid",
+      "element": "div | ul",
+      "description": "role=grid named by the title, with one tab stop: arrow keys move between days (ArrowLeft and ArrowRight follow the text direction), Home and End to the row's ends. In agenda view, a list of the days with events."
+    },
+    {
+      "name": "row",
+      "element": "div | li",
+      "description": "role=row: the weekday headers, a week (month), the week or the day. In agenda view, one day."
+    },
+    {
+      "name": "weekday",
+      "element": "div | h3",
+      "description": "A column header (role=columnheader): the short weekday name, with the date in week and day views. In agenda view, the day's full date as a heading."
+    },
+    {
+      "name": "cell",
+      "element": "div | ul",
+      "description": "A day (role=gridcell) that starts with its full date (visually hidden), with data-date; data-outside outside the month, data-today and aria-current=\"date\" today. In agenda view, the list of the day's events."
+    },
+    {
+      "name": "date",
+      "element": "span",
+      "description": "The day of the month, filled with primary today."
+    },
+    {
+      "name": "event",
+      "element": "button | a",
+      "description": "An event: a button (aria-haspopup=\"dialog\" with details), or a link with href, named by its time and title, then a visually hidden category and full date and time. data-color gives its soft tint."
+    },
+    {
+      "name": "eventTime",
+      "element": "span",
+      "description": "The start time in month view; the time range or the all-day label in the other views. Empty on a multi-day event's later days."
+    },
+    {
+      "name": "eventTitle",
+      "element": "span",
+      "description": "The title, cut with an ellipsis in month view."
+    },
+    {
+      "name": "more",
+      "element": "button",
+      "description": "\"+N more\" when a month cell has more than maxEvents; opens that day (view-change and date-change). Named by labels.showMore."
+    },
+    {
+      "name": "legend",
+      "element": "ul",
+      "description": "The category key under the body, named by labels.legend, when any event has a category."
+    },
+    {
+      "name": "legendItem",
+      "element": "li",
+      "description": "A category with a swatch of its tint (data-color)."
+    }
+  ],
+  "slots": [],
+  "events": [
+    {
+      "name": "view-change",
+      "description": "A view tab or \"+N more\" (which opens day) chose a view. The payload is the view.",
+      "payload": "'month' | 'week' | 'day' | 'agenda'"
+    },
+    {
+      "name": "date-change",
+      "description": "Today, previous, next or \"+N more\" moved the date. The payload is the new date, YYYY-MM-DD.",
+      "payload": "string"
+    },
+    {
+      "name": "event-click",
+      "description": "An event without href was chosen. The payload is the event as passed in.",
+      "payload": "CalendarEvent"
+    },
+    {
+      "name": "create",
+      "description": "The New event button was chosen. The payload is the shown date, YYYY-MM-DD.",
+      "payload": "string"
+    }
+  ],
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Tab",
+        "action": "Moves through Today, previous, next, the selected view tab, New event, the grid's day (one tab stop) and the events and \"+N more\" buttons inside the days."
+      },
+      {
+        "keys": "ArrowLeft, ArrowRight",
+        "action": "In the grid, the previous and next day; in the view tabs, the previous and next tab. They follow the text direction, so they swap under RTL."
+      },
+      {
+        "keys": "ArrowUp, ArrowDown",
+        "action": "In the grid, the same day of the previous and next week."
+      },
+      {
+        "keys": "Home, End",
+        "action": "In the grid, the start and end of the row; in the view tabs, the first and last tab."
+      },
+      {
+        "keys": "Enter, Space",
+        "action": "On a tab, chooses the view; on an event, opens it (its details or its link)."
+      }
+    ],
+    "requirements": [
+      "The month, week and day are role=grid, named by the title, with rows, column headers and gridcells; each day starts with its full localized date (visually hidden beside the number), and today carries aria-current=\"date\".",
+      "Arrow keys follow the text direction (D-004), and the previous and next chevrons mirror in RTL.",
+      "Each event is a button or link named by its visible time and title, then (visually hidden) its category and full date and time, never by its tint alone; the legend keeps the category key visible.",
+      "The agenda view is the accessible list alternative: the month's days with events as a list, each with its date as a heading.",
+      "The view tabs are a tablist named by labels.views controlling the body (role=tabpanel); the title is a polite live region.",
+      "Event details open in the design-system Dialog, which traps focus and returns it to the event.",
+      "Names come from Intl in the locale; every built-in string is translatable through labels."
+    ],
+    "wcag": [
+      "1.3.1",
+      "1.4.1",
+      "1.4.3",
+      "1.4.11",
+      "2.1.1",
+      "2.4.3",
+      "2.4.6",
+      "2.4.7",
+      "4.1.2",
+      "4.1.3"
+    ]
+  },
+  "tokens": [
+    "--apui-border-muted",
+    "--apui-border-soft-edge-width",
+    "--apui-border-width",
+    "--apui-color-primary",
+    "--apui-color-primary-border",
+    "--apui-color-primary-foreground",
+    "--apui-color-primary-soft",
+    "--apui-color-primary-soft-foreground",
+    "--apui-color-primary-text",
+    "--apui-focus-ring-color",
+    "--apui-focus-ring-offset",
+    "--apui-focus-ring-offset-color",
+    "--apui-focus-ring-width",
+    "--apui-font-family-sans",
+    "--apui-font-weight-medium",
+    "--apui-font-weight-regular",
+    "--apui-font-weight-semibold",
+    "--apui-radius-full",
+    "--apui-radius-lg",
+    "--apui-radius-xs",
+    "--apui-state-hover",
+    "--apui-surface-default",
+    "--apui-surface-page",
+    "--apui-surface-sunken",
+    "--apui-text-default",
+    "--apui-text-muted",
+    "--apui-type-body-lg-font-size",
+    "--apui-type-body-lg-line-height",
+    "--apui-type-body-md-font-size",
+    "--apui-type-body-md-line-height",
+    "--apui-type-body-sm-font-size",
+    "--apui-type-body-sm-line-height",
+    "--apui-type-caption-font-size",
+    "--apui-type-caption-line-height"
+  ],
+  "fixture": {
+    "props": {
+      "date": "2026-11-07",
+      "today": "2026-11-07",
+      "weekStartsOn": 1,
+      "locale": "en-US",
+      "timeZone": "UTC",
+      "events": [
+        {
+          "id": 1,
+          "start": "2026-11-02T09:00",
+          "end": "2026-11-02T10:00",
+          "title": "Team meeting",
+          "color": "error",
+          "category": "Marketing"
+        },
+        {
+          "id": 2,
+          "start": "2026-11-03T10:00",
+          "end": "2026-11-03T12:00",
+          "title": "Marketing course",
+          "color": "info",
+          "category": "Learning"
+        },
+        {
+          "id": 3,
+          "start": "2026-11-03T13:00",
+          "title": "Lunch · Edgehill Grill",
+          "color": "success",
+          "category": "Personal"
+        },
+        {
+          "id": 4,
+          "start": "2026-11-05",
+          "title": "Anna’s birthday",
+          "color": "accent",
+          "category": "People"
+        },
+        {
+          "id": 5,
+          "start": "2026-11-09T11:00",
+          "title": "Upgrade Slack plan",
+          "color": "secondary",
+          "category": "Admin"
+        },
+        {
+          "id": 6,
+          "start": "2026-11-12T11:00",
+          "title": "Viewing · Lakeview",
+          "color": "primary",
+          "category": "Viewings"
+        },
+        {
+          "id": 7,
+          "start": "2026-11-12T16:00",
+          "title": "Hubstaff broadcast",
+          "color": "info",
+          "category": "Learning"
+        },
+        {
+          "id": 8,
+          "start": "2026-11-12T18:00",
+          "title": "Board dinner",
+          "color": "success",
+          "category": "Personal"
+        },
+        {
+          "id": 9,
+          "start": "2026-11-13T09:30",
+          "title": "Meet a new intern",
+          "color": "accent",
+          "category": "People"
+        },
+        {
+          "id": 10,
+          "start": "2026-11-17",
+          "title": "Facebook campaign",
+          "color": "error",
+          "category": "Marketing"
+        },
+        {
+          "id": 11,
+          "start": "2026-11-19T10:00",
+          "end": "2026-11-19T11:30",
+          "title": "Design review",
+          "color": "primary",
+          "category": "Viewings"
+        },
+        {
+          "id": 12,
+          "start": "2026-11-24",
+          "title": "Open house · Grove",
+          "color": "success",
+          "category": "Personal"
+        },
+        {
+          "id": 13,
+          "start": "2026-11-26",
+          "title": "Thanksgiving",
+          "color": "neutral",
+          "category": "Holidays"
+        }
+      ]
+    },
+    "parts": {
+      "creatable": true,
+      "labels": {
+        "legend": "Event categories"
+      }
+    },
+    "states": []
+  }
+}

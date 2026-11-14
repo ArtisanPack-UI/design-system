@@ -1,0 +1,173 @@
+/*
+ * ListItem (#58). Root `.apui-list-item`: a row with leading, title,
+ * description and trailing parts. An `<li>` inside a `.apui-list`, a `<div>`
+ * on its own. data-interactive marks a row whose title is a link or a button;
+ * that control stretches over the whole row, so the row is one target and
+ * trailing controls stay clickable above it. data-selected (aria-current on
+ * the control) and data-disabled are states.
+ *
+ * `.apui-list` (ul/ol) holds the rows: data-variant plain, bordered (a framed
+ * surface with rules between rows) or divided (rules only).
+ * See design/components/ListItem.
+ */
+@layer apui.components {
+  .apui-list {
+    display: grid;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .apui-list[data-variant='bordered'] {
+    overflow: hidden;
+    border: var(--apui-border-width) solid var(--apui-border-muted);
+    border-radius: var(--apui-radius-lg);
+    background-color: var(--apui-surface-default);
+  }
+
+  .apui-list:is([data-variant='bordered'], [data-variant='divided']) > * + * {
+    border-block-start: var(--apui-border-width) solid var(--apui-border-muted);
+  }
+
+  .apui-list-item {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 2px 12px;
+    align-items: center;
+    box-sizing: border-box;
+    min-block-size: var(--apui-row-height);
+    padding-block: 10px;
+    padding-inline: var(--apui-cell-padding-x);
+    color: var(--apui-text-default);
+    font-family: var(--apui-font-family-sans);
+    list-style: none;
+  }
+
+  .apui-list-item[data-interactive]:not([data-disabled]) {
+    cursor: pointer;
+  }
+
+  .apui-list-item[data-interactive]:not([data-disabled]):hover {
+    background-color: var(--apui-state-hover);
+  }
+
+  .apui-list-item[data-selected] {
+    background-color: var(--apui-selected-bg);
+  }
+
+  .apui-list-item[data-selected][data-interactive]:not([data-disabled]):hover {
+    background-image: linear-gradient(var(--apui-state-hover), var(--apui-state-hover));
+  }
+
+  .apui-list-item[data-disabled] {
+    color: var(--apui-text-disabled);
+  }
+
+  /* The ring sits inside the row, so rows in a list don't overlap it. */
+  .apui-list-item:has([data-scope='list-item'][data-part='title']:focus-visible) {
+    box-shadow:
+      inset 0 0 0 var(--apui-focus-ring-width) var(--apui-focus-ring-color),
+      inset 0 0 0 calc(var(--apui-focus-ring-width) + var(--apui-focus-ring-offset))
+        var(--apui-focus-ring-offset-color);
+  }
+
+  /* Parts */
+  [data-scope='list-item'][data-part='leading'] {
+    display: inline-flex;
+    grid-row: span 2;
+    grid-column: 1;
+    align-items: center;
+    color: var(--apui-text-muted);
+  }
+
+  [data-scope='list-item'][data-part='leading'] > svg {
+    inline-size: var(--apui-icon-size-lg);
+    block-size: var(--apui-icon-size-lg);
+  }
+
+  [data-scope='list-item'][data-part='title'] {
+    grid-column: 2;
+    min-inline-size: 0;
+    overflow: hidden;
+    color: inherit;
+    font-size: var(--apui-type-body-md-font-size);
+    font-weight: var(--apui-font-weight-medium);
+    line-height: var(--apui-type-body-md-line-height);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* An interactive title is a link or a button that covers the row. */
+  :is(a, button)[data-scope='list-item'][data-part='title'] {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    font-family: inherit;
+    text-align: start;
+    text-decoration: none;
+    cursor: inherit;
+  }
+
+  :is(a, button)[data-scope='list-item'][data-part='title']:focus-visible {
+    outline: var(--apui-focus-ring-width) solid transparent;
+  }
+
+  :is(a, button)[data-scope='list-item'][data-part='title']::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+
+  [data-scope='list-item'][data-part='description'] {
+    grid-column: 2;
+    min-inline-size: 0;
+    overflow: hidden;
+    color: var(--apui-text-muted);
+    font-size: var(--apui-type-body-sm-font-size);
+    line-height: var(--apui-type-body-sm-line-height);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .apui-list-item[data-disabled]
+    [data-scope='list-item']:is(
+      [data-part='description'],
+      [data-part='leading'],
+      [data-part='trailing']
+    ) {
+    color: var(--apui-text-disabled);
+  }
+
+  [data-scope='list-item'][data-part='trailing'] {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    grid-row: 1 / span 2;
+    grid-column: 3;
+    gap: 8px;
+    align-items: center;
+    color: var(--apui-text-muted);
+    font-size: var(--apui-type-body-sm-font-size);
+    line-height: var(--apui-type-body-sm-line-height);
+  }
+
+  /* Without a description the title centers on the row. */
+  .apui-list-item:not(:has([data-part='description']))
+    [data-scope='list-item']:is([data-part='leading'], [data-part='trailing']) {
+    grid-row: 1;
+  }
+
+  @media (forced-colors: active) {
+    .apui-list-item[data-selected] {
+      outline: 2px solid Highlight;
+      outline-offset: -2px;
+    }
+
+    .apui-list-item[data-disabled],
+    .apui-list-item[data-disabled] [data-scope='list-item'] {
+      color: GrayText;
+    }
+  }
+}

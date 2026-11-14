@@ -1,0 +1,12 @@
+[
+  {
+    "id": "labeled",
+    "title": "Labeled",
+    "description": "The label names the progressbar, and valueText reads the value in words. Without valueText a labeled bar shows the percentage."
+  },
+  {
+    "id": "states",
+    "title": "Indeterminate and segmented",
+    "description": "Indeterminate when the amount isn't known (no aria-valuenow); segmented for a few discrete steps. Without a label, name the bar with aria-label."
+  }
+]

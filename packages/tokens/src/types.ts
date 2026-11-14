@@ -1,48 +1,66 @@
 /**
- * @module types
- *
- * Framework-agnostic type definitions shared across all ArtisanPack UI packages.
- * Includes component size scale, glass/color/form-field prop interfaces, and
- * a permissive CSS properties type.
+ * Types for the generated token map.
  *
  * @packageDocumentation
  */
 
-import type { DaisyColor } from './colors';
-import type { GlassPreset } from './glass';
+/** DTCG types the token source uses. */
+export type TokenType =
+  | 'color'
+  | 'dimension'
+  | 'fontFamily'
+  | 'fontWeight'
+  | 'duration'
+  | 'cubicBezier'
+  | 'number'
+  | 'shadow';
 
-export type { DaisyColor } from './colors';
-export type {
-  GlassPreset,
-  GlassTint,
-  GlassClassOptions,
-  GlassInlineStyleOptions,
-  GlassStyleOptions,
-} from './glass';
+/** Token tiers. Components read semantic and component tokens, never primitives. */
+export type TokenTier = 'primitive' | 'semantic' | 'component';
 
-/** Component size scale */
-export type Size = 'xs' | 'sm' | 'md' | 'lg';
-
-/** Props for components that support glass effects */
-export interface GlassProps {
-  glass?: boolean;
-  glassPreset?: GlassPreset;
+/** A mode axis, such as theme or density. */
+export interface TokenAxisDefinition {
+  /** The attribute that switches the axis on any element, such as `data-theme`. */
+  readonly attribute: string;
+  /** The mode that also applies at `:root`. */
+  readonly default: string;
+  /** Every mode, in output order. */
+  readonly modes: readonly string[];
 }
 
-/** Props for components that accept a DaisyUI color */
-export interface ColorProps {
-  color?: DaisyColor;
+/** One token in the generated map. */
+export interface TokenDefinition {
+  /** The custom property, such as `--apui-color-primary`. */
+  readonly cssVar: string;
+  readonly type: TokenType;
+  readonly tier: TokenTier;
+  /** The axis whose mode files define this token, or `null` for a token with one value. */
+  readonly axis: string | null;
+  /** The axis this token's value varies by, directly or through an alias, or `null`. */
+  readonly varies: string | null;
+  /** CSS value with aliases as `var()`: one string, or one per mode of `axis`. */
+  readonly value: string | Readonly<Record<string, string>>;
+  /** Fully resolved CSS value: one string, or one per mode of `varies`. */
+  readonly resolved: string | Readonly<Record<string, string>>;
 }
 
-/** Props for form field components */
-export interface FormFieldProps {
-  label?: string;
-  error?: string;
-  hint?: string;
+/** One token a preset changes, directly or through an alias. */
+export interface PresetTokenDefinition {
+  /** `true` when the preset reassigns this token; `false` when it only follows one that is. */
+  readonly changed: boolean;
+  /** CSS value with aliases as `var()`: one string, or one per mode. */
+  readonly value: string | Readonly<Record<string, string>>;
+  /** Fully resolved CSS value: one string, or one per mode. */
+  readonly resolved: string | Readonly<Record<string, string>>;
 }
 
-/**
- * CSS properties type compatible with both React and plain objects.
- * Uses a permissive Record to avoid framework-specific imports.
- */
-export type CSSProperties = Record<string, string | number | undefined>;
+/** A preset: token reassignments switched by `data-preset` (#23). */
+export interface PresetDefinition {
+  /** The value of `data-preset`. */
+  readonly name: string;
+  readonly description: string | null;
+  /** Always `data-preset`. */
+  readonly attribute: string;
+  /** Every token the preset affects, keyed by path. */
+  readonly tokens: Readonly<Record<string, PresetTokenDefinition>>;
+}

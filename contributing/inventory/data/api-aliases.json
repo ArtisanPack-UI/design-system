@@ -1,0 +1,425 @@
+{
+  "$comment": "Curated. Maps today's member names to the proposed canonical name (vocabulary.md). `to: null` removes the member. Patterns are full-match regexes with $1 capture references. `stack` omitted means every stack. Per-component rules win over global ones. `classes` lists raw DaisyUI classes the upgrade command rewrites into components (matched against class names, not members).",
+  "global": [
+    { "from": "uuid", "to": null, "note": "Internal wire:key plumbing; never public API." },
+
+    { "from": "link", "to": "href", "note": "Matches the HTML attribute." },
+    { "stack": "livewire", "from": "noWireNavigate", "to": "navigate", "stackOnly": true, "note": "Inverted: a positive boolean replaces the `no*` form. Livewire-only by design." },
+
+    { "from": "horizontal", "to": "orientation", "note": "`orientation=\"horizontal\"`." },
+    { "from": "vertical", "to": "orientation", "note": "`orientation=\"vertical\"`." },
+
+    { "stack": "livewire", "from": "glass", "to": "surface", "note": "`surface=\"glass\"`. Plan decision." },
+    { "stack": "react", "from": "glass", "to": "surface", "note": "`surface=\"glass\"`. Plan decision." },
+    { "stack": "vue", "from": "glass", "to": "surface", "note": "`surface=\"glass\"`. Plan decision." },
+    { "from": "glassTint", "to": null, "note": "Replaced by glass surface tokens." },
+    { "from": "glassTintOpacity", "to": null, "note": "Replaced by glass surface tokens." },
+    { "from": "glassOpacity", "to": null, "note": "Replaced by glass surface tokens." },
+    { "from": "glassBlur", "to": null, "note": "Replaced by glass surface tokens." },
+    { "from": "headerGlass", "to": "classes.header", "note": "Per-part surface; no bespoke prop." },
+    { "from": "headerGlassTint", "to": null, "note": "Replaced by glass surface tokens." },
+    { "from": "headerGlassTintOpacity", "to": null, "note": "Replaced by glass surface tokens." },
+
+    { "stack": "livewire", "from": "colorAdjustment", "to": null, "note": "Per-instance color math. Theming belongs in tokens." },
+    { "stack": "livewire", "from": "bgColor", "to": null, "note": "Raw color passthrough. Use `color` or `classes`." },
+    { "stack": "livewire", "from": "textColor", "to": null, "note": "Raw color passthrough. Use `color` or `classes`." },
+
+    { "stack": "livewire", "from": "tooltip", "to": null, "note": "Wrap the component in `<x-artisanpack-tooltip content=\"…\">` (#59, D-029)." },
+    { "stack": "livewire", "from": "tooltipPosition", "to": null, "note": "Becomes the wrapping Tooltip's `placement`; `left`/`right` become `start`/`end` (D-029)." },
+    { "stack": "livewire", "from": "tooltipLeft", "to": null, "note": "Wrap in `<x-artisanpack-tooltip content=\"…\" placement=\"start\">` (D-029)." },
+    { "stack": "livewire", "from": "tooltipRight", "to": null, "note": "Wrap in `<x-artisanpack-tooltip content=\"…\" placement=\"end\">` (D-029)." },
+    { "stack": "livewire", "from": "tooltipBottom", "to": null, "note": "Wrap in `<x-artisanpack-tooltip content=\"…\" placement=\"bottom\">` (D-029)." },
+
+    { "stack": "livewire", "from": "errorField", "to": "errorField", "stackOnly": true, "note": "Livewire-only by design: resolves the message from the error bag." },
+    { "stack": "livewire", "from": "errorClass", "to": "classes.error" },
+    { "stack": "livewire", "from": "omitError", "to": "hideError", "note": "Positive-hide naming, matching `hideErrors`." },
+    { "stack": "livewire", "from": "hideErrors", "to": "hideError" },
+    { "stack": "livewire", "from": "firstErrorOnly", "to": "firstErrorOnly", "stackOnly": true, "note": "Livewire-only by design." },
+
+    { "stack": "livewire", "from": "withoutTrapFocus", "to": null, "note": "Disabling focus trap breaks the WCAG 2.2 AA dialog contract." },
+    { "stack": "livewire", "from": "noXAnchor", "to": null, "note": "Superseded by behavior-engine positioning." },
+
+    { "stack": "vue", "from": "modelValue", "to": "value", "idiom": true, "note": "The same concept as `value`. Vue keeps `v-model`, so this is alignment only and not a rename." },
+
+    { "stack": "livewire", "pattern": "(\\w+)Classes", "to": "classes.$1", "note": "Per-part override." },
+    { "stack": "livewire", "pattern": "(\\w+)Class", "to": "classes.$1", "note": "Per-part override." },
+    { "stack": "react", "pattern": "(\\w+)Classes", "to": "classes.$1", "note": "Per-part override." },
+    { "stack": "react", "pattern": "(\\w+)ClassName", "to": "classes.$1", "note": "Per-part override." },
+    { "stack": "vue", "pattern": "(\\w+)Class(?:es)?", "to": "classes.$1", "note": "Per-part override." }
+  ],
+  "events": [
+    { "stack": "livewire", "from": "completed", "to": "complete" },
+    { "stack": "livewire", "from": "open", "to": "open-change" },
+    { "stack": "livewire", "from": "close", "to": "open-change" },
+    { "stack": "livewire", "from": "sidebar-toggled", "to": "collapsed-change", "note": "AppShell (D-031)." },
+    { "stack": "livewire", "from": "theme-changed", "to": "value-change", "note": "ThemeToggle (D-054)." },
+    { "stack": "livewire", "from": "theme-changed-class", "to": "value-change", "note": "ThemeToggle; `<html>` no longer gets a class (D-054)." },
+    { "stack": "livewire", "from": "chart-update", "to": null, "note": "Chart re-renders from its props (D-045)." },
+    { "stack": "livewire", "from": "chart-update-series", "to": null },
+    { "stack": "livewire", "from": "chart-append-data", "to": null },
+    { "stack": "vue", "from": "update:modelValue", "to": "date-change", "note": "Calendar (D-047)." },
+    { "stack": "livewire", "from": "row-selection", "to": "value-change", "note": "Table selection binds `value` (D-042)." },
+    { "stack": "livewire", "from": "row-selection-all", "to": "value-change", "note": "Table selection binds `value` (D-042)." },
+    { "stack": "react", "from": "onDismiss", "to": "open-change", "note": "Alert dismisses itself (D-034)." },
+    { "stack": "react", "from": "onSort", "to": "sort-change", "note": "Table (D-042)." },
+    { "stack": "react", "from": "onSelectionChange", "to": "value-change", "note": "Table (D-042)." },
+    { "stack": "vue", "from": "dismiss", "to": "open-change", "note": "Alert dismisses itself (D-034)." },
+    { "stack": "vue", "from": "sort", "to": "sort-change", "note": "Table (D-042)." },
+    { "stack": "vue", "from": "update:openIndices", "to": "value-change", "note": "Accordion (D-030)." },
+    { "stack": "react", "from": "onChange", "to": "value-change" },
+    { "stack": "react", "from": "onClose", "to": "open-change" },
+    { "stack": "react", "pattern": "on([A-Z]\\w*)", "to": "$kebab1" },
+    { "stack": "vue", "from": "close", "to": "open-change" },
+    { "stack": "vue", "pattern": "update:modelValue", "to": "value-change" },
+    { "stack": "vue", "pattern": "update:(\\w+)", "to": "$kebab1-change" },
+    { "stack": "vue", "pattern": "([a-z]+[A-Z]\\w*)", "to": "$kebab1" }
+  ],
+  "classes": [
+    { "pattern": "tooltip", "attribute": "data-tip", "to": "<x-artisanpack-tooltip content=\"…\">", "note": "Wrap the element; `data-tip` becomes `content` (#59, D-029)." },
+    { "pattern": "tooltip-(top|bottom)", "to": "placement=\"$1\"", "note": "On the wrapping Tooltip." },
+    { "pattern": "tooltip-left", "to": "placement=\"start\"", "note": "Logical placement (D-029)." },
+    { "pattern": "tooltip-right", "to": "placement=\"end\"", "note": "Logical placement (D-029)." },
+    { "pattern": "tooltip-open", "to": ":open=\"true\"" },
+    { "pattern": "tooltip-(primary|secondary|accent|neutral|success|warning|error|info)", "to": null, "note": "Tooltips use the inverse surface." }
+  ],
+  "components": {
+    "Chart": [
+      { "stack": "livewire", "from": "options", "to": null, "note": "Apex options are dropped; categories, `labels` and the title still fill `labels` and `title` (D-045)." },
+      { "stack": "livewire", "from": "theme", "to": null, "note": "Series take `--apui-chart-1…6` (D-045)." },
+      { "stack": "livewire", "from": "animated", "to": null },
+      { "stack": "livewire", "from": "glass", "to": null },
+      { "stack": "livewire", "from": "showTable", "to": "tabular", "note": "`show-table` still works (D-045)." },
+      { "from": "data", "to": "series", "note": "React and Vue: `data` points become `series` plus `labels` (D-045)." },
+      { "from": "options", "to": null },
+      { "from": "showLegend", "to": null, "note": "The legend shows for two or more series." },
+      { "stack": "vue", "from": "className", "to": "class" }
+    ],
+    "Calendar": [
+      { "stack": "livewire", "from": "sundayStart", "to": "weekStartsOn", "note": "true → 0, false → 1; unset follows the locale (D-047)." },
+      { "stack": "livewire", "from": "months", "to": null },
+      { "stack": "livewire", "from": "colorScheme", "to": null },
+      { "stack": "livewire", "from": "weekendHighlight", "to": null },
+      { "stack": "livewire", "from": "config", "to": null },
+      { "stack": "react", "from": "value", "to": "date" },
+      { "stack": "react", "from": "weekStartsOnSunday", "to": "weekStartsOn", "note": "true → 0." },
+      { "stack": "react", "from": "highlightWeekends", "to": null },
+      { "stack": "react", "from": "renderDay", "to": null },
+      { "stack": "vue", "from": "modelValue", "to": "date" },
+      { "stack": "vue", "from": "weekStart", "to": "weekStartsOn" },
+      { "stack": "vue", "from": "className", "to": "class" }
+    ],
+    "Markdown": [
+      { "stack": "vue", "from": "content", "to": "source", "note": "Deprecated alias kept (D-049)." },
+      { "stack": "react", "from": "renderMarkdown", "to": null },
+      { "stack": "livewire", "from": "config", "to": null, "note": "EasyMDE is removed; use `mode=\"write\"` or `mode=\"split\"` for the editor (D-049)." },
+      { "stack": "livewire", "from": "disk", "to": null, "note": "Markdown image uploads are removed (D-049)." },
+      { "stack": "livewire", "from": "folder", "to": null },
+      { "stack": "livewire", "from": "label", "to": "editorLabel" },
+      { "stack": "livewire", "from": "hint", "to": null }
+    ],
+    "Code": [
+      { "stack": "react", "from": "showLineNumbers", "to": "numbered" },
+      { "stack": "react", "from": "label", "to": "fileName", "note": "`label` now names the scroll region (D-050)." },
+      { "stack": "react", "from": "maxHeight", "to": null },
+      { "stack": "vue", "from": "lineNumbers", "to": "numbered" },
+      { "stack": "vue", "from": "className", "to": "class" },
+      { "stack": "livewire", "from": "lightTheme", "to": null, "note": "The 2.x Ace editor is now CodeEditor; Code is read-only (D-050)." },
+      { "stack": "livewire", "from": "darkTheme", "to": null },
+      { "stack": "livewire", "from": "height", "to": null },
+      { "stack": "livewire", "from": "printMargin", "to": null }
+    ],
+    "Clipboard": [
+      { "from": "text", "to": "value" },
+      { "from": "successLabel", "to": "copiedLabel" },
+      { "from": "successDuration", "to": "timeout" },
+      { "stack": "react", "from": "onCopy", "to": "copied", "note": "`onCopied`; `onCopy` stays a deprecated alias (D-050)." },
+      { "stack": "vue", "from": "copy", "to": "copied", "note": "`copy` is still emitted, deprecated (D-050)." },
+      { "stack": "react", "from": "color", "to": null },
+      { "stack": "vue", "from": "className", "to": "class" }
+    ],
+    "Icon": [
+      { "stack": "livewire", "from": "label", "to": "label", "note": "Meaning change: was visible text beside the icon, now the accessible name (D-051)." },
+      { "stack": "react", "from": "path", "to": null },
+      { "stack": "react", "from": "viewBox", "to": null },
+      { "stack": "vue", "from": "ariaLabel", "to": "label" },
+      { "stack": "vue", "from": "className", "to": "class" }
+    ],
+    "Swap": [
+      { "stack": "livewire", "from": "trueIcon", "to": "onIcon", "note": "Alias kept; the `true`/`false` slots become `on`/`off` (D-052)." },
+      { "stack": "livewire", "from": "falseIcon", "to": "offIcon", "note": "Alias kept." },
+      { "stack": "livewire", "from": "iconSize", "to": null }
+    ],
+    "Carousel": [
+      { "stack": "livewire", "from": "ariaLabel", "to": "label", "note": "Alias kept (D-053)." },
+      { "stack": "livewire", "from": "withoutArrows", "to": null },
+      { "stack": "livewire", "from": "withoutIndicators", "to": null },
+      { "from": "showArrows", "to": null },
+      { "from": "showIndicators", "to": null },
+      { "stack": "vue", "from": "modelValue", "to": "index", "note": "With `index-change`." }
+    ],
+    "ThemeToggle": [
+      { "stack": "livewire", "from": "light", "to": "lightLabel", "note": "Alias kept (D-054)." },
+      { "stack": "livewire", "from": "dark", "to": "darkLabel", "note": "Alias kept." },
+      { "stack": "livewire", "from": "lightTheme", "to": null },
+      { "stack": "livewire", "from": "darkTheme", "to": null },
+      { "stack": "livewire", "from": "withLabel", "to": null },
+      { "stack": "react", "from": "modes", "to": "choices" },
+      { "stack": "vue", "from": "className", "to": "class" }
+    ],
+    "Button": [
+      { "stack": "livewire", "from": "variant", "to": "color", "note": "Today `variant` holds color values. Under the vocabulary it means visual treatment, so this is a meaning change and cannot be a blind rename." }
+    ],
+    "DropdownMenu": [
+      { "stack": "livewire", "from": "right", "to": "end", "note": "Logical name; correct under RTL." }
+    ],
+    "UserMenu": [
+      { "stack": "livewire", "from": "right", "to": "end", "note": "Logical name; correct under RTL." }
+    ],
+    "RadioGroup": [
+      { "from": "inline", "to": "orientation", "note": "`orientation=\"horizontal\"`. Only on option groups: on Input, `inline` means a floating label." },
+      { "stack": "livewire", "from": "card", "to": "variant", "note": "`variant=\"cards\"` (D-025)." }
+    ],
+    "Tabs": [
+      { "stack": "livewire", "from": "selected", "to": "value", "note": "Common selection prop name." },
+      { "from": "activeTab", "to": "value", "note": "Common selection prop name." },
+      { "from": "defaultTab", "to": "defaultValue" },
+      { "from": "verticalRight", "to": null, "note": "Covered by `orientation` and logical placement." }
+    ],
+    "Steps": [
+      { "stack": "livewire", "from": "stepsColor", "to": "color" }
+    ],
+    "File": [
+      { "from": "multiple", "to": "multiple" }
+    ],
+    "Combobox": [
+      { "stack": "livewire", "from": "single", "to": null, "note": "Inverted: add `multiple` when the old tag had no `single`. `choices` and `choices-offline` were multiple by default; `tags` becomes `multiple` + `allowCreate`." },
+      { "stack": "livewire", "from": "searchable", "to": null, "note": "`choices`: becomes `remote` (server search). `choices-offline`: dropped, filtering is always on." },
+      { "stack": "livewire", "from": "searchFunction", "to": "searchModel", "note": "Manual: a method name became a property name. Or keep the method with `wire:search-change`." },
+      { "stack": "livewire", "from": "debounce", "to": "debounce", "note": "A `250ms` string becomes integer milliseconds (`:debounce=\"250\"`)." },
+      { "stack": "livewire", "from": "minChars", "to": null, "note": "Check the length in the `search-model` handler." },
+      { "stack": "livewire", "from": "optionValue", "to": null, "note": "Manual: map options to `{ value, label, description }`." },
+      { "stack": "livewire", "from": "optionLabel", "to": null, "note": "Manual: see `optionValue`." },
+      { "stack": "livewire", "from": "optionSubLabel", "to": null, "note": "Manual: becomes each option's `description`." },
+      { "stack": "livewire", "from": "optionAvatar", "to": null, "note": "Use the option's `icon` or the `item` scoped slot." },
+      { "stack": "livewire", "from": "noResultText", "to": "emptyLabel" },
+      { "stack": "livewire", "from": "icon", "to": "leadingIcon" },
+      { "stack": "livewire", "from": "iconRight", "to": null },
+      { "stack": "livewire", "from": "allowCustomTags", "to": "allowCreate", "note": "`tags` only." },
+      { "stack": "livewire", "from": "customTagsText", "to": "createLabel", "note": "`tags` only; `{value}` is the typed text." },
+      { "stack": "livewire", "from": "compact", "to": null },
+      { "stack": "livewire", "from": "compactText", "to": null },
+      { "stack": "livewire", "from": "allowAll", "to": null },
+      { "stack": "livewire", "from": "allowAllText", "to": null },
+      { "stack": "livewire", "from": "removeAllText", "to": null },
+      { "stack": "livewire", "from": "valuesAsString", "to": null },
+      { "stack": "livewire", "from": "height", "to": null },
+      { "stack": "livewire", "from": "inline", "to": null },
+      { "stack": "livewire", "from": "prefix", "to": null },
+      { "stack": "livewire", "from": "suffix", "to": null },
+      { "stack": "livewire", "from": "hintClass", "to": "classes", "note": "`classes.hint`." },
+      { "stack": "livewire", "from": "errorClass", "to": "classes", "note": "`classes.error`." },
+      { "stack": "livewire", "from": "omitError", "to": null },
+      { "stack": "livewire", "from": "firstErrorOnly", "to": null },
+      { "stack": "livewire", "from": "lazyLoad", "to": null },
+      { "stack": "livewire", "from": "lazyLoadMethod", "to": null },
+      { "stack": "livewire", "from": "lazyLoadModifier", "to": null },
+      { "stack": "livewire", "from": "hasMoreOptions", "to": null },
+      { "stack": "livewire", "from": "selection", "to": null, "note": "Slot removed; chips render the label." },
+      { "stack": "livewire", "from": "prepend", "to": null },
+      { "stack": "livewire", "from": "append", "to": null }
+    ],
+    "Spotlight": [
+      { "stack": "livewire", "from": "searchText", "to": "placeholder", "note": "Deprecated alias kept in 3.0." },
+      { "stack": "livewire", "from": "noResultsText", "to": "emptyText", "note": "Deprecated alias kept in 3.0." },
+      { "stack": "livewire", "from": "append", "to": "footer", "note": "Slot. Deprecated alias kept in 3.0." }
+    ],
+    "Pin": [
+      { "stack": "livewire", "from": "size", "to": "length", "note": "The number of cells." }
+    ],
+    "Accordion": [
+      { "from": "openIndices", "to": "value", "note": "Open items are values, not indices (D-030)." },
+      { "stack": "react", "from": "defaultOpenIndices", "to": "defaultValue" },
+      { "stack": "vue", "from": "defaultOpenIndices", "to": null, "note": "Use `v-model`." },
+      { "stack": "livewire", "from": "noJoin", "to": null },
+      { "stack": "livewire", "from": "collapsePlusMinus", "to": null }
+    ],
+    "Collapse": [
+      { "stack": "livewire", "from": "heading", "to": "label", "note": "Slot. Deprecated alias kept in 3.0." },
+      { "stack": "livewire", "from": "content", "to": null, "note": "Use the default slot. Deprecated alias kept in 3.0." },
+      { "stack": "livewire", "from": "name", "to": null },
+      { "stack": "livewire", "from": "separator", "to": null },
+      { "stack": "livewire", "from": "noIcon", "to": null },
+      { "stack": "livewire", "from": "collapsePlusMinus", "to": null },
+      { "stack": "react", "from": "title", "to": "label", "note": "React and Vue `Collapse` children of an Accordion become `AccordionItem` (D-030)." },
+      { "stack": "react", "from": "name", "to": null }
+    ],
+    "Drawer": [
+      { "stack": "livewire", "from": "right", "to": "side", "note": "`side=\"end\"`. The default moved from start to end (D-029)." },
+      { "stack": "livewire", "from": "subtitle", "to": "description", "note": "Deprecated alias kept in 3.0." },
+      { "stack": "livewire", "from": "actions", "to": "footer", "note": "Slot. Deprecated alias kept in 3.0." },
+      { "stack": "livewire", "from": "withCloseButton", "to": null, "note": "The close button always renders; `hideClose` removes it." },
+      { "stack": "livewire", "from": "closeOnEscape", "to": null, "note": "Escape always closes." },
+      { "stack": "livewire", "from": "separator", "to": null },
+      { "stack": "livewire", "from": "openOn", "to": null },
+      { "stack": "livewire", "from": "closeOn", "to": null },
+      { "stack": "react", "from": "end", "to": "side", "note": "`side=\"end\"`." },
+      { "stack": "vue", "from": "end", "to": "side", "note": "`side=\"end\"`." }
+    ],
+    "Popover": [
+      { "from": "position", "to": "placement", "note": "Logical values: `left`/`right` become `start`/`end` (D-029)." },
+      { "stack": "livewire", "from": "offset", "to": null },
+      { "stack": "livewire", "from": "content", "to": null, "note": "Slot. Use the default slot; deprecated alias kept in 3.0." },
+      { "stack": "react", "from": "triggerMode", "to": null, "note": "Popover opens on click (D-029); hover is Tooltip's job." },
+      { "stack": "react", "from": "showDelay", "to": null },
+      { "stack": "react", "from": "hideDelay", "to": null },
+      { "stack": "react", "from": "persistent", "to": null }
+    ],
+    "Tooltip": [
+      { "stack": "react", "from": "tip", "to": "content" },
+      { "stack": "vue", "from": "text", "to": "content" },
+      { "from": "position", "to": "placement", "note": "`left`/`right` become `start`/`end` (D-029)." },
+      { "from": "color", "to": null, "note": "Tooltips use the inverse surface; `tooltip-<color>` is removed." },
+      { "stack": "vue", "from": "forceOpen", "to": "open", "note": "`:open=\"true\"`." }
+    ],
+    "PageHeader": [
+      { "stack": "livewire", "from": "subtitle", "to": "description" },
+      { "stack": "livewire", "from": "separator", "to": null },
+      { "stack": "livewire", "from": "progressIndicator", "to": null },
+      { "stack": "livewire", "from": "progressIndicatorClass", "to": null },
+      { "stack": "livewire", "from": "withAnchor", "to": null },
+      { "stack": "livewire", "from": "size", "to": null, "note": "`level` sets the heading." },
+      { "stack": "livewire", "from": "icon", "to": null }
+    ],
+    "AppShell": [
+      { "stack": "livewire", "from": "fullWidth", "to": null },
+      { "stack": "livewire", "from": "withNav", "to": null, "note": "Put a Menu in the `sidebar` slot (D-031)." },
+      { "stack": "livewire", "from": "content", "to": null, "note": "Slot. Use the default slot." }
+    ],
+    "Divider": [
+      { "stack": "livewire", "from": "target", "to": null, "note": "The 2.x loading bar is dropped; use Progress (D-033)." },
+      { "stack": "livewire", "from": "progress", "to": null, "note": "The 2.x loading bar is dropped; use Progress (D-033)." },
+      { "from": "color", "to": null, "note": "Use `strength`." },
+      { "stack": "livewire", "from": "image", "to": null },
+      { "from": "labelPosition", "to": "align" }
+    ],
+    "Grid": [
+      { "from": "cols", "to": "columns" },
+      { "from": "colsSm", "to": null, "note": "Use `minItemWidth` for responsive columns (D-032)." },
+      { "from": "colsMd", "to": null, "note": "Use `minItemWidth`." },
+      { "from": "colsLg", "to": null, "note": "Use `minItemWidth`." },
+      { "from": "colsXl", "to": null, "note": "Use `minItemWidth`." },
+      { "from": "gapX", "to": null, "note": "One `gap` step." },
+      { "from": "gapY", "to": null, "note": "One `gap` step." },
+      { "stack": "react", "from": "horizontal", "to": null, "note": "React `StatGroup`: a row of stats is a Grid with `columns` (D-039)." }
+    ],
+    "Stack": [
+      { "from": "direction", "to": "orientation", "note": "Deprecated alias kept in 3.0." }
+    ],
+    "Text": [
+      { "stack": "livewire", "from": "lead", "to": "size", "note": "`size=\"lead\"`; Livewire `subheading` renders the same (D-043)." }
+    ],
+    "Avatar": [
+      { "from": "image", "to": "src" },
+      { "from": "placeholder", "to": "name", "note": "Initials and their color come from `name` (D-044)." }
+    ],
+    "Alert": [
+      { "stack": "livewire", "from": "shadow", "to": null },
+      { "from": "visible", "to": null, "note": "Alert dismisses itself; listen to `open-change` (D-034)." }
+    ],
+    "Progress": [
+      { "from": "showValue", "to": null, "note": "Use `label` and `valueText` (D-034)." }
+    ],
+    "StreamableContent": [
+      { "stack": "livewire", "from": "tag", "to": null },
+      { "stack": "livewire", "from": "prose", "to": null },
+      { "stack": "livewire", "from": "placeholder", "to": null },
+      { "stack": "livewire", "from": "showCursor", "to": null, "note": "The `caret` part shows while streaming (D-037)." }
+    ],
+    "Skeleton": [
+      { "from": "circle", "to": "shape", "note": "`shape=\"circle\"`." }
+    ],
+    "EmptyState": [
+      { "from": "heading", "to": "title" },
+      { "from": "headingAs", "to": "headingLevel", "note": "A number, 1 to 6 (D-036)." },
+      { "from": "action", "to": "actions", "note": "Slot." }
+    ],
+    "Stat": [
+      { "from": "title", "to": "label" },
+      { "from": "changeLabel", "to": "description" },
+      { "from": "sparklineData", "to": null, "note": "Use KpiCard's `sparkline` (D-039)." },
+      { "from": "sparklineType", "to": null },
+      { "from": "sparklineColor", "to": null },
+      { "stack": "livewire", "from": "animate", "to": null },
+      { "stack": "livewire", "from": "animateDuration", "to": null },
+      { "stack": "livewire", "from": "iconPosition", "to": null },
+      { "stack": "livewire", "from": "titlePosition", "to": null },
+      { "stack": "livewire", "from": "contentAlign", "to": null }
+    ],
+    "KpiCard": [
+      { "stack": "livewire", "from": "title", "to": "stat", "note": "`stat.label` (D-039)." },
+      { "stack": "livewire", "from": "value", "to": "stat", "note": "`stat.value`." },
+      { "stack": "livewire", "from": "icon", "to": "stat", "note": "`stat.icon`." },
+      { "stack": "livewire", "from": "change", "to": "stat", "note": "`stat.change`." },
+      { "stack": "livewire", "from": "changeLabel", "to": "stat", "note": "`stat.description`." },
+      { "stack": "livewire", "from": "sparklineData", "to": "sparkline" },
+      { "stack": "livewire", "from": "sparklineType", "to": null, "note": "Always an area sparkline." },
+      { "stack": "livewire", "from": "sparklineColor", "to": null }
+    ],
+    "Sparkline": [
+      { "from": "type", "to": "variant", "note": "`line` · `area` · `bar` (D-038)." }
+    ],
+    "Timeline": [
+      { "stack": "livewire", "from": "subtitle", "to": "time" },
+      { "from": "vertical", "to": null, "note": "Timelines are vertical (D-040)." },
+      { "from": "compact", "to": null },
+      { "from": "snap", "to": null },
+      { "from": "pending", "to": null }
+    ],
+    "Diff": [
+      { "stack": "livewire", "from": "old", "to": "oldContent" },
+      { "stack": "livewire", "from": "new", "to": "newContent" },
+      { "stack": "vue", "from": "before", "to": "oldContent" },
+      { "stack": "vue", "from": "after", "to": "newContent" },
+      { "stack": "react", "from": "oldLabel", "to": null },
+      { "stack": "react", "from": "newLabel", "to": null },
+      { "stack": "react", "from": "mode", "to": null, "note": "Use `view` (`unified` · `split`)." }
+    ],
+    "ImageGallery": [
+      { "stack": "livewire", "from": "enableLightbox", "to": "lightbox", "note": "On by default (D-041)." }
+    ],
+    "ImageSlider": [
+      { "stack": "livewire", "from": "autoPlay", "to": "autoplay" },
+      { "stack": "livewire", "from": "autoPlayInterval", "to": "interval" },
+      { "stack": "livewire", "from": "enableLightbox", "to": null, "note": "ImageSlider has no lightbox; use ImageGallery (D-041)." }
+    ],
+    "ImageLibrary": [
+      { "stack": "livewire", "from": "withDragDrop", "to": "droppable" },
+      { "stack": "livewire", "from": "dragDropClass", "to": "classes.dropzone" },
+      { "stack": "livewire", "from": "preview", "to": "assets", "note": "D-037." }
+    ],
+    "Table": [
+      { "from": "noHeaders", "to": "hideHeaders" },
+      { "stack": "livewire", "from": "withPagination", "to": "paginated" },
+      { "from": "compact", "to": "density", "note": "`density=\"compact\"`. React and Vue keep `compact` as a deprecated alias." },
+      { "stack": "vue", "from": "columns", "to": "headers", "note": "Deprecated alias kept in 3.0." },
+      { "stack": "vue", "from": "emptyMessage", "to": "emptyText", "note": "Deprecated alias kept in 3.0." },
+      { "stack": "vue", "from": "sort", "to": "sortBy", "note": "`key` becomes `column`." },
+      { "stack": "react", "from": "selectedKeys", "to": "value", "note": "Deprecated alias kept in 3.0." },
+      { "from": "striped", "to": null },
+      { "from": "hoverable", "to": null },
+      { "stack": "livewire", "from": "noHover", "to": null },
+      { "stack": "livewire", "from": "containerClass", "to": null, "note": "Classes go on the root `div` (D-042)." },
+      { "stack": "react", "from": "containerClassName", "to": "classes.root", "note": "Deprecated alias kept in 3.0." },
+      { "stack": "livewire", "from": "headerGlass", "to": null },
+      { "stack": "livewire", "from": "virtualScroll", "to": null },
+      { "stack": "livewire", "from": "virtualRowHeight", "to": null },
+      { "stack": "livewire", "from": "virtualBuffer", "to": null },
+      { "stack": "livewire", "from": "virtualContainerHeight", "to": null },
+      { "stack": "livewire", "from": "exportable", "to": null, "note": "`TableExporter` remains for server-side export." },
+      { "stack": "livewire", "from": "exportFormats", "to": null },
+      { "stack": "livewire", "from": "exportFilename", "to": null },
+      { "stack": "vue", "from": "pinRows", "to": null },
+      { "stack": "vue", "from": "pinCols", "to": null }
+    ]
+  }
+}

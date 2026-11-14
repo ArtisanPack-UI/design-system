@@ -1,0 +1,718 @@
+{
+  "version": 1,
+  "component": "Combobox",
+  "rootClass": "apui-combobox",
+  "stacks": [
+    "livewire",
+    "react",
+    "vue"
+  ],
+  "names": {
+    "livewire": "combobox",
+    "react": "Combobox",
+    "vue": "Combobox"
+  },
+  "cases": [
+    {
+      "id": "size=sm state=default",
+      "props": {
+        "label": "Property",
+        "options": [
+          {
+            "value": "lakeview",
+            "label": "Lakeview Lofts",
+            "description": "United States, Chicago"
+          },
+          {
+            "value": "lakeside",
+            "label": "Lakeside Commons",
+            "description": "Canada, Toronto",
+            "color": "success"
+          },
+          {
+            "value": "silver-lake",
+            "label": "Silver Lake Bungalows",
+            "description": "United States, Los Angeles",
+            "color": "info"
+          },
+          {
+            "value": "harbor",
+            "label": "Harbor Point",
+            "description": "United States, Boston"
+          }
+        ],
+        "search": "Lake",
+        "allowCreate": true,
+        "open": true,
+        "portal": false,
+        "size": "sm"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "size=sm state=hover",
+      "props": {
+        "label": "Property",
+        "options": [
+          {
+            "value": "lakeview",
+            "label": "Lakeview Lofts",
+            "description": "United States, Chicago"
+          },
+          {
+            "value": "lakeside",
+            "label": "Lakeside Commons",
+            "description": "Canada, Toronto",
+            "color": "success"
+          },
+          {
+            "value": "silver-lake",
+            "label": "Silver Lake Bungalows",
+            "description": "United States, Los Angeles",
+            "color": "info"
+          },
+          {
+            "value": "harbor",
+            "label": "Harbor Point",
+            "description": "United States, Boston"
+          }
+        ],
+        "search": "Lake",
+        "allowCreate": true,
+        "open": true,
+        "portal": false,
+        "size": "sm"
+      },
+      "state": "hover",
+      "content": null
+    },
+    {
+      "id": "size=sm state=focus-visible",
+      "props": {
+        "label": "Property",
+        "options": [
+          {
+            "value": "lakeview",
+            "label": "Lakeview Lofts",
+            "description": "United States, Chicago"
+          },
+          {
+            "value": "lakeside",
+            "label": "Lakeside Commons",
+            "description": "Canada, Toronto",
+            "color": "success"
+          },
+          {
+            "value": "silver-lake",
+            "label": "Silver Lake Bungalows",
+            "description": "United States, Los Angeles",
+            "color": "info"
+          },
+          {
+            "value": "harbor",
+            "label": "Harbor Point",
+            "description": "United States, Boston"
+          }
+        ],
+        "search": "Lake",
+        "allowCreate": true,
+        "open": true,
+        "portal": false,
+        "size": "sm"
+      },
+      "state": "focus-visible",
+      "content": null
+    },
+    {
+      "id": "size=sm state=disabled",
+      "props": {
+        "label": "Property",
+        "options": [
+          {
+            "value": "lakeview",
+            "label": "Lakeview Lofts",
+            "description": "United States, Chicago"
+          },
+          {
+            "value": "lakeside",
+            "label": "Lakeside Commons",
+            "description": "Canada, Toronto",
+            "color": "success"
+          },
+          {
+            "value": "silver-lake",
+            "label": "Silver Lake Bungalows",
+            "description": "United States, Los Angeles",
+            "color": "info"
+          },
+          {
+            "value": "harbor",
+            "label": "Harbor Point",
+            "description": "United States, Boston"
+          }
+        ],
+        "search": "Lake",
+        "allowCreate": true,
+        "open": true,
+        "portal": false,
+        "size": "sm",
+        "disabled": true
+      },
+      "state": "disabled",
+      "content": null
+    },
+    {
+      "id": "size=sm state=invalid",
+      "props": {
+        "label": "Property",
+        "options": [
+          {
+            "value": "lakeview",
+            "label": "Lakeview Lofts",
+            "description": "United States, Chicago"
+          },
+          {
+            "value": "lakeside",
+            "label": "Lakeside Commons",
+            "description": "Canada, Toronto",
+            "color": "success"
+          },
+          {
+            "value": "silver-lake",
+            "label": "Silver Lake Bungalows",
+            "description": "United States, Los Angeles",
+            "color": "info"
+          },
+          {
+            "value": "harbor",
+            "label": "Harbor Point",
+            "description": "United States, Boston"
+          }
+        ],
+        "search": "Lake",
+        "allowCreate": true,
+        "open": true,
+        "portal": false,
+        "size": "sm",
+        "invalid": true
+      },
+      "state": "invalid",
+      "content": null
+    },
+    {
+      "id": "size=sm state=loading",
+      "props": {
+        "label": "Property",
+        "options": [
+          {
+            "value": "lakeview",
+            "label": "Lakeview Lofts",
+            "description": "United States, Chicago"
+          },
+          {
+            "value": "lakeside",
+            "label": "Lakeside Commons",
+            "description": "Canada, Toronto",
+            "color": "success"
+          },
+          {
+            "value": "silver-lake",
+            "label": "Silver Lake Bungalows",
+            "description": "United States, Los Angeles",
+            "color": "info"
+          },
+          {
+            "value": "harbor",
+            "label": "Harbor Point",
+            "description": "United States, Boston"
+          }
+        ],
+        "search": "Lake",
+        "allowCreate": true,
+        "open": true,
+        "portal": false,
+        "size": "sm",
+        "loading": true
+      },
+      "state": "loading",
+      "content": null
+    },
+    {
+      "id": "size=md state=default",
+      "props": {
+        "label": "Property",
+        "options": [
+          {
+            "value": "lakeview",
+            "label": "Lakeview Lofts",
+            "description": "United States, Chicago"
+          },
+          {
+            "value": "lakeside",
+            "label": "Lakeside Commons",
+            "description": "Canada, Toronto",
+            "color": "success"
+          },
+          {
+            "value": "silver-lake",
+            "label": "Silver Lake Bungalows",
+            "description": "United States, Los Angeles",
+            "color": "info"
+          },
+          {
+            "value": "harbor",
+            "label": "Harbor Point",
+            "description": "United States, Boston"
+          }
+        ],
+        "search": "Lake",
+        "allowCreate": true,
+        "open": true,
+        "portal": false,
+        "size": "md"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "size=md state=hover",
+      "props": {
+        "label": "Property",
+        "options": [
+          {
+            "value": "lakeview",
+            "label": "Lakeview Lofts",
+            "description": "United States, Chicago"
+          },
+          {
+            "value": "lakeside",
+            "label": "Lakeside Commons",
+            "description": "Canada, Toronto",
+            "color": "success"
+          },
+          {
+            "value": "silver-lake",
+            "label": "Silver Lake Bungalows",
+            "description": "United States, Los Angeles",
+            "color": "info"
+          },
+          {
+            "value": "harbor",
+            "label": "Harbor Point",
+            "description": "United States, Boston"
+          }
+        ],
+        "search": "Lake",
+        "allowCreate": true,
+        "open": true,
+        "portal": false,
+        "size": "md"
+      },
+      "state": "hover",
+      "content": null
+    },
+    {
+      "id": "size=md state=focus-visible",
+      "props": {
+        "label": "Property",
+        "options": [
+          {
+            "value": "lakeview",
+            "label": "Lakeview Lofts",
+            "description": "United States, Chicago"
+          },
+          {
+            "value": "lakeside",
+            "label": "Lakeside Commons",
+            "description": "Canada, Toronto",
+            "color": "success"
+          },
+          {
+            "value": "silver-lake",
+            "label": "Silver Lake Bungalows",
+            "description": "United States, Los Angeles",
+            "color": "info"
+          },
+          {
+            "value": "harbor",
+            "label": "Harbor Point",
+            "description": "United States, Boston"
+          }
+        ],
+        "search": "Lake",
+        "allowCreate": true,
+        "open": true,
+        "portal": false,
+        "size": "md"
+      },
+      "state": "focus-visible",
+      "content": null
+    },
+    {
+      "id": "size=md state=disabled",
+      "props": {
+        "label": "Property",
+        "options": [
+          {
+            "value": "lakeview",
+            "label": "Lakeview Lofts",
+            "description": "United States, Chicago"
+          },
+          {
+            "value": "lakeside",
+            "label": "Lakeside Commons",
+            "description": "Canada, Toronto",
+            "color": "success"
+          },
+          {
+            "value": "silver-lake",
+            "label": "Silver Lake Bungalows",
+            "description": "United States, Los Angeles",
+            "color": "info"
+          },
+          {
+            "value": "harbor",
+            "label": "Harbor Point",
+            "description": "United States, Boston"
+          }
+        ],
+        "search": "Lake",
+        "allowCreate": true,
+        "open": true,
+        "portal": false,
+        "size": "md",
+        "disabled": true
+      },
+      "state": "disabled",
+      "content": null
+    },
+    {
+      "id": "size=md state=invalid",
+      "props": {
+        "label": "Property",
+        "options": [
+          {
+            "value": "lakeview",
+            "label": "Lakeview Lofts",
+            "description": "United States, Chicago"
+          },
+          {
+            "value": "lakeside",
+            "label": "Lakeside Commons",
+            "description": "Canada, Toronto",
+            "color": "success"
+          },
+          {
+            "value": "silver-lake",
+            "label": "Silver Lake Bungalows",
+            "description": "United States, Los Angeles",
+            "color": "info"
+          },
+          {
+            "value": "harbor",
+            "label": "Harbor Point",
+            "description": "United States, Boston"
+          }
+        ],
+        "search": "Lake",
+        "allowCreate": true,
+        "open": true,
+        "portal": false,
+        "size": "md",
+        "invalid": true
+      },
+      "state": "invalid",
+      "content": null
+    },
+    {
+      "id": "size=md state=loading",
+      "props": {
+        "label": "Property",
+        "options": [
+          {
+            "value": "lakeview",
+            "label": "Lakeview Lofts",
+            "description": "United States, Chicago"
+          },
+          {
+            "value": "lakeside",
+            "label": "Lakeside Commons",
+            "description": "Canada, Toronto",
+            "color": "success"
+          },
+          {
+            "value": "silver-lake",
+            "label": "Silver Lake Bungalows",
+            "description": "United States, Los Angeles",
+            "color": "info"
+          },
+          {
+            "value": "harbor",
+            "label": "Harbor Point",
+            "description": "United States, Boston"
+          }
+        ],
+        "search": "Lake",
+        "allowCreate": true,
+        "open": true,
+        "portal": false,
+        "size": "md",
+        "loading": true
+      },
+      "state": "loading",
+      "content": null
+    },
+    {
+      "id": "size=lg state=default",
+      "props": {
+        "label": "Property",
+        "options": [
+          {
+            "value": "lakeview",
+            "label": "Lakeview Lofts",
+            "description": "United States, Chicago"
+          },
+          {
+            "value": "lakeside",
+            "label": "Lakeside Commons",
+            "description": "Canada, Toronto",
+            "color": "success"
+          },
+          {
+            "value": "silver-lake",
+            "label": "Silver Lake Bungalows",
+            "description": "United States, Los Angeles",
+            "color": "info"
+          },
+          {
+            "value": "harbor",
+            "label": "Harbor Point",
+            "description": "United States, Boston"
+          }
+        ],
+        "search": "Lake",
+        "allowCreate": true,
+        "open": true,
+        "portal": false,
+        "size": "lg"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "size=lg state=hover",
+      "props": {
+        "label": "Property",
+        "options": [
+          {
+            "value": "lakeview",
+            "label": "Lakeview Lofts",
+            "description": "United States, Chicago"
+          },
+          {
+            "value": "lakeside",
+            "label": "Lakeside Commons",
+            "description": "Canada, Toronto",
+            "color": "success"
+          },
+          {
+            "value": "silver-lake",
+            "label": "Silver Lake Bungalows",
+            "description": "United States, Los Angeles",
+            "color": "info"
+          },
+          {
+            "value": "harbor",
+            "label": "Harbor Point",
+            "description": "United States, Boston"
+          }
+        ],
+        "search": "Lake",
+        "allowCreate": true,
+        "open": true,
+        "portal": false,
+        "size": "lg"
+      },
+      "state": "hover",
+      "content": null
+    },
+    {
+      "id": "size=lg state=focus-visible",
+      "props": {
+        "label": "Property",
+        "options": [
+          {
+            "value": "lakeview",
+            "label": "Lakeview Lofts",
+            "description": "United States, Chicago"
+          },
+          {
+            "value": "lakeside",
+            "label": "Lakeside Commons",
+            "description": "Canada, Toronto",
+            "color": "success"
+          },
+          {
+            "value": "silver-lake",
+            "label": "Silver Lake Bungalows",
+            "description": "United States, Los Angeles",
+            "color": "info"
+          },
+          {
+            "value": "harbor",
+            "label": "Harbor Point",
+            "description": "United States, Boston"
+          }
+        ],
+        "search": "Lake",
+        "allowCreate": true,
+        "open": true,
+        "portal": false,
+        "size": "lg"
+      },
+      "state": "focus-visible",
+      "content": null
+    },
+    {
+      "id": "size=lg state=disabled",
+      "props": {
+        "label": "Property",
+        "options": [
+          {
+            "value": "lakeview",
+            "label": "Lakeview Lofts",
+            "description": "United States, Chicago"
+          },
+          {
+            "value": "lakeside",
+            "label": "Lakeside Commons",
+            "description": "Canada, Toronto",
+            "color": "success"
+          },
+          {
+            "value": "silver-lake",
+            "label": "Silver Lake Bungalows",
+            "description": "United States, Los Angeles",
+            "color": "info"
+          },
+          {
+            "value": "harbor",
+            "label": "Harbor Point",
+            "description": "United States, Boston"
+          }
+        ],
+        "search": "Lake",
+        "allowCreate": true,
+        "open": true,
+        "portal": false,
+        "size": "lg",
+        "disabled": true
+      },
+      "state": "disabled",
+      "content": null
+    },
+    {
+      "id": "size=lg state=invalid",
+      "props": {
+        "label": "Property",
+        "options": [
+          {
+            "value": "lakeview",
+            "label": "Lakeview Lofts",
+            "description": "United States, Chicago"
+          },
+          {
+            "value": "lakeside",
+            "label": "Lakeside Commons",
+            "description": "Canada, Toronto",
+            "color": "success"
+          },
+          {
+            "value": "silver-lake",
+            "label": "Silver Lake Bungalows",
+            "description": "United States, Los Angeles",
+            "color": "info"
+          },
+          {
+            "value": "harbor",
+            "label": "Harbor Point",
+            "description": "United States, Boston"
+          }
+        ],
+        "search": "Lake",
+        "allowCreate": true,
+        "open": true,
+        "portal": false,
+        "size": "lg",
+        "invalid": true
+      },
+      "state": "invalid",
+      "content": null
+    },
+    {
+      "id": "size=lg state=loading",
+      "props": {
+        "label": "Property",
+        "options": [
+          {
+            "value": "lakeview",
+            "label": "Lakeview Lofts",
+            "description": "United States, Chicago"
+          },
+          {
+            "value": "lakeside",
+            "label": "Lakeside Commons",
+            "description": "Canada, Toronto",
+            "color": "success"
+          },
+          {
+            "value": "silver-lake",
+            "label": "Silver Lake Bungalows",
+            "description": "United States, Los Angeles",
+            "color": "info"
+          },
+          {
+            "value": "harbor",
+            "label": "Harbor Point",
+            "description": "United States, Boston"
+          }
+        ],
+        "search": "Lake",
+        "allowCreate": true,
+        "open": true,
+        "portal": false,
+        "size": "lg",
+        "loading": true
+      },
+      "state": "loading",
+      "content": null
+    }
+  ],
+  "sheets": [
+    {
+      "id": "light",
+      "theme": "light",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "dark",
+      "theme": "dark",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "high-contrast",
+      "theme": "high-contrast",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "rtl",
+      "theme": "light",
+      "density": "default",
+      "dir": "rtl"
+    }
+  ]
+}

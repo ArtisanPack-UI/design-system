@@ -1,0 +1,119 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "Kbd",
+  "description": "A keyboard key or shortcut, as kbd elements. keys renders a combination in the platform's spelling: mod is ⌘ on macOS and iOS and Ctrl elsewhere, and the other modifiers follow (⌥ / Alt, ⇧ / Shift). Symbol keys carry their name as hidden text. Without keys, the content is one key.",
+  "status": "draft",
+  "issue": 65,
+  "rootClass": "apui-kbd",
+  "stacks": {
+    "livewire": {
+      "name": "kbd",
+      "capabilities": [
+        "The server renders the other platforms' keys; a small Alpine component swaps in ⌘, ⌥ and ⇧ on Apple platforms when platform is auto",
+        "2.x content still works: <x-artisanpack-kbd>K</x-artisanpack-kbd> is one key"
+      ]
+    },
+    "react": {
+      "name": "Kbd",
+      "capabilities": [
+        "children is one key when keys is empty",
+        "The first render (and the server's) uses the other platforms' keys; Apple keys show after mount"
+      ]
+    },
+    "vue": {
+      "name": "Kbd",
+      "capabilities": [
+        "The default slot is one key when keys is empty",
+        "The first render (and the server's) uses the other platforms' keys; Apple keys show after mount"
+      ]
+    }
+  },
+  "props": [
+    {
+      "name": "keys",
+      "type": "array",
+      "description": "The keys of a shortcut, in order, such as ['mod', 'shift', 'p']. Named keys: mod, cmd, ctrl, alt (option), shift, enter, esc, tab, space, backspace, delete and the arrows (up, down, left, right). A single character is uppercased; anything else (F5, PgUp) shows as given. Renders a combo, even for one key."
+    },
+    {
+      "name": "size",
+      "type": "enum",
+      "values": ["sm", "md"],
+      "default": "md",
+      "description": "md for running text, sm inside menus, tooltips and other dense rows. Emitted as data-size on every key."
+    },
+    {
+      "name": "platform",
+      "type": "enum",
+      "values": ["auto", "mac", "other"],
+      "default": "auto",
+      "description": "Whose keys to show. auto checks the browser after it loads; mac and other fix it, such as when the server knows the platform."
+    },
+    {
+      "name": "labels",
+      "type": "object",
+      "description": "The hidden names of symbol keys, by name: command, control, option, shift, enter, tab, escape, backspace, up, down, left and right. Translate them: Livewire defaults each through __( 'Command' ) and the rest.",
+      "a11y": "A symbol such as ⌘ reads as its name instead."
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part, such as { combo: '…', key: '…' }."
+    }
+  ],
+  "sizes": ["sm", "md"],
+  "parts": [
+    {
+      "name": "root",
+      "element": "kbd",
+      "description": "The first key cap, or the only one."
+    },
+    {
+      "name": "combo",
+      "element": "kbd",
+      "description": "The outer kbd around a shortcut's keys (`.apui-kbd-combo`), as HTML nests kbd for combinations. Keeps its order in RTL."
+    },
+    {
+      "name": "key",
+      "element": "kbd",
+      "description": "A key cap (`.apui-kbd`), with data-size. A symbol shows hidden from assistive technology, followed by its name as hidden text."
+    }
+  ],
+  "slots": [
+    {
+      "name": "default",
+      "description": "One key, when keys is empty."
+    }
+  ],
+  "events": [],
+  "a11y": {
+    "element": "kbd",
+    "requirements": [
+      "Every key is a kbd element; a shortcut is a kbd of kbd elements.",
+      "Symbols (⌘, ⌥, ⇧, ⌃, ↵, arrows) have a text alternative read instead of the symbol.",
+      "The keys match the platform: ⌘ on Apple platforms, Ctrl elsewhere.",
+      "Not a control: never use Kbd as a button."
+    ],
+    "wcag": ["1.1.1", "1.3.1", "1.4.3"]
+  },
+  "tokens": [
+    "--apui-kbd-radius",
+    "--apui-border-default",
+    "--apui-border-width",
+    "--apui-surface-raised",
+    "--apui-text-default",
+    "--apui-text-muted",
+    "--apui-font-family-mono",
+    "--apui-type-code-sm-font-size"
+  ],
+  "fixture": {
+    "props": {
+      "keys": ["mod", "shift", "enter"],
+      "platform": "other"
+    },
+    "parts": {
+      "labels": {
+        "enter": "Return key"
+      }
+    }
+  }
+}

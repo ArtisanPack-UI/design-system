@@ -1,0 +1,441 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "RichTextEditor",
+  "description": "Formatted text editing with a toolbar over the shared prose styles. All three stacks render the same frame, toolbar and content, on different engines (D-003): TinyMCE in Livewire, a built-in contentEditable engine in React and Vue.",
+  "status": "draft",
+  "issue": 53,
+  "rootClass": "apui-rich-text-editor",
+  "stacks": {
+    "livewire": {
+      "name": "rich-text-editor",
+      "capabilities": ["tinymce", "uploads", "markdown-shortcuts"],
+      "differences": [
+        "Edits with TinyMCE (inline, under the design-system toolbar) when the page loads it; without TinyMCE it falls back to the built-in contentEditable engine React and Vue use.",
+        "With TinyMCE, Link and Image open TinyMCE's dialogs, and images upload to the package's upload route (disk and folder), so pasted and dropped images work.",
+        "Livewire-only props: engine, config (extra TinyMCE settings), disk and folder.",
+        "Markdown shortcuts run only on the built-in engine; TinyMCE keeps its own typing behavior.",
+        "Replaces the TinyMCE-only <x-artisanpack-editor>, which stays as a deprecated alias of the old component."
+      ]
+    },
+    "react": {
+      "name": "RichTextEditor",
+      "capabilities": ["markdown-shortcuts"],
+      "differences": [
+        "Edits with the built-in contentEditable engine (the browser's editing commands): no TinyMCE, no uploads.",
+        "Link and Image ask for a URL (and image description) with the browser prompt; only http, https, mailto, tel and relative URLs are kept.",
+        "The value is sanitized to the editor's formats before it is shown, so untrusted HTML can't run script."
+      ]
+    },
+    "vue": {
+      "name": "RichTextEditor",
+      "capabilities": ["markdown-shortcuts"],
+      "differences": [
+        "Edits with the built-in contentEditable engine (the browser's editing commands): no TinyMCE, no uploads.",
+        "Link and Image ask for a URL (and image description) with the browser prompt; only http, https, mailto, tel and relative URLs are kept.",
+        "The value is sanitized to the editor's formats before it is shown, so untrusted HTML can't run script."
+      ]
+    }
+  },
+  "props": [
+    {
+      "name": "toolbar",
+      "type": "string",
+      "default": "default",
+      "description": "A preset (default, compact or minimal), or in React and Vue a list of commands and | dividers: bold, italic, underline, strike, heading2, heading3, bulletList, orderedList, quote, code, link, image, undo, redo. Formats the output can't hold are left off."
+    },
+    {
+      "name": "output",
+      "type": "enum",
+      "values": ["html", "markdown"],
+      "default": "html",
+      "description": "The format value is read and written in. Markdown drops underline from the toolbar. Emitted as data-output."
+    },
+    {
+      "name": "maxLength",
+      "type": "number",
+      "description": "The most characters allowed. Typing stops there, and the footer counts against it."
+    },
+    {
+      "name": "counter",
+      "type": "boolean",
+      "default": false,
+      "description": "Shows the footer with the word and character count. maxLength shows it too."
+    },
+    {
+      "name": "label",
+      "type": "node",
+      "description": "The visible label. It names the content."
+    },
+    {
+      "name": "hint",
+      "type": "node",
+      "description": "Help text under the editor, linked with aria-describedby."
+    },
+    {
+      "name": "error",
+      "type": "string",
+      "description": "Validation message. Marks the field invalid and is linked with aria-describedby."
+    },
+    {
+      "name": "invalid",
+      "type": "boolean",
+      "default": false,
+      "description": "Marks the field invalid without a message. Emitted as data-invalid.",
+      "a11y": "Sets aria-invalid on the content."
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": false,
+      "description": "Disables editing and the toolbar. Emitted as data-disabled."
+    },
+    {
+      "name": "readonly",
+      "type": "boolean",
+      "default": false,
+      "description": "Shows the content without editing it. Emitted as data-readonly.",
+      "a11y": "Sets aria-readonly on the content."
+    },
+    {
+      "name": "required",
+      "type": "boolean",
+      "default": false,
+      "description": "Marks the field required and shows the required mark.",
+      "a11y": "Sets aria-required on the content."
+    },
+    {
+      "name": "placeholder",
+      "type": "string",
+      "description": "Text shown while the content is empty. Never a replacement for the label."
+    },
+    {
+      "name": "value",
+      "type": "string",
+      "description": "The content, in the output format. Livewire binds it with wire:model, Vue with v-model. Sanitized to the editor's formats before it is shown."
+    },
+    {
+      "name": "defaultValue",
+      "type": "string",
+      "stacks": ["react"],
+      "description": "The initial value of an uncontrolled editor."
+    },
+    {
+      "name": "toolbarLabel",
+      "type": "string",
+      "description": "The toolbar's accessible name. Defaults to \"Formatting\", translated in Livewire."
+    },
+    {
+      "name": "boldLabel",
+      "type": "string",
+      "description": "The Bold button's accessible name. Defaults to \"Bold\", translated in Livewire."
+    },
+    {
+      "name": "italicLabel",
+      "type": "string",
+      "description": "The Italic button's accessible name. Defaults to \"Italic\", translated in Livewire."
+    },
+    {
+      "name": "underlineLabel",
+      "type": "string",
+      "description": "The Underline button's accessible name. Defaults to \"Underline\", translated in Livewire."
+    },
+    {
+      "name": "strikeLabel",
+      "type": "string",
+      "description": "The Strikethrough button's accessible name. Defaults to \"Strikethrough\", translated in Livewire."
+    },
+    {
+      "name": "heading2Label",
+      "type": "string",
+      "description": "The Heading 2 button's accessible name. Defaults to \"Heading 2\", translated in Livewire."
+    },
+    {
+      "name": "heading3Label",
+      "type": "string",
+      "description": "The Heading 3 button's accessible name. Defaults to \"Heading 3\", translated in Livewire."
+    },
+    {
+      "name": "bulletListLabel",
+      "type": "string",
+      "description": "The bulleted list button's accessible name. Defaults to \"Bulleted list\", translated in Livewire."
+    },
+    {
+      "name": "orderedListLabel",
+      "type": "string",
+      "description": "The numbered list button's accessible name. Defaults to \"Numbered list\", translated in Livewire."
+    },
+    {
+      "name": "quoteLabel",
+      "type": "string",
+      "description": "The Quote button's accessible name. Defaults to \"Quote\", translated in Livewire."
+    },
+    {
+      "name": "codeLabel",
+      "type": "string",
+      "description": "The Code button's accessible name. Defaults to \"Code\", translated in Livewire."
+    },
+    {
+      "name": "linkLabel",
+      "type": "string",
+      "description": "The Link button's accessible name. Defaults to \"Link\", translated in Livewire."
+    },
+    {
+      "name": "imageLabel",
+      "type": "string",
+      "description": "The Image button's accessible name. Defaults to \"Image\", translated in Livewire."
+    },
+    {
+      "name": "undoLabel",
+      "type": "string",
+      "description": "The Undo button's accessible name. Defaults to \"Undo\", translated in Livewire."
+    },
+    {
+      "name": "redoLabel",
+      "type": "string",
+      "description": "The Redo button's accessible name. Defaults to \"Redo\", translated in Livewire."
+    },
+    {
+      "name": "linkPromptLabel",
+      "type": "string",
+      "description": "The prompt that asks for a link URL (built-in engine). Defaults to \"Link URL\", translated in Livewire."
+    },
+    {
+      "name": "imagePromptLabel",
+      "type": "string",
+      "description": "The prompt that asks for an image URL (built-in engine). Defaults to \"Image URL\", translated in Livewire."
+    },
+    {
+      "name": "imageAltPromptLabel",
+      "type": "string",
+      "description": "The prompt that asks for an image description (built-in engine). Defaults to \"Describe the image\", translated in Livewire."
+    },
+    {
+      "name": "shortcutsLabel",
+      "type": "string",
+      "description": "The footer note about Markdown shortcuts. Defaults to \"Markdown shortcuts on\", translated in Livewire."
+    },
+    {
+      "name": "wordLabel",
+      "type": "string",
+      "description": "The footer's word count for one word; :count is the number. Defaults to \":count word\", translated in Livewire."
+    },
+    {
+      "name": "wordsLabel",
+      "type": "string",
+      "description": "The footer's word count; :count is the number. Defaults to \":count words\", translated in Livewire."
+    },
+    {
+      "name": "characterLabel",
+      "type": "string",
+      "description": "The footer's character count for one character. Defaults to \":count character\", translated in Livewire."
+    },
+    {
+      "name": "charactersLabel",
+      "type": "string",
+      "description": "The footer's character count; :count is the number. Defaults to \":count characters\", translated in Livewire."
+    },
+    {
+      "name": "limitLabel",
+      "type": "string",
+      "description": "The footer's count with maxLength; :count and :max are numbers. Defaults to \":count / :max characters\", translated in Livewire."
+    },
+    {
+      "name": "engine",
+      "type": "enum",
+      "values": ["tinymce", "native"],
+      "default": "tinymce",
+      "stacks": ["livewire"],
+      "description": "tinymce runs TinyMCE when the page has loaded it; native always uses the built-in engine."
+    },
+    {
+      "name": "config",
+      "type": "object",
+      "stacks": ["livewire"],
+      "description": "Extra TinyMCE settings, merged over the defaults."
+    },
+    {
+      "name": "disk",
+      "type": "string",
+      "stacks": ["livewire"],
+      "description": "The storage disk TinyMCE image uploads go to. Unset, the upload route uses the first allowed disk."
+    },
+    {
+      "name": "folder",
+      "type": "string",
+      "default": "editor",
+      "stacks": ["livewire"],
+      "description": "The folder on the disk for uploads."
+    },
+    {
+      "name": "errorField",
+      "type": "string",
+      "stacks": ["livewire"],
+      "description": "The validation key to read from $errors. Defaults to the wire:model name."
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part, such as { toolbar: '…', content: '…' }."
+    }
+  ],
+  "parts": [
+    {
+      "name": "root",
+      "element": "div",
+      "description": "The field: label, box, hint and error."
+    },
+    {
+      "name": "label",
+      "element": "span",
+      "description": "The visible label. It names the content through aria-labelledby."
+    },
+    {
+      "name": "required",
+      "element": "span",
+      "description": "The required mark inside the label. Hidden from screen readers."
+    },
+    {
+      "name": "box",
+      "element": "div",
+      "description": "The bordered frame: toolbar, content and footer. The spec's root."
+    },
+    {
+      "name": "toolbar",
+      "element": "div",
+      "description": "role=toolbar with roving focus."
+    },
+    {
+      "name": "button",
+      "element": "button",
+      "description": "A formatting button: icon-only, with an accessible name; toggles carry aria-pressed. data-command names it."
+    },
+    {
+      "name": "divider",
+      "element": "span",
+      "description": "A vertical separator between button groups."
+    },
+    {
+      "name": "content",
+      "element": "div",
+      "description": "The editable content, role=textbox with aria-multiline, styled with the prose styles."
+    },
+    {
+      "name": "placeholder",
+      "element": "p",
+      "description": "The placeholder over the empty content. Hidden from screen readers; the content has aria-placeholder."
+    },
+    {
+      "name": "footer",
+      "element": "div",
+      "description": "The shortcuts note and the count."
+    },
+    {
+      "name": "count",
+      "element": "span",
+      "description": "Words and characters, or characters against maxLength."
+    },
+    {
+      "name": "hint",
+      "element": "p",
+      "description": "Help text."
+    },
+    {
+      "name": "error",
+      "element": "p",
+      "description": "Validation message, with an icon."
+    }
+  ],
+  "events": [
+    {
+      "name": "value-change",
+      "description": "The content changed. The payload is in the output format.",
+      "payload": "string"
+    }
+  ],
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Tab",
+        "action": "Moves into the toolbar (one stop) and then the content."
+      },
+      {
+        "keys": "ArrowLeft / ArrowRight",
+        "action": "Moves between toolbar buttons, following the text direction; Home and End go to the first and last."
+      },
+      {
+        "keys": "Mod+B / Mod+I / Mod+U",
+        "action": "Bold, italic and underline. Mod is Ctrl, or ⌘ on Apple platforms."
+      },
+      {
+        "keys": "Mod+Shift+X / Mod+Shift+7 / Mod+Shift+8",
+        "action": "Strikethrough, numbered list and bulleted list."
+      },
+      {
+        "keys": "Mod+K",
+        "action": "Adds a link to the selection, or removes the one at the caret."
+      },
+      {
+        "keys": "## / ### / - / 1. / > then Space",
+        "action": "Markdown shortcuts at the start of a line: headings, lists and a quote (built-in engine)."
+      }
+    ],
+    "requirements": [
+      "The toolbar is role=toolbar with an accessible name and one tab stop; arrow keys follow the text direction (RTL).",
+      "Toggle buttons use aria-pressed; every button is icon-only with an accessible name.",
+      "The content is role=textbox with aria-multiline, named by the label and described by the hint and error.",
+      "Invalid sets aria-invalid on the content; the error is text, never color alone.",
+      "The keyboard and Markdown shortcuts are documented.",
+      "The value is sanitized to the editor's formats; links and images keep only safe URLs.",
+      "Undo and redo icons mirror in RTL; code blocks stay left to right.",
+      "Disabled and read-only use --apui-surface-sunken, never opacity alone.",
+      "Visible focus ring on the box while the content has focus."
+    ],
+    "wcag": [
+      "1.1.1",
+      "1.3.1",
+      "1.4.3",
+      "1.4.11",
+      "2.1.1",
+      "2.4.7",
+      "2.5.8",
+      "3.3.1",
+      "3.3.2",
+      "4.1.2"
+    ]
+  },
+  "tokens": [
+    "--apui-input-radius",
+    "--apui-button-radius",
+    "--apui-border-default",
+    "--apui-border-muted",
+    "--apui-border-strong",
+    "--apui-surface-default",
+    "--apui-surface-sunken",
+    "--apui-text-default",
+    "--apui-text-muted",
+    "--apui-text-disabled",
+    "--apui-selected-bg",
+    "--apui-color-primary-soft-foreground",
+    "--apui-color-primary-text",
+    "--apui-color-error-border",
+    "--apui-color-error-text",
+    "--apui-state-hover",
+    "--apui-state-pressed",
+    "--apui-focus-ring-color"
+  ],
+  "fixture": {
+    "props": {
+      "label": "Description",
+      "toolbar": "default"
+    },
+    "parts": {
+      "required": true,
+      "hint": "Shown on the listing page.",
+      "error": "Write at least 40 characters.",
+      "counter": true,
+      "placeholder": "Write a note for the buyer…",
+      "boldLabel": "Strong"
+    },
+    "states": ["disabled", "invalid", "readonly"]
+  }
+}

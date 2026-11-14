@@ -1,0 +1,281 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "Range",
+  "description": "A slider for one value, or two thumbs for a from–to range. Each thumb is a native input type=range laid over the drawn track, so keyboard, touch and screen readers get the platform slider.",
+  "status": "draft",
+  "issue": 53,
+  "rootClass": "apui-range",
+  "stacks": {
+    "livewire": {
+      "name": "range"
+    },
+    "react": {
+      "name": "Range"
+    },
+    "vue": {
+      "name": "Range"
+    }
+  },
+  "props": [
+    {
+      "name": "min",
+      "type": "number",
+      "default": 0,
+      "description": "The lowest value."
+    },
+    {
+      "name": "max",
+      "type": "number",
+      "default": 100,
+      "description": "The highest value."
+    },
+    {
+      "name": "step",
+      "type": "number",
+      "default": 1,
+      "description": "The step between values."
+    },
+    {
+      "name": "value",
+      "type": "number",
+      "description": "The value: a number, or [from, to] with dual. Livewire binds it with wire:model, Vue with v-model."
+    },
+    {
+      "name": "defaultValue",
+      "type": "number",
+      "description": "The initial value of an uncontrolled range: a number, or [from, to] with dual.",
+      "stacks": ["react"]
+    },
+    {
+      "name": "dual",
+      "type": "boolean",
+      "default": false,
+      "description": "Two thumbs for a from–to range. The value is [from, to] and the thumbs can't cross."
+    },
+    {
+      "name": "showValue",
+      "type": "enum",
+      "values": ["never", "focus", "always"],
+      "default": "focus",
+      "description": "When the value bubble above a thumb shows. Emitted as data-show-value."
+    },
+    {
+      "name": "format",
+      "type": "string",
+      "description": "How a value reads in the bubble, the marks and aria-valuetext: a template where {value} is the number, such as {value} km or ${value}k."
+    },
+    {
+      "name": "marks",
+      "type": "array",
+      "description": "Labels under the track: [{ value, label }], placed at their values."
+    },
+    {
+      "name": "color",
+      "type": "enum",
+      "values": [
+        "primary",
+        "secondary",
+        "accent",
+        "neutral",
+        "success",
+        "warning",
+        "error",
+        "info"
+      ],
+      "default": "primary",
+      "description": "The fill and thumb edge. Emitted as data-color."
+    },
+    {
+      "name": "size",
+      "type": "enum",
+      "values": ["sm", "md"],
+      "default": "md",
+      "description": "Thumb size. Emitted as data-size."
+    },
+    {
+      "name": "label",
+      "type": "node",
+      "description": "The visible label, linked to the (first) thumb."
+    },
+    {
+      "name": "hint",
+      "type": "node",
+      "description": "Help text under the track, linked with aria-describedby."
+    },
+    {
+      "name": "error",
+      "type": "string",
+      "description": "Validation message. Marks the field invalid and is linked with aria-describedby."
+    },
+    {
+      "name": "invalid",
+      "type": "boolean",
+      "default": false,
+      "description": "Marks the field invalid without a message. Emitted as data-invalid.",
+      "a11y": "Sets aria-invalid on the thumbs."
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": false,
+      "description": "Disables the thumbs."
+    },
+    {
+      "name": "thumbLabels",
+      "type": "object",
+      "default": {
+        "start": "Minimum",
+        "end": "Maximum"
+      },
+      "description": "With dual, the names added to the label for each thumb. Livewire translates the defaults."
+    },
+    {
+      "name": "errorField",
+      "type": "string",
+      "description": "The validation key to read from $errors. Defaults to the wire:model name.",
+      "stacks": ["livewire"]
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part, such as { track: '…', thumb: '…' }."
+    }
+  ],
+  "colors": ["primary", "secondary", "accent", "neutral", "success", "warning", "error", "info"],
+  "sizes": ["sm", "md"],
+  "parts": [
+    {
+      "name": "root",
+      "element": "div",
+      "description": "The field: label, track, marks, hint and error. Its inline --apui-_from and --apui-_to place the fill and thumbs."
+    },
+    {
+      "name": "label",
+      "element": "label",
+      "description": "The visible label, for the (first) thumb."
+    },
+    {
+      "name": "track",
+      "element": "div",
+      "description": "The rail the fill and thumbs sit on."
+    },
+    {
+      "name": "fill",
+      "element": "div",
+      "description": "The filled span: from the start (or the from thumb) to the value."
+    },
+    {
+      "name": "control",
+      "element": "input",
+      "description": "A native input type=range per thumb, transparent over the track. Attributes other than class land on it (on both with dual)."
+    },
+    {
+      "name": "thumb",
+      "element": "span",
+      "description": "The drawn thumb (aria-hidden), positioned at its value."
+    },
+    {
+      "name": "bubble",
+      "element": "span",
+      "description": "The value above a thumb, per showValue."
+    },
+    {
+      "name": "marks",
+      "element": "div",
+      "description": "The labels under the track."
+    },
+    {
+      "name": "mark",
+      "element": "span",
+      "description": "One label, placed at its value."
+    },
+    {
+      "name": "hint",
+      "element": "p",
+      "description": "Help text."
+    },
+    {
+      "name": "error",
+      "element": "p",
+      "description": "Validation message, with an icon."
+    }
+  ],
+  "events": [
+    {
+      "name": "value-change",
+      "description": "The value changed: a number, or [from, to] with dual.",
+      "payload": "number | [number, number]"
+    }
+  ],
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "ArrowRight / ArrowUp",
+        "action": "Increases the value by step. ArrowRight follows text direction, so it decreases in RTL."
+      },
+      {
+        "keys": "ArrowLeft / ArrowDown",
+        "action": "Decreases the value by step. ArrowLeft follows text direction, so it increases in RTL."
+      },
+      {
+        "keys": "PageUp / PageDown",
+        "action": "Changes the value by a larger step."
+      },
+      {
+        "keys": "Home / End",
+        "action": "Jumps to min or max."
+      }
+    ],
+    "requirements": [
+      "Each thumb is a native input type=range, so the platform supplies role=slider, the keys and touch.",
+      "aria-valuetext carries the formatted value (format), such as $200k.",
+      "With dual, each thumb is named by the label plus its thumb label (Minimum, Maximum), and the thumbs can't cross.",
+      "The fill and thumbs follow text direction: under RTL the track fills from the right.",
+      "The thumb is 18px (14px small) with a 24px hit area.",
+      "Visible focus ring on the thumb while its input has :focus-visible.",
+      "Disabled uses --apui-text-disabled for the fill and edge, never opacity alone."
+    ],
+    "wcag": ["1.3.1", "1.4.3", "1.4.11", "2.1.1", "2.4.7", "2.5.8", "3.3.1", "3.3.2", "4.1.2"]
+  },
+  "tokens": [
+    "--apui-color-primary",
+    "--apui-surface-sunken",
+    "--apui-surface-raised",
+    "--apui-surface-inverse",
+    "--apui-text-inverse",
+    "--apui-tooltip-radius",
+    "--apui-border-default",
+    "--apui-text-default",
+    "--apui-text-muted",
+    "--apui-text-disabled",
+    "--apui-focus-ring-color"
+  ],
+  "fixture": {
+    "props": {
+      "label": "Search radius",
+      "value": 20,
+      "max": 50,
+      "format": "{value} km"
+    },
+    "parts": {
+      "hint": "Listings within this distance.",
+      "error": "Pick at least 5 km.",
+      "showValue": "always",
+      "marks": [
+        {
+          "value": 0,
+          "label": "0 km"
+        },
+        {
+          "value": 25,
+          "label": "25 km"
+        },
+        {
+          "value": 50,
+          "label": "50 km"
+        }
+      ]
+    },
+    "states": ["hover", "focus-visible", "disabled", "invalid"]
+  }
+}

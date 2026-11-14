@@ -1,0 +1,297 @@
+{
+  "version": 1,
+  "component": "Loading",
+  "rootClass": "apui-loading",
+  "stacks": [
+    "livewire",
+    "react",
+    "vue"
+  ],
+  "names": {
+    "livewire": "loading",
+    "react": "Loading",
+    "vue": "Loading"
+  },
+  "cases": [
+    {
+      "id": "variant=spinner size=xs state=default",
+      "props": {
+        "delay": 0,
+        "variant": "spinner",
+        "size": "xs"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=spinner size=sm state=default",
+      "props": {
+        "delay": 0,
+        "variant": "spinner",
+        "size": "sm"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=spinner size=md state=default",
+      "props": {
+        "delay": 0,
+        "variant": "spinner",
+        "size": "md"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=spinner size=lg state=default",
+      "props": {
+        "delay": 0,
+        "variant": "spinner",
+        "size": "lg"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=spinner size=xl state=default",
+      "props": {
+        "delay": 0,
+        "variant": "spinner",
+        "size": "xl"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=dots size=xs state=default",
+      "props": {
+        "delay": 0,
+        "variant": "dots",
+        "size": "xs"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=dots size=sm state=default",
+      "props": {
+        "delay": 0,
+        "variant": "dots",
+        "size": "sm"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=dots size=md state=default",
+      "props": {
+        "delay": 0,
+        "variant": "dots",
+        "size": "md"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=dots size=lg state=default",
+      "props": {
+        "delay": 0,
+        "variant": "dots",
+        "size": "lg"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=dots size=xl state=default",
+      "props": {
+        "delay": 0,
+        "variant": "dots",
+        "size": "xl"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=spinner size=md color=secondary state=default",
+      "props": {
+        "delay": 0,
+        "variant": "spinner",
+        "size": "md",
+        "color": "secondary"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=dots size=md color=secondary state=default",
+      "props": {
+        "delay": 0,
+        "variant": "dots",
+        "size": "md",
+        "color": "secondary"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=spinner size=md color=accent state=default",
+      "props": {
+        "delay": 0,
+        "variant": "spinner",
+        "size": "md",
+        "color": "accent"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=dots size=md color=accent state=default",
+      "props": {
+        "delay": 0,
+        "variant": "dots",
+        "size": "md",
+        "color": "accent"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=spinner size=md color=neutral state=default",
+      "props": {
+        "delay": 0,
+        "variant": "spinner",
+        "size": "md",
+        "color": "neutral"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=dots size=md color=neutral state=default",
+      "props": {
+        "delay": 0,
+        "variant": "dots",
+        "size": "md",
+        "color": "neutral"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=spinner size=md color=success state=default",
+      "props": {
+        "delay": 0,
+        "variant": "spinner",
+        "size": "md",
+        "color": "success"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=dots size=md color=success state=default",
+      "props": {
+        "delay": 0,
+        "variant": "dots",
+        "size": "md",
+        "color": "success"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=spinner size=md color=warning state=default",
+      "props": {
+        "delay": 0,
+        "variant": "spinner",
+        "size": "md",
+        "color": "warning"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=dots size=md color=warning state=default",
+      "props": {
+        "delay": 0,
+        "variant": "dots",
+        "size": "md",
+        "color": "warning"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=spinner size=md color=error state=default",
+      "props": {
+        "delay": 0,
+        "variant": "spinner",
+        "size": "md",
+        "color": "error"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=dots size=md color=error state=default",
+      "props": {
+        "delay": 0,
+        "variant": "dots",
+        "size": "md",
+        "color": "error"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=spinner size=md color=info state=default",
+      "props": {
+        "delay": 0,
+        "variant": "spinner",
+        "size": "md",
+        "color": "info"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=dots size=md color=info state=default",
+      "props": {
+        "delay": 0,
+        "variant": "dots",
+        "size": "md",
+        "color": "info"
+      },
+      "state": "default",
+      "content": null
+    }
+  ],
+  "sheets": [
+    {
+      "id": "light",
+      "theme": "light",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "dark",
+      "theme": "dark",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "high-contrast",
+      "theme": "high-contrast",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "rtl",
+      "theme": "light",
+      "density": "default",
+      "dir": "rtl"
+    }
+  ]
+}

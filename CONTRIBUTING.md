@@ -20,12 +20,13 @@ npm run build
 
 ```text
 packages/
-├── tokens/     # @artisanpack-ui/tokens: DTCG source tokens and generated outputs
+├── tokens/     # @artisanpack-ui/tokens: DTCG source tokens and generated outputs (contributing/tokens)
 ├── css/        # @artisanpack-ui/css: plain-CSS component layer (/tailwind preset planned in #24)
 ├── behavior/   # @artisanpack-ui/behavior: interaction engine with Alpine, React and Vue adapters
 └── manifest/   # @artisanpack-ui/manifest: per-component API manifest
 design/         # Phase 1 design spec (the visual target)
-docs/           # Decisions and the Phase 0 inventory
+docs/           # User documentation, published on the docs site
+contributing/   # Decisions, the Phase 0 inventory, token format, CSS conventions, Figma
 tools/          # Inventory and design tooling (not workspaces)
 ```
 
@@ -33,9 +34,11 @@ tools/          # Inventory and design tooling (not workspaces)
 
 | Command | What it does |
 |---|---|
-| `npm run build` | Builds every package |
-| `npm test` | Runs every package's tests |
+| `npm run build` | Builds every package. Fails if the committed token outputs are stale |
+| `npm test` | Runs every package's tests. The CSS cascade tests need Chromium: `npx playwright install chromium` once |
 | `npm run lint` | ESLint |
+| `npm run lint:css` | Stylelint: layers, `apui` prefix, logical properties ([conventions](contributing/css-conventions.md)) |
+| `npm run tokens` | Validates the DTCG tokens and regenerates their CSS, TS and PHP outputs |
 | `npm run format` / `format:check` | Prettier |
 | `npm run type-check` | `tsc --noEmit` in every package |
 | `npm test --prefix tools/inventory` | Checks the inventory data, including the D-003 exceptions |
@@ -47,7 +50,7 @@ CI runs all of these on every pull request.
 - One issue per branch, named `<type>/<issue>-<slug>` (for example `feat/21-css-layers`).
 - Small commits with conventional prefixes: `feat:`, `fix:`, `docs:`, `chore:`.
 - Open a PR to `main` that closes the issue. CodeRabbit reviews every PR.
-- New decisions go in `docs/decisions.md` with the next D-number.
+- New decisions go in `contributing/decisions.md` with the next D-number.
 
 ## Changesets
 

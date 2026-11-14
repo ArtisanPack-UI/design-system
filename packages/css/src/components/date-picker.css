@@ -1,0 +1,407 @@
+/*
+ * DatePicker (#55), and DateTime as its `time` mode. Root `.apui-date-picker`
+ * is the field (label, box, hint, time-zone, error), on the shared field
+ * anatomy in field.css (D-018): Zag's control and input parts are renamed
+ * `box` and `control`. The box rules mirror field.css's Input and Select box;
+ * `trigger` is the calendar button at its start. The popover is the `content` panel: `view` (view-control with the
+ * month buttons and range-text, then the `table` grid of table-header and
+ * table-cell-trigger days), the time column (`time`, time-label, time-list
+ * of time-option) in time mode, and the footer. See design/components/DatePicker
+ * and design/components/DateTime.
+ */
+@layer apui.components {
+  /* The box. */
+  [data-scope='date-picker'][data-part='box'] {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-inline-size: 0;
+    block-size: var(--apui-_h);
+    padding-inline: var(--apui-_pad);
+    border: var(--apui-border-width) solid var(--apui-border-default);
+    border-radius: var(--apui-input-radius);
+    background: var(--apui-surface-default);
+    color: var(--apui-text-default);
+    font-size: var(--apui-_fs);
+    line-height: var(--apui-type-body-md-line-height);
+    cursor: text;
+    transition: border-color var(--apui-motion-duration-fast) var(--apui-motion-ease-standard);
+  }
+
+  [data-scope='date-picker'][data-part='box']:hover {
+    border-color: var(--apui-border-strong);
+  }
+
+  [data-scope='date-picker'][data-part='box']:has([data-part='control']:focus-visible) {
+    outline: var(--apui-focus-ring-width) solid transparent;
+    box-shadow:
+      0 0 0 var(--apui-focus-ring-offset) var(--apui-focus-ring-offset-color),
+      0 0 0 calc(var(--apui-focus-ring-offset) + var(--apui-focus-ring-width))
+        var(--apui-focus-ring-color);
+  }
+
+  [data-scope='date-picker'][data-part='control'] {
+    box-sizing: border-box;
+    flex: 1;
+    align-self: stretch;
+    inline-size: 100%;
+    min-inline-size: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    outline: none;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: inherit;
+  }
+
+  [data-scope='date-picker'][data-part='control']::placeholder {
+    color: var(--apui-text-muted);
+    opacity: 1;
+  }
+
+  /* The dash between a range's two inputs. */
+  [data-scope='date-picker'][data-part='box'] > span[aria-hidden='true'] {
+    flex: none;
+    color: var(--apui-text-muted);
+  }
+
+  /* The calendar icon at the start of the box opens the popover. */
+  [data-scope='date-picker'][data-part='trigger'] {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    inline-size: var(--apui-icon-size-md);
+    block-size: var(--apui-icon-size-md);
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: var(--apui-radius-control);
+    background: transparent;
+    color: var(--apui-text-muted);
+    cursor: pointer;
+  }
+
+  [data-scope='date-picker'][data-part='trigger'] > svg {
+    inline-size: 100%;
+    block-size: 100%;
+  }
+
+  [data-scope='date-picker'][data-part='trigger']:hover {
+    color: var(--apui-text-default);
+  }
+
+  [data-scope='date-picker'][data-part='trigger']:focus-visible {
+    outline: var(--apui-focus-ring-width) solid transparent;
+    box-shadow: 0 0 0 var(--apui-focus-ring-width) var(--apui-focus-ring-color);
+  }
+
+  /* Invalid: an error edge, plus the error text. Never color alone. */
+  .apui-date-picker[data-invalid] > [data-scope='date-picker'][data-part='box'] {
+    border-color: var(--apui-color-error-border);
+  }
+
+  /* Disabled and read-only: the sunken surface. Never opacity alone. */
+  .apui-date-picker:is([data-disabled], [data-readonly])
+    > [data-scope='date-picker'][data-part='box'] {
+    border-color: var(--apui-border-muted);
+    background: var(--apui-surface-sunken);
+  }
+
+  .apui-date-picker[data-disabled]
+    > [data-scope='date-picker']:is([data-part='box'], [data-part='label']) {
+    color: var(--apui-text-disabled);
+  }
+
+  .apui-date-picker[data-disabled]
+    [data-scope='date-picker']:is([data-part='box'], [data-part='control'], [data-part='trigger']) {
+    cursor: not-allowed;
+  }
+
+  .apui-date-picker[data-disabled] [data-scope='date-picker'][data-part='trigger'] {
+    color: var(--apui-text-disabled);
+  }
+
+  /* The popover. */
+  [data-scope='date-picker'][data-part='positioner'] {
+    z-index: var(--apui-z-dropdown);
+  }
+
+  [data-scope='date-picker'][data-part='content'] {
+    box-sizing: border-box;
+    inline-size: 296px;
+    max-inline-size: calc(100vw - 16px);
+    padding: 12px;
+    border: var(--apui-border-width) solid var(--apui-border-muted);
+    border-radius: var(--apui-menu-radius);
+    background: var(--apui-surface-overlay);
+    box-shadow: var(--apui-elevation-overlay);
+    color: var(--apui-text-default);
+    font-family: var(--apui-font-family-sans);
+    font-size: var(--apui-type-body-sm-font-size);
+    line-height: var(--apui-type-body-sm-line-height);
+    outline: none;
+  }
+
+  [data-scope='date-picker'][data-part='content'][data-state='open'] {
+    animation: apui-date-picker-enter var(--apui-motion-duration-fast) var(--apui-motion-ease-enter);
+  }
+
+  @keyframes apui-date-picker-enter {
+    from {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+  }
+
+  /* Time mode: the month, then a column of times; the footer spans both. */
+  [data-scope='date-picker'][data-part='content'][data-time] {
+    display: grid;
+    grid-template-columns: minmax(0, 272px) minmax(0, 110px);
+    gap: 12px;
+    inline-size: auto;
+  }
+
+  /* On a phone the time column goes under the month, so nothing overflows. */
+  @media (max-width: 439px) {
+    [data-scope='date-picker'][data-part='content'][data-time] {
+      grid-template-columns: minmax(0, 272px);
+    }
+
+    [data-scope='date-picker'][data-part='content'][data-time]
+      [data-scope='date-picker'][data-part='time'] {
+      padding-block-start: 12px;
+      padding-inline-start: 0;
+      border-block-start: var(--apui-border-width) solid var(--apui-border-muted);
+      border-inline-start: 0;
+    }
+
+    [data-scope='date-picker'][data-part='content'][data-time]
+      [data-scope='date-picker'][data-part='time-list'] {
+      grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
+      max-block-size: 144px;
+    }
+  }
+
+  [data-scope='date-picker'][data-part='view-control'] {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-block-end: 8px;
+  }
+
+  [data-scope='date-picker']:is([data-part='range-text'], [data-part='time-label']) {
+    font-size: var(--apui-type-body-md-font-size);
+    font-weight: var(--apui-font-weight-semibold);
+    line-height: var(--apui-type-body-md-line-height);
+  }
+
+  [data-scope='date-picker'][data-part='table'] {
+    inline-size: 100%;
+    border-collapse: separate;
+    border-spacing: 2px;
+    margin: -2px;
+    table-layout: fixed;
+    outline: none;
+  }
+
+  [data-scope='date-picker'][data-part='table-header'] {
+    padding: 0;
+    color: var(--apui-text-muted);
+    font-size: var(--apui-type-caption-font-size);
+    font-weight: var(--apui-font-weight-medium);
+    line-height: 28px;
+    text-align: center;
+  }
+
+  [data-scope='date-picker'][data-part='table-cell'] {
+    padding: 0;
+  }
+
+  [data-scope='date-picker'][data-part='table-cell-trigger'] {
+    display: grid;
+    place-items: center;
+    block-size: 36px;
+    border-radius: var(--apui-radius-full);
+    color: var(--apui-text-default);
+    font-size: 13px;
+    font-variant-numeric: tabular-nums;
+    cursor: pointer;
+    outline: none;
+    user-select: none;
+  }
+
+  [data-scope='date-picker'][data-part='table-cell-trigger']:hover {
+    background: var(--apui-state-hover);
+  }
+
+  /* Inside the grid the ring is inset, so it never overlaps a neighbor. */
+  [data-scope='date-picker'][data-part='table-cell-trigger']:focus-visible {
+    outline: var(--apui-focus-ring-width) solid transparent;
+    box-shadow: inset 0 0 0 var(--apui-focus-ring-width) var(--apui-focus-ring-color);
+  }
+
+  [data-scope='date-picker'][data-part='table-cell-trigger'][data-outside-range] {
+    color: var(--apui-text-muted);
+    cursor: default;
+  }
+
+  [data-scope='date-picker'][data-part='table-cell-trigger'][data-today] {
+    box-shadow: inset 0 0 0 var(--apui-border-width) var(--apui-border-strong);
+    font-weight: var(--apui-font-weight-semibold);
+  }
+
+  /* Today with focus: the ring outside, today's edge inside it. */
+  [data-scope='date-picker'][data-part='table-cell-trigger'][data-today]:focus-visible {
+    box-shadow:
+      inset 0 0 0 var(--apui-focus-ring-width) var(--apui-focus-ring-color),
+      inset 0 0 0 calc(var(--apui-focus-ring-width) + var(--apui-border-width))
+        var(--apui-border-strong);
+  }
+
+  [data-scope='date-picker'][data-part='table-cell-trigger'][data-in-range] {
+    border-radius: 0;
+    background: var(--apui-color-primary-soft);
+    color: var(--apui-color-primary-soft-foreground);
+  }
+
+  [data-scope='date-picker'][data-part='table-cell-trigger'][data-selected] {
+    border-radius: var(--apui-radius-full);
+    background: var(--apui-color-primary);
+    color: var(--apui-color-primary-foreground);
+    font-weight: var(--apui-font-weight-semibold);
+  }
+
+  [data-scope='date-picker'][data-part='table-cell-trigger'][data-selected]:focus-visible {
+    box-shadow:
+      inset 0 0 0 var(--apui-focus-ring-width) var(--apui-focus-ring-color),
+      inset 0 0 0 calc(var(--apui-focus-ring-width) * 2) var(--apui-color-primary-foreground);
+  }
+
+  /* Unavailable: struck through and muted, never color alone. */
+  [data-scope='date-picker'][data-part='table-cell-trigger'][data-disabled]:not(
+      [data-outside-range]
+    ) {
+    background: none;
+    color: var(--apui-text-disabled);
+    text-decoration: line-through;
+    cursor: not-allowed;
+  }
+
+  /* The time column. */
+  [data-scope='date-picker'][data-part='time'] {
+    display: grid;
+    align-content: start;
+    gap: 6px;
+    min-inline-size: 0;
+    padding-inline-start: 12px;
+    border-inline-start: var(--apui-border-width) solid var(--apui-border-muted);
+  }
+
+  [data-scope='date-picker'][data-part='time-label'] {
+    font-size: var(--apui-type-body-sm-font-size);
+  }
+
+  [data-scope='date-picker'][data-part='time-list'] {
+    display: grid;
+    gap: 2px;
+    max-block-size: 280px;
+    overflow-y: auto;
+    outline: none;
+  }
+
+  [data-scope='date-picker'][data-part='time-option'] {
+    display: flex;
+    align-items: center;
+    min-block-size: 32px;
+    padding-inline: 10px;
+    border-radius: var(--apui-menu-item-radius);
+    color: var(--apui-text-default);
+    font-variant-numeric: tabular-nums;
+    cursor: pointer;
+    outline: none;
+    user-select: none;
+  }
+
+  [data-scope='date-picker'][data-part='time-option']:hover {
+    background: var(--apui-state-hover);
+  }
+
+  [data-scope='date-picker'][data-part='time-option']:focus-visible {
+    outline: var(--apui-focus-ring-width) solid transparent;
+    box-shadow: inset 0 0 0 var(--apui-focus-ring-width) var(--apui-focus-ring-color);
+  }
+
+  [data-scope='date-picker'][data-part='time-option'][data-selected] {
+    background: var(--apui-selected-bg);
+    color: var(--apui-color-primary-soft-foreground);
+    font-weight: var(--apui-font-weight-semibold);
+  }
+
+  [data-scope='date-picker'][data-part='time-option'][data-disabled] {
+    background: none;
+    color: var(--apui-text-disabled);
+    cursor: not-allowed;
+  }
+
+  [data-scope='date-picker'][data-part='footer'] {
+    display: flex;
+    grid-column: 1 / -1;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-block-start: 8px;
+    padding-block-start: 8px;
+    border-block-start: var(--apui-border-width) solid var(--apui-border-muted);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-scope='date-picker'][data-part='content'][data-state='open'] {
+      animation: none;
+    }
+
+    [data-scope='date-picker'][data-part='box'] {
+      transition: none;
+    }
+  }
+
+  @media (forced-colors: active) {
+    [data-scope='date-picker']:is([data-part='box'], [data-part='content']) {
+      border-color: CanvasText;
+    }
+
+    [data-scope='date-picker']:is(
+        [data-part='table-cell-trigger'],
+        [data-part='time-option']
+      )[data-selected] {
+      background: Highlight;
+      color: HighlightText;
+      forced-color-adjust: none;
+    }
+
+    [data-scope='date-picker'][data-part='table-cell-trigger'][data-today] {
+      outline: 1px solid CanvasText;
+      outline-offset: -1px;
+    }
+
+    /* Focus beats today's edge; box-shadow rings don't draw here. */
+    [data-scope='date-picker']:is(
+        [data-part='table-cell-trigger'],
+        [data-part='time-option']
+      ):focus-visible {
+      outline: var(--apui-focus-ring-width) solid Highlight;
+      outline-offset: calc(var(--apui-focus-ring-width) * -1);
+    }
+
+    [data-scope='date-picker'][data-part='table-cell-trigger'][data-disabled]:not(
+        [data-outside-range]
+      ) {
+      color: GrayText;
+    }
+  }
+}

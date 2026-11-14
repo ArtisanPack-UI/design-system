@@ -1,0 +1,26 @@
+{
+  "panel": {
+    "$type": "dimension",
+    "padding": {
+      "$value": {
+        "value": 24,
+        "unit": "px"
+      }
+    },
+    "gap": {
+      "$value": {
+        "value": 16,
+        "unit": "px"
+      }
+    }
+  },
+  "row": {
+    "height": {
+      "$type": "dimension",
+      "$value": {
+        "value": 48,
+        "unit": "px"
+      }
+    }
+  }
+}

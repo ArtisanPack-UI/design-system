@@ -1,0 +1,85 @@
+/*
+ * Text (#58). Root `.apui-text`: body copy. data-size (xs, sm, md, lg,
+ * lead), data-tone (default, muted, success, warning, error) and data-weight
+ * (regular, medium, semibold). data-truncate cuts one line with an ellipsis;
+ * data-clamp cuts after --apui-text-clamp lines (2 by default). Paragraphs
+ * keep to the measure. See design/components/Text.
+ */
+@layer apui.components {
+  .apui-text {
+    max-inline-size: var(--apui-measure);
+    margin: 0;
+    color: var(--apui-text-default);
+    font-family: var(--apui-font-family-sans);
+    font-size: var(--apui-type-body-md-font-size);
+    font-weight: var(--apui-font-weight-regular);
+    line-height: var(--apui-type-body-md-line-height);
+  }
+
+  /* Sizes */
+  .apui-text[data-size='xs'] {
+    font-size: var(--apui-type-caption-font-size);
+    line-height: var(--apui-type-caption-line-height);
+  }
+
+  .apui-text[data-size='sm'] {
+    font-size: var(--apui-type-body-sm-font-size);
+    line-height: var(--apui-type-body-sm-line-height);
+  }
+
+  .apui-text[data-size='lg'] {
+    font-size: var(--apui-type-body-lg-font-size);
+    line-height: var(--apui-type-body-lg-line-height);
+  }
+
+  /* Lead introduces a page or section, in the muted tone unless one is set. */
+  .apui-text[data-size='lead'] {
+    font-size: var(--apui-type-heading-md-font-size);
+    line-height: 28px;
+  }
+
+  .apui-text[data-size='lead']:is([data-tone='default'], :not([data-tone])) {
+    color: var(--apui-text-muted);
+  }
+
+  /* Tones. Status tones are never the only signal: the words say it too. */
+  .apui-text[data-tone='muted'] {
+    color: var(--apui-text-muted);
+  }
+
+  .apui-text[data-tone='success'] {
+    color: var(--apui-color-success-text);
+  }
+
+  .apui-text[data-tone='warning'] {
+    color: var(--apui-color-warning-text);
+  }
+
+  .apui-text[data-tone='error'] {
+    color: var(--apui-color-error-text);
+  }
+
+  /* Weights */
+  .apui-text[data-weight='medium'] {
+    font-weight: var(--apui-font-weight-medium);
+  }
+
+  .apui-text[data-weight='semibold'] {
+    font-weight: var(--apui-font-weight-semibold);
+  }
+
+  /* Truncation keeps the full text in the title attribute. */
+  .apui-text[data-truncate] {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .apui-text[data-clamp] {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: var(--apui-text-clamp, 2);
+    line-clamp: var(--apui-text-clamp, 2);
+  }
+}

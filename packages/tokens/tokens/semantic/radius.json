@@ -1,0 +1,21 @@
+{
+  "radius": {
+    "$type": "dimension",
+    "control": {
+      "$value": "{radius.full}",
+      "$description": "Semantic: controls (Button, Badge, segmented Tabs, Toggle, Pagination)."
+    },
+    "field": {
+      "$value": "{radius.md}",
+      "$description": "Semantic: text entry (Input, Select, Textarea, DatePicker field)."
+    },
+    "surface": {
+      "$value": "{radius.lg}",
+      "$description": "Semantic: containers (Card, Table, Alert, panels)."
+    },
+    "overlay": {
+      "$value": "{radius.xl}",
+      "$description": "Semantic: overlays (Dialog, menus, Toast, popovers)."
+    }
+  }
+}

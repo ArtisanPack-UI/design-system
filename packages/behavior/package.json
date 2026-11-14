@@ -1,7 +1,6 @@
 {
   "name": "@artisanpack-ui/behavior",
   "version": "0.0.0",
-  "private": true,
   "description": "Shared interaction engine for ArtisanPack UI components, with Alpine, React and Vue adapters.",
   "license": "MIT",
   "author": "Jacob Martella <me@jacobmartella.com>",
@@ -15,7 +14,9 @@
   },
   "homepage": "https://github.com/ArtisanPack-UI/design-system/tree/main/packages/behavior#readme",
   "type": "module",
-  "sideEffects": false,
+  "sideEffects": [
+    "./dist/alpine.global.js"
+  ],
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -29,10 +30,54 @@
         "types": "./dist/index.d.cts",
         "default": "./dist/index.cjs"
       }
-    }
+    },
+    "./alpine": {
+      "import": {
+        "types": "./dist/alpine.d.ts",
+        "default": "./dist/alpine.mjs"
+      },
+      "require": {
+        "types": "./dist/alpine.d.cts",
+        "default": "./dist/alpine.cjs"
+      }
+    },
+    "./react": {
+      "import": {
+        "types": "./dist/react.d.ts",
+        "default": "./dist/react.mjs"
+      },
+      "require": {
+        "types": "./dist/react.d.cts",
+        "default": "./dist/react.cjs"
+      }
+    },
+    "./vue": {
+      "import": {
+        "types": "./dist/vue.d.ts",
+        "default": "./dist/vue.mjs"
+      },
+      "require": {
+        "types": "./dist/vue.d.cts",
+        "default": "./dist/vue.cjs"
+      }
+    },
+    "./icons": {
+      "import": {
+        "types": "./dist/icons.d.ts",
+        "default": "./dist/icons.mjs"
+      },
+      "require": {
+        "types": "./dist/icons.d.cts",
+        "default": "./dist/icons.cjs"
+      }
+    },
+    "./icons.json": "./icons/lucide.json",
+    "./alpine.global.js": "./dist/alpine.global.js",
+    "./package.json": "./package.json"
   },
   "files": [
     "dist",
+    "icons",
     "README.md",
     "LICENSE"
   ],
@@ -43,5 +88,66 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@floating-ui/dom": "~1.8.0",
+    "@internationalized/date": "~3.12.0",
+    "@zag-js/accordion": "~1.47.0",
+    "@zag-js/carousel": "~1.47.0",
+    "@zag-js/collapsible": "~1.47.0",
+    "@zag-js/color-picker": "~1.47.0",
+    "@zag-js/combobox": "~1.47.0",
+    "@zag-js/core": "~1.47.0",
+    "@zag-js/date-picker": "~1.47.0",
+    "@zag-js/dialog": "~1.47.0",
+    "@zag-js/menu": "~1.47.0",
+    "@zag-js/popover": "~1.47.0",
+    "@zag-js/tabs": "~1.47.0",
+    "@zag-js/toast": "~1.47.0",
+    "@zag-js/tooltip": "~1.47.0",
+    "@zag-js/types": "~1.47.0",
+    "@zag-js/vanilla": "~1.47.0",
+    "marked": "~18.1.2"
+  },
+  "devDependencies": {
+    "@alpinejs/morph": "^3.17.5",
+    "@types/alpinejs": "^3.17.0",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@zag-js/react": "~1.47.0",
+    "@zag-js/vue": "~1.47.0",
+    "alpinejs": "^3.17.5",
+    "esbuild": "^0.28.2",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "vue": "^3.5.45"
+  },
+  "peerDependencies": {
+    "@types/alpinejs": "^3.13.0",
+    "@zag-js/react": "~1.47.0",
+    "@zag-js/vue": "~1.47.0",
+    "alpinejs": "^3.13",
+    "react": ">=18.0.0",
+    "vue": "^3.5.0"
+  },
+  "peerDependenciesMeta": {
+    "@types/alpinejs": {
+      "optional": true
+    },
+    "@zag-js/react": {
+      "optional": true
+    },
+    "@zag-js/vue": {
+      "optional": true
+    },
+    "alpinejs": {
+      "optional": true
+    },
+    "react": {
+      "optional": true
+    },
+    "vue": {
+      "optional": true
+    }
   }
 }

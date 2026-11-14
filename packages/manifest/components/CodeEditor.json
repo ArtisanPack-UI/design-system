@@ -1,0 +1,406 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "CodeEditor",
+  "description": "Editable code in a native textarea, with file tabs, a language select, line numbers, the active line, diagnostics listed in text and a status bar. Code stays left to right in RTL.",
+  "status": "draft",
+  "issue": 53,
+  "rootClass": "apui-code-editor",
+  "stacks": {
+    "livewire": {
+      "name": "code-editor"
+    },
+    "react": {
+      "name": "CodeEditor"
+    },
+    "vue": {
+      "name": "CodeEditor"
+    }
+  },
+  "props": [
+    {
+      "name": "language",
+      "type": "string",
+      "description": "The code's language, shown in the status bar and selected in the language select."
+    },
+    {
+      "name": "languages",
+      "type": "array",
+      "description": "Options for the language select, as strings or { value, label }. The select renders when there are any."
+    },
+    {
+      "name": "tabs",
+      "type": "array",
+      "description": "File tabs, as strings or { value, label }. They render as a tablist over the code."
+    },
+    {
+      "name": "tab",
+      "type": "string",
+      "description": "The selected tab's value. Defaults to the first tab."
+    },
+    {
+      "name": "diagnostics",
+      "type": "array",
+      "description": "Problems as { line, column?, message, severity? } (error, warning or info). Marked in the gutter and listed in text under the code."
+    },
+    {
+      "name": "tabSize",
+      "type": "number",
+      "default": 2,
+      "description": "Spaces Tab inserts, shown in the status bar."
+    },
+    {
+      "name": "rows",
+      "type": "number",
+      "default": 12,
+      "description": "The fewest lines shown. The editor grows with its content."
+    },
+    {
+      "name": "label",
+      "type": "node",
+      "description": "The visible label, linked to the control."
+    },
+    {
+      "name": "hint",
+      "type": "node",
+      "description": "Help text under the editor, linked with aria-describedby."
+    },
+    {
+      "name": "error",
+      "type": "string",
+      "description": "Validation message. Marks the field invalid and is linked with aria-describedby."
+    },
+    {
+      "name": "invalid",
+      "type": "boolean",
+      "default": false,
+      "description": "Marks the field invalid without a message. Emitted as data-invalid.",
+      "a11y": "Sets aria-invalid on the control."
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": false,
+      "description": "Disables the control. Emitted as data-disabled."
+    },
+    {
+      "name": "readonly",
+      "type": "boolean",
+      "default": false,
+      "description": "Makes the code read-only. It stays focusable and selectable. Emitted as data-readonly."
+    },
+    {
+      "name": "required",
+      "type": "boolean",
+      "default": false,
+      "description": "Marks the field required and shows the required mark.",
+      "a11y": "Sets required (and so aria-required) on the control."
+    },
+    {
+      "name": "placeholder",
+      "type": "string",
+      "description": "Placeholder text. Never a replacement for the label."
+    },
+    {
+      "name": "value",
+      "type": "string",
+      "description": "The code. Livewire binds it with wire:model on the textarea, Vue with v-model."
+    },
+    {
+      "name": "defaultValue",
+      "type": "string",
+      "stacks": ["react"],
+      "description": "The initial value of an uncontrolled editor."
+    },
+    {
+      "name": "tabsLabel",
+      "type": "string",
+      "description": "The file tablist's accessible name. Defaults to \"Open files\", translated in Livewire."
+    },
+    {
+      "name": "languageLabel",
+      "type": "string",
+      "description": "The language select's accessible name. Defaults to \"Language\", translated in Livewire."
+    },
+    {
+      "name": "positionLabel",
+      "type": "string",
+      "description": "The caret position in the status bar; :line and :column are numbers. Defaults to \"Ln :line, Col :column\", translated in Livewire."
+    },
+    {
+      "name": "spacesLabel",
+      "type": "string",
+      "description": "The indentation in the status bar; :count is tabSize. Defaults to \"Spaces: :count\", translated in Livewire."
+    },
+    {
+      "name": "errorCountLabel",
+      "type": "string",
+      "description": "The status bar's count for one error. Defaults to \":count error\", translated in Livewire."
+    },
+    {
+      "name": "errorsCountLabel",
+      "type": "string",
+      "description": "The status bar's error count; :count is the number. Defaults to \":count errors\", translated in Livewire."
+    },
+    {
+      "name": "warningCountLabel",
+      "type": "string",
+      "description": "The status bar's count for one warning. Defaults to \":count warning\", translated in Livewire."
+    },
+    {
+      "name": "warningsCountLabel",
+      "type": "string",
+      "description": "The status bar's warning count; :count is the number. Defaults to \":count warnings\", translated in Livewire."
+    },
+    {
+      "name": "problemsLabel",
+      "type": "string",
+      "description": "The diagnostics list's accessible name. Defaults to \"Problems\", translated in Livewire."
+    },
+    {
+      "name": "lineLabel",
+      "type": "string",
+      "description": "A diagnostic's line; :line is the number. Defaults to \"Line :line\", translated in Livewire."
+    },
+    {
+      "name": "severityErrorLabel",
+      "type": "string",
+      "description": "The visually hidden severity name of an error. Defaults to \"Error\", translated in Livewire."
+    },
+    {
+      "name": "severityWarningLabel",
+      "type": "string",
+      "description": "The visually hidden severity name of a warning. Defaults to \"Warning\", translated in Livewire."
+    },
+    {
+      "name": "severityInfoLabel",
+      "type": "string",
+      "description": "The visually hidden severity name of an info diagnostic. Defaults to \"Info\", translated in Livewire."
+    },
+    {
+      "name": "instructionsLabel",
+      "type": "string",
+      "description": "The visually hidden keyboard instructions linked to the control. Defaults to \"Tab inserts indentation. To leave the editor, press Escape, then Tab.\", translated in Livewire."
+    },
+    {
+      "name": "errorField",
+      "type": "string",
+      "stacks": ["livewire"],
+      "description": "The validation key to read from $errors. Defaults to the wire:model name."
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part, such as { gutter: '…', control: '…' }."
+    }
+  ],
+  "parts": [
+    {
+      "name": "root",
+      "element": "div",
+      "description": "The field: label, box, hint and error."
+    },
+    {
+      "name": "label",
+      "element": "label",
+      "description": "The visible label, for the control."
+    },
+    {
+      "name": "required",
+      "element": "span",
+      "description": "The required mark inside the label. Hidden from screen readers; the control is required."
+    },
+    {
+      "name": "box",
+      "element": "div",
+      "description": "The bordered frame: header, body, diagnostics and status. The spec's root."
+    },
+    {
+      "name": "header",
+      "element": "div",
+      "description": "The bar over the code with the tabs and the language select. Renders with tabs or languages."
+    },
+    {
+      "name": "tabs",
+      "element": "div",
+      "description": "The file tabs, role=tablist with roving focus."
+    },
+    {
+      "name": "tab",
+      "element": "button",
+      "description": "One file tab, role=tab with aria-selected."
+    },
+    {
+      "name": "languageSelect",
+      "element": "select",
+      "description": "The native language select, with an accessible name."
+    },
+    {
+      "name": "body",
+      "element": "div",
+      "description": "The gutter beside the control, left to right in every direction. The tab panel when there are tabs."
+    },
+    {
+      "name": "gutter",
+      "element": "div",
+      "description": "Line numbers. Hidden from screen readers."
+    },
+    {
+      "name": "line",
+      "element": "span",
+      "description": "One line number, with data-active on the caret's line and data-severity on lines with diagnostics."
+    },
+    {
+      "name": "control",
+      "element": "textarea",
+      "description": "The native textarea. Attributes other than class land here."
+    },
+    {
+      "name": "diagnostics",
+      "element": "ul",
+      "description": "The diagnostics listed in text, so they're never only a mark."
+    },
+    {
+      "name": "diagnostic",
+      "element": "li",
+      "description": "One diagnostic: an icon, its line and message, with data-severity."
+    },
+    {
+      "name": "status",
+      "element": "div",
+      "description": "The status bar: problems, the caret's line and column, indentation and language."
+    },
+    {
+      "name": "instructions",
+      "element": "span",
+      "description": "Visually hidden keyboard instructions, linked to the control with aria-describedby."
+    },
+    {
+      "name": "hint",
+      "element": "p",
+      "description": "Help text."
+    },
+    {
+      "name": "error",
+      "element": "p",
+      "description": "Validation message, with an icon."
+    }
+  ],
+  "events": [
+    {
+      "name": "value-change",
+      "description": "The code changed.",
+      "payload": "string"
+    },
+    {
+      "name": "tab-change",
+      "description": "A tab was selected. The app swaps the value for that file.",
+      "payload": "string"
+    },
+    {
+      "name": "language-change",
+      "description": "A language was chosen in the select.",
+      "payload": "string"
+    }
+  ],
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Tab / Shift+Tab",
+        "action": "Inside the code, indents or outdents the line or every selected line by tabSize spaces."
+      },
+      {
+        "keys": "Escape, then Tab",
+        "action": "Leaves the editor: after Escape, Tab and Shift+Tab move focus as usual."
+      },
+      {
+        "keys": "ArrowLeft / ArrowRight",
+        "action": "Moves between file tabs and selects them, following the text direction; Home and End go to the first and last."
+      }
+    ],
+    "requirements": [
+      "The label is always visible and linked with for/id.",
+      "Tab inserts indentation; the way out (Escape, then Tab) is documented and read out through the instructions linked to the control.",
+      "Diagnostics are listed in text with their line and severity, not only marked in the gutter.",
+      "The file tabs are a tablist with one tab stop, and arrow keys follow the text direction (RTL); the body is their tab panel.",
+      "Hint, error and the instructions are linked to the control with aria-describedby; invalid sets aria-invalid.",
+      "The code and gutter stay left to right in RTL; the header and status bar mirror (D-004).",
+      "Colors come from tokens, so the editor follows the theme: never a hard-coded dark editor inside a light theme.",
+      "Class goes to the root; every other attribute (wire:model, name) goes to the control."
+    ],
+    "wcag": [
+      "1.3.1",
+      "1.4.1",
+      "1.4.3",
+      "1.4.11",
+      "2.1.1",
+      "2.1.2",
+      "2.4.3",
+      "2.4.7",
+      "3.3.1",
+      "3.3.2",
+      "4.1.2"
+    ]
+  },
+  "tokens": [
+    "--apui-input-radius",
+    "--apui-border-default",
+    "--apui-border-muted",
+    "--apui-surface-default",
+    "--apui-surface-sunken",
+    "--apui-text-default",
+    "--apui-text-muted",
+    "--apui-text-disabled",
+    "--apui-color-primary",
+    "--apui-color-error",
+    "--apui-color-error-border",
+    "--apui-color-error-text",
+    "--apui-color-warning",
+    "--apui-color-warning-text",
+    "--apui-color-info",
+    "--apui-color-info-text",
+    "--apui-state-hover",
+    "--apui-font-family-mono",
+    "--apui-focus-ring-color"
+  ],
+  "fixture": {
+    "props": {
+      "label": "Source",
+      "rows": 6,
+      "tabs": [
+        {
+          "value": "format-price.ts",
+          "label": "format-price.ts"
+        },
+        {
+          "value": "listing.blade.php",
+          "label": "listing.blade.php"
+        }
+      ]
+    },
+    "parts": {
+      "required": true,
+      "hint": "TypeScript, two spaces.",
+      "error": "Fix the errors before saving.",
+      "languages": [
+        {
+          "value": "typescript",
+          "label": "TypeScript"
+        },
+        {
+          "value": "php",
+          "label": "PHP"
+        }
+      ],
+      "language": "typescript",
+      "diagnostics": [
+        {
+          "line": 2,
+          "message": "Type 'string' is not assignable to type 'number'.",
+          "severity": "error"
+        }
+      ],
+      "tabsLabel": "Files"
+    },
+    "states": ["hover", "focus-visible", "disabled", "invalid", "readonly"]
+  }
+}

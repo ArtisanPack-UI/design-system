@@ -1,0 +1,12 @@
+[
+  {
+    "id": "basic",
+    "title": "Trend and target",
+    "description": "stat takes Stat's props. sparkline draws the trend beside the value; target adds progress toward a goal. Show a target only when one exists."
+  },
+  {
+    "id": "period",
+    "title": "With a period control",
+    "description": "The period slot sits in the label row, for a Select that changes the range."
+  }
+]

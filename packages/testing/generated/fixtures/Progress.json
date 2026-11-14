@@ -1,0 +1,196 @@
+{
+  "version": 1,
+  "component": "Progress",
+  "rootClass": "apui-progress",
+  "stacks": [
+    "livewire",
+    "react",
+    "vue"
+  ],
+  "names": {
+    "livewire": "progress",
+    "react": "Progress",
+    "vue": "Progress"
+  },
+  "cases": [
+    {
+      "id": "size=sm state=default",
+      "props": {
+        "value": 64,
+        "label": "Uploading 12 photos",
+        "valueText": "8 of 12",
+        "size": "sm"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "size=sm state=indeterminate",
+      "props": {
+        "value": 64,
+        "label": "Uploading 12 photos",
+        "valueText": "8 of 12",
+        "size": "sm",
+        "indeterminate": true
+      },
+      "state": "indeterminate",
+      "content": null
+    },
+    {
+      "id": "size=md state=default",
+      "props": {
+        "value": 64,
+        "label": "Uploading 12 photos",
+        "valueText": "8 of 12",
+        "size": "md"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "size=md state=indeterminate",
+      "props": {
+        "value": 64,
+        "label": "Uploading 12 photos",
+        "valueText": "8 of 12",
+        "size": "md",
+        "indeterminate": true
+      },
+      "state": "indeterminate",
+      "content": null
+    },
+    {
+      "id": "size=lg state=default",
+      "props": {
+        "value": 64,
+        "label": "Uploading 12 photos",
+        "valueText": "8 of 12",
+        "size": "lg"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "size=lg state=indeterminate",
+      "props": {
+        "value": 64,
+        "label": "Uploading 12 photos",
+        "valueText": "8 of 12",
+        "size": "lg",
+        "indeterminate": true
+      },
+      "state": "indeterminate",
+      "content": null
+    },
+    {
+      "id": "size=md color=secondary state=default",
+      "props": {
+        "value": 64,
+        "label": "Uploading 12 photos",
+        "valueText": "8 of 12",
+        "size": "md",
+        "color": "secondary"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "size=md color=accent state=default",
+      "props": {
+        "value": 64,
+        "label": "Uploading 12 photos",
+        "valueText": "8 of 12",
+        "size": "md",
+        "color": "accent"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "size=md color=neutral state=default",
+      "props": {
+        "value": 64,
+        "label": "Uploading 12 photos",
+        "valueText": "8 of 12",
+        "size": "md",
+        "color": "neutral"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "size=md color=success state=default",
+      "props": {
+        "value": 64,
+        "label": "Uploading 12 photos",
+        "valueText": "8 of 12",
+        "size": "md",
+        "color": "success"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "size=md color=warning state=default",
+      "props": {
+        "value": 64,
+        "label": "Uploading 12 photos",
+        "valueText": "8 of 12",
+        "size": "md",
+        "color": "warning"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "size=md color=error state=default",
+      "props": {
+        "value": 64,
+        "label": "Uploading 12 photos",
+        "valueText": "8 of 12",
+        "size": "md",
+        "color": "error"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "size=md color=info state=default",
+      "props": {
+        "value": 64,
+        "label": "Uploading 12 photos",
+        "valueText": "8 of 12",
+        "size": "md",
+        "color": "info"
+      },
+      "state": "default",
+      "content": null
+    }
+  ],
+  "sheets": [
+    {
+      "id": "light",
+      "theme": "light",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "dark",
+      "theme": "dark",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "high-contrast",
+      "theme": "high-contrast",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "rtl",
+      "theme": "light",
+      "density": "default",
+      "dir": "rtl"
+    }
+  ]
+}

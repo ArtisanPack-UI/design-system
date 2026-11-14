@@ -1,0 +1,54 @@
+{
+  "radius": {
+    "$type": "dimension",
+    "none": {
+      "$value": {
+        "value": 0,
+        "unit": "px"
+      },
+      "$description": "Tables cells, full-bleed media."
+    },
+    "xs": {
+      "$value": {
+        "value": 4,
+        "unit": "px"
+      },
+      "$description": "Checkbox, inner chips, code, keyboard keys."
+    },
+    "sm": {
+      "$value": {
+        "value": 6,
+        "unit": "px"
+      },
+      "$description": "Thumbnails, small inner elements."
+    },
+    "md": {
+      "$value": {
+        "value": 10,
+        "unit": "px"
+      },
+      "$description": "Text entry: Input, Select, Textarea, DatePicker field. Rectangular so multi-line and long forms work."
+    },
+    "lg": {
+      "$value": {
+        "value": 14,
+        "unit": "px"
+      },
+      "$description": "Containers: Card, panel, Table wrapper, Alert."
+    },
+    "xl": {
+      "$value": {
+        "value": 16,
+        "unit": "px"
+      },
+      "$description": "Overlays: Dialog, DropdownMenu, Toast, popovers."
+    },
+    "full": {
+      "$value": {
+        "value": 9999,
+        "unit": "px"
+      },
+      "$description": "Controls: Button, Badge, Tabs (segmented), Toggle, Avatar, filter chips, Pagination items."
+    }
+  }
+}

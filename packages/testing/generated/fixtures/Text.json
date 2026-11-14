@@ -1,0 +1,49 @@
+{
+  "version": 1,
+  "component": "Text",
+  "rootClass": "apui-text",
+  "stacks": [
+    "livewire",
+    "react",
+    "vue"
+  ],
+  "names": {
+    "livewire": "text",
+    "react": "Text",
+    "vue": "Text"
+  },
+  "cases": [
+    {
+      "id": "state=default",
+      "props": {},
+      "state": "default",
+      "content": "Twenty-four bright apartments around a garden courtyard."
+    }
+  ],
+  "sheets": [
+    {
+      "id": "light",
+      "theme": "light",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "dark",
+      "theme": "dark",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "high-contrast",
+      "theme": "high-contrast",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "rtl",
+      "theme": "light",
+      "density": "default",
+      "dir": "rtl"
+    }
+  ]
+}

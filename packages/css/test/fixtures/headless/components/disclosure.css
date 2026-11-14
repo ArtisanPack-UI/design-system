@@ -1,0 +1,23 @@
+/* Visual CSS only: what headless mode removes. */
+@layer apui.components {
+  .apui-disclosure {
+    display: grid;
+    gap: var(--apui-space-2);
+    padding: var(--apui-card-padding);
+    border: 1px solid var(--apui-border-muted);
+    border-radius: var(--apui-card-radius);
+    background: var(--apui-surface-default);
+  }
+
+  [data-scope='disclosure'][data-part='trigger'] {
+    block-size: var(--apui-control-height-md);
+    border: 0;
+    border-radius: var(--apui-button-radius);
+    background: var(--apui-color-primary);
+    color: var(--apui-color-primary-foreground);
+  }
+
+  [data-scope='disclosure'][data-part='content'] {
+    color: var(--apui-text-muted);
+  }
+}

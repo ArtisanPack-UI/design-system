@@ -1,0 +1,34 @@
+{
+  "motion": {
+    "duration-fast": {
+      "$type": "duration",
+      "$value": "{duration.150}",
+      "$description": "Hover, press and color changes on controls (the spec's 120 to 150ms transitions)."
+    },
+    "duration-moderate": {
+      "$type": "duration",
+      "$value": "{duration.200}",
+      "$description": "Small movements: toggle thumbs, chevrons, tooltips appearing."
+    },
+    "duration-slow": {
+      "$type": "duration",
+      "$value": "{duration.300}",
+      "$description": "Larger movements: drawers, dialogs, progress bars."
+    },
+    "ease-standard": {
+      "$type": "cubicBezier",
+      "$value": "{ease.in-out}",
+      "$description": "Movement that starts and ends on screen."
+    },
+    "ease-enter": {
+      "$type": "cubicBezier",
+      "$value": "{ease.out}",
+      "$description": "Things arriving: overlays opening, toasts sliding in."
+    },
+    "ease-exit": {
+      "$type": "cubicBezier",
+      "$value": "{ease.in}",
+      "$description": "Things leaving: overlays closing, toasts dismissed."
+    }
+  }
+}

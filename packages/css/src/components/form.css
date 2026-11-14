@@ -1,0 +1,27 @@
+/*
+ * Form (#53). Root `.apui-form` on a native form: its fields stack with the
+ * field gap, and the actions row ends it, aligned to the end. divided puts
+ * an edge above the actions.
+ */
+@layer apui.components {
+  .apui-form {
+    display: grid;
+    gap: var(--apui-field-gap);
+    min-inline-size: 0;
+    margin: 0;
+  }
+
+  [data-scope='form'][data-part='actions'] {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-block-start: 4px;
+  }
+
+  .apui-form[data-divided] > [data-scope='form'][data-part='actions'] {
+    padding-block-start: var(--apui-panel-gap);
+    border-block-start: var(--apui-border-width) solid var(--apui-border-muted);
+  }
+}

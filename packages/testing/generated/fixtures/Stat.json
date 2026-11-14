@@ -1,0 +1,180 @@
+{
+  "version": 1,
+  "component": "Stat",
+  "rootClass": "apui-stat",
+  "stacks": [
+    "livewire",
+    "react",
+    "vue"
+  ],
+  "names": {
+    "livewire": "stat",
+    "react": "Stat",
+    "vue": "Stat"
+  },
+  "cases": [
+    {
+      "id": "size=sm state=default",
+      "props": {
+        "label": "Total revenue",
+        "value": "7,415,644",
+        "icon": "wallet",
+        "change": -5.4,
+        "description": "vs last month",
+        "size": "sm"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "size=md state=default",
+      "props": {
+        "label": "Total revenue",
+        "value": "7,415,644",
+        "icon": "wallet",
+        "change": -5.4,
+        "description": "vs last month",
+        "size": "md"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "size=lg state=default",
+      "props": {
+        "label": "Total revenue",
+        "value": "7,415,644",
+        "icon": "wallet",
+        "change": -5.4,
+        "description": "vs last month",
+        "size": "lg"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "size=md color=primary state=default",
+      "props": {
+        "label": "Total revenue",
+        "value": "7,415,644",
+        "icon": "wallet",
+        "change": -5.4,
+        "description": "vs last month",
+        "size": "md",
+        "color": "primary"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "size=md color=secondary state=default",
+      "props": {
+        "label": "Total revenue",
+        "value": "7,415,644",
+        "icon": "wallet",
+        "change": -5.4,
+        "description": "vs last month",
+        "size": "md",
+        "color": "secondary"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "size=md color=accent state=default",
+      "props": {
+        "label": "Total revenue",
+        "value": "7,415,644",
+        "icon": "wallet",
+        "change": -5.4,
+        "description": "vs last month",
+        "size": "md",
+        "color": "accent"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "size=md color=success state=default",
+      "props": {
+        "label": "Total revenue",
+        "value": "7,415,644",
+        "icon": "wallet",
+        "change": -5.4,
+        "description": "vs last month",
+        "size": "md",
+        "color": "success"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "size=md color=warning state=default",
+      "props": {
+        "label": "Total revenue",
+        "value": "7,415,644",
+        "icon": "wallet",
+        "change": -5.4,
+        "description": "vs last month",
+        "size": "md",
+        "color": "warning"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "size=md color=error state=default",
+      "props": {
+        "label": "Total revenue",
+        "value": "7,415,644",
+        "icon": "wallet",
+        "change": -5.4,
+        "description": "vs last month",
+        "size": "md",
+        "color": "error"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "size=md color=info state=default",
+      "props": {
+        "label": "Total revenue",
+        "value": "7,415,644",
+        "icon": "wallet",
+        "change": -5.4,
+        "description": "vs last month",
+        "size": "md",
+        "color": "info"
+      },
+      "state": "default",
+      "content": null
+    }
+  ],
+  "sheets": [
+    {
+      "id": "light",
+      "theme": "light",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "dark",
+      "theme": "dark",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "high-contrast",
+      "theme": "high-contrast",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "rtl",
+      "theme": "light",
+      "density": "default",
+      "dir": "rtl"
+    }
+  ]
+}

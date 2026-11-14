@@ -1,0 +1,17 @@
+[
+  {
+    "id": "basic",
+    "title": "Basic",
+    "description": "Start at the section, not always at Home. The last item is the current page: it has aria-current and isn't a link."
+  },
+  {
+    "id": "overflow",
+    "title": "Home icon and overflow",
+    "description": "A home icon keeps its label for screen readers. Past maxItems the middle collapses behind a button that reveals it."
+  },
+  {
+    "id": "composed",
+    "title": "Composed",
+    "description": "Item children render the same levels as items, so a level can hold markup or a click handler. The last one is the current page."
+  }
+]

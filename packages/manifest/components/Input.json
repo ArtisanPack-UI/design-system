@@ -1,0 +1,257 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "Input",
+  "description": "Single-line text entry with a visible label, hint and error. It anchors the field anatomy (root, label, control, hint, error) every form component reuses.",
+  "status": "draft",
+  "issue": 45,
+  "rootClass": "apui-input",
+  "stacks": {
+    "livewire": {
+      "name": "input"
+    },
+    "react": {
+      "name": "Input"
+    },
+    "vue": {
+      "name": "Input"
+    }
+  },
+  "props": [
+    {
+      "name": "size",
+      "type": "enum",
+      "values": ["sm", "md", "lg"],
+      "default": "md",
+      "description": "Control height. Emitted as data-size."
+    },
+    {
+      "name": "type",
+      "type": "string",
+      "default": "text",
+      "description": "The native input type, such as email, url, search or number."
+    },
+    {
+      "name": "label",
+      "type": "node",
+      "description": "The visible label, linked to the control."
+    },
+    {
+      "name": "hint",
+      "type": "node",
+      "description": "Help text under the control, linked with aria-describedby."
+    },
+    {
+      "name": "error",
+      "type": "string",
+      "description": "Validation message. Marks the field invalid and is linked with aria-describedby."
+    },
+    {
+      "name": "invalid",
+      "type": "boolean",
+      "default": false,
+      "description": "Marks the field invalid without a message. Emitted as data-invalid.",
+      "a11y": "Sets aria-invalid on the control."
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": false,
+      "description": "Disables the control."
+    },
+    {
+      "name": "readonly",
+      "type": "boolean",
+      "default": false,
+      "description": "Makes the control read-only. It stays focusable."
+    },
+    {
+      "name": "required",
+      "type": "boolean",
+      "default": false,
+      "description": "Marks the field required and shows the required mark.",
+      "a11y": "Sets required (and so aria-required) on the control."
+    },
+    {
+      "name": "placeholder",
+      "type": "string",
+      "description": "Placeholder text. Never a replacement for the label."
+    },
+    {
+      "name": "value",
+      "type": "string",
+      "description": "The value. Livewire binds it with wire:model, Vue with v-model."
+    },
+    {
+      "name": "defaultValue",
+      "type": "string",
+      "description": "The initial value of an uncontrolled input.",
+      "stacks": ["react"]
+    },
+    {
+      "name": "prefix",
+      "type": "node",
+      "description": "Text inside the box before the value, such as a currency or https://."
+    },
+    {
+      "name": "suffix",
+      "type": "node",
+      "description": "Text inside the box after the value, such as a unit."
+    },
+    {
+      "name": "leadingIcon",
+      "type": "string",
+      "description": "Icon name before the value, resolved through the icon registry. A slot or node overrides it."
+    },
+    {
+      "name": "trailingIcon",
+      "type": "string",
+      "description": "Icon name after the value, resolved through the icon registry. A slot or node overrides it."
+    },
+    {
+      "name": "errorField",
+      "type": "string",
+      "description": "The validation key to read from $errors. Defaults to the wire:model name.",
+      "stacks": ["livewire"]
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part, such as { label: '…', control: '…' }."
+    }
+  ],
+  "sizes": ["sm", "md", "lg"],
+  "parts": [
+    {
+      "name": "root",
+      "element": "div",
+      "description": "The field: label, box, hint and error."
+    },
+    {
+      "name": "label",
+      "element": "label",
+      "description": "The visible label, for the control."
+    },
+    {
+      "name": "required",
+      "element": "span",
+      "description": "The required mark inside the label. Hidden from screen readers; the control is required."
+    },
+    {
+      "name": "box",
+      "element": "div",
+      "description": "The bordered box around the control, its icons and its prefix and suffix."
+    },
+    {
+      "name": "icon",
+      "element": "span",
+      "description": "Leading icon."
+    },
+    {
+      "name": "prefix",
+      "element": "span",
+      "description": "Text before the value."
+    },
+    {
+      "name": "control",
+      "element": "input",
+      "description": "The native input. Attributes other than class land here."
+    },
+    {
+      "name": "suffix",
+      "element": "span",
+      "description": "Text after the value."
+    },
+    {
+      "name": "iconEnd",
+      "element": "span",
+      "description": "Trailing icon."
+    },
+    {
+      "name": "hint",
+      "element": "p",
+      "description": "Help text."
+    },
+    {
+      "name": "error",
+      "element": "p",
+      "description": "Validation message, with an icon."
+    }
+  ],
+  "slots": [
+    {
+      "name": "icon",
+      "description": "Overrides the leading icon."
+    },
+    {
+      "name": "iconEnd",
+      "description": "Overrides the trailing icon."
+    },
+    {
+      "name": "prefix",
+      "description": "Rich content before the value."
+    },
+    {
+      "name": "suffix",
+      "description": "Rich content after the value."
+    }
+  ],
+  "events": [
+    {
+      "name": "value-change",
+      "description": "The value changed.",
+      "payload": "string"
+    }
+  ],
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Tab",
+        "action": "Moves focus to the control; typing edits the value."
+      }
+    ],
+    "requirements": [
+      "The label is always visible and linked with for/id; a placeholder never replaces it.",
+      "Hint and error are linked to the control with aria-describedby.",
+      "Invalid sets aria-invalid on the control; the error is text, never color alone.",
+      "Required sets required on the control; the visual mark is aria-hidden.",
+      "Class goes to the root; every other attribute (wire:model, name, autocomplete) goes to the control.",
+      "Disabled uses --apui-surface-sunken and --apui-text-disabled, never opacity alone.",
+      "Visible focus ring on the box while the control has :focus-visible.",
+      "Prefix, suffix and icons sit at the logical start and end, so they swap under RTL."
+    ],
+    "wcag": ["1.3.1", "1.4.3", "1.4.11", "2.1.1", "2.4.7", "2.5.8", "3.3.1", "3.3.2", "4.1.2"]
+  },
+  "tokens": [
+    "--apui-input-radius",
+    "--apui-control-height-sm",
+    "--apui-control-height-md",
+    "--apui-control-height-lg",
+    "--apui-border-default",
+    "--apui-border-strong",
+    "--apui-border-muted",
+    "--apui-color-error-border",
+    "--apui-color-error-text",
+    "--apui-surface-default",
+    "--apui-surface-sunken",
+    "--apui-text-default",
+    "--apui-text-muted",
+    "--apui-text-disabled",
+    "--apui-focus-ring-color"
+  ],
+  "fixture": {
+    "props": {
+      "label": "Email",
+      "placeholder": "you@example.com"
+    },
+    "parts": {
+      "required": true,
+      "hint": "We never share it.",
+      "error": "Enter a valid email address.",
+      "prefix": "to:",
+      "suffix": "@work",
+      "leadingIcon": "mail",
+      "trailingIcon": "search"
+    },
+    "states": ["hover", "focus-visible", "disabled", "invalid", "readonly"]
+  }
+}

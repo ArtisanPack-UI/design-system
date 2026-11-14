@@ -1,0 +1,163 @@
+/*
+ * Tooltip (#59). Root `.apui-tooltip` is the label, Zag's content part
+ * (D-019), with data-size, data-placement (the requested side: top, bottom,
+ * start or end) and, once the machine has positioned it, data-side (the
+ * physical side it settled on). Parts, scoped tooltip: trigger (the author's
+ * control), positioner, arrow and kbd. The arrow is drawn by this
+ * stylesheet, centered on the edge that faces the trigger, so it's the same
+ * with or without the machine. See design/components/Tooltip.
+ */
+@layer apui.components {
+  [data-scope='tooltip'][data-part='positioner'] {
+    z-index: var(--apui-z-tooltip);
+  }
+
+  .apui-tooltip {
+    --apui-_tooltip-arrow: 8px;
+
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-sizing: border-box;
+    max-inline-size: 240px;
+    padding-block: 5px;
+    padding-inline: 8px;
+    border-radius: var(--apui-tooltip-radius);
+    background: var(--apui-surface-inverse);
+    color: var(--apui-text-inverse);
+    font-family: var(--apui-font-family-sans);
+    font-size: var(--apui-type-caption-font-size);
+    font-weight: var(--apui-font-weight-medium);
+    line-height: var(--apui-type-caption-line-height);
+    overflow-wrap: anywhere;
+  }
+
+  .apui-tooltip[hidden] {
+    display: none;
+  }
+
+  /* Long text: a paragraph rather than a label. */
+  .apui-tooltip[data-size='lg'] {
+    display: block;
+    padding-block: 8px;
+    padding-inline: 10px;
+    font-size: var(--apui-type-body-sm-font-size);
+    font-weight: var(--apui-font-weight-regular);
+    line-height: var(--apui-type-body-sm-line-height);
+  }
+
+  .apui-tooltip[data-state='open'] {
+    animation: apui-tooltip-enter var(--apui-motion-duration-fast) var(--apui-motion-ease-enter);
+  }
+
+  .apui-tooltip[data-instant] {
+    animation: none;
+  }
+
+  @keyframes apui-tooltip-enter {
+    from {
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .apui-tooltip[data-state='open'] {
+      animation: none;
+    }
+  }
+
+  [data-scope='tooltip'][data-part='kbd'] {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    min-inline-size: 18px;
+    block-size: 18px;
+    padding-inline: 4px;
+    border: var(--apui-border-width) solid color-mix(in srgb, currentcolor 70%, transparent);
+    border-block-end-width: 2px;
+    border-radius: var(--apui-kbd-radius);
+    background: transparent;
+    color: inherit;
+    font-family: var(--apui-font-family-mono);
+    font-size: 11px;
+    font-weight: var(--apui-font-weight-regular);
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  [data-scope='tooltip'][data-part='kbd'] + [data-scope='tooltip'][data-part='kbd'] {
+    margin-inline-start: -4px;
+  }
+
+  /*
+   * The arrow: a square turned to a point, in the label's color, centered on
+   * the edge that faces the trigger. The part itself has no box: the machine
+   * writes an inline position on it (to follow the trigger), which a box-less
+   * element ignores, so the arrow looks the same with or without the machine,
+   * in server markup and in every stack. Its ::before is the square. The side
+   * is the machine's data-side once it has positioned the label (after
+   * flipping), else the requested data-placement; data-side is physical and
+   * data-placement logical (end is the right in LTR).
+   */
+  [data-scope='tooltip'][data-part='arrow'] {
+    display: contents;
+  }
+
+  [data-scope='tooltip'][data-part='arrow']::before {
+    position: absolute;
+    inline-size: var(--apui-_tooltip-arrow);
+    block-size: var(--apui-_tooltip-arrow);
+    background: var(--apui-surface-inverse);
+    content: '';
+    rotate: 45deg;
+    pointer-events: none;
+  }
+
+  .apui-tooltip:is([data-side='top'], :not([data-side])[data-placement='top'])
+    [data-scope='tooltip'][data-part='arrow']::before {
+    inset-block-end: calc(var(--apui-_tooltip-arrow) / -2);
+    inset-inline-start: calc(50% - var(--apui-_tooltip-arrow) / 2);
+  }
+
+  .apui-tooltip:is([data-side='bottom'], :not([data-side])[data-placement='bottom'])
+    [data-scope='tooltip'][data-part='arrow']::before {
+    inset-block-start: calc(var(--apui-_tooltip-arrow) / -2);
+    inset-inline-start: calc(50% - var(--apui-_tooltip-arrow) / 2);
+  }
+
+  .apui-tooltip:is(
+      [data-side='right']:dir(ltr),
+      [data-side='left']:dir(rtl),
+      :not([data-side])[data-placement='end']
+    )
+    [data-scope='tooltip'][data-part='arrow']::before {
+    inset-block-start: calc(50% - var(--apui-_tooltip-arrow) / 2);
+    inset-inline-start: calc(var(--apui-_tooltip-arrow) / -2);
+  }
+
+  .apui-tooltip:is(
+      [data-side='left']:dir(ltr),
+      [data-side='right']:dir(rtl),
+      :not([data-side])[data-placement='start']
+    )
+    [data-scope='tooltip'][data-part='arrow']::before {
+    inset-block-start: calc(50% - var(--apui-_tooltip-arrow) / 2);
+    inset-inline-end: calc(var(--apui-_tooltip-arrow) / -2);
+  }
+
+  @media (forced-colors: active) {
+    .apui-tooltip {
+      border: var(--apui-border-width) solid CanvasText;
+    }
+
+    [data-scope='tooltip'][data-part='arrow']::before {
+      background: CanvasText;
+    }
+
+    [data-scope='tooltip'][data-part='kbd'] {
+      border-color: CanvasText;
+    }
+  }
+}

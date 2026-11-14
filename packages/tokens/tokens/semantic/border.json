@@ -1,0 +1,39 @@
+{
+  "border": {
+    "$type": "dimension",
+    "width": {
+      "$value": {
+        "value": 1,
+        "unit": "px"
+      },
+      "$description": "Every container edge and control outline."
+    }
+  },
+  "focus-ring": {
+    "$type": "dimension",
+    "width": {
+      "$value": {
+        "value": 2,
+        "unit": "px"
+      },
+      "$description": "Focus ring thickness."
+    },
+    "offset": {
+      "$value": {
+        "value": 2,
+        "unit": "px"
+      },
+      "$description": "Gap between control and focus ring, filled with --apui-focus-ring-offset-color."
+    }
+  },
+  "selected": {
+    "$type": "dimension",
+    "indicator-width": {
+      "$value": {
+        "value": 2,
+        "unit": "px"
+      },
+      "$description": "Active tab underline, selected nav marker."
+    }
+  }
+}

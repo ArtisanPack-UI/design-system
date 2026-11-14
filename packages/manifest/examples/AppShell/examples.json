@@ -1,0 +1,12 @@
+[
+  {
+    "id": "basic",
+    "title": "Application frame",
+    "description": "The sidebar holds the brand, a Menu and the account footer; the main column holds a Navbar island and the page. A skip link to the main landmark comes first."
+  },
+  {
+    "id": "collapsible",
+    "title": "Collapsible sidebar",
+    "description": "collapsible adds the button that shrinks the sidebar to its icons; the Menu's labels stay in the accessibility tree. collapsed binds both ways."
+  }
+]

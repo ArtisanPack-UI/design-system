@@ -1,0 +1,7 @@
+[
+  {
+    "id": "list",
+    "title": "Matching the layout",
+    "description": "Shape the placeholders like the content so nothing jumps when it arrives. The container sets aria-busy; the skeletons themselves are hidden from screen readers."
+  }
+]

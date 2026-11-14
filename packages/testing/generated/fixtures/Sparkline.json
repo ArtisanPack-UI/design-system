@@ -1,0 +1,100 @@
+{
+  "version": 1,
+  "component": "Sparkline",
+  "rootClass": "apui-sparkline",
+  "stacks": [
+    "livewire",
+    "react",
+    "vue"
+  ],
+  "names": {
+    "livewire": "sparkline",
+    "react": "Sparkline",
+    "vue": "Sparkline"
+  },
+  "cases": [
+    {
+      "id": "variant=line state=default",
+      "props": {
+        "data": [
+          2,
+          4,
+          3,
+          7,
+          6,
+          9,
+          12,
+          11,
+          14
+        ],
+        "variant": "line"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=area state=default",
+      "props": {
+        "data": [
+          2,
+          4,
+          3,
+          7,
+          6,
+          9,
+          12,
+          11,
+          14
+        ],
+        "variant": "area"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "variant=bar state=default",
+      "props": {
+        "data": [
+          2,
+          4,
+          3,
+          7,
+          6,
+          9,
+          12,
+          11,
+          14
+        ],
+        "variant": "bar"
+      },
+      "state": "default",
+      "content": null
+    }
+  ],
+  "sheets": [
+    {
+      "id": "light",
+      "theme": "light",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "dark",
+      "theme": "dark",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "high-contrast",
+      "theme": "high-contrast",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "rtl",
+      "theme": "light",
+      "density": "default",
+      "dir": "rtl"
+    }
+  ]
+}

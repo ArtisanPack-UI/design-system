@@ -1,0 +1,12 @@
+[
+  {
+    "id": "basic",
+    "title": "Line, area and bar",
+    "description": "A line with a dot on the latest value, the same with a soft fill, or one bar per value. The label states the first and latest values."
+  },
+  {
+    "id": "table",
+    "title": "In a table",
+    "description": "Give the sparklines in a column the same size, and keep the numbers in the table beside them."
+  }
+]

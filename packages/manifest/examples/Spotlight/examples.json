@@ -1,0 +1,12 @@
+[
+  {
+    "id": "basic",
+    "title": "Basic",
+    "description": "Grouped pages and actions, filtered as you type. ⌘K or Ctrl+K opens it anywhere on the page; the trigger shows the keys. Typed words are marked in the labels. Choosing a link item follows it and any item reports select; with recent (off by default, kept in localStorage) recent choices come first next time."
+  },
+  {
+    "id": "remote",
+    "title": "Server search",
+    "description": "Results come from the server as you type. Livewire fetches them from an endpoint (url) that returns JSON; React and Vue fetch them from search-change and pass them back with remote and loading."
+  }
+]

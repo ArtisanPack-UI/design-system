@@ -1,0 +1,9 @@
+{
+  "avatar": {
+    "radius": {
+      "$type": "dimension",
+      "$value": "{radius.full}",
+      "$description": "= --apui-radius-full; square avatars use --apui-radius-sm."
+    }
+  }
+}

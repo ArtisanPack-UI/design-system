@@ -1,0 +1,12 @@
+{
+  "navbar": {
+    "height": {
+      "$type": "dimension",
+      "$value": {
+        "value": 56,
+        "unit": "px"
+      },
+      "$description": "Navbar and top bar height."
+    }
+  }
+}

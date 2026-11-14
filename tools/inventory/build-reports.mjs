@@ -42,6 +42,7 @@ function parityMatrix() {
 	const inAll = map.filter( ( entry ) => STACKS.every( ( stack ) => entry[ stack ].length ) );
 	const reactVue = map.filter( ( entry ) => ! entry.livewire.length );
 	const livewireOnly = map.filter( ( entry ) => entry.livewire.length && ! entry.react.length && ! entry.vue.length );
+	const unassigned = map.filter( ( entry ) => ! entry.issue );
 	const lines = [
 		'# Component parity matrix',
 		'',
@@ -90,12 +91,14 @@ function parityMatrix() {
 		'## Consolidation candidates',
 		'',
 		table( [ 'Component', 'Proposal' ], map.filter( ( entry ) => entry.consolidation ).map( ( entry ) => [ `**${ entry.canonical }**`, entry.consolidation ] ) ),
-		'',
-		'## Components missing from the wave issues',
-		'',
-		'These exist in React and Vue but are not listed in any wave issue, which only names Livewire components. They should be added so they are not dropped.',
-		'',
-		table( [ 'Component', 'Proposed wave' ], map.filter( ( entry ) => ! entry.issue ).map( ( entry ) => [ `**${ entry.canonical }**`, entry.wave ] ) ),
+		...( unassigned.length ? [
+			'',
+			'## Components missing from the wave issues',
+			'',
+			'These exist in React and Vue but are not listed in any wave issue, which only names Livewire components. They should be added so they are not dropped.',
+			'',
+			table( [ 'Component', 'Proposed wave' ], unassigned.map( ( entry ) => [ `**${ entry.canonical }**`, entry.wave ] ) ),
+		] : [] ),
 	);
 
 	writeDoc( 'parity-matrix.md', lines.join( '\n' ) );
@@ -345,6 +348,17 @@ function codemodScope() {
 		table( [ 'Attribute', 'Usages' ], top( merged( 'byAttribute' ), 30 ).map( ( [ name, value ] ) => [ code( name ), value ] ) ),
 		'',
 		'`variant` on Button is the largest single rule and cannot be a blind rename: `variant="primary"` must become `color`, while `variant="ghost"` stays `variant`. The rule has to inspect the value. `horizontal` and `inline` also rewrite to an `orientation` value rather than a new name.',
+		'',
+		'### Raw class rewrites',
+		'',
+		'Raw DaisyUI classes that become a component, from the `classes` rules in [data/api-aliases.json](data/api-aliases.json). Uses count the matching component classes at this snapshot.',
+		'',
+		table( [ 'Class', 'Becomes', 'Uses', 'Note' ], ( aliases.classes ?? [] ).map( ( rule ) => [
+			code( rule.attribute ? `${ rule.pattern } + ${ rule.attribute }` : rule.pattern ).replaceAll( '|', '\\|' ),
+			null === rule.to ? 'removed' : code( rule.to ),
+			sum( Object.entries( mergedClasses( 'component' ) ).filter( ( [ name ] ) => new RegExp( `^(?:${ rule.pattern })$` ).test( name ) ).map( ( [ , value ] ) => value ) ),
+			( rule.note ?? '' ).replaceAll( '|', '\\|' ),
+		] ) ),
 		'',
 		'## What needs a report, not a rewrite',
 		'',

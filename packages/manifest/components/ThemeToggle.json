@@ -1,0 +1,206 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "ThemeToggle",
+  "description": "Lets people choose light, dark, high contrast or system. The choice sets data-theme on the document, the attribute the tokens switch on, persists in localStorage and is applied before first paint by a blocking head snippet, so there's no flash. System follows prefers-color-scheme live. Segmented is a radio group on the segmented Tabs track; icon is one button that switches light and dark; menu is a DropdownMenu of radio items.",
+  "status": "draft",
+  "issue": 65,
+  "rootClass": "apui-theme-toggle",
+  "stacks": {
+    "livewire": {
+      "name": "theme-toggle",
+      "capabilities": [
+        "wire:model binds the choice; without it the stored choice shows",
+        "@apuiThemeScript in <head> applies the stored choice before first paint",
+        "The 2.x light and dark labels still work, as lightLabel and darkLabel"
+      ]
+    },
+    "react": {
+      "name": "ThemeToggle",
+      "capabilities": ["ThemeScript in <head> applies the stored choice before first paint"]
+    },
+    "vue": {
+      "name": "ThemeToggle",
+      "capabilities": ["ThemeScript in <head> applies the stored choice before first paint"]
+    }
+  },
+  "props": [
+    {
+      "name": "value",
+      "type": "enum",
+      "values": ["light", "dark", "high-contrast", "system"],
+      "default": "system",
+      "description": "The choice. Livewire binds it with wire:model, Vue with v-model. Without it, the stored choice shows, else system."
+    },
+    {
+      "name": "defaultValue",
+      "type": "enum",
+      "values": ["light", "dark", "high-contrast", "system"],
+      "default": "system",
+      "description": "The choice an uncontrolled toggle shows when nothing is stored.",
+      "stacks": ["react"]
+    },
+    {
+      "name": "variant",
+      "type": "enum",
+      "values": ["segmented", "icon", "menu"],
+      "default": "segmented",
+      "description": "Segmented shows every choice on a track; icon is one button that switches between light and dark; menu opens the choices from a Theme button. Emitted as data-variant."
+    },
+    {
+      "name": "size",
+      "type": "enum",
+      "values": ["sm", "md"],
+      "default": "md",
+      "description": "The track's, the button's or the trigger's size. Emitted as data-size."
+    },
+    {
+      "name": "choices",
+      "type": "array",
+      "description": "The choices segmented and menu offer, in the order light, dark, high-contrast, system. Defaults to all four.",
+      "a11y": "Keep high contrast offered: don't hide it behind settings only."
+    },
+    {
+      "name": "iconOnly",
+      "type": "boolean",
+      "default": false,
+      "description": "Segmented shows only the icons. The names stay, visually hidden, as each radio's accessible name. Emitted as data-icon-only."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "default": "Theme",
+      "description": "Names the radio group and the menu, and is the menu trigger's text. Translate it: Livewire defaults it through __()."
+    },
+    {
+      "name": "lightLabel",
+      "type": "string",
+      "default": "Light",
+      "description": "The light choice's name."
+    },
+    {
+      "name": "darkLabel",
+      "type": "string",
+      "default": "Dark",
+      "description": "The dark choice's name."
+    },
+    {
+      "name": "highContrastLabel",
+      "type": "string",
+      "default": "High contrast",
+      "description": "The high contrast choice's name."
+    },
+    {
+      "name": "systemLabel",
+      "type": "string",
+      "default": "System",
+      "description": "The system choice's name in the segmented control."
+    },
+    {
+      "name": "matchSystemLabel",
+      "type": "string",
+      "default": "Match system",
+      "description": "The system choice's name in the menu."
+    },
+    {
+      "name": "switchToLightLabel",
+      "type": "string",
+      "default": "Switch to light theme",
+      "description": "The icon button's accessible name while it switches to light."
+    },
+    {
+      "name": "switchToDarkLabel",
+      "type": "string",
+      "default": "Switch to dark theme",
+      "description": "The icon button's accessible name while it switches to dark."
+    },
+    {
+      "name": "persist",
+      "type": "boolean",
+      "default": true,
+      "description": "Stores the choice in localStorage, where the head snippet reads it."
+    },
+    {
+      "name": "storageKey",
+      "type": "string",
+      "default": "apui-theme",
+      "description": "The localStorage key. Pass the same key to the head snippet."
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part, such as { list: '…', option: '…', button: '…', trigger: '…', menu: '…', item: '…' }."
+    }
+  ],
+  "variants": ["segmented", "icon", "menu"],
+  "sizes": ["sm", "md"],
+  "parts": [
+    {
+      "name": "root",
+      "element": "div",
+      "description": "Holds the control. Segmented: also .apui-tabs, holding the list (a radiogroup scoped tabs) and a role=radio trigger per choice. Icon: a ghost .apui-button. Menu: an outline .apui-button trigger and the .apui-dropdown-menu of menuitemradio items, scoped dropdown-menu (D-019)."
+    }
+  ],
+  "events": [
+    {
+      "name": "value-change",
+      "description": "The person chose another theme, by click, the keyboard or the icon button, in this toggle. Setting value doesn't fire it.",
+      "payload": "'light' | 'dark' | 'high-contrast' | 'system'"
+    }
+  ],
+  "a11y": {
+    "element": "div",
+    "keyboard": [
+      {
+        "keys": "Tab",
+        "action": "Segmented: moves to the checked choice, then out of the group."
+      },
+      {
+        "keys": "ArrowRight, ArrowLeft, ArrowDown, ArrowUp",
+        "action": "Segmented: moves to the next or previous choice and applies it, wrapping. ArrowLeft and ArrowRight follow the text direction, so in RTL ArrowLeft moves to the next choice."
+      },
+      {
+        "keys": "Home, End",
+        "action": "Segmented: moves to the first or last choice and applies it."
+      },
+      {
+        "keys": "Enter, Space",
+        "action": "Icon: switches the theme. Menu: opens the menu, then applies the focused choice."
+      },
+      { "keys": "Escape", "action": "Menu: closes it and returns focus to the trigger." }
+    ],
+    "requirements": [
+      "Segmented is a role=radiogroup named by label, with a role=radio per choice, aria-checked, and only the checked one in the Tab order.",
+      "Every radio and menu item has its name, also when only icons show: iconOnly keeps it visually hidden.",
+      "The icon button's name says what it does (Switch to dark theme), and changes with the theme.",
+      "The menu's choices are menuitemradio with aria-checked, and the trigger shows the current choice's icon.",
+      "The choice persists and is applied before first paint, so there is no flash: put the head snippet in <head>.",
+      "Storage is guarded: a private window or blocked storage falls back to the default, without errors.",
+      "System follows prefers-color-scheme live.",
+      "ArrowLeft and ArrowRight follow the text direction: in RTL, ArrowLeft moves to the next choice.",
+      "The checked choice is shown by surface and edge, not by color alone; the focus ring shows on the focused choice."
+    ],
+    "wcag": ["1.3.1", "1.4.1", "1.4.3", "1.4.11", "2.1.1", "2.4.3", "2.4.7", "4.1.2"]
+  },
+  "tokens": [
+    "--apui-tabs-radius",
+    "--apui-surface-sunken",
+    "--apui-surface-raised",
+    "--apui-border-muted",
+    "--apui-control-height-sm",
+    "--apui-control-height-md",
+    "--apui-text-default",
+    "--apui-text-muted",
+    "--apui-focus-ring-color",
+    "--apui-focus-ring-offset-color"
+  ],
+  "fixture": {
+    "props": {
+      "value": "dark",
+      "persist": false
+    },
+    "parts": {
+      "choices": ["light", "dark", "system"]
+    },
+    "states": []
+  }
+}

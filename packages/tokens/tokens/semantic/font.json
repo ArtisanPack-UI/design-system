@@ -1,0 +1,17 @@
+{
+  "font-family": {
+    "$type": "fontFamily",
+    "sans": {
+      "$value": ["Geist", "ui-sans-serif", "system-ui", "sans-serif"],
+      "$description": "UI and body text. Add a script font for Arabic or Hebrew (the RTL example uses Noto Sans Arabic)."
+    },
+    "mono": {
+      "$value": ["Geist Mono", "ui-monospace", "SFMono-Regular", "monospace"],
+      "$description": "Code, IDs, SKUs, keyboard keys."
+    },
+    "display": {
+      "$value": "{font-family.sans}",
+      "$description": "Display type: display-*, heading-xl, heading-lg and stat-*. Follows the sans family unless a preset sets a display face (Harbor uses Bricolage Grotesque)."
+    }
+  }
+}

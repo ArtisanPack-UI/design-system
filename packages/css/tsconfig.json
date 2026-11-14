@@ -2,7 +2,11 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "noEmit": true,
-    "types": ["vitest/globals", "node"]
+    "allowJs": true,
+    "types": ["vitest/globals", "node"],
+    "paths": {
+      "@artisanpack-ui/tokens": ["../tokens/src/index.ts"]
+    }
   },
-  "include": ["test"]
+  "include": ["test", "build.mjs", "tailwind.mjs"]
 }

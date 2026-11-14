@@ -1,0 +1,17 @@
+[
+  {
+    "id": "initials",
+    "title": "Initials and images",
+    "description": "Without an image the avatar shows the initials of name, in a color hashed from it. The image covers the initials, so a broken image falls back to them."
+  },
+  {
+    "id": "status",
+    "title": "Status",
+    "description": "The presence dot is announced in words too: translate statusLabel."
+  },
+  {
+    "id": "group",
+    "title": "Group",
+    "description": "A group overlaps avatars; with max, the rest collapse into a +N avatar. Name the group with label."
+  }
+]

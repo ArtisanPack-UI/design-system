@@ -1,0 +1,101 @@
+{
+  "version": 1,
+  "component": "Card",
+  "rootClass": "apui-card",
+  "stacks": [
+    "livewire",
+    "react",
+    "vue"
+  ],
+  "names": {
+    "livewire": "card",
+    "react": "Card",
+    "vue": "Card"
+  },
+  "cases": [
+    {
+      "id": "state=default",
+      "props": {
+        "title": "Quarterly report",
+        "description": "Updated 2 hours ago",
+        "interactive": true,
+        "media": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 9'%3E%3Crect width='16' height='9' fill='%2394a3b8'/%3E%3C/svg%3E"
+      },
+      "state": "default",
+      "content": "Revenue grew 12% this quarter."
+    },
+    {
+      "id": "state=hover",
+      "props": {
+        "title": "Quarterly report",
+        "description": "Updated 2 hours ago",
+        "interactive": true,
+        "media": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 9'%3E%3Crect width='16' height='9' fill='%2394a3b8'/%3E%3C/svg%3E"
+      },
+      "state": "hover",
+      "content": "Revenue grew 12% this quarter."
+    },
+    {
+      "id": "surface=raised state=default",
+      "props": {
+        "title": "Quarterly report",
+        "description": "Updated 2 hours ago",
+        "interactive": true,
+        "media": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 9'%3E%3Crect width='16' height='9' fill='%2394a3b8'/%3E%3C/svg%3E",
+        "surface": "raised"
+      },
+      "state": "default",
+      "content": "Revenue grew 12% this quarter."
+    },
+    {
+      "id": "surface=sunken state=default",
+      "props": {
+        "title": "Quarterly report",
+        "description": "Updated 2 hours ago",
+        "interactive": true,
+        "media": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 9'%3E%3Crect width='16' height='9' fill='%2394a3b8'/%3E%3C/svg%3E",
+        "surface": "sunken"
+      },
+      "state": "default",
+      "content": "Revenue grew 12% this quarter."
+    },
+    {
+      "id": "surface=glass state=default",
+      "props": {
+        "title": "Quarterly report",
+        "description": "Updated 2 hours ago",
+        "interactive": true,
+        "media": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 9'%3E%3Crect width='16' height='9' fill='%2394a3b8'/%3E%3C/svg%3E",
+        "surface": "glass"
+      },
+      "state": "default",
+      "content": "Revenue grew 12% this quarter."
+    }
+  ],
+  "sheets": [
+    {
+      "id": "light",
+      "theme": "light",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "dark",
+      "theme": "dark",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "high-contrast",
+      "theme": "high-contrast",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "rtl",
+      "theme": "light",
+      "density": "default",
+      "dir": "rtl"
+    }
+  ]
+}

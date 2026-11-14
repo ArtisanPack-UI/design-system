@@ -1,0 +1,644 @@
+{
+  "type": {
+    "display-xl": {
+      "$description": "Marketing and auth heroes.",
+      "font-family": {
+        "$type": "fontFamily",
+        "$value": "{font-family.display}"
+      },
+      "font-size": {
+        "$type": "dimension",
+        "$value": {
+          "value": 41,
+          "unit": "px"
+        }
+      },
+      "line-height": {
+        "$type": "dimension",
+        "$value": {
+          "value": 46,
+          "unit": "px"
+        }
+      },
+      "font-weight": {
+        "$type": "fontWeight",
+        "$value": "{font-weight.semibold}"
+      },
+      "letter-spacing": {
+        "$type": "dimension",
+        "$value": {
+          "value": -0.02,
+          "unit": "em"
+        }
+      }
+    },
+    "display-lg": {
+      "$description": "Page hero, auth card title.",
+      "font-family": {
+        "$type": "fontFamily",
+        "$value": "{font-family.display}"
+      },
+      "font-size": {
+        "$type": "dimension",
+        "$value": {
+          "value": 34,
+          "unit": "px"
+        }
+      },
+      "line-height": {
+        "$type": "dimension",
+        "$value": {
+          "value": 40,
+          "unit": "px"
+        }
+      },
+      "font-weight": {
+        "$type": "fontWeight",
+        "$value": "{font-weight.semibold}"
+      },
+      "letter-spacing": {
+        "$type": "dimension",
+        "$value": {
+          "value": -0.02,
+          "unit": "em"
+        }
+      }
+    },
+    "heading-xl": {
+      "$description": "PageHeader title.",
+      "font-family": {
+        "$type": "fontFamily",
+        "$value": "{font-family.display}"
+      },
+      "font-size": {
+        "$type": "dimension",
+        "$value": {
+          "value": 28,
+          "unit": "px"
+        }
+      },
+      "line-height": {
+        "$type": "dimension",
+        "$value": {
+          "value": 34,
+          "unit": "px"
+        }
+      },
+      "font-weight": {
+        "$type": "fontWeight",
+        "$value": "{font-weight.semibold}"
+      },
+      "letter-spacing": {
+        "$type": "dimension",
+        "$value": {
+          "value": -0.015,
+          "unit": "em"
+        }
+      }
+    },
+    "heading-lg": {
+      "$description": "Section title, Dialog title in lg.",
+      "font-family": {
+        "$type": "fontFamily",
+        "$value": "{font-family.display}"
+      },
+      "font-size": {
+        "$type": "dimension",
+        "$value": {
+          "value": 23,
+          "unit": "px"
+        }
+      },
+      "line-height": {
+        "$type": "dimension",
+        "$value": {
+          "value": 30,
+          "unit": "px"
+        }
+      },
+      "font-weight": {
+        "$type": "fontWeight",
+        "$value": "{font-weight.semibold}"
+      },
+      "letter-spacing": {
+        "$type": "dimension",
+        "$value": {
+          "value": -0.01,
+          "unit": "em"
+        }
+      }
+    },
+    "heading-md": {
+      "$description": "Card and Dialog titles.",
+      "font-family": {
+        "$type": "fontFamily",
+        "$value": "{font-family.sans}"
+      },
+      "font-size": {
+        "$type": "dimension",
+        "$value": {
+          "value": 19,
+          "unit": "px"
+        }
+      },
+      "line-height": {
+        "$type": "dimension",
+        "$value": {
+          "value": 26,
+          "unit": "px"
+        }
+      },
+      "font-weight": {
+        "$type": "fontWeight",
+        "$value": "{font-weight.semibold}"
+      },
+      "letter-spacing": {
+        "$type": "dimension",
+        "$value": {
+          "value": 0,
+          "unit": "em"
+        }
+      }
+    },
+    "heading-sm": {
+      "$description": "Panel headers, form section titles.",
+      "font-family": {
+        "$type": "fontFamily",
+        "$value": "{font-family.sans}"
+      },
+      "font-size": {
+        "$type": "dimension",
+        "$value": {
+          "value": 16,
+          "unit": "px"
+        }
+      },
+      "line-height": {
+        "$type": "dimension",
+        "$value": {
+          "value": 24,
+          "unit": "px"
+        }
+      },
+      "font-weight": {
+        "$type": "fontWeight",
+        "$value": "{font-weight.semibold}"
+      },
+      "letter-spacing": {
+        "$type": "dimension",
+        "$value": {
+          "value": 0,
+          "unit": "em"
+        }
+      }
+    },
+    "body-lg": {
+      "$description": "Marketing body, comfortable density.",
+      "font-family": {
+        "$type": "fontFamily",
+        "$value": "{font-family.sans}"
+      },
+      "font-size": {
+        "$type": "dimension",
+        "$value": {
+          "value": 16,
+          "unit": "px"
+        }
+      },
+      "line-height": {
+        "$type": "dimension",
+        "$value": {
+          "value": 24,
+          "unit": "px"
+        }
+      },
+      "font-weight": {
+        "$type": "fontWeight",
+        "$value": "{font-weight.regular}"
+      },
+      "letter-spacing": {
+        "$type": "dimension",
+        "$value": {
+          "value": 0,
+          "unit": "em"
+        }
+      }
+    },
+    "body-md": {
+      "$description": "Default UI text.",
+      "font-family": {
+        "$type": "fontFamily",
+        "$value": "{font-family.sans}"
+      },
+      "font-size": {
+        "$type": "dimension",
+        "$value": {
+          "value": 14,
+          "unit": "px"
+        }
+      },
+      "line-height": {
+        "$type": "dimension",
+        "$value": {
+          "value": 20,
+          "unit": "px"
+        }
+      },
+      "font-weight": {
+        "$type": "fontWeight",
+        "$value": "{font-weight.regular}"
+      },
+      "letter-spacing": {
+        "$type": "dimension",
+        "$value": {
+          "value": 0,
+          "unit": "em"
+        }
+      }
+    },
+    "body-sm": {
+      "$description": "Compact tables, hints, secondary text.",
+      "font-family": {
+        "$type": "fontFamily",
+        "$value": "{font-family.sans}"
+      },
+      "font-size": {
+        "$type": "dimension",
+        "$value": {
+          "value": 13,
+          "unit": "px"
+        }
+      },
+      "line-height": {
+        "$type": "dimension",
+        "$value": {
+          "value": 18,
+          "unit": "px"
+        }
+      },
+      "font-weight": {
+        "$type": "fontWeight",
+        "$value": "{font-weight.regular}"
+      },
+      "letter-spacing": {
+        "$type": "dimension",
+        "$value": {
+          "value": 0,
+          "unit": "em"
+        }
+      }
+    },
+    "caption": {
+      "$description": "Timestamps, footnotes, chart axes.",
+      "font-family": {
+        "$type": "fontFamily",
+        "$value": "{font-family.sans}"
+      },
+      "font-size": {
+        "$type": "dimension",
+        "$value": {
+          "value": 12,
+          "unit": "px"
+        }
+      },
+      "line-height": {
+        "$type": "dimension",
+        "$value": {
+          "value": 16,
+          "unit": "px"
+        }
+      },
+      "font-weight": {
+        "$type": "fontWeight",
+        "$value": "{font-weight.regular}"
+      },
+      "letter-spacing": {
+        "$type": "dimension",
+        "$value": {
+          "value": 0,
+          "unit": "em"
+        }
+      }
+    },
+    "label-md": {
+      "$description": "Button md, field labels, nav items.",
+      "font-family": {
+        "$type": "fontFamily",
+        "$value": "{font-family.sans}"
+      },
+      "font-size": {
+        "$type": "dimension",
+        "$value": {
+          "value": 14,
+          "unit": "px"
+        }
+      },
+      "line-height": {
+        "$type": "dimension",
+        "$value": {
+          "value": 20,
+          "unit": "px"
+        }
+      },
+      "font-weight": {
+        "$type": "fontWeight",
+        "$value": "{font-weight.medium}"
+      },
+      "letter-spacing": {
+        "$type": "dimension",
+        "$value": {
+          "value": 0,
+          "unit": "em"
+        }
+      }
+    },
+    "label-sm": {
+      "$description": "Button sm, table headers, tabs.",
+      "font-family": {
+        "$type": "fontFamily",
+        "$value": "{font-family.sans}"
+      },
+      "font-size": {
+        "$type": "dimension",
+        "$value": {
+          "value": 13,
+          "unit": "px"
+        }
+      },
+      "line-height": {
+        "$type": "dimension",
+        "$value": {
+          "value": 18,
+          "unit": "px"
+        }
+      },
+      "font-weight": {
+        "$type": "fontWeight",
+        "$value": "{font-weight.medium}"
+      },
+      "letter-spacing": {
+        "$type": "dimension",
+        "$value": {
+          "value": 0,
+          "unit": "em"
+        }
+      }
+    },
+    "label-xs": {
+      "$description": "Badges, Button xs.",
+      "font-family": {
+        "$type": "fontFamily",
+        "$value": "{font-family.sans}"
+      },
+      "font-size": {
+        "$type": "dimension",
+        "$value": {
+          "value": 12,
+          "unit": "px"
+        }
+      },
+      "line-height": {
+        "$type": "dimension",
+        "$value": {
+          "value": 16,
+          "unit": "px"
+        }
+      },
+      "font-weight": {
+        "$type": "fontWeight",
+        "$value": "{font-weight.medium}"
+      },
+      "letter-spacing": {
+        "$type": "dimension",
+        "$value": {
+          "value": 0,
+          "unit": "em"
+        }
+      }
+    },
+    "eyebrow": {
+      "$description": "Uppercase section labels in dense screens (text-transform: uppercase). Borrowed from Ledger; optional.",
+      "font-family": {
+        "$type": "fontFamily",
+        "$value": "{font-family.sans}"
+      },
+      "font-size": {
+        "$type": "dimension",
+        "$value": {
+          "value": 11,
+          "unit": "px"
+        }
+      },
+      "line-height": {
+        "$type": "dimension",
+        "$value": {
+          "value": 16,
+          "unit": "px"
+        }
+      },
+      "font-weight": {
+        "$type": "fontWeight",
+        "$value": "{font-weight.medium}"
+      },
+      "letter-spacing": {
+        "$type": "dimension",
+        "$value": {
+          "value": 0.06,
+          "unit": "em"
+        }
+      }
+    },
+    "stat-lg": {
+      "$description": "Stat value, large. Tabular figures. Size and contrast carry hierarchy, not weight.",
+      "font-family": {
+        "$type": "fontFamily",
+        "$value": "{font-family.display}"
+      },
+      "font-size": {
+        "$type": "dimension",
+        "$value": {
+          "value": 34,
+          "unit": "px"
+        }
+      },
+      "line-height": {
+        "$type": "dimension",
+        "$value": {
+          "value": 40,
+          "unit": "px"
+        }
+      },
+      "font-weight": {
+        "$type": "fontWeight",
+        "$value": "{font-weight.medium}"
+      },
+      "letter-spacing": {
+        "$type": "dimension",
+        "$value": {
+          "value": -0.02,
+          "unit": "em"
+        }
+      }
+    },
+    "stat-md": {
+      "$description": "Stat value, default.",
+      "font-family": {
+        "$type": "fontFamily",
+        "$value": "{font-family.display}"
+      },
+      "font-size": {
+        "$type": "dimension",
+        "$value": {
+          "value": 28,
+          "unit": "px"
+        }
+      },
+      "line-height": {
+        "$type": "dimension",
+        "$value": {
+          "value": 34,
+          "unit": "px"
+        }
+      },
+      "font-weight": {
+        "$type": "fontWeight",
+        "$value": "{font-weight.medium}"
+      },
+      "letter-spacing": {
+        "$type": "dimension",
+        "$value": {
+          "value": -0.02,
+          "unit": "em"
+        }
+      }
+    },
+    "stat-sm": {
+      "$description": "Stat value in compact cards and inline metrics.",
+      "font-family": {
+        "$type": "fontFamily",
+        "$value": "{font-family.display}"
+      },
+      "font-size": {
+        "$type": "dimension",
+        "$value": {
+          "value": 19,
+          "unit": "px"
+        }
+      },
+      "line-height": {
+        "$type": "dimension",
+        "$value": {
+          "value": 26,
+          "unit": "px"
+        }
+      },
+      "font-weight": {
+        "$type": "fontWeight",
+        "$value": "{font-weight.medium}"
+      },
+      "letter-spacing": {
+        "$type": "dimension",
+        "$value": {
+          "value": -0.01,
+          "unit": "em"
+        }
+      }
+    },
+    "num-md": {
+      "$description": "Numbers in tables: font-variant-numeric: tabular-nums, aligned to the inline end.",
+      "font-family": {
+        "$type": "fontFamily",
+        "$value": "{font-family.sans}"
+      },
+      "font-size": {
+        "$type": "dimension",
+        "$value": {
+          "value": 14,
+          "unit": "px"
+        }
+      },
+      "line-height": {
+        "$type": "dimension",
+        "$value": {
+          "value": 20,
+          "unit": "px"
+        }
+      },
+      "font-weight": {
+        "$type": "fontWeight",
+        "$value": "{font-weight.regular}"
+      },
+      "letter-spacing": {
+        "$type": "dimension",
+        "$value": {
+          "value": 0,
+          "unit": "em"
+        }
+      }
+    },
+    "code-md": {
+      "$description": "IDs, SKUs, code, keyboard keys.",
+      "font-family": {
+        "$type": "fontFamily",
+        "$value": "{font-family.mono}"
+      },
+      "font-size": {
+        "$type": "dimension",
+        "$value": {
+          "value": 13,
+          "unit": "px"
+        }
+      },
+      "line-height": {
+        "$type": "dimension",
+        "$value": {
+          "value": 20,
+          "unit": "px"
+        }
+      },
+      "font-weight": {
+        "$type": "fontWeight",
+        "$value": "{font-weight.regular}"
+      },
+      "letter-spacing": {
+        "$type": "dimension",
+        "$value": {
+          "value": 0,
+          "unit": "em"
+        }
+      }
+    },
+    "code-sm": {
+      "$description": "Inline code in compact tables.",
+      "font-family": {
+        "$type": "fontFamily",
+        "$value": "{font-family.mono}"
+      },
+      "font-size": {
+        "$type": "dimension",
+        "$value": {
+          "value": 12,
+          "unit": "px"
+        }
+      },
+      "line-height": {
+        "$type": "dimension",
+        "$value": {
+          "value": 16,
+          "unit": "px"
+        }
+      },
+      "font-weight": {
+        "$type": "fontWeight",
+        "$value": "{font-weight.regular}"
+      },
+      "letter-spacing": {
+        "$type": "dimension",
+        "$value": {
+          "value": 0,
+          "unit": "em"
+        }
+      }
+    }
+  }
+}

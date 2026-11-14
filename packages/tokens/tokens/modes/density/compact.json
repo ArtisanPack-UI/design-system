@@ -1,0 +1,34 @@
+{
+  "density": {
+    "$type": "number",
+    "$value": 0.8
+  },
+  "panel": {
+    "padding": {
+      "$type": "dimension",
+      "$value": "{panel.padding-compact}"
+    },
+    "gap": {
+      "$type": "dimension",
+      "$value": "{panel.gap-compact}"
+    }
+  },
+  "row": {
+    "height": {
+      "$type": "dimension",
+      "$value": "{row.height-compact}"
+    }
+  },
+  "cell": {
+    "padding-x": {
+      "$type": "dimension",
+      "$value": "{cell.padding-x-compact}"
+    }
+  },
+  "field": {
+    "gap": {
+      "$type": "dimension",
+      "$value": "{field.gap-compact}"
+    }
+  }
+}

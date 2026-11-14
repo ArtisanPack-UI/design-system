@@ -1,0 +1,68 @@
+/*
+ * Heading (#58). Root `.apui-heading` on h1–h6: data-level is the semantic
+ * level and data-size the visual size from the type scale (1 largest, 6
+ * smallest), which defaults to the level. Part: eyebrow, a short uppercase
+ * label rendered just before the heading. Never heavier than 600.
+ * See design/components/Heading.
+ */
+@layer apui.components {
+  .apui-heading {
+    margin: 0;
+    color: var(--apui-text-default);
+    font-family: var(--apui-font-family-sans);
+    font-size: var(--apui-type-heading-xl-font-size);
+    font-weight: var(--apui-font-weight-semibold);
+    line-height: var(--apui-type-heading-xl-line-height);
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+
+  .apui-heading[data-size='1'] {
+    font-size: var(--apui-type-display-lg-font-size);
+    line-height: var(--apui-type-display-lg-line-height);
+    letter-spacing: -0.02em;
+  }
+
+  .apui-heading[data-size='2'] {
+    font-size: var(--apui-type-heading-xl-font-size);
+    line-height: var(--apui-type-heading-xl-line-height);
+    letter-spacing: -0.015em;
+  }
+
+  .apui-heading[data-size='3'] {
+    font-size: var(--apui-type-heading-lg-font-size);
+    line-height: var(--apui-type-heading-lg-line-height);
+    letter-spacing: -0.01em;
+  }
+
+  .apui-heading[data-size='4'] {
+    font-size: var(--apui-type-heading-md-font-size);
+    line-height: var(--apui-type-heading-md-line-height);
+    letter-spacing: -0.01em;
+  }
+
+  .apui-heading[data-size='5'] {
+    font-size: var(--apui-type-heading-sm-font-size);
+    line-height: var(--apui-type-heading-sm-line-height);
+    letter-spacing: 0;
+  }
+
+  .apui-heading[data-size='6'] {
+    font-size: var(--apui-type-body-md-font-size);
+    line-height: var(--apui-type-body-md-line-height);
+    letter-spacing: 0;
+  }
+
+  [data-scope='heading'][data-part='eyebrow'] {
+    display: block;
+    margin: 0;
+    margin-block-end: 6px;
+    color: var(--apui-text-muted);
+    font-family: var(--apui-font-family-sans);
+    font-size: var(--apui-type-eyebrow-font-size);
+    font-weight: var(--apui-type-eyebrow-font-weight);
+    line-height: var(--apui-type-eyebrow-line-height);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+}

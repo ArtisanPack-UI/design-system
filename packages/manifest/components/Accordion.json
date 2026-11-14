@@ -1,0 +1,183 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "Accordion",
+  "description": "Stacked sections that expand and collapse: each item is a heading holding a button that shows or hides its panel. One item open at a time, or several with multiple.",
+  "status": "draft",
+  "issue": 58,
+  "rootClass": "apui-accordion",
+  "stacks": {
+    "livewire": {
+      "name": "accordion",
+      "capabilities": [
+        "Children: accordion-item, each rendering its heading, trigger and panel; items renders the same children from data",
+        "wire:model binds the open items' values"
+      ]
+    },
+    "react": {
+      "name": "Accordion",
+      "capabilities": [
+        "Children: AccordionItem, each rendering its heading, trigger and panel; items renders the same children from data"
+      ]
+    },
+    "vue": {
+      "name": "Accordion",
+      "capabilities": [
+        "Children: AccordionItem, each rendering its heading, trigger and panel; items renders the same children from data"
+      ]
+    }
+  },
+  "props": [
+    {
+      "name": "value",
+      "type": "array",
+      "description": "The open items' values. Livewire binds it with wire:model, Vue with v-model. Setting it doesn't fire value-change."
+    },
+    {
+      "name": "defaultValue",
+      "type": "array",
+      "description": "The items open at first in an uncontrolled accordion. The spec's defaultOpen.",
+      "stacks": ["react"]
+    },
+    {
+      "name": "items",
+      "type": "array",
+      "description": "The items as data, rendering the same children as composition: { value, title, content, disabled }."
+    },
+    {
+      "name": "multiple",
+      "type": "boolean",
+      "default": false,
+      "description": "Lets several items be open at once. Off, opening an item closes the others. The spec's type: single · multiple. Emitted as data-multiple."
+    },
+    {
+      "name": "collapsible",
+      "type": "boolean",
+      "default": true,
+      "description": "Lets the open item of a single accordion close, leaving none open. Emitted as data-collapsible."
+    },
+    {
+      "name": "variant",
+      "type": "enum",
+      "values": ["default", "separated", "flush"],
+      "default": "default",
+      "description": "Default is one container with edges between items, separated gives each item its own container, and flush drops the container for use inside a card or page. Emitted as data-variant."
+    },
+    {
+      "name": "headingLevel",
+      "type": "number",
+      "default": 3,
+      "description": "The level of each item's heading, h2 to h6, so the accordion fits the page's outline.",
+      "a11y": "Pick the level below the heading the accordion sits under."
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": false,
+      "description": "Disables every item: the triggers can't be focused or toggled. An item can also be disabled on its own."
+    },
+    {
+      "name": "classes",
+      "type": "object",
+      "description": "Extra classes per part, such as { item: '…', trigger: '…' }."
+    }
+  ],
+  "variants": ["default", "separated", "flush"],
+  "parts": [
+    { "name": "root", "element": "div", "description": "Holds the items." },
+    {
+      "name": "item",
+      "element": "div",
+      "description": "One section: its title and its panel. data-state is open or closed."
+    },
+    {
+      "name": "title",
+      "element": "h2 | h3 | h4 | h5 | h6",
+      "description": "The heading around the trigger, at headingLevel. The spec calls it heading; title is the vocabulary's name."
+    },
+    {
+      "name": "trigger",
+      "element": "button",
+      "description": "The button that toggles the item: aria-expanded, and aria-controls its panel. Zag's itemTrigger, named as the spec does."
+    },
+    {
+      "name": "chevron",
+      "element": "span",
+      "description": "The chevron at the trigger's end. It points down and turns up while the item is open. Zag's itemIndicator."
+    },
+    {
+      "name": "content",
+      "element": "div",
+      "description": "The item's panel: role region, labelled by its trigger and hidden while closed. The spec calls it panel; Zag's itemContent, named content as in Tabs (D-019)."
+    }
+  ],
+  "events": [
+    {
+      "name": "value-change",
+      "description": "An item opened or closed, by click or the keyboard. Setting value doesn't fire it.",
+      "payload": "string[]"
+    }
+  ],
+  "a11y": {
+    "element": "div",
+    "keyboard": [
+      { "keys": "Enter, Space", "action": "Opens or closes the focused item." },
+      {
+        "keys": "Tab, Shift+Tab",
+        "action": "Moves through the triggers and into an open panel's content."
+      },
+      {
+        "keys": "ArrowDown, ArrowUp",
+        "action": "Moves to the next or previous trigger, skipping disabled items."
+      },
+      { "keys": "Home, End", "action": "Moves to the first or last trigger." }
+    ],
+    "requirements": [
+      "Each trigger is a button inside a heading (headingLevel), with aria-expanded and aria-controls pointing at its panel.",
+      "Each panel is role=region, labelled by its trigger, and hidden while its item is closed.",
+      "Disabled items set disabled on the trigger and are skipped by the arrow keys.",
+      "The chevron is aria-hidden; the open state is in aria-expanded, not in the icon alone.",
+      "Don't hide required form fields in collapsed items.",
+      "The focus ring shows on the focused trigger, inset so the container doesn't clip it.",
+      "Every part keeps a stable, server-rendered id in Livewire (D-015)."
+    ],
+    "wcag": ["1.3.1", "1.4.3", "1.4.11", "2.1.1", "2.4.3", "2.4.6", "2.4.7", "4.1.2"]
+  },
+  "tokens": [
+    "--apui-radius-lg",
+    "--apui-border-width",
+    "--apui-border-muted",
+    "--apui-surface-default",
+    "--apui-panel-padding",
+    "--apui-state-hover",
+    "--apui-text-default",
+    "--apui-text-muted",
+    "--apui-text-disabled",
+    "--apui-motion-duration-fast",
+    "--apui-motion-ease-standard",
+    "--apui-focus-ring-color"
+  ],
+  "fixture": {
+    "props": {
+      "value": ["live"],
+      "items": [
+        {
+          "value": "live",
+          "title": "How long does a listing stay live?",
+          "content": "Listings stay live until you archive them or mark them as sold. Drafts are kept for 90 days."
+        },
+        {
+          "value": "owners",
+          "title": "Can co-owners edit a listing?",
+          "content": "Yes. Invite them from the listing's Sharing tab."
+        },
+        {
+          "value": "files",
+          "title": "Which file types can I upload?",
+          "content": "Images, PDFs and floor plans up to 20 MB each.",
+          "disabled": true
+        }
+      ]
+    },
+    "states": []
+  }
+}

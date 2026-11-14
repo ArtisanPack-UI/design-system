@@ -1,0 +1,198 @@
+{
+  "$description": "Structure through space: soft islands on a tinted canvas, low shadows in light, a display face and an ink primary. For auth, marketing, storefronts and consumer products.",
+  "radius": {
+    "$type": "dimension",
+    "md": {
+      "$value": {
+        "value": 12,
+        "unit": "px"
+      }
+    },
+    "lg": {
+      "$value": {
+        "value": 20,
+        "unit": "px"
+      }
+    },
+    "xl": {
+      "$value": {
+        "value": 24,
+        "unit": "px"
+      }
+    }
+  },
+  "font-family": {
+    "$type": "fontFamily",
+    "sans": {
+      "$value": ["Hanken Grotesk", "ui-sans-serif", "system-ui", "sans-serif"]
+    },
+    "mono": {
+      "$value": ["JetBrains Mono", "ui-monospace", "monospace"]
+    },
+    "display": {
+      "$value": ["Bricolage Grotesque", "Hanken Grotesk", "sans-serif"]
+    }
+  },
+  "type": {
+    "body-md": {
+      "font-size": {
+        "$value": {
+          "value": 15,
+          "unit": "px"
+        }
+      },
+      "line-height": {
+        "$value": {
+          "value": 22,
+          "unit": "px"
+        }
+      }
+    },
+    "stat-md": {
+      "font-size": {
+        "$value": {
+          "value": 30,
+          "unit": "px"
+        }
+      },
+      "font-weight": {
+        "$value": "{font-weight.semibold}"
+      },
+      "letter-spacing": {
+        "$value": {
+          "value": -0.03,
+          "unit": "em"
+        }
+      }
+    },
+    "stat-lg": {
+      "font-size": {
+        "$value": {
+          "value": 38,
+          "unit": "px"
+        }
+      },
+      "font-weight": {
+        "$value": "{font-weight.semibold}"
+      },
+      "letter-spacing": {
+        "$value": {
+          "value": -0.03,
+          "unit": "em"
+        }
+      }
+    }
+  },
+  "control-height": {
+    "$type": "dimension",
+    "xs": {
+      "$value": {
+        "value": 28,
+        "unit": "px"
+      }
+    },
+    "sm": {
+      "$value": {
+        "value": 32,
+        "unit": "px"
+      }
+    },
+    "md": {
+      "$value": {
+        "value": 40,
+        "unit": "px"
+      }
+    },
+    "lg": {
+      "$value": {
+        "value": 48,
+        "unit": "px"
+      }
+    },
+    "xl": {
+      "$value": {
+        "value": 56,
+        "unit": "px"
+      }
+    }
+  },
+  "panel": {
+    "$type": "dimension",
+    "padding-compact": {
+      "$value": {
+        "value": 20,
+        "unit": "px"
+      }
+    },
+    "padding-comfortable": {
+      "$value": {
+        "value": 32,
+        "unit": "px"
+      }
+    }
+  },
+  "row": {
+    "$type": "dimension",
+    "height-compact": {
+      "$value": {
+        "value": 36,
+        "unit": "px"
+      }
+    },
+    "height-comfortable": {
+      "$value": {
+        "value": 56,
+        "unit": "px"
+      }
+    }
+  },
+  "color": {
+    "$type": "color",
+    "primary": {
+      "$value": "{color.neutral}",
+      "$description": "Ink: near black in light, near white in dark."
+    },
+    "primary-hover": {
+      "$value": "{color.neutral-hover}"
+    },
+    "primary-foreground": {
+      "$value": "{color.neutral-foreground}"
+    },
+    "primary-soft": {
+      "$value": "{color.neutral-soft}"
+    },
+    "primary-soft-foreground": {
+      "$value": "{color.neutral-soft-foreground}"
+    },
+    "primary-text": {
+      "$value": "{color.neutral-text}"
+    },
+    "primary-border": {
+      "$value": "{color.neutral-border}"
+    }
+  },
+  "menu": {
+    "radius": {
+      "$value": {
+        "value": 20,
+        "unit": "px"
+      }
+    }
+  },
+  "toast": {
+    "radius": {
+      "$value": {
+        "value": 20,
+        "unit": "px"
+      }
+    }
+  },
+  "shell": {
+    "gutter": {
+      "$value": {
+        "value": 16,
+        "unit": "px"
+      }
+    }
+  }
+}

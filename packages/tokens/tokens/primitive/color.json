@@ -1,0 +1,803 @@
+{
+  "gray": {
+    "0": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [1, 1, 1],
+        "alpha": 1,
+        "hex": "#ffffff"
+      },
+      "$description": "Primitive. Gray ramp tinted toward the primary hue (250) at chroma 0.006 to 0.010. Surfaces and text alias these."
+    },
+    "25": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.9804, 0.9882, 0.9961],
+        "alpha": 1,
+        "hex": "#fafcfe"
+      }
+    },
+    "50": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.9569, 0.9686, 0.9843],
+        "alpha": 1,
+        "hex": "#f4f7fb"
+      },
+      "$description": "Primitive. Gray ramp tinted toward the primary hue (250) at chroma 0.006 to 0.010. Surfaces and text alias these."
+    },
+    "75": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.9412, 0.9569, 0.9686],
+        "alpha": 1,
+        "hex": "#f0f4f7"
+      }
+    },
+    "100": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.9176, 0.9294, 0.9451],
+        "alpha": 1,
+        "hex": "#eaedf1"
+      }
+    },
+    "150": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.8863, 0.898, 0.9098],
+        "alpha": 1,
+        "hex": "#e2e5e8"
+      }
+    },
+    "200": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.8392, 0.851, 0.8667],
+        "alpha": 1,
+        "hex": "#d6d9dd"
+      }
+    },
+    "300": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.7333, 0.7451, 0.7569],
+        "alpha": 1,
+        "hex": "#bbbec1"
+      }
+    },
+    "400": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.6118, 0.6235, 0.6353],
+        "alpha": 1,
+        "hex": "#9c9fa2"
+      }
+    },
+    "500": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.4941, 0.502, 0.5176],
+        "alpha": 1,
+        "hex": "#7e8084"
+      }
+    },
+    "600": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.3882, 0.4, 0.4118],
+        "alpha": 1,
+        "hex": "#636669"
+      }
+    },
+    "700": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.298, 0.3137, 0.3333],
+        "alpha": 1,
+        "hex": "#4c5055"
+      }
+    },
+    "800": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.2353, 0.251, 0.2706],
+        "alpha": 1,
+        "hex": "#3c4045"
+      }
+    },
+    "850": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.1765, 0.1922, 0.2078],
+        "alpha": 1,
+        "hex": "#2d3135"
+      }
+    },
+    "900": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.1373, 0.1529, 0.1686],
+        "alpha": 1,
+        "hex": "#23272b"
+      }
+    },
+    "925": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.098, 0.1137, 0.1333],
+        "alpha": 1,
+        "hex": "#191d22"
+      }
+    },
+    "950": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.0627, 0.0784, 0.0941],
+        "alpha": 1,
+        "hex": "#101418"
+      }
+    },
+    "975": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.0392, 0.0549, 0.0667],
+        "alpha": 1,
+        "hex": "#0a0e11"
+      }
+    },
+    "1000": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0, 0, 0],
+        "alpha": 1,
+        "hex": "#000000"
+      }
+    },
+    "$type": "color"
+  },
+  "steel": {
+    "50": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.9333, 0.9647, 1],
+        "alpha": 1,
+        "hex": "#eef6ff"
+      },
+      "$description": "Primitive. Steel ramp, OKLCH lightness ladder, chroma held in sRGB gamut."
+    },
+    "100": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.8549, 0.9255, 0.9961],
+        "alpha": 1,
+        "hex": "#daecfe"
+      }
+    },
+    "200": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.7294, 0.8588, 0.9961],
+        "alpha": 1,
+        "hex": "#badbfe"
+      }
+    },
+    "300": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.5647, 0.7765, 0.9961],
+        "alpha": 1,
+        "hex": "#90c6fe"
+      }
+    },
+    "400": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.3765, 0.6667, 0.9529],
+        "alpha": 1,
+        "hex": "#60aaf3"
+      }
+    },
+    "500": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.2667, 0.5529, 0.8314],
+        "alpha": 1,
+        "hex": "#448dd4"
+      }
+    },
+    "600": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.1647, 0.4588, 0.7294],
+        "alpha": 1,
+        "hex": "#2a75ba"
+      }
+    },
+    "700": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.0235, 0.3647, 0.6275],
+        "alpha": 1,
+        "hex": "#065da0"
+      }
+    },
+    "800": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.0039, 0.2784, 0.4902],
+        "alpha": 1,
+        "hex": "#01477d"
+      }
+    },
+    "900": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0, 0.1922, 0.3529],
+        "alpha": 1,
+        "hex": "#00315a"
+      }
+    },
+    "950": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0, 0.1255, 0.2431],
+        "alpha": 1,
+        "hex": "#00203e"
+      }
+    },
+    "$type": "color"
+  },
+  "slate": {
+    "50": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.9451, 0.9608, 0.9843],
+        "alpha": 1,
+        "hex": "#f1f5fb"
+      },
+      "$description": "Primitive. Slate ramp, OKLCH lightness ladder, chroma held in sRGB gamut."
+    },
+    "100": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.8824, 0.9176, 0.9686],
+        "alpha": 1,
+        "hex": "#e1eaf7"
+      }
+    },
+    "200": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.7843, 0.851, 0.9373],
+        "alpha": 1,
+        "hex": "#c8d9ef"
+      }
+    },
+    "300": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.698, 0.7647, 0.8471],
+        "alpha": 1,
+        "hex": "#b2c3d8"
+      }
+    },
+    "400": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.5882, 0.651, 0.7333],
+        "alpha": 1,
+        "hex": "#96a6bb"
+      }
+    },
+    "500": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.4824, 0.5451, 0.6235],
+        "alpha": 1,
+        "hex": "#7b8b9f"
+      }
+    },
+    "600": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.3922, 0.451, 0.5255],
+        "alpha": 1,
+        "hex": "#647386"
+      }
+    },
+    "700": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.3059, 0.3608, 0.4353],
+        "alpha": 1,
+        "hex": "#4e5c6f"
+      }
+    },
+    "800": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.2196, 0.2745, 0.3451],
+        "alpha": 1,
+        "hex": "#384658"
+      }
+    },
+    "900": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.1412, 0.1922, 0.2588],
+        "alpha": 1,
+        "hex": "#243142"
+      }
+    },
+    "950": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.098, 0.1255, 0.1608],
+        "alpha": 1,
+        "hex": "#192029"
+      }
+    },
+    "$type": "color"
+  },
+  "marigold": {
+    "50": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.9961, 0.9569, 0.8745],
+        "alpha": 1,
+        "hex": "#fef4df"
+      },
+      "$description": "Primitive. Marigold ramp, OKLCH lightness ladder, chroma held in sRGB gamut."
+    },
+    "100": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [1, 0.9059, 0.7137],
+        "alpha": 1,
+        "hex": "#ffe7b6"
+      }
+    },
+    "200": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [1, 0.8196, 0.4196],
+        "alpha": 1,
+        "hex": "#ffd16b"
+      }
+    },
+    "300": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.9412, 0.7176, 0.1216],
+        "alpha": 1,
+        "hex": "#f0b71f"
+      }
+    },
+    "400": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.8078, 0.6118, 0.0353],
+        "alpha": 1,
+        "hex": "#ce9c09"
+      }
+    },
+    "500": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.6745, 0.5098, 0.0196],
+        "alpha": 1,
+        "hex": "#ac8205"
+      }
+    },
+    "600": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.5608, 0.4196, 0.0078],
+        "alpha": 1,
+        "hex": "#8f6b02"
+      }
+    },
+    "700": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.451, 0.3373, 0.0039],
+        "alpha": 1,
+        "hex": "#735601"
+      }
+    },
+    "800": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.349, 0.2549, 0],
+        "alpha": 1,
+        "hex": "#594100"
+      }
+    },
+    "900": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.2471, 0.1765, 0.0078],
+        "alpha": 1,
+        "hex": "#3f2d02"
+      }
+    },
+    "950": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.1647, 0.1137, 0.0039],
+        "alpha": 1,
+        "hex": "#2a1d01"
+      }
+    },
+    "$type": "color"
+  },
+  "green": {
+    "50": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.8941, 0.9922, 0.9098],
+        "alpha": 1,
+        "hex": "#e4fde8"
+      },
+      "$description": "Primitive. Green ramp, OKLCH lightness ladder, chroma held in sRGB gamut."
+    },
+    "100": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.7647, 0.9804, 0.8039],
+        "alpha": 1,
+        "hex": "#c3facd"
+      }
+    },
+    "200": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.5373, 0.9529, 0.6353],
+        "alpha": 1,
+        "hex": "#89f3a2"
+      }
+    },
+    "300": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.4471, 0.8627, 0.549],
+        "alpha": 1,
+        "hex": "#72dc8c"
+      }
+    },
+    "400": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.3255, 0.7451, 0.4392],
+        "alpha": 1,
+        "hex": "#53be70"
+      }
+    },
+    "500": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.1961, 0.6314, 0.3333],
+        "alpha": 1,
+        "hex": "#32a155"
+      }
+    },
+    "600": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.0196, 0.5373, 0.2431],
+        "alpha": 1,
+        "hex": "#05893e"
+      }
+    },
+    "700": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.0157, 0.4314, 0.1882],
+        "alpha": 1,
+        "hex": "#046e30"
+      }
+    },
+    "800": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.0078, 0.3294, 0.1412],
+        "alpha": 1,
+        "hex": "#025424"
+      }
+    },
+    "900": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.0039, 0.2314, 0.0902],
+        "alpha": 1,
+        "hex": "#013b17"
+      }
+    },
+    "950": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0, 0.1529, 0.051],
+        "alpha": 1,
+        "hex": "#00270d"
+      }
+    },
+    "$type": "color"
+  },
+  "orange": {
+    "50": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.9961, 0.9529, 0.9176],
+        "alpha": 1,
+        "hex": "#fef3ea"
+      },
+      "$description": "Primitive. Orange ramp, OKLCH lightness ladder, chroma held in sRGB gamut."
+    },
+    "100": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.9961, 0.8941, 0.8157],
+        "alpha": 1,
+        "hex": "#fee4d0"
+      }
+    },
+    "200": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [1, 0.8, 0.6431],
+        "alpha": 1,
+        "hex": "#ffcca4"
+      }
+    },
+    "300": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [1, 0.6706, 0.3882],
+        "alpha": 1,
+        "hex": "#ffab63"
+      }
+    },
+    "400": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.9373, 0.5255, 0.0157],
+        "alpha": 1,
+        "hex": "#ef8604"
+      }
+    },
+    "500": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.7804, 0.4392, 0.0275],
+        "alpha": 1,
+        "hex": "#c77007"
+      }
+    },
+    "600": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.651, 0.3608, 0.0118],
+        "alpha": 1,
+        "hex": "#a65c03"
+      }
+    },
+    "700": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.5255, 0.2863, 0],
+        "alpha": 1,
+        "hex": "#864900"
+      }
+    },
+    "800": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.4039, 0.2157, 0.0078],
+        "alpha": 1,
+        "hex": "#673702"
+      }
+    },
+    "900": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.2902, 0.149, 0.0039],
+        "alpha": 1,
+        "hex": "#4a2601"
+      }
+    },
+    "950": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.1961, 0.0941, 0],
+        "alpha": 1,
+        "hex": "#321800"
+      }
+    },
+    "$type": "color"
+  },
+  "red": {
+    "50": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.9961, 0.949, 0.9412],
+        "alpha": 1,
+        "hex": "#fef2f0"
+      },
+      "$description": "Primitive. Red ramp, OKLCH lightness ladder, chroma held in sRGB gamut."
+    },
+    "100": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [1, 0.8863, 0.8745],
+        "alpha": 1,
+        "hex": "#ffe2df"
+      }
+    },
+    "200": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.9961, 0.7843, 0.7647],
+        "alpha": 1,
+        "hex": "#fec8c3"
+      }
+    },
+    "300": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.9961, 0.651, 0.6196],
+        "alpha": 1,
+        "hex": "#fea69e"
+      }
+    },
+    "400": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [1, 0.4471, 0.4196],
+        "alpha": 1,
+        "hex": "#ff726b"
+      }
+    },
+    "500": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.898, 0.298, 0.2902],
+        "alpha": 1,
+        "hex": "#e54c4a"
+      }
+    },
+    "600": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.7882, 0.1843, 0.2],
+        "alpha": 1,
+        "hex": "#c92f33"
+      }
+    },
+    "700": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.6745, 0.0039, 0.102],
+        "alpha": 1,
+        "hex": "#ac011a"
+      }
+    },
+    "800": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.5255, 0, 0.0706],
+        "alpha": 1,
+        "hex": "#860012"
+      }
+    },
+    "900": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.3804, 0, 0.0353],
+        "alpha": 1,
+        "hex": "#610009"
+      }
+    },
+    "950": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.2588, 0.0039, 0.0196],
+        "alpha": 1,
+        "hex": "#420105"
+      }
+    },
+    "$type": "color"
+  },
+  "cyan": {
+    "50": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.9059, 0.9765, 1],
+        "alpha": 1,
+        "hex": "#e7f9ff"
+      },
+      "$description": "Primitive. Cyan ramp, OKLCH lightness ladder, chroma held in sRGB gamut."
+    },
+    "100": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.7922, 0.9451, 0.9961],
+        "alpha": 1,
+        "hex": "#caf1fe"
+      }
+    },
+    "200": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.5843, 0.898, 1],
+        "alpha": 1,
+        "hex": "#95e5ff"
+      }
+    },
+    "300": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.3333, 0.8275, 0.9647],
+        "alpha": 1,
+        "hex": "#55d3f6"
+      }
+    },
+    "400": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.1843, 0.7098, 0.8471],
+        "alpha": 1,
+        "hex": "#2fb5d8"
+      }
+    },
+    "500": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.0196, 0.5961, 0.7255],
+        "alpha": 1,
+        "hex": "#0598b9"
+      }
+    },
+    "600": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.0039, 0.4941, 0.6039],
+        "alpha": 1,
+        "hex": "#017e9a"
+      }
+    },
+    "700": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.0235, 0.3961, 0.4824],
+        "alpha": 1,
+        "hex": "#06657b"
+      }
+    },
+    "800": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.0118, 0.302, 0.3725],
+        "alpha": 1,
+        "hex": "#034d5f"
+      }
+    },
+    "900": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.0039, 0.2157, 0.2667],
+        "alpha": 1,
+        "hex": "#013744"
+      }
+    },
+    "950": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0, 0.1412, 0.1804],
+        "alpha": 1,
+        "hex": "#00242e"
+      }
+    },
+    "$type": "color"
+  }
+}

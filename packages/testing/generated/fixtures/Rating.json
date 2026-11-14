@@ -1,0 +1,214 @@
+{
+  "version": 1,
+  "component": "Rating",
+  "rootClass": "apui-rating",
+  "stacks": [
+    "livewire",
+    "react",
+    "vue"
+  ],
+  "names": {
+    "livewire": "rating",
+    "react": "Rating",
+    "vue": "Rating"
+  },
+  "cases": [
+    {
+      "id": "size=sm state=default",
+      "props": {
+        "value": 4,
+        "count": 17,
+        "label": "Rate the viewing",
+        "size": "sm"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "size=sm state=hover",
+      "props": {
+        "value": 4,
+        "count": 17,
+        "label": "Rate the viewing",
+        "size": "sm"
+      },
+      "state": "hover",
+      "content": null
+    },
+    {
+      "id": "size=sm state=focus-visible",
+      "props": {
+        "value": 4,
+        "count": 17,
+        "label": "Rate the viewing",
+        "size": "sm"
+      },
+      "state": "focus-visible",
+      "content": null
+    },
+    {
+      "id": "size=sm state=readonly",
+      "props": {
+        "value": 4,
+        "count": 17,
+        "label": "Rate the viewing",
+        "size": "sm",
+        "readonly": true
+      },
+      "state": "readonly",
+      "content": null
+    },
+    {
+      "id": "size=sm state=disabled",
+      "props": {
+        "value": 4,
+        "count": 17,
+        "label": "Rate the viewing",
+        "size": "sm",
+        "disabled": true
+      },
+      "state": "disabled",
+      "content": null
+    },
+    {
+      "id": "size=md state=default",
+      "props": {
+        "value": 4,
+        "count": 17,
+        "label": "Rate the viewing",
+        "size": "md"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "size=md state=hover",
+      "props": {
+        "value": 4,
+        "count": 17,
+        "label": "Rate the viewing",
+        "size": "md"
+      },
+      "state": "hover",
+      "content": null
+    },
+    {
+      "id": "size=md state=focus-visible",
+      "props": {
+        "value": 4,
+        "count": 17,
+        "label": "Rate the viewing",
+        "size": "md"
+      },
+      "state": "focus-visible",
+      "content": null
+    },
+    {
+      "id": "size=md state=readonly",
+      "props": {
+        "value": 4,
+        "count": 17,
+        "label": "Rate the viewing",
+        "size": "md",
+        "readonly": true
+      },
+      "state": "readonly",
+      "content": null
+    },
+    {
+      "id": "size=md state=disabled",
+      "props": {
+        "value": 4,
+        "count": 17,
+        "label": "Rate the viewing",
+        "size": "md",
+        "disabled": true
+      },
+      "state": "disabled",
+      "content": null
+    },
+    {
+      "id": "size=lg state=default",
+      "props": {
+        "value": 4,
+        "count": 17,
+        "label": "Rate the viewing",
+        "size": "lg"
+      },
+      "state": "default",
+      "content": null
+    },
+    {
+      "id": "size=lg state=hover",
+      "props": {
+        "value": 4,
+        "count": 17,
+        "label": "Rate the viewing",
+        "size": "lg"
+      },
+      "state": "hover",
+      "content": null
+    },
+    {
+      "id": "size=lg state=focus-visible",
+      "props": {
+        "value": 4,
+        "count": 17,
+        "label": "Rate the viewing",
+        "size": "lg"
+      },
+      "state": "focus-visible",
+      "content": null
+    },
+    {
+      "id": "size=lg state=readonly",
+      "props": {
+        "value": 4,
+        "count": 17,
+        "label": "Rate the viewing",
+        "size": "lg",
+        "readonly": true
+      },
+      "state": "readonly",
+      "content": null
+    },
+    {
+      "id": "size=lg state=disabled",
+      "props": {
+        "value": 4,
+        "count": 17,
+        "label": "Rate the viewing",
+        "size": "lg",
+        "disabled": true
+      },
+      "state": "disabled",
+      "content": null
+    }
+  ],
+  "sheets": [
+    {
+      "id": "light",
+      "theme": "light",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "dark",
+      "theme": "dark",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "high-contrast",
+      "theme": "high-contrast",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "rtl",
+      "theme": "light",
+      "density": "default",
+      "dir": "rtl"
+    }
+  ]
+}

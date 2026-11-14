@@ -1,0 +1,7 @@
+[
+  {
+    "id": "stream",
+    "title": "Streaming a summary",
+    "description": "The component streams to the target with $this->stream(); state drives the status line, the caret and Stop. Keep partial content when a stream fails, and offer Continue."
+  }
+]

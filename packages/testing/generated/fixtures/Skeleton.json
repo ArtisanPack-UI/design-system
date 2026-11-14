@@ -1,0 +1,52 @@
+{
+  "version": 1,
+  "component": "Skeleton",
+  "rootClass": "apui-skeleton",
+  "stacks": [
+    "livewire",
+    "react",
+    "vue"
+  ],
+  "names": {
+    "livewire": "skeleton",
+    "react": "Skeleton",
+    "vue": "Skeleton"
+  },
+  "cases": [
+    {
+      "id": "state=default",
+      "props": {
+        "width": "240px",
+        "height": "24px"
+      },
+      "state": "default",
+      "content": null
+    }
+  ],
+  "sheets": [
+    {
+      "id": "light",
+      "theme": "light",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "dark",
+      "theme": "dark",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "high-contrast",
+      "theme": "high-contrast",
+      "density": "default",
+      "dir": "ltr"
+    },
+    {
+      "id": "rtl",
+      "theme": "light",
+      "density": "default",
+      "dir": "rtl"
+    }
+  ]
+}

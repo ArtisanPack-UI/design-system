@@ -1,0 +1,17 @@
+[
+  {
+    "id": "basic",
+    "title": "Basic",
+    "description": "Draw, type or upload. Every mode gives the same value, a PNG data URL. Show who is signing and the date under the pad."
+  },
+  {
+    "id": "type-first",
+    "title": "Type first",
+    "description": "Type mode is always offered and is the keyboard path. Start in it, or leave upload out with modes."
+  },
+  {
+    "id": "validation",
+    "title": "Validation",
+    "description": "A required signature with an error: the pad gets an error edge and the message is linked to the group."
+  }
+]

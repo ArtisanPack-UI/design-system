@@ -1,0 +1,12 @@
+[
+  {
+    "id": "appearance",
+    "title": "Appearance",
+    "description": "One card per theme, the System card split into light and dark halves. wire:model.live sends the choice at once; apply it with the ThemeToggle helpers or save it with the account."
+  },
+  {
+    "id": "presets",
+    "title": "Style preset",
+    "description": "preset sets data-preset on each miniature, so Strata, Ledger, Harbor or a brand preset draw with their own tokens."
+  }
+]

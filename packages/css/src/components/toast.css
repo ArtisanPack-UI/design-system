@@ -1,0 +1,206 @@
+/*
+ * Toast (#51). Root `.apui-toast` with data-color (the icon's tint),
+ * data-variant and data-surface. Parts: icon, title, description, actions
+ * and close-trigger (a Button). In a toaster the toasts sit in the region,
+ * Zag's group part, which stacks them through the custom properties it
+ * writes inline (--y, --opacity, --height, --z-index). See
+ * design/components/Toast.
+ */
+@layer apui.components {
+  .apui-toast {
+    --apui-_toast-tone: var(--apui-text-muted);
+
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 2px 12px;
+    align-items: start;
+    box-sizing: border-box;
+    inline-size: 360px;
+    max-inline-size: 100%;
+    padding-block: 12px;
+    padding-inline: 16px 12px;
+    border: var(--apui-border-width) solid var(--apui-border-muted);
+    border-radius: var(--apui-toast-radius);
+    background: var(--apui-surface-overlay);
+    box-shadow: var(--apui-elevation-overlay);
+    color: var(--apui-text-default);
+    font-family: var(--apui-font-family-sans);
+    font-size: var(--apui-type-body-md-font-size);
+    line-height: var(--apui-type-body-md-line-height);
+
+    /* Buttons inside ring against the toast. */
+    --apui-focus-ring-offset-color: var(--apui-surface-overlay);
+  }
+
+  .apui-toast:focus-visible {
+    outline: var(--apui-focus-ring-width) solid transparent;
+    box-shadow:
+      0 0 0 var(--apui-focus-ring-offset) var(--apui-surface-page),
+      0 0 0 calc(var(--apui-focus-ring-offset) + var(--apui-focus-ring-width))
+        var(--apui-focus-ring-color);
+  }
+
+  .apui-toast[data-color='primary'] {
+    --apui-_toast-tone: var(--apui-color-primary-text);
+  }
+
+  .apui-toast[data-color='secondary'] {
+    --apui-_toast-tone: var(--apui-color-secondary-text);
+  }
+
+  .apui-toast[data-color='accent'] {
+    --apui-_toast-tone: var(--apui-color-accent-text);
+  }
+
+  .apui-toast[data-color='success'] {
+    --apui-_toast-tone: var(--apui-color-success-text);
+  }
+
+  .apui-toast[data-color='warning'] {
+    --apui-_toast-tone: var(--apui-color-warning-text);
+  }
+
+  .apui-toast[data-color='error'] {
+    --apui-_toast-tone: var(--apui-color-error-text);
+  }
+
+  .apui-toast[data-color='info'] {
+    --apui-_toast-tone: var(--apui-color-info-text);
+  }
+
+  /* Inverse: light text on the inverse surface; the icon follows the text. */
+  .apui-toast[data-variant='inverse'] {
+    --apui-text-default: var(--apui-text-inverse);
+    --apui-text-muted: var(--apui-text-inverse);
+    --apui-_toast-tone: var(--apui-text-inverse);
+    --apui-state-hover: color-mix(in oklab, var(--apui-text-inverse) 16%, transparent);
+    --apui-focus-ring-offset-color: var(--apui-surface-inverse);
+
+    border-color: transparent;
+    background: var(--apui-surface-inverse);
+    color: var(--apui-text-inverse);
+  }
+
+  /* Glass is a surface (D-006). */
+  .apui-toast[data-surface='glass'] {
+    --apui-text-muted: var(--apui-text-muted-glass);
+    --apui-focus-ring-offset-color: transparent;
+
+    border-color: var(--apui-surface-glass-border);
+    background: var(--apui-surface-glass);
+    box-shadow: var(--apui-elevation-glass);
+    backdrop-filter: blur(var(--apui-surface-glass-blur))
+      saturate(var(--apui-surface-glass-saturation));
+  }
+
+  @supports not (backdrop-filter: blur(1px)) {
+    .apui-toast[data-surface='glass'] {
+      border-color: var(--apui-border-muted);
+      background: var(--apui-surface-overlay);
+    }
+  }
+
+  @media (prefers-reduced-transparency: reduce) {
+    .apui-toast[data-surface='glass'] {
+      border-color: var(--apui-border-muted);
+      background: var(--apui-surface-overlay);
+      backdrop-filter: none;
+    }
+  }
+
+  [data-scope='toast'][data-part='icon'] {
+    display: inline-flex;
+    grid-column: 1;
+    grid-row: 1;
+    margin-block-start: 2px;
+    color: var(--apui-_toast-tone);
+  }
+
+  [data-scope='toast'][data-part='icon'] > svg {
+    inline-size: var(--apui-icon-size-sm);
+    block-size: var(--apui-icon-size-sm);
+  }
+
+  [data-scope='toast'][data-part='title'] {
+    grid-column: 2;
+    margin: 0;
+    font-weight: var(--apui-font-weight-medium);
+  }
+
+  [data-scope='toast'][data-part='description'] {
+    grid-column: 2;
+    margin: 0;
+    color: var(--apui-text-muted);
+    font-size: var(--apui-type-body-sm-font-size);
+    line-height: 18px;
+  }
+
+  [data-scope='toast'][data-part='actions'] {
+    display: flex;
+    flex-wrap: wrap;
+    grid-column: 2;
+    gap: 8px;
+    margin-block-start: 8px;
+  }
+
+  [data-scope='toast'][data-part='close-trigger'] {
+    grid-column: 3;
+    grid-row: 1;
+    margin-block-start: -4px;
+  }
+
+  /* hideClose: the machine sets hidden, which the Button's display would override. */
+  [data-scope='toast'][data-part='close-trigger'][hidden] {
+    display: none;
+  }
+
+  /*
+   * The region. Zag fixes it to the viewport and places it from the
+   * placement; the toasts inside are stacked by the custom properties it
+   * writes on each one.
+   */
+  [data-scope='toast'][data-part='group'] {
+    inline-size: min(360px, calc(100vw - 32px));
+    outline: none;
+  }
+
+  /* stylelint-disable custom-property-pattern -- Zag's toast machine writes these inline (D-019) */
+  [data-scope='toast'][data-part='group'] > .apui-toast {
+    inset-inline: 0;
+    inline-size: auto;
+    block-size: var(--height);
+    translate: var(--x) var(--y);
+    scale: var(--scale);
+    opacity: var(--opacity);
+    z-index: var(--z-index);
+    transition:
+      translate var(--apui-motion-duration-slow) var(--apui-motion-ease-enter),
+      scale var(--apui-motion-duration-slow) var(--apui-motion-ease-enter),
+      opacity var(--apui-motion-duration-slow) var(--apui-motion-ease-enter),
+      block-size var(--apui-motion-duration-slow) var(--apui-motion-ease-enter);
+    will-change: translate, opacity;
+  }
+  /* stylelint-enable custom-property-pattern */
+
+  [data-scope='toast'][data-part='group'] > .apui-toast[data-state='closed'] {
+    transition-timing-function: var(--apui-motion-ease-exit);
+  }
+
+  /* Toasts stay where the stack puts them (translate); only the movement goes. */
+  @media (prefers-reduced-motion: reduce) {
+    [data-scope='toast'][data-part='group'] > .apui-toast {
+      transition: opacity var(--apui-motion-duration-fast) linear;
+    }
+  }
+
+  @media (forced-colors: active) {
+    .apui-toast {
+      border-color: CanvasText;
+    }
+
+    .apui-toast[data-surface='glass'] {
+      background: Canvas;
+      backdrop-filter: none;
+    }
+  }
+}
