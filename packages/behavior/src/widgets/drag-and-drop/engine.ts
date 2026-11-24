@@ -387,8 +387,14 @@ export function dropDrag(): boolean {
     cancelDrag('outside');
     return false;
   }
+  if (!target.context.isConnected) {
+    cancelDrag('removed');
+    return false;
+  }
   const toContext = target.context;
-  if (!target.allowed) {
+  // Asked again now: `disabled` or `accepts` may have changed since the
+  // target was last set.
+  if (!isAllowed(toContext, current)) {
     cancelDrag(
       'not-allowed',
       formatDragMessage(

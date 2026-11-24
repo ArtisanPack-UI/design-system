@@ -103,6 +103,14 @@ const Board = defineComponent({
       lists.value = applyDragMove(lists.value, detail);
     };
     (window as unknown as { revert?: (id: number) => boolean }).revert = (id) => revertDragItem(id);
+    (window as unknown as { removeCard?: (id: number) => void }).removeCard = (id) => {
+      lists.value = Object.fromEntries(
+        Object.entries(lists.value).map(([key, cards]) => [
+          key,
+          cards.filter((card) => card.id !== id),
+        ]),
+      );
+    };
     return () => {
       dragLog().renders++;
       return h('div', { style: { display: 'flex', gap: '16px' } }, [

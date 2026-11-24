@@ -140,7 +140,7 @@ export const vDragContext: Directive<HTMLElement, DragContextOptions | null | un
 
 interface ItemState {
   id: DragId;
-  unregister: () => void;
+  unregister: ReturnType<typeof registerDragItem>;
 }
 
 const items = new WeakMap<HTMLElement, ItemState>();
@@ -158,8 +158,10 @@ export const vDragItem: Directive<HTMLElement, DragId> = {
     el.setAttribute('data-drag-id', String(binding.value));
     items.set(el, { id: binding.value, unregister: registerDragItem(el, binding.value) });
   },
+  // Runs while the item is still in the page: a drag of it is cancelled now,
+  // not left stuck once Vue removes the node.
   beforeUnmount(el) {
-    items.get(el)?.unregister();
+    items.get(el)?.unregister({ removing: true });
     items.delete(el);
   },
   getSSRProps(binding) {

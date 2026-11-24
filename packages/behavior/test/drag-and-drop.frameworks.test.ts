@@ -152,6 +152,25 @@ describe.each(['react', 'vue'] as const)('drag-and-drop adapter (%s)', (stack) =
     expect(errors).toEqual([]);
   });
 
+  it('cancels a keyboard drag when the held card is removed from state', async () => {
+    const { page, errors } = await openBoard(stack);
+    await page.focus('[data-test="todo"] li:first-child');
+    await page.keyboard.press('Space');
+    expect(await page.getAttribute('body', 'data-drag-in-progress')).toBe('keyboard');
+    await page.evaluate(() =>
+      (window as unknown as { removeCard(id: number): void }).removeCard(1),
+    );
+    await settle(page);
+    expect(await titles(page, 'todo')).toEqual(['Review', 'Ship']);
+    expect(await page.getAttribute('body', 'data-drag-in-progress')).toBeNull();
+    // Another card can be picked up: no drag is stuck.
+    await page.focus('[data-test="todo"] li:first-child');
+    await page.keyboard.press('Space');
+    expect(await announced(page)).toBe('Review grabbed. Position 1 of 2 in To do.');
+    await page.keyboard.press('Escape');
+    expect(errors).toEqual([]);
+  });
+
   it('refuses a drop with reject() and leaves the order alone', async () => {
     const { page } = await openBoard(stack);
     await page.evaluate(() => {

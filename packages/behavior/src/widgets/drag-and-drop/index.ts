@@ -167,21 +167,38 @@ export function registerDragContext(
   };
 }
 
+/** Options for the function {@link registerDragItem} returns. */
+export interface DragItemCleanupOptions {
+  /**
+   * The item is about to be removed: cancel a drag of it now, while it's
+   * still in the page. React and Vue pass it from their unmount hooks, which
+   * run before the node is removed.
+   */
+  removing?: boolean;
+}
+
 /**
  * Makes an element a drag item with an id. Returns the function that undoes
- * it; undoing it while the item is being dragged and detached cancels the drag.
+ * it. Undoing it cancels a drag of the item when the item is already
+ * detached (Alpine's cleanup runs after removal) or `removing` is set, and
+ * removes the `data-drag-item` marker if registering added it.
  */
-export function registerDragItem(item: HTMLElement, id: DragId | null): () => void {
+export function registerDragItem(
+  item: HTMLElement,
+  id: DragId | null,
+): (options?: DragItemCleanupOptions) => void {
   installDragAndDrop();
   setItemId(item, id);
-  if (!item.hasAttribute('data-drag-item') && !item.hasAttribute('x-drag-item')) {
-    item.setAttribute('data-drag-item', '');
-  }
+  const addedMarker = !item.hasAttribute('data-drag-item') && !item.hasAttribute('x-drag-item');
+  if (addedMarker) item.setAttribute('data-drag-item', '');
   decorateItem(item);
-  return () => {
+  return (options = {}) => {
     const current = currentSession();
-    if (current && current.item === item && !item.isConnected) cancelDrag('removed');
+    if (current && current.item === item && (options.removing || !item.isConnected)) {
+      cancelDrag('removed');
+    }
     setItemId(item, undefined);
+    if (addedMarker) item.removeAttribute('data-drag-item');
   };
 }
 

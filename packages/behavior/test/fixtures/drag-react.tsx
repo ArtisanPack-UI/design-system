@@ -2,7 +2,7 @@
  * A two-list board on the React drag adapter, for drag-and-drop.frameworks.test.ts.
  * State is the source of truth: drops and reverts go through applyDragMove.
  */
-import { useState } from 'react';
+import { StrictMode, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 
 import { applyDragMove, revertDragItem, useDragContext, useDragItems } from '../../src/react';
@@ -57,6 +57,15 @@ function Board() {
   const move = (detail: Parameters<typeof applyDragMove>[1]) =>
     setLists((current) => applyDragMove(current, detail));
   (window as unknown as { revert?: (id: number) => boolean }).revert = (id) => revertDragItem(id);
+  (window as unknown as { removeCard?: (id: number) => void }).removeCard = (id) =>
+    setLists((current) =>
+      Object.fromEntries(
+        Object.entries(current).map(([key, cards]) => [
+          key,
+          cards.filter((card) => card.id !== id),
+        ]),
+      ),
+    );
   return (
     <div style={{ display: 'flex', gap: 16 }}>
       {Object.entries(lists).map(([id, cards]) => (
@@ -66,5 +75,10 @@ function Board() {
   );
 }
 
-createRoot(document.getElementById('root')!).render(<Board />);
+// Strict Mode, so the tests cover React's effect replay in development.
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+    <Board />
+  </StrictMode>,
+);
 (window as unknown as { mounted: boolean }).mounted = true;

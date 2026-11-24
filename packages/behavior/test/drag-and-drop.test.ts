@@ -123,6 +123,20 @@ describe('registration', () => {
   });
 });
 
+describe('item cleanup', () => {
+  it('removes the marker registration added and keeps an author one', () => {
+    document.body.innerHTML = '<ul id="a"><li id="x"></li><li id="y" data-drag-item></li></ul>';
+    registerDragContext(document.getElementById('a')!, { id: 'a' });
+    const offX = registerDragItem(document.getElementById('x')!, 1);
+    const offY = registerDragItem(document.getElementById('y')!, 2);
+    expect(document.getElementById('x')!.hasAttribute('data-drag-item')).toBe(true);
+    offX();
+    offY();
+    expect(document.getElementById('x')!.hasAttribute('data-drag-item')).toBe(false);
+    expect(document.getElementById('y')!.hasAttribute('data-drag-item')).toBe(true);
+  });
+});
+
 describe('the planned order', () => {
   it('reorders within a list', () => {
     const { a, item } = board();

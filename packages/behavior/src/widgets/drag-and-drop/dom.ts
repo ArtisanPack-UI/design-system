@@ -45,7 +45,7 @@ export interface DragContextOptions {
   group?: string | null;
   /** The context's name in announcements and its `aria-label`. */
   label?: string | null;
-  /** Refuses drops while true. */
+  /** Refuses drops while true. Its own items can still be dragged out (a full column). */
   disabled?: boolean;
   /** Return false to refuse an item. A throw refuses it too. */
   accepts?: ((detail: DragAcceptDetail) => boolean) | null;

@@ -21,6 +21,7 @@ import {
   describeAt,
   getItems,
   insertAtIndex,
+  isFlowReversed,
   isRtl,
   messagesFor,
   ownerContext,
@@ -138,10 +139,14 @@ function onKeyDown(event: KeyboardEvent): void {
   const position = current && current.item === item ? sessionPosition(current) : null;
   const context = position ? position.context : ownerContext(item);
   if (!context) return;
+  // A horizontal list follows its flow (RTL or `row-reverse`), as pointer
+  // hit-testing does; between vertical lists, the left and right arrows
+  // follow the text direction.
+  const horizontal = contextOptions(context).orientation === 'horizontal';
   const action = resolveAction(
     event.key,
-    contextOptions(context).orientation === 'horizontal',
-    isRtl(context),
+    horizontal,
+    horizontal ? isFlowReversed(context) : isRtl(context),
   );
 
   if (!current || current.item !== item) {

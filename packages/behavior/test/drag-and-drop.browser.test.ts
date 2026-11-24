@@ -306,6 +306,29 @@ describe('drag and drop: controlled (the React and Vue path)', () => {
     expect(await page.locator('[data-drag-indicator]').count()).toBe(0);
   });
 
+  it('cancels a drop whose destination left the page', async () => {
+    const { page } = await open({ controlled: true });
+    await focusAndPress(page, '#a li:first-child', 'Space', 'ArrowRight');
+    await page.evaluate(() => document.querySelector('#b')!.remove());
+    await page.keyboard.press('Space');
+    await settle(page);
+    expect(await events(page, 'drag:drop')).toEqual([]);
+    expect((await events(page, 'drag:cancel'))[0]!.detail).toMatchObject({ reason: 'removed' });
+    expect(await page.getAttribute('body', 'data-drag-in-progress')).toBeNull();
+  });
+
+  it('asks the destination again on drop', async () => {
+    const { page } = await open({ controlled: true });
+    const four = await center(page, '#b li');
+    await drag(page, '#a li:first-child', { x: four.x, y: four.box.y + four.box.height - 2 });
+    await page.evaluate(() => document.querySelector('#b')!.setAttribute('data-drag-disabled', ''));
+    await page.mouse.up();
+    await settle(page);
+    expect(await events(page, 'drag:drop')).toEqual([]);
+    expect((await events(page, 'drag:cancel'))[0]!.detail).toMatchObject({ reason: 'not-allowed' });
+    expect(await announced(page)).toBe('One cannot be dropped in Second.');
+  });
+
   it('reverts by reporting the order to render', async () => {
     const { page } = await open({ controlled: true });
     await focusAndPress(page, '#a li:first-child', 'Space', 'ArrowDown', 'ArrowDown', 'Space');
@@ -344,6 +367,20 @@ describe('drag and drop: right to left', () => {
 
   it('swaps the arrows within an RTL horizontal list', async () => {
     const { page } = await open({ dir: 'rtl', horizontal: true });
+    await focusAndPress(page, '#a li:first-child', 'Space', 'ArrowLeft');
+    expect(await order(page, 'a')).toEqual([2, 1, 3]);
+    await page.keyboard.press('ArrowRight');
+    await settle(page);
+    expect(await order(page, 'a')).toEqual([1, 2, 3]);
+    await page.keyboard.press('Escape');
+  });
+
+  it('follows a row-reverse list with the arrows in LTR', async () => {
+    const { page } = await open({ horizontal: true });
+    await page.evaluate(() => {
+      (document.querySelector('#a') as HTMLElement).style.flexDirection = 'row-reverse';
+    });
+    // Item 1 is drawn rightmost; ArrowLeft moves it to the left, which is later in the DOM.
     await focusAndPress(page, '#a li:first-child', 'Space', 'ArrowLeft');
     expect(await order(page, 'a')).toEqual([2, 1, 3]);
     await page.keyboard.press('ArrowRight');

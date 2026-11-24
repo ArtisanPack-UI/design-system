@@ -25,7 +25,7 @@
  * a tab stop; the engine adds `aria-describedby` (the instructions) once the
  * element mounts.
  */
-import { useCallback, useEffect, useRef, type RefCallback } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, type RefCallback } from 'react';
 
 import {
   registerDragContext,
@@ -84,6 +84,11 @@ export interface DragItemProps<T extends HTMLElement = HTMLElement> {
   'data-drag-label'?: string;
 }
 
+/** useLayoutEffect in the browser; useEffect on the server, where React 18 warns about layout effects. */
+const useIsomorphicLayoutEffect = typeof window === 'undefined' ? useEffect : useLayoutEffect;
+
+type DragItemCleanup = ReturnType<typeof registerDragItem>;
+
 const EVENTS = [
   ['drag:start', 'onDragStart'],
   ['drag:over', 'onDragOver'],
@@ -115,36 +120,46 @@ export function useDragContext<T extends HTMLElement = HTMLElement>(
   options: UseDragContextOptions = {},
 ): DragContextProps<T> {
   const latest = useRef(options);
-  latest.current = options;
+  // Committed options only: a render React discards never reaches the listeners.
+  useIsomorphicLayoutEffect(() => {
+    latest.current = options;
+  });
+  const element = useRef<T | null>(null);
   const cleanup = useRef<(() => void) | null>(null);
 
-  const ref = useCallback((element: T | null) => {
+  const detach = () => {
     cleanup.current?.();
     cleanup.current = null;
-    if (!element) return;
-    const unregister = registerDragContext(element, () => engineOptions(latest.current));
+  };
+  const attach = (target: T) => {
+    const unregister = registerDragContext(target, () => engineOptions(latest.current));
     const listeners = EVENTS.map(([name, handler]) => {
       const listener = (event: Event) => {
         const callback = latest.current[handler] as
           ((detail: unknown, event: CustomEvent) => void) | undefined;
         callback?.((event as CustomEvent).detail, event as CustomEvent);
       };
-      element.addEventListener(name, listener);
-      return () => element.removeEventListener(name, listener);
+      target.addEventListener(name, listener);
+      return () => target.removeEventListener(name, listener);
     });
     cleanup.current = () => {
       listeners.forEach((off) => off());
       unregister();
     };
+  };
+
+  const ref = useCallback((next: T | null) => {
+    detach();
+    element.current = next;
+    if (next) attach(next);
   }, []);
 
-  useEffect(
-    () => () => {
-      cleanup.current?.();
-      cleanup.current = null;
-    },
-    [],
-  );
+  // Strict Mode replays this effect without calling the ref again, so the
+  // setup re-registers the element its cleanup let go.
+  useEffect(() => {
+    if (element.current && !cleanup.current) attach(element.current);
+    return detach;
+  }, []);
 
   const controlled = options.controlled ?? true;
   return {
@@ -183,33 +198,42 @@ export function useDragItem<T extends HTMLElement = HTMLElement>(
   options: DragItemOptions = {},
 ): DragItemProps<T> {
   const idRef = useRef(id);
-  idRef.current = id;
+  useIsomorphicLayoutEffect(() => {
+    idRef.current = id;
+  });
   const element = useRef<T | null>(null);
-  const cleanup = useRef<(() => void) | null>(null);
+  const cleanup = useRef<DragItemCleanup | null>(null);
 
   const ref = useCallback((next: T | null) => {
-    cleanup.current?.();
+    cleanup.current?.({ removing: true });
     cleanup.current = null;
     element.current = next;
     if (next) cleanup.current = registerDragItem(next, idRef.current);
   }, []);
 
+  // Re-registers when the id changes, and after Strict Mode's replay.
   useEffect(() => {
-    if (element.current) {
-      cleanup.current?.();
-      cleanup.current = registerDragItem(element.current, id);
-    }
+    if (!element.current) return;
+    cleanup.current?.();
+    cleanup.current = registerDragItem(element.current, id);
   }, [id]);
 
   useEffect(
     () => () => {
-      cleanup.current?.();
+      cleanup.current?.({ removing: true });
       cleanup.current = null;
     },
     [],
   );
 
   return itemProps(ref, id, options);
+}
+
+interface ItemEntry<T extends HTMLElement> {
+  id: DragId;
+  ref: RefCallback<T>;
+  element: T | null;
+  cleanup: DragItemCleanup | null;
 }
 
 /**
@@ -221,30 +245,42 @@ export function useDragItems<T extends HTMLElement = HTMLElement>(): (
   id: DragId,
   options?: DragItemOptions,
 ) => DragItemProps<T> {
-  const refs = useRef(new Map<string, { ref: RefCallback<T>; cleanup: (() => void) | null }>());
+  const entries = useRef(new Map<string, ItemEntry<T>>());
 
+  // Strict Mode replays this effect without calling the refs again: the
+  // cleanup lets the items go and the setup registers them again.
   useEffect(() => {
-    const map = refs.current;
+    const map = entries.current;
+    map.forEach((entry) => {
+      if (entry.element && !entry.cleanup)
+        entry.cleanup = registerDragItem(entry.element, entry.id);
+    });
     return () => {
-      map.forEach((entry) => entry.cleanup?.());
-      map.clear();
+      map.forEach((entry) => {
+        entry.cleanup?.({ removing: true });
+        entry.cleanup = null;
+      });
     };
   }, []);
 
   return useCallback((id: DragId, options: DragItemOptions = {}) => {
     const key = String(id);
-    let entry = refs.current.get(key);
+    let entry = entries.current.get(key);
     if (!entry) {
-      const created: { ref: RefCallback<T>; cleanup: (() => void) | null } = {
+      const created: ItemEntry<T> = {
+        id,
+        element: null,
         cleanup: null,
         ref: (element: T | null) => {
-          created.cleanup?.();
-          created.cleanup = element ? registerDragItem(element, id) : null;
-          if (!element) refs.current.delete(key);
+          created.cleanup?.({ removing: true });
+          created.cleanup = null;
+          created.element = element;
+          if (element) created.cleanup = registerDragItem(element, id);
+          else entries.current.delete(key);
         },
       };
       entry = created;
-      refs.current.set(key, entry);
+      entries.current.set(key, entry);
     }
     return itemProps(entry.ref, id, options);
   }, []);

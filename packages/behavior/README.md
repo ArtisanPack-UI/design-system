@@ -239,27 +239,34 @@ ThemeToggle (#65) runs on plain helpers in `src/theme.ts`, exported from the pac
 
 ## Drag and drop (not Zag)
 
-One engine for every stack ([D-057](../../contributing/decisions.md#d-057-drag-and-drop-runs-on-one-engine-in-behavior-controlled-in-react-and-vue)): pointer, touch and keyboard moves within a list and between the lists of a group, a drop indicator, edge auto-scroll, and live-region announcements, all following RTL. Livewire Drag and Drop's `x-drag-context` and `x-drag-item` are its Alpine adapter. React and Vue contexts are **controlled**: the engine never moves a node, it reports the move and the framework renders it.
+One engine for every stack ([D-057](../../contributing/decisions.md#d-057-drag-and-drop-runs-on-one-engine-in-behavior-controlled-in-react-and-vue)): pointer, touch and keyboard moves within a list and between the lists of a group, a drop indicator, edge auto-scroll, and live-region announcements, all following RTL. Livewire Drag and Drop's `x-drag-context` and `x-drag-item` move onto it as its Alpine adapter in livewire-drag-and-drop#23. React and Vue contexts are **controlled** by default: the engine never moves a node, it reports the move and the framework renders it. Passing `controlled: false` opts out, and then the engine moves items in the DOM as it does for Livewire, which only suits markup the framework doesn't re-render.
 
 ```tsx
-// React
-const [lists, setLists] = useState({ todo, done });
-const todoList = useDragContext({
-  id: 'todo', group: 'board', label: 'To do',
-  onDragEnd: (detail) => detail.toContext === 'todo' && setLists((current) => applyDragMove(current, detail)),
-});
-const item = useDragItems();
+// React: each list applies the moves that land in it (drag:end fires on both lists of a move).
+function List({ id, label, cards, setLists }) {
+  const list = useDragContext({
+    id, group: 'board', label,
+    onDragEnd: (detail) => detail.toContext === id && setLists((current) => applyDragMove(current, detail)),
+  });
+  const item = useDragItems();
+  return (
+    <ul {...list}>
+      {cards.map((card) => <li key={card.id} {...item(card.id, { label: card.title })}>{card.title}</li>)}
+    </ul>
+  );
+}
 
-<ul {...todoList}>
-  {lists.todo.map((task) => <li key={task.id} {...item(task.id, { label: task.title })}>{task.title}</li>)}
-</ul>
+const [lists, setLists] = useState({ todo, done });
+<List id="todo" label="To do" cards={lists.todo} setLists={setLists} />
+<List id="done" label="Done" cards={lists.done} setLists={setLists} />
 ```
 
 ```vue
-<!-- Vue -->
-<ul v-drag-context="{ id: 'todo', group: 'board', label: 'To do' }"
-    @drag:end="$event.detail.toContext === 'todo' && (lists = applyDragMove(lists, $event.detail))">
-  <li v-for="task in lists.todo" :key="task.id" v-drag-item="task.id" :data-drag-label="task.title">{{ task.title }}</li>
+<!-- Vue: the same, with the directives in a v-for over the lists. -->
+<ul v-for="(cards, id) in lists" :key="id"
+    v-drag-context="{ id, group: 'board', label: labels[id] }"
+    @drag:end="$event.detail.toContext === id && (lists = applyDragMove(lists, $event.detail))">
+  <li v-for="card in cards" :key="card.id" v-drag-item="card.id" :data-drag-label="card.title">{{ card.title }}</li>
 </ul>
 ```
 
