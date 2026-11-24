@@ -10,10 +10,10 @@ Part of the [ArtisanPack UI Design System](../../README.md).
 
 | Export                                      | What it is                                                                                                                                                                                                                                                                                                                                          |
 | ------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `@artisanpack-ui/behavior`                  | The adapter interface (`createWidget`, `WidgetDefinition`), widget definitions (`dialog`, `combobox`, `dropdownMenu`, `toast`, `toastGroup`), the toaster (`createToaster`, `staticToastParts`), positioning (`position`, `toPlacement`, `zagPositioning`) and morph support (`keepClientState`)                                                    |
+| `@artisanpack-ui/behavior`                  | The adapter interface (`createWidget`, `WidgetDefinition`), widget definitions (`dialog`, `combobox`, `dropdownMenu`, `toast`, `toastGroup`), the toaster (`createToaster`, `staticToastParts`), positioning (`position`, `toPlacement`, `zagPositioning`), morph support (`keepClientState`) and the drag-and-drop engine (`registerDragContext`, `registerDragItem`, `applyDragMove`, `configureDragAndDrop`, `revertDragItem`)                                                    |
 | `@artisanpack-ui/behavior/alpine`           | The Alpine plugin: `apuiDialog`, `apuiCombobox`, `apuiDropdownMenu`, `apuiTabs`, `apuiAccordion`, `apuiCollapse`, `apuiDrawer`, `apuiPopover`, `apuiTooltip`, `apuiToaster`, `apuiToast` and the `x-apui:<part>` directive                                                                                                                                                                                                                   |
-| `@artisanpack-ui/behavior/react`            | React hooks: `useDialog`, `useCombobox`, `useDropdownMenu`, `useTabs`, `useAccordion`, `useCollapse`, `useDrawer`, `usePopover`, `useTooltip`, `useToaster`, `useToast`                                                                                                                                                                                                                                                                |
-| `@artisanpack-ui/behavior/vue`              | Vue composables: `useDialog`, `useCombobox`, `useDropdownMenu`, `useTabs`, `useAccordion`, `useCollapse`, `useDrawer`, `usePopover`, `useTooltip`, `useToaster`, `useToast`                                                                                                                                                                                                                                                            |
+| `@artisanpack-ui/behavior/react`            | React hooks: `useDialog`, `useCombobox`, `useDropdownMenu`, `useTabs`, `useAccordion`, `useCollapse`, `useDrawer`, `usePopover`, `useTooltip`, `useToaster`, `useToast`, and drag and drop: `useDragContext`, `useDragItem`, `useDragItems`                                                                                                                                                                                                                                |
+| `@artisanpack-ui/behavior/vue`              | Vue composables: `useDialog`, `useCombobox`, `useDropdownMenu`, `useTabs`, `useAccordion`, `useCollapse`, `useDrawer`, `usePopover`, `useTooltip`, `useToaster`, `useToast`, and drag and drop: `vDragContext`, `vDragItem`, `useDragContext`                                                                                                                                                                                                                                                            |
 | `@artisanpack-ui/behavior/icons`            | The icon registry every stack resolves string icon names against: `resolveIcon`, `iconSvg`, `registerIcons` (trusted static SVG shapes only; anything else throws `UnsafeIconError`, see `isSafeIconBody`), with a default Lucide set ([D-017](../../contributing/decisions.md#d-017-icon-names-resolve-against-one-lucide-set-shipped-by-behavior))        |
 | `@artisanpack-ui/behavior/icons.json`       | The default set as JSON (`icons/lucide.json`), which Livewire UI Components copies into PHP along with its license notice (`icons/LICENSE-lucide.txt`)                                                                                                                                                                                              |
 | `@artisanpack-ui/behavior/alpine.global.js` | The same plugin as one classic script that registers itself on `alpine:init`, for pages without a bundler ([D-014](../../contributing/decisions.md#d-014-without-a-bundler-use-the-prebuilt-composer-asset-no-official-cdn-build-at-10)). About 63 KB gzipped with Dialog, Combobox, DropdownMenu and the toast stack; `ApuiBehavior.toast()` shows a toast |
@@ -236,6 +236,50 @@ Markdown (#65) renders through `renderMarkdown` in `src/data/markdown.ts`: `mark
 ## Theme choice (not Zag)
 
 ThemeToggle (#65) runs on plain helpers in `src/theme.ts`, exported from the package root. A choice is `light`, `dark`, `high-contrast` or `system`; `applyTheme(choice)` sets `data-theme` on `<html>` (the attribute the tokens switch on) to the theme it resolves to, stores the choice in localStorage (`apui-theme`; every read and write is guarded, so blocked storage falls back to the default) and tells the other toggles on the page. `watchTheme` hears those, other tabs' stored choices and the OS scheme, so `system` follows `prefers-color-scheme` live. `themeScript()` is the blocking snippet for `<head>` that applies the stored choice before first paint; Livewire UI Components prints the same bytes with `@apuiThemeScript` (`Support\ThemeScript`). `themeToggleKey` maps the segmented radio group's keys, following the text direction. The Alpine plugin registers `apuiThemeToggle`; React and Vue call the helpers directly.
+
+## Drag and drop (not Zag)
+
+One engine for every stack ([D-057](../../contributing/decisions.md#d-057-drag-and-drop-runs-on-one-engine-in-behavior-controlled-in-react-and-vue)): pointer, touch and keyboard moves within a list and between the lists of a group, a drop indicator, edge auto-scroll, and live-region announcements, all following RTL. Livewire Drag and Drop's `x-drag-context` and `x-drag-item` move onto it as its Alpine adapter in livewire-drag-and-drop#23. React and Vue contexts are **controlled** by default: the engine never moves a node, it reports the move and the framework renders it. Passing `controlled: false` opts out, and then the engine moves items in the DOM as it does for Livewire, which only suits markup the framework doesn't re-render.
+
+```tsx
+// React: each list applies the moves that land in it (drag:end fires on both lists of a move).
+function List({ id, label, cards, setLists }) {
+  const list = useDragContext({
+    id, group: 'board', label,
+    onDragEnd: (detail) => detail.toContext === id && setLists((current) => applyDragMove(current, detail)),
+  });
+  const item = useDragItems();
+  return (
+    <ul {...list}>
+      {cards.map((card) => <li key={card.id} {...item(card.id, { label: card.title })}>{card.title}</li>)}
+    </ul>
+  );
+}
+
+const [lists, setLists] = useState({ todo, done });
+<List id="todo" label="To do" cards={lists.todo} setLists={setLists} />
+<List id="done" label="Done" cards={lists.done} setLists={setLists} />
+```
+
+```vue
+<!-- Vue: the same, with the directives in a v-for over the lists. -->
+<ul v-for="(cards, id) in lists" :key="id"
+    v-drag-context="{ id, group: 'board', label: labels[id] }"
+    @drag:end="$event.detail.toContext === id && (lists = applyDragMove(lists, $event.detail))">
+  <li v-for="card in cards" :key="card.id" v-drag-item="card.id" :data-drag-label="card.title">{{ card.title }}</li>
+</ul>
+```
+
+| Event         | When                                                                                     | Detail beyond `moveId`, `itemId`, `group`, `fromContext`, `fromIndex`  |
+| ------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| `drag:start`  | A drag starts; `preventDefault()` refuses it                                             |                                                                        |
+| `drag:over`   | The target changes                                                                       | `toContext`, `toIndex`, `allowed`                                      |
+| `drag:drop`   | Before the move is committed; `detail.reject(message)` refuses it with an announcement   | `toContext`, `toIndex`, `fromOrderedIds`, `toOrderedIds`               |
+| `drag:end`    | The move is committed (on both lists of a move); render it here                          | `toContext`, `toIndex`, `orderedIds`, `fromOrderedIds`, `toOrderedIds` |
+| `drag:cancel` | Escape, a refusal, focus leaving the item, or the item being removed                     | `reason`                                                               |
+| `drag:revert` | `revertDragItem(id)` or `revertDragMove(moveId)` undid a move                            | as `drag:end`                                                          |
+
+Context options are `id`, `group` (lists sharing one trade items), `label` (announced, and the list's `aria-label`), `disabled`, `accepts(detail)`, `messages`, `orientation` (measured by default: a flex row is horizontal) and `controlled`. Items take `data-drag-label` for announcements. `configureDragAndDrop({ messages, keys, dragThreshold, touchDelay, autoScroll })` changes the defaults for the page; translate the messages there. The indicator's color is `--drag-indicator-color`, else `--apui-color-primary`.
 
 ## React and Vue
 

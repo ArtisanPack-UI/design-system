@@ -329,3 +329,4 @@ export {
   type ClipboardOptions,
   type ClipboardStatus,
 } from './widgets/clipboard';
+export * from './widgets/drag-and-drop';
