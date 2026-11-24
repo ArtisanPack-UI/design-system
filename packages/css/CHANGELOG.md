@@ -1,5 +1,11 @@
 # @artisanpack-ui/css
 
+## 1.0.1
+
+### Patch Changes
+
+- [#139](https://github.com/ArtisanPack-UI/design-system/pull/139) [`4daa039`](https://github.com/ArtisanPack-UI/design-system/commit/4daa039687506d397de8c23b185eab1be1a87260) Thanks [@imshah-id](https://github.com/imshah-id)! - Keep AppShell content within its column so wide code blocks scroll independently of the page.
+
 ## 1.0.0
 
 ### Major Changes
