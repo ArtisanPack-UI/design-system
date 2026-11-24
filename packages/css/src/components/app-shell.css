@@ -153,6 +153,7 @@
 
   [data-scope='app-shell'][data-part='content'] {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     gap: var(--apui-panel-gap);
     align-content: start;
     min-inline-size: 0;
