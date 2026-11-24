@@ -449,3 +449,26 @@ export {
   type ClipboardLabels,
   type ClipboardStatus,
 } from '../widgets/clipboard';
+export {
+  useDragContext,
+  useDragItem,
+  useDragItems,
+  type DragContextProps,
+  type DragItemOptions,
+  type DragItemProps,
+  type UseDragContextOptions,
+} from './drag-and-drop';
+export {
+  applyDragMove,
+  configureDragAndDrop,
+  revertDragItem,
+  revertDragMove,
+  type DragCancelDetail,
+  type DragContextOptions,
+  type DragDropDetail,
+  type DragEndDetail,
+  type DragEventDetail,
+  type DragId,
+  type DragMove,
+  type DragOverDetail,
+} from '../widgets/drag-and-drop';
