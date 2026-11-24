@@ -117,7 +117,7 @@ describe('Collapse', () => {
   });
 });
 
-const shell = (attributes = '') => `
+const shell = (attributes = '', content = 'Content') => `
   <div class="apui-app-shell" ${attributes}>
     <a id="skip" data-scope="app-shell" data-part="skip-link" href="#main">Skip to main content</a>
     <aside id="sidebar" data-scope="app-shell" data-part="sidebar" aria-label="Sidebar">
@@ -125,7 +125,7 @@ const shell = (attributes = '') => `
       <nav class="apui-menu"><ul data-scope="menu" data-part="list"><li><a id="item" data-scope="menu" data-part="item" href="#"><span data-scope="menu" data-part="icon">${chevron}</span><span id="text" data-scope="menu" data-part="item-text">Dashboard</span></a></li></ul></nav>
       <div data-scope="app-shell" data-part="footer"><button id="toggle" data-scope="app-shell" data-part="collapse-trigger" type="button" aria-label="Collapse sidebar" aria-pressed="${attributes.includes('data-collapsed')}">${chevron}</button></div>
     </aside>
-    <main id="main" data-scope="app-shell" data-part="main" tabindex="-1"><div data-scope="app-shell" data-part="content">Content</div></main>
+    <main id="main" data-scope="app-shell" data-part="main" tabindex="-1"><div data-scope="app-shell" data-part="content">${content}</div></main>
   </div>`;
 
 describe('AppShell', () => {
@@ -173,6 +173,29 @@ describe('AppShell', () => {
     expect((await rect(page, '#skip')).width).toBeGreaterThan(40);
     await page.close();
   });
+
+  it.each([375, 1024])(
+    'keeps wide content scrollable inside the shell at %i pixels',
+    async (width) => {
+      const content = `<div style="max-inline-size:1024px"><pre id="code" style="overflow:auto">${'long line '.repeat(50)}</pre></div>`;
+      const page = await open(shell('', content), 'data-theme="light"', width);
+      try {
+        const { viewport, pageWidth, codeWidth, codeScrollWidth } = await page.evaluate(() => {
+          const code = document.querySelector('#code')!;
+          return {
+            viewport: document.documentElement.clientWidth,
+            pageWidth: document.documentElement.scrollWidth,
+            codeWidth: code.clientWidth,
+            codeScrollWidth: code.scrollWidth,
+          };
+        });
+        expect(pageWidth).toBe(viewport);
+        expect(codeScrollWidth).toBeGreaterThan(codeWidth);
+      } finally {
+        await page.close();
+      }
+    },
+  );
 
   it('stacks the islands on a narrow viewport', async () => {
     const page = await open(shell(), 'data-theme="light"', 375);
